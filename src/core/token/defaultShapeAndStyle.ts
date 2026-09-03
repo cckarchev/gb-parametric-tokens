@@ -1,17 +1,18 @@
-import { ColorGroupSpec, FitPolicy, ShapeSpec, StyleSpec } from "./types";
+import { ArcShapeSpec, DiscShapeSpec } from "./geometry/nobPlacement";
+import { ColorGroupSpec, FitPolicy, StyleSpec } from "./types";
 
 // Starting point for the fixed-innerR arc model (see
 // docs/superpowers/specs/2026-09-02-arc-parametrization-design.md) -- not a physical
 // measurement, the user adjusts these by feel. Shared by every flow that needs a starting
 // shape (the single-token editor, the batch editor, and ShapeEditor's type-switch default).
-export const DEFAULT_ARC_SHAPE: Extract<ShapeSpec, { type: "arc" }> = {
+export const DEFAULT_ARC_SHAPE: ArcShapeSpec = {
   type: "arc",
   ribbonWidthMm: 6,
   ribbonLengthMm: 30,
   nobDiameterMm: 12,
 };
 
-export const DEFAULT_DISC_SHAPE: Extract<ShapeSpec, { type: "disc" }> = {
+export const DEFAULT_DISC_SHAPE: DiscShapeSpec = {
   type: "disc",
   diameterMm: 15,
 };

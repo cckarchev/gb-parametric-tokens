@@ -1,5 +1,6 @@
 /// <reference lib="webworker" />
 import { buildTokenParts } from "../core/token/buildTokenParts";
+import { BatchItem } from "../core/token/catalog/buildBatchItems";
 import { computeReliefComponents } from "../core/token/computeReliefComponents";
 import {
   buildCombinedThreeMfModelXml,
@@ -18,17 +19,15 @@ import {
 import { ReliefComponent } from "../core/token/mesh/reliefComponent";
 import { computeBaseOutlineContours } from "../core/token/preview/computeBaseOutlineContours";
 import { PRINT_PROFILES } from "../core/token/printProfiles";
-import { ColorGroupSpec, ShapeSpec, TokenSpec } from "../core/token/types";
+import { ColorGroupSpec, ShapeSpec } from "../core/token/types";
 import { loadFont } from "./loadFont";
 import { loadIconManifest } from "./loadIconManifest";
 import { createLoadIconSource } from "./loadIconSource";
 
 const PLATE_SPACING_MM = 10;
 
-export type BatchWorkerItem = { id: string; label: string; spec: TokenSpec; copies: number };
-
-export type BatchPreviewRequest = { kind: "preview"; requestId: number; items: BatchWorkerItem[] };
-export type BatchPreviewResultItem = {
+export type BatchPreviewRequest = { kind: "preview"; requestId: number; items: BatchItem[] };
+export type BatchPreviewItem = {
   id: string;
   label: string;
   shape: ShapeSpec;
@@ -40,7 +39,7 @@ export type BatchPreviewResultItem = {
 export type BatchPreviewResponse = {
   kind: "preview";
   requestId: number;
-  results: BatchPreviewResultItem[];
+  results: BatchPreviewItem[];
   validCount: number;
   invalidCount: number;
 };
@@ -48,7 +47,7 @@ export type BatchPreviewResponse = {
 export type BatchExportRequest = {
   kind: "export";
   requestId: number;
-  items: BatchWorkerItem[];
+  items: BatchItem[];
   colorGroups: ColorGroupSpec[];
 };
 export type BatchExportFailureItem = { id: string; label: string; reason: string };

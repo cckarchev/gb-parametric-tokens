@@ -2,6 +2,7 @@ import { ShapeSpec, Vec2 } from "../types";
 import { DEGREES_PER_RADIAN } from "./angleConventions";
 
 export type ArcShapeSpec = Extract<ShapeSpec, { type: "arc" }>;
+export type DiscShapeSpec = Extract<ShapeSpec, { type: "disc" }>;
 
 export type NobPlacement = {
   position: Vec2;

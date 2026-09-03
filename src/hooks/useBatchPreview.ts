@@ -8,7 +8,7 @@ import {
 } from "../core/token/catalog/buildBatchItems";
 import { GuildCatalog } from "../core/token/catalog/catalogTypes";
 import { LIVE_PREVIEW_DEBOUNCE_MS } from "./livePreviewDebounce";
-import { BatchPreviewItem, buildWorkerItems, useBatchWorker } from "./useBatchWorker";
+import { BatchPreviewItem, useBatchWorker } from "./useBatchWorker";
 
 export type { BatchPreviewItem };
 
@@ -53,7 +53,7 @@ export const useBatchPreview = (
       const request: BatchWorkerRequest = {
         kind: "preview",
         requestId,
-        items: buildWorkerItems(batchItems),
+        items: batchItems,
       };
 
       workerRef.current?.postMessage(request);

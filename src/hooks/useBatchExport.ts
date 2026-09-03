@@ -12,7 +12,7 @@ import {
   BatchSelection,
   BatchSharedConfig,
 } from "../core/token/catalog/buildBatchItems";
-import { buildWorkerItems, PendingExport } from "./useBatchWorker";
+import { PendingExport } from "./useBatchWorker";
 
 const THREE_MF_FILE_NAME = "batch.3mf";
 const SPEC_FILE_NAME = "batch-spec.json";
@@ -49,7 +49,7 @@ export const useBatchExport = (
         const request: BatchWorkerRequest = {
           kind: "export",
           requestId,
-          items: buildWorkerItems(batchItems),
+          items: batchItems,
           colorGroups: sharedConfig.colorGroups,
         };
 

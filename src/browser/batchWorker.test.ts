@@ -30,9 +30,10 @@ const { computeBatchPlateLayout } = await import("../core/token/geometry/compute
 const { buildCombinedThreeMfModelXml } = await import("../core/token/export/combinedThreeMfModel");
 const { buildThreeMfArchive } = await import("../core/token/export/threeMfArchive");
 
+import type { BatchItem } from "../core/token/catalog/buildBatchItems";
 import type { TokenPart } from "../core/token/mesh/tokenPart";
 import type { ColorGroupSpec, TokenSpec } from "../core/token/types";
-import type { BatchExportRequest, BatchPreviewRequest, BatchWorkerItem } from "./batchWorker";
+import type { BatchExportRequest, BatchPreviewRequest } from "./batchWorker";
 
 const discSpec: TokenSpec = {
   version: 1,
@@ -124,7 +125,7 @@ describe("handlePreview", () => {
       .mockResolvedValueOnce([[[-1, -1]]])
       .mockResolvedValueOnce([[[-2, -2]]]);
 
-    const items: BatchWorkerItem[] = [
+    const items: BatchItem[] = [
       { id: "a", label: "Token A", spec: discSpec, copies: 13 },
       { id: "b", label: "Token B", spec: discSpec, copies: 1 },
     ];
@@ -173,7 +174,7 @@ describe("handleExport", () => {
     });
     vi.mocked(buildTokenParts).mockResolvedValue([fakePart("NoError")]);
 
-    const items: BatchWorkerItem[] = [{ id: "a", label: "Token A", spec: discSpec, copies: 1 }];
+    const items: BatchItem[] = [{ id: "a", label: "Token A", spec: discSpec, copies: 1 }];
     const request: BatchExportRequest = { kind: "export", requestId: 1, items, colorGroups };
 
     const response = await handleExport(request);
@@ -201,7 +202,7 @@ describe("handleExport", () => {
     });
     vi.mocked(buildTokenParts).mockResolvedValue([fakePart("Error")]);
 
-    const items: BatchWorkerItem[] = [{ id: "a", label: "Token A", spec: discSpec, copies: 1 }];
+    const items: BatchItem[] = [{ id: "a", label: "Token A", spec: discSpec, copies: 1 }];
     const request: BatchExportRequest = { kind: "export", requestId: 1, items, colorGroups };
 
     const response = await handleExport(request);
@@ -245,7 +246,7 @@ describe("handleExport", () => {
 
     vi.mocked(buildThreeMfArchive).mockReturnValue(archive);
 
-    const items: BatchWorkerItem[] = [
+    const items: BatchItem[] = [
       { id: "disc-a", label: "Disc A", spec: discSpec, copies: 1 },
       { id: "arc-a", label: "Arc A", spec: arcSpec, copies: 2 },
     ];

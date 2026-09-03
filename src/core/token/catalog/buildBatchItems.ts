@@ -1,4 +1,5 @@
-import { ColorGroupSpec, FitPolicy, ShapeSpec, StyleSpec, TokenSpec } from "../types";
+import { ArcShapeSpec, DiscShapeSpec } from "../geometry/nobPlacement";
+import { ColorGroupSpec, FitPolicy, StyleSpec, TokenSpec } from "../types";
 import { CatalogGenericToken, CatalogTokenSpec, GuildCatalog } from "./catalogTypes";
 import { TEXT_COLOR_GROUP_ID } from "./deriveReliefColor";
 
@@ -13,9 +14,9 @@ export type BatchSelection = {
 };
 
 export type BatchSharedConfig = {
-  arcShape: Extract<ShapeSpec, { type: "arc" }>;
-  discShape: Extract<ShapeSpec, { type: "disc" }>;
-  goalInfluenceShape: Extract<ShapeSpec, { type: "disc" }>;
+  arcShape: ArcShapeSpec;
+  discShape: DiscShapeSpec;
+  goalInfluenceShape: DiscShapeSpec;
   style: StyleSpec;
   fitPolicy: FitPolicy;
   printProfileId: string;
@@ -128,7 +129,7 @@ const buildGenericTokenSpec = (
 };
 
 // A plain thin ring, shared by Momentum's own border and Goal Influence's border.
-const buildRingDecoration = (discShape: Extract<ShapeSpec, { type: "disc" }>) => {
+const buildRingDecoration = (discShape: DiscShapeSpec) => {
   const radiusMm = (discShape.diameterMm / 2) * RING_RADIUS_RATIO;
 
   return {

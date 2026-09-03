@@ -2,36 +2,16 @@ import { useEffect, useRef } from "react";
 
 import type {
   BatchExportResponse,
-  BatchWorkerItem,
+  BatchPreviewItem,
   BatchWorkerResponse,
 } from "../browser/batchWorker";
-import { BatchItem } from "../core/token/catalog/buildBatchItems";
-import { ReliefComponent } from "../core/token/mesh/reliefComponent";
-import { ShapeSpec } from "../core/token/types";
 
-export type BatchPreviewItem = {
-  id: string;
-  label: string;
-  shape: ShapeSpec;
-  baseContours: [number, number][][];
-  reliefComponents: ReliefComponent[];
-  warnings: string[];
-  copies: number;
-};
+export type { BatchPreviewItem };
 
 export type PendingExport = {
   requestId: number;
   resolve: (response: BatchExportResponse) => void;
   reject: (error: Error) => void;
-};
-
-export const buildWorkerItems = (batchItems: BatchItem[]): BatchWorkerItem[] => {
-  return batchItems.map((item) => ({
-    id: item.id,
-    label: item.label,
-    spec: item.spec,
-    copies: item.copies,
-  }));
 };
 
 type UseBatchWorkerOptions = {
