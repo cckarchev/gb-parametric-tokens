@@ -22,8 +22,8 @@ import { FitPolicy, ShapeSpec, StyleSpec, Vec2 } from "../src/core/token/types";
 import { validateMinStrokeWidth } from "../src/core/token/validation/validateMinStrokeWidth";
 
 const FONT_PATH = path.join(process.cwd(), "public/fonts/BigNoodleTitling.ttf");
-const LEFT_ICON_PATH = path.join(process.cwd(), "scad/svg/icon-generic-ball.svg");
-const RIGHT_ICON_PATH = path.join(process.cwd(), "scad/svg/icon-generic-fist.svg");
+const LEFT_ICON_PATH = path.join(process.cwd(), "scripts/fixtures/icons/icon-generic-ball.svg");
+const RIGHT_ICON_PATH = path.join(process.cwd(), "scripts/fixtures/icons/icon-generic-fist.svg");
 const OUTPUT_DIR = path.join(process.cwd(), "raw-output/stl");
 
 const CENTER_ANGLE_DEG = 90;

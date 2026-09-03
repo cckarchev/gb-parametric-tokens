@@ -11,7 +11,7 @@ import { normalizeWinding } from "../src/core/token/svg/normalizeWinding";
 import { parsePathData } from "../src/core/token/svg/parsePathData";
 import { TokenSpec } from "../src/core/token/types";
 
-const ICON_SVG_PATH = path.join(process.cwd(), "scad/svg/icon-generic-ball.svg");
+const ICON_SVG_PATH = path.join(process.cwd(), "scripts/fixtures/icons/icon-generic-ball.svg");
 const OUTPUT_PATH = path.join(process.cwd(), "raw-output/stl/m1-disc.stl");
 
 const buildM1Spec = (): TokenSpec => ({
