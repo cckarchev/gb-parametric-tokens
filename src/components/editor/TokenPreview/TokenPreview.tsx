@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 
 import { CENTER_ANGLE_DEG } from "../../../core/token/geometry/angleConventions";
 import { ReliefComponent } from "../../../core/token/mesh/reliefComponent";
-import { buildPreviewSvg, PreviewSvg } from "../../../core/token/preview/buildPreviewSvg";
+import { buildPreviewSvg } from "../../../core/token/preview/buildPreviewSvg";
 import { computeBaseOutlineContours } from "../../../core/token/preview/computeBaseOutlineContours";
+import { RenderedSvg } from "../../../core/token/preview/svgGrid";
 import { ColorGroupSpec, ShapeSpec } from "../../../core/token/types";
 import { SvgLoupe } from "../../primitives/SvgLoupe/SvgLoupe";
 import styles from "./TokenPreview.module.css";
@@ -15,7 +16,7 @@ type TokenPreviewProps = {
 };
 
 export const TokenPreview = ({ shape, reliefComponents, colorGroups }: TokenPreviewProps) => {
-  const [preview, setPreview] = useState<PreviewSvg>();
+  const [preview, setPreview] = useState<RenderedSvg>();
   const [error, setError] = useState<string>();
 
   useEffect(() => {

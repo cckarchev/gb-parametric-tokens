@@ -4,6 +4,8 @@ const GRID_STROKE_WIDTH_MM = 0.15;
 
 export type SvgBounds = { x: number; y: number; width: number; height: number };
 
+export type RenderedSvg = { svg: string; viewBox: SvgBounds };
+
 // Positions are built from an integer step count off the origin, not by repeatedly adding
 // GRID_STEP_MM, so floating-point drift can't creep in across a wide grid.
 const buildAxisPositions = (start: number, end: number): number[] => {

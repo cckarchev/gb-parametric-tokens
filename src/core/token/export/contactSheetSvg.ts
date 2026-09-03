@@ -1,12 +1,10 @@
-import { buildGridOverlaySvg, SvgBounds } from "../preview/svgGrid";
+import { buildGridOverlaySvg, RenderedSvg, SvgBounds } from "../preview/svgGrid";
 import { ColorGroupSpec } from "../types";
 import { flipItem } from "./contactSheetSvgFlip";
 import { roundUpToGridStep } from "./contactSheetSvgGeometry";
 import { layoutPreparedSection } from "./contactSheetSvgLayout";
 import { groupDiscItemsByDiameter, prepareSection } from "./contactSheetSvgPrepare";
-import { ContactSheetItem, ContactSheetSvg, FlippedContactSheetItem } from "./contactSheetSvgTypes";
-
-export type { ContactSheetSvg };
+import { ContactSheetItem, FlippedContactSheetItem } from "./contactSheetSvgTypes";
 
 const CELL_PADDING_MM = 5;
 // Disc items (guild generics, influence/momentum/goal-influence/MP counters) carry no
@@ -26,7 +24,7 @@ export const buildContactSheetSvg = (
   items: ContactSheetItem[],
   columns: number,
   colorGroups: ColorGroupSpec[],
-): ContactSheetSvg => {
+): RenderedSvg => {
   if (items.length === 0) {
     const emptyViewBox: SvgBounds = { x: 0, y: 0, width: 0, height: 0 };
 

@@ -10,11 +10,9 @@ import {
   CIRCLE_ANCHOR_Y_SVG,
   computeBaseReferenceCircleBottomYSvg,
 } from "./svgBaseReference";
-import { buildGridOverlaySvg, SvgBounds } from "./svgGrid";
+import { buildGridOverlaySvg, RenderedSvg, SvgBounds } from "./svgGrid";
 
 const DEFAULT_PADDING_MM = 5;
-
-export type PreviewSvg = { svg: string; viewBox: SvgBounds };
 
 // Preview contours arrive in the core pipeline's mathYUp world convention (same as the 3D
 // mesh, see arcPlacement.ts). SVG's y axis points down, so rendering those coordinates
@@ -48,7 +46,7 @@ export const buildPreviewSvg = (
   reliefComponents: ReliefComponent[],
   colorGroups: ColorGroupSpec[],
   shape?: ShapeSpec,
-): PreviewSvg => {
+): RenderedSvg => {
   const flippedBaseContours = flipY(baseContours);
   const flippedReliefComponents = flipComponents(reliefComponents);
 

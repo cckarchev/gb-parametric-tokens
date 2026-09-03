@@ -1,5 +1,4 @@
 import { ReliefComponent } from "../mesh/reliefComponent";
-import { SvgBounds } from "../preview/svgGrid";
 import { ShapeSpec, Vec2 } from "../types";
 
 export type ContactSheetItem = {
@@ -8,8 +7,6 @@ export type ContactSheetItem = {
   reliefComponents: ReliefComponent[];
   copies: number;
 };
-
-export type ContactSheetSvg = { svg: string; viewBox: SvgBounds };
 
 export type FlippedContactSheetItem = {
   shape: ShapeSpec;
