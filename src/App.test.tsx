@@ -3,10 +3,10 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 
-vi.mock("./components/TokenEditor", () => ({
+vi.mock("./components/editor/TokenEditor/TokenEditor", () => ({
   TokenEditor: () => <p>Single token editor</p>,
 }));
-vi.mock("./components/batch/BatchEditor", () => ({
+vi.mock("./components/batch/BatchEditor/BatchEditor", () => ({
   BatchEditor: () => <p>Batch editor</p>,
 }));
 

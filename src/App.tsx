@@ -1,9 +1,9 @@
 import { useState } from "react";
 
 import styles from "./App.module.css";
-import { BatchEditor } from "./components/batch/BatchEditor";
-import { Button } from "./components/primitives/Button";
-import { TokenEditor } from "./components/TokenEditor";
+import { BatchEditor } from "./components/batch/BatchEditor/BatchEditor";
+import { TokenEditor } from "./components/editor/TokenEditor/TokenEditor";
+import { Button } from "./components/primitives/Button/Button";
 
 type View = "single" | "batch";
 

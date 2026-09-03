@@ -1,0 +1,10 @@
+.card {
+  composes: surface from "../../../styles/surface.module.css";
+  padding: var(--space-4);
+}
+
+.svgContainer svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
