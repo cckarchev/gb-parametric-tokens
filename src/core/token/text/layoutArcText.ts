@@ -1,12 +1,12 @@
 import type { Font } from "opentype.js";
 
+import { CENTER_ANGLE_DEG } from "../geometry/angleConventions";
 import { normalizeWinding } from "../svg/normalizeWinding";
 import { Vec2 } from "../types";
 import { ArcOrientation, applyArcPlacement, computeArcGlyphPlacements } from "./arcPlacement";
 import { getGlyphContours } from "./glyphOutline";
 import { measureAdvances } from "./measureAdvances";
 
-const DEFAULT_CENTER_ANGLE_DEG = 90;
 const DEFAULT_TRACKING_MM = 0;
 
 // getGlyphContours returns outlines in opentype.js' native y-down space, which is exactly
@@ -44,7 +44,7 @@ export const layoutArcText = (
     advancesMm,
     kerningsMm: trackedKerningsMm,
     radiusMm: line.radiusMm,
-    centerAngleDeg: line.centerAngleDeg ?? DEFAULT_CENTER_ANGLE_DEG,
+    centerAngleDeg: line.centerAngleDeg ?? CENTER_ANGLE_DEG,
     coordinateConvention,
     orientation: line.orientation,
   });

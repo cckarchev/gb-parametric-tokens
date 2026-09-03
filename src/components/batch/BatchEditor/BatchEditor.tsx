@@ -1,11 +1,11 @@
 import { useBatch } from "../../../hooks/useBatch";
 import { BatchConfigEditor } from "../BatchConfigEditor/BatchConfigEditor";
-import styles from "./BatchEditor.module.css";
 import { BatchExportPanel } from "../BatchExportPanel/BatchExportPanel";
 import { BatchPreview } from "../BatchPreview/BatchPreview";
 import { CharacterTokenList } from "../CharacterTokenList/CharacterTokenList";
 import { GuildSelector } from "../GuildSelector/GuildSelector";
 import { GuildTokenList } from "../GuildTokenList/GuildTokenList";
+import styles from "./BatchEditor.module.css";
 
 export const BatchEditor = () => {
   const batch = useBatch();

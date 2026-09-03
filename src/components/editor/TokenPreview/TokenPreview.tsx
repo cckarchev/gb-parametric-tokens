@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 
+import { CENTER_ANGLE_DEG } from "../../../core/token/geometry/angleConventions";
 import { ReliefComponent } from "../../../core/token/mesh/reliefComponent";
 import { buildPreviewSvg, PreviewSvg } from "../../../core/token/preview/buildPreviewSvg";
 import { computeBaseOutlineContours } from "../../../core/token/preview/computeBaseOutlineContours";
 import { ColorGroupSpec, ShapeSpec } from "../../../core/token/types";
 import { SvgLoupe } from "../../primitives/SvgLoupe/SvgLoupe";
 import styles from "./TokenPreview.module.css";
-
-const CENTER_ANGLE_DEG = 90;
 
 type TokenPreviewProps = {
   shape: ShapeSpec;

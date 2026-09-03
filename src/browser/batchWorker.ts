@@ -6,6 +6,7 @@ import {
   CombinedThreeMfItem,
 } from "../core/token/export/combinedThreeMfModel";
 import { buildThreeMfArchive } from "../core/token/export/threeMfArchive";
+import { CENTER_ANGLE_DEG } from "../core/token/geometry/angleConventions";
 import {
   BatchLayoutItem,
   computeBatchPlateLayout,
@@ -23,7 +24,6 @@ import { loadIconManifest } from "./loadIconManifest";
 import { createLoadIconSource } from "./loadIconSource";
 
 const PLATE_SPACING_MM = 10;
-const CENTER_ANGLE_DEG = 90;
 
 export type BatchWorkerItem = { id: string; label: string; spec: TokenSpec; copies: number };
 

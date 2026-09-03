@@ -1,7 +1,6 @@
+import { BatchExportFailureItem } from "../../../browser/batchWorker";
 import { Button } from "../../primitives/Button/Button";
 import styles from "./BatchExportPanel.module.css";
-
-export type BatchExportFailureItem = { id: string; label: string; reason: string };
 
 export type BatchExportPanelProps = {
   isExporting: boolean;

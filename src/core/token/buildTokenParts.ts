@@ -1,11 +1,10 @@
+import { CENTER_ANGLE_DEG } from "./geometry/angleConventions";
 import { computeNobPlacements } from "./geometry/nobPlacement";
 import { buildArcTokenMesh } from "./mesh/buildArcTokenMesh";
 import { buildTokenMesh } from "./mesh/buildTokenMesh";
 import { ReliefComponent } from "./mesh/reliefComponent";
 import { TokenPart } from "./mesh/tokenPart";
 import { TokenSpec } from "./types";
-
-const CENTER_ANGLE_DEG = 90;
 
 export const buildTokenParts = (
   spec: TokenSpec,

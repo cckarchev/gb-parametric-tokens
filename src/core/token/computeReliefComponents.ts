@@ -1,5 +1,6 @@
 import type { Font } from "opentype.js";
 
+import { CENTER_ANGLE_DEG } from "./geometry/angleConventions";
 import { placeIcon, translateContours } from "./geometry/iconPlacement";
 import {
   computeEffectiveNobDiameterMm,
@@ -23,7 +24,6 @@ import {
   validateMinStrokeWidth,
 } from "./validation/validateMinStrokeWidth";
 
-const CENTER_ANGLE_DEG = 90;
 const NOB_TEXT_CLEARANCE_DEG = 6;
 // The ring layout's two text bands: top (outward-reading, same convention as the ribbon arc)
 // and bottom (inward-reading, so it stays upright for a viewer who never rotates the token --

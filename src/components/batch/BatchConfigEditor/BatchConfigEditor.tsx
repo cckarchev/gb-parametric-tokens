@@ -6,8 +6,8 @@ import { ShapeEditor } from "../../editor/ShapeEditor/ShapeEditor";
 import { NumberField } from "../../primitives/NumberField/NumberField";
 import { Panel } from "../../primitives/Panel/Panel";
 import { SelectField, SelectFieldOption } from "../../primitives/SelectField/SelectField";
-import styles from "./BatchConfigEditor.module.css";
 import { GuildColorsEditor } from "../GuildColorsEditor/GuildColorsEditor";
+import styles from "./BatchConfigEditor.module.css";
 
 export type BatchConfigEditorProps = {
   sharedConfig: BatchSharedConfig;

@@ -8,9 +8,9 @@ import { PlateEditor } from "../PlateEditor/PlateEditor";
 import { PrintProfileSelector } from "../PrintProfileSelector/PrintProfileSelector";
 import { ShapeEditor } from "../ShapeEditor/ShapeEditor";
 import { StyleEditor } from "../StyleEditor/StyleEditor";
-import styles from "./TokenEditor.module.css";
 import { TokenPreview } from "../TokenPreview/TokenPreview";
 import { ValidationBanner } from "../ValidationBanner/ValidationBanner";
+import styles from "./TokenEditor.module.css";
 
 export const TokenEditor = () => {
   const tokenSpec = useTokenSpec();

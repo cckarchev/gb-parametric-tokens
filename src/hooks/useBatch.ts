@@ -2,11 +2,11 @@ import { zipSync } from "fflate";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import type {
+  BatchExportFailureItem,
   BatchExportResponse,
-  BatchPreviewResponse,
-  BatchWorkerErrorResponse,
   BatchWorkerItem,
   BatchWorkerRequest,
+  BatchWorkerResponse,
 } from "../browser/batchWorker";
 import { downloadBlob } from "../browser/downloadBlob";
 import { AvailableGuild, listAvailableGuilds } from "../browser/listAvailableGuilds";
@@ -135,9 +135,7 @@ export const useBatch = () => {
 
   const [isExporting, setIsExporting] = useState(false);
   const [exportError, setExportError] = useState<string>();
-  const [exportFailures, setExportFailures] = useState<
-    { id: string; label: string; reason: string }[]
-  >([]);
+  const [exportFailures, setExportFailures] = useState<BatchExportFailureItem[]>([]);
 
   const workerRef = useRef<Worker | undefined>(undefined);
   const requestIdRef = useRef(0);
@@ -155,9 +153,7 @@ export const useBatch = () => {
       type: "module",
     });
 
-    worker.onmessage = (
-      event: MessageEvent<BatchPreviewResponse | BatchExportResponse | BatchWorkerErrorResponse>,
-    ) => {
+    worker.onmessage = (event: MessageEvent<BatchWorkerResponse>) => {
       const response = event.data;
 
       if (response.kind === "preview") {
