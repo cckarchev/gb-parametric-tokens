@@ -74,26 +74,21 @@ const buildCharacterTokenSpec = (
   sharedConfig: BatchSharedConfig,
 ): TokenSpec => {
   const iconId = token.iconId ?? guildIconId;
+  const titleLine = {
+    text: token.line1,
+    sizeMm: sharedConfig.titleSizeMm,
+    colorGroup: TEXT_COLOR_GROUP_ID,
+  };
   const lines = token.line2
     ? [
-        {
-          text: token.line1,
-          sizeMm: sharedConfig.titleSizeMm,
-          colorGroup: TEXT_COLOR_GROUP_ID,
-        },
+        titleLine,
         {
           text: token.line2,
           sizeMm: sharedConfig.subtitleSizeMm,
           colorGroup: TEXT_COLOR_GROUP_ID,
         },
       ]
-    : [
-        {
-          text: token.line1,
-          sizeMm: sharedConfig.titleSizeMm,
-          colorGroup: TEXT_COLOR_GROUP_ID,
-        },
-      ];
+    : [titleLine];
 
   return {
     version: 1,

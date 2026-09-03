@@ -16,22 +16,40 @@ type TokenPreviewProps = {
 
 export const TokenPreview = ({ shape, reliefComponents, colorGroups }: TokenPreviewProps) => {
   const [preview, setPreview] = useState<PreviewSvg>();
+  const [error, setError] = useState<string>();
 
   useEffect(() => {
     let cancelled = false;
 
-    computeBaseOutlineContours(shape, CENTER_ANGLE_DEG).then((baseContours) => {
-      if (cancelled) {
-        return;
-      }
+    computeBaseOutlineContours(shape, CENTER_ANGLE_DEG)
+      .then((baseContours) => {
+        if (cancelled) {
+          return;
+        }
 
-      setPreview(buildPreviewSvg(baseContours, reliefComponents, colorGroups, shape));
-    });
+        setError(undefined);
+        setPreview(buildPreviewSvg(baseContours, reliefComponents, colorGroups, shape));
+      })
+      .catch((caughtError: unknown) => {
+        if (cancelled) {
+          return;
+        }
+
+        setError(caughtError instanceof Error ? caughtError.message : String(caughtError));
+      });
 
     return () => {
       cancelled = true;
     };
   }, [shape, reliefComponents, colorGroups]);
+
+  if (error) {
+    return (
+      <div className={styles.card}>
+        <p className={styles.error}>{error}</p>
+      </div>
+    );
+  }
 
   if (!preview) {
     return (

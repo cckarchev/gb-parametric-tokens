@@ -61,3 +61,20 @@ export const buildItemXml = (objectId: number, offset: Vec2): string => {
 
   return `<item objectid="${objectId}" transform="${transform}"/>`;
 };
+
+export const wrapThreeMfModelXml = (
+  basesXml: string,
+  objectsXml: string,
+  itemsXml: string,
+): string => {
+  return (
+    `<?xml version="1.0" encoding="UTF-8"?>` +
+    `<model unit="millimeter" xmlns="${THREE_MF_MODEL_NAMESPACE}">` +
+    `<resources>` +
+    `<basematerials id="${MATERIALS_RESOURCE_ID}">${basesXml}</basematerials>` +
+    objectsXml +
+    `</resources>` +
+    `<build>${itemsXml}</build>` +
+    `</model>`
+  );
+};

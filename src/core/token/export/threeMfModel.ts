@@ -7,8 +7,7 @@ import {
   colorToDisplayColor,
   escapeXmlAttribute,
   FIRST_OBJECT_ID,
-  MATERIALS_RESOURCE_ID,
-  THREE_MF_MODEL_NAMESPACE,
+  wrapThreeMfModelXml,
 } from "./threeMfXml";
 
 export const buildThreeMfModelXml = (
@@ -41,14 +40,5 @@ export const buildThreeMfModelXml = (
     )
     .join("");
 
-  return (
-    `<?xml version="1.0" encoding="UTF-8"?>` +
-    `<model unit="millimeter" xmlns="${THREE_MF_MODEL_NAMESPACE}">` +
-    `<resources>` +
-    `<basematerials id="${MATERIALS_RESOURCE_ID}">${basesXml}</basematerials>` +
-    objectsXml +
-    `</resources>` +
-    `<build>${itemsXml}</build>` +
-    `</model>`
-  );
+  return wrapThreeMfModelXml(basesXml, objectsXml, itemsXml);
 };

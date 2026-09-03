@@ -8,3 +8,8 @@
   width: 100%;
   height: auto;
 }
+
+.error {
+  composes: errorText from "../../../styles/errorText.module.css";
+  margin: 0;
+}
