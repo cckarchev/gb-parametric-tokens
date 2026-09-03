@@ -1,0 +1,362 @@
+{
+  "guildId": "hunters",
+  "name": "Hunters",
+  "color": "#39653b",
+  "characters": [
+    {
+      "id": "theron",
+      "name": "Theron",
+      "tokens": [
+        {
+          "line1": "Hunter's Prey"
+        },
+        {
+          "line1": "Light Footed"
+        },
+        {
+          "line1": "Nature's Growth"
+        },
+        {
+          "line1": "Arrow to the Knee"
+        },
+        {
+          "line1": "Pinned"
+        },
+        {
+          "line1": "Sun Strike"
+        },
+        {
+          "line1": "Blessing of the Sun Father"
+        }
+      ]
+    },
+    {
+      "id": "skatha",
+      "name": "Skatha",
+      "tokens": [
+        {
+          "line1": "Light Footed"
+        },
+        {
+          "line1": "Nature's Chill"
+        },
+        {
+          "line1": "Blessing of the Moon Goddess"
+        },
+        {
+          "line1": "Cold Snap"
+        },
+        {
+          "line1": "Snowball"
+        },
+        {
+          "line1": "Winter's Night"
+        }
+      ]
+    },
+    {
+      "id": "steeljaw",
+      "name": "Steeljaw",
+      "tokens": [
+        {
+          "line1": "Bring Them Down"
+        },
+        {
+          "line1": "Expert Trapper"
+        },
+        {
+          "line1": "Bait"
+        },
+        {
+          "line1": "Disarm"
+        },
+        {
+          "line1": "Weak Point"
+        },
+        {
+          "line1": "Perfect Positioning"
+        }
+      ]
+    },
+    {
+      "id": "fahad",
+      "name": "Fahad",
+      "tokens": [
+        {
+          "line1": "Furious"
+        },
+        {
+          "line1": "Isolated Target"
+        },
+        {
+          "line1": "Linked"
+        },
+        {
+          "line1": "Nimble"
+        }
+      ]
+    },
+    {
+      "id": "snow",
+      "name": "Snow",
+      "tokens": [
+        {
+          "line1": "Pack Mentality"
+        },
+        {
+          "line1": "Loved Creature"
+        },
+        {
+          "line1": "Feral Instincts"
+        }
+      ]
+    },
+    {
+      "id": "chaska",
+      "name": "Chaska",
+      "tokens": [
+        {
+          "line1": "Big Game Traps"
+        },
+        {
+          "line1": "Light Footed"
+        },
+        {
+          "line1": "Take the Lead"
+        },
+        {
+          "line1": "Boom Box"
+        },
+        {
+          "line1": "Spring the Trap"
+        }
+      ]
+    },
+    {
+      "id": "edge",
+      "name": "Edge",
+      "tokens": [
+        {
+          "line1": "Close Control"
+        },
+        {
+          "line1": "Unorthodox"
+        },
+        {
+          "line1": "Mirage"
+        },
+        {
+          "line1": "Light Footed"
+        },
+        {
+          "line1": "Entangle"
+        }
+      ]
+    },
+    {
+      "id": "egret",
+      "name": "Egret",
+      "tokens": [
+        {
+          "line1": "Back to the Shadows"
+        },
+        {
+          "line1": "Swift Strikes"
+        },
+        {
+          "line1": "Venomous Strike"
+        },
+        {
+          "line1": "Flurry"
+        },
+        {
+          "line1": "Snap Fire"
+        }
+      ]
+    },
+    {
+      "id": "hearne",
+      "name": "Hearne",
+      "tokens": [
+        {
+          "line1": "Light Footed"
+        },
+        {
+          "line1": "Nature's Blessing"
+        },
+        {
+          "line1": "Singled Out"
+        },
+        {
+          "line1": "Skewered"
+        },
+        {
+          "line1": "Forest Grove"
+        },
+        {
+          "line1": "Blessing of the Sun Father"
+        }
+      ]
+    },
+    {
+      "id": "vhearne",
+      "name": "Hearne (Veteran)",
+      "tokens": [
+        {
+          "line1": "Last Light"
+        },
+        {
+          "line1": "Lunar Eclipse"
+        },
+        {
+          "line1": "Winter's Blessing"
+        },
+        {
+          "line1": "Skewered"
+        }
+      ]
+    },
+    {
+      "id": "jaecar",
+      "name": "Jaecar",
+      "tokens": [
+        {
+          "line1": "Anatomical Precision"
+        },
+        {
+          "line1": "Back to the Shadows"
+        },
+        {
+          "line1": "Big Game Traps"
+        },
+        {
+          "line1": "Light Footed"
+        },
+        {
+          "line1": "Gut & String"
+        }
+      ]
+    },
+    {
+      "id": "vminx",
+      "name": "Minx (Veteran)",
+      "tokens": [
+        {
+          "line1": "Big Game Traps"
+        },
+        {
+          "line1": "Heightened Senses"
+        },
+        {
+          "line1": "Marked for Death"
+        },
+        {
+          "line1": "More Teeth!"
+        },
+        {
+          "line1": "Blessing of the Sun Father"
+        }
+      ]
+    },
+    {
+      "id": "seenah",
+      "name": "Seenah",
+      "tokens": [
+        {
+          "line1": "Feral"
+        },
+        {
+          "line1": "Isolated Target"
+        },
+        {
+          "line1": "Tough Hide"
+        },
+        {
+          "line1": "The Mauling"
+        }
+      ]
+    },
+    {
+      "id": "ulfr",
+      "name": "Ulfr",
+      "tokens": [
+        {
+          "line1": "Ambush"
+        },
+        {
+          "line1": "Lone Hunter"
+        },
+        {
+          "line1": "Where'd They Go?"
+        },
+        {
+          "line1": "Feral Instincts"
+        }
+      ]
+    },
+    {
+      "id": "zarola",
+      "name": "Zarola",
+      "tokens": [
+        {
+          "line1": "Light Footed"
+        },
+        {
+          "line1": "Linked"
+        },
+        {
+          "line1": "Unpredictable Movement"
+        },
+        {
+          "line1": "Chain Bolas"
+        },
+        {
+          "line1": "Catching the Scent"
+        },
+        {
+          "line1": "The Power of Voodoo"
+        }
+      ]
+    },
+    {
+      "id": "mataagi",
+      "name": "Mataagi",
+      "tokens": [
+        {
+          "line1": "Crucial Artery"
+        },
+        {
+          "line1": "Hawk Eye"
+        },
+        {
+          "line1": "Light Footed"
+        },
+        {
+          "line1": "Harrier"
+        },
+        {
+          "line1": "Snap Fire"
+        }
+      ]
+    },
+    {
+      "id": "minerva",
+      "name": "Minerva",
+      "tokens": [
+        {
+          "line1": "Feathered Friends"
+        },
+        {
+          "line1": "Nocturnal Hunting"
+        },
+        {
+          "line1": "Eye Spy"
+        },
+        {
+          "line1": "Harrier"
+        }
+      ]
+    }
+  ],
+  "genericTokens": []
+}

@@ -1,0 +1,356 @@
+{
+  "guildId": "engineers",
+  "name": "Engineers",
+  "color": "#76151e",
+  "characters": [
+    {
+      "id": "compound",
+      "name": "Compound",
+      "tokens": [
+        {
+          "line1": "Noxious Death"
+        },
+        {
+          "line1": "Resilience"
+        },
+        {
+          "line1": "Rush Keeper"
+        },
+        {
+          "line1": "Horrific Odour"
+        }
+      ]
+    },
+    {
+      "id": "ballista",
+      "name": "Ballista",
+      "tokens": [
+        {
+          "line1": "Momentous Inspiration"
+        },
+        {
+          "line1": "Tough Hide"
+        },
+        {
+          "line1": "Deadbolt"
+        },
+        {
+          "line1": "Minefield"
+        },
+        {
+          "line1": "Second Wind"
+        },
+        {
+          "line1": "Breach!"
+        }
+      ]
+    },
+    {
+      "id": "pinvice",
+      "name": "Pin Vice",
+      "tokens": [
+        {
+          "line1": "Close Control"
+        },
+        {
+          "line1": "Reanimate"
+        },
+        {
+          "line1": "Well Oiled Machine"
+        },
+        {
+          "line1": "Controller"
+        },
+        {
+          "line1": "Alternator"
+        },
+        {
+          "line1": "Deletion"
+        }
+      ]
+    },
+    {
+      "id": "rivet",
+      "name": "Rivet",
+      "tokens": [
+        {
+          "line1": "Follow My Lead"
+        },
+        {
+          "line1": "Tow"
+        },
+        {
+          "line1": "Elbow Grease"
+        },
+        {
+          "line1": "Use This!"
+        },
+        {
+          "line1": "Protect Those Close"
+        }
+      ]
+    },
+    {
+      "id": "mainspring",
+      "name": "Mainspring",
+      "tokens": [
+        {
+          "line1": "Launch Control"
+        },
+        {
+          "line1": "Overheat"
+        },
+        {
+          "line1": "Long Bomb"
+        },
+        {
+          "line1": "Thief"
+        }
+      ]
+    },
+    {
+      "id": "mother",
+      "name": "Mother",
+      "tokens": [
+        {
+          "line1": "Spider Nests"
+        },
+        {
+          "line1": "Spiderlings"
+        },
+        {
+          "line1": "Webbing"
+        },
+        {
+          "line1": "Burrow"
+        }
+      ]
+    },
+    {
+      "id": "colossus",
+      "name": "Colossus",
+      "tokens": [
+        {
+          "line1": "Close Control"
+        },
+        {
+          "line1": "Light Footed"
+        },
+        {
+          "line1": "Stoic"
+        },
+        {
+          "line1": "Tough Hide"
+        },
+        {
+          "line1": "Singled Out"
+        },
+        {
+          "line1": "Unexpected Arrival"
+        }
+      ]
+    },
+    {
+      "id": "vharriet",
+      "name": "Harriet ‘the Hat’ (Veteran)",
+      "tokens": [
+        {
+          "line1": "If You Can Dodge a Wrench..."
+        },
+        {
+          "line1": "Inspiring Hat"
+        },
+        {
+          "line1": "Learn From The Best"
+        },
+        {
+          "line1": "Disarm"
+        },
+        {
+          "line1": "Sucker Punch"
+        }
+      ]
+    },
+    {
+      "id": "hoist",
+      "name": "Hoist",
+      "tokens": [
+        {
+          "line1": "Reanimate"
+        },
+        {
+          "line1": "Sturdy"
+        },
+        {
+          "line1": "True Replication"
+        },
+        {
+          "line1": "Locked & Loaded"
+        }
+      ]
+    },
+    {
+      "id": "locus",
+      "name": "Locus",
+      "tokens": [
+        {
+          "line1": "Far Strike"
+        },
+        {
+          "line1": "Gravity Well"
+        },
+        {
+          "line1": "Reanimate"
+        },
+        {
+          "line1": "Tough Hide"
+        },
+        {
+          "line1": "Destructive Impulse"
+        },
+        {
+          "line1": "Remote Control"
+        }
+      ]
+    },
+    {
+      "id": "nomad",
+      "name": "Nomad",
+      "tokens": [
+        {
+          "line1": "Goal of the Month"
+        },
+        {
+          "line1": "Roulette"
+        },
+        {
+          "line1": "Unpredictable Movement"
+        },
+        {
+          "line1": "Spark"
+        },
+        {
+          "line1": "Wherever I May Roam"
+        }
+      ]
+    },
+    {
+      "id": "ratchet",
+      "name": "Ratchet",
+      "tokens": [
+        {
+          "line1": "Fixer"
+        },
+        {
+          "line1": "Blast Earth"
+        },
+        {
+          "line1": "Long Bomb"
+        },
+        {
+          "line1": "Tooled Up"
+        },
+        {
+          "line1": "Overclocked"
+        }
+      ]
+    },
+    {
+      "id": "salvo",
+      "name": "Salvo",
+      "tokens": [
+        {
+          "line1": "Swift Strikes"
+        },
+        {
+          "line1": "Arrow to the Knee"
+        },
+        {
+          "line1": "Floored Bolt"
+        },
+        {
+          "line1": "Tether Ball"
+        },
+        {
+          "line1": "Locked & Loaded"
+        }
+      ]
+    },
+    {
+      "id": "velocity",
+      "name": "Velocity",
+      "tokens": [
+        {
+          "line1": "Close Control"
+        },
+        {
+          "line1": "Reanimate"
+        },
+        {
+          "line1": "Acrobatic"
+        },
+        {
+          "line1": "Nimble"
+        }
+      ]
+    },
+    {
+      "id": "vvelocity",
+      "name": "Velocity (Veteran)",
+      "tokens": [
+        {
+          "line1": "Lend a Hand"
+        },
+        {
+          "line1": "Reanimate"
+        },
+        {
+          "line1": "Route One"
+        }
+      ]
+    },
+    {
+      "id": "fuse",
+      "name": "Fuse",
+      "tokens": [
+        {
+          "line1": "Guild Rule: Secret Tunnel"
+        },
+        {
+          "line1": "Remote Detonation"
+        },
+        {
+          "line1": "Sapper's Instincts"
+        },
+        {
+          "line1": "Clear!"
+        },
+        {
+          "line1": "Under the Lines"
+        }
+      ]
+    },
+    {
+      "id": "spade",
+      "name": "Spade",
+      "tokens": [
+        {
+          "line1": "Guild Rule: Secret Tunnel"
+        },
+        {
+          "line1": "Close Control"
+        },
+        {
+          "line1": "Tutelage"
+        },
+        {
+          "line1": "Diggy Hole"
+        },
+        {
+          "line1": "Destructive Impulse"
+        }
+      ]
+    }
+  ],
+  "genericTokens": []
+}

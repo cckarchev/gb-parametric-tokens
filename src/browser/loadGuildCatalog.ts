@@ -1,11 +1,11 @@
 import { GuildCatalog } from "../core/token/catalog/catalogTypes";
 
 export const loadGuildCatalog = async (guildId: string): Promise<GuildCatalog> => {
-  const response = await fetch(`/catalog/${guildId}.json`);
+  try {
+    const module = await import(`../data/catalog/guilds/${guildId}.json`);
 
-  if (!response.ok) {
-    throw new Error(`Failed to load catalog for guild "${guildId}": ${response.statusText}`);
+    return module.default;
+  } catch {
+    throw new Error(`Failed to load catalog for guild "${guildId}"`);
   }
-
-  return response.json();
 };

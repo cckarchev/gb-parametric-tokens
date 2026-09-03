@@ -1,0 +1,308 @@
+{
+  "guildId": "blacksmiths",
+  "name": "Blacksmiths",
+  "color": "#82969f",
+  "characters": [
+    {
+      "id": "anvil",
+      "name": "Anvil",
+      "tokens": [
+        {
+          "line1": "Sentinel"
+        },
+        {
+          "line1": "Tough Hide"
+        },
+        {
+          "line1": "Singled Out"
+        },
+        {
+          "line1": "While the Iron is Hot"
+        },
+        {
+          "line1": "Tested Mettle"
+        }
+      ]
+    },
+    {
+      "id": "burnish",
+      "name": "Burnish",
+      "tokens": [
+        {
+          "line1": "Reduction"
+        },
+        {
+          "line1": "Reinforced Plating"
+        },
+        {
+          "line1": "Kill the Ball"
+        },
+        {
+          "line1": "Flame Belch"
+        },
+        {
+          "line1": "Covering Fire"
+        }
+      ]
+    },
+    {
+      "id": "culverin",
+      "name": "Culverin",
+      "tokens": [
+        {
+          "line1": "Quench"
+        },
+        {
+          "line1": "Eye Spy"
+        },
+        {
+          "line1": "Get In the Goal!"
+        },
+        {
+          "line1": "Batten Down The Hatches"
+        }
+      ]
+    },
+    {
+      "id": "farris",
+      "name": "Farris",
+      "tokens": [
+        {
+          "line1": "Give It a Whack"
+        },
+        {
+          "line1": "Sentinel"
+        },
+        {
+          "line1": "Stagger"
+        },
+        {
+          "line1": "Quick Foot"
+        },
+        {
+          "line1": "Ride Off"
+        }
+      ]
+    },
+    {
+      "id": "ferrite",
+      "name": "Ferrite",
+      "tokens": [
+        {
+          "line1": "Get Over Here"
+        },
+        {
+          "line1": "Acrobatic"
+        },
+        {
+          "line1": "Disarm"
+        },
+        {
+          "line1": "Weak Point"
+        },
+        {
+          "line1": "Tong in Cheek"
+        }
+      ]
+    },
+    {
+      "id": "furnace",
+      "name": "Furnace",
+      "tokens": [
+        {
+          "line1": "Searing Strike"
+        },
+        {
+          "line1": "Sentinel"
+        },
+        {
+          "line1": "One at a Time Lads!"
+        },
+        {
+          "line1": "Tooled Up"
+        },
+        {
+          "line1": "Tempered Steel"
+        }
+      ]
+    },
+    {
+      "id": "hearth",
+      "name": "Hearth",
+      "tokens": [
+        {
+          "line1": "Match Experience"
+        },
+        {
+          "line1": "Sturdy"
+        },
+        {
+          "line1": "Instruction"
+        },
+        {
+          "line1": "Use This!"
+        },
+        {
+          "line1": "Armoury"
+        }
+      ]
+    },
+    {
+      "id": "alloy",
+      "name": "Alloy",
+      "tokens": [
+        {
+          "line1": "Anatomical Precision"
+        },
+        {
+          "line1": "Back to the Shadows"
+        },
+        {
+          "line1": "Arsenal"
+        },
+        {
+          "line1": "Acrobatic"
+        },
+        {
+          "line1": "Bladework"
+        }
+      ]
+    },
+    {
+      "id": "bolt",
+      "name": "Bolt",
+      "tokens": [
+        {
+          "line1": "Stamina"
+        },
+        {
+          "line1": "Tutelage"
+        },
+        {
+          "line1": "I'm Open!"
+        },
+        {
+          "line1": "Shoemerang"
+        }
+      ]
+    },
+    {
+      "id": "cast",
+      "name": "Cast",
+      "tokens": [
+        {
+          "line1": "Burning Passion"
+        },
+        {
+          "line1": "Bright Shields"
+        },
+        {
+          "line1": "Swift Strikes"
+        },
+        {
+          "line1": "Shield Glare"
+        },
+        {
+          "line1": "Shield Throw"
+        }
+      ]
+    },
+    {
+      "id": "cinder",
+      "name": "Cinder",
+      "tokens": [
+        {
+          "line1": "Far Strike"
+        },
+        {
+          "line1": "Kindled"
+        },
+        {
+          "line1": "Searing Strike"
+        },
+        {
+          "line1": "Kill the Ball"
+        },
+        {
+          "line1": "Decoy"
+        }
+      ]
+    },
+    {
+      "id": "vcinder",
+      "name": "Cinder (Veteran)",
+      "tokens": [
+        {
+          "line1": "Grim Vengeance"
+        },
+        {
+          "line1": "Searing Strike"
+        },
+        {
+          "line1": "Sweeping Charge"
+        },
+        {
+          "line1": "Impale"
+        }
+      ]
+    },
+    {
+      "id": "cutlass",
+      "name": "Cutlass",
+      "tokens": [
+        {
+          "line1": "Quick Off the Line"
+        },
+        {
+          "line1": "Tutelage"
+        },
+        {
+          "line1": "Broadside"
+        },
+        {
+          "line1": "Chain Shot"
+        }
+      ]
+    },
+    {
+      "id": "iron",
+      "name": "Iron",
+      "tokens": [
+        {
+          "line1": "Battering Ram"
+        },
+        {
+          "line1": "Close Control"
+        },
+        {
+          "line1": "Tough Hide"
+        },
+        {
+          "line1": "Tryhard"
+        },
+        {
+          "line1": "Impetus"
+        }
+      ]
+    },
+    {
+      "id": "sledge",
+      "name": "Sledge",
+      "tokens": [
+        {
+          "line1": "Powerful Charge"
+        },
+        {
+          "line1": "Tutelage"
+        },
+        {
+          "line1": "Long Bomb"
+        },
+        {
+          "line1": "Piledriver"
+        }
+      ]
+    }
+  ],
+  "genericTokens": []
+}

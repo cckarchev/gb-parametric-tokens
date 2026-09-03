@@ -4,10 +4,6 @@ import { AvailableGuild, listAvailableGuilds } from "../browser/listAvailableGui
 import { loadGuildCatalog } from "../browser/loadGuildCatalog";
 import { GuildCatalog } from "../core/token/catalog/catalogTypes";
 
-// TEMPORARY: auto-selects Brewers so the batch flow has something loaded on open. Remove once
-// there's a real guild picker / persisted last-selected-guild, once more than one guild exists.
-const TEMPORARY_DEFAULT_GUILD_ID = "brewers";
-
 export type CatalogStatus = "idle" | "loading" | "ready" | "error";
 
 export const useGuildCatalog = () => {
@@ -37,20 +33,10 @@ export const useGuildCatalog = () => {
     listAvailableGuilds()
       .then((loadedGuilds) => {
         setGuilds(loadedGuilds);
-
-        const hasTemporaryDefaultGuild = loadedGuilds.some(
-          (guild) => guild.id === TEMPORARY_DEFAULT_GUILD_ID,
-        );
-
-        if (hasTemporaryDefaultGuild) {
-          selectGuild(TEMPORARY_DEFAULT_GUILD_ID);
-        }
       })
       .catch((error: unknown) => {
         setCatalogError(error instanceof Error ? error.message : String(error));
       });
-    // selectGuild is stable across renders (useCallback with an empty dependency array), so
-    // this effect only needs to run once, on mount.
   }, []);
 
   return { guilds, selectedGuildId, selectGuild, catalog, catalogStatus, catalogError };

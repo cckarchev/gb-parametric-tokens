@@ -1,0 +1,371 @@
+{
+  "guildId": "union",
+  "name": "Union",
+  "color": "#5b257f",
+  "characters": [
+    {
+      "id": "blackheart",
+      "name": "Blackheart",
+      "tokens": [
+        {
+          "line1": "Shadow Like"
+        },
+        {
+          "line1": "Butchery"
+        },
+        {
+          "line1": "Misdirection"
+        },
+        {
+          "line1": "On My Mark"
+        },
+        {
+          "line1": "Strike from the Shadows"
+        }
+      ]
+    },
+    {
+      "id": "vrage",
+      "name": "Rage (Veteran)",
+      "tokens": [
+        {
+          "line1": "Furious"
+        },
+        {
+          "line1": "Rising Anger"
+        },
+        {
+          "line1": "Concussion"
+        },
+        {
+          "line1": "Quick Time"
+        },
+        {
+          "line1": "Red Fury"
+        },
+        {
+          "line1": "Bloody Coin"
+        },
+        {
+          "line1": "My Gang"
+        }
+      ]
+    },
+    {
+      "id": "vgreede",
+      "name": "Greede (Veteran)",
+      "tokens": [
+        {
+          "line1": "Do the Thing!"
+        },
+        {
+          "line1": "Lance"
+        },
+        {
+          "line1": "Shelling Out"
+        },
+        {
+          "line1": "Trusty Steed"
+        },
+        {
+          "line1": "Forward, Minions!"
+        },
+        {
+          "line1": "Persuasion"
+        }
+      ]
+    },
+    {
+      "id": "coin",
+      "name": "Coin",
+      "tokens": [
+        {
+          "line1": "Bag of Coffers"
+        },
+        {
+          "line1": "Follow Up"
+        },
+        {
+          "line1": "Constrict"
+        }
+      ]
+    },
+    {
+      "id": "strongbox",
+      "name": "Strongbox",
+      "tokens": [
+        {
+          "line1": "Confidence"
+        },
+        {
+          "line1": "Shelling Out"
+        },
+        {
+          "line1": "Tag Along"
+        },
+        {
+          "line1": "Tortoise Power"
+        }
+      ]
+    },
+    {
+      "id": "avarisse",
+      "name": "Avarisse",
+      "tokens": [
+        {
+          "line1": "Contract"
+        },
+        {
+          "line1": "Drop Off"
+        },
+        {
+          "line1": "Thuggery"
+        },
+        {
+          "line1": "Tough Hide"
+        }
+      ]
+    },
+    {
+      "id": "greede",
+      "name": "Greede",
+      "tokens": [
+        {
+          "line1": "Contract"
+        },
+        {
+          "line1": "Pick Up"
+        },
+        {
+          "line1": "Ready to Go"
+        },
+        {
+          "line1": "Gang Fighting"
+        },
+        {
+          "line1": "Singled Out"
+        }
+      ]
+    },
+    {
+      "id": "decimate",
+      "name": "Decimate",
+      "tokens": [
+        {
+          "line1": "Anatomical Precision"
+        },
+        {
+          "line1": "Second Wind"
+        },
+        {
+          "line1": "Thousand Cuts"
+        }
+      ]
+    },
+    {
+      "id": "fangtooth",
+      "name": "Fangtooth",
+      "tokens": [
+        {
+          "line1": "Foul Odour"
+        },
+        {
+          "line1": "Resilience"
+        },
+        {
+          "line1": "The Unmasking"
+        },
+        {
+          "line1": "Fangtooth Unleashed"
+        }
+      ]
+    },
+    {
+      "id": "gutter",
+      "name": "Gutter",
+      "tokens": [
+        {
+          "line1": "Anatomical Precision"
+        },
+        {
+          "line1": "Life Drinker"
+        },
+        {
+          "line1": "Chain Grab"
+        },
+        {
+          "line1": "Scything Blow"
+        }
+      ]
+    },
+    {
+      "id": "hemlocke",
+      "name": "Hemlocke",
+      "tokens": [
+        {
+          "line1": "Magical Brew"
+        },
+        {
+          "line1": "Slippery"
+        },
+        {
+          "line1": "Blind"
+        },
+        {
+          "line1": "Noxious Blast"
+        },
+        {
+          "line1": "Smelling Salts"
+        }
+      ]
+    },
+    {
+      "id": "minx",
+      "name": "Minx",
+      "tokens": [
+        {
+          "line1": "Back to the Shadows"
+        },
+        {
+          "line1": "Damaged Target"
+        },
+        {
+          "line1": "Hunter's Prey"
+        },
+        {
+          "line1": "Axe Throw"
+        },
+        {
+          "line1": "Marked Target"
+        }
+      ]
+    },
+    {
+      "id": "rage",
+      "name": "Rage",
+      "tokens": [
+        {
+          "line1": "Berserk"
+        },
+        {
+          "line1": "Crucial Artery"
+        },
+        {
+          "line1": "Furious"
+        },
+        {
+          "line1": "Concussion"
+        },
+        {
+          "line1": "Tooled Up"
+        },
+        {
+          "line1": "Intensity"
+        }
+      ]
+    },
+    {
+      "id": "snakeskin",
+      "name": "Snakeskin",
+      "tokens": [
+        {
+          "line1": "Stealthy"
+        },
+        {
+          "line1": "Poisoner"
+        },
+        {
+          "line1": "Chameleon"
+        },
+        {
+          "line1": "Where'd They Go?"
+        },
+        {
+          "line1": "Aqua Tofana"
+        }
+      ]
+    },
+    {
+      "id": "benediction",
+      "name": "Benediction",
+      "tokens": [
+        {
+          "line1": "Playmaker"
+        },
+        {
+          "line1": "Poised"
+        },
+        {
+          "line1": "Rapid Growth"
+        },
+        {
+          "line1": "Braced"
+        },
+        {
+          "line1": "Stand Firm"
+        }
+      ]
+    },
+    {
+      "id": "grace",
+      "name": "Grace",
+      "tokens": [
+        {
+          "line1": "Impart Faith"
+        },
+        {
+          "line1": "Talisman"
+        },
+        {
+          "line1": "Healing Light"
+        },
+        {
+          "line1": "Quick Foot"
+        },
+        {
+          "line1": "Reclamation"
+        }
+      ]
+    },
+    {
+      "id": "harry",
+      "name": "Harry ‘the Hat’",
+      "tokens": [
+        {
+          "line1": "Inspiring Hat"
+        },
+        {
+          "line1": "Rising Anger"
+        },
+        {
+          "line1": "Molotov"
+        },
+        {
+          "line1": "Singled Out"
+        }
+      ]
+    },
+    {
+      "id": "mist",
+      "name": "Mist",
+      "tokens": [
+        {
+          "line1": "Cover of Darkness"
+        },
+        {
+          "line1": "Shadow Like"
+        },
+        {
+          "line1": "Skilled within Shadow"
+        },
+        {
+          "line1": "Smoke Bomb"
+        },
+        {
+          "line1": "Shroud of Darkness"
+        }
+      ]
+    }
+  ],
+  "genericTokens": []
+}

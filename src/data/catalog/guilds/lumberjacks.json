@@ -1,0 +1,200 @@
+{
+  "guildId": "lumberjacks",
+  "name": "Lumberjacks",
+  "color": "#416abb",
+  "characters": [
+    {
+      "id": "flint",
+      "name": "Flint",
+      "tokens": [
+        {
+          "line1": "Close Control"
+        },
+        {
+          "line1": "Where'd They Go?"
+        }
+      ]
+    },
+    {
+      "id": "mallet",
+      "name": "Mallet",
+      "tokens": [
+        {
+          "line1": "Extended Reach"
+        },
+        {
+          "line1": "Football Legend"
+        },
+        {
+          "line1": "Forceful Blow"
+        },
+        {
+          "line1": "Singled Out"
+        },
+        {
+          "line1": "Smashed Shins"
+        }
+      ]
+    },
+    {
+      "id": "oak",
+      "name": "Oak",
+      "tokens": [
+        {
+          "line1": "Between a Rock..."
+        },
+        {
+          "line1": "Bends... But Never Breaks"
+        },
+        {
+          "line1": "Caber Toss"
+        },
+        {
+          "line1": "Bull of the Woods"
+        },
+        {
+          "line1": "Cut Em Down"
+        },
+        {
+          "line1": "Fell Swing"
+        }
+      ]
+    },
+    {
+      "id": "chipper",
+      "name": "Chipper",
+      "tokens": [
+        {
+          "line1": "Den Protector"
+        },
+        {
+          "line1": "Hunker Down"
+        },
+        {
+          "line1": "Loved Creature"
+        },
+        {
+          "line1": "Dam Builder"
+        }
+      ]
+    },
+    {
+      "id": "bucker",
+      "name": "Bucker",
+      "tokens": [
+        {
+          "line1": "Anatomical Precision"
+        },
+        {
+          "line1": "Splitting Strikes"
+        },
+        {
+          "line1": "Hew Do They Think They Are"
+        },
+        {
+          "line1": "Hoisting and Hauling"
+        },
+        {
+          "line1": "Axe A Question"
+        }
+      ]
+    },
+    {
+      "id": "crosscut",
+      "name": "Cross Cut",
+      "tokens": [
+        {
+          "line1": "Specialised Equipment"
+        },
+        {
+          "line1": "Early Risers"
+        },
+        {
+          "line1": "Job's a Good'un"
+        },
+        {
+          "line1": "The Bigger They Are..."
+        }
+      ]
+    },
+    {
+      "id": "cross",
+      "name": "Cross",
+      "tokens": [
+        {
+          "line1": "Matched Pair"
+        },
+        {
+          "line1": "Quick Foot"
+        },
+        {
+          "line1": "Crumb Boss"
+        },
+        {
+          "line1": "It's Bucking Time!"
+        }
+      ]
+    },
+    {
+      "id": "cut",
+      "name": "Cut",
+      "tokens": [
+        {
+          "line1": "Matched Pair"
+        },
+        {
+          "line1": "Sibling Rivalry"
+        },
+        {
+          "line1": "Steel Toecaps"
+        },
+        {
+          "line1": "Thief"
+        }
+      ]
+    },
+    {
+      "id": "itsa",
+      "name": "Itsa",
+      "tokens": [
+        {
+          "line1": "Light Footed"
+        },
+        {
+          "line1": "Eye of the Sun Father"
+        },
+        {
+          "line1": "Marked for Felling"
+        },
+        {
+          "line1": "Quick Time"
+        },
+        {
+          "line1": "Reconnaissance"
+        }
+      ]
+    },
+    {
+      "id": "tinder",
+      "name": "Tinder",
+      "tokens": [
+        {
+          "line1": "Synchronised"
+        },
+        {
+          "line1": "Putting Out Fires"
+        },
+        {
+          "line1": "Swipe Right"
+        },
+        {
+          "line1": "Skidding"
+        },
+        {
+          "line1": "This Should Be Overtime..."
+        }
+      ]
+    }
+  ],
+  "genericTokens": []
+}

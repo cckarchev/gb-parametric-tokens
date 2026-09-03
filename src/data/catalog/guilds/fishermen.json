@@ -1,0 +1,344 @@
+{
+  "guildId": "fishermen",
+  "name": "Fishermen",
+  "color": "#50b8c8",
+  "characters": [
+    {
+      "id": "shark",
+      "name": "Shark",
+      "tokens": [
+        {
+          "line1": "Light Footed"
+        },
+        {
+          "line1": "Showboater"
+        },
+        {
+          "line1": "Quick Foot"
+        },
+        {
+          "line1": "Tidal Surge"
+        },
+        {
+          "line1": "Caught in a Net"
+        }
+      ]
+    },
+    {
+      "id": "corsair",
+      "name": "Corsair",
+      "tokens": [
+        {
+          "line1": "Coup de Grâce"
+        },
+        {
+          "line1": "Sturdy"
+        },
+        {
+          "line1": "Tough Hide"
+        },
+        {
+          "line1": "Drag"
+        },
+        {
+          "line1": "Rough Seas"
+        },
+        {
+          "line1": "Hook, Line, and Sinker"
+        }
+      ]
+    },
+    {
+      "id": "yukai",
+      "name": "Yukai",
+      "tokens": [
+        {
+          "line1": "Last Cast Catches the Most"
+        },
+        {
+          "line1": "Beating Wings Over Water"
+        },
+        {
+          "line1": "Swirling Waters"
+        },
+        {
+          "line1": "Break the Surface"
+        },
+        {
+          "line1": "Cormorant’s Calling"
+        }
+      ]
+    },
+    {
+      "id": "salt",
+      "name": "Salt",
+      "tokens": [
+        {
+          "line1": "Loved Creature"
+        },
+        {
+          "line1": "Scores for Fun"
+        },
+        {
+          "line1": "Where'd They Go?"
+        }
+      ]
+    },
+    {
+      "id": "tentacles",
+      "name": "Tentacles",
+      "tokens": [
+        {
+          "line1": "Close Control"
+        },
+        {
+          "line1": "Tag Along"
+        },
+        {
+          "line1": "Blind"
+        }
+      ]
+    },
+    {
+      "id": "angel",
+      "name": "Angel",
+      "tokens": [
+        {
+          "line1": "Get Over Here"
+        },
+        {
+          "line1": "Prodigy"
+        },
+        {
+          "line1": "Untouchable"
+        },
+        {
+          "line1": "Nimble"
+        },
+        {
+          "line1": "Super Shot"
+        }
+      ]
+    },
+    {
+      "id": "greyscales",
+      "name": "Greyscales",
+      "tokens": [
+        {
+          "line1": "Old Reliable"
+        },
+        {
+          "line1": "Unpredictable Movement"
+        },
+        {
+          "line1": "Ball's Gone!"
+        },
+        {
+          "line1": "Decoy"
+        },
+        {
+          "line1": "Where'd They Go?"
+        }
+      ]
+    },
+    {
+      "id": "hag",
+      "name": "Hag",
+      "tokens": [
+        {
+          "line1": "Fear"
+        },
+        {
+          "line1": "Shadow Like"
+        },
+        {
+          "line1": "Talisman"
+        },
+        {
+          "line1": "Decoy"
+        },
+        {
+          "line1": "Fisher's Reel"
+        },
+        {
+          "line1": "Call of the Sea"
+        }
+      ]
+    },
+    {
+      "id": "jac",
+      "name": "Jac",
+      "tokens": [
+        {
+          "line1": "Battering Ram"
+        },
+        {
+          "line1": "Resolute"
+        },
+        {
+          "line1": "Goad"
+        },
+        {
+          "line1": "Trident Tested"
+        }
+      ]
+    },
+    {
+      "id": "knuckles",
+      "name": "Knuckles",
+      "tokens": [
+        {
+          "line1": "Backfield Presence"
+        },
+        {
+          "line1": "Close Ranks"
+        },
+        {
+          "line1": "Lightning Reflexes"
+        },
+        {
+          "line1": "Resilience"
+        },
+        {
+          "line1": "Heavy Tackle"
+        }
+      ]
+    },
+    {
+      "id": "kraken",
+      "name": "Kraken",
+      "tokens": [
+        {
+          "line1": "Gravity Well"
+        },
+        {
+          "line1": "Protective Instinct"
+        },
+        {
+          "line1": "Tough Hide"
+        },
+        {
+          "line1": "Drag"
+        }
+      ]
+    },
+    {
+      "id": "sakana",
+      "name": "Sakana",
+      "tokens": [
+        {
+          "line1": "Anatomical Precision"
+        },
+        {
+          "line1": "Cover of Darkness"
+        },
+        {
+          "line1": "Poised"
+        },
+        {
+          "line1": "Smoke Bomb"
+        },
+        {
+          "line1": "Netted"
+        }
+      ]
+    },
+    {
+      "id": "vsakana",
+      "name": "Sakana (Veteran)",
+      "tokens": [
+        {
+          "line1": "Anatomical Precision"
+        },
+        {
+          "line1": "Bag of Coffers"
+        },
+        {
+          "line1": "Fancy Footwork"
+        },
+        {
+          "line1": "Raise the Black Flag"
+        }
+      ]
+    },
+    {
+      "id": "siren",
+      "name": "Siren",
+      "tokens": [
+        {
+          "line1": "Beautiful"
+        },
+        {
+          "line1": "Protected"
+        },
+        {
+          "line1": "Lure"
+        },
+        {
+          "line1": "Seduced"
+        }
+      ]
+    },
+    {
+      "id": "vsiren",
+      "name": "Siren (Veteran)",
+      "tokens": [
+        {
+          "line1": "Escaping Fate"
+        },
+        {
+          "line1": "Shadow Like"
+        },
+        {
+          "line1": "Dread Gaze"
+        },
+        {
+          "line1": "Fair Wind"
+        }
+      ]
+    },
+    {
+      "id": "fathom",
+      "name": "Fathom",
+      "tokens": [
+        {
+          "line1": "Guild Rule: Precise Calculations"
+        },
+        {
+          "line1": "Light Footed"
+        },
+        {
+          "line1": "Linked"
+        },
+        {
+          "line1": "Acrobatic"
+        },
+        {
+          "line1": "Smelling Salts"
+        },
+        {
+          "line1": "Waverunner"
+        }
+      ]
+    },
+    {
+      "id": "horizon",
+      "name": "Horizon",
+      "tokens": [
+        {
+          "line1": "Guild Rule: Precise Calculations"
+        },
+        {
+          "line1": "Don't Get Cocky"
+        },
+        {
+          "line1": "Stellar Navigation"
+        },
+        {
+          "line1": "Unexpected Arrival"
+        }
+      ]
+    }
+  ],
+  "genericTokens": []
+}

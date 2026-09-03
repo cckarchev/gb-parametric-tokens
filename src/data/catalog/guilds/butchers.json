@@ -1,0 +1,332 @@
+{
+  "guildId": "butchers",
+  "name": "Butchers",
+  "color": "#ce1f27",
+  "characters": [
+    {
+      "id": "ox",
+      "name": "Ox",
+      "tokens": [
+        {
+          "line1": "The Owner"
+        },
+        {
+          "line1": "They Ain't Tough!"
+        },
+        {
+          "line1": "Butchery"
+        },
+        {
+          "line1": "Get 'Em Lads!"
+        }
+      ]
+    },
+    {
+      "id": "fillet",
+      "name": "Fillet",
+      "tokens": [
+        {
+          "line1": "Haemophilia"
+        },
+        {
+          "line1": "Smell Blood"
+        },
+        {
+          "line1": "Blood Rain"
+        },
+        {
+          "line1": "Pain Circle"
+        },
+        {
+          "line1": "Quick Foot"
+        },
+        {
+          "line1": "Exsanguinate"
+        }
+      ]
+    },
+    {
+      "id": "vboar",
+      "name": "Boar (Veteran)",
+      "tokens": [
+        {
+          "line1": "Berserk"
+        },
+        {
+          "line1": "Blood Lust"
+        },
+        {
+          "line1": "Furious"
+        },
+        {
+          "line1": "Singled Out"
+        },
+        {
+          "line1": "Stagger"
+        },
+        {
+          "line1": "Chop Chop!"
+        }
+      ]
+    },
+    {
+      "id": "princess",
+      "name": "Princess",
+      "tokens": [
+        {
+          "line1": "Loved Creature"
+        },
+        {
+          "line1": "Vicious"
+        },
+        {
+          "line1": "Rabid Animal"
+        }
+      ]
+    },
+    {
+      "id": "truffles",
+      "name": "Truffles",
+      "tokens": [
+        {
+          "line1": "Smell Blood"
+        },
+        {
+          "line1": "Sturdy"
+        },
+        {
+          "line1": "Tough Hide"
+        },
+        {
+          "line1": "Vindictive"
+        }
+      ]
+    },
+    {
+      "id": "boar",
+      "name": "Boar",
+      "tokens": [
+        {
+          "line1": "Berserk"
+        },
+        {
+          "line1": "Brute Force"
+        },
+        {
+          "line1": "Furious"
+        },
+        {
+          "line1": "Life Drinker"
+        },
+        {
+          "line1": "Concussion"
+        }
+      ]
+    },
+    {
+      "id": "boiler",
+      "name": "Boiler",
+      "tokens": [
+        {
+          "line1": "Anatomical Precision"
+        },
+        {
+          "line1": "Assist"
+        },
+        {
+          "line1": "Crucial Artery"
+        },
+        {
+          "line1": "Axe Throw"
+        },
+        {
+          "line1": "Marked Target"
+        }
+      ]
+    },
+    {
+      "id": "brisket",
+      "name": "Brisket",
+      "tokens": [
+        {
+          "line1": "Above and Beyond"
+        },
+        {
+          "line1": "Unpredictable Movement"
+        },
+        {
+          "line1": "Super Shot"
+        },
+        {
+          "line1": "Dirty Knives"
+        }
+      ]
+    },
+    {
+      "id": "vbrisket",
+      "name": "Brisket (Veteran)",
+      "tokens": [
+        {
+          "line1": "Field Medic"
+        },
+        {
+          "line1": "Pragmatic"
+        },
+        {
+          "line1": "Unpredictable Movement"
+        },
+        {
+          "line1": "Quick Time"
+        },
+        {
+          "line1": "Jagged Blade"
+        }
+      ]
+    },
+    {
+      "id": "vgutter",
+      "name": "Gutter (Veteran)",
+      "tokens": [
+        {
+          "line1": "Anatomical Precision"
+        },
+        {
+          "line1": "Crucial Artery"
+        },
+        {
+          "line1": "Sweeping Charge"
+        },
+        {
+          "line1": "Pig Stickin'"
+        }
+      ]
+    },
+    {
+      "id": "layne",
+      "name": "Layne",
+      "tokens": [
+        {
+          "line1": "Bleed the Cleats"
+        },
+        {
+          "line1": "Close Control"
+        },
+        {
+          "line1": "Get On With It, Boy!"
+        },
+        {
+          "line1": "Magic Touch"
+        },
+        {
+          "line1": "Acrobatic"
+        }
+      ]
+    },
+    {
+      "id": "meathook",
+      "name": "Meathook",
+      "tokens": [
+        {
+          "line1": "Hooked"
+        },
+        {
+          "line1": "Scything Blow"
+        },
+        {
+          "line1": "Tooled Up"
+        },
+        {
+          "line1": "Sanguine Pool"
+        }
+      ]
+    },
+    {
+      "id": "vox",
+      "name": "Ox (Veteran)",
+      "tokens": [
+        {
+          "line1": "Lash Out"
+        },
+        {
+          "line1": "Rowdy"
+        },
+        {
+          "line1": "The Old Ways"
+        },
+        {
+          "line1": "Whirling Chains"
+        }
+      ]
+    },
+    {
+      "id": "shank",
+      "name": "Shank",
+      "tokens": [
+        {
+          "line1": "Damaged Target"
+        },
+        {
+          "line1": "Thousand Cuts"
+        },
+        {
+          "line1": "Where'd They Go?"
+        }
+      ]
+    },
+    {
+      "id": "tenderiser",
+      "name": "Tenderiser",
+      "tokens": [
+        {
+          "line1": "Goal Defence"
+        },
+        {
+          "line1": "Nose Out of Joint"
+        },
+        {
+          "line1": "Ground Pound"
+        }
+      ]
+    },
+    {
+      "id": "cinnamon",
+      "name": "Cinnamon",
+      "tokens": [
+        {
+          "line1": "Guild Rule: Intimidation"
+        },
+        {
+          "line1": "Anatomical Precision"
+        },
+        {
+          "line1": "Acrobatic"
+        },
+        {
+          "line1": "Get Set, BAKE!"
+        }
+      ]
+    },
+    {
+      "id": "roast",
+      "name": "Roast",
+      "tokens": [
+        {
+          "line1": "Guild Rule: Intimidation"
+        },
+        {
+          "line1": "Big Belly"
+        },
+        {
+          "line1": "Resilience"
+        },
+        {
+          "line1": "Get It While It's Hot"
+        },
+        {
+          "line1": "Turn Up the Heat"
+        }
+      ]
+    }
+  ],
+  "genericTokens": []
+}

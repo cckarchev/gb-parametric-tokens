@@ -1,0 +1,82 @@
+[
+  {
+    "id": "alchemists",
+    "name": "Alchemists"
+  },
+  {
+    "id": "blacksmiths",
+    "name": "Blacksmiths"
+  },
+  {
+    "id": "brewers",
+    "name": "Brewers"
+  },
+  {
+    "id": "butchers",
+    "name": "Butchers"
+  },
+  {
+    "id": "cooks",
+    "name": "Cooks"
+  },
+  {
+    "id": "engineers",
+    "name": "Engineers"
+  },
+  {
+    "id": "falconers",
+    "name": "Falconers"
+  },
+  {
+    "id": "farmers",
+    "name": "Farmers"
+  },
+  {
+    "id": "fishermen",
+    "name": "Fishermen"
+  },
+  {
+    "id": "hunters",
+    "name": "Hunters"
+  },
+  {
+    "id": "lamplighters",
+    "name": "Lamplighters"
+  },
+  {
+    "id": "lumberjacks",
+    "name": "Lumberjacks"
+  },
+  {
+    "id": "masons",
+    "name": "Masons"
+  },
+  {
+    "id": "miners",
+    "name": "Miners"
+  },
+  {
+    "id": "morticians",
+    "name": "Morticians"
+  },
+  {
+    "id": "navigators",
+    "name": "Navigators"
+  },
+  {
+    "id": "order",
+    "name": "Order"
+  },
+  {
+    "id": "ratcatchers",
+    "name": "Ratcatchers"
+  },
+  {
+    "id": "shepherds",
+    "name": "Shepherds"
+  },
+  {
+    "id": "union",
+    "name": "Union"
+  }
+]

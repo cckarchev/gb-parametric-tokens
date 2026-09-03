@@ -1,0 +1,374 @@
+{
+  "guildId": "alchemists",
+  "name": "Alchemists",
+  "color": "#4e9339",
+  "characters": [
+    {
+      "id": "midas",
+      "name": "Midas",
+      "tokens": [
+        {
+          "line1": "Fulmination"
+        },
+        {
+          "line1": "Midas Touch"
+        },
+        {
+          "line1": "Unpredictable Movement"
+        },
+        {
+          "line1": "Where'd They Go?"
+        },
+        {
+          "line1": "Lure of Gold"
+        },
+        {
+          "line1": "Magnum Opus"
+        }
+      ]
+    },
+    {
+      "id": "smoke",
+      "name": "Smoke",
+      "tokens": [
+        {
+          "line1": "Cloud Jumper"
+        },
+        {
+          "line1": "Unpredictable Movement"
+        },
+        {
+          "line1": "Watch The World Burn"
+        },
+        {
+          "line1": "Chemical Breeze"
+        },
+        {
+          "line1": "Infuse"
+        },
+        {
+          "line1": "Smoke Bomb"
+        },
+        {
+          "line1": "Chemical Shower"
+        }
+      ]
+    },
+    {
+      "id": "soma",
+      "name": "Soma",
+      "tokens": [
+        {
+          "line1": "Burning Spirit"
+        },
+        {
+          "line1": "Gimme Fuel..."
+        },
+        {
+          "line1": "Nitro!"
+        },
+        {
+          "line1": "Raging Fire"
+        },
+        {
+          "line1": "Gimme Fire!"
+        }
+      ]
+    },
+    {
+      "id": "pneuma",
+      "name": "Pneuma",
+      "tokens": [
+        {
+          "line1": "Backdraft"
+        },
+        {
+          "line1": "Furious"
+        },
+        {
+          "line1": "Inferno"
+        },
+        {
+          "line1": "Waning Light"
+        }
+      ]
+    },
+    {
+      "id": "flask",
+      "name": "Flask",
+      "tokens": [
+        {
+          "line1": "Beaker Keeper"
+        },
+        {
+          "line1": "Light Footed"
+        },
+        {
+          "line1": "Overheat"
+        },
+        {
+          "line1": "Smoke Bomb"
+        }
+      ]
+    },
+    {
+      "id": "naja",
+      "name": "Naja",
+      "tokens": [
+        {
+          "line1": "Test Subject"
+        },
+        {
+          "line1": "Venomous Strike"
+        },
+        {
+          "line1": "Unpredictable Movement"
+        },
+        {
+          "line1": "Hypnosis"
+        }
+      ]
+    },
+    {
+      "id": "calculus",
+      "name": "Calculus",
+      "tokens": [
+        {
+          "line1": "Poisonous Fumes"
+        },
+        {
+          "line1": "Reactive Solution"
+        },
+        {
+          "line1": "Blind"
+        },
+        {
+          "line1": "Noxious Blast"
+        }
+      ]
+    },
+    {
+      "id": "vcalculus",
+      "name": "Calculus (Veteran)",
+      "tokens": [
+        {
+          "line1": "Toxicity"
+        },
+        {
+          "line1": "Extraction"
+        },
+        {
+          "line1": "Noxious Death"
+        },
+        {
+          "line1": "Sticky Bomb"
+        },
+        {
+          "line1": "Transmute"
+        }
+      ]
+    },
+    {
+      "id": "crucible",
+      "name": "Crucible",
+      "tokens": [
+        {
+          "line1": "Chemical Admixture"
+        },
+        {
+          "line1": "Covalence"
+        },
+        {
+          "line1": "Reactive Solution"
+        },
+        {
+          "line1": "Acrobatic"
+        },
+        {
+          "line1": "Great Balls of Fire"
+        }
+      ]
+    },
+    {
+      "id": "kami",
+      "name": "Kami",
+      "tokens": [
+        {
+          "line1": "Anatomical Precision"
+        },
+        {
+          "line1": "Deadeye"
+        },
+        {
+          "line1": "Elusive"
+        },
+        {
+          "line1": "Chemical Ordnance"
+        },
+        {
+          "line1": "Kill the Ball"
+        }
+      ]
+    },
+    {
+      "id": "katalyst",
+      "name": "Katalyst",
+      "tokens": [
+        {
+          "line1": "Burning Effigy"
+        },
+        {
+          "line1": "Burning Strike"
+        },
+        {
+          "line1": "Pyromaniac"
+        },
+        {
+          "line1": "External Combustion"
+        }
+      ]
+    },
+    {
+      "id": "vkatalyst",
+      "name": "Katalyst (Veteran)",
+      "tokens": [
+        {
+          "line1": "Burst of Fumes"
+        },
+        {
+          "line1": "Toxicity"
+        },
+        {
+          "line1": "Venomous Strike"
+        },
+        {
+          "line1": "Witness Me!"
+        },
+        {
+          "line1": "Ground Pound"
+        }
+      ]
+    },
+    {
+      "id": "mercury",
+      "name": "Mercury",
+      "tokens": [
+        {
+          "line1": "Burning Spirit"
+        },
+        {
+          "line1": "Fission"
+        },
+        {
+          "line1": "Fusion"
+        },
+        {
+          "line1": "Fire Blast"
+        },
+        {
+          "line1": "Fire Ball"
+        }
+      ]
+    },
+    {
+      "id": "venin",
+      "name": "Venin",
+      "tokens": [
+        {
+          "line1": "Debilitating Strike"
+        },
+        {
+          "line1": "Melting Body"
+        },
+        {
+          "line1": "Secretion"
+        },
+        {
+          "line1": "Venomous Strike"
+        },
+        {
+          "line1": "Acid Rain"
+        },
+        {
+          "line1": "Coagulation"
+        }
+      ]
+    },
+    {
+      "id": "vitriol",
+      "name": "Vitriol",
+      "tokens": [
+        {
+          "line1": "I've Been Burnt Before..."
+        },
+        {
+          "line1": "Clone"
+        },
+        {
+          "line1": "Face Your Fear"
+        }
+      ]
+    },
+    {
+      "id": "compound",
+      "name": "Compound",
+      "tokens": [
+        {
+          "line1": "Noxious Death"
+        },
+        {
+          "line1": "Resilience"
+        },
+        {
+          "line1": "Rush Keeper"
+        },
+        {
+          "line1": "Horrific Odour"
+        }
+      ]
+    },
+    {
+      "id": "heat",
+      "name": "Heat",
+      "tokens": [
+        {
+          "line1": "Afterglow"
+        },
+        {
+          "line1": "Now You See Me..."
+        },
+        {
+          "line1": "Reactive Solution"
+        },
+        {
+          "line1": "I'm Open!"
+        },
+        {
+          "line1": "Flame Jet"
+        }
+      ]
+    },
+    {
+      "id": "phosphor",
+      "name": "Phosphor",
+      "tokens": [
+        {
+          "line1": "Clumsy"
+        },
+        {
+          "line1": "Flame On"
+        },
+        {
+          "line1": "Flash Point"
+        },
+        {
+          "line1": "Alchemical Bomb"
+        },
+        {
+          "line1": "Fulcrum"
+        }
+      ]
+    }
+  ],
+  "genericTokens": []
+}

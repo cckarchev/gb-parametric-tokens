@@ -2,6 +2,8 @@ export type CatalogTokenSpec = {
   line1: string;
   line2?: string;
   iconId?: string;
+  // Max simultaneous copies of this token in play. Omitted means 1, only set when higher.
+  maxCopies?: number;
 };
 
 export type CatalogCharacter = {

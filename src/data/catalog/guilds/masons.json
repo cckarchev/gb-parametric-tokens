@@ -1,0 +1,353 @@
+{
+  "guildId": "masons",
+  "name": "Masons",
+  "color": "#416abb",
+  "characters": [
+    {
+      "id": "lucky",
+      "name": "Lucky",
+      "tokens": [
+        {
+          "line1": "Stack the Deck"
+        },
+        {
+          "line1": "Tough Hide"
+        },
+        {
+          "line1": "Sleight of Hand"
+        },
+        {
+          "line1": "Raise the Stakes"
+        }
+      ]
+    },
+    {
+      "id": "honour",
+      "name": "Honour",
+      "tokens": [
+        {
+          "line1": "Assist"
+        },
+        {
+          "line1": "Linked"
+        },
+        {
+          "line1": "Poised"
+        },
+        {
+          "line1": "Quick Time"
+        },
+        {
+          "line1": "Superior Strategy"
+        },
+        {
+          "line1": "Topping Out!"
+        }
+      ]
+    },
+    {
+      "id": "hammer",
+      "name": "Hammer",
+      "tokens": [
+        {
+          "line1": "Knockback"
+        },
+        {
+          "line1": "Repointing"
+        },
+        {
+          "line1": "Tough Hide"
+        },
+        {
+          "line1": "Freemason"
+        },
+        {
+          "line1": "Impetus"
+        },
+        {
+          "line1": "Iron Fist"
+        },
+        {
+          "line1": "Hammer Time!"
+        }
+      ]
+    },
+    {
+      "id": "corbelli",
+      "name": "Corbelli",
+      "tokens": [
+        {
+          "line1": "Close Control"
+        },
+        {
+          "line1": "Making Space"
+        },
+        {
+          "line1": "Acrobatic"
+        },
+        {
+          "line1": "Dummy Pass"
+        },
+        {
+          "line1": "Towering Presence"
+        },
+        {
+          "line1": "Playing the Game"
+        }
+      ]
+    },
+    {
+      "id": "marbles",
+      "name": "Marbles",
+      "tokens": [
+        {
+          "line1": "Counter-Charge"
+        },
+        {
+          "line1": "Loved Creature"
+        },
+        {
+          "line1": "Goad"
+        }
+      ]
+    },
+    {
+      "id": "wrecker",
+      "name": "Wrecker",
+      "tokens": [
+        {
+          "line1": "Battering Ram"
+        },
+        {
+          "line1": "Follow Up"
+        }
+      ]
+    },
+    {
+      "id": "brick",
+      "name": "Brick",
+      "tokens": [
+        {
+          "line1": "Gravity Well"
+        },
+        {
+          "line1": "Knockback"
+        },
+        {
+          "line1": "Tough Hide"
+        },
+        {
+          "line1": "Concussion"
+        },
+        {
+          "line1": "Fulcrum"
+        }
+      ]
+    },
+    {
+      "id": "champ",
+      "name": "Champ",
+      "tokens": [
+        {
+          "line1": "Put Me Back In, Coach!"
+        },
+        {
+          "line1": "Poised"
+        },
+        {
+          "line1": "Stamina"
+        },
+        {
+          "line1": "Hold the Ball!"
+        }
+      ]
+    },
+    {
+      "id": "chisel",
+      "name": "Chisel",
+      "tokens": [
+        {
+          "line1": "Revelling"
+        },
+        {
+          "line1": "Concussion"
+        },
+        {
+          "line1": "Iron Fist"
+        },
+        {
+          "line1": "Intensity"
+        }
+      ]
+    },
+    {
+      "id": "vchisel",
+      "name": "Chisel (Veteran)",
+      "tokens": [
+        {
+          "line1": "Adaptive Strategy"
+        },
+        {
+          "line1": "Take One for the Team"
+        },
+        {
+          "line1": "Squad Tactics"
+        }
+      ]
+    },
+    {
+      "id": "flint",
+      "name": "Flint",
+      "tokens": [
+        {
+          "line1": "Close Control"
+        },
+        {
+          "line1": "Where'd They Go?"
+        }
+      ]
+    },
+    {
+      "id": "granite",
+      "name": "Granite",
+      "tokens": [
+        {
+          "line1": "Between a Rock..."
+        },
+        {
+          "line1": "Close Ranks"
+        },
+        {
+          "line1": "Sturdy"
+        },
+        {
+          "line1": "Gut & String"
+        },
+        {
+          "line1": "Broken Earth"
+        }
+      ]
+    },
+    {
+      "id": "harmony",
+      "name": "Harmony",
+      "tokens": [
+        {
+          "line1": "Back to the Shadows"
+        },
+        {
+          "line1": "Family"
+        },
+        {
+          "line1": "Protected"
+        },
+        {
+          "line1": "Acrobatic"
+        },
+        {
+          "line1": "Weak Point"
+        }
+      ]
+    },
+    {
+      "id": "vharmony",
+      "name": "Harmony (Veteran)",
+      "tokens": [
+        {
+          "line1": "Animosity"
+        },
+        {
+          "line1": "Field Medic"
+        },
+        {
+          "line1": "Team Player"
+        },
+        {
+          "line1": "Marked Target"
+        }
+      ]
+    },
+    {
+      "id": "mallet",
+      "name": "Mallet",
+      "tokens": [
+        {
+          "line1": "Extended Reach"
+        },
+        {
+          "line1": "Football Legend"
+        },
+        {
+          "line1": "Forceful Blow"
+        },
+        {
+          "line1": "Singled Out"
+        },
+        {
+          "line1": "Smashed Shins"
+        }
+      ]
+    },
+    {
+      "id": "tower",
+      "name": "Tower",
+      "tokens": [
+        {
+          "line1": "Floored"
+        },
+        {
+          "line1": "Knockback"
+        },
+        {
+          "line1": "Quoining"
+        },
+        {
+          "line1": "Protect Those Close"
+        }
+      ]
+    },
+    {
+      "id": "bucker",
+      "name": "Bucker",
+      "tokens": [
+        {
+          "line1": "Anatomical Precision"
+        },
+        {
+          "line1": "Splitting Strikes"
+        },
+        {
+          "line1": "Hew Do They Think They Are"
+        },
+        {
+          "line1": "Hoisting and Hauling"
+        },
+        {
+          "line1": "Axe A Question"
+        }
+      ]
+    },
+    {
+      "id": "tinder",
+      "name": "Tinder",
+      "tokens": [
+        {
+          "line1": "Synchronised"
+        },
+        {
+          "line1": "Putting Out Fires"
+        },
+        {
+          "line1": "Swipe Right"
+        },
+        {
+          "line1": "Skidding"
+        },
+        {
+          "line1": "This Should Be Overtime..."
+        }
+      ]
+    }
+  ],
+  "genericTokens": []
+}

@@ -1,0 +1,170 @@
+{
+  "guildId": "ratcatchers",
+  "name": "Ratcatchers",
+  "color": "#1d2022",
+  "characters": [
+    {
+      "id": "bonesaw",
+      "name": "Bonesaw",
+      "tokens": [
+        {
+          "line1": "Dread Omen"
+        },
+        {
+          "line1": "Stamina"
+        },
+        {
+          "line1": "Wraith Walk"
+        },
+        {
+          "line1": "Spirit Strings"
+        },
+        {
+          "line1": "Grave Wind"
+        }
+      ]
+    },
+    {
+      "id": "vgraves",
+      "name": "Graves (Veteran)",
+      "tokens": [
+        {
+          "line1": "Exhaustion"
+        },
+        {
+          "line1": "Mischief’s Call"
+        },
+        {
+          "line1": "They Ain't Tough!"
+        },
+        {
+          "line1": "Packmaster"
+        }
+      ]
+    },
+    {
+      "id": "piper",
+      "name": "Piper",
+      "tokens": [
+        {
+          "line1": "Haunting Melody"
+        },
+        {
+          "line1": "Pay the Piper"
+        },
+        {
+          "line1": "Reverie"
+        },
+        {
+          "line1": "Distracting Tune"
+        },
+        {
+          "line1": "Swarm’s Obedience"
+        }
+      ]
+    },
+    {
+      "id": "squeak",
+      "name": "Squeak",
+      "tokens": [
+        {
+          "line1": "Predatory Instinct"
+        },
+        {
+          "line1": "Tag Along"
+        },
+        {
+          "line1": "Dreadful Shriek"
+        },
+        {
+          "line1": "The Rat King"
+        }
+      ]
+    },
+    {
+      "id": "miasma",
+      "name": "Miasma",
+      "tokens": [
+        {
+          "line1": "Carrier"
+        },
+        {
+          "line1": "Salve"
+        },
+        {
+          "line1": "Virulent Strain"
+        },
+        {
+          "line1": "Erupting Sores"
+        },
+        {
+          "line1": "Rataclysm"
+        }
+      ]
+    },
+    {
+      "id": "pelage",
+      "name": "Pelage",
+      "tokens": [
+        {
+          "line1": "Cloak of Rats"
+        },
+        {
+          "line1": "Empathy"
+        },
+        {
+          "line1": "Grim Caress"
+        },
+        {
+          "line1": "Killer"
+        },
+        {
+          "line1": "Singled Out"
+        }
+      ]
+    },
+    {
+      "id": "scourge",
+      "name": "Scourge",
+      "tokens": [
+        {
+          "line1": "Carrier"
+        },
+        {
+          "line1": "Good Feet, for a Big Man"
+        },
+        {
+          "line1": "Plague Ridden"
+        },
+        {
+          "line1": "Tough Hide"
+        },
+        {
+          "line1": "Snack Break"
+        }
+      ]
+    },
+    {
+      "id": "skulk",
+      "name": "Skulk",
+      "tokens": [
+        {
+          "line1": "Follow Up"
+        },
+        {
+          "line1": "Lightning Reflexes"
+        },
+        {
+          "line1": "Poised"
+        },
+        {
+          "line1": "Horrific Odour"
+        },
+        {
+          "line1": "Pest Control"
+        }
+      ]
+    }
+  ],
+  "genericTokens": []
+}

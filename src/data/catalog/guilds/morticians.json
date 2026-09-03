@@ -1,0 +1,371 @@
+{
+  "guildId": "morticians",
+  "name": "Morticians",
+  "color": "#1d2022",
+  "characters": [
+    {
+      "id": "obulus",
+      "name": "Obulus",
+      "tokens": [
+        {
+          "line1": "Confidence"
+        },
+        {
+          "line1": "Shadow Like"
+        },
+        {
+          "line1": "Unpredictable Movement"
+        },
+        {
+          "line1": "Misdirection"
+        },
+        {
+          "line1": "Puppet Master"
+        },
+        {
+          "line1": "Rigor Mortis"
+        }
+      ]
+    },
+    {
+      "id": "scalpel",
+      "name": "Scalpel",
+      "tokens": [
+        {
+          "line1": "Anatomical Precision"
+        },
+        {
+          "line1": "Voodoo Strings"
+        },
+        {
+          "line1": "Second Wind"
+        },
+        {
+          "line1": "Spirit Bomb"
+        },
+        {
+          "line1": "Vulnerable Prey"
+        }
+      ]
+    },
+    {
+      "id": "mourn",
+      "name": "Mourn",
+      "tokens": [
+        {
+          "line1": "Creeping Dread"
+        },
+        {
+          "line1": "Grave Candle"
+        },
+        {
+          "line1": "Poltergeists"
+        },
+        {
+          "line1": "Haunting Gaze"
+        },
+        {
+          "line1": "Hollowed"
+        },
+        {
+          "line1": "Malice"
+        }
+      ]
+    },
+    {
+      "id": "dirge",
+      "name": "Dirge",
+      "tokens": [
+        {
+          "line1": "Dark Doubts"
+        },
+        {
+          "line1": "Flying"
+        },
+        {
+          "line1": "Tag Along"
+        },
+        {
+          "line1": "Singled Out"
+        }
+      ]
+    },
+    {
+      "id": "vileswarm",
+      "name": "Vileswarm",
+      "tokens": [
+        {
+          "line1": "Noxious Death"
+        },
+        {
+          "line1": "Rabid Frenzy"
+        },
+        {
+          "line1": "Verminthirst"
+        },
+        {
+          "line1": "Scatter"
+        }
+      ]
+    },
+    {
+      "id": "bonesaw",
+      "name": "Bonesaw",
+      "tokens": [
+        {
+          "line1": "Dread Omen"
+        },
+        {
+          "line1": "Stamina"
+        },
+        {
+          "line1": "Wraith Walk"
+        },
+        {
+          "line1": "Spirit Strings"
+        },
+        {
+          "line1": "Grave Wind"
+        }
+      ]
+    },
+    {
+      "id": "brainpan",
+      "name": "Brainpan",
+      "tokens": [
+        {
+          "line1": "One, Two!"
+        },
+        {
+          "line1": "Thought"
+        },
+        {
+          "line1": "I'm Open!"
+        },
+        {
+          "line1": "Puppet Show"
+        },
+        {
+          "line1": "Pulling the Strings"
+        }
+      ]
+    },
+    {
+      "id": "memory",
+      "name": "Memory",
+      "tokens": [
+        {
+          "line1": "Benched"
+        },
+        {
+          "line1": "Control Strings"
+        },
+        {
+          "line1": "Inanimate Object"
+        }
+      ]
+    },
+    {
+      "id": "casket",
+      "name": "Casket",
+      "tokens": [
+        {
+          "line1": "Foul Odour"
+        },
+        {
+          "line1": "Reanimate"
+        },
+        {
+          "line1": "Tough Hide"
+        },
+        {
+          "line1": "Ghostly Visage"
+        },
+        {
+          "line1": "Heavy Burden"
+        },
+        {
+          "line1": "Casket Time"
+        }
+      ]
+    },
+    {
+      "id": "cosset",
+      "name": "Cosset",
+      "tokens": [
+        {
+          "line1": "Assist"
+        },
+        {
+          "line1": "Furious"
+        },
+        {
+          "line1": "Murder Spree"
+        },
+        {
+          "line1": "Carrion Call"
+        },
+        {
+          "line1": "Lure"
+        }
+      ]
+    },
+    {
+      "id": "gaffer",
+      "name": "Gaffer",
+      "tokens": [
+        {
+          "line1": "The Knowledge"
+        },
+        {
+          "line1": "Careless Whisper"
+        },
+        {
+          "line1": "Red Fury"
+        },
+        {
+          "line1": "Handy Listener, Such As You Are"
+        }
+      ]
+    },
+    {
+      "id": "ghast",
+      "name": "Ghast",
+      "tokens": [
+        {
+          "line1": "Fear"
+        },
+        {
+          "line1": "Rising Anger"
+        },
+        {
+          "line1": "The Unmasking"
+        }
+      ]
+    },
+    {
+      "id": "graves",
+      "name": "Graves",
+      "tokens": [
+        {
+          "line1": "Brutal"
+        },
+        {
+          "line1": "Finisher"
+        },
+        {
+          "line1": "Dismember"
+        },
+        {
+          "line1": "Go For The Throat"
+        },
+        {
+          "line1": "Tainted Wounds"
+        }
+      ]
+    },
+    {
+      "id": "vgraves",
+      "name": "Graves (Veteran)",
+      "tokens": [
+        {
+          "line1": "Exhaustion"
+        },
+        {
+          "line1": "Mischief’s Call"
+        },
+        {
+          "line1": "They Ain't Tough!"
+        },
+        {
+          "line1": "Packmaster"
+        }
+      ]
+    },
+    {
+      "id": "vhemlocke",
+      "name": "Hemlocke (Veteran)",
+      "tokens": [
+        {
+          "line1": "Dark Doubts"
+        },
+        {
+          "line1": "Soul Seer"
+        },
+        {
+          "line1": "Blind"
+        },
+        {
+          "line1": "Smelling Salts"
+        },
+        {
+          "line1": "The Power of Voodoo"
+        }
+      ]
+    },
+    {
+      "id": "silence",
+      "name": "Silence",
+      "tokens": [
+        {
+          "line1": "Kick Support"
+        },
+        {
+          "line1": "Tenacity"
+        },
+        {
+          "line1": "Fire Blast"
+        },
+        {
+          "line1": "Shutout"
+        },
+        {
+          "line1": "Tucked"
+        }
+      ]
+    },
+    {
+      "id": "pelage",
+      "name": "Pelage",
+      "tokens": [
+        {
+          "line1": "Cloak of Rats"
+        },
+        {
+          "line1": "Empathy"
+        },
+        {
+          "line1": "Grim Caress"
+        },
+        {
+          "line1": "Killer"
+        },
+        {
+          "line1": "Singled Out"
+        }
+      ]
+    },
+    {
+      "id": "skulk",
+      "name": "Skulk",
+      "tokens": [
+        {
+          "line1": "Follow Up"
+        },
+        {
+          "line1": "Lightning Reflexes"
+        },
+        {
+          "line1": "Poised"
+        },
+        {
+          "line1": "Horrific Odour"
+        },
+        {
+          "line1": "Pest Control"
+        }
+      ]
+    }
+  ],
+  "genericTokens": []
+}

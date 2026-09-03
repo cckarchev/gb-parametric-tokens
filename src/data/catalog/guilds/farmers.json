@@ -1,0 +1,335 @@
+{
+  "guildId": "farmers",
+  "name": "Farmers",
+  "color": "#ea8329",
+  "characters": [
+    {
+      "id": "thresher",
+      "name": "Thresher",
+      "tokens": [
+        {
+          "line1": "Crow Scarer"
+        },
+        {
+          "line1": "Don't Fear The..."
+        },
+        {
+          "line1": "Scything March"
+        },
+        {
+          "line1": "They Ain't Tough!"
+        },
+        {
+          "line1": "Against the Grain"
+        }
+      ]
+    },
+    {
+      "id": "grange",
+      "name": "Grange",
+      "tokens": [
+        {
+          "line1": "For the Family"
+        },
+        {
+          "line1": "Planting Master"
+        },
+        {
+          "line1": "Constitution"
+        },
+        {
+          "line1": "Help 'Em Out"
+        },
+        {
+          "line1": "Huge Tracts of Land"
+        }
+      ]
+    },
+    {
+      "id": "festival",
+      "name": "Festival",
+      "tokens": [
+        {
+          "line1": "Lend a Hand"
+        },
+        {
+          "line1": "Harvest Supper"
+        },
+        {
+          "line1": "Planting Master"
+        },
+        {
+          "line1": "Hare in the Field"
+        },
+        {
+          "line1": "Our Tools Are Sharp"
+        },
+        {
+          "line1": "Line Dancing"
+        }
+      ]
+    },
+    {
+      "id": "peck",
+      "name": "Peck",
+      "tokens": [
+        {
+          "line1": "Pain Response"
+        },
+        {
+          "line1": "Cocksure"
+        },
+        {
+          "line1": "Annoyance"
+        },
+        {
+          "line1": "When the Cock Crows..."
+        }
+      ]
+    },
+    {
+      "id": "buckwheat",
+      "name": "Buckwheat",
+      "tokens": [
+        {
+          "line1": "Ass Kicking"
+        },
+        {
+          "line1": "Carrot & Stick"
+        },
+        {
+          "line1": "Stoic"
+        }
+      ]
+    },
+    {
+      "id": "amber",
+      "name": "Amber",
+      "tokens": [
+        {
+          "line1": "Left Boot"
+        },
+        {
+          "line1": "One of Our Own"
+        },
+        {
+          "line1": "Swerve Shot"
+        }
+      ]
+    },
+    {
+      "id": "bushel",
+      "name": "Bushel",
+      "tokens": [
+        {
+          "line1": "Cabbage Punt"
+        },
+        {
+          "line1": "Close Control"
+        },
+        {
+          "line1": "Ball's Gone!"
+        },
+        {
+          "line1": "I'm Open!"
+        }
+      ]
+    },
+    {
+      "id": "fallow",
+      "name": "Fallow",
+      "tokens": [
+        {
+          "line1": "Between a Rock..."
+        },
+        {
+          "line1": "Making Hay"
+        },
+        {
+          "line1": "Protective Instinct"
+        },
+        {
+          "line1": "With Age Comes Wisdom"
+        },
+        {
+          "line1": "Get Stuck In!"
+        }
+      ]
+    },
+    {
+      "id": "harrow",
+      "name": "Harrow",
+      "tokens": [
+        {
+          "line1": "Planting Season"
+        },
+        {
+          "line1": "Rejuvenation"
+        },
+        {
+          "line1": "Pick of the Crop"
+        },
+        {
+          "line1": "Sow the Seeds"
+        },
+        {
+          "line1": "Maximum Effort"
+        }
+      ]
+    },
+    {
+      "id": "vhonour",
+      "name": "Honour (Veteran)",
+      "tokens": [
+        {
+          "line1": "Faithful Protector"
+        },
+        {
+          "line1": "Fields of Wheat"
+        },
+        {
+          "line1": "Planting Season"
+        },
+        {
+          "line1": "Smelling Salts"
+        },
+        {
+          "line1": "Surpassing Strategy"
+        }
+      ]
+    },
+    {
+      "id": "jackstraw",
+      "name": "Jackstraw",
+      "tokens": [
+        {
+          "line1": "If I Only Had a Brain"
+        },
+        {
+          "line1": "The Last Straw"
+        },
+        {
+          "line1": "Reanimate"
+        },
+        {
+          "line1": "At Your Post"
+        },
+        {
+          "line1": "Crop Dusting"
+        }
+      ]
+    },
+    {
+      "id": "millstone",
+      "name": "Millstone",
+      "tokens": [
+        {
+          "line1": "Battering Ram"
+        },
+        {
+          "line1": "Planting Season"
+        },
+        {
+          "line1": "Take One for the Team"
+        },
+        {
+          "line1": "Get In the Goal!"
+        }
+      ]
+    },
+    {
+      "id": "ploughman",
+      "name": "Ploughman",
+      "tokens": [
+        {
+          "line1": "Fertile Soil"
+        },
+        {
+          "line1": "Planting Season"
+        },
+        {
+          "line1": "True Path"
+        },
+        {
+          "line1": "Broken Earth"
+        }
+      ]
+    },
+    {
+      "id": "tater",
+      "name": "Tater",
+      "tokens": [
+        {
+          "line1": "Fork Off!"
+        },
+        {
+          "line1": "Make It Rain"
+        },
+        {
+          "line1": "Sweeping Charge"
+        },
+        {
+          "line1": "Mow Down"
+        }
+      ]
+    },
+    {
+      "id": "windle",
+      "name": "Windle",
+      "tokens": [
+        {
+          "line1": "Berserk"
+        },
+        {
+          "line1": "Big Breakfast"
+        },
+        {
+          "line1": "Empathy"
+        },
+        {
+          "line1": "Snack Break"
+        }
+      ]
+    },
+    {
+      "id": "lamb",
+      "name": "Lamb",
+      "tokens": [
+        {
+          "line1": "Planting Master"
+        },
+        {
+          "line1": "Workhorse"
+        },
+        {
+          "line1": "Warming Oven"
+        },
+        {
+          "line1": "Sow the Seeds"
+        },
+        {
+          "line1": "Weak Point"
+        }
+      ]
+    },
+    {
+      "id": "shearer",
+      "name": "Shearer",
+      "tokens": [
+        {
+          "line1": "All About The Game"
+        },
+        {
+          "line1": "Football Legend"
+        },
+        {
+          "line1": "Shearing"
+        },
+        {
+          "line1": "Ball's Gone!"
+        }
+      ]
+    }
+  ],
+  "genericTokens": []
+}

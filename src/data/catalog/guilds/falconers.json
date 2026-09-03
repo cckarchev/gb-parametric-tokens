@@ -1,0 +1,164 @@
+{
+  "guildId": "falconers",
+  "name": "Falconers",
+  "color": "#39653b",
+  "characters": [
+    {
+      "id": "egret",
+      "name": "Egret",
+      "tokens": [
+        {
+          "line1": "Back to the Shadows"
+        },
+        {
+          "line1": "Swift Strikes"
+        },
+        {
+          "line1": "Venomous Strike"
+        },
+        {
+          "line1": "Flurry"
+        },
+        {
+          "line1": "Snap Fire"
+        }
+      ]
+    },
+    {
+      "id": "vhearne",
+      "name": "Hearne (Veteran)",
+      "tokens": [
+        {
+          "line1": "Last Light"
+        },
+        {
+          "line1": "Lunar Eclipse"
+        },
+        {
+          "line1": "Winter's Blessing"
+        },
+        {
+          "line1": "Skewered"
+        }
+      ]
+    },
+    {
+      "id": "devana",
+      "name": "Devana",
+      "tokens": [
+        {
+          "line1": "Assist"
+        },
+        {
+          "line1": "Death from Above"
+        },
+        {
+          "line1": "Air Mail"
+        },
+        {
+          "line1": "Deadly Wings"
+        },
+        {
+          "line1": "Hack Back"
+        },
+        {
+          "line1": "Daughter of Falcons"
+        }
+      ]
+    },
+    {
+      "id": "frelsi",
+      "name": "Frelsi",
+      "tokens": [
+        {
+          "line1": "Flying"
+        },
+        {
+          "line1": "Hunter's Prey"
+        },
+        {
+          "line1": "Loved Creature"
+        }
+      ]
+    },
+    {
+      "id": "ikaros",
+      "name": "Ikaros",
+      "tokens": [
+        {
+          "line1": "Close Control"
+        },
+        {
+          "line1": "Feathered Friends"
+        },
+        {
+          "line1": "Flying"
+        },
+        {
+          "line1": "Harrier"
+        },
+        {
+          "line1": "Taking Flight"
+        }
+      ]
+    },
+    {
+      "id": "mataagi",
+      "name": "Mataagi",
+      "tokens": [
+        {
+          "line1": "Crucial Artery"
+        },
+        {
+          "line1": "Hawk Eye"
+        },
+        {
+          "line1": "Light Footed"
+        },
+        {
+          "line1": "Harrier"
+        },
+        {
+          "line1": "Snap Fire"
+        }
+      ]
+    },
+    {
+      "id": "minerva",
+      "name": "Minerva",
+      "tokens": [
+        {
+          "line1": "Feathered Friends"
+        },
+        {
+          "line1": "Nocturnal Hunting"
+        },
+        {
+          "line1": "Eye Spy"
+        },
+        {
+          "line1": "Harrier"
+        }
+      ]
+    },
+    {
+      "id": "rundaas",
+      "name": "Rundaas",
+      "tokens": [
+        {
+          "line1": "Shadow Like"
+        },
+        {
+          "line1": "Tough Hide"
+        },
+        {
+          "line1": "Dirty Knives"
+        },
+        {
+          "line1": "Harrier"
+        }
+      ]
+    }
+  ],
+  "genericTokens": []
+}

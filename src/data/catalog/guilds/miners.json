@@ -1,0 +1,176 @@
+{
+  "guildId": "miners",
+  "name": "Miners",
+  "color": "#76151e",
+  "characters": [
+    {
+      "id": "colossus",
+      "name": "Colossus",
+      "tokens": [
+        {
+          "line1": "Close Control"
+        },
+        {
+          "line1": "Light Footed"
+        },
+        {
+          "line1": "Stoic"
+        },
+        {
+          "line1": "Tough Hide"
+        },
+        {
+          "line1": "Singled Out"
+        },
+        {
+          "line1": "Unexpected Arrival"
+        }
+      ]
+    },
+    {
+      "id": "salvo",
+      "name": "Salvo",
+      "tokens": [
+        {
+          "line1": "Swift Strikes"
+        },
+        {
+          "line1": "Arrow to the Knee"
+        },
+        {
+          "line1": "Floored Bolt"
+        },
+        {
+          "line1": "Tether Ball"
+        },
+        {
+          "line1": "Locked & Loaded"
+        }
+      ]
+    },
+    {
+      "id": "shaft",
+      "name": "Shaft",
+      "tokens": [
+        {
+          "line1": "Guild Rule: Secret Tunnel"
+        },
+        {
+          "line1": "Tough Hide"
+        },
+        {
+          "line1": "Lodestone"
+        },
+        {
+          "line1": "Weak Point"
+        },
+        {
+          "line1": "We’re Going Underground"
+        }
+      ]
+    },
+    {
+      "id": "digger",
+      "name": "Digger",
+      "tokens": [
+        {
+          "line1": "Guild Rule: Secret Tunnel"
+        },
+        {
+          "line1": "Close Control"
+        },
+        {
+          "line1": "Stop, Drop, and Mole"
+        },
+        {
+          "line1": "Diggy Hole"
+        }
+      ]
+    },
+    {
+      "id": "fissure",
+      "name": "Fissure",
+      "tokens": [
+        {
+          "line1": "Guild Rule: Secret Tunnel"
+        },
+        {
+          "line1": "You're Coming With Me"
+        },
+        {
+          "line1": "Grinding Tracks"
+        },
+        {
+          "line1": "Sinkhole"
+        },
+        {
+          "line1": "Tremor Mine"
+        }
+      ]
+    },
+    {
+      "id": "fuse",
+      "name": "Fuse",
+      "tokens": [
+        {
+          "line1": "Guild Rule: Secret Tunnel"
+        },
+        {
+          "line1": "Remote Detonation"
+        },
+        {
+          "line1": "Sapper's Instincts"
+        },
+        {
+          "line1": "Clear!"
+        },
+        {
+          "line1": "Under the Lines"
+        }
+      ]
+    },
+    {
+      "id": "mule",
+      "name": "Mule",
+      "tokens": [
+        {
+          "line1": "Guild Rule: Secret Tunnel"
+        },
+        {
+          "line1": "Reanimate"
+        },
+        {
+          "line1": "Tough Hide"
+        },
+        {
+          "line1": "Lockdown"
+        },
+        {
+          "line1": "Throw"
+        }
+      ]
+    },
+    {
+      "id": "spade",
+      "name": "Spade",
+      "tokens": [
+        {
+          "line1": "Guild Rule: Secret Tunnel"
+        },
+        {
+          "line1": "Close Control"
+        },
+        {
+          "line1": "Tutelage"
+        },
+        {
+          "line1": "Diggy Hole"
+        },
+        {
+          "line1": "Destructive Impulse"
+        }
+      ]
+    }
+  ],
+  "genericTokens": []
+}

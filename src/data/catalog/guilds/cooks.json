@@ -1,0 +1,158 @@
+{
+  "guildId": "cooks",
+  "name": "Cooks",
+  "color": "#eb2629",
+  "characters": [
+    {
+      "id": "shank",
+      "name": "Shank",
+      "tokens": [
+        {
+          "line1": "Damaged Target"
+        },
+        {
+          "line1": "Thousand Cuts"
+        },
+        {
+          "line1": "Where'd They Go?"
+        }
+      ]
+    },
+    {
+      "id": "tenderiser",
+      "name": "Tenderiser",
+      "tokens": [
+        {
+          "line1": "Goal Defence"
+        },
+        {
+          "line1": "Nose Out of Joint"
+        },
+        {
+          "line1": "Ground Pound"
+        }
+      ]
+    },
+    {
+      "id": "wellington",
+      "name": "Wellington",
+      "tokens": [
+        {
+          "line1": "Guild Rule: Intimidation"
+        },
+        {
+          "line1": "Scathing Rebuke"
+        },
+        {
+          "line1": "Chef's Special"
+        },
+        {
+          "line1": "Singled Out"
+        },
+        {
+          "line1": "Master Chef"
+        }
+      ]
+    },
+    {
+      "id": "pepper",
+      "name": "Pepper",
+      "tokens": [
+        {
+          "line1": "Guild Rule: Intimidation"
+        },
+        {
+          "line1": "Feral"
+        },
+        {
+          "line1": "Vicious"
+        },
+        {
+          "line1": "Where'd They Go?"
+        }
+      ]
+    },
+    {
+      "id": "cinnamon",
+      "name": "Cinnamon",
+      "tokens": [
+        {
+          "line1": "Guild Rule: Intimidation"
+        },
+        {
+          "line1": "Anatomical Precision"
+        },
+        {
+          "line1": "Acrobatic"
+        },
+        {
+          "line1": "Get Set, BAKE!"
+        }
+      ]
+    },
+    {
+      "id": "roast",
+      "name": "Roast",
+      "tokens": [
+        {
+          "line1": "Guild Rule: Intimidation"
+        },
+        {
+          "line1": "Big Belly"
+        },
+        {
+          "line1": "Resilience"
+        },
+        {
+          "line1": "Get It While It's Hot"
+        },
+        {
+          "line1": "Turn Up the Heat"
+        }
+      ]
+    },
+    {
+      "id": "spice",
+      "name": "Spice",
+      "tokens": [
+        {
+          "line1": "Guild Rule: Intimidation"
+        },
+        {
+          "line1": "Assist"
+        },
+        {
+          "line1": "Berserk"
+        },
+        {
+          "line1": "Intensify"
+        },
+        {
+          "line1": "Turn Up the Heat"
+        }
+      ]
+    },
+    {
+      "id": "sugar",
+      "name": "Sugar",
+      "tokens": [
+        {
+          "line1": "Guild Rule: Intimidation"
+        },
+        {
+          "line1": "Icing on the Cake"
+        },
+        {
+          "line1": "Sturdy"
+        },
+        {
+          "line1": "Chef's Special"
+        },
+        {
+          "line1": "Chilli Cook Out"
+        }
+      ]
+    }
+  ],
+  "genericTokens": []
+}

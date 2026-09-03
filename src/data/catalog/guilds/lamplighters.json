@@ -1,0 +1,173 @@
+{
+  "guildId": "lamplighters",
+  "name": "Lamplighters",
+  "color": "#00994a",
+  "characters": [
+    {
+      "id": "crucible",
+      "name": "Crucible",
+      "tokens": [
+        {
+          "line1": "Chemical Admixture"
+        },
+        {
+          "line1": "Covalence"
+        },
+        {
+          "line1": "Reactive Solution"
+        },
+        {
+          "line1": "Acrobatic"
+        },
+        {
+          "line1": "Great Balls of Fire"
+        }
+      ]
+    },
+    {
+      "id": "mercury",
+      "name": "Mercury",
+      "tokens": [
+        {
+          "line1": "Burning Spirit"
+        },
+        {
+          "line1": "Fission"
+        },
+        {
+          "line1": "Fusion"
+        },
+        {
+          "line1": "Fire Blast"
+        },
+        {
+          "line1": "Fire Ball"
+        }
+      ]
+    },
+    {
+      "id": "nightlight",
+      "name": "Nightlight",
+      "tokens": [
+        {
+          "line1": "Back to Black"
+        },
+        {
+          "line1": "Blinded by the Light"
+        },
+        {
+          "line1": "Flare Out"
+        },
+        {
+          "line1": "Lens Flare"
+        },
+        {
+          "line1": "Relight the Fire"
+        },
+        {
+          "line1": "Eternal Flame"
+        }
+      ]
+    },
+    {
+      "id": "soot",
+      "name": "Soot",
+      "tokens": [
+        {
+          "line1": "Flying"
+        },
+        {
+          "line1": "Test Subject"
+        },
+        {
+          "line1": "Eye Spy"
+        },
+        {
+          "line1": "Taking Flight"
+        }
+      ]
+    },
+    {
+      "id": "beacon",
+      "name": "Beacon",
+      "tokens": [
+        {
+          "line1": "The Ladderman Cometh"
+        },
+        {
+          "line1": "Light Goes On"
+        },
+        {
+          "line1": "Light Goes Off"
+        },
+        {
+          "line1": "Mow Down"
+        },
+        {
+          "line1": "Relight the Fire"
+        }
+      ]
+    },
+    {
+      "id": "wick",
+      "name": "Wick",
+      "tokens": [
+        {
+          "line1": "Extraction"
+        },
+        {
+          "line1": "Ring of Fire"
+        },
+        {
+          "line1": "Spotlight"
+        },
+        {
+          "line1": "Burn Baby Burn"
+        }
+      ]
+    },
+    {
+      "id": "heat",
+      "name": "Heat",
+      "tokens": [
+        {
+          "line1": "Afterglow"
+        },
+        {
+          "line1": "Now You See Me..."
+        },
+        {
+          "line1": "Reactive Solution"
+        },
+        {
+          "line1": "I'm Open!"
+        },
+        {
+          "line1": "Flame Jet"
+        }
+      ]
+    },
+    {
+      "id": "phosphor",
+      "name": "Phosphor",
+      "tokens": [
+        {
+          "line1": "Clumsy"
+        },
+        {
+          "line1": "Flame On"
+        },
+        {
+          "line1": "Flash Point"
+        },
+        {
+          "line1": "Alchemical Bomb"
+        },
+        {
+          "line1": "Fulcrum"
+        }
+      ]
+    }
+  ],
+  "genericTokens": []
+}

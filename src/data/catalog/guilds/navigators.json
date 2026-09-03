@@ -1,0 +1,176 @@
+{
+  "guildId": "navigators",
+  "name": "Navigators",
+  "color": "#50b8c8",
+  "characters": [
+    {
+      "id": "angel",
+      "name": "Angel",
+      "tokens": [
+        {
+          "line1": "Get Over Here"
+        },
+        {
+          "line1": "Prodigy"
+        },
+        {
+          "line1": "Untouchable"
+        },
+        {
+          "line1": "Nimble"
+        },
+        {
+          "line1": "Super Shot"
+        }
+      ]
+    },
+    {
+      "id": "siren",
+      "name": "Siren",
+      "tokens": [
+        {
+          "line1": "Beautiful"
+        },
+        {
+          "line1": "Protected"
+        },
+        {
+          "line1": "Lure"
+        },
+        {
+          "line1": "Seduced"
+        }
+      ]
+    },
+    {
+      "id": "windfinder",
+      "name": "Windfinder",
+      "tokens": [
+        {
+          "line1": "Guild Rule: Precise Calculations"
+        },
+        {
+          "line1": "Stormwind"
+        },
+        {
+          "line1": "Eye Spy"
+        },
+        {
+          "line1": "Full Speed Ahead"
+        },
+        {
+          "line1": "Perfect Course"
+        }
+      ]
+    },
+    {
+      "id": "wander",
+      "name": "Wander",
+      "tokens": [
+        {
+          "line1": "Guild Rule: Precise Calculations"
+        },
+        {
+          "line1": "About Their Necks"
+        },
+        {
+          "line1": "Flying"
+        },
+        {
+          "line1": "Guide"
+        }
+      ]
+    },
+    {
+      "id": "azimuth",
+      "name": "Azimuth",
+      "tokens": [
+        {
+          "line1": "Guild Rule: Precise Calculations"
+        },
+        {
+          "line1": "Close Control"
+        },
+        {
+          "line1": "Gladiator"
+        },
+        {
+          "line1": "Poised"
+        },
+        {
+          "line1": "Disarm"
+        },
+        {
+          "line1": "Netted"
+        }
+      ]
+    },
+    {
+      "id": "ebb",
+      "name": "Ebb",
+      "tokens": [
+        {
+          "line1": "Guild Rule: Precise Calculations"
+        },
+        {
+          "line1": "Blessings of Old"
+        },
+        {
+          "line1": "True Path"
+        },
+        {
+          "line1": "Sharp Eyes"
+        },
+        {
+          "line1": "Grasping Earth"
+        },
+        {
+          "line1": "Sprung a Leak"
+        }
+      ]
+    },
+    {
+      "id": "fathom",
+      "name": "Fathom",
+      "tokens": [
+        {
+          "line1": "Guild Rule: Precise Calculations"
+        },
+        {
+          "line1": "Light Footed"
+        },
+        {
+          "line1": "Linked"
+        },
+        {
+          "line1": "Acrobatic"
+        },
+        {
+          "line1": "Smelling Salts"
+        },
+        {
+          "line1": "Waverunner"
+        }
+      ]
+    },
+    {
+      "id": "horizon",
+      "name": "Horizon",
+      "tokens": [
+        {
+          "line1": "Guild Rule: Precise Calculations"
+        },
+        {
+          "line1": "Don't Get Cocky"
+        },
+        {
+          "line1": "Stellar Navigation"
+        },
+        {
+          "line1": "Unexpected Arrival"
+        }
+      ]
+    }
+  ],
+  "genericTokens": []
+}

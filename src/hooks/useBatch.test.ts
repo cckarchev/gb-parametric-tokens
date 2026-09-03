@@ -78,27 +78,11 @@ describe("useBatch", () => {
     });
   });
 
-  // TEMPORARY: Brewers auto-selects on mount so the batch flow has something loaded on open,
-  // until there's a real guild picker / persisted last-selected-guild. See useBatch.ts's
-  // TEMPORARY_DEFAULT_GUILD_ID.
-  it("auto-selects Brewers as a temporary default once the guild list loads", async () => {
+  it("does not select a guild before the user picks one", async () => {
     const { result } = renderHook(() => useBatch());
 
     await vi.waitFor(() => {
-      expect(result.current.catalogStatus).toBe("ready");
-    });
-
-    expect(result.current.selectedGuildId).toBe("brewers");
-    expect(loadGuildCatalog).toHaveBeenCalledWith("brewers");
-  });
-
-  it("does not auto-select a guild when Brewers is not in the loaded guild list", async () => {
-    vi.mocked(listAvailableGuilds).mockResolvedValue([{ id: "other-guild", name: "Other Guild" }]);
-
-    const { result } = renderHook(() => useBatch());
-
-    await vi.waitFor(() => {
-      expect(result.current.guilds).toEqual([{ id: "other-guild", name: "Other Guild" }]);
+      expect(result.current.guilds).toEqual([{ id: "brewers", name: "Brewers" }]);
     });
 
     expect(result.current.selectedGuildId).toBeUndefined();

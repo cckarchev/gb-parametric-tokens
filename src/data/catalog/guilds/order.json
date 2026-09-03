@@ -1,0 +1,164 @@
+{
+  "guildId": "order",
+  "name": "Order",
+  "color": "#ebed1a",
+  "characters": [
+    {
+      "id": "sbrisket",
+      "name": "Brisket (Seasoned)",
+      "tokens": [
+        {
+          "line1": "Scores for Fun"
+        },
+        {
+          "line1": "Unpredictable Movement"
+        },
+        {
+          "line1": "I'm Open!"
+        },
+        {
+          "line1": "Route One"
+        },
+        {
+          "line1": "With Aplomb"
+        },
+        {
+          "line1": "Worthy Sacrifice"
+        }
+      ]
+    },
+    {
+      "id": "pride",
+      "name": "Pride",
+      "tokens": [
+        {
+          "line1": "Rush Keeper"
+        },
+        {
+          "line1": "Feral Instincts"
+        },
+        {
+          "line1": "Predatory Gaze"
+        }
+      ]
+    },
+    {
+      "id": "benediction",
+      "name": "Benediction",
+      "tokens": [
+        {
+          "line1": "Playmaker"
+        },
+        {
+          "line1": "Poised"
+        },
+        {
+          "line1": "Rapid Growth"
+        },
+        {
+          "line1": "Braced"
+        },
+        {
+          "line1": "Stand Firm"
+        }
+      ]
+    },
+    {
+      "id": "vfangtooth",
+      "name": "Fangtooth (Veteran)",
+      "tokens": [
+        {
+          "line1": "Flagellant"
+        },
+        {
+          "line1": "Potbellied Pass"
+        },
+        {
+          "line1": "Resilience"
+        },
+        {
+          "line1": "Ground Pound"
+        }
+      ]
+    },
+    {
+      "id": "grace",
+      "name": "Grace",
+      "tokens": [
+        {
+          "line1": "Impart Faith"
+        },
+        {
+          "line1": "Talisman"
+        },
+        {
+          "line1": "Healing Light"
+        },
+        {
+          "line1": "Quick Foot"
+        },
+        {
+          "line1": "Reclamation"
+        }
+      ]
+    },
+    {
+      "id": "harry",
+      "name": "Harry ‘the Hat’",
+      "tokens": [
+        {
+          "line1": "Inspiring Hat"
+        },
+        {
+          "line1": "Rising Anger"
+        },
+        {
+          "line1": "Molotov"
+        },
+        {
+          "line1": "Singled Out"
+        }
+      ]
+    },
+    {
+      "id": "mist",
+      "name": "Mist",
+      "tokens": [
+        {
+          "line1": "Cover of Darkness"
+        },
+        {
+          "line1": "Shadow Like"
+        },
+        {
+          "line1": "Skilled within Shadow"
+        },
+        {
+          "line1": "Smoke Bomb"
+        },
+        {
+          "line1": "Shroud of Darkness"
+        }
+      ]
+    },
+    {
+      "id": "sspigot",
+      "name": "Spigot (Seasoned)",
+      "tokens": [
+        {
+          "line1": "Close Control"
+        },
+        {
+          "line1": "Floored"
+        },
+        {
+          "line1": "Ball's Gone!"
+        },
+        {
+          "line1": "Reading the Game"
+        }
+      ]
+    }
+  ],
+  "genericTokens": []
+}

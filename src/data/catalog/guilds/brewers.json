@@ -1,0 +1,336 @@
+{
+  "guildId": "brewers",
+  "name": "Brewers",
+  "color": "#cdb320",
+  "characters": [
+    {
+      "id": "tapper",
+      "name": "Tapper",
+      "tokens": [
+        {
+          "line1": "Commanding Aura",
+          "line2": "4\" Aura +1 TAC +1 DMG"
+        },
+        {
+          "line1": "Marked Target"
+        },
+        {
+          "line1": "Tough Hide"
+        },
+        {
+          "line1": "Old Jake's"
+        }
+      ]
+    },
+    {
+      "id": "esters",
+      "name": "Esters",
+      "tokens": [
+        {
+          "line1": "Resilience"
+        },
+        {
+          "line1": "Aria"
+        },
+        {
+          "line1": "Tooled Up"
+        },
+        {
+          "line1": "Quick Foot"
+        },
+        {
+          "line1": "Voice of Command"
+        },
+        {
+          "line1": "Soothing Voice"
+        }
+      ]
+    },
+    {
+      "id": "corker",
+      "name": "Corker",
+      "tokens": [
+        {
+          "line1": "Spit and Sawdust"
+        },
+        {
+          "line1": "Legless Drunk"
+        },
+        {
+          "line1": "Iron Fist"
+        },
+        {
+          "line1": "Tough Skin"
+        },
+        {
+          "line1": "Whisky Chaser"
+        },
+        {
+          "line1": "Free Bar"
+        }
+      ]
+    },
+    {
+      "id": "scum",
+      "name": "Scum",
+      "tokens": [
+        {
+          "line1": "Feral"
+        },
+        {
+          "line1": "Shadow Like"
+        },
+        {
+          "line1": "Unpredictable Movement"
+        }
+      ]
+    },
+    {
+      "id": "quaff",
+      "name": "Quaff",
+      "tokens": [
+        {
+          "line1": "Pick Me Up"
+        },
+        {
+          "line1": "Loved Creature"
+        },
+        {
+          "line1": "Second Wind"
+        }
+      ]
+    },
+    {
+      "id": "vdecimate",
+      "name": "Decimate (Veteran)",
+      "tokens": [
+        {
+          "line1": "Anatomical Precision"
+        },
+        {
+          "line1": "Tough Hide"
+        },
+        {
+          "line1": "Acrobatic"
+        },
+        {
+          "line1": "Stagger"
+        },
+        {
+          "line1": "Duellist's Lunge"
+        }
+      ]
+    },
+    {
+      "id": "flea",
+      "name": "Flea",
+      "tokens": [
+        {
+          "line1": "Get Over Here"
+        },
+        {
+          "line1": "Who's a Good Boy"
+        },
+        {
+          "line1": "Go Get 'Em!"
+        },
+        {
+          "line1": "Like We Practised"
+        },
+        {
+          "line1": "Animal Treat"
+        }
+      ]
+    },
+    {
+      "id": "friday",
+      "name": "Friday",
+      "tokens": [
+        {
+          "line1": "Defence Support"
+        },
+        {
+          "line1": "Victory Toast"
+        },
+        {
+          "line1": "Shadow Like"
+        },
+        {
+          "line1": "Sliced Tendon"
+        },
+        {
+          "line1": "Sliding Tackle"
+        }
+      ]
+    },
+    {
+      "id": "hooper",
+      "name": "Hooper",
+      "tokens": [
+        {
+          "line1": "Tough Hide"
+        },
+        {
+          "line1": "Shove the Boot In"
+        },
+        {
+          "line1": "Smashed Shins"
+        },
+        {
+          "line1": "Tough Skin"
+        },
+        {
+          "line1": "True Grit"
+        }
+      ]
+    },
+    {
+      "id": "mash",
+      "name": "Mash",
+      "tokens": [
+        {
+          "line1": "Resilience"
+        },
+        {
+          "line1": "Tough Hide"
+        },
+        {
+          "line1": "Howzat!?"
+        },
+        {
+          "line1": "Batter Up"
+        }
+      ]
+    },
+    {
+      "id": "pintpot",
+      "name": "Pintpot",
+      "tokens": [
+        {
+          "line1": "Rowdy"
+        },
+        {
+          "line1": "Six Pack"
+        },
+        {
+          "line1": "Taunt"
+        },
+        {
+          "line1": "Concussion"
+        },
+        {
+          "line1": "Smashing Face"
+        },
+        {
+          "line1": "Come On, Then!"
+        }
+      ]
+    },
+    {
+      "id": "spigot",
+      "name": "Spigot",
+      "tokens": [
+        {
+          "line1": "Time's Called",
+          "line2": "4\" Aura +2\"/+2\" MOV"
+        },
+        {
+          "line1": "Floored"
+        },
+        {
+          "line1": "Tough Hide"
+        },
+        {
+          "line1": "Ball's Gone!"
+        }
+      ]
+    },
+    {
+      "id": "vspigot",
+      "name": "Spigot (Veteran)",
+      "tokens": [
+        {
+          "line1": "Close Control"
+        },
+        {
+          "line1": "Football Legend"
+        },
+        {
+          "line1": "Goad"
+        },
+        {
+          "line1": "Ball's Gone!"
+        },
+        {
+          "line1": "Back to His Best"
+        }
+      ]
+    },
+    {
+      "id": "stave",
+      "name": "Stave",
+      "tokens": [
+        {
+          "line1": "Battering Ram"
+        },
+        {
+          "line1": "Tough Hide"
+        },
+        {
+          "line1": "Lob Barrel"
+        },
+        {
+          "line1": "Explosive Brew"
+        }
+      ]
+    },
+    {
+      "id": "stoker",
+      "name": "Stoker",
+      "tokens": [
+        {
+          "line1": "Burning Passion"
+        },
+        {
+          "line1": "Magical Brew"
+        },
+        {
+          "line1": "Searing Strike"
+        },
+        {
+          "line1": "Molotov"
+        },
+        {
+          "line1": "Flame Jet"
+        },
+        {
+          "line1": "Human Ball of Fire"
+        }
+      ]
+    },
+    {
+      "id": "lucky",
+      "name": "Lucky",
+      "tokens": [
+        {
+          "line1": "Stack the Deck"
+        },
+        {
+          "line1": "Tough Hide"
+        },
+        {
+          "line1": "Sleight of Hand"
+        },
+        {
+          "line1": "Raise the Stakes"
+        }
+      ]
+    }
+  ],
+  "genericTokens": [
+    {
+      "id": "beer-token",
+      "name": "Beer Token"
+    }
+  ]
+}

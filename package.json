@@ -10,8 +10,6 @@
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
     "lint": "biome check --write .",
-    "fetch-playbook-data": "tsx scripts/fetch-playbook-data.ts",
-    "fetch-playbook-data:watch": "tsx watch scripts/fetch-playbook-data.ts",
     "export-m1-disc": "tsx scripts/export-m1-disc.ts",
     "export-m2-arc-text": "tsx scripts/export-m2-arc-text.ts",
     "export-m3-arc-token": "tsx scripts/export-m3-arc-token.ts",

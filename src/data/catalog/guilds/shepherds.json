@@ -1,0 +1,191 @@
+{
+  "guildId": "shepherds",
+  "name": "Shepherds",
+  "color": "#ea8329",
+  "characters": [
+    {
+      "id": "bushel",
+      "name": "Bushel",
+      "tokens": [
+        {
+          "line1": "Cabbage Punt"
+        },
+        {
+          "line1": "Close Control"
+        },
+        {
+          "line1": "Ball's Gone!"
+        },
+        {
+          "line1": "I'm Open!"
+        }
+      ]
+    },
+    {
+      "id": "vhonour",
+      "name": "Honour (Veteran)",
+      "tokens": [
+        {
+          "line1": "Faithful Protector"
+        },
+        {
+          "line1": "Fields of Wheat"
+        },
+        {
+          "line1": "Planting Season"
+        },
+        {
+          "line1": "Smelling Salts"
+        },
+        {
+          "line1": "Surpassing Strategy"
+        }
+      ]
+    },
+    {
+      "id": "herder",
+      "name": "Herder",
+      "tokens": [
+        {
+          "line1": "Protect the Ball"
+        },
+        {
+          "line1": "Sheep Become the Shepherds"
+        },
+        {
+          "line1": "On My Mark"
+        },
+        {
+          "line1": "Rest Up!"
+        }
+      ]
+    },
+    {
+      "id": "babe",
+      "name": "Babe",
+      "tokens": [
+        {
+          "line1": "Heartless Brute!"
+        },
+        {
+          "line1": "Loved Creature"
+        },
+        {
+          "line1": "Pack Mentality"
+        },
+        {
+          "line1": "Baa Ram Ewe"
+        },
+        {
+          "line1": "Droppings"
+        }
+      ]
+    },
+    {
+      "id": "crook",
+      "name": "Crook",
+      "tokens": [
+        {
+          "line1": "Herding"
+        },
+        {
+          "line1": "Littermates"
+        },
+        {
+          "line1": "Matched Pair"
+        },
+        {
+          "line1": "Away to Me"
+        },
+        {
+          "line1": "Howl"
+        }
+      ]
+    },
+    {
+      "id": "hook",
+      "name": "Hook",
+      "tokens": [
+        {
+          "line1": "Herding"
+        },
+        {
+          "line1": "Littermates"
+        },
+        {
+          "line1": "Matched Pair"
+        },
+        {
+          "line1": "Come Bye"
+        },
+        {
+          "line1": "Howl"
+        }
+      ]
+    },
+    {
+      "id": "lamb",
+      "name": "Lamb",
+      "tokens": [
+        {
+          "line1": "Planting Master"
+        },
+        {
+          "line1": "Workhorse"
+        },
+        {
+          "line1": "Warming Oven"
+        },
+        {
+          "line1": "Sow the Seeds"
+        },
+        {
+          "line1": "Weak Point"
+        }
+      ]
+    },
+    {
+      "id": "ram",
+      "name": "Ram",
+      "tokens": [
+        {
+          "line1": "Baa-ttering Ram"
+        },
+        {
+          "line1": "Flock"
+        },
+        {
+          "line1": "Have You Any Wool?"
+        },
+        {
+          "line1": "Planting Season"
+        },
+        {
+          "line1": "Impetus"
+        },
+        {
+          "line1": "Guard the Flock"
+        }
+      ]
+    },
+    {
+      "id": "shearer",
+      "name": "Shearer",
+      "tokens": [
+        {
+          "line1": "All About The Game"
+        },
+        {
+          "line1": "Football Legend"
+        },
+        {
+          "line1": "Shearing"
+        },
+        {
+          "line1": "Ball's Gone!"
+        }
+      ]
+    }
+  ],
+  "genericTokens": []
+}
