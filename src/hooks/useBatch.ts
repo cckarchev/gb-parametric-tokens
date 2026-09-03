@@ -21,6 +21,7 @@ import { GuildCatalog } from "../core/token/catalog/catalogTypes";
 import { deriveReliefColor, TEXT_COLOR_GROUP_ID } from "../core/token/catalog/deriveReliefColor";
 import {
   DEFAULT_ARC_SHAPE,
+  DEFAULT_COLOR_GROUPS,
   DEFAULT_DISC_SHAPE,
   DEFAULT_FIT_POLICY,
   DEFAULT_STYLE,
@@ -43,9 +44,6 @@ const DEFAULT_GOAL_INFLUENCE_SHAPE: BatchSharedConfig["goalInfluenceShape"] = {
   type: "disc",
   diameterMm: 20,
 };
-const DEFAULT_COLOR_GROUPS: BatchSharedConfig["colorGroups"] = [
-  { id: "base", name: "Base", color: "#2B2B2B" },
-];
 // TEMPORARY: auto-selects Brewers so the batch flow has something loaded on open. Remove once
 // there's a real guild picker / persisted last-selected-guild, once more than one guild exists.
 const TEMPORARY_DEFAULT_GUILD_ID = "brewers";

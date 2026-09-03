@@ -9,6 +9,7 @@ import { buildTokenParts } from "../core/token/buildTokenParts";
 import { computeReliefComponents } from "../core/token/computeReliefComponents";
 import {
   DEFAULT_ARC_SHAPE,
+  DEFAULT_COLOR_GROUPS,
   DEFAULT_FIT_POLICY,
   DEFAULT_STYLE,
 } from "../core/token/defaultShapeAndStyle";
@@ -38,7 +39,7 @@ const DEFAULT_SPEC: TokenSpec = {
   ],
   decorations: [],
   style: DEFAULT_STYLE,
-  colorGroups: [{ id: "base", name: "Base", color: "#2B2B2B" }],
+  colorGroups: DEFAULT_COLOR_GROUPS,
   printProfileId: DEFAULT_PRINT_PROFILE_ID,
   fitPolicy: DEFAULT_FIT_POLICY,
 };

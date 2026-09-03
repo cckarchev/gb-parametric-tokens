@@ -1,4 +1,4 @@
-import { FitPolicy, ShapeSpec, StyleSpec } from "./types";
+import { ColorGroupSpec, FitPolicy, ShapeSpec, StyleSpec } from "./types";
 
 // Starting point for the fixed-innerR arc model (see
 // docs/superpowers/specs/2026-09-02-arc-parametrization-design.md) -- not a physical
@@ -28,3 +28,7 @@ export const DEFAULT_FIT_POLICY: FitPolicy = {
   minScale: 0.7,
   allowTwoLines: true,
 };
+
+export const DEFAULT_COLOR_GROUPS: ColorGroupSpec[] = [
+  { id: "base", name: "Base", color: "#2B2B2B" },
+];
