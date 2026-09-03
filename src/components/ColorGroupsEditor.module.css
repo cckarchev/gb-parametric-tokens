@@ -1,0 +1,12 @@
+.item {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border);
+}
+
+.item:first-child {
+  padding-top: 0;
+  border-top: none;
+}

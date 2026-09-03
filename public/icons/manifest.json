@@ -1,0 +1,548 @@
+[
+  {
+    "id": "Alchemists",
+    "kind": "guild",
+    "pathCount": 1,
+    "bbox": {
+      "minX": 1.0010000000000003,
+      "minY": 1.0009999999999994,
+      "maxX": 14.998999999999999,
+      "maxY": 14.998999999999999
+    },
+    "aspect": 0.9999999999999999,
+    "needsUnion": false,
+    "overflowsEmBox": false
+  },
+  {
+    "id": "Blacksmiths",
+    "kind": "guild",
+    "pathCount": 1,
+    "bbox": {
+      "minX": 0.617,
+      "minY": 0.9999999999999991,
+      "maxX": 15,
+      "maxY": 14.998999999999999
+    },
+    "aspect": 1.0274305307521967,
+    "needsUnion": false,
+    "overflowsEmBox": false
+  },
+  {
+    "id": "Brewers",
+    "kind": "guild",
+    "pathCount": 1,
+    "bbox": {
+      "minX": 1.0010000000000003,
+      "minY": 0.9999999999999991,
+      "maxX": 14.998999999999999,
+      "maxY": 14.998999999999999
+    },
+    "aspect": 0.9999285663261661,
+    "needsUnion": false,
+    "overflowsEmBox": false
+  },
+  {
+    "id": "Butchers",
+    "kind": "guild",
+    "pathCount": 1,
+    "bbox": {
+      "minX": 1.0019999999999998,
+      "minY": 1,
+      "maxX": 14.998999999999999,
+      "maxY": 15
+    },
+    "aspect": 0.9997857142857143,
+    "needsUnion": false,
+    "overflowsEmBox": false
+  },
+  {
+    "id": "Cooks",
+    "kind": "guild",
+    "pathCount": 1,
+    "bbox": {
+      "minX": 1.0000000000000002,
+      "minY": 1,
+      "maxX": 15,
+      "maxY": 14.999656250000001
+    },
+    "aspect": 1.0000245541743211,
+    "needsUnion": false,
+    "overflowsEmBox": false
+  },
+  {
+    "id": "Engineers",
+    "kind": "guild",
+    "pathCount": 1,
+    "bbox": {
+      "minX": 1.0010000000000003,
+      "minY": 1,
+      "maxX": 14.998999999999999,
+      "maxY": 15
+    },
+    "aspect": 0.9998571428571427,
+    "needsUnion": false,
+    "overflowsEmBox": false
+  },
+  {
+    "id": "Falconers",
+    "kind": "guild",
+    "pathCount": 4,
+    "bbox": {
+      "minX": 0.3569999999999982,
+      "minY": 0.6799999999999995,
+      "maxX": 20.644,
+      "maxY": 15.678
+    },
+    "aspect": 1.3526470196026135,
+    "needsUnion": true,
+    "overflowsEmBox": true
+  },
+  {
+    "id": "Farmers",
+    "kind": "guild",
+    "pathCount": 1,
+    "bbox": {
+      "minX": 0.9999999999999999,
+      "minY": 0.9989999999999988,
+      "maxX": 15,
+      "maxY": 14.998000000000001
+    },
+    "aspect": 1.0000714336738337,
+    "needsUnion": false,
+    "overflowsEmBox": false
+  },
+  {
+    "id": "Fishermen",
+    "kind": "guild",
+    "pathCount": 1,
+    "bbox": {
+      "minX": 1.0010000000000003,
+      "minY": 0.9999999999999991,
+      "maxX": 14.998999999999999,
+      "maxY": 14.998999999999999
+    },
+    "aspect": 0.9999285663261661,
+    "needsUnion": false,
+    "overflowsEmBox": false
+  },
+  {
+    "id": "GB",
+    "kind": "generic",
+    "pathCount": 1,
+    "bbox": {
+      "minX": 1.00412890625,
+      "minY": 1.0003906249999999,
+      "maxX": 14.997726562499999,
+      "maxY": 14.997400390625
+    },
+    "aspect": 0.9997562258345079,
+    "needsUnion": false,
+    "overflowsEmBox": false
+  },
+  {
+    "id": "GBT",
+    "kind": "generic",
+    "pathCount": 1,
+    "bbox": {
+      "minX": 0.24499999999999966,
+      "minY": 0.4999999999999989,
+      "maxX": 15.116999999999999,
+      "maxY": 15.500999999999998
+    },
+    "aspect": 0.9914005732951137,
+    "needsUnion": false,
+    "overflowsEmBox": false
+  },
+  {
+    "id": "Hunters",
+    "kind": "guild",
+    "pathCount": 1,
+    "bbox": {
+      "minX": 0.998,
+      "minY": 1.008,
+      "maxX": 14.997,
+      "maxY": 15.008
+    },
+    "aspect": 0.9999285714285715,
+    "needsUnion": false,
+    "overflowsEmBox": false
+  },
+  {
+    "id": "Lamplighters",
+    "kind": "guild",
+    "pathCount": 1,
+    "bbox": {
+      "minX": 1.0049999999999994,
+      "minY": 1,
+      "maxX": 15.025000000000002,
+      "maxY": 14.999
+    },
+    "aspect": 1.001500107150511,
+    "needsUnion": false,
+    "overflowsEmBox": false
+  },
+  {
+    "id": "Logo",
+    "kind": "generic",
+    "pathCount": 1,
+    "bbox": {
+      "minX": -0.0077968749999999774,
+      "minY": -0.0030000000000003912,
+      "maxX": 15.986552734375003,
+      "maxY": 15.995119140624999
+    },
+    "aspect": 0.9997643765984701,
+    "needsUnion": false,
+    "overflowsEmBox": false
+  },
+  {
+    "id": "Lumberjacks",
+    "kind": "guild",
+    "pathCount": 1,
+    "bbox": {
+      "minX": 0.99999998,
+      "minY": 1,
+      "maxX": 15,
+      "maxY": 15
+    },
+    "aspect": 1.0000000014285715,
+    "needsUnion": false,
+    "overflowsEmBox": false
+  },
+  {
+    "id": "Masons",
+    "kind": "guild",
+    "pathCount": 1,
+    "bbox": {
+      "minX": 1.0010000000000003,
+      "minY": 0.9999999999999991,
+      "maxX": 14.998999999999999,
+      "maxY": 14.998999999999999
+    },
+    "aspect": 0.9999285663261661,
+    "needsUnion": false,
+    "overflowsEmBox": false
+  },
+  {
+    "id": "Miners",
+    "kind": "guild",
+    "pathCount": 1,
+    "bbox": {
+      "minX": 1.0216718749999996,
+      "minY": 1,
+      "maxX": 15.008328125000002,
+      "maxY": 14.999
+    },
+    "aspect": 0.9991182405886136,
+    "needsUnion": false,
+    "overflowsEmBox": false
+  },
+  {
+    "id": "Morticians",
+    "kind": "guild",
+    "pathCount": 1,
+    "bbox": {
+      "minX": 1.0010000000000003,
+      "minY": 0.9999999999999991,
+      "maxX": 14.998999999999999,
+      "maxY": 14.998999999999999
+    },
+    "aspect": 0.9999285663261661,
+    "needsUnion": false,
+    "overflowsEmBox": false
+  },
+  {
+    "id": "Navigators",
+    "kind": "guild",
+    "pathCount": 1,
+    "bbox": {
+      "minX": 1,
+      "minY": 0.3719999999999992,
+      "maxX": 15.001,
+      "maxY": 15.629
+    },
+    "aspect": 0.9176771318083502,
+    "needsUnion": false,
+    "overflowsEmBox": false
+  },
+  {
+    "id": "Order-GBCP",
+    "kind": "generic",
+    "pathCount": 2,
+    "bbox": {
+      "minX": 1.0010000000000003,
+      "minY": 0.9999999999999991,
+      "maxX": 14.998999999999999,
+      "maxY": 14.998999999999999
+    },
+    "aspect": 0.9999285663261661,
+    "needsUnion": true,
+    "overflowsEmBox": false
+  },
+  {
+    "id": "Order",
+    "kind": "guild",
+    "pathCount": 1,
+    "bbox": {
+      "minX": -0.24699999999999922,
+      "minY": -0.25,
+      "maxX": 16.248,
+      "maxY": 16.25
+    },
+    "aspect": 0.9996969696969698,
+    "needsUnion": false,
+    "overflowsEmBox": true
+  },
+  {
+    "id": "Ratcatchers",
+    "kind": "guild",
+    "pathCount": 1,
+    "bbox": {
+      "minX": 1.007999999999993,
+      "minY": 1.0000000000000002,
+      "maxX": 14.994,
+      "maxY": 14.996000000000004
+    },
+    "aspect": 0.9992855101457562,
+    "needsUnion": false,
+    "overflowsEmBox": false
+  },
+  {
+    "id": "Shepherds",
+    "kind": "guild",
+    "pathCount": 7,
+    "bbox": {
+      "minX": 1.0000000000000018,
+      "minY": 0.9999999999999998,
+      "maxX": 15.003,
+      "maxY": 15
+    },
+    "aspect": 1.0002142857142855,
+    "needsUnion": true,
+    "overflowsEmBox": false
+  },
+  {
+    "id": "Union",
+    "kind": "guild",
+    "pathCount": 1,
+    "bbox": {
+      "minX": 1.0010000000000003,
+      "minY": 0.9999999999999991,
+      "maxX": 14.998999999999999,
+      "maxY": 14.998999999999999
+    },
+    "aspect": 0.9999285663261661,
+    "needsUnion": false,
+    "overflowsEmBox": false
+  },
+  {
+    "id": "ball-full",
+    "kind": "generic",
+    "pathCount": 1,
+    "bbox": {
+      "minX": 0.002273437500000015,
+      "minY": 0.001,
+      "maxX": 15.997328125,
+      "maxY": 15.99835546875
+    },
+    "aspect": 0.999856177400415,
+    "needsUnion": false,
+    "overflowsEmBox": false
+  },
+  {
+    "id": "ball",
+    "kind": "generic",
+    "pathCount": 1,
+    "bbox": {
+      "minX": 1.0022421874999998,
+      "minY": 0.916,
+      "maxX": 14.999593749999999,
+      "maxY": 14.998044921875
+    },
+    "aspect": 0.9939857201248209,
+    "needsUnion": false,
+    "overflowsEmBox": false
+  },
+  {
+    "id": "ballotX",
+    "kind": "generic",
+    "pathCount": 1,
+    "bbox": {
+      "minX": 0.0009999999999968923,
+      "minY": 1.7763568394002505e-15,
+      "maxX": 17.232,
+      "maxY": 15.999000000000004
+    },
+    "aspect": 1.0770048128008,
+    "needsUnion": false,
+    "overflowsEmBox": true
+  },
+  {
+    "id": "bandage",
+    "kind": "status",
+    "pathCount": 1,
+    "bbox": {
+      "minX": 6.1917613203125,
+      "minY": 0,
+      "maxX": 18.597766203124994,
+      "maxY": 23.999999999999996
+    },
+    "aspect": 0.5169168701171873,
+    "needsUnion": false,
+    "overflowsEmBox": true
+  },
+  {
+    "id": "blank",
+    "kind": "generic",
+    "pathCount": 1,
+    "bbox": {
+      "minX": 1.1750000000000016,
+      "minY": 1.175,
+      "maxX": 14.826,
+      "maxY": 14.826
+    },
+    "aspect": 1,
+    "needsUnion": false,
+    "overflowsEmBox": false
+  },
+  {
+    "id": "bleeding",
+    "kind": "status",
+    "pathCount": 3,
+    "bbox": {
+      "minX": 1.1129999999999995,
+      "minY": 0,
+      "maxX": 14.886000000000001,
+      "maxY": 16
+    },
+    "aspect": 0.8608125000000001,
+    "needsUnion": true,
+    "overflowsEmBox": false
+  },
+  {
+    "id": "burning",
+    "kind": "status",
+    "pathCount": 1,
+    "bbox": {
+      "minX": 1.0684609375000012,
+      "minY": 0.0009999999999994458,
+      "maxX": 14.932419921875002,
+      "maxY": 16.003
+    },
+    "aspect": 0.8663891378812023,
+    "needsUnion": false,
+    "overflowsEmBox": true
+  },
+  {
+    "id": "checkmark",
+    "kind": "generic",
+    "pathCount": 1,
+    "bbox": {
+      "minX": 0.0009999999999985576,
+      "minY": -1.6653345369377348e-15,
+      "maxX": 16.848,
+      "maxY": 15.998999999999999
+    },
+    "aspect": 1.0530033127070442,
+    "needsUnion": false,
+    "overflowsEmBox": true
+  },
+  {
+    "id": "disease",
+    "kind": "status",
+    "pathCount": 4,
+    "bbox": {
+      "minX": 0.0012592773437501968,
+      "minY": 0.4249999999999998,
+      "maxX": 16.006082031250006,
+      "maxY": 15.572267089843749
+    },
+    "aspect": 1.0566145469658683,
+    "needsUnion": true,
+    "overflowsEmBox": true
+  },
+  {
+    "id": "gbcp",
+    "kind": "generic",
+    "pathCount": 1,
+    "bbox": {
+      "minX": 1.0019999999999998,
+      "minY": 1,
+      "maxX": 14.998000000000001,
+      "maxY": 15
+    },
+    "aspect": 0.9997142857142859,
+    "needsUnion": false,
+    "overflowsEmBox": false
+  },
+  {
+    "id": "knock-down",
+    "kind": "status",
+    "pathCount": 6,
+    "bbox": {
+      "minX": 0.6049999999999995,
+      "minY": 0.0026249999999985903,
+      "maxX": 15.392406249999997,
+      "maxY": 15.995843750000002
+    },
+    "aspect": 0.9246047641285462,
+    "needsUnion": true,
+    "overflowsEmBox": false
+  },
+  {
+    "id": "poison",
+    "kind": "status",
+    "pathCount": 5,
+    "bbox": {
+      "minX": -0.001125000000000112,
+      "minY": 0.07687499999999996,
+      "maxX": 16.001125000000002,
+      "maxY": 15.923125
+    },
+    "aspect": 1.0098446004575217,
+    "needsUnion": true,
+    "overflowsEmBox": true
+  },
+  {
+    "id": "skull",
+    "kind": "status",
+    "pathCount": 1,
+    "bbox": {
+      "minX": 1.3943814999999997,
+      "minY": 1.2217024e-7,
+      "maxX": 22.605618,
+      "maxY": 23.999515000000002
+    },
+    "aspect": 0.8838193858491066,
+    "needsUnion": false,
+    "overflowsEmBox": true
+  },
+  {
+    "id": "snared",
+    "kind": "status",
+    "pathCount": 1,
+    "bbox": {
+      "minX": -0.0029999999999992533,
+      "minY": -1.3877787807814457e-16,
+      "maxX": 15.998,
+      "maxY": 16.003999999999998
+    },
+    "aspect": 0.9998125468632841,
+    "needsUnion": false,
+    "overflowsEmBox": true
+  },
+  {
+    "id": "trophy",
+    "kind": "generic",
+    "pathCount": 1,
+    "bbox": {
+      "minX": 0.06900000000000128,
+      "minY": 2.220446049250313e-16,
+      "maxX": 15.932,
+      "maxY": 15.999999999999998
+    },
+    "aspect": 0.9914375000000001,
+    "needsUnion": false,
+    "overflowsEmBox": false
+  }
+]

@@ -1,34 +1,54 @@
 {
-  "name": "playground",
-  "version": "1.0.0",
-  "main": "src/script.ts",
+  "name": "gb-parametric-tokens",
+  "version": "0.1.0",
+  "type": "module",
   "scripts": {
-    "fetch-data": "ts-node src/fetch-and-export.ts",
-    "fetch-data:dev": "nodemon src/fetch-and-export.ts",
-    "fetch-data:start": "node dist/fetch-and-export.ts",
-    "generate-scad": "ts-node src/generate-openscad.ts",
-    "generate-scad:dev": "nodemon src/generate-openscad.ts",
-    "generate-scad:start": "node dist/generate-openscad.ts",
-    "build": "tsc",
-    "lint": "eslint --fix src",
-    "typecheck": "tsc --noEmit"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check --write .",
+    "fetch-playbook-data": "tsx scripts/fetch-playbook-data.ts",
+    "fetch-playbook-data:watch": "tsx watch scripts/fetch-playbook-data.ts",
+    "export-m1-disc": "tsx scripts/export-m1-disc.ts",
+    "export-m2-arc-text": "tsx scripts/export-m2-arc-text.ts",
+    "export-m3-arc-token": "tsx scripts/export-m3-arc-token.ts",
+    "export-m4-token-3mf": "tsx scripts/export-m4-token-3mf.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "Parametric Guild Ball token generator: browser-based, exports STL/3MF.",
   "dependencies": {
-    "dotenv": "^16.5.0",
-    "lodash": "^4.17.21",
-    "uuid": "^11.1.0"
+    "fflate": "^0.8.3",
+    "manifold-3d": "^3.5.1",
+    "opentype.js": "^2.0.0",
+    "polygon-clipping": "^0.15.7",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "three": "^0.185.1"
   },
   "devDependencies": {
-    "@types/lodash": "^4.17.16",
-    "@types/node": "^22.15.3",
-    "eslint": "^9.25.1",
-    "nodemon": "^3.1.10",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.8.3"
+    "@biomejs/biome": "2.5.11",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.6",
+    "@types/node": "^26.4.0",
+    "@types/opentype.js": "^1.3.10",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.5",
+    "@types/three": "^0.185.4",
+    "@vitejs/plugin-react": "^6.1.1",
+    "happy-dom": "^20.12.0",
+    "tsx": "^4.23.13",
+    "typescript": "^7.0.2",
+    "vite": "^8.2.2",
+    "vitest": "^4.1.11"
   },
-  "packageManager": "npm@11.3.0"
+  "packageManager": "npm@12.0.2",
+  "allowScripts": {
+    "esbuild@0.28.2": true
+  }
 }

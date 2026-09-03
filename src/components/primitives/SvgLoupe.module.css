@@ -1,0 +1,34 @@
+.positionAnchor {
+  position: relative;
+}
+
+.trackArea svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.lens {
+  position: absolute;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 2px solid var(--color-accent);
+  /* A fixed white backdrop, independent of whatever panel background sits behind the loupe,
+     so the magnified copy reads consistently regardless of which preview hosts it. */
+  background: #ffffff;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+  z-index: 10;
+}
+
+.lensContent {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.lensContent svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}

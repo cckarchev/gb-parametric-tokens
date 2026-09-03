@@ -1,0 +1,55 @@
+import { useEffect, useState } from "react";
+
+import { ReliefComponent } from "../core/token/mesh/reliefComponent";
+import { buildPreviewSvg, PreviewSvg } from "../core/token/preview/buildPreviewSvg";
+import { computeBaseOutlineContours } from "../core/token/preview/computeBaseOutlineContours";
+import { ColorGroupSpec, ShapeSpec } from "../core/token/types";
+import { SvgLoupe } from "./primitives/SvgLoupe";
+import styles from "./TokenPreview.module.css";
+
+const CENTER_ANGLE_DEG = 90;
+
+type TokenPreviewProps = {
+  shape: ShapeSpec;
+  reliefComponents: ReliefComponent[];
+  colorGroups: ColorGroupSpec[];
+};
+
+export const TokenPreview = ({ shape, reliefComponents, colorGroups }: TokenPreviewProps) => {
+  const [preview, setPreview] = useState<PreviewSvg>();
+
+  useEffect(() => {
+    let cancelled = false;
+
+    computeBaseOutlineContours(shape, CENTER_ANGLE_DEG).then((baseContours) => {
+      if (cancelled) {
+        return;
+      }
+
+      setPreview(buildPreviewSvg(baseContours, reliefComponents, colorGroups, shape));
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [shape, reliefComponents, colorGroups]);
+
+  if (!preview) {
+    return (
+      <div className={styles.card}>
+        <p>Rendering preview...</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className={styles.card}>
+      <SvgLoupe
+        svg={preview.svg}
+        viewBox={preview.viewBox}
+        ariaLabel="Token preview"
+        className={styles.svgContainer}
+      />
+    </div>
+  );
+};

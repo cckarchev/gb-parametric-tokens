@@ -64,3 +64,6 @@ swagger
 
 # output
 raw-output
+
+# internal docs, not published
+docs
