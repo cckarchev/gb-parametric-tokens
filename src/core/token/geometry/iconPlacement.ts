@@ -1,4 +1,5 @@
 import { Vec2 } from "../types";
+import { computeBounds } from "./computeBounds";
 
 export type IconPlacementOptions = {
   targetDiameterMm: number;
@@ -7,24 +8,6 @@ export type IconPlacementOptions = {
 
 const flipY = (contours: Vec2[][]): Vec2[][] => {
   return contours.map((contour) => contour.map(([x, y]): Vec2 => [x, -y]));
-};
-
-const computeBounds = (contours: Vec2[][]): { min: Vec2; max: Vec2 } => {
-  let minX = Number.POSITIVE_INFINITY;
-  let minY = Number.POSITIVE_INFINITY;
-  let maxX = Number.NEGATIVE_INFINITY;
-  let maxY = Number.NEGATIVE_INFINITY;
-
-  for (const contour of contours) {
-    for (const [x, y] of contour) {
-      minX = Math.min(minX, x);
-      minY = Math.min(minY, y);
-      maxX = Math.max(maxX, x);
-      maxY = Math.max(maxY, y);
-    }
-  }
-
-  return { min: [minX, minY], max: [maxX, maxY] };
 };
 
 export const placeIcon = (contours: Vec2[][], options: IconPlacementOptions): Vec2[][] => {

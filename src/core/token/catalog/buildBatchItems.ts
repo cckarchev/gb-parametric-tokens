@@ -55,6 +55,19 @@ export const characterTokenId = (characterId: string, tokenIndex: number): strin
   return `${characterId}-${tokenIndex}`;
 };
 
+// Every token spec carries the same trailing style/printing fields from the batch's shared
+// config, whatever its own shape, text, icons, and decorations look like.
+const sharedTokenFields = (
+  sharedConfig: BatchSharedConfig,
+): Pick<TokenSpec, "style" | "colorGroups" | "printProfileId" | "fitPolicy"> => {
+  return {
+    style: sharedConfig.style,
+    colorGroups: sharedConfig.colorGroups,
+    printProfileId: sharedConfig.printProfileId,
+    fitPolicy: sharedConfig.fitPolicy,
+  };
+};
+
 const buildCharacterTokenSpec = (
   token: CatalogTokenSpec,
   guildIconId: string,
@@ -92,10 +105,7 @@ const buildCharacterTokenSpec = (
       { iconId, side: "right", scale: DEFAULT_ICON_SCALE, colorGroup: TEXT_COLOR_GROUP_ID },
     ],
     decorations: [],
-    style: sharedConfig.style,
-    colorGroups: sharedConfig.colorGroups,
-    printProfileId: sharedConfig.printProfileId,
-    fitPolicy: sharedConfig.fitPolicy,
+    ...sharedTokenFields(sharedConfig),
   };
 };
 
@@ -118,10 +128,7 @@ const buildGenericTokenSpec = (
       },
     ],
     decorations: [],
-    style: sharedConfig.style,
-    colorGroups: sharedConfig.colorGroups,
-    printProfileId: sharedConfig.printProfileId,
-    fitPolicy: sharedConfig.fitPolicy,
+    ...sharedTokenFields(sharedConfig),
   };
 };
 
@@ -171,10 +178,7 @@ const buildGoalInfluenceTokenSpec = (
       },
     ],
     decorations: [buildRingDecoration(sharedConfig.goalInfluenceShape)],
-    style: sharedConfig.style,
-    colorGroups: sharedConfig.colorGroups,
-    printProfileId: sharedConfig.printProfileId,
-    fitPolicy: sharedConfig.fitPolicy,
+    ...sharedTokenFields(sharedConfig),
   };
 };
 
@@ -196,10 +200,7 @@ const buildInfluenceTokenSpec = (sharedConfig: BatchSharedConfig): TokenSpec => 
       },
     ],
     decorations: [],
-    style: sharedConfig.style,
-    colorGroups: sharedConfig.colorGroups,
-    printProfileId: sharedConfig.printProfileId,
-    fitPolicy: sharedConfig.fitPolicy,
+    ...sharedTokenFields(sharedConfig),
   };
 };
 
@@ -215,9 +216,7 @@ const buildMomentumTokenSpec = (sharedConfig: BatchSharedConfig): TokenSpec => {
     ],
     icons: [],
     decorations: [buildRingDecoration(sharedConfig.discShape)],
-    style: sharedConfig.style,
-    colorGroups: sharedConfig.colorGroups,
-    printProfileId: sharedConfig.printProfileId,
+    ...sharedTokenFields(sharedConfig),
     fitPolicy: MOMENTUM_FIT_POLICY,
   };
 };

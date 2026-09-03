@@ -1,3 +1,4 @@
+import { computeBounds } from "../geometry/computeBounds";
 import { Vec2 } from "../types";
 
 const DEFAULT_PADDING_MM = 5;
@@ -12,24 +13,6 @@ export const contourToPathSegment = (contour: Vec2[]): string => {
   const lineTos = rest.map(([x, y]) => `L${x},${y}`).join(" ");
 
   return `${moveTo} ${lineTos} Z`;
-};
-
-export const computeBounds = (contours: Vec2[][]): { min: Vec2; max: Vec2 } => {
-  let minX = Infinity;
-  let minY = Infinity;
-  let maxX = -Infinity;
-  let maxY = -Infinity;
-
-  for (const contour of contours) {
-    for (const [x, y] of contour) {
-      minX = Math.min(minX, x);
-      minY = Math.min(minY, y);
-      maxX = Math.max(maxX, x);
-      maxY = Math.max(maxY, y);
-    }
-  }
-
-  return { min: [minX, minY], max: [maxX, maxY] };
 };
 
 export const contoursToSvgDocument = (

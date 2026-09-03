@@ -1,6 +1,5 @@
+import { DEGREES_PER_RADIAN } from "../geometry/angleConventions";
 import { Vec2 } from "../types";
-
-const DEGREES_PER_RADIAN = 180 / Math.PI;
 
 export type ArcGlyphPlacement = {
   angleDeg: number;

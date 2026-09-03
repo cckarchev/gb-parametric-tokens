@@ -1,6 +1,5 @@
 import { ShapeSpec, Vec2 } from "../types";
-
-const DEGREES_PER_RADIAN = 180 / Math.PI;
+import { DEGREES_PER_RADIAN } from "./angleConventions";
 
 export type ArcShapeSpec = Extract<ShapeSpec, { type: "arc" }>;
 

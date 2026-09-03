@@ -1,5 +1,6 @@
 import type { Font } from "opentype.js";
 
+import { computeBounds } from "../geometry/computeBounds";
 import { translateContours } from "../geometry/iconPlacement";
 import { normalizeWinding } from "../svg/normalizeWinding";
 import { Vec2 } from "../types";
@@ -16,24 +17,6 @@ const flipYAndNormalize = (contours: Vec2[][]): Vec2[][] => {
   const flipped = contours.map((contour) => contour.map(([x, y]): Vec2 => [x, -y]));
 
   return normalizeWinding(flipped);
-};
-
-const computeBounds = (contours: Vec2[][]): { min: Vec2; max: Vec2 } => {
-  let minX = Infinity;
-  let minY = Infinity;
-  let maxX = -Infinity;
-  let maxY = -Infinity;
-
-  for (const contour of contours) {
-    for (const [x, y] of contour) {
-      minX = Math.min(minX, x);
-      minY = Math.min(minY, y);
-      maxX = Math.max(maxX, x);
-      maxY = Math.max(maxY, y);
-    }
-  }
-
-  return { min: [minX, minY], max: [maxX, maxY] };
 };
 
 export type FlatLineSpec = { text: string; sizeMm: number; trackingMm?: number };

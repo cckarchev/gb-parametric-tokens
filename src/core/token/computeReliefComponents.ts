@@ -67,6 +67,24 @@ const buildIconComponent = async (
   return { contours, colorGroup: icon.colorGroup };
 };
 
+// Shared by every disc-shaped layout (flat and ring alike): both center their icons at the
+// disc's own center, distinguished only by which side("center") icons are present.
+const buildCenterIconComponents = (
+  icons: IconSpec[],
+  targetDiameterMm: number,
+  printProfile: PrintProfile,
+  loadIconSource: LoadIconSource,
+  warnings: string[],
+): Promise<ReliefComponent[]> => {
+  const centerIcons = icons.filter((icon) => icon.side === "center");
+
+  return Promise.all(
+    centerIcons.map((icon) =>
+      buildIconComponent(icon, targetDiameterMm, [0, 0], printProfile, loadIconSource, warnings),
+    ),
+  );
+};
+
 // Shared by every disc-shaped layout (flat and ring alike): a decoration is a standalone
 // relief feature, not tied to text or icon placement, so it never depends on which layout
 // produced the rest of the token's contours.
@@ -93,12 +111,12 @@ const computeDiscReliefComponents = async (
   }
 
   const targetDiameterMm = shape.diameterMm;
-  const centerIcons = spec.icons.filter((icon) => icon.side === "center");
-
-  const iconComponents = await Promise.all(
-    centerIcons.map((icon) =>
-      buildIconComponent(icon, targetDiameterMm, [0, 0], printProfile, loadIconSource, warnings),
-    ),
+  const iconComponents = await buildCenterIconComponents(
+    spec.icons,
+    targetDiameterMm,
+    printProfile,
+    loadIconSource,
+    warnings,
   );
 
   const lineComponents: ReliefComponent[] = spec.lines.map((line) => ({
@@ -162,12 +180,12 @@ const computeRingReliefComponents = async (
   }
 
   const targetDiameterMm = shape.diameterMm;
-  const centerIcons = spec.icons.filter((icon) => icon.side === "center");
-
-  const iconComponents = await Promise.all(
-    centerIcons.map((icon) =>
-      buildIconComponent(icon, targetDiameterMm, [0, 0], printProfile, loadIconSource, warnings),
-    ),
+  const iconComponents = await buildCenterIconComponents(
+    spec.icons,
+    targetDiameterMm,
+    printProfile,
+    loadIconSource,
+    warnings,
   );
 
   const [topLine, bottomLine] = spec.lines;

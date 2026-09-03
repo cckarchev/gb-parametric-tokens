@@ -34,53 +34,43 @@ const arcLengthMm = (sweepDeg: number, radiusMm: number): number => {
   return (sweepDeg * Math.PI * radiusMm) / 180;
 };
 
+// Everything a single fit attempt needs except the text and radius, which vary per call
+// (whole line, each half of a two-line split, each truncation attempt).
+type FitContext = {
+  font: Font;
+  sizeMm: number;
+  availableSweepDeg: number;
+  fitPolicy: FitPolicy;
+  effectiveMinScale: number;
+};
+
 const fitSingleLine = (
-  font: Font,
+  context: FitContext,
   text: string,
-  sizeMm: number,
   radiusMm: number,
-  availableSweepDeg: number,
-  fitPolicy: FitPolicy,
-  effectiveMinScale: number,
 ): SingleLineFitResult => {
-  const { advancesMm, kerningsMm } = measureAdvances(font, text, sizeMm);
+  const { advancesMm, kerningsMm } = measureAdvances(context.font, text, context.sizeMm);
 
   return computeSingleLineFit({
     advancesMm,
     kerningsMm,
-    availableArcLengthMm: arcLengthMm(availableSweepDeg, radiusMm),
-    minTrackingMm: fitPolicy.minTracking,
-    maxTrackingMm: fitPolicy.maxTracking,
-    minScale: effectiveMinScale,
+    availableArcLengthMm: arcLengthMm(context.availableSweepDeg, radiusMm),
+    minTrackingMm: context.fitPolicy.minTracking,
+    maxTrackingMm: context.fitPolicy.maxTracking,
+    minScale: context.effectiveMinScale,
   });
 };
 
-const truncateToFit = (
-  font: Font,
-  text: string,
-  sizeMm: number,
-  radiusMm: number,
-  availableSweepDeg: number,
-  fitPolicy: FitPolicy,
-  effectiveMinScale: number,
-): AutoFitLineOutput => {
+const truncateToFit = (context: FitContext, text: string, radiusMm: number): AutoFitLineOutput => {
   for (let length = text.length; length > 0; length--) {
     const candidate =
       length === text.length ? text : `${text.slice(0, length)}${TRUNCATION_MARKER}`;
-    const fit = fitSingleLine(
-      font,
-      candidate,
-      sizeMm,
-      radiusMm,
-      availableSweepDeg,
-      fitPolicy,
-      effectiveMinScale,
-    );
+    const fit = fitSingleLine(context, candidate, radiusMm);
 
     if (fit.fits) {
       return {
         text: candidate,
-        sizeMm: sizeMm * fit.scaleFactor,
+        sizeMm: context.sizeMm * fit.scaleFactor,
         trackingMm: fit.trackingMm,
         radiusMm,
       };
@@ -89,8 +79,8 @@ const truncateToFit = (
 
   return {
     text: TRUNCATION_MARKER,
-    sizeMm: sizeMm * effectiveMinScale,
-    trackingMm: fitPolicy.minTracking,
+    sizeMm: context.sizeMm * context.effectiveMinScale,
+    trackingMm: context.fitPolicy.minTracking,
     radiusMm,
   };
 };
@@ -126,16 +116,15 @@ export const autoFitLine = (
 ): AutoFitResult => {
   const profileMinSizeMm = printProfile.minStrokeWidthMm / DEFAULT_FONT_STEM_WIDTH_MM_PER_SIZE_MM;
   const effectiveMinScale = Math.max(fitPolicy.minScale, profileMinSizeMm / input.sizeMm);
-
-  const wholeLineFit = fitSingleLine(
+  const context: FitContext = {
     font,
-    input.text,
-    input.sizeMm,
-    input.radiusMm,
-    input.availableSweepDeg,
+    sizeMm: input.sizeMm,
+    availableSweepDeg: input.availableSweepDeg,
     fitPolicy,
     effectiveMinScale,
-  );
+  };
+
+  const wholeLineFit = fitSingleLine(context, input.text, input.radiusMm);
 
   if (wholeLineFit.fits) {
     return {
@@ -158,24 +147,8 @@ export const autoFitLine = (
     const outerRadiusMm = input.radiusMm + TWO_LINE_RADIUS_OFFSET_MM;
     const innerRadiusMm = input.radiusMm - TWO_LINE_RADIUS_OFFSET_MM;
 
-    const firstFit = fitSingleLine(
-      font,
-      firstHalf,
-      input.sizeMm,
-      outerRadiusMm,
-      input.availableSweepDeg,
-      fitPolicy,
-      effectiveMinScale,
-    );
-    const secondFit = fitSingleLine(
-      font,
-      secondHalf,
-      input.sizeMm,
-      innerRadiusMm,
-      input.availableSweepDeg,
-      fitPolicy,
-      effectiveMinScale,
-    );
+    const firstFit = fitSingleLine(context, firstHalf, outerRadiusMm);
+    const secondFit = fitSingleLine(context, secondHalf, innerRadiusMm);
 
     if (firstFit.fits && secondFit.fits) {
       return {
@@ -199,41 +172,15 @@ export const autoFitLine = (
 
     return {
       lines: [
-        truncateToFit(
-          font,
-          firstHalf,
-          input.sizeMm,
-          outerRadiusMm,
-          input.availableSweepDeg,
-          fitPolicy,
-          effectiveMinScale,
-        ),
-        truncateToFit(
-          font,
-          secondHalf,
-          input.sizeMm,
-          innerRadiusMm,
-          input.availableSweepDeg,
-          fitPolicy,
-          effectiveMinScale,
-        ),
+        truncateToFit(context, firstHalf, outerRadiusMm),
+        truncateToFit(context, secondHalf, innerRadiusMm),
       ],
       truncated: true,
     };
   }
 
   return {
-    lines: [
-      truncateToFit(
-        font,
-        input.text,
-        input.sizeMm,
-        input.radiusMm,
-        input.availableSweepDeg,
-        fitPolicy,
-        effectiveMinScale,
-      ),
-    ],
+    lines: [truncateToFit(context, input.text, input.radiusMm)],
     truncated: true,
   };
 };

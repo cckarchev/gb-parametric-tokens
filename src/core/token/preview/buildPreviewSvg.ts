@@ -1,4 +1,5 @@
-import { computeBounds, contourToPathSegment } from "../export/svgDocument";
+import { contourToPathSegment } from "../export/svgDocument";
+import { computeBounds } from "../geometry/computeBounds";
 import { BASE_COLOR_GROUP_ID, resolveColorGroupDisplay } from "../mesh/colorGroups";
 import { groupReliefComponentsByColorGroup } from "../mesh/groupReliefComponents";
 import { ReliefComponent } from "../mesh/reliefComponent";
