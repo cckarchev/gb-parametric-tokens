@@ -7,6 +7,11 @@ import { loadIconManifest } from "../browser/loadIconManifest";
 import { createLoadIconSource } from "../browser/loadIconSource";
 import { buildTokenParts } from "../core/token/buildTokenParts";
 import { computeReliefComponents } from "../core/token/computeReliefComponents";
+import {
+  DEFAULT_ARC_SHAPE,
+  DEFAULT_FIT_POLICY,
+  DEFAULT_STYLE,
+} from "../core/token/defaultShapeAndStyle";
 import { buildThreeMfArchive } from "../core/token/export/threeMfArchive";
 import { buildThreeMfModelXml } from "../core/token/export/threeMfModel";
 import { computePlateOffsets, PlateLayout } from "../core/token/geometry/computePlateOffsets";
@@ -15,8 +20,8 @@ import { ReliefComponent } from "../core/token/mesh/reliefComponent";
 import { DEFAULT_PRINT_PROFILE_ID, PRINT_PROFILES } from "../core/token/printProfiles";
 import { TokenSpec } from "../core/token/types";
 import { MinStrokeWidthValidation } from "../core/token/validation/validateMinStrokeWidth";
+import { LIVE_PREVIEW_DEBOUNCE_MS } from "./livePreviewDebounce";
 
-const DEBOUNCE_MS = 300;
 const THREE_MF_FILE_NAME = "token.3mf";
 const SPEC_FILE_NAME = "token-spec.json";
 const THREE_MF_MIME_TYPE = "model/3mf";
@@ -24,7 +29,7 @@ const JSON_MIME_TYPE = "application/json";
 
 const DEFAULT_SPEC: TokenSpec = {
   version: 1,
-  shape: { type: "arc", ribbonWidthMm: 6, ribbonLengthMm: 30, nobDiameterMm: 12 },
+  shape: DEFAULT_ARC_SHAPE,
   textLayout: "arc",
   lines: [{ text: "Momentum", sizeMm: 5 }],
   icons: [
@@ -32,10 +37,10 @@ const DEFAULT_SPEC: TokenSpec = {
     { iconId: "ball", side: "right", scale: 0.7 },
   ],
   decorations: [],
-  style: { relief: "raised", reliefHeightMm: 0.6, baseThicknessMm: 3 },
+  style: DEFAULT_STYLE,
   colorGroups: [{ id: "base", name: "Base", color: "#2B2B2B" }],
   printProfileId: DEFAULT_PRINT_PROFILE_ID,
-  fitPolicy: { minTracking: -0.3, maxTracking: 0, minScale: 0.7, allowTwoLines: true },
+  fitPolicy: DEFAULT_FIT_POLICY,
 };
 
 const DEFAULT_PLATE_LAYOUT: PlateLayout = { count: 1, columns: 1, spacingMm: 60 };
@@ -144,7 +149,7 @@ export const useTokenSpec = () => {
           setWarnings([error instanceof Error ? error.message : String(error)]);
           setIsValidating(false);
         });
-    }, DEBOUNCE_MS);
+    }, LIVE_PREVIEW_DEBOUNCE_MS);
 
     return () => {
       clearTimeout(timeoutId);

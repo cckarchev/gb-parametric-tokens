@@ -1,3 +1,4 @@
+import { DEFAULT_ARC_SHAPE, DEFAULT_DISC_SHAPE } from "../../../core/token/defaultShapeAndStyle";
 import { ShapeSpec } from "../../../core/token/types";
 import { NumberField } from "../../primitives/NumberField/NumberField";
 import { Panel } from "../../primitives/Panel/Panel";
@@ -6,14 +7,6 @@ import { SelectField, SelectFieldOption } from "../../primitives/SelectField/Sel
 export type ShapeEditorProps = {
   shape: ShapeSpec;
   onChange: (shape: ShapeSpec) => void;
-};
-
-const DEFAULT_DISC_SHAPE: ShapeSpec = { type: "disc", diameterMm: 15 };
-const DEFAULT_ARC_SHAPE: ShapeSpec = {
-  type: "arc",
-  ribbonWidthMm: 6,
-  ribbonLengthMm: 30,
-  nobDiameterMm: 12,
 };
 
 const SHAPE_TYPE_OPTIONS: SelectFieldOption<ShapeSpec["type"]>[] = [

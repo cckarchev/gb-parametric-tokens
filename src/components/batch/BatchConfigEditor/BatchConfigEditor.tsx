@@ -1,11 +1,11 @@
 import { BatchSharedConfig } from "../../../core/token/catalog/buildBatchItems";
-import { ReliefStyle } from "../../../core/token/types";
 import { FitPolicyEditor } from "../../editor/FitPolicyEditor/FitPolicyEditor";
 import { PrintProfileSelector } from "../../editor/PrintProfileSelector/PrintProfileSelector";
+import { RELIEF_OPTIONS } from "../../editor/reliefOptions";
 import { ShapeEditor } from "../../editor/ShapeEditor/ShapeEditor";
 import { NumberField } from "../../primitives/NumberField/NumberField";
 import { Panel } from "../../primitives/Panel/Panel";
-import { SelectField, SelectFieldOption } from "../../primitives/SelectField/SelectField";
+import { SelectField } from "../../primitives/SelectField/SelectField";
 import { GuildColorsEditor } from "../GuildColorsEditor/GuildColorsEditor";
 import styles from "./BatchConfigEditor.module.css";
 
@@ -13,11 +13,6 @@ export type BatchConfigEditorProps = {
   sharedConfig: BatchSharedConfig;
   onChange: (sharedConfig: BatchSharedConfig) => void;
 };
-
-const RELIEF_OPTIONS: SelectFieldOption<ReliefStyle>[] = [
-  { value: "raised", label: "Raised" },
-  { value: "engraved", label: "Engraved" },
-];
 
 export const BatchConfigEditor = ({ sharedConfig, onChange }: BatchConfigEditorProps) => {
   return (

@@ -1,17 +1,13 @@
-import { ReliefStyle, StyleSpec } from "../../../core/token/types";
+import { StyleSpec } from "../../../core/token/types";
 import { NumberField } from "../../primitives/NumberField/NumberField";
 import { Panel } from "../../primitives/Panel/Panel";
-import { SelectField, SelectFieldOption } from "../../primitives/SelectField/SelectField";
+import { SelectField } from "../../primitives/SelectField/SelectField";
+import { RELIEF_OPTIONS } from "../reliefOptions";
 
 export type StyleEditorProps = {
   style: StyleSpec;
   onChange: (style: StyleSpec) => void;
 };
-
-const RELIEF_OPTIONS: SelectFieldOption<ReliefStyle>[] = [
-  { value: "raised", label: "Raised" },
-  { value: "engraved", label: "Engraved" },
-];
 
 export const StyleEditor = ({ style, onChange }: StyleEditorProps) => {
   return (

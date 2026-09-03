@@ -19,12 +19,18 @@ import {
 } from "../core/token/catalog/buildBatchItems";
 import { GuildCatalog } from "../core/token/catalog/catalogTypes";
 import { deriveReliefColor, TEXT_COLOR_GROUP_ID } from "../core/token/catalog/deriveReliefColor";
+import {
+  DEFAULT_ARC_SHAPE,
+  DEFAULT_DISC_SHAPE,
+  DEFAULT_FIT_POLICY,
+  DEFAULT_STYLE,
+} from "../core/token/defaultShapeAndStyle";
 import { BASE_COLOR_GROUP_ID } from "../core/token/mesh/colorGroups";
 import { ReliefComponent } from "../core/token/mesh/reliefComponent";
 import { DEFAULT_PRINT_PROFILE_ID } from "../core/token/printProfiles";
 import { ShapeSpec } from "../core/token/types";
+import { LIVE_PREVIEW_DEBOUNCE_MS } from "./livePreviewDebounce";
 
-const DEBOUNCE_MS = 300;
 const THREE_MF_FILE_NAME = "batch.3mf";
 const SPEC_FILE_NAME = "batch-spec.json";
 const ZIP_FILE_NAME = "batch.zip";
@@ -33,30 +39,9 @@ const ZIP_MIME_TYPE = "application/zip";
 // the guild's own icon id). "blank" is a real icon in the manifest, so this never substitutes.
 const FALLBACK_ICON_ID = "blank";
 
-// Starting point for the new fixed-innerR model (see
-// docs/superpowers/specs/2026-09-02-arc-parametrization-design.md) -- not a physical
-// measurement, the user adjusts these by feel.
-const DEFAULT_ARC_SHAPE: BatchSharedConfig["arcShape"] = {
-  type: "arc",
-  ribbonWidthMm: 6,
-  ribbonLengthMm: 30,
-  nobDiameterMm: 12,
-};
-const DEFAULT_DISC_SHAPE: BatchSharedConfig["discShape"] = { type: "disc", diameterMm: 15 };
 const DEFAULT_GOAL_INFLUENCE_SHAPE: BatchSharedConfig["goalInfluenceShape"] = {
   type: "disc",
   diameterMm: 20,
-};
-const DEFAULT_STYLE: BatchSharedConfig["style"] = {
-  relief: "raised",
-  reliefHeightMm: 0.6,
-  baseThicknessMm: 3,
-};
-const DEFAULT_FIT_POLICY: BatchSharedConfig["fitPolicy"] = {
-  minTracking: -0.3,
-  maxTracking: 0,
-  minScale: 0.7,
-  allowTwoLines: true,
 };
 const DEFAULT_COLOR_GROUPS: BatchSharedConfig["colorGroups"] = [
   { id: "base", name: "Base", color: "#2B2B2B" },
@@ -285,7 +270,7 @@ export const useBatch = () => {
       };
 
       workerRef.current?.postMessage(request);
-    }, DEBOUNCE_MS);
+    }, LIVE_PREVIEW_DEBOUNCE_MS);
 
     return () => {
       clearTimeout(timeoutId);
