@@ -8,19 +8,19 @@
       "name": "Anvil",
       "tokens": [
         {
-          "line1": "Sentinel"
+          "title": "Sentinel"
         },
         {
-          "line1": "Tough Hide"
+          "title": "Tough Hide"
         },
         {
-          "line1": "Singled Out"
+          "title": "Singled Out"
         },
         {
-          "line1": "While the Iron is Hot"
+          "title": "While the Iron is Hot"
         },
         {
-          "line1": "Tested Mettle"
+          "title": "Tested Mettle"
         }
       ]
     },
@@ -29,19 +29,19 @@
       "name": "Burnish",
       "tokens": [
         {
-          "line1": "Reduction"
+          "title": "Reduction"
         },
         {
-          "line1": "Reinforced Plating"
+          "title": "Reinforced Plating"
         },
         {
-          "line1": "Kill the Ball"
+          "title": "Kill the Ball"
         },
         {
-          "line1": "Flame Belch"
+          "title": "Flame Belch"
         },
         {
-          "line1": "Covering Fire"
+          "title": "Covering Fire"
         }
       ]
     },
@@ -50,16 +50,16 @@
       "name": "Culverin",
       "tokens": [
         {
-          "line1": "Quench"
+          "title": "Quench"
         },
         {
-          "line1": "Eye Spy"
+          "title": "Eye Spy"
         },
         {
-          "line1": "Get In the Goal!"
+          "title": "Get In the Goal!"
         },
         {
-          "line1": "Batten Down The Hatches"
+          "title": "Batten Down The Hatches"
         }
       ]
     },
@@ -68,19 +68,19 @@
       "name": "Farris",
       "tokens": [
         {
-          "line1": "Give It a Whack"
+          "title": "Give It a Whack"
         },
         {
-          "line1": "Sentinel"
+          "title": "Sentinel"
         },
         {
-          "line1": "Stagger"
+          "title": "Stagger"
         },
         {
-          "line1": "Quick Foot"
+          "title": "Quick Foot"
         },
         {
-          "line1": "Ride Off"
+          "title": "Ride Off"
         }
       ]
     },
@@ -89,19 +89,19 @@
       "name": "Ferrite",
       "tokens": [
         {
-          "line1": "Get Over Here"
+          "title": "Get Over Here"
         },
         {
-          "line1": "Acrobatic"
+          "title": "Acrobatic"
         },
         {
-          "line1": "Disarm"
+          "title": "Disarm"
         },
         {
-          "line1": "Weak Point"
+          "title": "Weak Point"
         },
         {
-          "line1": "Tong in Cheek"
+          "title": "Tong in Cheek"
         }
       ]
     },
@@ -110,19 +110,19 @@
       "name": "Furnace",
       "tokens": [
         {
-          "line1": "Searing Strike"
+          "title": "Searing Strike"
         },
         {
-          "line1": "Sentinel"
+          "title": "Sentinel"
         },
         {
-          "line1": "One at a Time Lads!"
+          "title": "One at a Time Lads!"
         },
         {
-          "line1": "Tooled Up"
+          "title": "Tooled Up"
         },
         {
-          "line1": "Tempered Steel"
+          "title": "Tempered Steel"
         }
       ]
     },
@@ -131,19 +131,19 @@
       "name": "Hearth",
       "tokens": [
         {
-          "line1": "Match Experience"
+          "title": "Match Experience"
         },
         {
-          "line1": "Sturdy"
+          "title": "Sturdy"
         },
         {
-          "line1": "Instruction"
+          "title": "Instruction"
         },
         {
-          "line1": "Use This!"
+          "title": "Use This!"
         },
         {
-          "line1": "Armoury"
+          "title": "Armoury"
         }
       ]
     },
@@ -152,19 +152,19 @@
       "name": "Alloy",
       "tokens": [
         {
-          "line1": "Anatomical Precision"
+          "title": "Anatomical Precision"
         },
         {
-          "line1": "Back to the Shadows"
+          "title": "Back to the Shadows"
         },
         {
-          "line1": "Arsenal"
+          "title": "Arsenal"
         },
         {
-          "line1": "Acrobatic"
+          "title": "Acrobatic"
         },
         {
-          "line1": "Bladework"
+          "title": "Bladework"
         }
       ]
     },
@@ -173,16 +173,16 @@
       "name": "Bolt",
       "tokens": [
         {
-          "line1": "Stamina"
+          "title": "Stamina"
         },
         {
-          "line1": "Tutelage"
+          "title": "Tutelage"
         },
         {
-          "line1": "I'm Open!"
+          "title": "I'm Open!"
         },
         {
-          "line1": "Shoemerang"
+          "title": "Shoemerang"
         }
       ]
     },
@@ -191,19 +191,19 @@
       "name": "Cast",
       "tokens": [
         {
-          "line1": "Burning Passion"
+          "title": "Burning Passion"
         },
         {
-          "line1": "Bright Shields"
+          "title": "Bright Shields"
         },
         {
-          "line1": "Swift Strikes"
+          "title": "Swift Strikes"
         },
         {
-          "line1": "Shield Glare"
+          "title": "Shield Glare"
         },
         {
-          "line1": "Shield Throw"
+          "title": "Shield Throw"
         }
       ]
     },
@@ -212,19 +212,19 @@
       "name": "Cinder",
       "tokens": [
         {
-          "line1": "Far Strike"
+          "title": "Far Strike"
         },
         {
-          "line1": "Kindled"
+          "title": "Kindled"
         },
         {
-          "line1": "Searing Strike"
+          "title": "Searing Strike"
         },
         {
-          "line1": "Kill the Ball"
+          "title": "Kill the Ball"
         },
         {
-          "line1": "Decoy"
+          "title": "Decoy"
         }
       ]
     },
@@ -233,16 +233,16 @@
       "name": "Cinder (Veteran)",
       "tokens": [
         {
-          "line1": "Grim Vengeance"
+          "title": "Grim Vengeance"
         },
         {
-          "line1": "Searing Strike"
+          "title": "Searing Strike"
         },
         {
-          "line1": "Sweeping Charge"
+          "title": "Sweeping Charge"
         },
         {
-          "line1": "Impale"
+          "title": "Impale"
         }
       ]
     },
@@ -251,16 +251,16 @@
       "name": "Cutlass",
       "tokens": [
         {
-          "line1": "Quick Off the Line"
+          "title": "Quick Off the Line"
         },
         {
-          "line1": "Tutelage"
+          "title": "Tutelage"
         },
         {
-          "line1": "Broadside"
+          "title": "Broadside"
         },
         {
-          "line1": "Chain Shot"
+          "title": "Chain Shot"
         }
       ]
     },
@@ -269,19 +269,19 @@
       "name": "Iron",
       "tokens": [
         {
-          "line1": "Battering Ram"
+          "title": "Battering Ram"
         },
         {
-          "line1": "Close Control"
+          "title": "Close Control"
         },
         {
-          "line1": "Tough Hide"
+          "title": "Tough Hide"
         },
         {
-          "line1": "Tryhard"
+          "title": "Tryhard"
         },
         {
-          "line1": "Impetus"
+          "title": "Impetus"
         }
       ]
     },
@@ -290,16 +290,16 @@
       "name": "Sledge",
       "tokens": [
         {
-          "line1": "Powerful Charge"
+          "title": "Powerful Charge"
         },
         {
-          "line1": "Tutelage"
+          "title": "Tutelage"
         },
         {
-          "line1": "Long Bomb"
+          "title": "Long Bomb"
         },
         {
-          "line1": "Piledriver"
+          "title": "Piledriver"
         }
       ]
     }

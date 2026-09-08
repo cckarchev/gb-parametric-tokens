@@ -8,19 +8,19 @@
       "name": "Angel",
       "tokens": [
         {
-          "line1": "Get Over Here"
+          "title": "Get Over Here"
         },
         {
-          "line1": "Prodigy"
+          "title": "Prodigy"
         },
         {
-          "line1": "Untouchable"
+          "title": "Untouchable"
         },
         {
-          "line1": "Nimble"
+          "title": "Nimble"
         },
         {
-          "line1": "Super Shot"
+          "title": "Super Shot"
         }
       ]
     },
@@ -29,16 +29,16 @@
       "name": "Siren",
       "tokens": [
         {
-          "line1": "Beautiful"
+          "title": "Beautiful"
         },
         {
-          "line1": "Protected"
+          "title": "Protected"
         },
         {
-          "line1": "Lure"
+          "title": "Lure"
         },
         {
-          "line1": "Seduced"
+          "title": "Seduced"
         }
       ]
     },
@@ -47,19 +47,19 @@
       "name": "Windfinder",
       "tokens": [
         {
-          "line1": "Guild Rule: Precise Calculations"
+          "title": "Guild Rule: Precise Calculations"
         },
         {
-          "line1": "Stormwind"
+          "title": "Stormwind"
         },
         {
-          "line1": "Eye Spy"
+          "title": "Eye Spy"
         },
         {
-          "line1": "Full Speed Ahead"
+          "title": "Full Speed Ahead"
         },
         {
-          "line1": "Perfect Course"
+          "title": "Perfect Course"
         }
       ]
     },
@@ -68,16 +68,16 @@
       "name": "Wander",
       "tokens": [
         {
-          "line1": "Guild Rule: Precise Calculations"
+          "title": "Guild Rule: Precise Calculations"
         },
         {
-          "line1": "About Their Necks"
+          "title": "About Their Necks"
         },
         {
-          "line1": "Flying"
+          "title": "Flying"
         },
         {
-          "line1": "Guide"
+          "title": "Guide"
         }
       ]
     },
@@ -86,22 +86,22 @@
       "name": "Azimuth",
       "tokens": [
         {
-          "line1": "Guild Rule: Precise Calculations"
+          "title": "Guild Rule: Precise Calculations"
         },
         {
-          "line1": "Close Control"
+          "title": "Close Control"
         },
         {
-          "line1": "Gladiator"
+          "title": "Gladiator"
         },
         {
-          "line1": "Poised"
+          "title": "Poised"
         },
         {
-          "line1": "Disarm"
+          "title": "Disarm"
         },
         {
-          "line1": "Netted"
+          "title": "Netted"
         }
       ]
     },
@@ -110,22 +110,22 @@
       "name": "Ebb",
       "tokens": [
         {
-          "line1": "Guild Rule: Precise Calculations"
+          "title": "Guild Rule: Precise Calculations"
         },
         {
-          "line1": "Blessings of Old"
+          "title": "Blessings of Old"
         },
         {
-          "line1": "True Path"
+          "title": "True Path"
         },
         {
-          "line1": "Sharp Eyes"
+          "title": "Sharp Eyes"
         },
         {
-          "line1": "Grasping Earth"
+          "title": "Grasping Earth"
         },
         {
-          "line1": "Sprung a Leak"
+          "title": "Sprung a Leak"
         }
       ]
     },
@@ -134,22 +134,22 @@
       "name": "Fathom",
       "tokens": [
         {
-          "line1": "Guild Rule: Precise Calculations"
+          "title": "Guild Rule: Precise Calculations"
         },
         {
-          "line1": "Light Footed"
+          "title": "Light Footed"
         },
         {
-          "line1": "Linked"
+          "title": "Linked"
         },
         {
-          "line1": "Acrobatic"
+          "title": "Acrobatic"
         },
         {
-          "line1": "Smelling Salts"
+          "title": "Smelling Salts"
         },
         {
-          "line1": "Waverunner"
+          "title": "Waverunner"
         }
       ]
     },
@@ -158,16 +158,16 @@
       "name": "Horizon",
       "tokens": [
         {
-          "line1": "Guild Rule: Precise Calculations"
+          "title": "Guild Rule: Precise Calculations"
         },
         {
-          "line1": "Don't Get Cocky"
+          "title": "Don't Get Cocky"
         },
         {
-          "line1": "Stellar Navigation"
+          "title": "Stellar Navigation"
         },
         {
-          "line1": "Unexpected Arrival"
+          "title": "Unexpected Arrival"
         }
       ]
     }

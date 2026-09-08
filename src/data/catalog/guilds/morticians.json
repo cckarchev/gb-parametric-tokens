@@ -8,22 +8,22 @@
       "name": "Obulus",
       "tokens": [
         {
-          "line1": "Confidence"
+          "title": "Confidence"
         },
         {
-          "line1": "Shadow Like"
+          "title": "Shadow Like"
         },
         {
-          "line1": "Unpredictable Movement"
+          "title": "Unpredictable Movement"
         },
         {
-          "line1": "Misdirection"
+          "title": "Misdirection"
         },
         {
-          "line1": "Puppet Master"
+          "title": "Puppet Master"
         },
         {
-          "line1": "Rigor Mortis"
+          "title": "Rigor Mortis"
         }
       ]
     },
@@ -32,19 +32,19 @@
       "name": "Scalpel",
       "tokens": [
         {
-          "line1": "Anatomical Precision"
+          "title": "Anatomical Precision"
         },
         {
-          "line1": "Voodoo Strings"
+          "title": "Voodoo Strings"
         },
         {
-          "line1": "Second Wind"
+          "title": "Second Wind"
         },
         {
-          "line1": "Spirit Bomb"
+          "title": "Spirit Bomb"
         },
         {
-          "line1": "Vulnerable Prey"
+          "title": "Vulnerable Prey"
         }
       ]
     },
@@ -53,22 +53,22 @@
       "name": "Mourn",
       "tokens": [
         {
-          "line1": "Creeping Dread"
+          "title": "Creeping Dread"
         },
         {
-          "line1": "Grave Candle"
+          "title": "Grave Candle"
         },
         {
-          "line1": "Poltergeists"
+          "title": "Poltergeists"
         },
         {
-          "line1": "Haunting Gaze"
+          "title": "Haunting Gaze"
         },
         {
-          "line1": "Hollowed"
+          "title": "Hollowed"
         },
         {
-          "line1": "Malice"
+          "title": "Malice"
         }
       ]
     },
@@ -77,16 +77,16 @@
       "name": "Dirge",
       "tokens": [
         {
-          "line1": "Dark Doubts"
+          "title": "Dark Doubts"
         },
         {
-          "line1": "Flying"
+          "title": "Flying"
         },
         {
-          "line1": "Tag Along"
+          "title": "Tag Along"
         },
         {
-          "line1": "Singled Out"
+          "title": "Singled Out"
         }
       ]
     },
@@ -95,16 +95,16 @@
       "name": "Vileswarm",
       "tokens": [
         {
-          "line1": "Noxious Death"
+          "title": "Noxious Death"
         },
         {
-          "line1": "Rabid Frenzy"
+          "title": "Rabid Frenzy"
         },
         {
-          "line1": "Verminthirst"
+          "title": "Verminthirst"
         },
         {
-          "line1": "Scatter"
+          "title": "Scatter"
         }
       ]
     },
@@ -113,19 +113,19 @@
       "name": "Bonesaw",
       "tokens": [
         {
-          "line1": "Dread Omen"
+          "title": "Dread Omen"
         },
         {
-          "line1": "Stamina"
+          "title": "Stamina"
         },
         {
-          "line1": "Wraith Walk"
+          "title": "Wraith Walk"
         },
         {
-          "line1": "Spirit Strings"
+          "title": "Spirit Strings"
         },
         {
-          "line1": "Grave Wind"
+          "title": "Grave Wind"
         }
       ]
     },
@@ -134,19 +134,19 @@
       "name": "Brainpan",
       "tokens": [
         {
-          "line1": "One, Two!"
+          "title": "One, Two!"
         },
         {
-          "line1": "Thought"
+          "title": "Thought"
         },
         {
-          "line1": "I'm Open!"
+          "title": "I'm Open!"
         },
         {
-          "line1": "Puppet Show"
+          "title": "Puppet Show"
         },
         {
-          "line1": "Pulling the Strings"
+          "title": "Pulling the Strings"
         }
       ]
     },
@@ -155,13 +155,13 @@
       "name": "Memory",
       "tokens": [
         {
-          "line1": "Benched"
+          "title": "Benched"
         },
         {
-          "line1": "Control Strings"
+          "title": "Control Strings"
         },
         {
-          "line1": "Inanimate Object"
+          "title": "Inanimate Object"
         }
       ]
     },
@@ -170,22 +170,22 @@
       "name": "Casket",
       "tokens": [
         {
-          "line1": "Foul Odour"
+          "title": "Foul Odour"
         },
         {
-          "line1": "Reanimate"
+          "title": "Reanimate"
         },
         {
-          "line1": "Tough Hide"
+          "title": "Tough Hide"
         },
         {
-          "line1": "Ghostly Visage"
+          "title": "Ghostly Visage"
         },
         {
-          "line1": "Heavy Burden"
+          "title": "Heavy Burden"
         },
         {
-          "line1": "Casket Time"
+          "title": "Casket Time"
         }
       ]
     },
@@ -194,19 +194,19 @@
       "name": "Cosset",
       "tokens": [
         {
-          "line1": "Assist"
+          "title": "Assist"
         },
         {
-          "line1": "Furious"
+          "title": "Furious"
         },
         {
-          "line1": "Murder Spree"
+          "title": "Murder Spree"
         },
         {
-          "line1": "Carrion Call"
+          "title": "Carrion Call"
         },
         {
-          "line1": "Lure"
+          "title": "Lure"
         }
       ]
     },
@@ -215,16 +215,16 @@
       "name": "Gaffer",
       "tokens": [
         {
-          "line1": "The Knowledge"
+          "title": "The Knowledge"
         },
         {
-          "line1": "Careless Whisper"
+          "title": "Careless Whisper"
         },
         {
-          "line1": "Red Fury"
+          "title": "Red Fury"
         },
         {
-          "line1": "Handy Listener, Such As You Are"
+          "title": "Handy Listener, Such As You Are"
         }
       ]
     },
@@ -233,13 +233,13 @@
       "name": "Ghast",
       "tokens": [
         {
-          "line1": "Fear"
+          "title": "Fear"
         },
         {
-          "line1": "Rising Anger"
+          "title": "Rising Anger"
         },
         {
-          "line1": "The Unmasking"
+          "title": "The Unmasking"
         }
       ]
     },
@@ -248,19 +248,19 @@
       "name": "Graves",
       "tokens": [
         {
-          "line1": "Brutal"
+          "title": "Brutal"
         },
         {
-          "line1": "Finisher"
+          "title": "Finisher"
         },
         {
-          "line1": "Dismember"
+          "title": "Dismember"
         },
         {
-          "line1": "Go For The Throat"
+          "title": "Go For The Throat"
         },
         {
-          "line1": "Tainted Wounds"
+          "title": "Tainted Wounds"
         }
       ]
     },
@@ -269,16 +269,16 @@
       "name": "Graves (Veteran)",
       "tokens": [
         {
-          "line1": "Exhaustion"
+          "title": "Exhaustion"
         },
         {
-          "line1": "Mischief’s Call"
+          "title": "Mischief’s Call"
         },
         {
-          "line1": "They Ain't Tough!"
+          "title": "They Ain't Tough!"
         },
         {
-          "line1": "Packmaster"
+          "title": "Packmaster"
         }
       ]
     },
@@ -287,19 +287,19 @@
       "name": "Hemlocke (Veteran)",
       "tokens": [
         {
-          "line1": "Dark Doubts"
+          "title": "Dark Doubts"
         },
         {
-          "line1": "Soul Seer"
+          "title": "Soul Seer"
         },
         {
-          "line1": "Blind"
+          "title": "Blind"
         },
         {
-          "line1": "Smelling Salts"
+          "title": "Smelling Salts"
         },
         {
-          "line1": "The Power of Voodoo"
+          "title": "The Power of Voodoo"
         }
       ]
     },
@@ -308,19 +308,19 @@
       "name": "Silence",
       "tokens": [
         {
-          "line1": "Kick Support"
+          "title": "Kick Support"
         },
         {
-          "line1": "Tenacity"
+          "title": "Tenacity"
         },
         {
-          "line1": "Fire Blast"
+          "title": "Fire Blast"
         },
         {
-          "line1": "Shutout"
+          "title": "Shutout"
         },
         {
-          "line1": "Tucked"
+          "title": "Tucked"
         }
       ]
     },
@@ -329,19 +329,19 @@
       "name": "Pelage",
       "tokens": [
         {
-          "line1": "Cloak of Rats"
+          "title": "Cloak of Rats"
         },
         {
-          "line1": "Empathy"
+          "title": "Empathy"
         },
         {
-          "line1": "Grim Caress"
+          "title": "Grim Caress"
         },
         {
-          "line1": "Killer"
+          "title": "Killer"
         },
         {
-          "line1": "Singled Out"
+          "title": "Singled Out"
         }
       ]
     },
@@ -350,19 +350,19 @@
       "name": "Skulk",
       "tokens": [
         {
-          "line1": "Follow Up"
+          "title": "Follow Up"
         },
         {
-          "line1": "Lightning Reflexes"
+          "title": "Lightning Reflexes"
         },
         {
-          "line1": "Poised"
+          "title": "Poised"
         },
         {
-          "line1": "Horrific Odour"
+          "title": "Horrific Odour"
         },
         {
-          "line1": "Pest Control"
+          "title": "Pest Control"
         }
       ]
     }

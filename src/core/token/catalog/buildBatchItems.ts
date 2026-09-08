@@ -76,15 +76,15 @@ const buildCharacterTokenSpec = (
 ): TokenSpec => {
   const iconId = token.iconId ?? guildIconId;
   const titleLine = {
-    text: token.line1,
+    text: token.title,
     sizeMm: sharedConfig.titleSizeMm,
     colorGroup: TEXT_COLOR_GROUP_ID,
   };
-  const lines = token.line2
+  const lines = token.subtitle
     ? [
         titleLine,
         {
-          text: token.line2,
+          text: token.subtitle,
           sizeMm: sharedConfig.subtitleSizeMm,
           colorGroup: TEXT_COLOR_GROUP_ID,
         },
@@ -235,7 +235,7 @@ export const buildBatchItems = (
 
       items.push({
         id,
-        label: `${character.name}: ${token.line1}`,
+        label: `${character.name}: ${token.title}`,
         spec: buildCharacterTokenSpec(token, guildIconId, sharedConfig),
         copies: 1,
       });

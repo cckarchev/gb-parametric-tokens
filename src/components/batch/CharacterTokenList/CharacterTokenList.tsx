@@ -35,7 +35,7 @@ export const CharacterTokenList = ({
             return (
               <CheckboxField
                 key={id}
-                label={token.line1}
+                label={token.title}
                 checked={selectedTokenIds.includes(id)}
                 onChange={(checked) => toggle(id, checked)}
               />

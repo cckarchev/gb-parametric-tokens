@@ -8,16 +8,16 @@
       "name": "Bushel",
       "tokens": [
         {
-          "line1": "Cabbage Punt"
+          "title": "Cabbage Punt"
         },
         {
-          "line1": "Close Control"
+          "title": "Close Control"
         },
         {
-          "line1": "Ball's Gone!"
+          "title": "Ball's Gone!"
         },
         {
-          "line1": "I'm Open!"
+          "title": "I'm Open!"
         }
       ]
     },
@@ -26,19 +26,19 @@
       "name": "Honour (Veteran)",
       "tokens": [
         {
-          "line1": "Faithful Protector"
+          "title": "Faithful Protector"
         },
         {
-          "line1": "Fields of Wheat"
+          "title": "Fields of Wheat"
         },
         {
-          "line1": "Planting Season"
+          "title": "Planting Season"
         },
         {
-          "line1": "Smelling Salts"
+          "title": "Smelling Salts"
         },
         {
-          "line1": "Surpassing Strategy"
+          "title": "Surpassing Strategy"
         }
       ]
     },
@@ -47,16 +47,16 @@
       "name": "Herder",
       "tokens": [
         {
-          "line1": "Protect the Ball"
+          "title": "Protect the Ball"
         },
         {
-          "line1": "Sheep Become the Shepherds"
+          "title": "Sheep Become the Shepherds"
         },
         {
-          "line1": "On My Mark"
+          "title": "On My Mark"
         },
         {
-          "line1": "Rest Up!"
+          "title": "Rest Up!"
         }
       ]
     },
@@ -65,19 +65,19 @@
       "name": "Babe",
       "tokens": [
         {
-          "line1": "Heartless Brute!"
+          "title": "Heartless Brute!"
         },
         {
-          "line1": "Loved Creature"
+          "title": "Loved Creature"
         },
         {
-          "line1": "Pack Mentality"
+          "title": "Pack Mentality"
         },
         {
-          "line1": "Baa Ram Ewe"
+          "title": "Baa Ram Ewe"
         },
         {
-          "line1": "Droppings"
+          "title": "Droppings"
         }
       ]
     },
@@ -86,19 +86,19 @@
       "name": "Crook",
       "tokens": [
         {
-          "line1": "Herding"
+          "title": "Herding"
         },
         {
-          "line1": "Littermates"
+          "title": "Littermates"
         },
         {
-          "line1": "Matched Pair"
+          "title": "Matched Pair"
         },
         {
-          "line1": "Away to Me"
+          "title": "Away to Me"
         },
         {
-          "line1": "Howl"
+          "title": "Howl"
         }
       ]
     },
@@ -107,19 +107,19 @@
       "name": "Hook",
       "tokens": [
         {
-          "line1": "Herding"
+          "title": "Herding"
         },
         {
-          "line1": "Littermates"
+          "title": "Littermates"
         },
         {
-          "line1": "Matched Pair"
+          "title": "Matched Pair"
         },
         {
-          "line1": "Come Bye"
+          "title": "Come Bye"
         },
         {
-          "line1": "Howl"
+          "title": "Howl"
         }
       ]
     },
@@ -128,19 +128,19 @@
       "name": "Lamb",
       "tokens": [
         {
-          "line1": "Planting Master"
+          "title": "Planting Master"
         },
         {
-          "line1": "Workhorse"
+          "title": "Workhorse"
         },
         {
-          "line1": "Warming Oven"
+          "title": "Warming Oven"
         },
         {
-          "line1": "Sow the Seeds"
+          "title": "Sow the Seeds"
         },
         {
-          "line1": "Weak Point"
+          "title": "Weak Point"
         }
       ]
     },
@@ -149,22 +149,22 @@
       "name": "Ram",
       "tokens": [
         {
-          "line1": "Baa-ttering Ram"
+          "title": "Baa-ttering Ram"
         },
         {
-          "line1": "Flock"
+          "title": "Flock"
         },
         {
-          "line1": "Have You Any Wool?"
+          "title": "Have You Any Wool?"
         },
         {
-          "line1": "Planting Season"
+          "title": "Planting Season"
         },
         {
-          "line1": "Impetus"
+          "title": "Impetus"
         },
         {
-          "line1": "Guard the Flock"
+          "title": "Guard the Flock"
         }
       ]
     },
@@ -173,16 +173,16 @@
       "name": "Shearer",
       "tokens": [
         {
-          "line1": "All About The Game"
+          "title": "All About The Game"
         },
         {
-          "line1": "Football Legend"
+          "title": "Football Legend"
         },
         {
-          "line1": "Shearing"
+          "title": "Shearing"
         },
         {
-          "line1": "Ball's Gone!"
+          "title": "Ball's Gone!"
         }
       ]
     }

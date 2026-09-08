@@ -8,22 +8,22 @@
       "name": "Colossus",
       "tokens": [
         {
-          "line1": "Close Control"
+          "title": "Close Control"
         },
         {
-          "line1": "Light Footed"
+          "title": "Light Footed"
         },
         {
-          "line1": "Stoic"
+          "title": "Stoic"
         },
         {
-          "line1": "Tough Hide"
+          "title": "Tough Hide"
         },
         {
-          "line1": "Singled Out"
+          "title": "Singled Out"
         },
         {
-          "line1": "Unexpected Arrival"
+          "title": "Unexpected Arrival"
         }
       ]
     },
@@ -32,19 +32,19 @@
       "name": "Salvo",
       "tokens": [
         {
-          "line1": "Swift Strikes"
+          "title": "Swift Strikes"
         },
         {
-          "line1": "Arrow to the Knee"
+          "title": "Arrow to the Knee"
         },
         {
-          "line1": "Floored Bolt"
+          "title": "Floored Bolt"
         },
         {
-          "line1": "Tether Ball"
+          "title": "Tether Ball"
         },
         {
-          "line1": "Locked & Loaded"
+          "title": "Locked & Loaded"
         }
       ]
     },
@@ -53,19 +53,19 @@
       "name": "Shaft",
       "tokens": [
         {
-          "line1": "Guild Rule: Secret Tunnel"
+          "title": "Guild Rule: Secret Tunnel"
         },
         {
-          "line1": "Tough Hide"
+          "title": "Tough Hide"
         },
         {
-          "line1": "Lodestone"
+          "title": "Lodestone"
         },
         {
-          "line1": "Weak Point"
+          "title": "Weak Point"
         },
         {
-          "line1": "We’re Going Underground"
+          "title": "We’re Going Underground"
         }
       ]
     },
@@ -74,16 +74,16 @@
       "name": "Digger",
       "tokens": [
         {
-          "line1": "Guild Rule: Secret Tunnel"
+          "title": "Guild Rule: Secret Tunnel"
         },
         {
-          "line1": "Close Control"
+          "title": "Close Control"
         },
         {
-          "line1": "Stop, Drop, and Mole"
+          "title": "Stop, Drop, and Mole"
         },
         {
-          "line1": "Diggy Hole"
+          "title": "Diggy Hole"
         }
       ]
     },
@@ -92,19 +92,19 @@
       "name": "Fissure",
       "tokens": [
         {
-          "line1": "Guild Rule: Secret Tunnel"
+          "title": "Guild Rule: Secret Tunnel"
         },
         {
-          "line1": "You're Coming With Me"
+          "title": "You're Coming With Me"
         },
         {
-          "line1": "Grinding Tracks"
+          "title": "Grinding Tracks"
         },
         {
-          "line1": "Sinkhole"
+          "title": "Sinkhole"
         },
         {
-          "line1": "Tremor Mine"
+          "title": "Tremor Mine"
         }
       ]
     },
@@ -113,19 +113,19 @@
       "name": "Fuse",
       "tokens": [
         {
-          "line1": "Guild Rule: Secret Tunnel"
+          "title": "Guild Rule: Secret Tunnel"
         },
         {
-          "line1": "Remote Detonation"
+          "title": "Remote Detonation"
         },
         {
-          "line1": "Sapper's Instincts"
+          "title": "Sapper's Instincts"
         },
         {
-          "line1": "Clear!"
+          "title": "Clear!"
         },
         {
-          "line1": "Under the Lines"
+          "title": "Under the Lines"
         }
       ]
     },
@@ -134,19 +134,19 @@
       "name": "Mule",
       "tokens": [
         {
-          "line1": "Guild Rule: Secret Tunnel"
+          "title": "Guild Rule: Secret Tunnel"
         },
         {
-          "line1": "Reanimate"
+          "title": "Reanimate"
         },
         {
-          "line1": "Tough Hide"
+          "title": "Tough Hide"
         },
         {
-          "line1": "Lockdown"
+          "title": "Lockdown"
         },
         {
-          "line1": "Throw"
+          "title": "Throw"
         }
       ]
     },
@@ -155,19 +155,19 @@
       "name": "Spade",
       "tokens": [
         {
-          "line1": "Guild Rule: Secret Tunnel"
+          "title": "Guild Rule: Secret Tunnel"
         },
         {
-          "line1": "Close Control"
+          "title": "Close Control"
         },
         {
-          "line1": "Tutelage"
+          "title": "Tutelage"
         },
         {
-          "line1": "Diggy Hole"
+          "title": "Diggy Hole"
         },
         {
-          "line1": "Destructive Impulse"
+          "title": "Destructive Impulse"
         }
       ]
     }

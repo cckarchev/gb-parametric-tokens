@@ -8,22 +8,22 @@
       "name": "Brisket (Seasoned)",
       "tokens": [
         {
-          "line1": "Scores for Fun"
+          "title": "Scores for Fun"
         },
         {
-          "line1": "Unpredictable Movement"
+          "title": "Unpredictable Movement"
         },
         {
-          "line1": "I'm Open!"
+          "title": "I'm Open!"
         },
         {
-          "line1": "Route One"
+          "title": "Route One"
         },
         {
-          "line1": "With Aplomb"
+          "title": "With Aplomb"
         },
         {
-          "line1": "Worthy Sacrifice"
+          "title": "Worthy Sacrifice"
         }
       ]
     },
@@ -32,13 +32,13 @@
       "name": "Pride",
       "tokens": [
         {
-          "line1": "Rush Keeper"
+          "title": "Rush Keeper"
         },
         {
-          "line1": "Feral Instincts"
+          "title": "Feral Instincts"
         },
         {
-          "line1": "Predatory Gaze"
+          "title": "Predatory Gaze"
         }
       ]
     },
@@ -47,19 +47,19 @@
       "name": "Benediction",
       "tokens": [
         {
-          "line1": "Playmaker"
+          "title": "Playmaker"
         },
         {
-          "line1": "Poised"
+          "title": "Poised"
         },
         {
-          "line1": "Rapid Growth"
+          "title": "Rapid Growth"
         },
         {
-          "line1": "Braced"
+          "title": "Braced"
         },
         {
-          "line1": "Stand Firm"
+          "title": "Stand Firm"
         }
       ]
     },
@@ -68,16 +68,16 @@
       "name": "Fangtooth (Veteran)",
       "tokens": [
         {
-          "line1": "Flagellant"
+          "title": "Flagellant"
         },
         {
-          "line1": "Potbellied Pass"
+          "title": "Potbellied Pass"
         },
         {
-          "line1": "Resilience"
+          "title": "Resilience"
         },
         {
-          "line1": "Ground Pound"
+          "title": "Ground Pound"
         }
       ]
     },
@@ -86,19 +86,19 @@
       "name": "Grace",
       "tokens": [
         {
-          "line1": "Impart Faith"
+          "title": "Impart Faith"
         },
         {
-          "line1": "Talisman"
+          "title": "Talisman"
         },
         {
-          "line1": "Healing Light"
+          "title": "Healing Light"
         },
         {
-          "line1": "Quick Foot"
+          "title": "Quick Foot"
         },
         {
-          "line1": "Reclamation"
+          "title": "Reclamation"
         }
       ]
     },
@@ -107,16 +107,16 @@
       "name": "Harry ‘the Hat’",
       "tokens": [
         {
-          "line1": "Inspiring Hat"
+          "title": "Inspiring Hat"
         },
         {
-          "line1": "Rising Anger"
+          "title": "Rising Anger"
         },
         {
-          "line1": "Molotov"
+          "title": "Molotov"
         },
         {
-          "line1": "Singled Out"
+          "title": "Singled Out"
         }
       ]
     },
@@ -125,19 +125,19 @@
       "name": "Mist",
       "tokens": [
         {
-          "line1": "Cover of Darkness"
+          "title": "Cover of Darkness"
         },
         {
-          "line1": "Shadow Like"
+          "title": "Shadow Like"
         },
         {
-          "line1": "Skilled within Shadow"
+          "title": "Skilled within Shadow"
         },
         {
-          "line1": "Smoke Bomb"
+          "title": "Smoke Bomb"
         },
         {
-          "line1": "Shroud of Darkness"
+          "title": "Shroud of Darkness"
         }
       ]
     },
@@ -146,16 +146,16 @@
       "name": "Spigot (Seasoned)",
       "tokens": [
         {
-          "line1": "Close Control"
+          "title": "Close Control"
         },
         {
-          "line1": "Floored"
+          "title": "Floored"
         },
         {
-          "line1": "Ball's Gone!"
+          "title": "Ball's Gone!"
         },
         {
-          "line1": "Reading the Game"
+          "title": "Reading the Game"
         }
       ]
     }

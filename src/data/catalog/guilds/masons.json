@@ -8,16 +8,16 @@
       "name": "Lucky",
       "tokens": [
         {
-          "line1": "Stack the Deck"
+          "title": "Stack the Deck"
         },
         {
-          "line1": "Tough Hide"
+          "title": "Tough Hide"
         },
         {
-          "line1": "Sleight of Hand"
+          "title": "Sleight of Hand"
         },
         {
-          "line1": "Raise the Stakes"
+          "title": "Raise the Stakes"
         }
       ]
     },
@@ -26,22 +26,22 @@
       "name": "Honour",
       "tokens": [
         {
-          "line1": "Assist"
+          "title": "Assist"
         },
         {
-          "line1": "Linked"
+          "title": "Linked"
         },
         {
-          "line1": "Poised"
+          "title": "Poised"
         },
         {
-          "line1": "Quick Time"
+          "title": "Quick Time"
         },
         {
-          "line1": "Superior Strategy"
+          "title": "Superior Strategy"
         },
         {
-          "line1": "Topping Out!"
+          "title": "Topping Out!"
         }
       ]
     },
@@ -50,25 +50,25 @@
       "name": "Hammer",
       "tokens": [
         {
-          "line1": "Knockback"
+          "title": "Knockback"
         },
         {
-          "line1": "Repointing"
+          "title": "Repointing"
         },
         {
-          "line1": "Tough Hide"
+          "title": "Tough Hide"
         },
         {
-          "line1": "Freemason"
+          "title": "Freemason"
         },
         {
-          "line1": "Impetus"
+          "title": "Impetus"
         },
         {
-          "line1": "Iron Fist"
+          "title": "Iron Fist"
         },
         {
-          "line1": "Hammer Time!"
+          "title": "Hammer Time!"
         }
       ]
     },
@@ -77,22 +77,22 @@
       "name": "Corbelli",
       "tokens": [
         {
-          "line1": "Close Control"
+          "title": "Close Control"
         },
         {
-          "line1": "Making Space"
+          "title": "Making Space"
         },
         {
-          "line1": "Acrobatic"
+          "title": "Acrobatic"
         },
         {
-          "line1": "Dummy Pass"
+          "title": "Dummy Pass"
         },
         {
-          "line1": "Towering Presence"
+          "title": "Towering Presence"
         },
         {
-          "line1": "Playing the Game"
+          "title": "Playing the Game"
         }
       ]
     },
@@ -101,13 +101,13 @@
       "name": "Marbles",
       "tokens": [
         {
-          "line1": "Counter-Charge"
+          "title": "Counter-Charge"
         },
         {
-          "line1": "Loved Creature"
+          "title": "Loved Creature"
         },
         {
-          "line1": "Goad"
+          "title": "Goad"
         }
       ]
     },
@@ -116,10 +116,10 @@
       "name": "Wrecker",
       "tokens": [
         {
-          "line1": "Battering Ram"
+          "title": "Battering Ram"
         },
         {
-          "line1": "Follow Up"
+          "title": "Follow Up"
         }
       ]
     },
@@ -128,19 +128,19 @@
       "name": "Brick",
       "tokens": [
         {
-          "line1": "Gravity Well"
+          "title": "Gravity Well"
         },
         {
-          "line1": "Knockback"
+          "title": "Knockback"
         },
         {
-          "line1": "Tough Hide"
+          "title": "Tough Hide"
         },
         {
-          "line1": "Concussion"
+          "title": "Concussion"
         },
         {
-          "line1": "Fulcrum"
+          "title": "Fulcrum"
         }
       ]
     },
@@ -149,16 +149,16 @@
       "name": "Champ",
       "tokens": [
         {
-          "line1": "Put Me Back In, Coach!"
+          "title": "Put Me Back In, Coach!"
         },
         {
-          "line1": "Poised"
+          "title": "Poised"
         },
         {
-          "line1": "Stamina"
+          "title": "Stamina"
         },
         {
-          "line1": "Hold the Ball!"
+          "title": "Hold the Ball!"
         }
       ]
     },
@@ -167,16 +167,16 @@
       "name": "Chisel",
       "tokens": [
         {
-          "line1": "Revelling"
+          "title": "Revelling"
         },
         {
-          "line1": "Concussion"
+          "title": "Concussion"
         },
         {
-          "line1": "Iron Fist"
+          "title": "Iron Fist"
         },
         {
-          "line1": "Intensity"
+          "title": "Intensity"
         }
       ]
     },
@@ -185,13 +185,13 @@
       "name": "Chisel (Veteran)",
       "tokens": [
         {
-          "line1": "Adaptive Strategy"
+          "title": "Adaptive Strategy"
         },
         {
-          "line1": "Take One for the Team"
+          "title": "Take One for the Team"
         },
         {
-          "line1": "Squad Tactics"
+          "title": "Squad Tactics"
         }
       ]
     },
@@ -200,10 +200,10 @@
       "name": "Flint",
       "tokens": [
         {
-          "line1": "Close Control"
+          "title": "Close Control"
         },
         {
-          "line1": "Where'd They Go?"
+          "title": "Where'd They Go?"
         }
       ]
     },
@@ -212,19 +212,19 @@
       "name": "Granite",
       "tokens": [
         {
-          "line1": "Between a Rock..."
+          "title": "Between a Rock..."
         },
         {
-          "line1": "Close Ranks"
+          "title": "Close Ranks"
         },
         {
-          "line1": "Sturdy"
+          "title": "Sturdy"
         },
         {
-          "line1": "Gut & String"
+          "title": "Gut & String"
         },
         {
-          "line1": "Broken Earth"
+          "title": "Broken Earth"
         }
       ]
     },
@@ -233,19 +233,19 @@
       "name": "Harmony",
       "tokens": [
         {
-          "line1": "Back to the Shadows"
+          "title": "Back to the Shadows"
         },
         {
-          "line1": "Family"
+          "title": "Family"
         },
         {
-          "line1": "Protected"
+          "title": "Protected"
         },
         {
-          "line1": "Acrobatic"
+          "title": "Acrobatic"
         },
         {
-          "line1": "Weak Point"
+          "title": "Weak Point"
         }
       ]
     },
@@ -254,16 +254,16 @@
       "name": "Harmony (Veteran)",
       "tokens": [
         {
-          "line1": "Animosity"
+          "title": "Animosity"
         },
         {
-          "line1": "Field Medic"
+          "title": "Field Medic"
         },
         {
-          "line1": "Team Player"
+          "title": "Team Player"
         },
         {
-          "line1": "Marked Target"
+          "title": "Marked Target"
         }
       ]
     },
@@ -272,19 +272,19 @@
       "name": "Mallet",
       "tokens": [
         {
-          "line1": "Extended Reach"
+          "title": "Extended Reach"
         },
         {
-          "line1": "Football Legend"
+          "title": "Football Legend"
         },
         {
-          "line1": "Forceful Blow"
+          "title": "Forceful Blow"
         },
         {
-          "line1": "Singled Out"
+          "title": "Singled Out"
         },
         {
-          "line1": "Smashed Shins"
+          "title": "Smashed Shins"
         }
       ]
     },
@@ -293,16 +293,16 @@
       "name": "Tower",
       "tokens": [
         {
-          "line1": "Floored"
+          "title": "Floored"
         },
         {
-          "line1": "Knockback"
+          "title": "Knockback"
         },
         {
-          "line1": "Quoining"
+          "title": "Quoining"
         },
         {
-          "line1": "Protect Those Close"
+          "title": "Protect Those Close"
         }
       ]
     },
@@ -311,19 +311,19 @@
       "name": "Bucker",
       "tokens": [
         {
-          "line1": "Anatomical Precision"
+          "title": "Anatomical Precision"
         },
         {
-          "line1": "Splitting Strikes"
+          "title": "Splitting Strikes"
         },
         {
-          "line1": "Hew Do They Think They Are"
+          "title": "Hew Do They Think They Are"
         },
         {
-          "line1": "Hoisting and Hauling"
+          "title": "Hoisting and Hauling"
         },
         {
-          "line1": "Axe A Question"
+          "title": "Axe A Question"
         }
       ]
     },
@@ -332,19 +332,19 @@
       "name": "Tinder",
       "tokens": [
         {
-          "line1": "Synchronised"
+          "title": "Synchronised"
         },
         {
-          "line1": "Putting Out Fires"
+          "title": "Putting Out Fires"
         },
         {
-          "line1": "Swipe Right"
+          "title": "Swipe Right"
         },
         {
-          "line1": "Skidding"
+          "title": "Skidding"
         },
         {
-          "line1": "This Should Be Overtime..."
+          "title": "This Should Be Overtime..."
         }
       ]
     }

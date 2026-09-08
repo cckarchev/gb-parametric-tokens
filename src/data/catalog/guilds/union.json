@@ -8,19 +8,19 @@
       "name": "Blackheart",
       "tokens": [
         {
-          "line1": "Shadow Like"
+          "title": "Shadow Like"
         },
         {
-          "line1": "Butchery"
+          "title": "Butchery"
         },
         {
-          "line1": "Misdirection"
+          "title": "Misdirection"
         },
         {
-          "line1": "On My Mark"
+          "title": "On My Mark"
         },
         {
-          "line1": "Strike from the Shadows"
+          "title": "Strike from the Shadows"
         }
       ]
     },
@@ -29,25 +29,25 @@
       "name": "Rage (Veteran)",
       "tokens": [
         {
-          "line1": "Furious"
+          "title": "Furious"
         },
         {
-          "line1": "Rising Anger"
+          "title": "Rising Anger"
         },
         {
-          "line1": "Concussion"
+          "title": "Concussion"
         },
         {
-          "line1": "Quick Time"
+          "title": "Quick Time"
         },
         {
-          "line1": "Red Fury"
+          "title": "Red Fury"
         },
         {
-          "line1": "Bloody Coin"
+          "title": "Bloody Coin"
         },
         {
-          "line1": "My Gang"
+          "title": "My Gang"
         }
       ]
     },
@@ -56,22 +56,22 @@
       "name": "Greede (Veteran)",
       "tokens": [
         {
-          "line1": "Do the Thing!"
+          "title": "Do the Thing!"
         },
         {
-          "line1": "Lance"
+          "title": "Lance"
         },
         {
-          "line1": "Shelling Out"
+          "title": "Shelling Out"
         },
         {
-          "line1": "Trusty Steed"
+          "title": "Trusty Steed"
         },
         {
-          "line1": "Forward, Minions!"
+          "title": "Forward, Minions!"
         },
         {
-          "line1": "Persuasion"
+          "title": "Persuasion"
         }
       ]
     },
@@ -80,13 +80,13 @@
       "name": "Coin",
       "tokens": [
         {
-          "line1": "Bag of Coffers"
+          "title": "Bag of Coffers"
         },
         {
-          "line1": "Follow Up"
+          "title": "Follow Up"
         },
         {
-          "line1": "Constrict"
+          "title": "Constrict"
         }
       ]
     },
@@ -95,16 +95,16 @@
       "name": "Strongbox",
       "tokens": [
         {
-          "line1": "Confidence"
+          "title": "Confidence"
         },
         {
-          "line1": "Shelling Out"
+          "title": "Shelling Out"
         },
         {
-          "line1": "Tag Along"
+          "title": "Tag Along"
         },
         {
-          "line1": "Tortoise Power"
+          "title": "Tortoise Power"
         }
       ]
     },
@@ -113,16 +113,16 @@
       "name": "Avarisse",
       "tokens": [
         {
-          "line1": "Contract"
+          "title": "Contract"
         },
         {
-          "line1": "Drop Off"
+          "title": "Drop Off"
         },
         {
-          "line1": "Thuggery"
+          "title": "Thuggery"
         },
         {
-          "line1": "Tough Hide"
+          "title": "Tough Hide"
         }
       ]
     },
@@ -131,19 +131,19 @@
       "name": "Greede",
       "tokens": [
         {
-          "line1": "Contract"
+          "title": "Contract"
         },
         {
-          "line1": "Pick Up"
+          "title": "Pick Up"
         },
         {
-          "line1": "Ready to Go"
+          "title": "Ready to Go"
         },
         {
-          "line1": "Gang Fighting"
+          "title": "Gang Fighting"
         },
         {
-          "line1": "Singled Out"
+          "title": "Singled Out"
         }
       ]
     },
@@ -152,13 +152,13 @@
       "name": "Decimate",
       "tokens": [
         {
-          "line1": "Anatomical Precision"
+          "title": "Anatomical Precision"
         },
         {
-          "line1": "Second Wind"
+          "title": "Second Wind"
         },
         {
-          "line1": "Thousand Cuts"
+          "title": "Thousand Cuts"
         }
       ]
     },
@@ -167,16 +167,16 @@
       "name": "Fangtooth",
       "tokens": [
         {
-          "line1": "Foul Odour"
+          "title": "Foul Odour"
         },
         {
-          "line1": "Resilience"
+          "title": "Resilience"
         },
         {
-          "line1": "The Unmasking"
+          "title": "The Unmasking"
         },
         {
-          "line1": "Fangtooth Unleashed"
+          "title": "Fangtooth Unleashed"
         }
       ]
     },
@@ -185,16 +185,16 @@
       "name": "Gutter",
       "tokens": [
         {
-          "line1": "Anatomical Precision"
+          "title": "Anatomical Precision"
         },
         {
-          "line1": "Life Drinker"
+          "title": "Life Drinker"
         },
         {
-          "line1": "Chain Grab"
+          "title": "Chain Grab"
         },
         {
-          "line1": "Scything Blow"
+          "title": "Scything Blow"
         }
       ]
     },
@@ -203,19 +203,19 @@
       "name": "Hemlocke",
       "tokens": [
         {
-          "line1": "Magical Brew"
+          "title": "Magical Brew"
         },
         {
-          "line1": "Slippery"
+          "title": "Slippery"
         },
         {
-          "line1": "Blind"
+          "title": "Blind"
         },
         {
-          "line1": "Noxious Blast"
+          "title": "Noxious Blast"
         },
         {
-          "line1": "Smelling Salts"
+          "title": "Smelling Salts"
         }
       ]
     },
@@ -224,19 +224,19 @@
       "name": "Minx",
       "tokens": [
         {
-          "line1": "Back to the Shadows"
+          "title": "Back to the Shadows"
         },
         {
-          "line1": "Damaged Target"
+          "title": "Damaged Target"
         },
         {
-          "line1": "Hunter's Prey"
+          "title": "Hunter's Prey"
         },
         {
-          "line1": "Axe Throw"
+          "title": "Axe Throw"
         },
         {
-          "line1": "Marked Target"
+          "title": "Marked Target"
         }
       ]
     },
@@ -245,22 +245,22 @@
       "name": "Rage",
       "tokens": [
         {
-          "line1": "Berserk"
+          "title": "Berserk"
         },
         {
-          "line1": "Crucial Artery"
+          "title": "Crucial Artery"
         },
         {
-          "line1": "Furious"
+          "title": "Furious"
         },
         {
-          "line1": "Concussion"
+          "title": "Concussion"
         },
         {
-          "line1": "Tooled Up"
+          "title": "Tooled Up"
         },
         {
-          "line1": "Intensity"
+          "title": "Intensity"
         }
       ]
     },
@@ -269,19 +269,19 @@
       "name": "Snakeskin",
       "tokens": [
         {
-          "line1": "Stealthy"
+          "title": "Stealthy"
         },
         {
-          "line1": "Poisoner"
+          "title": "Poisoner"
         },
         {
-          "line1": "Chameleon"
+          "title": "Chameleon"
         },
         {
-          "line1": "Where'd They Go?"
+          "title": "Where'd They Go?"
         },
         {
-          "line1": "Aqua Tofana"
+          "title": "Aqua Tofana"
         }
       ]
     },
@@ -290,19 +290,19 @@
       "name": "Benediction",
       "tokens": [
         {
-          "line1": "Playmaker"
+          "title": "Playmaker"
         },
         {
-          "line1": "Poised"
+          "title": "Poised"
         },
         {
-          "line1": "Rapid Growth"
+          "title": "Rapid Growth"
         },
         {
-          "line1": "Braced"
+          "title": "Braced"
         },
         {
-          "line1": "Stand Firm"
+          "title": "Stand Firm"
         }
       ]
     },
@@ -311,19 +311,19 @@
       "name": "Grace",
       "tokens": [
         {
-          "line1": "Impart Faith"
+          "title": "Impart Faith"
         },
         {
-          "line1": "Talisman"
+          "title": "Talisman"
         },
         {
-          "line1": "Healing Light"
+          "title": "Healing Light"
         },
         {
-          "line1": "Quick Foot"
+          "title": "Quick Foot"
         },
         {
-          "line1": "Reclamation"
+          "title": "Reclamation"
         }
       ]
     },
@@ -332,16 +332,16 @@
       "name": "Harry ‘the Hat’",
       "tokens": [
         {
-          "line1": "Inspiring Hat"
+          "title": "Inspiring Hat"
         },
         {
-          "line1": "Rising Anger"
+          "title": "Rising Anger"
         },
         {
-          "line1": "Molotov"
+          "title": "Molotov"
         },
         {
-          "line1": "Singled Out"
+          "title": "Singled Out"
         }
       ]
     },
@@ -350,19 +350,19 @@
       "name": "Mist",
       "tokens": [
         {
-          "line1": "Cover of Darkness"
+          "title": "Cover of Darkness"
         },
         {
-          "line1": "Shadow Like"
+          "title": "Shadow Like"
         },
         {
-          "line1": "Skilled within Shadow"
+          "title": "Skilled within Shadow"
         },
         {
-          "line1": "Smoke Bomb"
+          "title": "Smoke Bomb"
         },
         {
-          "line1": "Shroud of Darkness"
+          "title": "Shroud of Darkness"
         }
       ]
     }

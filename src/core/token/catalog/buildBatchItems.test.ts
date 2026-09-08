@@ -17,14 +17,14 @@ const catalog: GuildCatalog = {
       id: "tapper",
       name: "Tapper",
       tokens: [
-        { line1: "Commanding Aura", line2: '4" Aura +1 TAC +1 DMG' },
-        { line1: "Marked Target" },
+        { title: "Commanding Aura", subtitle: '4" Aura +1 TAC +1 DMG' },
+        { title: "Marked Target" },
       ],
     },
     {
       id: "spigot",
       name: "Spigot",
-      tokens: [{ line1: "Time's Called", line2: '4" Aura +2"/+2" MOV' }],
+      tokens: [{ title: "Time's Called", subtitle: '4" Aura +2"/+2" MOV' }],
     },
   ],
   genericTokens: [{ id: "beer-token", name: "Beer Token" }],
@@ -89,7 +89,7 @@ describe("buildBatchItems", () => {
     ]);
   });
 
-  it("omits the second line for a token with no line2", () => {
+  it("omits the second line for a token with no subtitle", () => {
     const selection: BatchSelection = {
       ...emptySelection,
       characterTokenIds: [characterTokenId("tapper", 1)],

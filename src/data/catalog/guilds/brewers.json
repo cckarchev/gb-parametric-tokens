@@ -8,17 +8,17 @@
       "name": "Tapper",
       "tokens": [
         {
-          "line1": "Commanding Aura",
-          "line2": "4\" Aura +1 TAC +1 DMG"
+          "title": "Commanding Aura",
+          "subtitle": "4\" Aura +1 TAC +1 DMG"
         },
         {
-          "line1": "Marked Target"
+          "title": "Marked Target"
         },
         {
-          "line1": "Tough Hide"
+          "title": "Tough Hide"
         },
         {
-          "line1": "Old Jake's"
+          "title": "Old Jake's"
         }
       ]
     },
@@ -27,22 +27,22 @@
       "name": "Esters",
       "tokens": [
         {
-          "line1": "Resilience"
+          "title": "Resilience"
         },
         {
-          "line1": "Aria"
+          "title": "Aria"
         },
         {
-          "line1": "Tooled Up"
+          "title": "Tooled Up"
         },
         {
-          "line1": "Quick Foot"
+          "title": "Quick Foot"
         },
         {
-          "line1": "Voice of Command"
+          "title": "Voice of Command"
         },
         {
-          "line1": "Soothing Voice"
+          "title": "Soothing Voice"
         }
       ]
     },
@@ -51,22 +51,22 @@
       "name": "Corker",
       "tokens": [
         {
-          "line1": "Spit and Sawdust"
+          "title": "Spit and Sawdust"
         },
         {
-          "line1": "Legless Drunk"
+          "title": "Legless Drunk"
         },
         {
-          "line1": "Iron Fist"
+          "title": "Iron Fist"
         },
         {
-          "line1": "Tough Skin"
+          "title": "Tough Skin"
         },
         {
-          "line1": "Whisky Chaser"
+          "title": "Whisky Chaser"
         },
         {
-          "line1": "Free Bar"
+          "title": "Free Bar"
         }
       ]
     },
@@ -75,13 +75,13 @@
       "name": "Scum",
       "tokens": [
         {
-          "line1": "Feral"
+          "title": "Feral"
         },
         {
-          "line1": "Shadow Like"
+          "title": "Shadow Like"
         },
         {
-          "line1": "Unpredictable Movement"
+          "title": "Unpredictable Movement"
         }
       ]
     },
@@ -90,13 +90,13 @@
       "name": "Quaff",
       "tokens": [
         {
-          "line1": "Pick Me Up"
+          "title": "Pick Me Up"
         },
         {
-          "line1": "Loved Creature"
+          "title": "Loved Creature"
         },
         {
-          "line1": "Second Wind"
+          "title": "Second Wind"
         }
       ]
     },
@@ -105,19 +105,19 @@
       "name": "Decimate (Veteran)",
       "tokens": [
         {
-          "line1": "Anatomical Precision"
+          "title": "Anatomical Precision"
         },
         {
-          "line1": "Tough Hide"
+          "title": "Tough Hide"
         },
         {
-          "line1": "Acrobatic"
+          "title": "Acrobatic"
         },
         {
-          "line1": "Stagger"
+          "title": "Stagger"
         },
         {
-          "line1": "Duellist's Lunge"
+          "title": "Duellist's Lunge"
         }
       ]
     },
@@ -126,19 +126,19 @@
       "name": "Flea",
       "tokens": [
         {
-          "line1": "Get Over Here"
+          "title": "Get Over Here"
         },
         {
-          "line1": "Who's a Good Boy"
+          "title": "Who's a Good Boy"
         },
         {
-          "line1": "Go Get 'Em!"
+          "title": "Go Get 'Em!"
         },
         {
-          "line1": "Like We Practised"
+          "title": "Like We Practised"
         },
         {
-          "line1": "Animal Treat"
+          "title": "Animal Treat"
         }
       ]
     },
@@ -147,19 +147,19 @@
       "name": "Friday",
       "tokens": [
         {
-          "line1": "Defence Support"
+          "title": "Defence Support"
         },
         {
-          "line1": "Victory Toast"
+          "title": "Victory Toast"
         },
         {
-          "line1": "Shadow Like"
+          "title": "Shadow Like"
         },
         {
-          "line1": "Sliced Tendon"
+          "title": "Sliced Tendon"
         },
         {
-          "line1": "Sliding Tackle"
+          "title": "Sliding Tackle"
         }
       ]
     },
@@ -168,19 +168,19 @@
       "name": "Hooper",
       "tokens": [
         {
-          "line1": "Tough Hide"
+          "title": "Tough Hide"
         },
         {
-          "line1": "Shove the Boot In"
+          "title": "Shove the Boot In"
         },
         {
-          "line1": "Smashed Shins"
+          "title": "Smashed Shins"
         },
         {
-          "line1": "Tough Skin"
+          "title": "Tough Skin"
         },
         {
-          "line1": "True Grit"
+          "title": "True Grit"
         }
       ]
     },
@@ -189,16 +189,16 @@
       "name": "Mash",
       "tokens": [
         {
-          "line1": "Resilience"
+          "title": "Resilience"
         },
         {
-          "line1": "Tough Hide"
+          "title": "Tough Hide"
         },
         {
-          "line1": "Howzat!?"
+          "title": "Howzat!?"
         },
         {
-          "line1": "Batter Up"
+          "title": "Batter Up"
         }
       ]
     },
@@ -207,22 +207,22 @@
       "name": "Pintpot",
       "tokens": [
         {
-          "line1": "Rowdy"
+          "title": "Rowdy"
         },
         {
-          "line1": "Six Pack"
+          "title": "Six Pack"
         },
         {
-          "line1": "Taunt"
+          "title": "Taunt"
         },
         {
-          "line1": "Concussion"
+          "title": "Concussion"
         },
         {
-          "line1": "Smashing Face"
+          "title": "Smashing Face"
         },
         {
-          "line1": "Come On, Then!"
+          "title": "Come On, Then!"
         }
       ]
     },
@@ -231,17 +231,17 @@
       "name": "Spigot",
       "tokens": [
         {
-          "line1": "Time's Called",
-          "line2": "4\" Aura +2\"/+2\" MOV"
+          "title": "Time's Called",
+          "subtitle": "4\" Aura +2\"/+2\" MOV"
         },
         {
-          "line1": "Floored"
+          "title": "Floored"
         },
         {
-          "line1": "Tough Hide"
+          "title": "Tough Hide"
         },
         {
-          "line1": "Ball's Gone!"
+          "title": "Ball's Gone!"
         }
       ]
     },
@@ -250,19 +250,19 @@
       "name": "Spigot (Veteran)",
       "tokens": [
         {
-          "line1": "Close Control"
+          "title": "Close Control"
         },
         {
-          "line1": "Football Legend"
+          "title": "Football Legend"
         },
         {
-          "line1": "Goad"
+          "title": "Goad"
         },
         {
-          "line1": "Ball's Gone!"
+          "title": "Ball's Gone!"
         },
         {
-          "line1": "Back to His Best"
+          "title": "Back to His Best"
         }
       ]
     },
@@ -271,16 +271,16 @@
       "name": "Stave",
       "tokens": [
         {
-          "line1": "Battering Ram"
+          "title": "Battering Ram"
         },
         {
-          "line1": "Tough Hide"
+          "title": "Tough Hide"
         },
         {
-          "line1": "Lob Barrel"
+          "title": "Lob Barrel"
         },
         {
-          "line1": "Explosive Brew"
+          "title": "Explosive Brew"
         }
       ]
     },
@@ -289,22 +289,22 @@
       "name": "Stoker",
       "tokens": [
         {
-          "line1": "Burning Passion"
+          "title": "Burning Passion"
         },
         {
-          "line1": "Magical Brew"
+          "title": "Magical Brew"
         },
         {
-          "line1": "Searing Strike"
+          "title": "Searing Strike"
         },
         {
-          "line1": "Molotov"
+          "title": "Molotov"
         },
         {
-          "line1": "Flame Jet"
+          "title": "Flame Jet"
         },
         {
-          "line1": "Human Ball of Fire"
+          "title": "Human Ball of Fire"
         }
       ]
     },
@@ -313,16 +313,16 @@
       "name": "Lucky",
       "tokens": [
         {
-          "line1": "Stack the Deck"
+          "title": "Stack the Deck"
         },
         {
-          "line1": "Tough Hide"
+          "title": "Tough Hide"
         },
         {
-          "line1": "Sleight of Hand"
+          "title": "Sleight of Hand"
         },
         {
-          "line1": "Raise the Stakes"
+          "title": "Raise the Stakes"
         }
       ]
     }

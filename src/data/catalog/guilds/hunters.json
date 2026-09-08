@@ -8,25 +8,25 @@
       "name": "Theron",
       "tokens": [
         {
-          "line1": "Hunter's Prey"
+          "title": "Hunter's Prey"
         },
         {
-          "line1": "Light Footed"
+          "title": "Light Footed"
         },
         {
-          "line1": "Nature's Growth"
+          "title": "Nature's Growth"
         },
         {
-          "line1": "Arrow to the Knee"
+          "title": "Arrow to the Knee"
         },
         {
-          "line1": "Pinned"
+          "title": "Pinned"
         },
         {
-          "line1": "Sun Strike"
+          "title": "Sun Strike"
         },
         {
-          "line1": "Blessing of the Sun Father"
+          "title": "Blessing of the Sun Father"
         }
       ]
     },
@@ -35,22 +35,22 @@
       "name": "Skatha",
       "tokens": [
         {
-          "line1": "Light Footed"
+          "title": "Light Footed"
         },
         {
-          "line1": "Nature's Chill"
+          "title": "Nature's Chill"
         },
         {
-          "line1": "Blessing of the Moon Goddess"
+          "title": "Blessing of the Moon Goddess"
         },
         {
-          "line1": "Cold Snap"
+          "title": "Cold Snap"
         },
         {
-          "line1": "Snowball"
+          "title": "Snowball"
         },
         {
-          "line1": "Winter's Night"
+          "title": "Winter's Night"
         }
       ]
     },
@@ -59,22 +59,22 @@
       "name": "Steeljaw",
       "tokens": [
         {
-          "line1": "Bring Them Down"
+          "title": "Bring Them Down"
         },
         {
-          "line1": "Expert Trapper"
+          "title": "Expert Trapper"
         },
         {
-          "line1": "Bait"
+          "title": "Bait"
         },
         {
-          "line1": "Disarm"
+          "title": "Disarm"
         },
         {
-          "line1": "Weak Point"
+          "title": "Weak Point"
         },
         {
-          "line1": "Perfect Positioning"
+          "title": "Perfect Positioning"
         }
       ]
     },
@@ -83,16 +83,16 @@
       "name": "Fahad",
       "tokens": [
         {
-          "line1": "Furious"
+          "title": "Furious"
         },
         {
-          "line1": "Isolated Target"
+          "title": "Isolated Target"
         },
         {
-          "line1": "Linked"
+          "title": "Linked"
         },
         {
-          "line1": "Nimble"
+          "title": "Nimble"
         }
       ]
     },
@@ -101,13 +101,13 @@
       "name": "Snow",
       "tokens": [
         {
-          "line1": "Pack Mentality"
+          "title": "Pack Mentality"
         },
         {
-          "line1": "Loved Creature"
+          "title": "Loved Creature"
         },
         {
-          "line1": "Feral Instincts"
+          "title": "Feral Instincts"
         }
       ]
     },
@@ -116,19 +116,19 @@
       "name": "Chaska",
       "tokens": [
         {
-          "line1": "Big Game Traps"
+          "title": "Big Game Traps"
         },
         {
-          "line1": "Light Footed"
+          "title": "Light Footed"
         },
         {
-          "line1": "Take the Lead"
+          "title": "Take the Lead"
         },
         {
-          "line1": "Boom Box"
+          "title": "Boom Box"
         },
         {
-          "line1": "Spring the Trap"
+          "title": "Spring the Trap"
         }
       ]
     },
@@ -137,19 +137,19 @@
       "name": "Edge",
       "tokens": [
         {
-          "line1": "Close Control"
+          "title": "Close Control"
         },
         {
-          "line1": "Unorthodox"
+          "title": "Unorthodox"
         },
         {
-          "line1": "Mirage"
+          "title": "Mirage"
         },
         {
-          "line1": "Light Footed"
+          "title": "Light Footed"
         },
         {
-          "line1": "Entangle"
+          "title": "Entangle"
         }
       ]
     },
@@ -158,19 +158,19 @@
       "name": "Egret",
       "tokens": [
         {
-          "line1": "Back to the Shadows"
+          "title": "Back to the Shadows"
         },
         {
-          "line1": "Swift Strikes"
+          "title": "Swift Strikes"
         },
         {
-          "line1": "Venomous Strike"
+          "title": "Venomous Strike"
         },
         {
-          "line1": "Flurry"
+          "title": "Flurry"
         },
         {
-          "line1": "Snap Fire"
+          "title": "Snap Fire"
         }
       ]
     },
@@ -179,22 +179,22 @@
       "name": "Hearne",
       "tokens": [
         {
-          "line1": "Light Footed"
+          "title": "Light Footed"
         },
         {
-          "line1": "Nature's Blessing"
+          "title": "Nature's Blessing"
         },
         {
-          "line1": "Singled Out"
+          "title": "Singled Out"
         },
         {
-          "line1": "Skewered"
+          "title": "Skewered"
         },
         {
-          "line1": "Forest Grove"
+          "title": "Forest Grove"
         },
         {
-          "line1": "Blessing of the Sun Father"
+          "title": "Blessing of the Sun Father"
         }
       ]
     },
@@ -203,16 +203,16 @@
       "name": "Hearne (Veteran)",
       "tokens": [
         {
-          "line1": "Last Light"
+          "title": "Last Light"
         },
         {
-          "line1": "Lunar Eclipse"
+          "title": "Lunar Eclipse"
         },
         {
-          "line1": "Winter's Blessing"
+          "title": "Winter's Blessing"
         },
         {
-          "line1": "Skewered"
+          "title": "Skewered"
         }
       ]
     },
@@ -221,19 +221,19 @@
       "name": "Jaecar",
       "tokens": [
         {
-          "line1": "Anatomical Precision"
+          "title": "Anatomical Precision"
         },
         {
-          "line1": "Back to the Shadows"
+          "title": "Back to the Shadows"
         },
         {
-          "line1": "Big Game Traps"
+          "title": "Big Game Traps"
         },
         {
-          "line1": "Light Footed"
+          "title": "Light Footed"
         },
         {
-          "line1": "Gut & String"
+          "title": "Gut & String"
         }
       ]
     },
@@ -242,19 +242,19 @@
       "name": "Minx (Veteran)",
       "tokens": [
         {
-          "line1": "Big Game Traps"
+          "title": "Big Game Traps"
         },
         {
-          "line1": "Heightened Senses"
+          "title": "Heightened Senses"
         },
         {
-          "line1": "Marked for Death"
+          "title": "Marked for Death"
         },
         {
-          "line1": "More Teeth!"
+          "title": "More Teeth!"
         },
         {
-          "line1": "Blessing of the Sun Father"
+          "title": "Blessing of the Sun Father"
         }
       ]
     },
@@ -263,16 +263,16 @@
       "name": "Seenah",
       "tokens": [
         {
-          "line1": "Feral"
+          "title": "Feral"
         },
         {
-          "line1": "Isolated Target"
+          "title": "Isolated Target"
         },
         {
-          "line1": "Tough Hide"
+          "title": "Tough Hide"
         },
         {
-          "line1": "The Mauling"
+          "title": "The Mauling"
         }
       ]
     },
@@ -281,16 +281,16 @@
       "name": "Ulfr",
       "tokens": [
         {
-          "line1": "Ambush"
+          "title": "Ambush"
         },
         {
-          "line1": "Lone Hunter"
+          "title": "Lone Hunter"
         },
         {
-          "line1": "Where'd They Go?"
+          "title": "Where'd They Go?"
         },
         {
-          "line1": "Feral Instincts"
+          "title": "Feral Instincts"
         }
       ]
     },
@@ -299,22 +299,22 @@
       "name": "Zarola",
       "tokens": [
         {
-          "line1": "Light Footed"
+          "title": "Light Footed"
         },
         {
-          "line1": "Linked"
+          "title": "Linked"
         },
         {
-          "line1": "Unpredictable Movement"
+          "title": "Unpredictable Movement"
         },
         {
-          "line1": "Chain Bolas"
+          "title": "Chain Bolas"
         },
         {
-          "line1": "Catching the Scent"
+          "title": "Catching the Scent"
         },
         {
-          "line1": "The Power of Voodoo"
+          "title": "The Power of Voodoo"
         }
       ]
     },
@@ -323,19 +323,19 @@
       "name": "Mataagi",
       "tokens": [
         {
-          "line1": "Crucial Artery"
+          "title": "Crucial Artery"
         },
         {
-          "line1": "Hawk Eye"
+          "title": "Hawk Eye"
         },
         {
-          "line1": "Light Footed"
+          "title": "Light Footed"
         },
         {
-          "line1": "Harrier"
+          "title": "Harrier"
         },
         {
-          "line1": "Snap Fire"
+          "title": "Snap Fire"
         }
       ]
     },
@@ -344,16 +344,16 @@
       "name": "Minerva",
       "tokens": [
         {
-          "line1": "Feathered Friends"
+          "title": "Feathered Friends"
         },
         {
-          "line1": "Nocturnal Hunting"
+          "title": "Nocturnal Hunting"
         },
         {
-          "line1": "Eye Spy"
+          "title": "Eye Spy"
         },
         {
-          "line1": "Harrier"
+          "title": "Harrier"
         }
       ]
     }

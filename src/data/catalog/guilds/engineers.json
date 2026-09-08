@@ -8,16 +8,16 @@
       "name": "Compound",
       "tokens": [
         {
-          "line1": "Noxious Death"
+          "title": "Noxious Death"
         },
         {
-          "line1": "Resilience"
+          "title": "Resilience"
         },
         {
-          "line1": "Rush Keeper"
+          "title": "Rush Keeper"
         },
         {
-          "line1": "Horrific Odour"
+          "title": "Horrific Odour"
         }
       ]
     },
@@ -26,22 +26,22 @@
       "name": "Ballista",
       "tokens": [
         {
-          "line1": "Momentous Inspiration"
+          "title": "Momentous Inspiration"
         },
         {
-          "line1": "Tough Hide"
+          "title": "Tough Hide"
         },
         {
-          "line1": "Deadbolt"
+          "title": "Deadbolt"
         },
         {
-          "line1": "Minefield"
+          "title": "Minefield"
         },
         {
-          "line1": "Second Wind"
+          "title": "Second Wind"
         },
         {
-          "line1": "Breach!"
+          "title": "Breach!"
         }
       ]
     },
@@ -50,22 +50,22 @@
       "name": "Pin Vice",
       "tokens": [
         {
-          "line1": "Close Control"
+          "title": "Close Control"
         },
         {
-          "line1": "Reanimate"
+          "title": "Reanimate"
         },
         {
-          "line1": "Well Oiled Machine"
+          "title": "Well Oiled Machine"
         },
         {
-          "line1": "Controller"
+          "title": "Controller"
         },
         {
-          "line1": "Alternator"
+          "title": "Alternator"
         },
         {
-          "line1": "Deletion"
+          "title": "Deletion"
         }
       ]
     },
@@ -74,19 +74,19 @@
       "name": "Rivet",
       "tokens": [
         {
-          "line1": "Follow My Lead"
+          "title": "Follow My Lead"
         },
         {
-          "line1": "Tow"
+          "title": "Tow"
         },
         {
-          "line1": "Elbow Grease"
+          "title": "Elbow Grease"
         },
         {
-          "line1": "Use This!"
+          "title": "Use This!"
         },
         {
-          "line1": "Protect Those Close"
+          "title": "Protect Those Close"
         }
       ]
     },
@@ -95,16 +95,16 @@
       "name": "Mainspring",
       "tokens": [
         {
-          "line1": "Launch Control"
+          "title": "Launch Control"
         },
         {
-          "line1": "Overheat"
+          "title": "Overheat"
         },
         {
-          "line1": "Long Bomb"
+          "title": "Long Bomb"
         },
         {
-          "line1": "Thief"
+          "title": "Thief"
         }
       ]
     },
@@ -113,16 +113,16 @@
       "name": "Mother",
       "tokens": [
         {
-          "line1": "Spider Nests"
+          "title": "Spider Nests"
         },
         {
-          "line1": "Spiderlings"
+          "title": "Spiderlings"
         },
         {
-          "line1": "Webbing"
+          "title": "Webbing"
         },
         {
-          "line1": "Burrow"
+          "title": "Burrow"
         }
       ]
     },
@@ -131,22 +131,22 @@
       "name": "Colossus",
       "tokens": [
         {
-          "line1": "Close Control"
+          "title": "Close Control"
         },
         {
-          "line1": "Light Footed"
+          "title": "Light Footed"
         },
         {
-          "line1": "Stoic"
+          "title": "Stoic"
         },
         {
-          "line1": "Tough Hide"
+          "title": "Tough Hide"
         },
         {
-          "line1": "Singled Out"
+          "title": "Singled Out"
         },
         {
-          "line1": "Unexpected Arrival"
+          "title": "Unexpected Arrival"
         }
       ]
     },
@@ -155,19 +155,19 @@
       "name": "Harriet ‘the Hat’ (Veteran)",
       "tokens": [
         {
-          "line1": "If You Can Dodge a Wrench..."
+          "title": "If You Can Dodge a Wrench..."
         },
         {
-          "line1": "Inspiring Hat"
+          "title": "Inspiring Hat"
         },
         {
-          "line1": "Learn From The Best"
+          "title": "Learn From The Best"
         },
         {
-          "line1": "Disarm"
+          "title": "Disarm"
         },
         {
-          "line1": "Sucker Punch"
+          "title": "Sucker Punch"
         }
       ]
     },
@@ -176,16 +176,16 @@
       "name": "Hoist",
       "tokens": [
         {
-          "line1": "Reanimate"
+          "title": "Reanimate"
         },
         {
-          "line1": "Sturdy"
+          "title": "Sturdy"
         },
         {
-          "line1": "True Replication"
+          "title": "True Replication"
         },
         {
-          "line1": "Locked & Loaded"
+          "title": "Locked & Loaded"
         }
       ]
     },
@@ -194,22 +194,22 @@
       "name": "Locus",
       "tokens": [
         {
-          "line1": "Far Strike"
+          "title": "Far Strike"
         },
         {
-          "line1": "Gravity Well"
+          "title": "Gravity Well"
         },
         {
-          "line1": "Reanimate"
+          "title": "Reanimate"
         },
         {
-          "line1": "Tough Hide"
+          "title": "Tough Hide"
         },
         {
-          "line1": "Destructive Impulse"
+          "title": "Destructive Impulse"
         },
         {
-          "line1": "Remote Control"
+          "title": "Remote Control"
         }
       ]
     },
@@ -218,19 +218,19 @@
       "name": "Nomad",
       "tokens": [
         {
-          "line1": "Goal of the Month"
+          "title": "Goal of the Month"
         },
         {
-          "line1": "Roulette"
+          "title": "Roulette"
         },
         {
-          "line1": "Unpredictable Movement"
+          "title": "Unpredictable Movement"
         },
         {
-          "line1": "Spark"
+          "title": "Spark"
         },
         {
-          "line1": "Wherever I May Roam"
+          "title": "Wherever I May Roam"
         }
       ]
     },
@@ -239,19 +239,19 @@
       "name": "Ratchet",
       "tokens": [
         {
-          "line1": "Fixer"
+          "title": "Fixer"
         },
         {
-          "line1": "Blast Earth"
+          "title": "Blast Earth"
         },
         {
-          "line1": "Long Bomb"
+          "title": "Long Bomb"
         },
         {
-          "line1": "Tooled Up"
+          "title": "Tooled Up"
         },
         {
-          "line1": "Overclocked"
+          "title": "Overclocked"
         }
       ]
     },
@@ -260,19 +260,19 @@
       "name": "Salvo",
       "tokens": [
         {
-          "line1": "Swift Strikes"
+          "title": "Swift Strikes"
         },
         {
-          "line1": "Arrow to the Knee"
+          "title": "Arrow to the Knee"
         },
         {
-          "line1": "Floored Bolt"
+          "title": "Floored Bolt"
         },
         {
-          "line1": "Tether Ball"
+          "title": "Tether Ball"
         },
         {
-          "line1": "Locked & Loaded"
+          "title": "Locked & Loaded"
         }
       ]
     },
@@ -281,16 +281,16 @@
       "name": "Velocity",
       "tokens": [
         {
-          "line1": "Close Control"
+          "title": "Close Control"
         },
         {
-          "line1": "Reanimate"
+          "title": "Reanimate"
         },
         {
-          "line1": "Acrobatic"
+          "title": "Acrobatic"
         },
         {
-          "line1": "Nimble"
+          "title": "Nimble"
         }
       ]
     },
@@ -299,13 +299,13 @@
       "name": "Velocity (Veteran)",
       "tokens": [
         {
-          "line1": "Lend a Hand"
+          "title": "Lend a Hand"
         },
         {
-          "line1": "Reanimate"
+          "title": "Reanimate"
         },
         {
-          "line1": "Route One"
+          "title": "Route One"
         }
       ]
     },
@@ -314,19 +314,19 @@
       "name": "Fuse",
       "tokens": [
         {
-          "line1": "Guild Rule: Secret Tunnel"
+          "title": "Guild Rule: Secret Tunnel"
         },
         {
-          "line1": "Remote Detonation"
+          "title": "Remote Detonation"
         },
         {
-          "line1": "Sapper's Instincts"
+          "title": "Sapper's Instincts"
         },
         {
-          "line1": "Clear!"
+          "title": "Clear!"
         },
         {
-          "line1": "Under the Lines"
+          "title": "Under the Lines"
         }
       ]
     },
@@ -335,19 +335,19 @@
       "name": "Spade",
       "tokens": [
         {
-          "line1": "Guild Rule: Secret Tunnel"
+          "title": "Guild Rule: Secret Tunnel"
         },
         {
-          "line1": "Close Control"
+          "title": "Close Control"
         },
         {
-          "line1": "Tutelage"
+          "title": "Tutelage"
         },
         {
-          "line1": "Diggy Hole"
+          "title": "Diggy Hole"
         },
         {
-          "line1": "Destructive Impulse"
+          "title": "Destructive Impulse"
         }
       ]
     }

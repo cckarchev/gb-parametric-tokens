@@ -16,8 +16,8 @@ const catalog: GuildCatalog = {
       id: "tapper",
       name: "Tapper",
       tokens: [
-        { line1: "Commanding Aura", line2: '4" Aura +1 TAC +1 DMG' },
-        { line1: "Marked Target" },
+        { title: "Commanding Aura", subtitle: '4" Aura +1 TAC +1 DMG' },
+        { title: "Marked Target" },
       ],
     },
   ],

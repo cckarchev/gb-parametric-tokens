@@ -8,16 +8,16 @@
       "name": "Ox",
       "tokens": [
         {
-          "line1": "The Owner"
+          "title": "The Owner"
         },
         {
-          "line1": "They Ain't Tough!"
+          "title": "They Ain't Tough!"
         },
         {
-          "line1": "Butchery"
+          "title": "Butchery"
         },
         {
-          "line1": "Get 'Em Lads!"
+          "title": "Get 'Em Lads!"
         }
       ]
     },
@@ -26,22 +26,22 @@
       "name": "Fillet",
       "tokens": [
         {
-          "line1": "Haemophilia"
+          "title": "Haemophilia"
         },
         {
-          "line1": "Smell Blood"
+          "title": "Smell Blood"
         },
         {
-          "line1": "Blood Rain"
+          "title": "Blood Rain"
         },
         {
-          "line1": "Pain Circle"
+          "title": "Pain Circle"
         },
         {
-          "line1": "Quick Foot"
+          "title": "Quick Foot"
         },
         {
-          "line1": "Exsanguinate"
+          "title": "Exsanguinate"
         }
       ]
     },
@@ -50,22 +50,22 @@
       "name": "Boar (Veteran)",
       "tokens": [
         {
-          "line1": "Berserk"
+          "title": "Berserk"
         },
         {
-          "line1": "Blood Lust"
+          "title": "Blood Lust"
         },
         {
-          "line1": "Furious"
+          "title": "Furious"
         },
         {
-          "line1": "Singled Out"
+          "title": "Singled Out"
         },
         {
-          "line1": "Stagger"
+          "title": "Stagger"
         },
         {
-          "line1": "Chop Chop!"
+          "title": "Chop Chop!"
         }
       ]
     },
@@ -74,13 +74,13 @@
       "name": "Princess",
       "tokens": [
         {
-          "line1": "Loved Creature"
+          "title": "Loved Creature"
         },
         {
-          "line1": "Vicious"
+          "title": "Vicious"
         },
         {
-          "line1": "Rabid Animal"
+          "title": "Rabid Animal"
         }
       ]
     },
@@ -89,16 +89,16 @@
       "name": "Truffles",
       "tokens": [
         {
-          "line1": "Smell Blood"
+          "title": "Smell Blood"
         },
         {
-          "line1": "Sturdy"
+          "title": "Sturdy"
         },
         {
-          "line1": "Tough Hide"
+          "title": "Tough Hide"
         },
         {
-          "line1": "Vindictive"
+          "title": "Vindictive"
         }
       ]
     },
@@ -107,19 +107,19 @@
       "name": "Boar",
       "tokens": [
         {
-          "line1": "Berserk"
+          "title": "Berserk"
         },
         {
-          "line1": "Brute Force"
+          "title": "Brute Force"
         },
         {
-          "line1": "Furious"
+          "title": "Furious"
         },
         {
-          "line1": "Life Drinker"
+          "title": "Life Drinker"
         },
         {
-          "line1": "Concussion"
+          "title": "Concussion"
         }
       ]
     },
@@ -128,19 +128,19 @@
       "name": "Boiler",
       "tokens": [
         {
-          "line1": "Anatomical Precision"
+          "title": "Anatomical Precision"
         },
         {
-          "line1": "Assist"
+          "title": "Assist"
         },
         {
-          "line1": "Crucial Artery"
+          "title": "Crucial Artery"
         },
         {
-          "line1": "Axe Throw"
+          "title": "Axe Throw"
         },
         {
-          "line1": "Marked Target"
+          "title": "Marked Target"
         }
       ]
     },
@@ -149,16 +149,16 @@
       "name": "Brisket",
       "tokens": [
         {
-          "line1": "Above and Beyond"
+          "title": "Above and Beyond"
         },
         {
-          "line1": "Unpredictable Movement"
+          "title": "Unpredictable Movement"
         },
         {
-          "line1": "Super Shot"
+          "title": "Super Shot"
         },
         {
-          "line1": "Dirty Knives"
+          "title": "Dirty Knives"
         }
       ]
     },
@@ -167,19 +167,19 @@
       "name": "Brisket (Veteran)",
       "tokens": [
         {
-          "line1": "Field Medic"
+          "title": "Field Medic"
         },
         {
-          "line1": "Pragmatic"
+          "title": "Pragmatic"
         },
         {
-          "line1": "Unpredictable Movement"
+          "title": "Unpredictable Movement"
         },
         {
-          "line1": "Quick Time"
+          "title": "Quick Time"
         },
         {
-          "line1": "Jagged Blade"
+          "title": "Jagged Blade"
         }
       ]
     },
@@ -188,16 +188,16 @@
       "name": "Gutter (Veteran)",
       "tokens": [
         {
-          "line1": "Anatomical Precision"
+          "title": "Anatomical Precision"
         },
         {
-          "line1": "Crucial Artery"
+          "title": "Crucial Artery"
         },
         {
-          "line1": "Sweeping Charge"
+          "title": "Sweeping Charge"
         },
         {
-          "line1": "Pig Stickin'"
+          "title": "Pig Stickin'"
         }
       ]
     },
@@ -206,19 +206,19 @@
       "name": "Layne",
       "tokens": [
         {
-          "line1": "Bleed the Cleats"
+          "title": "Bleed the Cleats"
         },
         {
-          "line1": "Close Control"
+          "title": "Close Control"
         },
         {
-          "line1": "Get On With It, Boy!"
+          "title": "Get On With It, Boy!"
         },
         {
-          "line1": "Magic Touch"
+          "title": "Magic Touch"
         },
         {
-          "line1": "Acrobatic"
+          "title": "Acrobatic"
         }
       ]
     },
@@ -227,16 +227,16 @@
       "name": "Meathook",
       "tokens": [
         {
-          "line1": "Hooked"
+          "title": "Hooked"
         },
         {
-          "line1": "Scything Blow"
+          "title": "Scything Blow"
         },
         {
-          "line1": "Tooled Up"
+          "title": "Tooled Up"
         },
         {
-          "line1": "Sanguine Pool"
+          "title": "Sanguine Pool"
         }
       ]
     },
@@ -245,16 +245,16 @@
       "name": "Ox (Veteran)",
       "tokens": [
         {
-          "line1": "Lash Out"
+          "title": "Lash Out"
         },
         {
-          "line1": "Rowdy"
+          "title": "Rowdy"
         },
         {
-          "line1": "The Old Ways"
+          "title": "The Old Ways"
         },
         {
-          "line1": "Whirling Chains"
+          "title": "Whirling Chains"
         }
       ]
     },
@@ -263,13 +263,13 @@
       "name": "Shank",
       "tokens": [
         {
-          "line1": "Damaged Target"
+          "title": "Damaged Target"
         },
         {
-          "line1": "Thousand Cuts"
+          "title": "Thousand Cuts"
         },
         {
-          "line1": "Where'd They Go?"
+          "title": "Where'd They Go?"
         }
       ]
     },
@@ -278,13 +278,13 @@
       "name": "Tenderiser",
       "tokens": [
         {
-          "line1": "Goal Defence"
+          "title": "Goal Defence"
         },
         {
-          "line1": "Nose Out of Joint"
+          "title": "Nose Out of Joint"
         },
         {
-          "line1": "Ground Pound"
+          "title": "Ground Pound"
         }
       ]
     },
@@ -293,16 +293,16 @@
       "name": "Cinnamon",
       "tokens": [
         {
-          "line1": "Guild Rule: Intimidation"
+          "title": "Guild Rule: Intimidation"
         },
         {
-          "line1": "Anatomical Precision"
+          "title": "Anatomical Precision"
         },
         {
-          "line1": "Acrobatic"
+          "title": "Acrobatic"
         },
         {
-          "line1": "Get Set, BAKE!"
+          "title": "Get Set, BAKE!"
         }
       ]
     },
@@ -311,19 +311,19 @@
       "name": "Roast",
       "tokens": [
         {
-          "line1": "Guild Rule: Intimidation"
+          "title": "Guild Rule: Intimidation"
         },
         {
-          "line1": "Big Belly"
+          "title": "Big Belly"
         },
         {
-          "line1": "Resilience"
+          "title": "Resilience"
         },
         {
-          "line1": "Get It While It's Hot"
+          "title": "Get It While It's Hot"
         },
         {
-          "line1": "Turn Up the Heat"
+          "title": "Turn Up the Heat"
         }
       ]
     }

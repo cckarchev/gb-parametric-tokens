@@ -8,14 +8,14 @@
       "name": "Shank",
       "tokens": [
         {
-          "line1": "Damaged Target"
+          "title": "Damaged Target"
         },
         {
-          "line1": "Thousand Cuts",
-          "line2": "-2 DEF"
+          "title": "Thousand Cuts",
+          "subtitle": "-2 DEF"
         },
         {
-          "line1": "Where'd They Go?"
+          "title": "Where'd They Go?"
         }
       ]
     },
@@ -24,13 +24,13 @@
       "name": "Tenderiser",
       "tokens": [
         {
-          "line1": "Goal Defence"
+          "title": "Goal Defence"
         },
         {
-          "line1": "Nose Out of Joint"
+          "title": "Nose Out of Joint"
         },
         {
-          "line1": "Ground Pound"
+          "title": "Ground Pound"
         }
       ]
     },
@@ -39,19 +39,19 @@
       "name": "Wellington",
       "tokens": [
         {
-          "line1": "Guild Rule: Intimidation"
+          "title": "Guild Rule: Intimidation"
         },
         {
-          "line1": "Scathing Rebuke"
+          "title": "Scathing Rebuke"
         },
         {
-          "line1": "Chef's Special"
+          "title": "Chef's Special"
         },
         {
-          "line1": "Singled Out"
+          "title": "Singled Out"
         },
         {
-          "line1": "Master Chef"
+          "title": "Master Chef"
         }
       ]
     },
@@ -60,16 +60,16 @@
       "name": "Pepper",
       "tokens": [
         {
-          "line1": "Guild Rule: Intimidation"
+          "title": "Guild Rule: Intimidation"
         },
         {
-          "line1": "Feral"
+          "title": "Feral"
         },
         {
-          "line1": "Vicious"
+          "title": "Vicious"
         },
         {
-          "line1": "Where'd They Go?"
+          "title": "Where'd They Go?"
         }
       ]
     },
@@ -78,16 +78,16 @@
       "name": "Cinnamon",
       "tokens": [
         {
-          "line1": "Guild Rule: Intimidation"
+          "title": "Guild Rule: Intimidation"
         },
         {
-          "line1": "Anatomical Precision"
+          "title": "Anatomical Precision"
         },
         {
-          "line1": "Acrobatic"
+          "title": "Acrobatic"
         },
         {
-          "line1": "Get Set, BAKE!"
+          "title": "Get Set, BAKE!"
         }
       ]
     },
@@ -96,19 +96,19 @@
       "name": "Roast",
       "tokens": [
         {
-          "line1": "Guild Rule: Intimidation"
+          "title": "Guild Rule: Intimidation"
         },
         {
-          "line1": "Big Belly"
+          "title": "Big Belly"
         },
         {
-          "line1": "Resilience"
+          "title": "Resilience"
         },
         {
-          "line1": "Get It While It's Hot"
+          "title": "Get It While It's Hot"
         },
         {
-          "line1": "Turn Up the Heat"
+          "title": "Turn Up the Heat"
         }
       ]
     },
@@ -117,19 +117,19 @@
       "name": "Spice",
       "tokens": [
         {
-          "line1": "Guild Rule: Intimidation"
+          "title": "Guild Rule: Intimidation"
         },
         {
-          "line1": "Assist"
+          "title": "Assist"
         },
         {
-          "line1": "Berserk"
+          "title": "Berserk"
         },
         {
-          "line1": "Intensify"
+          "title": "Intensify"
         },
         {
-          "line1": "Turn Up the Heat"
+          "title": "Turn Up the Heat"
         }
       ]
     },
@@ -138,19 +138,19 @@
       "name": "Sugar",
       "tokens": [
         {
-          "line1": "Guild Rule: Intimidation"
+          "title": "Guild Rule: Intimidation"
         },
         {
-          "line1": "Icing on the Cake"
+          "title": "Icing on the Cake"
         },
         {
-          "line1": "Sturdy"
+          "title": "Sturdy"
         },
         {
-          "line1": "Chef's Special"
+          "title": "Chef's Special"
         },
         {
-          "line1": "Chilli Cook Out"
+          "title": "Chilli Cook Out"
         }
       ]
     }

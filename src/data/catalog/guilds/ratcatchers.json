@@ -8,19 +8,19 @@
       "name": "Bonesaw",
       "tokens": [
         {
-          "line1": "Dread Omen"
+          "title": "Dread Omen"
         },
         {
-          "line1": "Stamina"
+          "title": "Stamina"
         },
         {
-          "line1": "Wraith Walk"
+          "title": "Wraith Walk"
         },
         {
-          "line1": "Spirit Strings"
+          "title": "Spirit Strings"
         },
         {
-          "line1": "Grave Wind"
+          "title": "Grave Wind"
         }
       ]
     },
@@ -29,16 +29,16 @@
       "name": "Graves (Veteran)",
       "tokens": [
         {
-          "line1": "Exhaustion"
+          "title": "Exhaustion"
         },
         {
-          "line1": "Mischief’s Call"
+          "title": "Mischief’s Call"
         },
         {
-          "line1": "They Ain't Tough!"
+          "title": "They Ain't Tough!"
         },
         {
-          "line1": "Packmaster"
+          "title": "Packmaster"
         }
       ]
     },
@@ -47,19 +47,19 @@
       "name": "Piper",
       "tokens": [
         {
-          "line1": "Haunting Melody"
+          "title": "Haunting Melody"
         },
         {
-          "line1": "Pay the Piper"
+          "title": "Pay the Piper"
         },
         {
-          "line1": "Reverie"
+          "title": "Reverie"
         },
         {
-          "line1": "Distracting Tune"
+          "title": "Distracting Tune"
         },
         {
-          "line1": "Swarm’s Obedience"
+          "title": "Swarm’s Obedience"
         }
       ]
     },
@@ -68,16 +68,16 @@
       "name": "Squeak",
       "tokens": [
         {
-          "line1": "Predatory Instinct"
+          "title": "Predatory Instinct"
         },
         {
-          "line1": "Tag Along"
+          "title": "Tag Along"
         },
         {
-          "line1": "Dreadful Shriek"
+          "title": "Dreadful Shriek"
         },
         {
-          "line1": "The Rat King"
+          "title": "The Rat King"
         }
       ]
     },
@@ -86,19 +86,19 @@
       "name": "Miasma",
       "tokens": [
         {
-          "line1": "Carrier"
+          "title": "Carrier"
         },
         {
-          "line1": "Salve"
+          "title": "Salve"
         },
         {
-          "line1": "Virulent Strain"
+          "title": "Virulent Strain"
         },
         {
-          "line1": "Erupting Sores"
+          "title": "Erupting Sores"
         },
         {
-          "line1": "Rataclysm"
+          "title": "Rataclysm"
         }
       ]
     },
@@ -107,19 +107,19 @@
       "name": "Pelage",
       "tokens": [
         {
-          "line1": "Cloak of Rats"
+          "title": "Cloak of Rats"
         },
         {
-          "line1": "Empathy"
+          "title": "Empathy"
         },
         {
-          "line1": "Grim Caress"
+          "title": "Grim Caress"
         },
         {
-          "line1": "Killer"
+          "title": "Killer"
         },
         {
-          "line1": "Singled Out"
+          "title": "Singled Out"
         }
       ]
     },
@@ -128,19 +128,19 @@
       "name": "Scourge",
       "tokens": [
         {
-          "line1": "Carrier"
+          "title": "Carrier"
         },
         {
-          "line1": "Good Feet, for a Big Man"
+          "title": "Good Feet, for a Big Man"
         },
         {
-          "line1": "Plague Ridden"
+          "title": "Plague Ridden"
         },
         {
-          "line1": "Tough Hide"
+          "title": "Tough Hide"
         },
         {
-          "line1": "Snack Break"
+          "title": "Snack Break"
         }
       ]
     },
@@ -149,19 +149,19 @@
       "name": "Skulk",
       "tokens": [
         {
-          "line1": "Follow Up"
+          "title": "Follow Up"
         },
         {
-          "line1": "Lightning Reflexes"
+          "title": "Lightning Reflexes"
         },
         {
-          "line1": "Poised"
+          "title": "Poised"
         },
         {
-          "line1": "Horrific Odour"
+          "title": "Horrific Odour"
         },
         {
-          "line1": "Pest Control"
+          "title": "Pest Control"
         }
       ]
     }

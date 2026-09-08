@@ -8,22 +8,22 @@
       "name": "Midas",
       "tokens": [
         {
-          "line1": "Fulmination"
+          "title": "Fulmination"
         },
         {
-          "line1": "Midas Touch"
+          "title": "Midas Touch"
         },
         {
-          "line1": "Unpredictable Movement"
+          "title": "Unpredictable Movement"
         },
         {
-          "line1": "Where'd They Go?"
+          "title": "Where'd They Go?"
         },
         {
-          "line1": "Lure of Gold"
+          "title": "Lure of Gold"
         },
         {
-          "line1": "Magnum Opus"
+          "title": "Magnum Opus"
         }
       ]
     },
@@ -32,25 +32,25 @@
       "name": "Smoke",
       "tokens": [
         {
-          "line1": "Cloud Jumper"
+          "title": "Cloud Jumper"
         },
         {
-          "line1": "Unpredictable Movement"
+          "title": "Unpredictable Movement"
         },
         {
-          "line1": "Watch The World Burn"
+          "title": "Watch The World Burn"
         },
         {
-          "line1": "Chemical Breeze"
+          "title": "Chemical Breeze"
         },
         {
-          "line1": "Infuse"
+          "title": "Infuse"
         },
         {
-          "line1": "Smoke Bomb"
+          "title": "Smoke Bomb"
         },
         {
-          "line1": "Chemical Shower"
+          "title": "Chemical Shower"
         }
       ]
     },
@@ -59,19 +59,19 @@
       "name": "Soma",
       "tokens": [
         {
-          "line1": "Burning Spirit"
+          "title": "Burning Spirit"
         },
         {
-          "line1": "Gimme Fuel..."
+          "title": "Gimme Fuel..."
         },
         {
-          "line1": "Nitro!"
+          "title": "Nitro!"
         },
         {
-          "line1": "Raging Fire"
+          "title": "Raging Fire"
         },
         {
-          "line1": "Gimme Fire!"
+          "title": "Gimme Fire!"
         }
       ]
     },
@@ -80,16 +80,16 @@
       "name": "Pneuma",
       "tokens": [
         {
-          "line1": "Backdraft"
+          "title": "Backdraft"
         },
         {
-          "line1": "Furious"
+          "title": "Furious"
         },
         {
-          "line1": "Inferno"
+          "title": "Inferno"
         },
         {
-          "line1": "Waning Light"
+          "title": "Waning Light"
         }
       ]
     },
@@ -98,16 +98,16 @@
       "name": "Flask",
       "tokens": [
         {
-          "line1": "Beaker Keeper"
+          "title": "Beaker Keeper"
         },
         {
-          "line1": "Light Footed"
+          "title": "Light Footed"
         },
         {
-          "line1": "Overheat"
+          "title": "Overheat"
         },
         {
-          "line1": "Smoke Bomb"
+          "title": "Smoke Bomb"
         }
       ]
     },
@@ -116,16 +116,16 @@
       "name": "Naja",
       "tokens": [
         {
-          "line1": "Test Subject"
+          "title": "Test Subject"
         },
         {
-          "line1": "Venomous Strike"
+          "title": "Venomous Strike"
         },
         {
-          "line1": "Unpredictable Movement"
+          "title": "Unpredictable Movement"
         },
         {
-          "line1": "Hypnosis"
+          "title": "Hypnosis"
         }
       ]
     },
@@ -134,16 +134,16 @@
       "name": "Calculus",
       "tokens": [
         {
-          "line1": "Poisonous Fumes"
+          "title": "Poisonous Fumes"
         },
         {
-          "line1": "Reactive Solution"
+          "title": "Reactive Solution"
         },
         {
-          "line1": "Blind"
+          "title": "Blind"
         },
         {
-          "line1": "Noxious Blast"
+          "title": "Noxious Blast"
         }
       ]
     },
@@ -152,19 +152,19 @@
       "name": "Calculus (Veteran)",
       "tokens": [
         {
-          "line1": "Toxicity"
+          "title": "Toxicity"
         },
         {
-          "line1": "Extraction"
+          "title": "Extraction"
         },
         {
-          "line1": "Noxious Death"
+          "title": "Noxious Death"
         },
         {
-          "line1": "Sticky Bomb"
+          "title": "Sticky Bomb"
         },
         {
-          "line1": "Transmute"
+          "title": "Transmute"
         }
       ]
     },
@@ -173,19 +173,19 @@
       "name": "Crucible",
       "tokens": [
         {
-          "line1": "Chemical Admixture"
+          "title": "Chemical Admixture"
         },
         {
-          "line1": "Covalence"
+          "title": "Covalence"
         },
         {
-          "line1": "Reactive Solution"
+          "title": "Reactive Solution"
         },
         {
-          "line1": "Acrobatic"
+          "title": "Acrobatic"
         },
         {
-          "line1": "Great Balls of Fire"
+          "title": "Great Balls of Fire"
         }
       ]
     },
@@ -194,19 +194,19 @@
       "name": "Kami",
       "tokens": [
         {
-          "line1": "Anatomical Precision"
+          "title": "Anatomical Precision"
         },
         {
-          "line1": "Deadeye"
+          "title": "Deadeye"
         },
         {
-          "line1": "Elusive"
+          "title": "Elusive"
         },
         {
-          "line1": "Chemical Ordnance"
+          "title": "Chemical Ordnance"
         },
         {
-          "line1": "Kill the Ball"
+          "title": "Kill the Ball"
         }
       ]
     },
@@ -215,16 +215,16 @@
       "name": "Katalyst",
       "tokens": [
         {
-          "line1": "Burning Effigy"
+          "title": "Burning Effigy"
         },
         {
-          "line1": "Burning Strike"
+          "title": "Burning Strike"
         },
         {
-          "line1": "Pyromaniac"
+          "title": "Pyromaniac"
         },
         {
-          "line1": "External Combustion"
+          "title": "External Combustion"
         }
       ]
     },
@@ -233,19 +233,19 @@
       "name": "Katalyst (Veteran)",
       "tokens": [
         {
-          "line1": "Burst of Fumes"
+          "title": "Burst of Fumes"
         },
         {
-          "line1": "Toxicity"
+          "title": "Toxicity"
         },
         {
-          "line1": "Venomous Strike"
+          "title": "Venomous Strike"
         },
         {
-          "line1": "Witness Me!"
+          "title": "Witness Me!"
         },
         {
-          "line1": "Ground Pound"
+          "title": "Ground Pound"
         }
       ]
     },
@@ -254,19 +254,19 @@
       "name": "Mercury",
       "tokens": [
         {
-          "line1": "Burning Spirit"
+          "title": "Burning Spirit"
         },
         {
-          "line1": "Fission"
+          "title": "Fission"
         },
         {
-          "line1": "Fusion"
+          "title": "Fusion"
         },
         {
-          "line1": "Fire Blast"
+          "title": "Fire Blast"
         },
         {
-          "line1": "Fire Ball"
+          "title": "Fire Ball"
         }
       ]
     },
@@ -275,22 +275,22 @@
       "name": "Venin",
       "tokens": [
         {
-          "line1": "Debilitating Strike"
+          "title": "Debilitating Strike"
         },
         {
-          "line1": "Melting Body"
+          "title": "Melting Body"
         },
         {
-          "line1": "Secretion"
+          "title": "Secretion"
         },
         {
-          "line1": "Venomous Strike"
+          "title": "Venomous Strike"
         },
         {
-          "line1": "Acid Rain"
+          "title": "Acid Rain"
         },
         {
-          "line1": "Coagulation"
+          "title": "Coagulation"
         }
       ]
     },
@@ -299,13 +299,13 @@
       "name": "Vitriol",
       "tokens": [
         {
-          "line1": "I've Been Burnt Before..."
+          "title": "I've Been Burnt Before..."
         },
         {
-          "line1": "Clone"
+          "title": "Clone"
         },
         {
-          "line1": "Face Your Fear"
+          "title": "Face Your Fear"
         }
       ]
     },
@@ -314,16 +314,16 @@
       "name": "Compound",
       "tokens": [
         {
-          "line1": "Noxious Death"
+          "title": "Noxious Death"
         },
         {
-          "line1": "Resilience"
+          "title": "Resilience"
         },
         {
-          "line1": "Rush Keeper"
+          "title": "Rush Keeper"
         },
         {
-          "line1": "Horrific Odour"
+          "title": "Horrific Odour"
         }
       ]
     },
@@ -332,19 +332,19 @@
       "name": "Heat",
       "tokens": [
         {
-          "line1": "Afterglow"
+          "title": "Afterglow"
         },
         {
-          "line1": "Now You See Me..."
+          "title": "Now You See Me..."
         },
         {
-          "line1": "Reactive Solution"
+          "title": "Reactive Solution"
         },
         {
-          "line1": "I'm Open!"
+          "title": "I'm Open!"
         },
         {
-          "line1": "Flame Jet"
+          "title": "Flame Jet"
         }
       ]
     },
@@ -353,19 +353,19 @@
       "name": "Phosphor",
       "tokens": [
         {
-          "line1": "Clumsy"
+          "title": "Clumsy"
         },
         {
-          "line1": "Flame On"
+          "title": "Flame On"
         },
         {
-          "line1": "Flash Point"
+          "title": "Flash Point"
         },
         {
-          "line1": "Alchemical Bomb"
+          "title": "Alchemical Bomb"
         },
         {
-          "line1": "Fulcrum"
+          "title": "Fulcrum"
         }
       ]
     }

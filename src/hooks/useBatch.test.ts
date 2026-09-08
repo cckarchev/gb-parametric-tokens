@@ -41,7 +41,7 @@ const catalog: GuildCatalog = {
     {
       id: "tapper",
       name: "Tapper",
-      tokens: [{ line1: "Commanding Aura" }, { line1: "Marked Target" }],
+      tokens: [{ title: "Commanding Aura" }, { title: "Marked Target" }],
     },
   ],
   genericTokens: [{ id: "beer-token", name: "Beer Token" }],

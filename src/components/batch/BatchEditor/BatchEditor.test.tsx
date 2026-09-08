@@ -80,7 +80,7 @@ describe("BatchEditor", () => {
         guildId: "brewers",
         name: "Brewers",
         color: "#cdb320",
-        characters: [{ id: "tapper", name: "Tapper", tokens: [{ line1: "Commanding Aura" }] }],
+        characters: [{ id: "tapper", name: "Tapper", tokens: [{ title: "Commanding Aura" }] }],
         genericTokens: [{ id: "beer-token", name: "Beer Token" }],
       },
     });

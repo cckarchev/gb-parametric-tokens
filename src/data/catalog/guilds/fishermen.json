@@ -8,19 +8,19 @@
       "name": "Shark",
       "tokens": [
         {
-          "line1": "Light Footed"
+          "title": "Light Footed"
         },
         {
-          "line1": "Showboater"
+          "title": "Showboater"
         },
         {
-          "line1": "Quick Foot"
+          "title": "Quick Foot"
         },
         {
-          "line1": "Tidal Surge"
+          "title": "Tidal Surge"
         },
         {
-          "line1": "Caught in a Net"
+          "title": "Caught in a Net"
         }
       ]
     },
@@ -29,22 +29,22 @@
       "name": "Corsair",
       "tokens": [
         {
-          "line1": "Coup de Grâce"
+          "title": "Coup de Grâce"
         },
         {
-          "line1": "Sturdy"
+          "title": "Sturdy"
         },
         {
-          "line1": "Tough Hide"
+          "title": "Tough Hide"
         },
         {
-          "line1": "Drag"
+          "title": "Drag"
         },
         {
-          "line1": "Rough Seas"
+          "title": "Rough Seas"
         },
         {
-          "line1": "Hook, Line, and Sinker"
+          "title": "Hook, Line, and Sinker"
         }
       ]
     },
@@ -53,19 +53,19 @@
       "name": "Yukai",
       "tokens": [
         {
-          "line1": "Last Cast Catches the Most"
+          "title": "Last Cast Catches the Most"
         },
         {
-          "line1": "Beating Wings Over Water"
+          "title": "Beating Wings Over Water"
         },
         {
-          "line1": "Swirling Waters"
+          "title": "Swirling Waters"
         },
         {
-          "line1": "Break the Surface"
+          "title": "Break the Surface"
         },
         {
-          "line1": "Cormorant’s Calling"
+          "title": "Cormorant’s Calling"
         }
       ]
     },
@@ -74,13 +74,13 @@
       "name": "Salt",
       "tokens": [
         {
-          "line1": "Loved Creature"
+          "title": "Loved Creature"
         },
         {
-          "line1": "Scores for Fun"
+          "title": "Scores for Fun"
         },
         {
-          "line1": "Where'd They Go?"
+          "title": "Where'd They Go?"
         }
       ]
     },
@@ -89,13 +89,13 @@
       "name": "Tentacles",
       "tokens": [
         {
-          "line1": "Close Control"
+          "title": "Close Control"
         },
         {
-          "line1": "Tag Along"
+          "title": "Tag Along"
         },
         {
-          "line1": "Blind"
+          "title": "Blind"
         }
       ]
     },
@@ -104,19 +104,19 @@
       "name": "Angel",
       "tokens": [
         {
-          "line1": "Get Over Here"
+          "title": "Get Over Here"
         },
         {
-          "line1": "Prodigy"
+          "title": "Prodigy"
         },
         {
-          "line1": "Untouchable"
+          "title": "Untouchable"
         },
         {
-          "line1": "Nimble"
+          "title": "Nimble"
         },
         {
-          "line1": "Super Shot"
+          "title": "Super Shot"
         }
       ]
     },
@@ -125,19 +125,19 @@
       "name": "Greyscales",
       "tokens": [
         {
-          "line1": "Old Reliable"
+          "title": "Old Reliable"
         },
         {
-          "line1": "Unpredictable Movement"
+          "title": "Unpredictable Movement"
         },
         {
-          "line1": "Ball's Gone!"
+          "title": "Ball's Gone!"
         },
         {
-          "line1": "Decoy"
+          "title": "Decoy"
         },
         {
-          "line1": "Where'd They Go?"
+          "title": "Where'd They Go?"
         }
       ]
     },
@@ -146,22 +146,22 @@
       "name": "Hag",
       "tokens": [
         {
-          "line1": "Fear"
+          "title": "Fear"
         },
         {
-          "line1": "Shadow Like"
+          "title": "Shadow Like"
         },
         {
-          "line1": "Talisman"
+          "title": "Talisman"
         },
         {
-          "line1": "Decoy"
+          "title": "Decoy"
         },
         {
-          "line1": "Fisher's Reel"
+          "title": "Fisher's Reel"
         },
         {
-          "line1": "Call of the Sea"
+          "title": "Call of the Sea"
         }
       ]
     },
@@ -170,16 +170,16 @@
       "name": "Jac",
       "tokens": [
         {
-          "line1": "Battering Ram"
+          "title": "Battering Ram"
         },
         {
-          "line1": "Resolute"
+          "title": "Resolute"
         },
         {
-          "line1": "Goad"
+          "title": "Goad"
         },
         {
-          "line1": "Trident Tested"
+          "title": "Trident Tested"
         }
       ]
     },
@@ -188,19 +188,19 @@
       "name": "Knuckles",
       "tokens": [
         {
-          "line1": "Backfield Presence"
+          "title": "Backfield Presence"
         },
         {
-          "line1": "Close Ranks"
+          "title": "Close Ranks"
         },
         {
-          "line1": "Lightning Reflexes"
+          "title": "Lightning Reflexes"
         },
         {
-          "line1": "Resilience"
+          "title": "Resilience"
         },
         {
-          "line1": "Heavy Tackle"
+          "title": "Heavy Tackle"
         }
       ]
     },
@@ -209,16 +209,16 @@
       "name": "Kraken",
       "tokens": [
         {
-          "line1": "Gravity Well"
+          "title": "Gravity Well"
         },
         {
-          "line1": "Protective Instinct"
+          "title": "Protective Instinct"
         },
         {
-          "line1": "Tough Hide"
+          "title": "Tough Hide"
         },
         {
-          "line1": "Drag"
+          "title": "Drag"
         }
       ]
     },
@@ -227,19 +227,19 @@
       "name": "Sakana",
       "tokens": [
         {
-          "line1": "Anatomical Precision"
+          "title": "Anatomical Precision"
         },
         {
-          "line1": "Cover of Darkness"
+          "title": "Cover of Darkness"
         },
         {
-          "line1": "Poised"
+          "title": "Poised"
         },
         {
-          "line1": "Smoke Bomb"
+          "title": "Smoke Bomb"
         },
         {
-          "line1": "Netted"
+          "title": "Netted"
         }
       ]
     },
@@ -248,16 +248,16 @@
       "name": "Sakana (Veteran)",
       "tokens": [
         {
-          "line1": "Anatomical Precision"
+          "title": "Anatomical Precision"
         },
         {
-          "line1": "Bag of Coffers"
+          "title": "Bag of Coffers"
         },
         {
-          "line1": "Fancy Footwork"
+          "title": "Fancy Footwork"
         },
         {
-          "line1": "Raise the Black Flag"
+          "title": "Raise the Black Flag"
         }
       ]
     },
@@ -266,16 +266,16 @@
       "name": "Siren",
       "tokens": [
         {
-          "line1": "Beautiful"
+          "title": "Beautiful"
         },
         {
-          "line1": "Protected"
+          "title": "Protected"
         },
         {
-          "line1": "Lure"
+          "title": "Lure"
         },
         {
-          "line1": "Seduced"
+          "title": "Seduced"
         }
       ]
     },
@@ -284,16 +284,16 @@
       "name": "Siren (Veteran)",
       "tokens": [
         {
-          "line1": "Escaping Fate"
+          "title": "Escaping Fate"
         },
         {
-          "line1": "Shadow Like"
+          "title": "Shadow Like"
         },
         {
-          "line1": "Dread Gaze"
+          "title": "Dread Gaze"
         },
         {
-          "line1": "Fair Wind"
+          "title": "Fair Wind"
         }
       ]
     },
@@ -302,22 +302,22 @@
       "name": "Fathom",
       "tokens": [
         {
-          "line1": "Guild Rule: Precise Calculations"
+          "title": "Guild Rule: Precise Calculations"
         },
         {
-          "line1": "Light Footed"
+          "title": "Light Footed"
         },
         {
-          "line1": "Linked"
+          "title": "Linked"
         },
         {
-          "line1": "Acrobatic"
+          "title": "Acrobatic"
         },
         {
-          "line1": "Smelling Salts"
+          "title": "Smelling Salts"
         },
         {
-          "line1": "Waverunner"
+          "title": "Waverunner"
         }
       ]
     },
@@ -326,16 +326,16 @@
       "name": "Horizon",
       "tokens": [
         {
-          "line1": "Guild Rule: Precise Calculations"
+          "title": "Guild Rule: Precise Calculations"
         },
         {
-          "line1": "Don't Get Cocky"
+          "title": "Don't Get Cocky"
         },
         {
-          "line1": "Stellar Navigation"
+          "title": "Stellar Navigation"
         },
         {
-          "line1": "Unexpected Arrival"
+          "title": "Unexpected Arrival"
         }
       ]
     }
