@@ -9,7 +9,7 @@ import { PRINT_PROFILES } from "./printProfiles";
 import { TokenSpec } from "./types";
 
 const loadTestFont = () => {
-  const buffer = readFileSync(path.join(process.cwd(), "public/fonts/CooperBlack.otf"));
+  const buffer = readFileSync(path.join(process.cwd(), "public/fonts/SairaCondensed-Bold.ttf"));
   const arrayBuffer = buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.byteLength);
 
   return opentype.parse(arrayBuffer);

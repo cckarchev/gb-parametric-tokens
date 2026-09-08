@@ -4,9 +4,9 @@ import { FitPolicy, PrintProfile } from "../types";
 import { computeSingleLineFit, SingleLineFitResult } from "./fitCascade";
 import { measureAdvances } from "./measureAdvances";
 
-// "l" glyph bbox width in Cooper Black at sizeMm = 1, measured live against the real font
-// file; not font-agnostic, remeasure if the default font ever changes again.
-const DEFAULT_FONT_STEM_WIDTH_MM_PER_SIZE_MM = 0.363;
+// "l" glyph bbox width in Saira Condensed Bold at sizeMm = 1, measured live against the real
+// font file; not font-agnostic, remeasure if the default font ever changes again.
+const DEFAULT_FONT_STEM_WIDTH_MM_PER_SIZE_MM = 0.129;
 // mirrors the old scad's `shift = size / 2 + 1` for ~5mm text.
 const TWO_LINE_RADIUS_OFFSET_MM = 3.5;
 const TRUNCATION_MARKER = "…";

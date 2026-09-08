@@ -7,7 +7,7 @@ import { signedArea } from "../svg/normalizeWinding";
 import { layoutArcText } from "./layoutArcText";
 
 const loadTestFont = () => {
-  const buffer = readFileSync(path.join(process.cwd(), "public/fonts/CooperBlack.otf"));
+  const buffer = readFileSync(path.join(process.cwd(), "public/fonts/SairaCondensed-Bold.ttf"));
   const arrayBuffer = buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.byteLength);
 
   return opentype.parse(arrayBuffer);
@@ -128,7 +128,7 @@ describe("layoutArcText", () => {
   // not eyeballed: "L" at radius 37.5 must reach out past 37.5, not in toward the origin.
   const RADIUS_MM = 37.5;
   const SIZE_MM = 6;
-  const MIN_ASCENDER_REACH_MM = 3; // Oswald's cap height at 6mm is comfortably above this
+  const MIN_ASCENDER_REACH_MM = 3; // Saira Condensed Bold's cap height at 6mm (~4.1mm) is comfortably above this
   const BASELINE_TOLERANCE_MM = 0.1; // flattening/optical overshoot can dip a hair below the baseline
 
   const measureRadialExtent = (contours: [number, number][][]) => {

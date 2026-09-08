@@ -16,14 +16,14 @@ import { PrintProfile, TokenSpec } from "./types";
 
 const NOB_TEXT_CLEARANCE_DEG = 6;
 
-// Empirically measured against the bundled font (Cooper Black) rendering all-caps arc text,
-// via the real pipeline (computeReliefComponents itself): how far a glyph's top edge sits
+// Empirically measured against the bundled font (Saira Condensed Bold) rendering arc text, via
+// the real pipeline (layoutArcText itself): how far a typical capital letter's top edge sits
 // above its baseline radius, as a fraction of sizeMm. Deliberately not the font's own
-// `ascender` metric, which reserves headroom for accents this all-caps text never uses and
-// would overestimate the true ink, throwing off the margin balance below. Remeasure (see this
-// file's git history for the throwaway `_measure-new-font.test.ts` approach) if the default
-// font ever changes again.
-const GLYPH_ASCENT_RATIO = 0.756;
+// `ascender` metric, which reserves headroom for accents this text never uses and would
+// overestimate the true ink, throwing off the margin balance below. Remeasure (see this file's
+// git history for the throwaway `_measure-saira.test.ts` approach) if the default font ever
+// changes again.
+const GLYPH_ASCENT_RATIO = 0.69;
 // An absolute mm gap, not proportional to the ribbon band width, so it only makes sense
 // relative to the app's own default arc shape (see useBatch.ts's DEFAULT_ARC_SHAPE / Frozen
 // Forge measurements). Remeasure via the real pipeline if the default shape's band width

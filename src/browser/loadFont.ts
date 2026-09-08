@@ -1,6 +1,6 @@
 import opentype, { type Font } from "opentype.js";
 
-const FONT_URL = "/fonts/CooperBlack.otf";
+const FONT_URL = "/fonts/SairaCondensed-Bold.ttf";
 
 export const loadFont = async (): Promise<Font> => {
   const response = await fetch(FONT_URL);
