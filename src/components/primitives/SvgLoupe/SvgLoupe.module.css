@@ -8,6 +8,18 @@
   height: auto;
 }
 
+.zoomHint {
+  position: absolute;
+  right: var(--space-2);
+  bottom: var(--space-2);
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-sm);
+  background: rgba(0, 0, 0, 0.6);
+  color: #ffffff;
+  font-size: var(--font-size-sm);
+  pointer-events: none;
+}
+
 .lens {
   position: absolute;
   overflow: hidden;

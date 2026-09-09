@@ -1,6 +1,11 @@
 import { MouseEvent, useEffect, useRef, useState } from "react";
 
-import { computeLoupeTransform, PointPx, ViewBoxSize } from "./computeLoupeTransform";
+import {
+  CSS_PX_PER_MM,
+  computeLoupeTransform,
+  PointPx,
+  ViewBoxSize,
+} from "./computeLoupeTransform";
 import styles from "./SvgLoupe.module.css";
 
 export type SvgLoupeProps = {
@@ -58,13 +63,41 @@ export const SvgLoupe = ({ svg, viewBox, ariaLabel, className }: SvgLoupeProps) 
   const viewBoxRef = useRef(viewBox);
   const zoomFactorRef = useRef(DEFAULT_ZOOM_FACTOR);
   const [lens, setLens] = useState<LensState>();
+  const [containerWidthPx, setContainerWidthPx] = useState<number>();
 
   viewBoxRef.current = viewBox;
+
+  // The lens only helps when the preview is currently drawn smaller than the token's true
+  // physical size (e.g. a full contact sheet shrunk to fit the panel); once it's already
+  // shown at or above true size (e.g. a single big token), magnifying it further adds
+  // nothing, so the whole hover/zoom affordance is skipped rather than shown for no reason.
+  const trueSizeWidthPx = viewBox.width * CSS_PX_PER_MM;
+  const isMagnificationUseful =
+    containerWidthPx !== undefined && containerWidthPx < trueSizeWidthPx;
+
+  useEffect(() => {
+    const trackArea = trackAreaRef.current;
+
+    if (!trackArea) {
+      return;
+    }
+
+    const measure = () => {
+      setContainerWidthPx(trackArea.getBoundingClientRect().width);
+    };
+
+    measure();
+    window.addEventListener("resize", measure);
+
+    return () => {
+      window.removeEventListener("resize", measure);
+    };
+  }, []);
 
   const handleMouseMove = (event: MouseEvent<HTMLDivElement>) => {
     const trackArea = trackAreaRef.current;
 
-    if (!trackArea) {
+    if (!trackArea || !isMagnificationUseful) {
       return;
     }
 
@@ -81,15 +114,20 @@ export const SvgLoupe = ({ svg, viewBox, ariaLabel, className }: SvgLoupeProps) 
   // A React onWheel prop is attached passively (matching the browser's own scroll-perf
   // default for wheel listeners), so preventDefault() through it cannot stop the rest of
   // the page from scrolling underneath the lens. A native, explicitly non-passive listener
-  // is the only way to actually own the wheel gesture while hovering the preview.
+  // is what lets this handler own the wheel gesture, but only while Ctrl is held: a plain
+  // wheel must fall through untouched so the page can still scroll past the preview.
   useEffect(() => {
     const trackArea = trackAreaRef.current;
 
-    if (!trackArea) {
+    if (!trackArea || !isMagnificationUseful) {
       return;
     }
 
     const handleWheel = (event: globalThis.WheelEvent) => {
+      if (!event.ctrlKey) {
+        return;
+      }
+
       event.preventDefault();
 
       const rect = trackArea.getBoundingClientRect();
@@ -107,7 +145,7 @@ export const SvgLoupe = ({ svg, viewBox, ariaLabel, className }: SvgLoupeProps) 
     return () => {
       trackArea.removeEventListener("wheel", handleWheel);
     };
-  }, []);
+  }, [isMagnificationUseful]);
 
   return (
     <div className={className}>
@@ -126,6 +164,8 @@ export const SvgLoupe = ({ svg, viewBox, ariaLabel, className }: SvgLoupeProps) 
           // Trusted markup generated locally from numeric geometry, not user input.
           dangerouslySetInnerHTML={{ __html: svg }}
         />
+
+        {isMagnificationUseful && <span className={styles.zoomHint}>Ctrl+Scroll to zoom</span>}
 
         {lens && (
           <div
