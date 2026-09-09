@@ -1,6 +1,8 @@
 // @vitest-environment happy-dom
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
+
+import { BatchSelection } from "../../../core/token/catalog/buildBatchItems";
 
 vi.mock("../../../hooks/useBatch", () => ({ useBatch: vi.fn() }));
 
@@ -94,5 +96,48 @@ describe("BatchEditor", () => {
     expect(screen.getByLabelText("Influence tokens")).toBeInTheDocument();
     expect(screen.getByLabelText("Momentum tokens")).toBeInTheDocument();
     expect(screen.getByLabelText("Beer Token")).toBeInTheDocument();
+  });
+
+  it("composes every field update from Guild tokens' own Select all instead of only the last one sticking (regression)", () => {
+    // Real bug, caught by the user: GuildTokenList's "Select all" fires onInfluenceChange,
+    // onMomentumChange, onGoalInfluenceChange, and onGenericTokensChange synchronously in one
+    // click. If any of those handlers builds its next selection from the `batch.selection`
+    // snapshot this render closed over (`{ ...batch.selection, field }`) instead of from
+    // whatever the previous call in the same click just produced, only the last of the four
+    // calls actually took effect -- the checkbox looked like it did nothing for the other three
+    // fields. Each call here is captured and replayed in order to prove they compose.
+    const setSelection = vi.fn();
+
+    vi.mocked(useBatch).mockReturnValue({
+      ...baseBatch,
+      catalogStatus: "ready",
+      catalog: {
+        guildId: "brewers",
+        name: "Brewers",
+        color: "#cdb320",
+        characters: [],
+        genericTokens: [{ id: "beer-token", name: "Beer Token" }],
+      },
+      setSelection,
+    });
+
+    render(<BatchEditor />);
+
+    const guildTokensPanel = screen.getByText("Guild tokens").closest("fieldset");
+
+    fireEvent.click(within(guildTokensPanel!).getByLabelText("Select all"));
+
+    expect(setSelection).toHaveBeenCalledTimes(4);
+
+    const finalSelection = setSelection.mock.calls.reduce((selection: BatchSelection, call) => {
+      const update = call[0] as BatchSelection | ((current: BatchSelection) => BatchSelection);
+
+      return typeof update === "function" ? update(selection) : update;
+    }, baseBatch.selection);
+
+    expect(finalSelection.influence.enabled).toBe(true);
+    expect(finalSelection.momentum.enabled).toBe(true);
+    expect(finalSelection.goalInfluence.enabled).toBe(true);
+    expect(finalSelection.genericTokens["beer-token"]?.enabled).toBe(true);
   });
 });
