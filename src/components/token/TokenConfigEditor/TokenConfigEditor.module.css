@@ -14,7 +14,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: var(--space-3) var(--space-4);
-  align-items: end;
+  align-items: start;
 }
 
 .groupTitle {
