@@ -6,6 +6,29 @@
   padding: var(--space-4);
 }
 
+.status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.statusIcon {
+  font-weight: bold;
+}
+
+.statusNeutral {
+  color: var(--color-text-muted);
+}
+
+.statusReady {
+  color: var(--color-success);
+}
+
+.statusAttention {
+  color: var(--color-error);
+}
+
 .alert {
   margin: 0;
   padding: var(--space-3);

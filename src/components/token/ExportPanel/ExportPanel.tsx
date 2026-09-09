@@ -7,6 +7,41 @@ export type ExportPanelProps = {
   exportError: string | undefined;
   exportFailures: ExportFailureItem[];
   onExport: () => void;
+  isPreviewing: boolean;
+  validCount: number;
+  invalidCount: number;
+};
+
+type StatusTone = "neutral" | "ready" | "attention";
+
+const STATUS_CLASS_BY_TONE: Record<StatusTone, string> = {
+  neutral: styles.statusNeutral,
+  ready: styles.statusReady,
+  attention: styles.statusAttention,
+};
+
+const describeStatus = (
+  isPreviewing: boolean,
+  validCount: number,
+  invalidCount: number,
+): { tone: StatusTone; text: string } => {
+  if (isPreviewing) {
+    return { tone: "neutral", text: "Checking tokens..." };
+  }
+
+  const totalCount = validCount + invalidCount;
+
+  if (totalCount === 0) {
+    return { tone: "neutral", text: "No tokens selected." };
+  }
+
+  if (invalidCount > 0) {
+    return { tone: "attention", text: `${invalidCount} of ${totalCount} tokens need attention.` };
+  }
+
+  const tokenWord = validCount === 1 ? "token" : "tokens";
+
+  return { tone: "ready", text: `${validCount} ${tokenWord} ready to print.` };
 };
 
 export const ExportPanel = ({
@@ -14,9 +49,23 @@ export const ExportPanel = ({
   exportError,
   exportFailures,
   onExport,
+  isPreviewing,
+  validCount,
+  invalidCount,
 }: ExportPanelProps) => {
+  const status = describeStatus(isPreviewing, validCount, invalidCount);
+
   return (
     <div className={styles.panel}>
+      <p className={`${styles.status} ${STATUS_CLASS_BY_TONE[status.tone]}`}>
+        {status.tone !== "neutral" && (
+          <span className={styles.statusIcon} aria-hidden="true">
+            {status.tone === "ready" ? "✓" : "✗"}
+          </span>
+        )}
+        {status.text}
+      </p>
+
       <Button
         label={isExporting ? "Exporting..." : "Download tokens (.3mf)"}
         variant="primary"

@@ -21,3 +21,9 @@
   width: 100%;
   height: auto;
 }
+
+.svgContainerLoading {
+  opacity: 0.5;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}

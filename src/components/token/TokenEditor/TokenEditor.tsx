@@ -24,8 +24,6 @@ export const TokenEditor = () => {
             <TokenPreview
               items={generator.previewItems}
               isPreviewing={generator.isPreviewing}
-              validCount={generator.validCount}
-              invalidCount={generator.invalidCount}
               colorGroups={generator.sharedConfig.colorGroups}
             />
           )}
@@ -90,6 +88,9 @@ export const TokenEditor = () => {
                 exportError={generator.exportError}
                 exportFailures={generator.exportFailures}
                 onExport={generator.exportThreeMf}
+                isPreviewing={generator.isPreviewing}
+                validCount={generator.validCount}
+                invalidCount={generator.invalidCount}
               />
             </>
           )}
