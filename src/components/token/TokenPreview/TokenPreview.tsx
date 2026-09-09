@@ -20,17 +20,11 @@ export const TokenPreview = ({ items, isPreviewing, colorGroups }: TokenPreviewP
     : styles.svgContainer;
 
   return (
-    <div className={styles.card}>
-      {/* The settled valid/invalid count lives next to the download button (ExportPanel) instead
-          of here -- that's the moment it's actually actionable. Only the in-flight state stays
-          attached to the image it describes. */}
-      {isPreviewing && <p className={styles.status}>Updating preview...</p>}
-      <SvgLoupe
-        svg={contactSheet.svg}
-        viewBox={contactSheet.viewBox}
-        ariaLabel="Token contact sheet preview"
-        className={svgContainerClassName}
-      />
-    </div>
+    <SvgLoupe
+      svg={contactSheet.svg}
+      viewBox={contactSheet.viewBox}
+      ariaLabel="Token contact sheet preview"
+      className={svgContainerClassName}
+    />
   );
 };
