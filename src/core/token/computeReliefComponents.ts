@@ -43,14 +43,27 @@ export const computeReliefComponents = async (
     ),
   );
 
-  const componentFailures: ComponentFailure[] = reliefComponents
+  const strokeWidthFailures: ComponentFailure[] = reliefComponents
     .map((component, index) => ({ component, validation: componentValidations[index] }))
     .filter(({ validation }) => !validation.valid)
     .map(({ component, validation }) => ({
+      kind: "stroke-width" as const,
       source: component.source ?? UNKNOWN_SOURCE,
       vanishedFeatureCount: validation.vanishedFeatureCount,
       featureCount: validation.featureCount,
     }));
+
+  // placeIcon (geometry/iconPlacement.ts) already shrinks an overflowing icon to fit its target
+  // circle -- this only surfaces that it happened, so the user notices and can check the real
+  // render, the same way an icon substitution becomes a warning above.
+  const iconOverflowFailures: ComponentFailure[] = reliefComponents
+    .filter(
+      (component): component is typeof component & { source: { kind: "icon"; iconId: string } } =>
+        component.overflowsCircle === true && component.source?.kind === "icon",
+    )
+    .map((component) => ({ kind: "icon-overflow" as const, source: component.source }));
+
+  const componentFailures = [...strokeWidthFailures, ...iconOverflowFailures];
 
   return { reliefComponents, valid: componentFailures.length === 0, componentFailures, warnings };
 };

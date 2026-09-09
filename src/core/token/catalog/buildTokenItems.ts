@@ -1,5 +1,5 @@
 import { ArcShapeSpec, DiscShapeSpec } from "../geometry/nobPlacement";
-import { ColorGroupSpec, FitPolicy, StyleSpec, TokenSpec } from "../types";
+import { ColorGroupSpec, FitPolicy, IconSpec, StyleSpec, TokenSpec } from "../types";
 import { CatalogGenericToken, CatalogTokenSpec, GuildCatalog } from "./catalogTypes";
 import { TEXT_COLOR_GROUP_ID } from "./deriveReliefColor";
 
@@ -48,6 +48,10 @@ export type SharedConfig = {
   subtitleSizeMm: number;
   showSecondLine: boolean;
   balanceTwoLineSizes: boolean;
+  // Off by default: an icon whose own artwork overflows its nob/disc circle is always flagged
+  // for attention (see computeReliefComponents.ts), but only shrunk further to fit when this is
+  // on -- see geometry/iconPlacement.ts's placeIcon.
+  shrinkIconsToFitCircle: boolean;
 };
 
 const DEFAULT_ICON_SCALE = 0.85;
@@ -85,6 +89,22 @@ const GOAL_INFLUENCE_BOTTOM_TEXT = "Influence";
 export const characterTokenId = (characterId: string, tokenIndex: number): string => {
   return `${characterId}-${tokenIndex}`;
 };
+
+// Every icon a guild token wears goes through here, so shrinkIconsToFitCircle only needs to be
+// threaded once: when it's off (the default), the built IconSpec looks exactly as it always has,
+// so an icon-overflow correction never runs even though it's still flagged for attention.
+const buildIconSpec = (
+  iconId: string,
+  side: IconSpec["side"],
+  scale: number,
+  sharedConfig: SharedConfig,
+): IconSpec => ({
+  iconId,
+  side,
+  scale,
+  colorGroup: TEXT_COLOR_GROUP_ID,
+  ...(sharedConfig.shrinkIconsToFitCircle ? { constrainToCircle: true } : {}),
+});
 
 // Every token spec carries the same trailing style/printing fields from the shared config,
 // whatever its own shape, text, icons, and decorations look like.
@@ -138,8 +158,8 @@ const buildCharacterTokenSpec = (
     textLayout: "arc",
     lines,
     icons: [
-      { iconId, side: "left", scale: DEFAULT_ICON_SCALE, colorGroup: TEXT_COLOR_GROUP_ID },
-      { iconId, side: "right", scale: DEFAULT_ICON_SCALE, colorGroup: TEXT_COLOR_GROUP_ID },
+      buildIconSpec(iconId, "left", DEFAULT_ICON_SCALE, sharedConfig),
+      buildIconSpec(iconId, "right", DEFAULT_ICON_SCALE, sharedConfig),
     ],
     decorations: [],
     ...sharedTokenFields(sharedConfig),
@@ -157,12 +177,7 @@ const buildGenericTokenSpec = (
     textLayout: "flat",
     lines: [],
     icons: [
-      {
-        iconId: generic.iconId ?? guildIconId,
-        side: "center",
-        scale: DEFAULT_ICON_SCALE,
-        colorGroup: TEXT_COLOR_GROUP_ID,
-      },
+      buildIconSpec(generic.iconId ?? guildIconId, "center", DEFAULT_ICON_SCALE, sharedConfig),
     ],
     decorations: [],
     ...sharedTokenFields(sharedConfig),
@@ -206,14 +221,7 @@ const buildGoalInfluenceTokenSpec = (
         colorGroup: TEXT_COLOR_GROUP_ID,
       },
     ],
-    icons: [
-      {
-        iconId: guildIconId,
-        side: "center",
-        scale: GOAL_INFLUENCE_ICON_SCALE,
-        colorGroup: TEXT_COLOR_GROUP_ID,
-      },
-    ],
+    icons: [buildIconSpec(guildIconId, "center", GOAL_INFLUENCE_ICON_SCALE, sharedConfig)],
     decorations: [buildRingDecoration(sharedConfig.goalInfluenceShape)],
     ...sharedTokenFields(sharedConfig),
   };
@@ -229,12 +237,7 @@ const buildInfluenceTokenSpec = (sharedConfig: SharedConfig): TokenSpec => {
     textLayout: "flat",
     lines: [],
     icons: [
-      {
-        iconId: sharedConfig.influenceIconId,
-        side: "center",
-        scale: DEFAULT_ICON_SCALE,
-        colorGroup: TEXT_COLOR_GROUP_ID,
-      },
+      buildIconSpec(sharedConfig.influenceIconId, "center", DEFAULT_ICON_SCALE, sharedConfig),
     ],
     decorations: [],
     ...sharedTokenFields(sharedConfig),

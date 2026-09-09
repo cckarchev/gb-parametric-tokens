@@ -29,7 +29,11 @@ export const buildIconComponent = async (
   const rawContours = pathDataList.flatMap((d) =>
     flattenPath(parsePathData(d), printProfile.bezierToleranceMm),
   );
-  const placed = placeIcon(rawContours, { targetDiameterMm, scale: icon.scale });
+  const { contours: placed, overflowsCircle } = placeIcon(rawContours, {
+    targetDiameterMm,
+    scale: icon.scale,
+    constrainToCircle: icon.constrainToCircle ?? false,
+  });
 
   // placeIcon flips Y; normalizeWinding must run after, same trap M1/M4 scripts document.
   const normalized = normalizeWinding(placed);
@@ -39,7 +43,12 @@ export const buildIconComponent = async (
   const rotated = rotateContours(normalized, rotationDeg);
   const contours = translateContours(rotated, center);
 
-  return { contours, colorGroup: icon.colorGroup, source: { kind: "icon", iconId: icon.iconId } };
+  return {
+    contours,
+    colorGroup: icon.colorGroup,
+    source: { kind: "icon", iconId: icon.iconId },
+    overflowsCircle,
+  };
 };
 
 // Shared by every disc-shaped layout (flat and ring alike): both center their icons at the

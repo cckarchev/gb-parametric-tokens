@@ -20,14 +20,17 @@ const loadTestFont = () => {
   return opentype.parse(arrayBuffer);
 };
 
-const SQUARE_ICON_SVG = '<svg><path d="M0 0L10 0L10 10L0 10Z"/></svg>';
+// A diamond whose vertices sit exactly on its own bounding box's inscribed circle (see
+// iconPlacement.test.ts's identical fixture): fits within a circular nob/disc with no shrink, so
+// tests using this as a stand-in icon aren't incidentally exercising the icon-overflow check.
+const GENERIC_ICON_SVG = '<svg><path d="M5 0L10 5L5 10L0 5Z"/></svg>';
 
 const stubLoadIconSource: LoadIconSource = async (iconId) => {
   if (iconId === "missing-icon") {
-    return { svgSource: SQUARE_ICON_SVG, resolvedId: "blank", substituted: true };
+    return { svgSource: GENERIC_ICON_SVG, resolvedId: "blank", substituted: true };
   }
 
-  return { svgSource: SQUARE_ICON_SVG, resolvedId: iconId, substituted: false };
+  return { svgSource: GENERIC_ICON_SVG, resolvedId: iconId, substituted: false };
 };
 
 const printProfile = PRINT_PROFILES["fdm-04"];
@@ -360,10 +363,40 @@ describe("computeReliefComponents", () => {
       stubLoadIconSource,
     );
 
+    const [failure] = result.componentFailures;
+
     expect(result.valid).toBe(false);
     expect(result.componentFailures).toHaveLength(1);
-    expect(result.componentFailures[0].source).toEqual({ kind: "text", text: "l" });
-    expect(result.componentFailures[0].vanishedFeatureCount).toBeGreaterThan(0);
+    expect(failure.source).toEqual({ kind: "text", text: "l" });
+    expect(failure.kind).toBe("stroke-width");
+
+    if (failure.kind === "stroke-width") {
+      expect(failure.vanishedFeatureCount).toBeGreaterThan(0);
+    }
+  });
+
+  it("flags an icon as needing attention when its own artwork overflows its target circle", async () => {
+    const font = loadTestFont();
+    // A solid square: its own corners are its farthest points from center, past the circle
+    // inscribed in its bounding box, at any scale (see iconPlacement.test.ts).
+    const squareIconSvg = '<svg><path d="M0 0L10 0L10 10L0 10Z"/></svg>';
+    const loadSquareIcon: LoadIconSource = async (iconId) => ({
+      svgSource: squareIconSvg,
+      resolvedId: iconId,
+      substituted: false,
+    });
+
+    const result = await computeReliefComponents(
+      discSpec({ icons: [{ iconId: "cooks", side: "center", scale: 0.7 }], lines: [] }),
+      font,
+      printProfile,
+      loadSquareIcon,
+    );
+
+    expect(result.valid).toBe(false);
+    expect(result.componentFailures).toEqual([
+      { kind: "icon-overflow", source: { kind: "icon", iconId: "cooks" } },
+    ]);
   });
 
   it("keeps a chunky icon out of the failures list even when a hairline text line beside it fails", async () => {

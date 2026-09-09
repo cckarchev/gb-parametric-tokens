@@ -103,7 +103,9 @@ const getResources = () => {
 // and the contact-sheet marker's tooltip both render \n as a real line break.
 const describeReason = (title: string, componentFailures: ComponentFailure[]): string => {
   const messages = componentFailures.map((failure) =>
-    failure.source.kind === "text" && failure.source.text === title
+    failure.kind === "stroke-width" &&
+    failure.source.kind === "text" &&
+    failure.source.text === title
       ? describeVanishedDetailCount(failure)
       : describeComponentFailure(failure),
   );

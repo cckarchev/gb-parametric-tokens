@@ -69,6 +69,14 @@ export const TokenConfigEditor = ({
             onChange={(balanceTwoLineSizes) => onChange({ ...sharedConfig, balanceTwoLineSizes })}
           />
 
+          <CheckboxField
+            label="Shrink icons that overflow their circle"
+            checked={sharedConfig.shrinkIconsToFitCircle}
+            onChange={(shrinkIconsToFitCircle) =>
+              onChange({ ...sharedConfig, shrinkIconsToFitCircle })
+            }
+          />
+
           <GuildColorsEditor
             colorGroups={sharedConfig.colorGroups}
             onChange={(colorGroups) => onChange({ ...sharedConfig, colorGroups })}

@@ -506,6 +506,7 @@ describe("useTokenGenerator", () => {
       subtitleSizeMm: 3,
       showSecondLine: false,
       balanceTwoLineSizes: true,
+      shrinkIconsToFitCircle: true,
     };
     const file = new File([JSON.stringify(importedConfig)], "settings.json", {
       type: "application/json",
@@ -516,6 +517,39 @@ describe("useTokenGenerator", () => {
     });
 
     expect(result.current.sharedConfig).toEqual(importedConfig);
+    expect(result.current.importSettingsError).toBeUndefined();
+  });
+
+  it("defaults shrinkIconsToFitCircle to off when importing a settings file exported before that option existed", async () => {
+    const { result } = renderHook(() => useTokenGenerator());
+
+    const importedConfig = {
+      arcShape: { type: "arc", ribbonWidthMm: 20, ribbonLengthMm: 25, nobDiameterMm: 30 },
+      discShape: { type: "disc", diameterMm: 30 },
+      goalInfluenceShape: { type: "disc", diameterMm: 24 },
+      style: { relief: "engraved", reliefHeightMm: 0.8, baseThicknessMm: 4 },
+      fitPolicy: { minTracking: 0, maxTracking: 0.2, minScale: 0.6, allowTwoLines: false },
+      printProfileId: "fdm-04",
+      colorGroups: [{ id: "base", name: "Body", color: "#123456" }],
+      influenceIconId: "blank",
+      titleSizeMm: 5,
+      subtitleSizeMm: 3,
+      showSecondLine: false,
+      balanceTwoLineSizes: true,
+      // shrinkIconsToFitCircle intentionally absent, as in a file exported before it existed.
+    };
+    const file = new File([JSON.stringify(importedConfig)], "settings.json", {
+      type: "application/json",
+    });
+
+    await act(async () => {
+      await result.current.importSettingsJson(file);
+    });
+
+    expect(result.current.sharedConfig).toEqual({
+      ...importedConfig,
+      shrinkIconsToFitCircle: false,
+    });
     expect(result.current.importSettingsError).toBeUndefined();
   });
 

@@ -15,4 +15,8 @@ export type ReliefComponent = {
   contours: Vec2[][];
   colorGroup?: string;
   source?: ReliefComponentSource;
+  // Set only by an icon component (see geometry/iconPlacement.ts's placeIcon): true when the
+  // icon's own farthest point would have poked past its target circle under a plain
+  // bounding-box fit, so the tighter circle-fit scale was used instead.
+  overflowsCircle?: boolean;
 };

@@ -18,6 +18,10 @@ export type IconSpec = {
   side: "left" | "right" | "center";
   scale: number;
   colorGroup?: string;
+  // Off (undefined/false) by default: an icon whose own artwork pokes past its target nob/disc
+  // circle is still flagged for attention either way (see geometry/iconPlacement.ts), but only
+  // shrunk further to fit when this is on.
+  constrainToCircle?: boolean;
 };
 
 export type ReliefStyle = "raised" | "engraved";

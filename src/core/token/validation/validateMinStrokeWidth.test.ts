@@ -110,6 +110,7 @@ describe("validateMinStrokeWidth", () => {
 describe("describeComponentFailure", () => {
   it("names the failing text line by its own content, pluralized", () => {
     const message = describeComponentFailure({
+      kind: "stroke-width",
       source: { kind: "text", text: "Thousand Cuts" },
       vanishedFeatureCount: 2,
       featureCount: 5,
@@ -120,6 +121,7 @@ describe("describeComponentFailure", () => {
 
   it("names the failing icon by its own id", () => {
     const message = describeComponentFailure({
+      kind: "stroke-width",
       source: { kind: "icon", iconId: "axe" },
       vanishedFeatureCount: 1,
       featureCount: 3,
@@ -130,6 +132,7 @@ describe("describeComponentFailure", () => {
 
   it("names a failing decoration generically, since it has no id or text of its own", () => {
     const message = describeComponentFailure({
+      kind: "stroke-width",
       source: { kind: "decoration" },
       vanishedFeatureCount: 1,
       featureCount: 1,
@@ -140,6 +143,7 @@ describe("describeComponentFailure", () => {
 
   it("falls back to a generic label for a component with no known source", () => {
     const message = describeComponentFailure({
+      kind: "stroke-width",
       source: { kind: "unknown" },
       vanishedFeatureCount: 1,
       featureCount: 2,
@@ -150,12 +154,22 @@ describe("describeComponentFailure", () => {
 
   it("uses the singular for a single detail", () => {
     const message = describeComponentFailure({
+      kind: "stroke-width",
       source: { kind: "text", text: "L" },
       vanishedFeatureCount: 1,
       featureCount: 1,
     });
 
     expect(message).toBe('Text "L": 1 of 1 detail too thin to print at this size.');
+  });
+
+  it("names the failing icon by its own id when it overflows its target circle", () => {
+    const message = describeComponentFailure({
+      kind: "icon-overflow",
+      source: { kind: "icon", iconId: "cooks" },
+    });
+
+    expect(message).toBe('Icon "cooks": extends past its printed edge, shrunk to fit the circle.');
   });
 });
 

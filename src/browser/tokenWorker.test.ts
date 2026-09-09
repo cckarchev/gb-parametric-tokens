@@ -111,6 +111,7 @@ describe("handlePreview", () => {
         valid: false,
         componentFailures: [
           {
+            kind: "stroke-width",
             source: { kind: "text", text: "Token B" },
             vanishedFeatureCount: 1,
             featureCount: 1,
@@ -175,8 +176,14 @@ describe("handlePreview", () => {
       warnings: [],
       valid: false,
       componentFailures: [
-        { source: { kind: "icon", iconId: "axe" }, vanishedFeatureCount: 1, featureCount: 2 },
         {
+          kind: "stroke-width",
+          source: { kind: "icon", iconId: "axe" },
+          vanishedFeatureCount: 1,
+          featureCount: 2,
+        },
+        {
+          kind: "stroke-width",
           source: { kind: "text", text: "A subtitle line" },
           vanishedFeatureCount: 3,
           featureCount: 4,
@@ -204,9 +211,20 @@ describe("handlePreview", () => {
       warnings: [],
       valid: false,
       componentFailures: [
-        { source: { kind: "icon", iconId: "Cooks" }, vanishedFeatureCount: 3, featureCount: 11 },
-        { source: { kind: "icon", iconId: "Cooks" }, vanishedFeatureCount: 3, featureCount: 11 },
         {
+          kind: "stroke-width",
+          source: { kind: "icon", iconId: "Cooks" },
+          vanishedFeatureCount: 3,
+          featureCount: 11,
+        },
+        {
+          kind: "stroke-width",
+          source: { kind: "icon", iconId: "Cooks" },
+          vanishedFeatureCount: 3,
+          featureCount: 11,
+        },
+        {
+          kind: "stroke-width",
           source: { kind: "text", text: "Singled Out" },
           vanishedFeatureCount: 9,
           featureCount: 11,
@@ -227,6 +245,27 @@ describe("handlePreview", () => {
         "9 of 11 details too thin to print at this size.",
     );
   });
+
+  it("names the overflowing icon when it extends past its target circle", async () => {
+    vi.mocked(computeReliefComponents).mockResolvedValueOnce({
+      reliefComponents: [],
+      warnings: [],
+      valid: false,
+      componentFailures: [{ kind: "icon-overflow", source: { kind: "icon", iconId: "Cooks" } }],
+    });
+    vi.mocked(computeBaseOutlineContours).mockResolvedValueOnce([[[-1, -1]]]);
+
+    const items: TokenItem[] = [
+      { id: "a", label: "Token A", title: "Token A", spec: discSpec, copies: 1 },
+    ];
+    const request: PreviewRequest = { kind: "preview", requestId: 10, items };
+
+    const response = await handlePreview(request);
+
+    expect(response.results[0].reason).toBe(
+      'Icon "Cooks": extends past its printed edge, shrunk to fit the circle.',
+    );
+  });
 });
 
 describe("handleExport", () => {
@@ -236,7 +275,12 @@ describe("handleExport", () => {
       warnings: [],
       valid: false,
       componentFailures: [
-        { source: { kind: "text", text: "Token A" }, vanishedFeatureCount: 1, featureCount: 1 },
+        {
+          kind: "stroke-width",
+          source: { kind: "text", text: "Token A" },
+          vanishedFeatureCount: 1,
+          featureCount: 1,
+        },
       ],
     });
     vi.mocked(buildTokenParts).mockResolvedValue([fakePart("NoError")]);

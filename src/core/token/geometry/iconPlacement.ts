@@ -5,13 +5,32 @@ import { computeBounds } from "./computeBounds";
 export type IconPlacementOptions = {
   targetDiameterMm: number;
   scale: number;
+  // Off by default (see IconSpec.constrainToCircle): when true, an icon whose own farthest point
+  // would poke past the target circle under a plain bounding-box fit is shrunk further, to the
+  // circle-fit scale, instead. `overflowsCircle` below is reported either way -- turning this off
+  // only skips the correction, never the detection.
+  constrainToCircle: boolean;
+};
+
+export type PlaceIconResult = {
+  contours: Vec2[][];
+  // True when the icon's own farthest point from its center would poke past the target circle
+  // under a plain bounding-box fit, regardless of whether constrainToCircle actually corrected
+  // it. A raised relief icon is unioned onto the base with no clip against the nob/disc's own
+  // circle (see applyReliefToBase.ts), so any point past that circle would print as an
+  // unsupported overhang -- this is what lets a caller flag that token for attention.
+  overflowsCircle: boolean;
 };
 
 const flipY = (contours: Vec2[][]): Vec2[][] => {
   return contours.map((contour) => contour.map(([x, y]): Vec2 => [x, -y]));
 };
 
-export const placeIcon = (contours: Vec2[][], options: IconPlacementOptions): Vec2[][] => {
+// A tiny tolerance so an icon whose farthest point already sits exactly on the inscribed circle
+// (the box fit and the circle fit agree) isn't flagged as overflowing from float noise alone.
+const OVERFLOW_EPSILON = 1e-9;
+
+export const placeIcon = (contours: Vec2[][], options: IconPlacementOptions): PlaceIconResult => {
   const flipped = flipY(contours);
   const bounds = computeBounds(flipped);
 
@@ -20,11 +39,25 @@ export const placeIcon = (contours: Vec2[][], options: IconPlacementOptions): Ve
   const largestDimension = Math.max(boundsWidth, boundsHeight);
 
   const center: Vec2 = [(bounds.min[0] + bounds.max[0]) / 2, (bounds.min[1] + bounds.max[1]) / 2];
-  const scaleFactor = (options.targetDiameterMm * options.scale) / largestDimension;
+  const boxFitScaleFactor = (options.targetDiameterMm * options.scale) / largestDimension;
 
-  return flipped.map((contour) =>
+  const circumradius = Math.max(
+    ...flipped.flatMap((contour) =>
+      contour.map(([x, y]) => Math.hypot(x - center[0], y - center[1])),
+    ),
+  );
+  const circleFitScaleFactor = (options.targetDiameterMm * options.scale) / (2 * circumradius);
+
+  const overflowsCircle = circleFitScaleFactor < boxFitScaleFactor - OVERFLOW_EPSILON;
+  const scaleFactor = options.constrainToCircle
+    ? Math.min(boxFitScaleFactor, circleFitScaleFactor)
+    : boxFitScaleFactor;
+
+  const placedContours = flipped.map((contour) =>
     contour.map(([x, y]): Vec2 => [(x - center[0]) * scaleFactor, (y - center[1]) * scaleFactor]),
   );
+
+  return { contours: placedContours, overflowsCircle };
 };
 
 // Standard mathYUp CCW rotation about the origin -- the same convention arcPlacement.ts's

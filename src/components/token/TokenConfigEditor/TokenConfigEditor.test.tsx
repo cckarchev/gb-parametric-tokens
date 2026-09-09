@@ -22,6 +22,7 @@ const sharedConfig: SharedConfig = {
   subtitleSizeMm: 4.5,
   showSecondLine: true,
   balanceTwoLineSizes: false,
+  shrinkIconsToFitCircle: false,
 };
 
 const openAdvancedSettings = async () => {

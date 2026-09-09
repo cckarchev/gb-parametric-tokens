@@ -52,11 +52,26 @@ export const validateMinStrokeWidth = async (
 // One relief component (a text line, an icon, a decoration) that failed the min-stroke-width
 // check, computed by running validateMinStrokeWidth per component instead of once over every
 // contour combined -- see computeReliefComponents.ts.
-export type ComponentFailure = {
+export type StrokeWidthFailure = {
+  kind: "stroke-width";
   source: ReliefComponentSource;
   vanishedFeatureCount: number;
   featureCount: number;
 };
+
+// An icon whose own farthest point poked past its target circle under a plain bounding-box fit
+// (see geometry/iconPlacement.ts's placeIcon) -- the icon was shrunk to fit, but that's worth
+// flagging: a raised relief icon is unioned onto the base with no clip against the nob/disc's own
+// circle (applyReliefToBase.ts), so it's the kind of correction the user should double-check
+// against the real render, not just an assurance nothing exceeded the target scale.
+export type IconOverflowFailure = {
+  kind: "icon-overflow";
+  source: Extract<ReliefComponentSource, { kind: "icon" }>;
+};
+
+// Every reason a relief component can land in the "needs attention" list -- computeReliefComponents.ts
+// combines both kinds into one list, tokenWorker.ts turns it into one reason string per token.
+export type ComponentFailure = StrokeWidthFailure | IconOverflowFailure;
 
 const describeReliefComponentSource = (source: ReliefComponentSource): string => {
   switch (source.kind) {
@@ -75,7 +90,7 @@ const describeReliefComponentSource = (source: ReliefComponentSource): string =>
 // way (tokenWorker.ts drops the redundant "Text "..."" prefix when a token's only failing
 // component is its own title, since the surrounding UI already names that token by title).
 export const describeVanishedDetailCount = (
-  failure: Pick<ComponentFailure, "vanishedFeatureCount" | "featureCount">,
+  failure: Pick<StrokeWidthFailure, "vanishedFeatureCount" | "featureCount">,
 ): string => {
   const { vanishedFeatureCount, featureCount } = failure;
   const detailWord = featureCount === 1 ? "detail" : "details";
@@ -83,8 +98,13 @@ export const describeVanishedDetailCount = (
   return `${vanishedFeatureCount} of ${featureCount} ${detailWord} too thin to print at this size.`;
 };
 
+const ICON_OVERFLOW_MESSAGE = "extends past its printed edge, shrunk to fit the circle.";
+
 // Shared by the UI (the "N tokens need attention" list) and the contact-sheet preview marker, so
 // both describe the same failure in the same words.
 export const describeComponentFailure = (failure: ComponentFailure): string => {
-  return `${describeReliefComponentSource(failure.source)}: ${describeVanishedDetailCount(failure)}`;
+  const detail =
+    failure.kind === "icon-overflow" ? ICON_OVERFLOW_MESSAGE : describeVanishedDetailCount(failure);
+
+  return `${describeReliefComponentSource(failure.source)}: ${detail}`;
 };

@@ -134,6 +134,7 @@ export const useTokenGenerator = () => {
     subtitleSizeMm: DEFAULT_SUBTITLE_SIZE_MM,
     showSecondLine: true,
     balanceTwoLineSizes: false,
+    shrinkIconsToFitCircle: false,
   });
 
   // Every successful guild load re-seeds the two catalog-derived colors (the selection itself is
@@ -207,7 +208,12 @@ export const useTokenGenerator = () => {
         throw new Error("This file is not a valid settings file.");
       }
 
-      setSharedConfig(parsed);
+      // Not validated above: a settings file exported before this option existed simply lacks
+      // it, and should still import cleanly, defaulting to off rather than being rejected.
+      setSharedConfig({
+        ...parsed,
+        shrinkIconsToFitCircle: parsed.shrinkIconsToFitCircle ?? false,
+      });
     } catch (error) {
       setImportSettingsError(error instanceof Error ? error.message : String(error));
     }

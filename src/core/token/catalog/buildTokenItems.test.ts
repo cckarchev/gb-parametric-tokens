@@ -38,6 +38,7 @@ const sharedConfig: SharedConfig = {
   subtitleSizeMm: 4,
   showSecondLine: true,
   balanceTwoLineSizes: false,
+  shrinkIconsToFitCircle: false,
 };
 
 const emptySelection: TokenSelection = {
@@ -166,6 +167,46 @@ describe("buildTokenItems", () => {
     expect(items[0].spec.icons).toEqual([
       { iconId: "Brewers", side: "left", scale: 0.85, colorGroup: "text" },
       { iconId: "Brewers", side: "right", scale: 0.85, colorGroup: "text" },
+    ]);
+  });
+
+  it("leaves constrainToCircle unset on every icon when shrinkIconsToFitCircle is off (the default)", () => {
+    const selection: TokenSelection = {
+      ...emptySelection,
+      characterTokenIds: [characterTokenId("tapper", 1)],
+    };
+
+    const items = buildTokenItems(catalog, selection, sharedConfig);
+
+    for (const icon of items[0].spec.icons) {
+      expect(icon.constrainToCircle).toBeUndefined();
+    }
+  });
+
+  it("marks every icon constrainToCircle when shrinkIconsToFitCircle is on", () => {
+    const selection: TokenSelection = {
+      ...emptySelection,
+      characterTokenIds: [characterTokenId("tapper", 1)],
+    };
+    const customConfig: SharedConfig = { ...sharedConfig, shrinkIconsToFitCircle: true };
+
+    const items = buildTokenItems(catalog, selection, customConfig);
+
+    expect(items[0].spec.icons).toEqual([
+      {
+        iconId: "Brewers",
+        side: "left",
+        scale: 0.85,
+        colorGroup: "text",
+        constrainToCircle: true,
+      },
+      {
+        iconId: "Brewers",
+        side: "right",
+        scale: 0.85,
+        colorGroup: "text",
+        constrainToCircle: true,
+      },
     ]);
   });
 
