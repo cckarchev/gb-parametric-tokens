@@ -15,7 +15,7 @@ describe("GuildColorsEditor", () => {
     render(<GuildColorsEditor colorGroups={colorGroups} onChange={vi.fn()} />);
 
     expect(screen.getByLabelText("Body")).toHaveValue("#cdb320");
-    expect(screen.getByLabelText("Text & symbols")).toHaveValue("#000000");
+    expect(screen.getByLabelText("Details")).toHaveValue("#000000");
     expect(screen.queryByRole("button", { name: "Add color group" })).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "Remove color group" })).not.toBeInTheDocument();
   });
@@ -38,7 +38,7 @@ describe("GuildColorsEditor", () => {
 
     render(<GuildColorsEditor colorGroups={colorGroups} onChange={onChange} />);
 
-    fireEvent.change(screen.getByLabelText("Text & symbols"), { target: { value: "#abcdef" } });
+    fireEvent.change(screen.getByLabelText("Details"), { target: { value: "#abcdef" } });
 
     expect(onChange).toHaveBeenCalledWith([
       { id: "base", name: "Body", color: "#cdb320" },

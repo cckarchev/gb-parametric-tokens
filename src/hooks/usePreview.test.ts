@@ -45,7 +45,7 @@ const sharedConfig: SharedConfig = {
   subtitleSizeMm: 4,
   showSecondLine: true,
   balanceTwoLineSizes: false,
-  shrinkIconsToFitCircle: false,
+  iconOverflowBehavior: "none",
 };
 
 const baseSelection: TokenSelection = {

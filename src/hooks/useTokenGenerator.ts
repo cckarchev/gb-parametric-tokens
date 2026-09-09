@@ -134,7 +134,7 @@ export const useTokenGenerator = () => {
     subtitleSizeMm: DEFAULT_SUBTITLE_SIZE_MM,
     showSecondLine: true,
     balanceTwoLineSizes: false,
-    shrinkIconsToFitCircle: false,
+    iconOverflowBehavior: "none",
   });
 
   // Every successful guild load re-seeds the two catalog-derived colors (the selection itself is
@@ -151,7 +151,7 @@ export const useTokenGenerator = () => {
         { id: BASE_COLOR_GROUP_ID, name: "Body", color: catalog.color },
         {
           id: TEXT_COLOR_GROUP_ID,
-          name: "Text & symbols",
+          name: "Details",
           color: deriveReliefColor(catalog.color),
         },
       ],
@@ -209,10 +209,10 @@ export const useTokenGenerator = () => {
       }
 
       // Not validated above: a settings file exported before this option existed simply lacks
-      // it, and should still import cleanly, defaulting to off rather than being rejected.
+      // it, and should still import cleanly, defaulting to "none" rather than being rejected.
       setSharedConfig({
         ...parsed,
-        shrinkIconsToFitCircle: parsed.shrinkIconsToFitCircle ?? false,
+        iconOverflowBehavior: parsed.iconOverflowBehavior ?? "none",
       });
     } catch (error) {
       setImportSettingsError(error instanceof Error ? error.message : String(error));

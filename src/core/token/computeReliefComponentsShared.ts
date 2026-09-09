@@ -1,5 +1,6 @@
 import { placeIcon, rotateContours, translateContours } from "./geometry/iconPlacement";
 import { computeRingContour } from "./geometry/ringContour";
+import { trimIconToCircle } from "./geometry/trimIconToCircle";
 import { ReliefComponent } from "./mesh/reliefComponent";
 import { extractPathData } from "./svg/extractPathData";
 import { flattenPath } from "./svg/flattenPath";
@@ -25,6 +26,8 @@ export const buildIconComponent = async (
     warnings.push(`Icon "${icon.iconId}" not found, using fallback "${resolvedId}".`);
   }
 
+  const overflowBehavior = icon.overflowBehavior ?? "none";
+
   const pathDataList = extractPathData(svgSource);
   const rawContours = pathDataList.flatMap((d) =>
     flattenPath(parsePathData(d), printProfile.bezierToleranceMm),
@@ -32,22 +35,35 @@ export const buildIconComponent = async (
   const { contours: placed, overflowsCircle } = placeIcon(rawContours, {
     targetDiameterMm,
     scale: icon.scale,
-    constrainToCircle: icon.constrainToCircle ?? false,
+    constrainToCircle: overflowBehavior === "shrink",
   });
 
   // placeIcon flips Y; normalizeWinding must run after, same trap M1/M4 scripts document.
   const normalized = normalizeWinding(placed);
+  // Trimming needs correctly wound contours (so a hole stays a hole under the intersection),
+  // hence after normalizeWinding -- and still in the icon's own local space, centered on the
+  // origin, hence before rotate/translate below.
+  // The real nob/disc radius, not scaled by icon.scale -- trim only cuts what actually pokes
+  // past the physical circle, same reference placeIcon's own circle-fit check uses (see its
+  // comment on circleFitScaleFactor), not the icon's smaller nominal-size target.
+  const trimmed =
+    overflowBehavior === "trim" && overflowsCircle
+      ? await trimIconToCircle(normalized, targetDiameterMm / 2)
+      : normalized;
+
   // Rotate about the icon's own center (still at the origin here) before translating it out
   // to its final position, the same rotate-then-translate order applyArcPlacement uses for
   // glyphs.
-  const rotated = rotateContours(normalized, rotationDeg);
+  const rotated = rotateContours(trimmed, rotationDeg);
   const contours = translateContours(rotated, center);
 
   return {
     contours,
     colorGroup: icon.colorGroup,
     source: { kind: "icon", iconId: icon.iconId },
-    overflowsCircle,
+    // Only "none" leaves the overflow uncorrected, so only "none" needs the attention flag --
+    // "shrink" and "trim" already fixed it (see IconOverflowBehavior in types.ts).
+    overflowsCircle: overflowBehavior === "none" && overflowsCircle,
   };
 };
 

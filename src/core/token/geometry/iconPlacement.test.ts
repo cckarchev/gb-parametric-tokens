@@ -87,6 +87,20 @@ describe("placeIcon", () => {
     expect(maxRadius).toBeCloseTo(10);
   });
 
+  it("checks overflow against the real target circle, not one shrunk by the icon's own scale", () => {
+    // Same solid square that overflows at scale 1 (see above) -- but at scale 0.5 its nominal
+    // box-fit size is already small enough to sit well within the real, full-size target circle,
+    // so there's nothing to flag or correct. The overflow check must reference targetDiameterMm
+    // itself, not targetDiameterMm * scale, or this would still (wrongly) flag it.
+    const { overflowsCircle } = placeIcon(SOLID_SQUARE, {
+      targetDiameterMm: 20,
+      scale: 0.5,
+      constrainToCircle: true,
+    });
+
+    expect(overflowsCircle).toBe(false);
+  });
+
   it("does not flag overflow when the icon's own farthest point already sits on the target circle", () => {
     // A diamond whose vertices sit exactly on its bounding box's inscribed circle: the box fit
     // and the circle fit agree, so nothing should shrink further than before.

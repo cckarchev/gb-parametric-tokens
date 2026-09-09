@@ -375,19 +375,22 @@ describe("computeReliefComponents", () => {
     }
   });
 
-  it("flags an icon as needing attention when its own artwork overflows its target circle", async () => {
+  // A solid square: its own corners are its farthest points from center, past the circle
+  // inscribed in its bounding box, whenever its nominal scale renders it big enough relative to
+  // the target circle -- see iconPlacement.test.ts's "checks overflow against the real target
+  // circle" for exactly where that threshold sits. 0.9 is comfortably past it.
+  const squareIconSvg = '<svg><path d="M0 0L10 0L10 10L0 10Z"/></svg>';
+  const loadSquareIcon: LoadIconSource = async (iconId) => ({
+    svgSource: squareIconSvg,
+    resolvedId: iconId,
+    substituted: false,
+  });
+
+  it("flags an icon as needing attention when its own artwork overflows its target circle and overflowBehavior is 'none' (the default)", async () => {
     const font = loadTestFont();
-    // A solid square: its own corners are its farthest points from center, past the circle
-    // inscribed in its bounding box, at any scale (see iconPlacement.test.ts).
-    const squareIconSvg = '<svg><path d="M0 0L10 0L10 10L0 10Z"/></svg>';
-    const loadSquareIcon: LoadIconSource = async (iconId) => ({
-      svgSource: squareIconSvg,
-      resolvedId: iconId,
-      substituted: false,
-    });
 
     const result = await computeReliefComponents(
-      discSpec({ icons: [{ iconId: "cooks", side: "center", scale: 0.7 }], lines: [] }),
+      discSpec({ icons: [{ iconId: "cooks", side: "center", scale: 0.9 }], lines: [] }),
       font,
       printProfile,
       loadSquareIcon,
@@ -397,6 +400,49 @@ describe("computeReliefComponents", () => {
     expect(result.componentFailures).toEqual([
       { kind: "icon-overflow", source: { kind: "icon", iconId: "cooks" } },
     ]);
+  });
+
+  it("shrinks the icon and raises no icon-overflow failure when overflowBehavior is 'shrink'", async () => {
+    const font = loadTestFont();
+
+    const result = await computeReliefComponents(
+      discSpec({
+        icons: [{ iconId: "cooks", side: "center", scale: 0.9, overflowBehavior: "shrink" }],
+        lines: [],
+      }),
+      font,
+      printProfile,
+      loadSquareIcon,
+    );
+
+    expect(result.valid).toBe(true);
+    expect(result.componentFailures).toEqual([]);
+
+    const [icon] = result.reliefComponents;
+    const maxRadius = Math.max(...icon.contours.flat().map(([x, y]) => Math.hypot(x, y)));
+    // discSpec's diameter is 25mm -- the real target circle's radius, regardless of icon.scale.
+    expect(maxRadius).toBeLessThanOrEqual(25 / 2 + 1e-6);
+  });
+
+  it("trims the icon and raises no icon-overflow failure when overflowBehavior is 'trim'", async () => {
+    const font = loadTestFont();
+
+    const result = await computeReliefComponents(
+      discSpec({
+        icons: [{ iconId: "cooks", side: "center", scale: 0.9, overflowBehavior: "trim" }],
+        lines: [],
+      }),
+      font,
+      printProfile,
+      loadSquareIcon,
+    );
+
+    expect(result.valid).toBe(true);
+    expect(result.componentFailures).toEqual([]);
+
+    const [icon] = result.reliefComponents;
+    const maxRadius = Math.max(...icon.contours.flat().map(([x, y]) => Math.hypot(x, y)));
+    expect(maxRadius).toBeLessThanOrEqual(25 / 2 + 1e-6);
   });
 
   it("keeps a chunky icon out of the failures list even when a hairline text line beside it fails", async () => {

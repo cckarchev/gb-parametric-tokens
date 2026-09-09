@@ -13,15 +13,20 @@ export type LineSpec = {
   colorGroup?: string;
 };
 
+// What to do when an icon's own artwork pokes past its target nob/disc circle:
+// - "none" (the default): render it as-is, and flag the token for attention.
+// - "shrink": scale the whole icon down further so it fits inside the circle -- see
+//   geometry/iconPlacement.ts's placeIcon. No attention flag, since it's already handled.
+// - "trim": cut off whatever pokes past the circle instead of shrinking the icon -- see
+//   geometry/trimIconToCircle.ts. No attention flag either.
+export type IconOverflowBehavior = "none" | "shrink" | "trim";
+
 export type IconSpec = {
   iconId: string;
   side: "left" | "right" | "center";
   scale: number;
   colorGroup?: string;
-  // Off (undefined/false) by default: an icon whose own artwork pokes past its target nob/disc
-  // circle is still flagged for attention either way (see geometry/iconPlacement.ts), but only
-  // shrunk further to fit when this is on.
-  constrainToCircle?: boolean;
+  overflowBehavior?: IconOverflowBehavior;
 };
 
 export type ReliefStyle = "raised" | "engraved";

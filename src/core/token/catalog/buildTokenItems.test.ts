@@ -38,7 +38,7 @@ const sharedConfig: SharedConfig = {
   subtitleSizeMm: 4,
   showSecondLine: true,
   balanceTwoLineSizes: false,
-  shrinkIconsToFitCircle: false,
+  iconOverflowBehavior: "none",
 };
 
 const emptySelection: TokenSelection = {
@@ -170,7 +170,7 @@ describe("buildTokenItems", () => {
     ]);
   });
 
-  it("leaves constrainToCircle unset on every icon when shrinkIconsToFitCircle is off (the default)", () => {
+  it("leaves overflowBehavior unset on every icon when iconOverflowBehavior is 'none' (the default)", () => {
     const selection: TokenSelection = {
       ...emptySelection,
       characterTokenIds: [characterTokenId("tapper", 1)],
@@ -179,36 +179,39 @@ describe("buildTokenItems", () => {
     const items = buildTokenItems(catalog, selection, sharedConfig);
 
     for (const icon of items[0].spec.icons) {
-      expect(icon.constrainToCircle).toBeUndefined();
+      expect(icon.overflowBehavior).toBeUndefined();
     }
   });
 
-  it("marks every icon constrainToCircle when shrinkIconsToFitCircle is on", () => {
-    const selection: TokenSelection = {
-      ...emptySelection,
-      characterTokenIds: [characterTokenId("tapper", 1)],
-    };
-    const customConfig: SharedConfig = { ...sharedConfig, shrinkIconsToFitCircle: true };
+  it.each(["shrink", "trim"] as const)(
+    "marks every icon overflowBehavior '%s' when iconOverflowBehavior is '%s'",
+    (behavior) => {
+      const selection: TokenSelection = {
+        ...emptySelection,
+        characterTokenIds: [characterTokenId("tapper", 1)],
+      };
+      const customConfig: SharedConfig = { ...sharedConfig, iconOverflowBehavior: behavior };
 
-    const items = buildTokenItems(catalog, selection, customConfig);
+      const items = buildTokenItems(catalog, selection, customConfig);
 
-    expect(items[0].spec.icons).toEqual([
-      {
-        iconId: "Brewers",
-        side: "left",
-        scale: 0.85,
-        colorGroup: "text",
-        constrainToCircle: true,
-      },
-      {
-        iconId: "Brewers",
-        side: "right",
-        scale: 0.85,
-        colorGroup: "text",
-        constrainToCircle: true,
-      },
-    ]);
-  });
+      expect(items[0].spec.icons).toEqual([
+        {
+          iconId: "Brewers",
+          side: "left",
+          scale: 0.85,
+          colorGroup: "text",
+          overflowBehavior: behavior,
+        },
+        {
+          iconId: "Brewers",
+          side: "right",
+          scale: 0.85,
+          colorGroup: "text",
+          overflowBehavior: behavior,
+        },
+      ]);
+    },
+  );
 
   it("uses the requested copies count for a character token with maxCopies set", () => {
     const selection: TokenSelection = {

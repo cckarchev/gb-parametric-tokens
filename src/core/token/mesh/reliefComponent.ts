@@ -15,8 +15,10 @@ export type ReliefComponent = {
   contours: Vec2[][];
   colorGroup?: string;
   source?: ReliefComponentSource;
-  // Set only by an icon component (see geometry/iconPlacement.ts's placeIcon): true when the
-  // icon's own farthest point would have poked past its target circle under a plain
-  // bounding-box fit, so the tighter circle-fit scale was used instead.
+  // Set only by an icon component (see computeReliefComponentsShared.ts's buildIconComponent):
+  // true when the icon's own artwork pokes past its target circle AND nothing corrected it
+  // (IconSpec.overflowBehavior is "none", the default) -- "shrink" and "trim" both clear this
+  // once they've fixed it, so it drives the "needs attention" list without double-reporting an
+  // already-handled icon.
   overflowsCircle?: boolean;
 };

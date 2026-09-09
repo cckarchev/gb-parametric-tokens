@@ -1,5 +1,12 @@
 import { ArcShapeSpec, DiscShapeSpec } from "../geometry/nobPlacement";
-import { ColorGroupSpec, FitPolicy, IconSpec, StyleSpec, TokenSpec } from "../types";
+import {
+  ColorGroupSpec,
+  FitPolicy,
+  IconOverflowBehavior,
+  IconSpec,
+  StyleSpec,
+  TokenSpec,
+} from "../types";
 import { CatalogGenericToken, CatalogTokenSpec, GuildCatalog } from "./catalogTypes";
 import { TEXT_COLOR_GROUP_ID } from "./deriveReliefColor";
 
@@ -48,10 +55,9 @@ export type SharedConfig = {
   subtitleSizeMm: number;
   showSecondLine: boolean;
   balanceTwoLineSizes: boolean;
-  // Off by default: an icon whose own artwork overflows its nob/disc circle is always flagged
-  // for attention (see computeReliefComponents.ts), but only shrunk further to fit when this is
-  // on -- see geometry/iconPlacement.ts's placeIcon.
-  shrinkIconsToFitCircle: boolean;
+  // "none" by default: applied to every guild icon this catalog builds (see buildIconSpec below)
+  // -- see IconOverflowBehavior in types.ts for what each value does.
+  iconOverflowBehavior: IconOverflowBehavior;
 };
 
 const DEFAULT_ICON_SCALE = 0.85;
@@ -90,9 +96,9 @@ export const characterTokenId = (characterId: string, tokenIndex: number): strin
   return `${characterId}-${tokenIndex}`;
 };
 
-// Every icon a guild token wears goes through here, so shrinkIconsToFitCircle only needs to be
-// threaded once: when it's off (the default), the built IconSpec looks exactly as it always has,
-// so an icon-overflow correction never runs even though it's still flagged for attention.
+// Every icon a guild token wears goes through here, so iconOverflowBehavior only needs to be
+// threaded once: when it's "none" (the default), the built IconSpec looks exactly as it always
+// has, so no overflow correction ever runs even though it's still flagged for attention.
 const buildIconSpec = (
   iconId: string,
   side: IconSpec["side"],
@@ -103,7 +109,9 @@ const buildIconSpec = (
   side,
   scale,
   colorGroup: TEXT_COLOR_GROUP_ID,
-  ...(sharedConfig.shrinkIconsToFitCircle ? { constrainToCircle: true } : {}),
+  ...(sharedConfig.iconOverflowBehavior !== "none"
+    ? { overflowBehavior: sharedConfig.iconOverflowBehavior }
+    : {}),
 });
 
 // Every token spec carries the same trailing style/printing fields from the shared config,

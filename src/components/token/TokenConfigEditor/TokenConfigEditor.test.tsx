@@ -22,7 +22,7 @@ const sharedConfig: SharedConfig = {
   subtitleSizeMm: 4.5,
   showSecondLine: true,
   balanceTwoLineSizes: false,
-  shrinkIconsToFitCircle: false,
+  iconOverflowBehavior: "none",
 };
 
 const openAdvancedSettings = async () => {
@@ -116,7 +116,7 @@ describe("TokenConfigEditor", () => {
 
     expect(screen.getByLabelText("Relief")).toHaveValue("raised");
     expect(screen.getByLabelText("Body")).toHaveValue("#cdb320");
-    expect(screen.getByLabelText("Text & symbols")).toHaveValue("#000000");
+    expect(screen.getByLabelText("Details")).toHaveValue("#000000");
   });
 
   it("updates only the relief field when the quick relief selector changes", async () => {

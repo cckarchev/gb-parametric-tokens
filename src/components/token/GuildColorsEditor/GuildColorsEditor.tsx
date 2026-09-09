@@ -2,6 +2,7 @@ import { TEXT_COLOR_GROUP_ID } from "../../../core/token/catalog/deriveReliefCol
 import { BASE_COLOR_GROUP_ID } from "../../../core/token/mesh/colorGroups";
 import { ColorGroupSpec } from "../../../core/token/types";
 import { ColorField } from "../../primitives/ColorField/ColorField";
+import styles from "./GuildColorsEditor.module.css";
 
 export type GuildColorsEditorProps = {
   colorGroups: ColorGroupSpec[];
@@ -21,17 +22,17 @@ export const GuildColorsEditor = ({ colorGroups, onChange }: GuildColorsEditorPr
   const textColor = colorGroups.find((group) => group.id === TEXT_COLOR_GROUP_ID)?.color ?? "";
 
   return (
-    <>
+    <div className={styles.row}>
       <ColorField
         label="Body"
         value={bodyColor}
         onChange={(color) => updateColor(BASE_COLOR_GROUP_ID, color)}
       />
       <ColorField
-        label="Text & symbols"
+        label="Details"
         value={textColor}
         onChange={(color) => updateColor(TEXT_COLOR_GROUP_ID, color)}
       />
-    </>
+    </div>
   );
 };

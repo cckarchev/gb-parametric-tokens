@@ -2,6 +2,7 @@ import { ChangeEvent } from "react";
 
 import { SharedConfig } from "../../../core/token/catalog/buildTokenItems";
 import { FitPolicyEditor } from "../../editor/FitPolicyEditor/FitPolicyEditor";
+import { ICON_OVERFLOW_BEHAVIOR_OPTIONS } from "../../editor/iconOverflowBehaviorOptions";
 import { PrintProfileSelector } from "../../editor/PrintProfileSelector/PrintProfileSelector";
 import { RELIEF_OPTIONS } from "../../editor/reliefOptions";
 import { ShapeEditor } from "../../editor/ShapeEditor/ShapeEditor";
@@ -69,12 +70,11 @@ export const TokenConfigEditor = ({
             onChange={(balanceTwoLineSizes) => onChange({ ...sharedConfig, balanceTwoLineSizes })}
           />
 
-          <CheckboxField
-            label="Shrink icons that overflow their circle"
-            checked={sharedConfig.shrinkIconsToFitCircle}
-            onChange={(shrinkIconsToFitCircle) =>
-              onChange({ ...sharedConfig, shrinkIconsToFitCircle })
-            }
+          <SelectField
+            label="Icons that overflow their circle"
+            value={sharedConfig.iconOverflowBehavior}
+            options={ICON_OVERFLOW_BEHAVIOR_OPTIONS}
+            onChange={(iconOverflowBehavior) => onChange({ ...sharedConfig, iconOverflowBehavior })}
           />
 
           <GuildColorsEditor

@@ -242,7 +242,7 @@ describe("useTokenGenerator", () => {
     // color goes dark for contrast against the guild's own bright base color.
     expect(result.current.sharedConfig.colorGroups).toEqual([
       { id: "base", name: "Body", color: "#cdb320" },
-      { id: "text", name: "Text & symbols", color: "#000000" },
+      { id: "text", name: "Details", color: "#000000" },
     ]);
   });
 
@@ -506,7 +506,7 @@ describe("useTokenGenerator", () => {
       subtitleSizeMm: 3,
       showSecondLine: false,
       balanceTwoLineSizes: true,
-      shrinkIconsToFitCircle: true,
+      iconOverflowBehavior: "trim",
     };
     const file = new File([JSON.stringify(importedConfig)], "settings.json", {
       type: "application/json",
@@ -520,7 +520,7 @@ describe("useTokenGenerator", () => {
     expect(result.current.importSettingsError).toBeUndefined();
   });
 
-  it("defaults shrinkIconsToFitCircle to off when importing a settings file exported before that option existed", async () => {
+  it("defaults iconOverflowBehavior to 'none' when importing a settings file exported before that option existed", async () => {
     const { result } = renderHook(() => useTokenGenerator());
 
     const importedConfig = {
@@ -536,7 +536,7 @@ describe("useTokenGenerator", () => {
       subtitleSizeMm: 3,
       showSecondLine: false,
       balanceTwoLineSizes: true,
-      // shrinkIconsToFitCircle intentionally absent, as in a file exported before it existed.
+      // iconOverflowBehavior intentionally absent, as in a file exported before it existed.
     };
     const file = new File([JSON.stringify(importedConfig)], "settings.json", {
       type: "application/json",
@@ -548,7 +548,7 @@ describe("useTokenGenerator", () => {
 
     expect(result.current.sharedConfig).toEqual({
       ...importedConfig,
-      shrinkIconsToFitCircle: false,
+      iconOverflowBehavior: "none",
     });
     expect(result.current.importSettingsError).toBeUndefined();
   });
