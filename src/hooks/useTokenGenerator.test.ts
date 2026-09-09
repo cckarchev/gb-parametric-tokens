@@ -13,6 +13,7 @@ const { useTokenGenerator } = await import("./useTokenGenerator");
 
 import type { ExportResponse, PreviewResponse, WorkerRequest } from "../browser/tokenWorker";
 import type { GuildCatalog } from "../core/token/catalog/catalogTypes";
+import { LIVE_PREVIEW_DEBOUNCE_MS } from "./livePreviewDebounce";
 
 class FakeWorker {
   static instances: FakeWorker[] = [];
@@ -85,7 +86,7 @@ describe("useTokenGenerator", () => {
     expect(loadGuildCatalog).not.toHaveBeenCalled();
   });
 
-  it("selects a guild, loads its catalog, and defaults the selection to nothing", async () => {
+  it("selects a guild, loads its catalog, and defaults the selection to everything enabled", async () => {
     const { result } = renderHook(() => useTokenGenerator());
 
     await act(async () => {
@@ -98,13 +99,132 @@ describe("useTokenGenerator", () => {
 
     expect(loadGuildCatalog).toHaveBeenCalledWith("brewers");
     expect(result.current.catalog).toEqual(catalog);
-    expect(result.current.selection.characterTokenIds).toEqual([]);
+    expect(result.current.selection.characterTokenIds).toEqual(["tapper-0", "tapper-1"]);
     expect(result.current.selection.characterTokenCopies).toEqual({});
-    expect(result.current.selection.genericTokens).toEqual({});
-    expect(result.current.selection.influence).toEqual({ enabled: false, copies: 13 });
-    expect(result.current.selection.momentum).toEqual({ enabled: false, copies: 15 });
-    expect(result.current.selection.goalInfluence).toEqual({ enabled: false, copies: 2 });
+    expect(result.current.selection.genericTokens).toEqual({
+      "beer-token": { enabled: true, copies: 1 },
+    });
+    expect(result.current.selection.influence).toEqual({ enabled: true, copies: 13 });
+    expect(result.current.selection.momentum).toEqual({ enabled: true, copies: 15 });
+    expect(result.current.selection.goalInfluence).toEqual({ enabled: true, copies: 2 });
     expect(result.current.sharedConfig.influenceIconId).toBe("Brewers");
+  });
+
+  it("does not loop the preview after the worker responds for an untouched guild", async () => {
+    const { result } = renderHook(() => useTokenGenerator());
+
+    await act(async () => {
+      result.current.selectGuild("brewers");
+    });
+
+    await vi.waitFor(() => {
+      expect(result.current.catalogStatus).toBe("ready");
+    });
+
+    const worker = FakeWorker.instances[0];
+
+    // Selecting a guild triggers two legitimate, one-time recomputes in quick succession: the
+    // default selection's own preview (fired immediately, leading edge), then a second one once
+    // the guild's own colors land in sharedConfig a moment later (which the debounce coalesces
+    // into a single trailing call). Settle both before probing for a loop, so this test isn't
+    // confused by that expected, non-looping double-fire.
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(LIVE_PREVIEW_DEBOUNCE_MS);
+    });
+
+    const settledCallCount = worker.postMessage.mock.calls.length;
+    const request = lastPostedRequest(worker);
+
+    if (request.kind !== "preview") {
+      throw new Error("expected a preview request");
+    }
+
+    await act(async () => {
+      worker.emit({
+        kind: "preview",
+        requestId: request.requestId,
+        results: [],
+        validCount: 0,
+        invalidCount: request.items.length,
+      });
+    });
+
+    // Regression: `selection` for an untouched guild used to be rebuilt from scratch on every
+    // render instead of staying referentially stable, so the response above -- which re-renders
+    // the hook -- looked like a brand new selection change and re-triggered the preview forever.
+    expect(result.current.isPreviewing).toBe(false);
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(1000);
+    });
+
+    expect(result.current.isPreviewing).toBe(false);
+    expect(worker.postMessage).toHaveBeenCalledTimes(settledCallCount);
+  });
+
+  it("remembers a guild's selection when switching away and back to it", async () => {
+    const otherCatalog: GuildCatalog = {
+      guildId: "cooks",
+      name: "Cooks",
+      color: "#e0a020",
+      characters: [{ id: "wellington", name: "Wellington", tokens: [{ title: "Singled Out" }] }],
+      genericTokens: [],
+    };
+
+    vi.mocked(listAvailableGuilds).mockResolvedValue([
+      { id: "brewers", name: "Brewers", color: "#cdb320" },
+      { id: "cooks", name: "Cooks", color: "#e0a020" },
+    ]);
+
+    const { result } = renderHook(() => useTokenGenerator());
+
+    await act(async () => {
+      result.current.selectGuild("brewers");
+    });
+
+    await vi.waitFor(() => {
+      expect(result.current.catalogStatus).toBe("ready");
+    });
+
+    // Deselect one character token and disable Momentum for Brewers.
+    act(() => {
+      result.current.setSelection((selection) => ({
+        ...selection,
+        characterTokenIds: selection.characterTokenIds.filter((id) => id !== "tapper-1"),
+        momentum: { ...selection.momentum, enabled: false },
+      }));
+    });
+
+    expect(result.current.selection.characterTokenIds).toEqual(["tapper-0"]);
+    expect(result.current.selection.momentum.enabled).toBe(false);
+
+    vi.mocked(loadGuildCatalog).mockResolvedValueOnce(otherCatalog);
+
+    await act(async () => {
+      result.current.selectGuild("cooks");
+    });
+
+    await vi.waitFor(() => {
+      expect(result.current.catalog).toEqual(otherCatalog);
+    });
+
+    // Cooks is visited for the first time, so it gets the full default selection.
+    expect(result.current.selection.characterTokenIds).toEqual(["wellington-0"]);
+    expect(result.current.selection.momentum.enabled).toBe(true);
+
+    vi.mocked(loadGuildCatalog).mockResolvedValueOnce(catalog);
+
+    await act(async () => {
+      result.current.selectGuild("brewers");
+    });
+
+    await vi.waitFor(() => {
+      expect(result.current.catalog).toEqual(catalog);
+    });
+
+    // Brewers' earlier edits are still there instead of being reset back to defaults.
+    expect(result.current.selection.characterTokenIds).toEqual(["tapper-0"]);
+    expect(result.current.selection.momentum.enabled).toBe(false);
   });
 
   it("seeds the body and text colors from the guild's own color on selection", async () => {

@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { downloadBlob } from "../browser/downloadBlob";
+import { buildDefaultSelection } from "../core/token/catalog/buildDefaultSelection";
 import { SharedConfig, TokenSelection } from "../core/token/catalog/buildTokenItems";
 import { deriveReliefColor, TEXT_COLOR_GROUP_ID } from "../core/token/catalog/deriveReliefColor";
 import {
@@ -32,23 +33,6 @@ const DEFAULT_GOAL_INFLUENCE_SHAPE: SharedConfig["goalInfluenceShape"] = {
 const DEFAULT_TITLE_SIZE_MM = 3;
 const DEFAULT_SUBTITLE_SIZE_MM = 1.9;
 
-// Every counter's starting copies count, before its checkbox is ever touched (user feedback: a
-// typical Guild Ball game's own real quantities, not just each field's bare minimum).
-const DEFAULT_INFLUENCE_COPIES = 13;
-const DEFAULT_MOMENTUM_COPIES = 15;
-const DEFAULT_GOAL_INFLUENCE_COPIES = 2;
-
-// Every token starts deselected: the user opts in to what they actually want printed, rather
-// than starting from "everything" and having to deselect what they don't need.
-const buildDefaultSelection = (): TokenSelection => ({
-  characterTokenIds: [],
-  characterTokenCopies: {},
-  genericTokens: {},
-  influence: { enabled: false, copies: DEFAULT_INFLUENCE_COPIES },
-  momentum: { enabled: false, copies: DEFAULT_MOMENTUM_COPIES },
-  goalInfluence: { enabled: false, copies: DEFAULT_GOAL_INFLUENCE_COPIES },
-});
-
 const SETTINGS_FILE_NAME = "token-settings.json";
 const JSON_MIME_TYPE = "application/json";
 
@@ -76,11 +60,63 @@ const isSharedConfig = (value: unknown): value is SharedConfig => {
   );
 };
 
+// Rendered only before any guild has been selected (TokenEditor gates every consumer of
+// `selection` behind `generator.catalog &&`), so its actual values are never seen -- it exists
+// purely so `selection` can stay a plain TokenSelection instead of TokenSelection | undefined.
+const NO_GUILD_SELECTED: TokenSelection = {
+  characterTokenIds: [],
+  characterTokenCopies: {},
+  genericTokens: {},
+  influence: { enabled: false, copies: 1 },
+  momentum: { enabled: false, copies: 1 },
+  goalInfluence: { enabled: false, copies: 1 },
+};
+
+type SelectionUpdate = TokenSelection | ((current: TokenSelection) => TokenSelection);
+
 export const useTokenGenerator = () => {
   const { guilds, selectedGuildId, selectGuild, catalog, catalogStatus, catalogError } =
     useGuildCatalog();
 
-  const [selection, setSelection] = useState<TokenSelection>(buildDefaultSelection());
+  // Selections live per guild, keyed by guildId, so switching guilds never loses what the user
+  // chose for the one they're leaving. A guild with no entry yet (first visit) falls back to
+  // defaultSelection below, so the map only needs to gain an entry once the user actually
+  // changes something -- an untouched guild reproduces the same default either way.
+  const [selectionsByGuild, setSelectionsByGuild] = useState<Record<string, TokenSelection>>({});
+
+  // Memoized on `catalog` (not recomputed on every render): usePreview's own tokenItems memo
+  // depends on `selection`'s identity, so an untouched guild's fallback has to stay
+  // referentially stable across renders. A fresh object here on every render used to look like a
+  // brand new selection on every render, which kept re-triggering the preview worker forever the
+  // moment anything else caused a re-render (e.g. the worker's own response coming back).
+  const defaultSelection = useMemo(
+    () => (catalog ? buildDefaultSelection(catalog) : NO_GUILD_SELECTED),
+    [catalog],
+  );
+
+  const selection =
+    selectedGuildId !== undefined
+      ? (selectionsByGuild[selectedGuildId] ?? defaultSelection)
+      : NO_GUILD_SELECTED;
+
+  const setSelection = useCallback(
+    (update: SelectionUpdate) => {
+      if (!catalog || !selectedGuildId) {
+        return;
+      }
+
+      const guildId = selectedGuildId;
+
+      setSelectionsByGuild((current) => {
+        const currentSelection = current[guildId] ?? defaultSelection;
+        const nextSelection = typeof update === "function" ? update(currentSelection) : update;
+
+        return { ...current, [guildId]: nextSelection };
+      });
+    },
+    [catalog, selectedGuildId, defaultSelection],
+  );
+
   const [importSettingsError, setImportSettingsError] = useState<string>();
 
   const [sharedConfig, setSharedConfig] = useState<SharedConfig>({
@@ -96,15 +132,13 @@ export const useTokenGenerator = () => {
     subtitleSizeMm: DEFAULT_SUBTITLE_SIZE_MM,
   });
 
-  // Every successful guild load resets the selection back to "nothing selected" and seeds the
-  // two catalog-derived colors. Keying off `catalog`'s own identity (a fresh object every load)
-  // reproduces that reset reliably, since loadGuildCatalog never returns a cached object.
+  // Every successful guild load re-seeds the two catalog-derived colors (the selection itself is
+  // handled above, per guild, and is not reset here).
   useEffect(() => {
     if (!catalog) {
       return;
     }
 
-    setSelection(buildDefaultSelection());
     setSharedConfig((current) => ({
       ...current,
       influenceIconId: catalog.name,
