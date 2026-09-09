@@ -2,6 +2,7 @@
   "guildId": "navigators",
   "name": "Navigators",
   "color": "#50b8c8",
+  "iconScale": 1.1,
   "characters": [
     {
       "id": "angel",

@@ -372,4 +372,98 @@ describe("buildTokenItems", () => {
 
     expect(items).toHaveLength(0);
   });
+
+  it("multiplies the guild crest icon's scale by the catalog's iconScale on a character token", () => {
+    const scaledCatalog: GuildCatalog = { ...catalog, iconScale: 1.5 };
+    const selection: TokenSelection = {
+      ...emptySelection,
+      characterTokenIds: [characterTokenId("tapper", 1)],
+    };
+
+    const items = buildTokenItems(scaledCatalog, selection, sharedConfig);
+
+    expect(items[0].spec.icons).toEqual([
+      { iconId: "Brewers", side: "left", scale: 0.85 * 1.5, colorGroup: "text" },
+      { iconId: "Brewers", side: "right", scale: 0.85 * 1.5, colorGroup: "text" },
+    ]);
+  });
+
+  it("does not apply the catalog's iconScale to a token's own custom icon", () => {
+    const scaledCatalog: GuildCatalog = {
+      ...catalog,
+      iconScale: 1.5,
+      characters: [
+        {
+          id: "tapper",
+          name: "Tapper",
+          tokens: [{ title: "Commanding Aura", iconId: "ball" }],
+        },
+      ],
+    };
+    const selection: TokenSelection = {
+      ...emptySelection,
+      characterTokenIds: [characterTokenId("tapper", 0)],
+    };
+
+    const items = buildTokenItems(scaledCatalog, selection, sharedConfig);
+
+    expect(items[0].spec.icons).toEqual([
+      { iconId: "ball", side: "left", scale: 0.85, colorGroup: "text" },
+      { iconId: "ball", side: "right", scale: 0.85, colorGroup: "text" },
+    ]);
+  });
+
+  it("multiplies the guild crest icon's scale by the catalog's iconScale on a generic token", () => {
+    const scaledCatalog: GuildCatalog = { ...catalog, iconScale: 1.5 };
+
+    const items = buildTokenItems(
+      scaledCatalog,
+      { ...emptySelection, genericTokens: { "beer-token": { enabled: true, copies: 1 } } },
+      sharedConfig,
+    );
+
+    expect(items[0].spec.icons).toEqual([
+      { iconId: "Brewers", side: "center", scale: 0.85 * 1.5, colorGroup: "text" },
+    ]);
+  });
+
+  it("multiplies the guild crest icon's scale by the catalog's iconScale on Goal Influence", () => {
+    const scaledCatalog: GuildCatalog = { ...catalog, iconScale: 1.5 };
+    const goalInfluenceSelection: TokenSelection = {
+      ...emptySelection,
+      goalInfluence: { enabled: true, copies: 1 },
+    };
+
+    const unscaledItems = buildTokenItems(catalog, goalInfluenceSelection, sharedConfig);
+    const scaledItems = buildTokenItems(scaledCatalog, goalInfluenceSelection, sharedConfig);
+
+    expect(scaledItems[0].spec.icons[0].scale).toBeCloseTo(
+      unscaledItems[0].spec.icons[0].scale * 1.5,
+    );
+  });
+
+  it("does not apply the catalog's iconScale to Influence, which never wears the guild crest", () => {
+    const scaledCatalog: GuildCatalog = { ...catalog, iconScale: 1.5 };
+
+    const items = buildTokenItems(
+      scaledCatalog,
+      { ...emptySelection, influence: { enabled: true, copies: 1 } },
+      sharedConfig,
+    );
+
+    expect(items[0].spec.icons).toEqual([
+      { iconId: "Brewers", side: "center", scale: 0.85, colorGroup: "text" },
+    ]);
+  });
+
+  it("defaults the catalog's iconScale to 1 when omitted, leaving the guild crest scale untouched", () => {
+    const selection: TokenSelection = {
+      ...emptySelection,
+      characterTokenIds: [characterTokenId("tapper", 1)],
+    };
+
+    const items = buildTokenItems(catalog, selection, sharedConfig);
+
+    expect(items[0].spec.icons[0].scale).toBe(0.85);
+  });
 });

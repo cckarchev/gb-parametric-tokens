@@ -127,12 +127,20 @@ const sharedTokenFields = (
   };
 };
 
+// The catalog's iconScale (see GuildCatalog) only makes sense for the guild's own crest, so a
+// token wearing a custom icon of its own is left at the plain default.
+const guildCrestScale = (iconId: string, guildIconId: string, guildIconScale: number): number => {
+  return iconId === guildIconId ? guildIconScale : 1;
+};
+
 const buildCharacterTokenSpec = (
   token: CatalogTokenSpec,
   guildIconId: string,
+  guildIconScale: number,
   sharedConfig: SharedConfig,
 ): TokenSpec => {
   const iconId = token.iconId ?? guildIconId;
+  const iconScale = DEFAULT_ICON_SCALE * guildCrestScale(iconId, guildIconId, guildIconScale);
   const secondLineText = sharedConfig.showSecondLine ? token.subtitle : undefined;
 
   const titleSizeMm =
@@ -166,8 +174,8 @@ const buildCharacterTokenSpec = (
     textLayout: "arc",
     lines,
     icons: [
-      buildIconSpec(iconId, "left", DEFAULT_ICON_SCALE, sharedConfig),
-      buildIconSpec(iconId, "right", DEFAULT_ICON_SCALE, sharedConfig),
+      buildIconSpec(iconId, "left", iconScale, sharedConfig),
+      buildIconSpec(iconId, "right", iconScale, sharedConfig),
     ],
     decorations: [],
     ...sharedTokenFields(sharedConfig),
@@ -177,16 +185,18 @@ const buildCharacterTokenSpec = (
 const buildGenericTokenSpec = (
   generic: CatalogGenericToken,
   guildIconId: string,
+  guildIconScale: number,
   sharedConfig: SharedConfig,
 ): TokenSpec => {
+  const iconId = generic.iconId ?? guildIconId;
+  const iconScale = DEFAULT_ICON_SCALE * guildCrestScale(iconId, guildIconId, guildIconScale);
+
   return {
     version: 1,
     shape: sharedConfig.discShape,
     textLayout: "flat",
     lines: [],
-    icons: [
-      buildIconSpec(generic.iconId ?? guildIconId, "center", DEFAULT_ICON_SCALE, sharedConfig),
-    ],
+    icons: [buildIconSpec(iconId, "center", iconScale, sharedConfig)],
     decorations: [],
     ...sharedTokenFields(sharedConfig),
   };
@@ -206,6 +216,7 @@ const buildRingDecoration = (discShape: DiscShapeSpec) => {
 
 const buildGoalInfluenceTokenSpec = (
   guildIconId: string,
+  guildIconScale: number,
   sharedConfig: SharedConfig,
 ): TokenSpec => {
   const discRadiusMm = sharedConfig.goalInfluenceShape.diameterMm / 2;
@@ -229,7 +240,14 @@ const buildGoalInfluenceTokenSpec = (
         colorGroup: TEXT_COLOR_GROUP_ID,
       },
     ],
-    icons: [buildIconSpec(guildIconId, "center", GOAL_INFLUENCE_ICON_SCALE, sharedConfig)],
+    icons: [
+      buildIconSpec(
+        guildIconId,
+        "center",
+        GOAL_INFLUENCE_ICON_SCALE * guildIconScale,
+        sharedConfig,
+      ),
+    ],
     decorations: [buildRingDecoration(sharedConfig.goalInfluenceShape)],
     ...sharedTokenFields(sharedConfig),
   };
@@ -275,6 +293,7 @@ export const buildTokenItems = (
   sharedConfig: SharedConfig,
 ): TokenItem[] => {
   const guildIconId = catalog.name;
+  const guildIconScale = catalog.iconScale ?? 1;
   const items: TokenItem[] = [];
 
   for (const character of catalog.characters) {
@@ -293,7 +312,7 @@ export const buildTokenItems = (
         label: `${character.name}: ${token.title}`,
         group: character.name,
         title: token.title,
-        spec: buildCharacterTokenSpec(token, guildIconId, sharedConfig),
+        spec: buildCharacterTokenSpec(token, guildIconId, guildIconScale, sharedConfig),
         copies,
       });
     });
@@ -310,7 +329,7 @@ export const buildTokenItems = (
       id: generic.id,
       label: generic.name,
       title: generic.name,
-      spec: buildGenericTokenSpec(generic, guildIconId, sharedConfig),
+      spec: buildGenericTokenSpec(generic, guildIconId, guildIconScale, sharedConfig),
       copies: counter.copies,
     });
   }
@@ -340,7 +359,7 @@ export const buildTokenItems = (
       id: "goal-influence",
       label: "Goal Influence",
       title: "Goal Influence",
-      spec: buildGoalInfluenceTokenSpec(guildIconId, sharedConfig),
+      spec: buildGoalInfluenceTokenSpec(guildIconId, guildIconScale, sharedConfig),
       copies: selection.goalInfluence.copies,
     });
   }

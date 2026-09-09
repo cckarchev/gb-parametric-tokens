@@ -22,6 +22,12 @@ export type GuildCatalog = {
   guildId: string;
   name: string;
   color: string;
+  // Multiplies the guild's own crest icon's scale wherever it's printed on a physical token
+  // (character tokens, generic tokens, Goal Influence), so the nob art matches the same guild
+  // crest sizing already applied to its badge in the guild picker (see GuildSelector.tsx's
+  // iconScale). Never applied to a token's own custom iconId, only to the shared guild crest.
+  // Optional; defaults to 1 (no change) when omitted.
+  iconScale?: number;
   characters: CatalogCharacter[];
   genericTokens: CatalogGenericToken[];
 };

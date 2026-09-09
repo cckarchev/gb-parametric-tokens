@@ -2,6 +2,7 @@
   "guildId": "order",
   "name": "Order",
   "color": "#ebed1a",
+  "iconScale": 1.15,
   "characters": [
     {
       "id": "sbrisket",

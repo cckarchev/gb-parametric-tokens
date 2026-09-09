@@ -2,6 +2,7 @@
   "guildId": "falconers",
   "name": "Falconers",
   "color": "#39653b",
+  "iconScale": 1.45,
   "characters": [
     {
       "id": "egret",

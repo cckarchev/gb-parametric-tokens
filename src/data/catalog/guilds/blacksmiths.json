@@ -2,6 +2,7 @@
   "guildId": "blacksmiths",
   "name": "Blacksmiths",
   "color": "#82969f",
+  "iconScale": 1.015,
   "characters": [
     {
       "id": "anvil",
