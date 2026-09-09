@@ -29,7 +29,7 @@ describe("GuildSelector", () => {
   it("renders no tiles when the guild list is empty", () => {
     render(<GuildSelector guilds={[]} onSelect={vi.fn()} />);
 
-    expect(screen.queryAllByRole("button")).toHaveLength(0);
+    expect(screen.queryAllByRole("button", { pressed: false })).toHaveLength(0);
   });
 
   it("marks every tile unselected when nothing is selected yet", () => {
@@ -64,4 +64,15 @@ describe("GuildSelector", () => {
     expect(button.children).toHaveLength(1);
   });
 
+  it("collapses the panel once a guild is selected", async () => {
+    const guilds = [{ id: "brewers", name: "Brewers", color: "#cdb320" }];
+
+    render(<GuildSelector guilds={guilds} onSelect={vi.fn()} />);
+
+    expect(screen.getByRole("button", { name: "Brewers" })).toBeVisible();
+
+    await userEvent.click(screen.getByRole("button", { name: "Brewers" }));
+
+    expect(screen.getByRole("button", { name: "Brewers", hidden: true })).not.toBeVisible();
+  });
 });

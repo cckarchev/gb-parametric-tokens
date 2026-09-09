@@ -10,6 +10,15 @@
   color: var(--color-text-muted);
 }
 
+.labelHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
 .input {
   padding: var(--space-2) var(--space-3);
   border: 1px solid var(--color-border);
@@ -21,6 +30,82 @@
 }
 
 .input:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -1px;
+}
+
+.input:disabled {
+  color: var(--color-text-muted);
+  background: var(--color-bg-panel-header);
+  cursor: not-allowed;
+}
+
+/* Sized to match a single text line (CheckboxField's row is 16px checkbox + text), so a stepper
+   sitting next to a checkbox in the same row doesn't grow that row's height. */
+.stepper {
+  display: flex;
+  align-items: stretch;
+  height: 20px;
+}
+
+.stepperButton {
+  width: 20px;
+  padding: 0;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-input);
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  line-height: 1;
+  cursor: pointer;
+}
+
+.stepperButton:first-child {
+  border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+  border-right: none;
+}
+
+.stepperButton:last-child {
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  border-left: none;
+}
+
+.stepperButton:disabled {
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+}
+
+.stepperButton:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -1px;
+}
+
+.stepperInput {
+  width: 2.2em;
+  padding: 0;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-input);
+  color: var(--color-text);
+  font-family: inherit;
+  font-size: var(--font-size-sm);
+  text-align: center;
+  /* The flanking buttons are the primary way to change the value, and the native up/down
+     spinner arrows don't fit this width; hide them so the number stays center-aligned. */
+  -moz-appearance: textfield;
+}
+
+.stepperInput::-webkit-inner-spin-button,
+.stepperInput::-webkit-outer-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
+}
+
+.stepperInput:disabled {
+  color: var(--color-text-muted);
+  background: var(--color-bg-panel-header);
+  cursor: not-allowed;
+}
+
+.stepperInput:focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: -1px;
 }

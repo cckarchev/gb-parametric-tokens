@@ -16,6 +16,7 @@ const baseBatch = {
   catalog: undefined,
   selection: {
     characterTokenIds: [],
+    characterTokenCopies: {},
     genericCopies: {},
     influenceCopies: 0,
     momentumCopies: 0,
@@ -51,7 +52,7 @@ describe("BatchEditor", () => {
 
     render(<BatchEditor />);
 
-    expect(screen.getByLabelText("Guild")).toBeInTheDocument();
+    expect(screen.getByRole("group", { name: "Guild" })).toBeInTheDocument();
     expect(screen.queryByLabelText("Influence tokens (0-20)")).not.toBeInTheDocument();
   });
 

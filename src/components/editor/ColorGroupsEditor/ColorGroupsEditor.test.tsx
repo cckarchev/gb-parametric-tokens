@@ -8,6 +8,12 @@ import { ColorGroupsEditor } from "./ColorGroupsEditor";
 
 const baseGroups: ColorGroupSpec[] = [{ id: "base", name: "Base", color: "#2b2b2b" }];
 
+// Panel starts collapsed, so its body content is hidden from the accessibility tree until the
+// toggle is clicked -- every test that queries by role needs it opened first.
+const openPanel = async () => {
+  await userEvent.click(screen.getByRole("button", { name: "Color groups" }));
+};
+
 describe("ColorGroupsEditor", () => {
   it("renders one row per color group", () => {
     render(<ColorGroupsEditor colorGroups={baseGroups} onChange={vi.fn()} />);
@@ -31,6 +37,7 @@ describe("ColorGroupsEditor", () => {
     const onChange = vi.fn();
 
     render(<ColorGroupsEditor colorGroups={baseGroups} onChange={onChange} />);
+    await openPanel();
 
     await userEvent.click(screen.getByRole("button", { name: "Add color group" }));
 
@@ -45,6 +52,7 @@ describe("ColorGroupsEditor", () => {
     ];
 
     render(<ColorGroupsEditor colorGroups={twoGroups} onChange={onChange} />);
+    await openPanel();
 
     await userEvent.click(screen.getAllByRole("button", { name: "Remove color group" })[0]);
 

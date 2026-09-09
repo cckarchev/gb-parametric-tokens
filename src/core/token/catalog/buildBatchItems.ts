@@ -7,6 +7,10 @@ export type BatchItem = { id: string; label: string; spec: TokenSpec; copies: nu
 
 export type BatchSelection = {
   characterTokenIds: string[];
+  // Copies for a selected character token whose catalog entry sets maxCopies > 1. Not consulted
+  // for tokens with no maxCopies (those always print 1 copy) and left untouched when a token is
+  // deselected, so re-selecting it restores the count instead of resetting to 1.
+  characterTokenCopies: Record<string, number>;
   genericCopies: Record<string, number>;
   influenceCopies: number;
   momentumCopies: number;
@@ -233,11 +237,14 @@ export const buildBatchItems = (
         return;
       }
 
+      const copies =
+        token.maxCopies && token.maxCopies > 1 ? (selection.characterTokenCopies[id] ?? 1) : 1;
+
       items.push({
         id,
         label: `${character.name}: ${token.title}`,
         spec: buildCharacterTokenSpec(token, guildIconId, sharedConfig),
-        copies: 1,
+        copies,
       });
     });
   }

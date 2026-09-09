@@ -1,7 +1,8 @@
 .grid {
   display: grid;
-  /* Fixed 5 columns: 20 guilds lay out as 4 rows of 5, matching the count exactly. */
-  grid-template-columns: repeat(5, 1fr);
+  /* Full-width strip now (moved out of the narrow form column), so a fixed column count no
+     longer fits every window width well -- reflow to however many 64px+ tiles fit per row. */
+  grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
   gap: var(--space-3);
 }
 

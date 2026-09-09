@@ -103,6 +103,7 @@ describe("useBatch", () => {
     expect(loadGuildCatalog).toHaveBeenCalledWith("brewers");
     expect(result.current.catalog).toEqual(catalog);
     expect(result.current.selection.characterTokenIds).toEqual([]);
+    expect(result.current.selection.characterTokenCopies).toEqual({});
     expect(result.current.selection.genericCopies).toEqual({});
     expect(result.current.selection.influenceCopies).toBe(0);
     expect(result.current.selection.momentumCopies).toBe(0);

@@ -45,10 +45,25 @@ const sharedConfig: BatchSharedConfig = {
 
 const emptySelection: BatchSelection = {
   characterTokenIds: [],
+  characterTokenCopies: {},
   genericCopies: {},
   influenceCopies: 0,
   momentumCopies: 0,
   goalInfluenceCopies: 0,
+};
+
+const catalogWithMultiCopyToken: GuildCatalog = {
+  guildId: "cooks",
+  name: "Cooks",
+  color: "#e0a020",
+  characters: [
+    {
+      id: "wellington",
+      name: "Wellington",
+      tokens: [{ title: "Singled Out", maxCopies: 2 }],
+    },
+  ],
+  genericTokens: [],
 };
 
 describe("buildBatchItems", () => {
@@ -112,6 +127,54 @@ describe("buildBatchItems", () => {
       { iconId: "Brewers", side: "left", scale: 0.85, colorGroup: "text" },
       { iconId: "Brewers", side: "right", scale: 0.85, colorGroup: "text" },
     ]);
+  });
+
+  it("uses the requested copies count for a character token with maxCopies set", () => {
+    const selection: BatchSelection = {
+      ...emptySelection,
+      characterTokenIds: [characterTokenId("wellington", 0)],
+      characterTokenCopies: { [characterTokenId("wellington", 0)]: 2 },
+    };
+
+    const items = buildBatchItems(catalogWithMultiCopyToken, selection, sharedConfig);
+
+    expect(items).toHaveLength(1);
+    expect(items[0].copies).toBe(2);
+  });
+
+  it("defaults a selected maxCopies token to 1 copy when no count was chosen yet", () => {
+    const selection: BatchSelection = {
+      ...emptySelection,
+      characterTokenIds: [characterTokenId("wellington", 0)],
+    };
+
+    const items = buildBatchItems(catalogWithMultiCopyToken, selection, sharedConfig);
+
+    expect(items[0].copies).toBe(1);
+  });
+
+  it("ignores a leftover copies count for a token that isn't selected", () => {
+    const selection: BatchSelection = {
+      ...emptySelection,
+      characterTokenIds: [],
+      characterTokenCopies: { [characterTokenId("wellington", 0)]: 2 },
+    };
+
+    const items = buildBatchItems(catalogWithMultiCopyToken, selection, sharedConfig);
+
+    expect(items).toHaveLength(0);
+  });
+
+  it("ignores characterTokenCopies for a token without maxCopies, always using 1", () => {
+    const selection: BatchSelection = {
+      ...emptySelection,
+      characterTokenIds: [characterTokenId("tapper", 0)],
+      characterTokenCopies: { [characterTokenId("tapper", 0)]: 5 },
+    };
+
+    const items = buildBatchItems(catalog, selection, sharedConfig);
+
+    expect(items[0].copies).toBe(1);
   });
 
   it("excludes generic tokens with zero copies and includes them with the chosen count", () => {

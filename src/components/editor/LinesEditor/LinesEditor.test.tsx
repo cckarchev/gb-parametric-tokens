@@ -8,11 +8,18 @@ import { LinesEditor } from "./LinesEditor";
 
 const colorGroups: ColorGroupSpec[] = [{ id: "accent", name: "Accent", color: "#ffffff" }];
 
+// Panel starts collapsed, so its body content is hidden from the accessibility tree until the
+// toggle is clicked -- every test that queries by role needs it opened first.
+const openPanel = async () => {
+  await userEvent.click(screen.getByRole("button", { name: "Lines" }));
+};
+
 describe("LinesEditor", () => {
-  it("renders one row per line, with a base color group option", () => {
+  it("renders one row per line, with a base color group option", async () => {
     const lines: LineSpec[] = [{ text: "Commanding Aura", sizeMm: 6 }];
 
     render(<LinesEditor lines={lines} colorGroups={colorGroups} onChange={vi.fn()} />);
+    await openPanel();
 
     expect(screen.getByLabelText("Text")).toHaveValue("Commanding Aura");
     expect(screen.getByLabelText("Size (mm)")).toHaveValue(6);
@@ -35,6 +42,7 @@ describe("LinesEditor", () => {
     const onChange = vi.fn();
 
     render(<LinesEditor lines={[]} colorGroups={colorGroups} onChange={onChange} />);
+    await openPanel();
 
     await userEvent.click(screen.getByRole("button", { name: "Add line" }));
 
@@ -49,19 +57,21 @@ describe("LinesEditor", () => {
     ];
 
     render(<LinesEditor lines={lines} colorGroups={colorGroups} onChange={onChange} />);
+    await openPanel();
 
     await userEvent.click(screen.getAllByRole("button", { name: "Remove line" })[0]);
 
     expect(onChange).toHaveBeenCalledWith([{ text: "Marked Target", sizeMm: 6 }]);
   });
 
-  it("hides 'Add line' once there are already two lines, since an arc only fits two", () => {
+  it("hides 'Add line' once there are already two lines, since an arc only fits two", async () => {
     const lines: LineSpec[] = [
       { text: "Commanding Aura", sizeMm: 6 },
       { text: "4in Aura +1 TAC +1 DMG", sizeMm: 4 },
     ];
 
     render(<LinesEditor lines={lines} colorGroups={colorGroups} onChange={vi.fn()} />);
+    await openPanel();
 
     expect(screen.queryByRole("button", { name: "Add line" })).not.toBeInTheDocument();
   });

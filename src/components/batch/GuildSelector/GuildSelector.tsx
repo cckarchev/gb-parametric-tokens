@@ -1,4 +1,7 @@
+import { useState } from "react";
+
 import { AvailableGuild } from "../../../browser/listAvailableGuilds";
+import { Panel } from "../../primitives/Panel/Panel";
 import styles from "./GuildSelector.module.css";
 
 export type GuildSelectorProps = {
@@ -14,47 +17,60 @@ export type GuildSelectorProps = {
 const LOGO_BASE_SIZE_PERCENT = 80;
 
 export const GuildSelector = ({ guilds, selectedGuildId, onSelect }: GuildSelectorProps) => {
-  return (
-    <div className={styles.grid} role="group" aria-label="Guild">
-      {guilds.map((guild) => {
-        const logoSizePercent = LOGO_BASE_SIZE_PERCENT * (guild.iconScale ?? 1);
+  // Starts open (nothing to pick yet), then collapses out of the way as soon as a guild is
+  // picked, freeing space for the preview and the rest of the form. Controlled (not just
+  // defaultExpanded) so picking a tile can collapse it explicitly, and the user can still
+  // reopen it manually afterwards to switch guilds.
+  const [expanded, setExpanded] = useState(true);
 
-        return (
-          <button
-            key={guild.id}
-            type="button"
-            className={guild.id === selectedGuildId ? styles.tileSelected : styles.tile}
-            title={guild.name}
-            aria-pressed={guild.id === selectedGuildId}
-            onClick={() => onSelect(guild.id)}>
-            {/* Near-white badge is just the icon's own backing plate; the icon itself carries the
-                guild's color. The logo files are solid-black artwork with no way to recolor an
-                <img>, so the silhouette is painted via a CSS mask instead. Every /icons/*.svg has
-                its viewBox cropped to its own ink bounding box (see GuildSelector.module.css's
-                .logo comment), so a shared base size (LOGO_BASE_SIZE_PERCENT) renders every
-                guild at a consistent size with no per-guild tuning needed in the common case.
-                .badge and .logo are siblings stacked in the same grid cell (not nested) so their
-                sizes are independent: shrinking the white circle does not shrink the icon riding
-                on top of it. The guild name is a tooltip (the button's `title`) only, not a
-                permanent label. */}
-            <span className={styles.badgeStack}>
-              <span className={styles.badge} />
-              <span
-                className={styles.logo}
-                style={{
-                  backgroundColor: guild.color,
-                  maskImage: `url(/icons/${guild.name}.svg)`,
-                  WebkitMaskImage: `url(/icons/${guild.name}.svg)`,
-                  width: `${logoSizePercent}%`,
-                  height: `${logoSizePercent}%`,
-                }}
-                role="img"
-                aria-label={guild.name}
-              />
-            </span>
-          </button>
-        );
-      })}
-    </div>
+  const selectGuild = (guildId: string) => {
+    onSelect(guildId);
+    setExpanded(false);
+  };
+
+  return (
+    <Panel title="Guild" expanded={expanded} onExpandedChange={setExpanded}>
+      <div className={styles.grid}>
+        {guilds.map((guild) => {
+          const logoSizePercent = LOGO_BASE_SIZE_PERCENT * (guild.iconScale ?? 1);
+
+          return (
+            <button
+              key={guild.id}
+              type="button"
+              className={guild.id === selectedGuildId ? styles.tileSelected : styles.tile}
+              title={guild.name}
+              aria-pressed={guild.id === selectedGuildId}
+              onClick={() => selectGuild(guild.id)}>
+              {/* Near-white badge is just the icon's own backing plate; the icon itself carries
+                  the guild's color. The logo files are solid-black artwork with no way to
+                  recolor an <img>, so the silhouette is painted via a CSS mask instead. Every
+                  /icons/*.svg has its viewBox cropped to its own ink bounding box (see
+                  GuildSelector.module.css's .logo comment), so a shared base size
+                  (LOGO_BASE_SIZE_PERCENT) renders every guild at a consistent size with no
+                  per-guild tuning needed in the common case. .badge and .logo are siblings
+                  stacked in the same grid cell (not nested) so their sizes are independent:
+                  shrinking the white circle does not shrink the icon riding on top of it. The
+                  guild name is a tooltip (the button's `title`) only, not a permanent label. */}
+              <span className={styles.badgeStack}>
+                <span className={styles.badge} />
+                <span
+                  className={styles.logo}
+                  style={{
+                    backgroundColor: guild.color,
+                    maskImage: `url(/icons/${guild.name}.svg)`,
+                    WebkitMaskImage: `url(/icons/${guild.name}.svg)`,
+                    width: `${logoSizePercent}%`,
+                    height: `${logoSizePercent}%`,
+                  }}
+                  role="img"
+                  aria-label={guild.name}
+                />
+              </span>
+            </button>
+          );
+        })}
+      </div>
+    </Panel>
   );
 };

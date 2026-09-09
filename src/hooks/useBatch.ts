@@ -36,6 +36,7 @@ const DEFAULT_SUBTITLE_SIZE_MM = 1.9;
 // than starting from "everything" and having to deselect what they don't need.
 const buildDefaultSelection = (): BatchSelection => ({
   characterTokenIds: [],
+  characterTokenCopies: {},
   genericCopies: {},
   influenceCopies: 0,
   momentumCopies: 0,

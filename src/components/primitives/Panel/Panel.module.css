@@ -9,15 +9,25 @@
   padding: 0;
 }
 
+.legendRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-panel-header);
+}
+
 .toggle {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
-  padding: var(--space-3) var(--space-4);
+  flex: 1;
+  min-width: 0;
+  padding: var(--space-3) 0;
   border: none;
-  border-radius: var(--radius-md);
-  background: var(--color-bg-panel-header);
+  background: transparent;
   color: var(--color-text);
   font-size: var(--font-size-base);
   font-weight: 600;
@@ -43,16 +53,36 @@
   transform: rotate(-45deg);
 }
 
+/* Plain old max-height trick (not grid-template-rows/fr units, and not the display transition +
+   @starting-style route -- both were tried and produced real visual bugs: fr-unit grid track
+   transitions don't animate reliably in Chromium, and animating `display` itself left the
+   content briefly overlapping the layout below it). max-height + overflow: hidden is boring but
+   universally supported and never leaves stray content visible. */
 .body {
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
+  overflow: hidden;
+  max-height: 100vh;
+  opacity: 1;
   padding: var(--space-4);
+  transition:
+    max-height 0.2s ease,
+    opacity 0.15s ease,
+    padding 0.2s ease;
 }
 
 /* Author CSS always wins over the browser's built-in [hidden] { display: none }, regardless of
    selector specificity, so setting display above silently defeats the hidden attribute unless
-   this rule re-asserts it with higher specificity than .body alone. */
+   this rule re-asserts it with higher specificity than .body alone. Kept as `flex` (not `none`)
+   here on purpose -- `display` can't be transitioned, so the collapse has to happen entirely via
+   max-height/padding/opacity instead while display stays constant. jest-dom's toBeVisible() (and
+   real assistive tech) still treats the [hidden] attribute itself as authoritative regardless of
+   the computed display, so this stays test- and a11y-correct. */
 .body[hidden] {
-  display: none;
+  display: flex;
+  max-height: 0;
+  opacity: 0;
+  padding-top: 0;
+  padding-bottom: 0;
 }

@@ -1,23 +1,33 @@
-.character {
+.rows {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
-  padding-top: var(--space-3);
-  border-top: 1px solid var(--color-border);
 }
 
-.character:first-child {
-  padding-top: 0;
-  border-top: none;
-}
-
-.characterHeader {
+.row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-3);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+}
+
+/* Continuous zebra striping across the whole table (character headers and their tokens are all
+   direct children of .rows), not just within each character's own tokens. */
+.row:nth-child(even) {
+  background: var(--color-bg-panel-header);
+}
+
+.count {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
 }
 
 .characterNameDisabled {
   color: var(--color-text-muted);
+}
+
+.rowToken {
+  /* Lines up under the header checkbox's own label text, not its square. */
+  padding-left: calc(16px + var(--space-2) + var(--space-2));
 }

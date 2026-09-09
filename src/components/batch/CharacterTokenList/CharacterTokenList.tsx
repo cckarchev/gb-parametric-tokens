@@ -1,14 +1,26 @@
+import { Fragment } from "react";
+
 import { characterTokenId } from "../../../core/token/catalog/buildBatchItems";
-import { CatalogCharacter, GuildCatalog } from "../../../core/token/catalog/catalogTypes";
+import {
+  CatalogCharacter,
+  CatalogTokenSpec,
+  GuildCatalog,
+} from "../../../core/token/catalog/catalogTypes";
 import { CheckboxField } from "../../primitives/CheckboxField/CheckboxField";
+import { NumberField } from "../../primitives/NumberField/NumberField";
 import { Panel } from "../../primitives/Panel/Panel";
 import styles from "./CharacterTokenList.module.css";
 
 export type CharacterTokenListProps = {
   catalog: GuildCatalog;
   selectedTokenIds: string[];
-  onChange: (selectedTokenIds: string[]) => void;
+  onSelectedTokenIdsChange: (selectedTokenIds: string[]) => void;
+  tokenCopies: Record<string, number>;
+  onTokenCopiesChange: (tokenCopies: Record<string, number>) => void;
 };
+
+const DEFAULT_COPIES = 1;
+const MIN_COPIES = 1;
 
 const tokenIdsForCharacter = (character: CatalogCharacter): string[] => {
   return character.tokens.map((_, tokenIndex) => characterTokenId(character.id, tokenIndex));
@@ -17,15 +29,17 @@ const tokenIdsForCharacter = (character: CatalogCharacter): string[] => {
 export const CharacterTokenList = ({
   catalog,
   selectedTokenIds,
-  onChange,
+  onSelectedTokenIdsChange,
+  tokenCopies,
+  onTokenCopiesChange,
 }: CharacterTokenListProps) => {
   const toggle = (id: string, checked: boolean) => {
     if (checked) {
-      onChange([...selectedTokenIds, id]);
+      onSelectedTokenIdsChange([...selectedTokenIds, id]);
       return;
     }
 
-    onChange(selectedTokenIds.filter((selectedId) => selectedId !== id));
+    onSelectedTokenIdsChange(selectedTokenIds.filter((selectedId) => selectedId !== id));
   };
 
   const toggleCharacter = (character: CatalogCharacter, checked: boolean) => {
@@ -34,11 +48,11 @@ export const CharacterTokenList = ({
     if (checked) {
       const withoutCharacter = selectedTokenIds.filter((id) => !ids.includes(id));
 
-      onChange([...withoutCharacter, ...ids]);
+      onSelectedTokenIdsChange([...withoutCharacter, ...ids]);
       return;
     }
 
-    onChange(selectedTokenIds.filter((id) => !ids.includes(id)));
+    onSelectedTokenIdsChange(selectedTokenIds.filter((id) => !ids.includes(id)));
   };
 
   const allTokenIds = catalog.characters.flatMap(tokenIdsForCharacter);
@@ -46,57 +60,90 @@ export const CharacterTokenList = ({
   const allSelected = allTokenIds.length > 0 && everyTokenSelected;
 
   const toggleAll = (checked: boolean) => {
-    onChange(checked ? allTokenIds : []);
+    onSelectedTokenIdsChange(checked ? allTokenIds : []);
+  };
+
+  const setCopies = (id: string, copies: number) => {
+    onTokenCopiesChange({ ...tokenCopies, [id]: copies });
   };
 
   return (
-    <Panel title="Character tokens">
-      <CheckboxField
-        label="Select all"
-        checked={allSelected}
-        onChange={toggleAll}
-        disabled={allTokenIds.length === 0}
-      />
+    <Panel
+      title="Character tokens"
+      headerAccessory={
+        <CheckboxField
+          label="Select all"
+          hideLabel
+          checked={allSelected}
+          onChange={toggleAll}
+          disabled={allTokenIds.length === 0}
+        />
+      }>
+      {/* One flat list of rows (character headers and their tokens as direct siblings, not
+          nested per character) so the zebra striping below alternates continuously across the
+          whole table instead of resetting inside each character's own token group. */}
+      <div className={styles.rows}>
+        {catalog.characters.map((character) => {
+          const ids = tokenIdsForCharacter(character);
+          const hasTokens = ids.length > 0;
+          const selectedCount = ids.filter((id) => selectedTokenIds.includes(id)).length;
+          const characterAllSelected = hasTokens && selectedCount === ids.length;
 
-      {catalog.characters.map((character) => {
-        const ids = tokenIdsForCharacter(character);
-        const hasTokens = ids.length > 0;
-        const characterAllSelected = hasTokens && ids.every((id) => selectedTokenIds.includes(id));
+          return (
+            <Fragment key={character.id}>
+              <div className={styles.row}>
+                <CheckboxField
+                  label={character.name}
+                  checked={characterAllSelected}
+                  onChange={(checked) => toggleCharacter(character, checked)}
+                  disabled={!hasTokens}
+                />
 
-        return (
-          <div className={styles.character} key={character.id}>
-            <div className={styles.characterHeader}>
-              <strong className={hasTokens ? undefined : styles.characterNameDisabled}>
-                {character.name}
-              </strong>
+                {hasTokens && (
+                  <span className={styles.count}>
+                    {selectedCount}/{ids.length}
+                  </span>
+                )}
+              </div>
 
-              <CheckboxField
-                label={`Select all: ${character.name}`}
-                checked={characterAllSelected}
-                onChange={(checked) => toggleCharacter(character, checked)}
-                disabled={!hasTokens}
-              />
-            </div>
+              {hasTokens ? (
+                character.tokens.map((token: CatalogTokenSpec, tokenIndex) => {
+                  const id = characterTokenId(character.id, tokenIndex);
+                  const selected = selectedTokenIds.includes(id);
+                  const hasCopiesField = (token.maxCopies ?? 1) > 1;
 
-            {hasTokens ? (
-              character.tokens.map((token, tokenIndex) => {
-                const id = characterTokenId(character.id, tokenIndex);
+                  return (
+                    <div className={`${styles.row} ${styles.rowToken}`} key={id}>
+                      <CheckboxField
+                        label={token.title}
+                        checked={selected}
+                        onChange={(checked) => toggle(id, checked)}
+                      />
 
-                return (
-                  <CheckboxField
-                    key={id}
-                    label={token.title}
-                    checked={selectedTokenIds.includes(id)}
-                    onChange={(checked) => toggle(id, checked)}
-                  />
-                );
-              })
-            ) : (
-              <span className={styles.characterNameDisabled}>No tokens</span>
-            )}
-          </div>
-        );
-      })}
+                      {hasCopiesField && (
+                        <NumberField
+                          label={`${token.title} copies`}
+                          hideLabel
+                          stepper
+                          value={tokenCopies[id] ?? DEFAULT_COPIES}
+                          min={MIN_COPIES}
+                          max={token.maxCopies}
+                          disabled={!selected}
+                          onChange={(copies) => setCopies(id, copies)}
+                        />
+                      )}
+                    </div>
+                  );
+                })
+              ) : (
+                <div className={`${styles.row} ${styles.rowToken}`}>
+                  <span className={styles.characterNameDisabled}>No tokens</span>
+                </div>
+              )}
+            </Fragment>
+          );
+        })}
+      </div>
     </Panel>
   );
 };
