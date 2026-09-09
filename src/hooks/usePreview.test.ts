@@ -43,6 +43,8 @@ const sharedConfig: SharedConfig = {
   influenceIconId: "Brewers",
   titleSizeMm: 6,
   subtitleSizeMm: 4,
+  showSecondLine: true,
+  balanceTwoLineSizes: false,
 };
 
 const baseSelection: TokenSelection = {

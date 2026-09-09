@@ -36,6 +36,8 @@ const sharedConfig: SharedConfig = {
   influenceIconId: "Brewers",
   titleSizeMm: 6,
   subtitleSizeMm: 4,
+  showSecondLine: true,
+  balanceTwoLineSizes: false,
 };
 
 const emptySelection: TokenSelection = {
@@ -106,6 +108,47 @@ describe("buildTokenItems", () => {
     };
 
     const items = buildTokenItems(catalog, selection, sharedConfig);
+
+    expect(items[0].spec.lines).toEqual([{ text: "Marked Target", sizeMm: 6, colorGroup: "text" }]);
+  });
+
+  it("omits the second line entirely when showSecondLine is off, even if the token has a subtitle", () => {
+    const selection: TokenSelection = {
+      ...emptySelection,
+      characterTokenIds: [characterTokenId("tapper", 0)],
+    };
+    const customConfig: SharedConfig = { ...sharedConfig, showSecondLine: false };
+
+    const items = buildTokenItems(catalog, selection, customConfig);
+
+    expect(items[0].spec.lines).toEqual([
+      { text: "Commanding Aura", sizeMm: 6, colorGroup: "text" },
+    ]);
+  });
+
+  it("shrinks the title and grows the subtitle when balanceTwoLineSizes is on", () => {
+    const selection: TokenSelection = {
+      ...emptySelection,
+      characterTokenIds: [characterTokenId("tapper", 0)],
+    };
+    const customConfig: SharedConfig = { ...sharedConfig, balanceTwoLineSizes: true };
+
+    const items = buildTokenItems(catalog, selection, customConfig);
+
+    expect(items[0].spec.lines).toEqual([
+      { text: "Commanding Aura", sizeMm: 5.4, colorGroup: "text" },
+      { text: '4" Aura +1 TAC +1 DMG', sizeMm: 4.8, colorGroup: "text" },
+    ]);
+  });
+
+  it("leaves a single-line character token's title size untouched by balanceTwoLineSizes", () => {
+    const selection: TokenSelection = {
+      ...emptySelection,
+      characterTokenIds: [characterTokenId("tapper", 1)],
+    };
+    const customConfig: SharedConfig = { ...sharedConfig, balanceTwoLineSizes: true };
+
+    const items = buildTokenItems(catalog, selection, customConfig);
 
     expect(items[0].spec.lines).toEqual([{ text: "Marked Target", sizeMm: 6, colorGroup: "text" }]);
   });

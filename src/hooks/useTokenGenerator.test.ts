@@ -427,6 +427,8 @@ describe("useTokenGenerator", () => {
       influenceIconId: "blank",
       titleSizeMm: 5,
       subtitleSizeMm: 3,
+      showSecondLine: false,
+      balanceTwoLineSizes: true,
     };
     const file = new File([JSON.stringify(importedConfig)], "settings.json", {
       type: "application/json",

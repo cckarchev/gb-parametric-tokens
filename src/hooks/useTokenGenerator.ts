@@ -56,7 +56,9 @@ const isSharedConfig = (value: unknown): value is SharedConfig => {
     Array.isArray(candidate.colorGroups) &&
     typeof candidate.influenceIconId === "string" &&
     typeof candidate.titleSizeMm === "number" &&
-    typeof candidate.subtitleSizeMm === "number"
+    typeof candidate.subtitleSizeMm === "number" &&
+    typeof candidate.showSecondLine === "boolean" &&
+    typeof candidate.balanceTwoLineSizes === "boolean"
   );
 };
 
@@ -130,6 +132,8 @@ export const useTokenGenerator = () => {
     influenceIconId: FALLBACK_ICON_ID,
     titleSizeMm: DEFAULT_TITLE_SIZE_MM,
     subtitleSizeMm: DEFAULT_SUBTITLE_SIZE_MM,
+    showSecondLine: true,
+    balanceTwoLineSizes: false,
   });
 
   // Every successful guild load re-seeds the two catalog-derived colors (the selection itself is

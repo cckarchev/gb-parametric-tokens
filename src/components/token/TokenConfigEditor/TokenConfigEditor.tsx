@@ -6,6 +6,7 @@ import { PrintProfileSelector } from "../../editor/PrintProfileSelector/PrintPro
 import { RELIEF_OPTIONS } from "../../editor/reliefOptions";
 import { ShapeEditor } from "../../editor/ShapeEditor/ShapeEditor";
 import { Button } from "../../primitives/Button/Button";
+import { CheckboxField } from "../../primitives/CheckboxField/CheckboxField";
 import { NumberField } from "../../primitives/NumberField/NumberField";
 import { Panel } from "../../primitives/Panel/Panel";
 import { SelectField } from "../../primitives/SelectField/SelectField";
@@ -39,24 +40,41 @@ export const TokenConfigEditor = ({
 
   return (
     <div className={styles.wrapper}>
-      <PrintProfileSelector
-        printProfileId={sharedConfig.printProfileId}
-        onChange={(printProfileId) => onChange({ ...sharedConfig, printProfileId })}
-      />
+      <Panel title="Print options" defaultExpanded={true}>
+        <div className={styles.optionsGrid}>
+          <PrintProfileSelector
+            printProfileId={sharedConfig.printProfileId}
+            onChange={(printProfileId) => onChange({ ...sharedConfig, printProfileId })}
+          />
 
-      <SelectField
-        label="Relief"
-        value={sharedConfig.style.relief}
-        options={RELIEF_OPTIONS}
-        onChange={(relief) =>
-          onChange({ ...sharedConfig, style: { ...sharedConfig.style, relief } })
-        }
-      />
+          <SelectField
+            label="Relief"
+            value={sharedConfig.style.relief}
+            options={RELIEF_OPTIONS}
+            onChange={(relief) =>
+              onChange({ ...sharedConfig, style: { ...sharedConfig.style, relief } })
+            }
+          />
 
-      <GuildColorsEditor
-        colorGroups={sharedConfig.colorGroups}
-        onChange={(colorGroups) => onChange({ ...sharedConfig, colorGroups })}
-      />
+          <CheckboxField
+            label="Show second line"
+            checked={sharedConfig.showSecondLine}
+            onChange={(showSecondLine) => onChange({ ...sharedConfig, showSecondLine })}
+          />
+
+          <CheckboxField
+            label="Balance line sizes"
+            checked={sharedConfig.balanceTwoLineSizes}
+            disabled={!sharedConfig.showSecondLine}
+            onChange={(balanceTwoLineSizes) => onChange({ ...sharedConfig, balanceTwoLineSizes })}
+          />
+
+          <GuildColorsEditor
+            colorGroups={sharedConfig.colorGroups}
+            onChange={(colorGroups) => onChange({ ...sharedConfig, colorGroups })}
+          />
+        </div>
+      </Panel>
 
       <Panel title="Advanced settings" defaultExpanded={false}>
         <div className={styles.group}>

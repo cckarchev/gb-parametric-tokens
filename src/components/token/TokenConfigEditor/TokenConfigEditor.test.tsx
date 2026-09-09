@@ -20,6 +20,8 @@ const sharedConfig: SharedConfig = {
   influenceIconId: "influence",
   titleSizeMm: 7,
   subtitleSizeMm: 4.5,
+  showSecondLine: true,
+  balanceTwoLineSizes: false,
 };
 
 const openAdvancedSettings = async () => {

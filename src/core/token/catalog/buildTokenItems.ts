@@ -36,6 +36,8 @@ export type SharedConfig = {
   influenceIconId: string;
   titleSizeMm: number;
   subtitleSizeMm: number;
+  showSecondLine: boolean;
+  balanceTwoLineSizes: boolean;
 };
 
 const DEFAULT_ICON_SCALE = 0.85;
@@ -57,6 +59,12 @@ const MOMENTUM_FIT_POLICY: FitPolicy = {
 // render, same as every other geometry default in this app.
 const RING_RADIUS_RATIO = 0.85;
 const RING_WIDTH_MM = 0.6;
+
+// Starting point for balanceTwoLineSizes, tunable by feel against a real render like every other
+// geometry/typography default in this app: shrinks the title a touch and grows the subtitle so a
+// two-line character token reads more evenly instead of the subtitle looking like an afterthought.
+const TWO_LINE_TITLE_BALANCE_SCALE = 0.9;
+const TWO_LINE_SUBTITLE_BALANCE_SCALE = 1.2;
 
 const GOAL_INFLUENCE_TEXT_RADIUS_RATIO = 0.55;
 const GOAL_INFLUENCE_TEXT_SIZE_MM = 2.2;
@@ -87,21 +95,32 @@ const buildCharacterTokenSpec = (
   sharedConfig: SharedConfig,
 ): TokenSpec => {
   const iconId = token.iconId ?? guildIconId;
+  const secondLineText = sharedConfig.showSecondLine ? token.subtitle : undefined;
+
+  const titleSizeMm =
+    secondLineText !== undefined && sharedConfig.balanceTwoLineSizes
+      ? sharedConfig.titleSizeMm * TWO_LINE_TITLE_BALANCE_SCALE
+      : sharedConfig.titleSizeMm;
+
   const titleLine = {
     text: token.title,
-    sizeMm: sharedConfig.titleSizeMm,
+    sizeMm: titleSizeMm,
     colorGroup: TEXT_COLOR_GROUP_ID,
   };
-  const lines = token.subtitle
-    ? [
-        titleLine,
-        {
-          text: token.subtitle,
-          sizeMm: sharedConfig.subtitleSizeMm,
-          colorGroup: TEXT_COLOR_GROUP_ID,
-        },
-      ]
-    : [titleLine];
+
+  const lines =
+    secondLineText !== undefined
+      ? [
+          titleLine,
+          {
+            text: secondLineText,
+            sizeMm: sharedConfig.balanceTwoLineSizes
+              ? sharedConfig.subtitleSizeMm * TWO_LINE_SUBTITLE_BALANCE_SCALE
+              : sharedConfig.subtitleSizeMm,
+            colorGroup: TEXT_COLOR_GROUP_ID,
+          },
+        ]
+      : [titleLine];
 
   return {
     version: 1,
