@@ -4,7 +4,12 @@ import path from "path";
 import { describe, expect, it } from "vitest";
 
 import { computeReliefComponents, LoadIconSource } from "./computeReliefComponents";
-import { computeInnerRadiusMm, computeOuterRadiusMm } from "./geometry/nobPlacement";
+import { CENTER_ANGLE_DEG } from "./geometry/angleConventions";
+import {
+  computeInnerRadiusMm,
+  computeNobPlacements,
+  computeOuterRadiusMm,
+} from "./geometry/nobPlacement";
 import { PRINT_PROFILES } from "./printProfiles";
 import { TokenSpec } from "./types";
 
@@ -128,6 +133,52 @@ describe("computeReliefComponents", () => {
 
     expect(result.reliefComponents).toHaveLength(3); // 2 nob icons + 1 line (fits on one line here)
     expect(result.warnings).toEqual([]);
+  });
+
+  it("rotates a nob icon so it turns with the arc the same way the letters beside it do", async () => {
+    const font = loadTestFont();
+    // Apex-up triangle: placeIcon's flip+center+scale (see iconPlacement.ts) always lands its
+    // apex exactly on the local +y axis, so an unrotated icon would point it straight "north"
+    // of the nob center no matter where the nob sits on the arc. Once rotated the same
+    // "outward" way arc text is, the apex should instead point directly away from the arc's
+    // own center -- landing on the same ray as the nob itself.
+    const apexUpTriangleSvg = '<svg><path d="M0 20L20 20L10 0Z"/></svg>';
+    const loadTriangleIcon: LoadIconSource = async (iconId) => ({
+      svgSource: apexUpTriangleSvg,
+      resolvedId: iconId,
+      substituted: false,
+    });
+    const shape = {
+      type: "arc" as const,
+      ribbonWidthMm: 15,
+      ribbonLengthMm: 32,
+      nobDiameterMm: 24,
+    };
+
+    const result = await computeReliefComponents(
+      arcSpec({ shape, icons: [{ iconId: "triangle", side: "left", scale: 0.7 }] }),
+      font,
+      printProfile,
+      loadTriangleIcon,
+    );
+
+    const [iconComponent] = result.reliefComponents;
+    const { left } = computeNobPlacements(shape, CENTER_ANGLE_DEG);
+
+    // The apex is the contour vertex closest to the nob center: the two base corners sit a
+    // factor of sqrt(2) farther out from the center than the apex does, a relationship
+    // rotation preserves regardless of the nob's angle.
+    const [nobCenterX, nobCenterY] = left.position;
+    const apex = iconComponent.contours[0].reduce((closest, point) => {
+      const distance = Math.hypot(point[0] - nobCenterX, point[1] - nobCenterY);
+      const closestDistance = Math.hypot(closest[0] - nobCenterX, closest[1] - nobCenterY);
+
+      return distance < closestDistance ? point : closest;
+    });
+
+    const apexAngleDeg = Math.atan2(apex[1], apex[0]) * (180 / Math.PI);
+
+    expect(apexAngleDeg).toBeCloseTo(left.angleDeg, 1);
   });
 
   it("offsets a second arc line to a smaller radius than the first", async () => {

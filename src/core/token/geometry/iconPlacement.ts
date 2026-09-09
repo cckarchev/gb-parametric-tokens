@@ -1,4 +1,5 @@
 import { Vec2 } from "../types";
+import { DEGREES_PER_RADIAN } from "./angleConventions";
 import { computeBounds } from "./computeBounds";
 
 export type IconPlacementOptions = {
@@ -23,6 +24,22 @@ export const placeIcon = (contours: Vec2[][], options: IconPlacementOptions): Ve
 
   return flipped.map((contour) =>
     contour.map(([x, y]): Vec2 => [(x - center[0]) * scaleFactor, (y - center[1]) * scaleFactor]),
+  );
+};
+
+// Standard mathYUp CCW rotation about the origin -- the same convention arcPlacement.ts's
+// applyArcPlacement uses for glyph rotation, so an icon rotated by this and a glyph rotated by
+// that agree on which way a positive angle turns.
+export const rotateContours = (contours: Vec2[][], rotationDeg: number): Vec2[][] => {
+  const rotationRad = rotationDeg / DEGREES_PER_RADIAN;
+  const cosRotation = Math.cos(rotationRad);
+  const sinRotation = Math.sin(rotationRad);
+
+  return contours.map((contour) =>
+    contour.map(([x, y]): Vec2 => [
+      x * cosRotation - y * sinRotation,
+      x * sinRotation + y * cosRotation,
+    ]),
   );
 };
 

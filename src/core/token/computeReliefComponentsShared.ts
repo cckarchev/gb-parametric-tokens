@@ -1,4 +1,4 @@
-import { placeIcon, translateContours } from "./geometry/iconPlacement";
+import { placeIcon, rotateContours, translateContours } from "./geometry/iconPlacement";
 import { computeRingContour } from "./geometry/ringContour";
 import { ReliefComponent } from "./mesh/reliefComponent";
 import { extractPathData } from "./svg/extractPathData";
@@ -17,6 +17,7 @@ export const buildIconComponent = async (
   printProfile: PrintProfile,
   loadIconSource: LoadIconSource,
   warnings: string[],
+  rotationDeg = 0,
 ): Promise<ReliefComponent> => {
   const { svgSource, resolvedId, substituted } = await loadIconSource(icon.iconId);
 
@@ -32,7 +33,11 @@ export const buildIconComponent = async (
 
   // placeIcon flips Y; normalizeWinding must run after, same trap M1/M4 scripts document.
   const normalized = normalizeWinding(placed);
-  const contours = translateContours(normalized, center);
+  // Rotate about the icon's own center (still at the origin here) before translating it out
+  // to its final position, the same rotate-then-translate order applyArcPlacement uses for
+  // glyphs.
+  const rotated = rotateContours(normalized, rotationDeg);
+  const contours = translateContours(rotated, center);
 
   return { contours, colorGroup: icon.colorGroup };
 };

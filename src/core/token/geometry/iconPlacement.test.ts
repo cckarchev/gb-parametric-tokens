@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { Vec2 } from "../types";
-import { placeIcon, translateContours } from "./iconPlacement";
+import { placeIcon, rotateContours, translateContours } from "./iconPlacement";
 
 describe("placeIcon", () => {
   it("flips Y, centers on the origin, and scales to the target diameter", () => {
@@ -43,6 +43,30 @@ describe("placeIcon", () => {
       [5, -5],
       [-5, -5],
     ]);
+  });
+});
+
+describe("rotateContours", () => {
+  it("leaves points unchanged at a rotation of 0 degrees", () => {
+    const point: Vec2[][] = [[[3, 4]]];
+
+    expect(rotateContours(point, 0)).toEqual([[[3, 4]]]);
+  });
+
+  it("rotates a point 90 degrees counterclockwise about the origin", () => {
+    const point: Vec2[][] = [[[1, 0]]];
+    const [[[x, y]]] = rotateContours(point, 90);
+
+    expect(x).toBeCloseTo(0);
+    expect(y).toBeCloseTo(1);
+  });
+
+  it("rotates a point -90 degrees (clockwise) about the origin", () => {
+    const point: Vec2[][] = [[[0, 1]]];
+    const [[[x, y]]] = rotateContours(point, -90);
+
+    expect(x).toBeCloseTo(1);
+    expect(y).toBeCloseTo(0);
   });
 });
 

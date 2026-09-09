@@ -16,6 +16,12 @@ import { PrintProfile, TokenSpec } from "./types";
 
 const NOB_TEXT_CLEARANCE_DEG = 6;
 
+// Same "outward" convention arcPlacement.ts's mathYUpRotationDeg uses for arc text: an angle of
+// 90 (pointing straight up, see CENTER_ANGLE_DEG) needs no rotation, so the offset is subtracted
+// out. Keeping the nob icons on this convention makes them turn with the arc exactly like the
+// letters beside them do, instead of staying screen-upright as the nob sweeps around the token.
+const OUTWARD_ROTATION_OFFSET_DEG = 90;
+
 // Empirically measured against the bundled font (Saira Condensed Bold) rendering arc text, via
 // the real pipeline (layoutArcText itself): how far a typical capital letter's top edge sits
 // above its baseline radius, as a fraction of sizeMm. Deliberately not the font's own
@@ -87,16 +93,17 @@ export const computeArcReliefComponents = async (
     spec.icons
       .filter((icon) => icon.side === "left" || icon.side === "right")
       .map((icon) => {
-        const position =
-          icon.side === "left" ? nobPlacements.left.position : nobPlacements.right.position;
+        const nobPlacement = icon.side === "left" ? nobPlacements.left : nobPlacements.right;
+        const rotationDeg = nobPlacement.angleDeg - OUTWARD_ROTATION_OFFSET_DEG;
 
         return buildIconComponent(
           icon,
           computeEffectiveNobDiameterMm(shape),
-          position,
+          nobPlacement.position,
           printProfile,
           loadIconSource,
           warnings,
+          rotationDeg,
         );
       }),
   );
