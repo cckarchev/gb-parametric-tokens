@@ -1,4 +1,4 @@
-// The fixed second color-group role every batch-generated line and icon is tagged with, so it
+// The fixed second color-group role every generated line and icon is tagged with, so it
 // resolves to the guild-derived relief color instead of silently falling back to "base" (see
 // mesh/colorGroups.ts's BASE_COLOR_GROUP_ID for the body's own, always-implicit id).
 export const TEXT_COLOR_GROUP_ID = "text";

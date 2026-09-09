@@ -58,7 +58,7 @@ describe("buildCombinedThreeMfModelXml", () => {
     expect(xml).toContain('transform="1 0 0 0 1 0 0 0 1 30 0 0"');
   });
 
-  it("emits a distinct object per distinct batch item, even when they share a colorGroupId", async () => {
+  it("emits a distinct object per distinct token item, even when they share a colorGroupId", async () => {
     const items: CombinedThreeMfItem[] = [
       { parts: [await buildBoxPart("base")], offsets: [[0, 0]] },
       { parts: [await buildBoxPart("base")], offsets: [[30, 0]] },
