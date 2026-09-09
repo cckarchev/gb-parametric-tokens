@@ -1,8 +1,11 @@
+import { ChangeEvent } from "react";
+
 import { BatchSharedConfig } from "../../../core/token/catalog/buildBatchItems";
 import { FitPolicyEditor } from "../../editor/FitPolicyEditor/FitPolicyEditor";
 import { PrintProfileSelector } from "../../editor/PrintProfileSelector/PrintProfileSelector";
 import { RELIEF_OPTIONS } from "../../editor/reliefOptions";
 import { ShapeEditor } from "../../editor/ShapeEditor/ShapeEditor";
+import { Button } from "../../primitives/Button/Button";
 import { NumberField } from "../../primitives/NumberField/NumberField";
 import { Panel } from "../../primitives/Panel/Panel";
 import { SelectField } from "../../primitives/SelectField/SelectField";
@@ -12,11 +15,43 @@ import styles from "./BatchConfigEditor.module.css";
 export type BatchConfigEditorProps = {
   sharedConfig: BatchSharedConfig;
   onChange: (sharedConfig: BatchSharedConfig) => void;
+  onExportSettings: () => void;
+  onImportSettings: (file: File) => void;
+  importSettingsError: string | undefined;
 };
 
-export const BatchConfigEditor = ({ sharedConfig, onChange }: BatchConfigEditorProps) => {
+export const BatchConfigEditor = ({
+  sharedConfig,
+  onChange,
+  onExportSettings,
+  onImportSettings,
+  importSettingsError,
+}: BatchConfigEditorProps) => {
+  const handleSettingsFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+
+    if (file) {
+      onImportSettings(file);
+    }
+
+    event.target.value = "";
+  };
+
   return (
     <div className={styles.wrapper}>
+      <Panel title="Fine-tuning settings" defaultExpanded={false}>
+        <div className={styles.row}>
+          <Button label="Export settings (.json)" onClick={onExportSettings} />
+        </div>
+
+        <label className={styles.field}>
+          <span className={styles.label}>Import settings (.json)</span>
+          <input type="file" accept="application/json" onChange={handleSettingsFileChange} />
+        </label>
+
+        {importSettingsError && <p className={styles.error}>{importSettingsError}</p>}
+      </Panel>
+
       <PrintProfileSelector
         printProfileId={sharedConfig.printProfileId}
         onChange={(printProfileId) => onChange({ ...sharedConfig, printProfileId })}

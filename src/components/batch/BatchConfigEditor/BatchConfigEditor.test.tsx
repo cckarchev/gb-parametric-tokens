@@ -27,14 +27,89 @@ const openAdvancedSettings = async () => {
 };
 
 describe("BatchConfigEditor", () => {
+  it("triggers the settings export callback", async () => {
+    const onExportSettings = vi.fn();
+
+    render(
+      <BatchConfigEditor
+        sharedConfig={sharedConfig}
+        onChange={vi.fn()}
+        onExportSettings={onExportSettings}
+        onImportSettings={vi.fn()}
+        importSettingsError={undefined}
+      />,
+    );
+
+    await userEvent.click(screen.getByRole("button", { name: "Fine-tuning settings" }));
+    await userEvent.click(screen.getByRole("button", { name: "Export settings (.json)" }));
+
+    expect(onExportSettings).toHaveBeenCalledOnce();
+  });
+
+  it("reports the chosen file for settings import", async () => {
+    const onImportSettings = vi.fn();
+
+    render(
+      <BatchConfigEditor
+        sharedConfig={sharedConfig}
+        onChange={vi.fn()}
+        onExportSettings={vi.fn()}
+        onImportSettings={onImportSettings}
+        importSettingsError={undefined}
+      />,
+    );
+
+    await userEvent.click(screen.getByRole("button", { name: "Fine-tuning settings" }));
+
+    const file = new File(['{"printProfileId":"fdm-04"}'], "settings.json", {
+      type: "application/json",
+    });
+
+    await userEvent.upload(screen.getByLabelText("Import settings (.json)"), file);
+
+    expect(onImportSettings).toHaveBeenCalledWith(file);
+  });
+
+  it("shows the settings import error", async () => {
+    render(
+      <BatchConfigEditor
+        sharedConfig={sharedConfig}
+        onChange={vi.fn()}
+        onExportSettings={vi.fn()}
+        onImportSettings={vi.fn()}
+        importSettingsError="This file is not a valid batch settings file."
+      />,
+    );
+
+    await userEvent.click(screen.getByRole("button", { name: "Fine-tuning settings" }));
+
+    expect(screen.getByText("This file is not a valid batch settings file.")).toBeInTheDocument();
+  });
+
   it("keeps the print profile selector visible without opening advanced settings", () => {
-    render(<BatchConfigEditor sharedConfig={sharedConfig} onChange={vi.fn()} />);
+    render(
+      <BatchConfigEditor
+        sharedConfig={sharedConfig}
+        onChange={vi.fn()}
+        onExportSettings={vi.fn()}
+        onImportSettings={vi.fn()}
+        importSettingsError={undefined}
+      />,
+    );
 
     expect(screen.getByLabelText("Print profile")).toBeInTheDocument();
   });
 
   it("keeps relief and the guild colors visible without opening advanced settings", () => {
-    render(<BatchConfigEditor sharedConfig={sharedConfig} onChange={vi.fn()} />);
+    render(
+      <BatchConfigEditor
+        sharedConfig={sharedConfig}
+        onChange={vi.fn()}
+        onExportSettings={vi.fn()}
+        onImportSettings={vi.fn()}
+        importSettingsError={undefined}
+      />,
+    );
 
     expect(screen.getByLabelText("Relief")).toHaveValue("raised");
     expect(screen.getByLabelText("Body")).toHaveValue("#cdb320");
@@ -44,7 +119,15 @@ describe("BatchConfigEditor", () => {
   it("updates only the relief field when the quick relief selector changes", async () => {
     const onChange = vi.fn();
 
-    render(<BatchConfigEditor sharedConfig={sharedConfig} onChange={onChange} />);
+    render(
+      <BatchConfigEditor
+        sharedConfig={sharedConfig}
+        onChange={onChange}
+        onExportSettings={vi.fn()}
+        onImportSettings={vi.fn()}
+        importSettingsError={undefined}
+      />,
+    );
 
     await userEvent.selectOptions(screen.getByLabelText("Relief"), "Engraved");
 
@@ -55,7 +138,15 @@ describe("BatchConfigEditor", () => {
   });
 
   it("renders the arc, disc, and Goal Influence shape editors with their own values once expanded", async () => {
-    render(<BatchConfigEditor sharedConfig={sharedConfig} onChange={vi.fn()} />);
+    render(
+      <BatchConfigEditor
+        sharedConfig={sharedConfig}
+        onChange={vi.fn()}
+        onExportSettings={vi.fn()}
+        onImportSettings={vi.fn()}
+        importSettingsError={undefined}
+      />,
+    );
 
     await openAdvancedSettings();
 
@@ -68,7 +159,15 @@ describe("BatchConfigEditor", () => {
   it("updates the Goal Influence shape independently from the generic disc shape", async () => {
     const onChange = vi.fn();
 
-    render(<BatchConfigEditor sharedConfig={sharedConfig} onChange={onChange} />);
+    render(
+      <BatchConfigEditor
+        sharedConfig={sharedConfig}
+        onChange={onChange}
+        onExportSettings={vi.fn()}
+        onImportSettings={vi.fn()}
+        importSettingsError={undefined}
+      />,
+    );
 
     await openAdvancedSettings();
 
@@ -83,7 +182,15 @@ describe("BatchConfigEditor", () => {
   it("updates the arc shape when the arc editor's ribbon width changes", async () => {
     const onChange = vi.fn();
 
-    render(<BatchConfigEditor sharedConfig={sharedConfig} onChange={onChange} />);
+    render(
+      <BatchConfigEditor
+        sharedConfig={sharedConfig}
+        onChange={onChange}
+        onExportSettings={vi.fn()}
+        onImportSettings={vi.fn()}
+        importSettingsError={undefined}
+      />,
+    );
 
     await openAdvancedSettings();
 
@@ -98,7 +205,15 @@ describe("BatchConfigEditor", () => {
   it("ignores an arc-shape onChange when the arc editor's type selector is switched to disc", async () => {
     const onChange = vi.fn();
 
-    render(<BatchConfigEditor sharedConfig={sharedConfig} onChange={onChange} />);
+    render(
+      <BatchConfigEditor
+        sharedConfig={sharedConfig}
+        onChange={onChange}
+        onExportSettings={vi.fn()}
+        onImportSettings={vi.fn()}
+        importSettingsError={undefined}
+      />,
+    );
 
     await openAdvancedSettings();
 
@@ -112,7 +227,15 @@ describe("BatchConfigEditor", () => {
   it("ignores a disc-shape onChange when the disc editor's type selector is switched to arc", async () => {
     const onChange = vi.fn();
 
-    render(<BatchConfigEditor sharedConfig={sharedConfig} onChange={onChange} />);
+    render(
+      <BatchConfigEditor
+        sharedConfig={sharedConfig}
+        onChange={onChange}
+        onExportSettings={vi.fn()}
+        onImportSettings={vi.fn()}
+        importSettingsError={undefined}
+      />,
+    );
 
     await openAdvancedSettings();
 
@@ -126,7 +249,15 @@ describe("BatchConfigEditor", () => {
   it("updates the title and subtitle sizes independently from advanced settings", async () => {
     const onChange = vi.fn();
 
-    render(<BatchConfigEditor sharedConfig={sharedConfig} onChange={onChange} />);
+    render(
+      <BatchConfigEditor
+        sharedConfig={sharedConfig}
+        onChange={onChange}
+        onExportSettings={vi.fn()}
+        onImportSettings={vi.fn()}
+        importSettingsError={undefined}
+      />,
+    );
 
     await openAdvancedSettings();
 
@@ -138,7 +269,15 @@ describe("BatchConfigEditor", () => {
   it("reports a body color change while preserving the text color group", async () => {
     const onChange = vi.fn();
 
-    render(<BatchConfigEditor sharedConfig={sharedConfig} onChange={onChange} />);
+    render(
+      <BatchConfigEditor
+        sharedConfig={sharedConfig}
+        onChange={onChange}
+        onExportSettings={vi.fn()}
+        onImportSettings={vi.fn()}
+        importSettingsError={undefined}
+      />,
+    );
 
     fireEvent.change(screen.getByLabelText("Body"), { target: { value: "#111111" } });
 

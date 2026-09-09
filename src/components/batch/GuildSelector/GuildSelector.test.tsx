@@ -6,42 +6,62 @@ import { describe, expect, it, vi } from "vitest";
 import { GuildSelector } from "./GuildSelector";
 
 describe("GuildSelector", () => {
-  it("lists each guild as an option and reports the selection", async () => {
+  it("renders each guild as a tile and reports the selection when clicked", async () => {
     const onSelect = vi.fn();
     const guilds = [
-      { id: "brewers", name: "Brewers" },
-      { id: "morticians", name: "Morticians" },
+      { id: "brewers", name: "Brewers", color: "#cdb320" },
+      { id: "morticians", name: "Morticians", color: "#1d2022" },
     ];
 
     render(<GuildSelector guilds={guilds} selectedGuildId="brewers" onSelect={onSelect} />);
 
-    const select = screen.getByLabelText("Guild");
+    expect(screen.getByRole("button", { name: "Brewers" })).toHaveAttribute("aria-pressed", "true");
+    expect(screen.getByRole("button", { name: "Morticians" })).toHaveAttribute(
+      "aria-pressed",
+      "false",
+    );
 
-    expect(select).toHaveValue("brewers");
-
-    await userEvent.selectOptions(select, "morticians");
+    await userEvent.click(screen.getByRole("button", { name: "Morticians" }));
 
     expect(onSelect).toHaveBeenCalledWith("morticians");
   });
 
-  it("renders no options when the guild list is empty", () => {
+  it("renders no tiles when the guild list is empty", () => {
     render(<GuildSelector guilds={[]} onSelect={vi.fn()} />);
 
-    expect(screen.queryAllByRole("option")).toHaveLength(0);
+    expect(screen.queryAllByRole("button")).toHaveLength(0);
   });
 
-  it("shows a placeholder instead of silently defaulting to the first guild when nothing is selected", async () => {
-    const onSelect = vi.fn();
-    const guilds = [{ id: "brewers", name: "Brewers" }];
+  it("marks every tile unselected when nothing is selected yet", () => {
+    const guilds = [{ id: "brewers", name: "Brewers", color: "#cdb320" }];
 
-    render(<GuildSelector guilds={guilds} onSelect={onSelect} />);
+    render(<GuildSelector guilds={guilds} onSelect={vi.fn()} />);
 
-    const select = screen.getByLabelText("Guild") as HTMLSelectElement;
-
-    expect(select.value).toBe("");
-
-    await userEvent.selectOptions(select, "brewers");
-
-    expect(onSelect).toHaveBeenCalledWith("brewers");
+    expect(screen.getByRole("button", { name: "Brewers" })).toHaveAttribute(
+      "aria-pressed",
+      "false",
+    );
   });
+
+  it("paints each guild's icon with its own color", () => {
+    const guilds = [{ id: "brewers", name: "Brewers", color: "#cdb320" }];
+
+    render(<GuildSelector guilds={guilds} onSelect={vi.fn()} />);
+
+    expect(screen.getByRole("img", { name: "Brewers" })).toHaveStyle({
+      backgroundColor: "#cdb320",
+    });
+  });
+
+  it("shows the guild name as a tooltip, not a permanent label", () => {
+    const guilds = [{ id: "brewers", name: "Brewers", color: "#cdb320" }];
+
+    render(<GuildSelector guilds={guilds} onSelect={vi.fn()} />);
+
+    const button = screen.getByRole("button", { name: "Brewers" });
+
+    expect(button).toHaveAttribute("title", "Brewers");
+    expect(button.children).toHaveLength(1);
+  });
+
 });

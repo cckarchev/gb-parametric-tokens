@@ -25,7 +25,7 @@ type UseBatchWorkerOptions = {
 // request, whichever flow issues it, draws from the same incrementing requestId (requestIdRef),
 // so a preview response only gets applied if nothing newer (another preview request or an
 // export request) has been issued since. Export responses are routed by matching
-// pendingExportRef instead, since exportZip needs to await a specific response rather than just
+// pendingExportRef instead, since exportThreeMf needs to await a specific response rather than just
 // watch the latest one.
 export const useBatchWorker = ({
   setPreviewItems,

@@ -20,6 +20,11 @@ const catalog: GuildCatalog = {
         { title: "Marked Target" },
       ],
     },
+    {
+      id: "keg",
+      name: "Keg",
+      tokens: [],
+    },
   ],
   genericTokens: [],
 };
@@ -50,5 +55,57 @@ describe("CharacterTokenList", () => {
     await userEvent.click(screen.getByLabelText("Marked Target"));
 
     expect(onChange).toHaveBeenCalledWith([characterTokenId("tapper", 0)]);
+  });
+
+  it("selects every token of a character when its select-all checkbox is checked", async () => {
+    const onChange = vi.fn();
+
+    render(<CharacterTokenList catalog={catalog} selectedTokenIds={[]} onChange={onChange} />);
+
+    await userEvent.click(screen.getByLabelText("Select all: Tapper"));
+
+    expect(onChange).toHaveBeenCalledWith([
+      characterTokenId("tapper", 0),
+      characterTokenId("tapper", 1),
+    ]);
+  });
+
+  it("deselects every token of a character when its select-all checkbox is unchecked", async () => {
+    const onChange = vi.fn();
+    const selectedTokenIds = [characterTokenId("tapper", 0), characterTokenId("tapper", 1)];
+
+    render(
+      <CharacterTokenList
+        catalog={catalog}
+        selectedTokenIds={selectedTokenIds}
+        onChange={onChange}
+      />,
+    );
+
+    expect(screen.getByLabelText("Select all: Tapper")).toBeChecked();
+
+    await userEvent.click(screen.getByLabelText("Select all: Tapper"));
+
+    expect(onChange).toHaveBeenCalledWith([]);
+  });
+
+  it("selects every character's tokens when the guild-wide select-all checkbox is checked", async () => {
+    const onChange = vi.fn();
+
+    render(<CharacterTokenList catalog={catalog} selectedTokenIds={[]} onChange={onChange} />);
+
+    await userEvent.click(screen.getByLabelText("Select all"));
+
+    expect(onChange).toHaveBeenCalledWith([
+      characterTokenId("tapper", 0),
+      characterTokenId("tapper", 1),
+    ]);
+  });
+
+  it("disables the select-all checkbox for a character with no tokens", () => {
+    render(<CharacterTokenList catalog={catalog} selectedTokenIds={[]} onChange={vi.fn()} />);
+
+    expect(screen.getByLabelText("Select all: Keg")).toBeDisabled();
+    expect(screen.getByText("No tokens")).toBeInTheDocument();
   });
 });

@@ -64,13 +64,19 @@ export const BatchEditor = () => {
               }
             />
 
-            <BatchConfigEditor sharedConfig={batch.sharedConfig} onChange={batch.setSharedConfig} />
+            <BatchConfigEditor
+              sharedConfig={batch.sharedConfig}
+              onChange={batch.setSharedConfig}
+              onExportSettings={batch.exportSettingsJson}
+              onImportSettings={batch.importSettingsJson}
+              importSettingsError={batch.importSettingsError}
+            />
 
             <BatchExportPanel
               isExporting={batch.isExporting}
               exportError={batch.exportError}
               exportFailures={batch.exportFailures}
-              onExport={batch.exportZip}
+              onExport={batch.exportThreeMf}
             />
           </>
         )}

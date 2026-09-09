@@ -1,11 +1,7 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
-import {
-  BatchSelection,
-  BatchSharedConfig,
-  characterTokenId,
-} from "../core/token/catalog/buildBatchItems";
-import { GuildCatalog } from "../core/token/catalog/catalogTypes";
+import { downloadBlob } from "../browser/downloadBlob";
+import { BatchSelection, BatchSharedConfig } from "../core/token/catalog/buildBatchItems";
 import { deriveReliefColor, TEXT_COLOR_GROUP_ID } from "../core/token/catalog/deriveReliefColor";
 import {
   DEFAULT_ARC_SHAPE,
@@ -36,38 +32,41 @@ const DEFAULT_GOAL_INFLUENCE_SHAPE: BatchSharedConfig["goalInfluenceShape"] = {
 const DEFAULT_TITLE_SIZE_MM = 3;
 const DEFAULT_SUBTITLE_SIZE_MM = 1.9;
 
-// The counts a batch starts with once a guild loads: picked by the user as sensible starting
-// quantities for a game, not a hard limit (every field stays user-editable). Generic tokens
-// (e.g. a guild's own "Beer Token") vary in which ones exist per guild, but each starts at the
-// same default count.
-const DEFAULT_INFLUENCE_COPIES = 13;
-const DEFAULT_MOMENTUM_COPIES = 10;
-const DEFAULT_GOAL_INFLUENCE_COPIES = 2;
-const DEFAULT_GENERIC_COPIES = 6;
-
+// Every token starts deselected: the user opts in to what they actually want printed, rather
+// than starting from "everything" and having to deselect what they don't need.
 const buildDefaultSelection = (): BatchSelection => ({
   characterTokenIds: [],
   genericCopies: {},
-  influenceCopies: DEFAULT_INFLUENCE_COPIES,
-  momentumCopies: DEFAULT_MOMENTUM_COPIES,
-  goalInfluenceCopies: DEFAULT_GOAL_INFLUENCE_COPIES,
+  influenceCopies: 0,
+  momentumCopies: 0,
+  goalInfluenceCopies: 0,
 });
 
-const buildSelectionForCatalog = (catalog: GuildCatalog): BatchSelection => {
-  const allCharacterTokenIds = catalog.characters.flatMap((character) =>
-    character.tokens.map((_, tokenIndex) => characterTokenId(character.id, tokenIndex)),
-  );
-  const defaultGenericCopies = Object.fromEntries(
-    catalog.genericTokens.map((generic) => [generic.id, DEFAULT_GENERIC_COPIES]),
-  );
+const SETTINGS_FILE_NAME = "batch-settings.json";
+const JSON_MIME_TYPE = "application/json";
 
-  return {
-    characterTokenIds: allCharacterTokenIds,
-    genericCopies: defaultGenericCopies,
-    influenceCopies: DEFAULT_INFLUENCE_COPIES,
-    momentumCopies: DEFAULT_MOMENTUM_COPIES,
-    goalInfluenceCopies: DEFAULT_GOAL_INFLUENCE_COPIES,
-  };
+// The fine-tuning settings (shapes, style, fit policy, colors...) live separately from the
+// per-run token selection, so they can be shared/reused across batches independently of which
+// tokens a given download happens to include.
+const isBatchSharedConfig = (value: unknown): value is BatchSharedConfig => {
+  if (typeof value !== "object" || value === null) {
+    return false;
+  }
+
+  const candidate = value as Partial<BatchSharedConfig>;
+
+  return (
+    typeof candidate.arcShape === "object" &&
+    typeof candidate.discShape === "object" &&
+    typeof candidate.goalInfluenceShape === "object" &&
+    typeof candidate.style === "object" &&
+    typeof candidate.fitPolicy === "object" &&
+    typeof candidate.printProfileId === "string" &&
+    Array.isArray(candidate.colorGroups) &&
+    typeof candidate.influenceIconId === "string" &&
+    typeof candidate.titleSizeMm === "number" &&
+    typeof candidate.subtitleSizeMm === "number"
+  );
 };
 
 export const useBatch = () => {
@@ -75,6 +74,7 @@ export const useBatch = () => {
     useGuildCatalog();
 
   const [selection, setSelection] = useState<BatchSelection>(buildDefaultSelection());
+  const [importSettingsError, setImportSettingsError] = useState<string>();
 
   const [sharedConfig, setSharedConfig] = useState<BatchSharedConfig>({
     arcShape: DEFAULT_ARC_SHAPE,
@@ -89,17 +89,15 @@ export const useBatch = () => {
     subtitleSizeMm: DEFAULT_SUBTITLE_SIZE_MM,
   });
 
-  // Every successful guild load resets the selection to "everything, at default counts" and
-  // seeds the two catalog-derived colors, the same reset buildSelectionForCatalog and this
-  // color block used to run inline inside selectGuild's own .then() before the guild-catalog
-  // concern moved into useGuildCatalog. Keying off `catalog`'s own identity (a fresh object
-  // every load) reproduces that exactly, since loadGuildCatalog never returns a cached object.
+  // Every successful guild load resets the selection back to "nothing selected" and seeds the
+  // two catalog-derived colors. Keying off `catalog`'s own identity (a fresh object every load)
+  // reproduces that reset reliably, since loadGuildCatalog never returns a cached object.
   useEffect(() => {
     if (!catalog) {
       return;
     }
 
-    setSelection(buildSelectionForCatalog(catalog));
+    setSelection(buildDefaultSelection());
     setSharedConfig((current) => ({
       ...current,
       influenceIconId: catalog.name,
@@ -125,14 +123,37 @@ export const useBatch = () => {
     pendingExportRef,
   } = useBatchPreview(catalog, selection, sharedConfig);
 
-  const { isExporting, exportError, exportFailures, exportZip } = useBatchExport(
+  const { isExporting, exportError, exportFailures, exportThreeMf } = useBatchExport(
     workerRef,
     requestIdRef,
     pendingExportRef,
     batchItems,
-    selection,
+    catalog?.name,
     sharedConfig,
   );
+
+  const exportSettingsJson = useCallback(() => {
+    const json = JSON.stringify(sharedConfig, null, 2);
+
+    downloadBlob(json, SETTINGS_FILE_NAME, JSON_MIME_TYPE);
+  }, [sharedConfig]);
+
+  const importSettingsJson = useCallback(async (file: File) => {
+    setImportSettingsError(undefined);
+
+    try {
+      const text = await file.text();
+      const parsed = JSON.parse(text);
+
+      if (!isBatchSharedConfig(parsed)) {
+        throw new Error("This file is not a valid batch settings file.");
+      }
+
+      setSharedConfig(parsed);
+    } catch (error) {
+      setImportSettingsError(error instanceof Error ? error.message : String(error));
+    }
+  }, []);
 
   return {
     guilds,
@@ -153,6 +174,9 @@ export const useBatch = () => {
     isExporting,
     exportError,
     exportFailures,
-    exportZip,
+    exportThreeMf,
+    exportSettingsJson,
+    importSettingsJson,
+    importSettingsError,
   };
 };

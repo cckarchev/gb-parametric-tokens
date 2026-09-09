@@ -1,82 +1,107 @@
 [
   {
     "id": "alchemists",
-    "name": "Alchemists"
+    "name": "Alchemists",
+    "color": "#4e9339"
   },
   {
     "id": "blacksmiths",
-    "name": "Blacksmiths"
+    "name": "Blacksmiths",
+    "color": "#82969f",
+    "iconScale": 1.015
   },
   {
     "id": "brewers",
-    "name": "Brewers"
+    "name": "Brewers",
+    "color": "#cdb320"
   },
   {
     "id": "butchers",
-    "name": "Butchers"
+    "name": "Butchers",
+    "color": "#ce1f27"
   },
   {
     "id": "cooks",
-    "name": "Cooks"
+    "name": "Cooks",
+    "color": "#eb2629",
+    "iconScale": 1
   },
   {
     "id": "engineers",
-    "name": "Engineers"
+    "name": "Engineers",
+    "color": "#76151e"
   },
   {
     "id": "falconers",
-    "name": "Falconers"
+    "name": "Falconers",
+    "color": "#39653b",
+    "iconScale": 1.45
   },
   {
     "id": "farmers",
-    "name": "Farmers"
+    "name": "Farmers",
+    "color": "#ea8329"
   },
   {
     "id": "fishermen",
-    "name": "Fishermen"
+    "name": "Fishermen",
+    "color": "#50b8c8"
   },
   {
     "id": "hunters",
-    "name": "Hunters"
+    "name": "Hunters",
+    "color": "#39653b"
   },
   {
     "id": "lamplighters",
-    "name": "Lamplighters"
+    "name": "Lamplighters",
+    "color": "#00994a"
   },
   {
     "id": "lumberjacks",
-    "name": "Lumberjacks"
+    "name": "Lumberjacks",
+    "color": "#416abb"
   },
   {
     "id": "masons",
-    "name": "Masons"
+    "name": "Masons",
+    "color": "#416abb"
   },
   {
     "id": "miners",
-    "name": "Miners"
+    "name": "Miners",
+    "color": "#76151e"
   },
   {
     "id": "morticians",
-    "name": "Morticians"
+    "name": "Morticians",
+    "color": "#1d2022"
   },
   {
     "id": "navigators",
-    "name": "Navigators"
+    "name": "Navigators",
+    "color": "#50b8c8",
+    "iconScale": 1.1
   },
   {
     "id": "order",
-    "name": "Order"
+    "name": "Order",
+    "color": "#ebed1a",
+    "iconScale": 1.15
   },
   {
     "id": "ratcatchers",
-    "name": "Ratcatchers"
+    "name": "Ratcatchers",
+    "color": "#1d2022"
   },
   {
     "id": "shepherds",
-    "name": "Shepherds"
+    "name": "Shepherds",
+    "color": "#ea8329"
   },
   {
     "id": "union",
-    "name": "Union"
+    "name": "Union",
+    "color": "#5b257f"
   }
 ]

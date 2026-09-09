@@ -8,7 +8,7 @@ const { useBatch } = await import("../../../hooks/useBatch");
 const { BatchEditor } = await import("./BatchEditor");
 
 const baseBatch = {
-  guilds: [{ id: "brewers", name: "Brewers" }],
+  guilds: [{ id: "brewers", name: "Brewers", color: "#cdb320" }],
   selectedGuildId: undefined,
   selectGuild: vi.fn(),
   catalogStatus: "idle",
@@ -39,7 +39,10 @@ const baseBatch = {
   isExporting: false,
   exportError: undefined,
   exportFailures: [],
-  exportZip: vi.fn(),
+  exportThreeMf: vi.fn(),
+  exportSettingsJson: vi.fn(),
+  importSettingsJson: vi.fn(),
+  importSettingsError: undefined,
 } as unknown as ReturnType<typeof useBatch>;
 
 describe("BatchEditor", () => {

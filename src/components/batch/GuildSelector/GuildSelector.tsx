@@ -1,5 +1,5 @@
 import { AvailableGuild } from "../../../browser/listAvailableGuilds";
-import { SelectField } from "../../primitives/SelectField/SelectField";
+import styles from "./GuildSelector.module.css";
 
 export type GuildSelectorProps = {
   guilds: AvailableGuild[];
@@ -7,26 +7,54 @@ export type GuildSelectorProps = {
   onSelect: (guildId: string) => void;
 };
 
-const NO_GUILD_SELECTED_VALUE = "";
+// Shared logo size, as a percentage of the tile, that already looks right for the vast majority
+// of guilds once their SVG's viewBox is cropped to its own ink bounding box (see
+// GuildSelector.module.css's .logo comment). A guild's optional iconScale multiplies this base
+// for the rare crest that still reads a touch small or large after that normalization.
+const LOGO_BASE_SIZE_PERCENT = 80;
 
 export const GuildSelector = ({ guilds, selectedGuildId, onSelect }: GuildSelectorProps) => {
-  const guildOptions = guilds.map((guild) => ({ value: guild.id, label: guild.name }));
-
-  // With `selectedGuildId` unset, the select's value falls back to the empty string. Without a
-  // matching empty option here, the browser silently displays the first real guild as if it were
-  // selected, and clicking that already-shown option never fires onChange (the value never
-  // actually changes), so a guild picked this way never reaches `onSelect`.
-  const options =
-    selectedGuildId === undefined && guildOptions.length > 0
-      ? [{ value: NO_GUILD_SELECTED_VALUE, label: "Select a guild..." }, ...guildOptions]
-      : guildOptions;
-
   return (
-    <SelectField
-      label="Guild"
-      value={selectedGuildId ?? NO_GUILD_SELECTED_VALUE}
-      options={options}
-      onChange={onSelect}
-    />
+    <div className={styles.grid} role="group" aria-label="Guild">
+      {guilds.map((guild) => {
+        const logoSizePercent = LOGO_BASE_SIZE_PERCENT * (guild.iconScale ?? 1);
+
+        return (
+          <button
+            key={guild.id}
+            type="button"
+            className={guild.id === selectedGuildId ? styles.tileSelected : styles.tile}
+            title={guild.name}
+            aria-pressed={guild.id === selectedGuildId}
+            onClick={() => onSelect(guild.id)}>
+            {/* Near-white badge is just the icon's own backing plate; the icon itself carries the
+                guild's color. The logo files are solid-black artwork with no way to recolor an
+                <img>, so the silhouette is painted via a CSS mask instead. Every /icons/*.svg has
+                its viewBox cropped to its own ink bounding box (see GuildSelector.module.css's
+                .logo comment), so a shared base size (LOGO_BASE_SIZE_PERCENT) renders every
+                guild at a consistent size with no per-guild tuning needed in the common case.
+                .badge and .logo are siblings stacked in the same grid cell (not nested) so their
+                sizes are independent: shrinking the white circle does not shrink the icon riding
+                on top of it. The guild name is a tooltip (the button's `title`) only, not a
+                permanent label. */}
+            <span className={styles.badgeStack}>
+              <span className={styles.badge} />
+              <span
+                className={styles.logo}
+                style={{
+                  backgroundColor: guild.color,
+                  maskImage: `url(/icons/${guild.name}.svg)`,
+                  WebkitMaskImage: `url(/icons/${guild.name}.svg)`,
+                  width: `${logoSizePercent}%`,
+                  height: `${logoSizePercent}%`,
+                }}
+                role="img"
+                aria-label={guild.name}
+              />
+            </span>
+          </button>
+        );
+      })}
+    </div>
   );
 };

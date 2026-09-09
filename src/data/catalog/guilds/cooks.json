@@ -8,14 +8,8 @@
       "name": "Shank",
       "tokens": [
         {
-          "title": "Damaged Target"
-        },
-        {
           "title": "Thousand Cuts",
           "subtitle": "-2 DEF"
-        },
-        {
-          "title": "Where'd They Go?"
         }
       ]
     },
@@ -24,13 +18,8 @@
       "name": "Tenderiser",
       "tokens": [
         {
-          "title": "Goal Defence"
-        },
-        {
-          "title": "Nose Out of Joint"
-        },
-        {
-          "title": "Ground Pound"
+          "title": "Nose Out of Joint",
+          "subtitle": "Furious"
         }
       ]
     },
@@ -39,16 +28,11 @@
       "name": "Wellington",
       "tokens": [
         {
-          "title": "Guild Rule: Intimidation"
-        },
-        {
-          "title": "Scathing Rebuke"
-        },
-        {
           "title": "Chef's Special"
         },
         {
-          "title": "Singled Out"
+          "title": "Singled Out",
+          "maxCopies": 2
         },
         {
           "title": "Master Chef"
@@ -58,36 +42,15 @@
     {
       "id": "pepper",
       "name": "Pepper",
-      "tokens": [
-        {
-          "title": "Guild Rule: Intimidation"
-        },
-        {
-          "title": "Feral"
-        },
-        {
-          "title": "Vicious"
-        },
-        {
-          "title": "Where'd They Go?"
-        }
-      ]
+      "tokens": []
     },
     {
       "id": "cinnamon",
       "name": "Cinnamon",
       "tokens": [
         {
-          "title": "Guild Rule: Intimidation"
-        },
-        {
-          "title": "Anatomical Precision"
-        },
-        {
-          "title": "Acrobatic"
-        },
-        {
-          "title": "Get Set, BAKE!"
+          "title": "Get Set, BAKE!",
+          "subtitle": "2\" Aura - +2\"/+2\" MOV"
         }
       ]
     },
@@ -96,61 +59,32 @@
       "name": "Roast",
       "tokens": [
         {
-          "title": "Guild Rule: Intimidation"
+          "title": "Resilience Used"
         },
         {
-          "title": "Big Belly"
-        },
-        {
-          "title": "Resilience"
-        },
-        {
-          "title": "Get It While It's Hot"
-        },
-        {
-          "title": "Turn Up the Heat"
+          "title": "Get It While It's Hot",
+          "subtitle": "2\" Aura - Charge for 1 less"
         }
       ]
     },
     {
       "id": "spice",
       "name": "Spice",
-      "tokens": [
-        {
-          "title": "Guild Rule: Intimidation"
-        },
-        {
-          "title": "Assist"
-        },
-        {
-          "title": "Berserk"
-        },
-        {
-          "title": "Intensify"
-        },
-        {
-          "title": "Turn Up the Heat"
-        }
-      ]
+      "tokens": []
     },
     {
       "id": "sugar",
       "name": "Sugar",
       "tokens": [
         {
-          "title": "Guild Rule: Intimidation"
-        },
-        {
-          "title": "Icing on the Cake"
-        },
-        {
-          "title": "Sturdy"
+          "title": "Sturdy Used"
         },
         {
           "title": "Chef's Special"
         },
         {
-          "title": "Chilli Cook Out"
+          "title": "Chilli Cook Out",
+          "extra": "AOE 3"
         }
       ]
     }

@@ -18,7 +18,7 @@ describe("BatchExportPanel", () => {
       />,
     );
 
-    await userEvent.click(screen.getByRole("button", { name: "Download batch (.zip)" }));
+    await userEvent.click(screen.getByRole("button", { name: "Download batch (.3mf)" }));
 
     expect(onExport).toHaveBeenCalledOnce();
   });

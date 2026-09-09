@@ -17,3 +17,25 @@
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.error {
+  composes: errorText from "../../../styles/errorText.module.css";
+  margin: 0;
+}

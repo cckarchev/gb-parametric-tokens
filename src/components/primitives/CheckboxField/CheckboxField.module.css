@@ -7,6 +7,12 @@
   cursor: pointer;
 }
 
+.rowDisabled {
+  composes: row;
+  color: var(--color-text-muted);
+  cursor: default;
+}
+
 .checkbox {
   width: 16px;
   height: 16px;

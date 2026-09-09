@@ -18,7 +18,7 @@ export const BatchExportPanel = ({
   return (
     <div className={styles.panel}>
       <Button
-        label={isExporting ? "Exporting..." : "Download batch (.zip)"}
+        label={isExporting ? "Exporting..." : "Download batch (.3mf)"}
         variant="primary"
         onClick={onExport}
         disabled={isExporting}

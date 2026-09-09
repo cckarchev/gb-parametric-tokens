@@ -58,7 +58,7 @@ beforeEach(() => {
   vi.stubGlobal("Worker", FakeWorker);
   vi.mocked(listAvailableGuilds)
     .mockReset()
-    .mockResolvedValue([{ id: "brewers", name: "Brewers" }]);
+    .mockResolvedValue([{ id: "brewers", name: "Brewers", color: "#cdb320" }]);
   vi.mocked(loadGuildCatalog).mockReset().mockResolvedValue(catalog);
   vi.mocked(downloadBlob).mockClear();
   vi.useFakeTimers();
@@ -74,7 +74,7 @@ describe("useBatch", () => {
     const { result } = renderHook(() => useBatch());
 
     await vi.waitFor(() => {
-      expect(result.current.guilds).toEqual([{ id: "brewers", name: "Brewers" }]);
+      expect(result.current.guilds).toEqual([{ id: "brewers", name: "Brewers", color: "#cdb320" }]);
     });
   });
 
@@ -82,14 +82,14 @@ describe("useBatch", () => {
     const { result } = renderHook(() => useBatch());
 
     await vi.waitFor(() => {
-      expect(result.current.guilds).toEqual([{ id: "brewers", name: "Brewers" }]);
+      expect(result.current.guilds).toEqual([{ id: "brewers", name: "Brewers", color: "#cdb320" }]);
     });
 
     expect(result.current.selectedGuildId).toBeUndefined();
     expect(loadGuildCatalog).not.toHaveBeenCalled();
   });
 
-  it("selects a guild, loads its catalog, and defaults the selection to every character token", async () => {
+  it("selects a guild, loads its catalog, and defaults the selection to nothing", async () => {
     const { result } = renderHook(() => useBatch());
 
     await act(async () => {
@@ -102,7 +102,11 @@ describe("useBatch", () => {
 
     expect(loadGuildCatalog).toHaveBeenCalledWith("brewers");
     expect(result.current.catalog).toEqual(catalog);
-    expect(result.current.selection.characterTokenIds).toEqual(["tapper-0", "tapper-1"]);
+    expect(result.current.selection.characterTokenIds).toEqual([]);
+    expect(result.current.selection.genericCopies).toEqual({});
+    expect(result.current.selection.influenceCopies).toBe(0);
+    expect(result.current.selection.momentumCopies).toBe(0);
+    expect(result.current.selection.goalInfluenceCopies).toBe(0);
     expect(result.current.sharedConfig.influenceIconId).toBe("Brewers");
   });
 
@@ -134,6 +138,10 @@ describe("useBatch", () => {
 
     await vi.waitFor(() => {
       expect(result.current.catalogStatus).toBe("ready");
+    });
+
+    act(() => {
+      result.current.setSelection({ ...result.current.selection, characterTokenIds: ["tapper-0"] });
     });
 
     await act(async () => {
@@ -170,7 +178,7 @@ describe("useBatch", () => {
     expect(result.current.isPreviewing).toBe(false);
   });
 
-  it("downloads a zip archive when the export succeeds", async () => {
+  it("downloads a .3mf file named after the guild when the export succeeds", async () => {
     const { result } = renderHook(() => useBatch());
 
     await act(async () => {
@@ -181,8 +189,12 @@ describe("useBatch", () => {
       expect(result.current.catalogStatus).toBe("ready");
     });
 
+    act(() => {
+      result.current.setSelection({ ...result.current.selection, characterTokenIds: ["tapper-0"] });
+    });
+
     const exportPromise = act(async () => {
-      await result.current.exportZip();
+      await result.current.exportThreeMf();
     });
 
     await vi.waitFor(() => {
@@ -210,7 +222,11 @@ describe("useBatch", () => {
 
     await exportPromise;
 
-    expect(downloadBlob).toHaveBeenCalledOnce();
+    expect(downloadBlob).toHaveBeenCalledWith(
+      new Uint8Array([1, 2, 3]),
+      "Brewers.3mf",
+      "model/3mf",
+    );
     expect(result.current.isExporting).toBe(false);
     expect(result.current.exportFailures).toEqual([]);
   });
@@ -226,8 +242,12 @@ describe("useBatch", () => {
       expect(result.current.catalogStatus).toBe("ready");
     });
 
+    act(() => {
+      result.current.setSelection({ ...result.current.selection, characterTokenIds: ["tapper-0"] });
+    });
+
     const exportPromise = act(async () => {
-      await result.current.exportZip();
+      await result.current.exportThreeMf();
     });
 
     await vi.waitFor(() => {
@@ -262,5 +282,61 @@ describe("useBatch", () => {
     expect(result.current.exportFailures).toEqual([
       { id: "tapper-0", label: "Tapper: Commanding Aura", reason: "Invalid mesh." },
     ]);
+  });
+
+  it("downloads the shared config as a settings JSON file", async () => {
+    const { result } = renderHook(() => useBatch());
+
+    act(() => {
+      result.current.exportSettingsJson();
+    });
+
+    expect(downloadBlob).toHaveBeenCalledWith(
+      JSON.stringify(result.current.sharedConfig, null, 2),
+      "batch-settings.json",
+      "application/json",
+    );
+  });
+
+  it("applies an imported settings file to the shared config", async () => {
+    const { result } = renderHook(() => useBatch());
+
+    const importedConfig = {
+      arcShape: { type: "arc", ribbonWidthMm: 20, ribbonLengthMm: 25, nobDiameterMm: 30 },
+      discShape: { type: "disc", diameterMm: 30 },
+      goalInfluenceShape: { type: "disc", diameterMm: 24 },
+      style: { relief: "engraved", reliefHeightMm: 0.8, baseThicknessMm: 4 },
+      fitPolicy: { minTracking: 0, maxTracking: 0.2, minScale: 0.6, allowTwoLines: false },
+      printProfileId: "fdm-04",
+      colorGroups: [{ id: "base", name: "Body", color: "#123456" }],
+      influenceIconId: "blank",
+      titleSizeMm: 5,
+      subtitleSizeMm: 3,
+    };
+    const file = new File([JSON.stringify(importedConfig)], "settings.json", {
+      type: "application/json",
+    });
+
+    await act(async () => {
+      await result.current.importSettingsJson(file);
+    });
+
+    expect(result.current.sharedConfig).toEqual(importedConfig);
+    expect(result.current.importSettingsError).toBeUndefined();
+  });
+
+  it("reports an error and keeps the current config when the imported file is invalid", async () => {
+    const { result } = renderHook(() => useBatch());
+    const originalConfig = result.current.sharedConfig;
+    const file = new File(["{}"], "settings.json", { type: "application/json" });
+
+    await act(async () => {
+      await result.current.importSettingsJson(file);
+    });
+
+    expect(result.current.importSettingsError).toBe(
+      "This file is not a valid batch settings file.",
+    );
+    expect(result.current.sharedConfig).toEqual(originalConfig);
   });
 });
