@@ -39,19 +39,6 @@ export const BatchConfigEditor = ({
 
   return (
     <div className={styles.wrapper}>
-      <Panel title="Fine-tuning settings" defaultExpanded={false}>
-        <div className={styles.row}>
-          <Button label="Export settings (.json)" onClick={onExportSettings} />
-        </div>
-
-        <label className={styles.field}>
-          <span className={styles.label}>Import settings (.json)</span>
-          <input type="file" accept="application/json" onChange={handleSettingsFileChange} />
-        </label>
-
-        {importSettingsError && <p className={styles.error}>{importSettingsError}</p>}
-      </Panel>
-
       <PrintProfileSelector
         printProfileId={sharedConfig.printProfileId}
         onChange={(printProfileId) => onChange({ ...sharedConfig, printProfileId })}
@@ -72,6 +59,20 @@ export const BatchConfigEditor = ({
       />
 
       <Panel title="Advanced settings" defaultExpanded={false}>
+        <div className={styles.group}>
+          <h3 className={styles.groupTitle}>Settings file</h3>
+          <div className={styles.row}>
+            <Button label="Export settings (.json)" onClick={onExportSettings} />
+          </div>
+
+          <label className={styles.field}>
+            <span className={styles.label}>Import settings (.json)</span>
+            <input type="file" accept="application/json" onChange={handleSettingsFileChange} />
+          </label>
+
+          {importSettingsError && <p className={styles.error}>{importSettingsError}</p>}
+        </div>
+
         <div className={styles.group}>
           <h3 className={styles.groupTitle}>Arc tokens (character effects)</h3>
           <ShapeEditor

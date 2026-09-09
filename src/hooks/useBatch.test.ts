@@ -104,10 +104,10 @@ describe("useBatch", () => {
     expect(result.current.catalog).toEqual(catalog);
     expect(result.current.selection.characterTokenIds).toEqual([]);
     expect(result.current.selection.characterTokenCopies).toEqual({});
-    expect(result.current.selection.genericCopies).toEqual({});
-    expect(result.current.selection.influenceCopies).toBe(0);
-    expect(result.current.selection.momentumCopies).toBe(0);
-    expect(result.current.selection.goalInfluenceCopies).toBe(0);
+    expect(result.current.selection.genericTokens).toEqual({});
+    expect(result.current.selection.influence).toEqual({ enabled: false, copies: 13 });
+    expect(result.current.selection.momentum).toEqual({ enabled: false, copies: 15 });
+    expect(result.current.selection.goalInfluence).toEqual({ enabled: false, copies: 2 });
     expect(result.current.sharedConfig.influenceIconId).toBe("Brewers");
   });
 

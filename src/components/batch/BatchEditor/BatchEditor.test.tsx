@@ -17,10 +17,10 @@ const baseBatch = {
   selection: {
     characterTokenIds: [],
     characterTokenCopies: {},
-    genericCopies: {},
-    influenceCopies: 0,
-    momentumCopies: 0,
-    goalInfluenceCopies: 0,
+    genericTokens: {},
+    influence: { enabled: false, copies: 1 },
+    momentum: { enabled: false, copies: 1 },
+    goalInfluence: { enabled: false, copies: 1 },
   },
   setSelection: vi.fn(),
   sharedConfig: {
@@ -53,7 +53,7 @@ describe("BatchEditor", () => {
     render(<BatchEditor />);
 
     expect(screen.getByRole("group", { name: "Guild" })).toBeInTheDocument();
-    expect(screen.queryByLabelText("Influence tokens (0-20)")).not.toBeInTheDocument();
+    expect(screen.queryByLabelText("Influence tokens")).not.toBeInTheDocument();
   });
 
   it("shows a loading message while the catalog loads", () => {
@@ -91,8 +91,8 @@ describe("BatchEditor", () => {
 
     render(<BatchEditor />);
 
-    expect(screen.getByLabelText("Influence tokens (0-20)")).toBeInTheDocument();
-    expect(screen.getByLabelText("Momentum tokens (0-20)")).toBeInTheDocument();
+    expect(screen.getByLabelText("Influence tokens")).toBeInTheDocument();
+    expect(screen.getByLabelText("Momentum tokens")).toBeInTheDocument();
     expect(screen.getByLabelText("Beer Token")).toBeInTheDocument();
   });
 });

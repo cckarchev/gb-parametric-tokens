@@ -32,15 +32,21 @@ const DEFAULT_GOAL_INFLUENCE_SHAPE: BatchSharedConfig["goalInfluenceShape"] = {
 const DEFAULT_TITLE_SIZE_MM = 3;
 const DEFAULT_SUBTITLE_SIZE_MM = 1.9;
 
+// Every counter's starting copies count, before its checkbox is ever touched (user feedback: a
+// typical Guild Ball game's own real quantities, not just each field's bare minimum).
+const DEFAULT_INFLUENCE_COPIES = 13;
+const DEFAULT_MOMENTUM_COPIES = 15;
+const DEFAULT_GOAL_INFLUENCE_COPIES = 2;
+
 // Every token starts deselected: the user opts in to what they actually want printed, rather
 // than starting from "everything" and having to deselect what they don't need.
 const buildDefaultSelection = (): BatchSelection => ({
   characterTokenIds: [],
   characterTokenCopies: {},
-  genericCopies: {},
-  influenceCopies: 0,
-  momentumCopies: 0,
-  goalInfluenceCopies: 0,
+  genericTokens: {},
+  influence: { enabled: false, copies: DEFAULT_INFLUENCE_COPIES },
+  momentum: { enabled: false, copies: DEFAULT_MOMENTUM_COPIES },
+  goalInfluence: { enabled: false, copies: DEFAULT_GOAL_INFLUENCE_COPIES },
 });
 
 const SETTINGS_FILE_NAME = "batch-settings.json";

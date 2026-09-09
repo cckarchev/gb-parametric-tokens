@@ -41,31 +41,37 @@ export const BatchEditor = () => {
                 catalog={batch.catalog}
                 selectedTokenIds={batch.selection.characterTokenIds}
                 onSelectedTokenIdsChange={(characterTokenIds) =>
-                  batch.setSelection({ ...batch.selection, characterTokenIds })
+                  batch.setSelection((selection) => ({ ...selection, characterTokenIds }))
                 }
                 tokenCopies={batch.selection.characterTokenCopies}
                 onTokenCopiesChange={(characterTokenCopies) =>
-                  batch.setSelection({ ...batch.selection, characterTokenCopies })
+                  batch.setSelection((selection) => ({ ...selection, characterTokenCopies }))
                 }
               />
 
+              {/* Functional updates (not `{ ...batch.selection, field }`) below: GuildTokenList's
+                  own "Select all" fires all four of these onChange callbacks synchronously in one
+                  click handler, and each one needs to build on the previous call's result, not on
+                  the single `batch.selection` snapshot this render closed over -- otherwise only
+                  the last of the four calls would actually stick (a real, user-caught bug: the
+                  checkbox looked like it did nothing). */}
               <GuildTokenList
                 catalog={batch.catalog}
-                genericCopies={batch.selection.genericCopies}
-                onGenericCopiesChange={(genericCopies) =>
-                  batch.setSelection({ ...batch.selection, genericCopies })
+                genericTokens={batch.selection.genericTokens}
+                onGenericTokensChange={(genericTokens) =>
+                  batch.setSelection((selection) => ({ ...selection, genericTokens }))
                 }
-                influenceCopies={batch.selection.influenceCopies}
-                onInfluenceCopiesChange={(influenceCopies) =>
-                  batch.setSelection({ ...batch.selection, influenceCopies })
+                influence={batch.selection.influence}
+                onInfluenceChange={(influence) =>
+                  batch.setSelection((selection) => ({ ...selection, influence }))
                 }
-                momentumCopies={batch.selection.momentumCopies}
-                onMomentumCopiesChange={(momentumCopies) =>
-                  batch.setSelection({ ...batch.selection, momentumCopies })
+                momentum={batch.selection.momentum}
+                onMomentumChange={(momentum) =>
+                  batch.setSelection((selection) => ({ ...selection, momentum }))
                 }
-                goalInfluenceCopies={batch.selection.goalInfluenceCopies}
-                onGoalInfluenceCopiesChange={(goalInfluenceCopies) =>
-                  batch.setSelection({ ...batch.selection, goalInfluenceCopies })
+                goalInfluence={batch.selection.goalInfluence}
+                onGoalInfluenceChange={(goalInfluence) =>
+                  batch.setSelection((selection) => ({ ...selection, goalInfluence }))
                 }
               />
 

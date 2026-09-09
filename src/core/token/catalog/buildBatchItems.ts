@@ -5,16 +5,24 @@ import { TEXT_COLOR_GROUP_ID } from "./deriveReliefColor";
 
 export type BatchItem = { id: string; label: string; spec: TokenSpec; copies: number };
 
+// Shared by every guild-level counter (Influence, Momentum, Goal Influence, and each generic
+// token): whether it's included in the batch at all, plus how many copies to print once it is.
+// Kept as one object (not a separate enabled-map alongside a copies-map) so a single field can't
+// drift out of sync with its own counter. `copies` is left untouched while `enabled` is false, so
+// re-checking a counter restores its last count instead of resetting to the field's minimum --
+// the same behavior characterTokenCopies already has for character tokens (see below).
+export type CounterSelection = { enabled: boolean; copies: number };
+
 export type BatchSelection = {
   characterTokenIds: string[];
   // Copies for a selected character token whose catalog entry sets maxCopies > 1. Not consulted
   // for tokens with no maxCopies (those always print 1 copy) and left untouched when a token is
   // deselected, so re-selecting it restores the count instead of resetting to 1.
   characterTokenCopies: Record<string, number>;
-  genericCopies: Record<string, number>;
-  influenceCopies: number;
-  momentumCopies: number;
-  goalInfluenceCopies: number;
+  genericTokens: Record<string, CounterSelection>;
+  influence: CounterSelection;
+  momentum: CounterSelection;
+  goalInfluence: CounterSelection;
 };
 
 export type BatchSharedConfig = {
@@ -250,9 +258,9 @@ export const buildBatchItems = (
   }
 
   for (const generic of catalog.genericTokens) {
-    const copies = selection.genericCopies[generic.id] ?? 0;
+    const counter = selection.genericTokens[generic.id];
 
-    if (copies <= 0) {
+    if (!counter?.enabled) {
       continue;
     }
 
@@ -260,34 +268,34 @@ export const buildBatchItems = (
       id: generic.id,
       label: generic.name,
       spec: buildGenericTokenSpec(generic, guildIconId, sharedConfig),
-      copies,
+      copies: counter.copies,
     });
   }
 
-  if (selection.influenceCopies > 0) {
+  if (selection.influence.enabled) {
     items.push({
       id: "influence",
       label: "Influence",
       spec: buildInfluenceTokenSpec(sharedConfig),
-      copies: selection.influenceCopies,
+      copies: selection.influence.copies,
     });
   }
 
-  if (selection.momentumCopies > 0) {
+  if (selection.momentum.enabled) {
     items.push({
       id: "momentum",
       label: "Momentum",
       spec: buildMomentumTokenSpec(sharedConfig),
-      copies: selection.momentumCopies,
+      copies: selection.momentum.copies,
     });
   }
 
-  if (selection.goalInfluenceCopies > 0) {
+  if (selection.goalInfluence.enabled) {
     items.push({
       id: "goal-influence",
       label: "Goal Influence",
       spec: buildGoalInfluenceTokenSpec(guildIconId, sharedConfig),
-      copies: selection.goalInfluenceCopies,
+      copies: selection.goalInfluence.copies,
     });
   }
 

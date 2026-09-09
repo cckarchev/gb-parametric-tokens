@@ -40,7 +40,7 @@ describe("BatchConfigEditor", () => {
       />,
     );
 
-    await userEvent.click(screen.getByRole("button", { name: "Fine-tuning settings" }));
+    await openAdvancedSettings();
     await userEvent.click(screen.getByRole("button", { name: "Export settings (.json)" }));
 
     expect(onExportSettings).toHaveBeenCalledOnce();
@@ -59,7 +59,7 @@ describe("BatchConfigEditor", () => {
       />,
     );
 
-    await userEvent.click(screen.getByRole("button", { name: "Fine-tuning settings" }));
+    await openAdvancedSettings();
 
     const file = new File(['{"printProfileId":"fdm-04"}'], "settings.json", {
       type: "application/json",
@@ -81,7 +81,7 @@ describe("BatchConfigEditor", () => {
       />,
     );
 
-    await userEvent.click(screen.getByRole("button", { name: "Fine-tuning settings" }));
+    await openAdvancedSettings();
 
     expect(screen.getByText("This file is not a valid batch settings file.")).toBeInTheDocument();
   });

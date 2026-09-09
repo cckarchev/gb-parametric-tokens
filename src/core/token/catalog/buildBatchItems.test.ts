@@ -46,10 +46,10 @@ const sharedConfig: BatchSharedConfig = {
 const emptySelection: BatchSelection = {
   characterTokenIds: [],
   characterTokenCopies: {},
-  genericCopies: {},
-  influenceCopies: 0,
-  momentumCopies: 0,
-  goalInfluenceCopies: 0,
+  genericTokens: {},
+  influence: { enabled: false, copies: 1 },
+  momentum: { enabled: false, copies: 1 },
+  goalInfluence: { enabled: false, copies: 1 },
 };
 
 const catalogWithMultiCopyToken: GuildCatalog = {
@@ -177,30 +177,30 @@ describe("buildBatchItems", () => {
     expect(items[0].copies).toBe(1);
   });
 
-  it("excludes generic tokens with zero copies and includes them with the chosen count", () => {
-    const zeroCopies = buildBatchItems(
+  it("excludes a disabled generic token and includes an enabled one with its chosen count", () => {
+    const disabled = buildBatchItems(
       catalog,
-      { ...emptySelection, genericCopies: { "beer-token": 0 } },
+      { ...emptySelection, genericTokens: { "beer-token": { enabled: false, copies: 3 } } },
       sharedConfig,
     );
 
-    expect(zeroCopies).toHaveLength(0);
+    expect(disabled).toHaveLength(0);
 
-    const threeCopies = buildBatchItems(
+    const enabled = buildBatchItems(
       catalog,
-      { ...emptySelection, genericCopies: { "beer-token": 3 } },
+      { ...emptySelection, genericTokens: { "beer-token": { enabled: true, copies: 3 } } },
       sharedConfig,
     );
 
-    expect(threeCopies).toHaveLength(1);
-    expect(threeCopies[0].copies).toBe(3);
-    expect(threeCopies[0].spec.shape).toEqual(sharedConfig.discShape);
+    expect(enabled).toHaveLength(1);
+    expect(enabled[0].copies).toBe(3);
+    expect(enabled[0].spec.shape).toEqual(sharedConfig.discShape);
   });
 
   it("includes a single, unnumbered Influence item carrying the requested copies count", () => {
     const items = buildBatchItems(
       catalog,
-      { ...emptySelection, influenceCopies: 13 },
+      { ...emptySelection, influence: { enabled: true, copies: 13 } },
       sharedConfig,
     );
 
@@ -214,14 +214,22 @@ describe("buildBatchItems", () => {
     ]);
   });
 
-  it("generates no Influence item when influenceCopies is 0", () => {
-    const items = buildBatchItems(catalog, { ...emptySelection, influenceCopies: 0 }, sharedConfig);
+  it("generates no Influence item when influence is disabled", () => {
+    const items = buildBatchItems(
+      catalog,
+      { ...emptySelection, influence: { enabled: false, copies: 13 } },
+      sharedConfig,
+    );
 
     expect(items).toHaveLength(0);
   });
 
   it("includes a single Momentum item with fixed 'MP' text and a plain ring border, no covering icon", () => {
-    const items = buildBatchItems(catalog, { ...emptySelection, momentumCopies: 10 }, sharedConfig);
+    const items = buildBatchItems(
+      catalog,
+      { ...emptySelection, momentum: { enabled: true, copies: 10 } },
+      sharedConfig,
+    );
 
     expect(items).toHaveLength(1);
     expect(items[0].id).toBe("momentum");
@@ -236,8 +244,12 @@ describe("buildBatchItems", () => {
     ]);
   });
 
-  it("generates no Momentum item when momentumCopies is 0", () => {
-    const items = buildBatchItems(catalog, { ...emptySelection, momentumCopies: 0 }, sharedConfig);
+  it("generates no Momentum item when momentum is disabled", () => {
+    const items = buildBatchItems(
+      catalog,
+      { ...emptySelection, momentum: { enabled: false, copies: 10 } },
+      sharedConfig,
+    );
 
     expect(items).toHaveLength(0);
   });
@@ -245,7 +257,7 @@ describe("buildBatchItems", () => {
   it("includes a single Goal Influence item carrying the requested copies count, ring-styled with the guild icon centered", () => {
     const items = buildBatchItems(
       catalog,
-      { ...emptySelection, goalInfluenceCopies: 2 },
+      { ...emptySelection, goalInfluence: { enabled: true, copies: 2 } },
       sharedConfig,
     );
 
@@ -263,10 +275,10 @@ describe("buildBatchItems", () => {
     ]);
   });
 
-  it("generates no Goal Influence item when goalInfluenceCopies is 0", () => {
+  it("generates no Goal Influence item when goalInfluence is disabled", () => {
     const items = buildBatchItems(
       catalog,
-      { ...emptySelection, goalInfluenceCopies: 0 },
+      { ...emptySelection, goalInfluence: { enabled: false, copies: 2 } },
       sharedConfig,
     );
 
