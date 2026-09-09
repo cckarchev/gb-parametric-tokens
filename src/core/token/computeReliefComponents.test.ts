@@ -319,18 +319,69 @@ describe("computeReliefComponents", () => {
     expect(result.warnings.some((warning) => warning.includes("truncated"))).toBe(true);
   });
 
-  it("runs validateMinStrokeWidth over every contour combined", async () => {
+  it("tags each relief component with its own origin (text, icon, or decoration)", async () => {
     const font = loadTestFont();
 
     const result = await computeReliefComponents(
-      discSpec(),
+      discSpec({ lines: [{ text: "12", sizeMm: 5 }] }),
       font,
       printProfile,
       stubLoadIconSource,
     );
 
-    expect(result.validation.featureCount).toBeGreaterThan(0);
-    expect(typeof result.validation.valid).toBe("boolean");
+    const sources = result.reliefComponents.map((component) => component.source);
+
+    expect(sources).toContainEqual({ kind: "icon", iconId: "ball" });
+    expect(sources).toContainEqual({ kind: "text", text: "12" });
+  });
+
+  it("is valid with no component failures when every detail is thick enough to print", async () => {
+    const font = loadTestFont();
+
+    const result = await computeReliefComponents(
+      discSpec({ icons: [], lines: [{ text: "12", sizeMm: 8 }] }),
+      font,
+      printProfile,
+      stubLoadIconSource,
+    );
+
+    expect(result.valid).toBe(true);
+    expect(result.componentFailures).toEqual([]);
+  });
+
+  it("names the specific text line that failed the min-stroke-width check, not just a total count", async () => {
+    const font = loadTestFont();
+
+    // fdm-04's minStrokeWidthMm is 0.45mm; a hairline-small line renders well below that.
+    const result = await computeReliefComponents(
+      discSpec({ icons: [], lines: [{ text: "l", sizeMm: 0.3 }] }),
+      font,
+      printProfile,
+      stubLoadIconSource,
+    );
+
+    expect(result.valid).toBe(false);
+    expect(result.componentFailures).toHaveLength(1);
+    expect(result.componentFailures[0].source).toEqual({ kind: "text", text: "l" });
+    expect(result.componentFailures[0].vanishedFeatureCount).toBeGreaterThan(0);
+  });
+
+  it("keeps a chunky icon out of the failures list even when a hairline text line beside it fails", async () => {
+    const font = loadTestFont();
+
+    const result = await computeReliefComponents(
+      discSpec({
+        icons: [{ iconId: "ball", side: "center", scale: 0.7 }],
+        lines: [{ text: "l", sizeMm: 0.3 }],
+      }),
+      font,
+      printProfile,
+      stubLoadIconSource,
+    );
+
+    expect(result.valid).toBe(false);
+    expect(result.componentFailures).toHaveLength(1);
+    expect(result.componentFailures[0].source).toEqual({ kind: "text", text: "l" });
   });
 
   const ringSpec = (overrides: Partial<TokenSpec> = {}): TokenSpec => ({

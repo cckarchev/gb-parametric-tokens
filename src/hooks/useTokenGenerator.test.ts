@@ -278,11 +278,15 @@ describe("useTokenGenerator", () => {
           {
             id: "tapper-0",
             label: "Tapper: Commanding Aura",
+            group: "Tapper",
+            title: "Commanding Aura",
             shape: { type: "disc", diameterMm: 10 },
             baseContours: [],
             reliefComponents: [],
             warnings: [],
             copies: 1,
+            valid: true,
+            reason: "",
           },
         ],
         validCount: 1,
@@ -293,6 +297,79 @@ describe("useTokenGenerator", () => {
     expect(result.current.previewItems).toHaveLength(1);
     expect(result.current.validCount).toBe(1);
     expect(result.current.isPreviewing).toBe(false);
+  });
+
+  it("lists only the invalid preview items, grouped by character", async () => {
+    const { result } = renderHook(() => useTokenGenerator());
+
+    await act(async () => {
+      result.current.selectGuild("brewers");
+    });
+
+    await vi.waitFor(() => {
+      expect(result.current.catalogStatus).toBe("ready");
+    });
+
+    act(() => {
+      result.current.setSelection({ ...result.current.selection, characterTokenIds: ["tapper-0"] });
+    });
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(300);
+    });
+
+    const worker = FakeWorker.instances[0];
+    const request = lastPostedRequest(worker);
+
+    if (request.kind !== "preview") {
+      throw new Error("expected a preview request");
+    }
+
+    await act(async () => {
+      worker.emit({
+        kind: "preview",
+        requestId: request.requestId,
+        results: [
+          {
+            id: "tapper-0",
+            label: "Tapper: Commanding Aura",
+            group: "Tapper",
+            title: "Commanding Aura",
+            shape: { type: "disc", diameterMm: 10 },
+            baseContours: [],
+            reliefComponents: [],
+            warnings: [],
+            copies: 1,
+            valid: true,
+            reason: "",
+          },
+          {
+            id: "tapper-1",
+            label: "Tapper: Marked Target",
+            group: "Tapper",
+            title: "Marked Target",
+            shape: { type: "disc", diameterMm: 10 },
+            baseContours: [],
+            reliefComponents: [],
+            warnings: [],
+            copies: 1,
+            valid: false,
+            reason: "1 of 3 details (text or icon) too thin to print at this size.",
+          },
+        ],
+        validCount: 1,
+        invalidCount: 1,
+      });
+    });
+
+    expect(result.current.invalidPreviewItems).toEqual([
+      {
+        id: "tapper-1",
+        group: "Tapper",
+        title: "Marked Target",
+        reason: "1 of 3 details (text or icon) too thin to print at this size.",
+      },
+    ]);
   });
 
   it("downloads a .3mf file named after the guild when the export succeeds", async () => {

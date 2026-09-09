@@ -164,7 +164,7 @@ export const computeArcReliefComponents = async (
       ),
     );
 
-    return { contours, colorGroup: line.colorGroup };
+    return { contours, colorGroup: line.colorGroup, source: { kind: "text", text: line.text } };
   });
 
   return [...iconComponents, ...lineComponents];

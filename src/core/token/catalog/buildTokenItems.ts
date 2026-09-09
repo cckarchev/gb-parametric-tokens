@@ -3,7 +3,17 @@ import { ColorGroupSpec, FitPolicy, StyleSpec, TokenSpec } from "../types";
 import { CatalogGenericToken, CatalogTokenSpec, GuildCatalog } from "./catalogTypes";
 import { TEXT_COLOR_GROUP_ID } from "./deriveReliefColor";
 
-export type TokenItem = { id: string; label: string; spec: TokenSpec; copies: number };
+export type TokenItem = {
+  id: string;
+  label: string;
+  // The character a token belongs to, undefined for anything that isn't a character token
+  // (guild generics, Influence, Momentum, Goal Influence) -- lets the "needs attention" list
+  // group a character's tokens together instead of repeating their name on every line.
+  group?: string;
+  title: string;
+  spec: TokenSpec;
+  copies: number;
+};
 
 // Shared by every guild-level counter (Influence, Momentum, Goal Influence, and each generic
 // token): whether it's included in the run at all, plus how many copies to print once it is.
@@ -270,6 +280,8 @@ export const buildTokenItems = (
       items.push({
         id,
         label: `${character.name}: ${token.title}`,
+        group: character.name,
+        title: token.title,
         spec: buildCharacterTokenSpec(token, guildIconId, sharedConfig),
         copies,
       });
@@ -286,6 +298,7 @@ export const buildTokenItems = (
     items.push({
       id: generic.id,
       label: generic.name,
+      title: generic.name,
       spec: buildGenericTokenSpec(generic, guildIconId, sharedConfig),
       copies: counter.copies,
     });
@@ -295,6 +308,7 @@ export const buildTokenItems = (
     items.push({
       id: "influence",
       label: "Influence",
+      title: "Influence",
       spec: buildInfluenceTokenSpec(sharedConfig),
       copies: selection.influence.copies,
     });
@@ -304,6 +318,7 @@ export const buildTokenItems = (
     items.push({
       id: "momentum",
       label: "Momentum",
+      title: "Momentum",
       spec: buildMomentumTokenSpec(sharedConfig),
       copies: selection.momentum.copies,
     });
@@ -313,6 +328,7 @@ export const buildTokenItems = (
     items.push({
       id: "goal-influence",
       label: "Goal Influence",
+      title: "Goal Influence",
       spec: buildGoalInfluenceTokenSpec(guildIconId, sharedConfig),
       copies: selection.goalInfluence.copies,
     });

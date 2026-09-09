@@ -39,6 +39,7 @@ const baseGenerator = {
   isPreviewing: false,
   validCount: 0,
   invalidCount: 0,
+  invalidPreviewItems: [],
   isExporting: false,
   exportError: undefined,
   exportFailures: [],

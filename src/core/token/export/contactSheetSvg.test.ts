@@ -418,4 +418,86 @@ describe("buildContactSheetSvg", () => {
 
     expect(svg).not.toContain('data-role="base-reference-circle"');
   });
+
+  it("marks an invalid item's cell with an attention marker naming it and its specific reason, and none for a valid one", () => {
+    const items = [
+      {
+        shape: discShape,
+        baseContours: squareContour(10),
+        reliefComponents: [],
+        copies: 1,
+        label: "Beer Token",
+        valid: false,
+        reason: "2 of 5 details (text or icon) too thin to print at this size.",
+      },
+      {
+        shape: discShape,
+        baseContours: squareContour(10),
+        reliefComponents: [],
+        copies: 1,
+        label: "Coin",
+        valid: true,
+        reason: "",
+      },
+    ];
+
+    const { svg } = buildContactSheetSvg(items, 2, colorGroups);
+
+    expect(countOccurrences(svg, 'data-role="attention-marker"')).toBe(1);
+    expect(svg).toContain(
+      "<title>Beer Token: 2 of 5 details (text or icon) too thin to print at this size.</title>",
+    );
+    expect(svg).not.toContain("<title>Coin: ");
+  });
+
+  it("fits the attention marker tightly to the item's own content, not the whole padded/grid-aligned cell", () => {
+    const items = [
+      {
+        shape: discShape,
+        baseContours: squareContour(10),
+        reliefComponents: [],
+        copies: 1,
+        label: "Beer Token",
+        valid: false,
+        reason: "2 of 5 details too thin to print at this size.",
+      },
+    ];
+
+    const { svg } = buildContactSheetSvg(items, 1, colorGroups);
+
+    // Cell: 10mm content + 2*2mm padding = 14mm, rounded up to the 20mm grid-vertex step, so the
+    // full cell is 20x20 -- a marker sized to that would be twice the item's own 10x10 content.
+    // Centered in that cell, the content's own tight box sits at (5,5)-(15,15).
+    expect(svg).toContain(
+      '<rect x="5" y="5" width="10" height="10" fill="none" stroke="#ff6b6b" stroke-width="0.6" stroke-dasharray="2 1" />',
+    );
+  });
+
+  it("leaves an item with no valid flag unmarked", () => {
+    const items = [
+      { shape: discShape, baseContours: squareContour(10), reliefComponents: [], copies: 1 },
+    ];
+
+    const { svg } = buildContactSheetSvg(items, 1, colorGroups);
+
+    expect(svg).not.toContain('data-role="attention-marker"');
+  });
+
+  it("marks every physical copy of an invalid item, not just the first", () => {
+    const items = [
+      {
+        shape: discShape,
+        baseContours: squareContour(10),
+        reliefComponents: [],
+        copies: 3,
+        label: "Beer Token",
+        valid: false,
+        reason: "1 of 1 detail (text or icon) too thin to print at this size.",
+      },
+    ];
+
+    const { svg } = buildContactSheetSvg(items, 3, colorGroups);
+
+    expect(countOccurrences(svg, 'data-role="attention-marker"')).toBe(3);
+  });
 });

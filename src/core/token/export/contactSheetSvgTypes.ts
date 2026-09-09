@@ -6,12 +6,21 @@ export type ContactSheetItem = {
   baseContours: Vec2[][];
   reliefComponents: ReliefComponent[];
   copies: number;
+  // All optional: geometry-only tests (contactSheetSvg.test.ts) build items with no identity of
+  // their own, and only the real token pipeline (TokenPreview.tsx) supplies these. A missing
+  // `valid` renders as unmarked, the same as `valid: true`.
+  label?: string;
+  valid?: boolean;
+  reason?: string;
 };
 
 export type FlippedContactSheetItem = {
   shape: ShapeSpec;
   baseContours: Vec2[][];
   reliefContoursByColorGroup: Map<string, Vec2[][]>;
+  label?: string;
+  valid?: boolean;
+  reason?: string;
 };
 
 export type SectionLayout = { cellsXml: string; widthMm: number; heightMm: number };

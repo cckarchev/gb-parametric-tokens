@@ -4,18 +4,18 @@ import { computeArcReliefComponents } from "./computeArcReliefComponents";
 import { computeDiscReliefComponents } from "./computeDiscReliefComponents";
 import { LoadIconSource, LoadIconSourceResult } from "./computeReliefComponentsShared";
 import { computeRingReliefComponents } from "./computeRingReliefComponents";
-import { ReliefComponent } from "./mesh/reliefComponent";
+import { ReliefComponent, ReliefComponentSource } from "./mesh/reliefComponent";
 import { PrintProfile, TokenSpec } from "./types";
-import {
-  MinStrokeWidthValidation,
-  validateMinStrokeWidth,
-} from "./validation/validateMinStrokeWidth";
+import { ComponentFailure, validateMinStrokeWidth } from "./validation/validateMinStrokeWidth";
 
 export type { LoadIconSource, LoadIconSourceResult };
 
+const UNKNOWN_SOURCE: ReliefComponentSource = { kind: "unknown" };
+
 export type ComputeReliefComponentsResult = {
   reliefComponents: ReliefComponent[];
-  validation: MinStrokeWidthValidation;
+  valid: boolean;
+  componentFailures: ComponentFailure[];
   warnings: string[];
 };
 
@@ -34,10 +34,23 @@ export const computeReliefComponents = async (
         ? await computeDiscReliefComponents(spec, font, printProfile, loadIconSource, warnings)
         : await computeArcReliefComponents(spec, font, printProfile, loadIconSource, warnings);
 
-  const validation = await validateMinStrokeWidth(
-    reliefComponents.flatMap((component) => component.contours),
-    printProfile.minStrokeWidthMm,
+  // Validated one component at a time (not the old single union over every contour combined) so
+  // a failure can be traced back to the specific text line or icon it came from, instead of just
+  // a token-wide count -- see validateMinStrokeWidth.ts's describeComponentFailure.
+  const componentValidations = await Promise.all(
+    reliefComponents.map((component) =>
+      validateMinStrokeWidth(component.contours, printProfile.minStrokeWidthMm),
+    ),
   );
 
-  return { reliefComponents, validation, warnings };
+  const componentFailures: ComponentFailure[] = reliefComponents
+    .map((component, index) => ({ component, validation: componentValidations[index] }))
+    .filter(({ validation }) => !validation.valid)
+    .map(({ component, validation }) => ({
+      source: component.source ?? UNKNOWN_SOURCE,
+      vanishedFeatureCount: validation.vanishedFeatureCount,
+      featureCount: validation.featureCount,
+    }));
+
+  return { reliefComponents, valid: componentFailures.length === 0, componentFailures, warnings };
 };

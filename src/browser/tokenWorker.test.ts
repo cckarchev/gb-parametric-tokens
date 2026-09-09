@@ -97,37 +97,40 @@ describe("computeFootprintMm", () => {
 });
 
 describe("handlePreview", () => {
-  it("aggregates valid and invalid counts and strips the internal valid flag", async () => {
+  it("aggregates valid and invalid counts, dropping the redundant source label when the only failing text matches the token's own title", async () => {
     vi.mocked(computeReliefComponents)
       .mockResolvedValueOnce({
         reliefComponents: [{ contours: [[[0, 0]]] }],
         warnings: ["warn-a"],
-        validation: {
-          valid: true,
-          areaBeforeMm2: 1,
-          areaAfterErosionMm2: 1,
-          featureCount: 1,
-          vanishedFeatureCount: 0,
-        },
+        valid: true,
+        componentFailures: [],
       })
       .mockResolvedValueOnce({
         reliefComponents: [{ contours: [[[1, 1]]] }],
         warnings: [],
-        validation: {
-          valid: false,
-          areaBeforeMm2: 1,
-          areaAfterErosionMm2: 0,
-          featureCount: 1,
-          vanishedFeatureCount: 1,
-        },
+        valid: false,
+        componentFailures: [
+          {
+            source: { kind: "text", text: "Token B" },
+            vanishedFeatureCount: 1,
+            featureCount: 1,
+          },
+        ],
       });
     vi.mocked(computeBaseOutlineContours)
       .mockResolvedValueOnce([[[-1, -1]]])
       .mockResolvedValueOnce([[[-2, -2]]]);
 
     const items: TokenItem[] = [
-      { id: "a", label: "Token A", spec: discSpec, copies: 13 },
-      { id: "b", label: "Token B", spec: discSpec, copies: 1 },
+      {
+        id: "a",
+        label: "Tapper: Token A",
+        group: "Tapper",
+        title: "Token A",
+        spec: discSpec,
+        copies: 13,
+      },
+      { id: "b", label: "Token B", title: "Token B", spec: discSpec, copies: 1 },
     ];
     const request: PreviewRequest = { kind: "preview", requestId: 7, items };
 
@@ -139,23 +142,90 @@ describe("handlePreview", () => {
     expect(response.results).toEqual([
       {
         id: "a",
-        label: "Token A",
+        label: "Tapper: Token A",
+        group: "Tapper",
+        title: "Token A",
         shape: discSpec.shape,
         baseContours: [[[-1, -1]]],
         reliefComponents: [{ contours: [[[0, 0]]] }],
         warnings: ["warn-a"],
         copies: 13,
+        valid: true,
+        reason: "",
       },
       {
         id: "b",
         label: "Token B",
+        group: undefined,
+        title: "Token B",
         shape: discSpec.shape,
         baseContours: [[[-2, -2]]],
         reliefComponents: [{ contours: [[[1, 1]]] }],
         warnings: [],
         copies: 1,
+        valid: false,
+        reason: "1 of 1 detail too thin to print at this size.",
       },
     ]);
+  });
+
+  it("keeps the source label when the failing component isn't the token's own title (an icon, or a differently-worded subtitle)", async () => {
+    vi.mocked(computeReliefComponents).mockResolvedValueOnce({
+      reliefComponents: [],
+      warnings: [],
+      valid: false,
+      componentFailures: [
+        { source: { kind: "icon", iconId: "axe" }, vanishedFeatureCount: 1, featureCount: 2 },
+        {
+          source: { kind: "text", text: "A subtitle line" },
+          vanishedFeatureCount: 3,
+          featureCount: 4,
+        },
+      ],
+    });
+    vi.mocked(computeBaseOutlineContours).mockResolvedValueOnce([[[-1, -1]]]);
+
+    const items: TokenItem[] = [
+      { id: "a", label: "Token A", title: "Token A", spec: discSpec, copies: 1 },
+    ];
+    const request: PreviewRequest = { kind: "preview", requestId: 8, items };
+
+    const response = await handlePreview(request);
+
+    expect(response.results[0].reason).toBe(
+      'Icon "axe": 1 of 2 details too thin to print at this size.\n' +
+        'Text "A subtitle line": 3 of 4 details too thin to print at this size.',
+    );
+  });
+
+  it("collapses two identically-worded failures into one line, e.g. a left and right nob icon that are the same icon and fail the same way", async () => {
+    vi.mocked(computeReliefComponents).mockResolvedValueOnce({
+      reliefComponents: [],
+      warnings: [],
+      valid: false,
+      componentFailures: [
+        { source: { kind: "icon", iconId: "Cooks" }, vanishedFeatureCount: 3, featureCount: 11 },
+        { source: { kind: "icon", iconId: "Cooks" }, vanishedFeatureCount: 3, featureCount: 11 },
+        {
+          source: { kind: "text", text: "Singled Out" },
+          vanishedFeatureCount: 9,
+          featureCount: 11,
+        },
+      ],
+    });
+    vi.mocked(computeBaseOutlineContours).mockResolvedValueOnce([[[-1, -1]]]);
+
+    const items: TokenItem[] = [
+      { id: "a", label: "Singled Out", title: "Singled Out", spec: discSpec, copies: 1 },
+    ];
+    const request: PreviewRequest = { kind: "preview", requestId: 9, items };
+
+    const response = await handlePreview(request);
+
+    expect(response.results[0].reason).toBe(
+      'Icon "Cooks": 3 of 11 details too thin to print at this size.\n' +
+        "9 of 11 details too thin to print at this size.",
+    );
   });
 });
 
@@ -164,17 +234,16 @@ describe("handleExport", () => {
     vi.mocked(computeReliefComponents).mockResolvedValue({
       reliefComponents: [],
       warnings: [],
-      validation: {
-        valid: false,
-        areaBeforeMm2: 1,
-        areaAfterErosionMm2: 0,
-        featureCount: 1,
-        vanishedFeatureCount: 1,
-      },
+      valid: false,
+      componentFailures: [
+        { source: { kind: "text", text: "Token A" }, vanishedFeatureCount: 1, featureCount: 1 },
+      ],
     });
     vi.mocked(buildTokenParts).mockResolvedValue([fakePart("NoError")]);
 
-    const items: TokenItem[] = [{ id: "a", label: "Token A", spec: discSpec, copies: 1 }];
+    const items: TokenItem[] = [
+      { id: "a", label: "Token A", title: "Token A", spec: discSpec, copies: 1 },
+    ];
     const request: ExportRequest = { kind: "export", requestId: 1, items, colorGroups };
 
     const response = await handleExport(request);
@@ -192,17 +261,14 @@ describe("handleExport", () => {
     vi.mocked(computeReliefComponents).mockResolvedValue({
       reliefComponents: [],
       warnings: [],
-      validation: {
-        valid: true,
-        areaBeforeMm2: 1,
-        areaAfterErosionMm2: 1,
-        featureCount: 1,
-        vanishedFeatureCount: 0,
-      },
+      valid: true,
+      componentFailures: [],
     });
     vi.mocked(buildTokenParts).mockResolvedValue([fakePart("Error")]);
 
-    const items: TokenItem[] = [{ id: "a", label: "Token A", spec: discSpec, copies: 1 }];
+    const items: TokenItem[] = [
+      { id: "a", label: "Token A", title: "Token A", spec: discSpec, copies: 1 },
+    ];
     const request: ExportRequest = { kind: "export", requestId: 1, items, colorGroups };
 
     const response = await handleExport(request);
@@ -219,13 +285,8 @@ describe("handleExport", () => {
     vi.mocked(computeReliefComponents).mockResolvedValue({
       reliefComponents: [],
       warnings: [],
-      validation: {
-        valid: true,
-        areaBeforeMm2: 1,
-        areaAfterErosionMm2: 1,
-        featureCount: 1,
-        vanishedFeatureCount: 0,
-      },
+      valid: true,
+      componentFailures: [],
     });
 
     const discPart = fakePart("NoError");
@@ -247,8 +308,8 @@ describe("handleExport", () => {
     vi.mocked(buildThreeMfArchive).mockReturnValue(archive);
 
     const items: TokenItem[] = [
-      { id: "disc-a", label: "Disc A", spec: discSpec, copies: 1 },
-      { id: "arc-a", label: "Arc A", spec: arcSpec, copies: 2 },
+      { id: "disc-a", label: "Disc A", title: "Disc A", spec: discSpec, copies: 1 },
+      { id: "arc-a", label: "Arc A", title: "Arc A", spec: arcSpec, copies: 2 },
     ];
     const request: ExportRequest = { kind: "export", requestId: 9, items, colorGroups };
 

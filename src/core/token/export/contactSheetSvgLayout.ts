@@ -5,8 +5,15 @@ import {
   CIRCLE_ANCHOR_Y_SVG,
 } from "../preview/svgBaseReference";
 import { ColorGroupSpec } from "../types";
+import { buildAttentionMarkerSvg } from "./contactSheetSvgAttention";
 import { contourToPathSegment, offsetContour } from "./contactSheetSvgGeometry";
 import { PreparedSection, SectionLayout } from "./contactSheetSvgTypes";
+
+const FALLBACK_ITEM_LABEL = "This token";
+// Only reachable if an invalid item somehow carries no reason (never happens via the real
+// pipeline, which always sets one alongside `valid: false` -- see tokenWorker.ts); kept so the
+// marker still says something useful instead of "undefined".
+const FALLBACK_ATTENTION_REASON = "This detail is thinner than the minimum printable stroke width.";
 
 // Renders one homogeneous grid (every item the same shape.type, cell size already decided by
 // prepareSection) of cells at the given column count, offset vertically by originYMm so multiple
@@ -81,6 +88,26 @@ export const layoutPreparedSection = (
           .join(" ");
 
         paths.push(`<path d="${pathData}" fill="${color}" fill-rule="evenodd" />`);
+      }
+
+      if (item.valid === false) {
+        const label = item.label ?? FALLBACK_ITEM_LABEL;
+        const reason = item.reason || FALLBACK_ATTENTION_REASON;
+
+        // Fit to the item's own rendered content (bounds, shifted by this same offset every
+        // path above already draws with), not the whole padded/grid-aligned cell -- the cell is
+        // sized to fit the biggest item in the section plus grid-snap rounding, so it's usually
+        // noticeably bigger than any one item's own footprint (user feedback: the marker doesn't
+        // need to follow the grid, just the token).
+        paths.push(
+          buildAttentionMarkerSvg(
+            bounds.min[0] + offsetX,
+            bounds.min[1] + offsetY,
+            bounds.max[0] - bounds.min[0],
+            bounds.max[1] - bounds.min[1],
+            `${label}: ${reason}`,
+          ),
+        );
       }
 
       return paths.join("");

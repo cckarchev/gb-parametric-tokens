@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 
-import { validateMinStrokeWidth } from "./validateMinStrokeWidth";
+import {
+  describeComponentFailure,
+  describeVanishedDetailCount,
+  validateMinStrokeWidth,
+} from "./validateMinStrokeWidth";
 
 describe("validateMinStrokeWidth", () => {
   it("fails a bar thinner than the minimum stroke width", async () => {
@@ -100,5 +104,71 @@ describe("validateMinStrokeWidth", () => {
     expect(result.featureCount).toBe(2);
     expect(result.vanishedFeatureCount).toBe(1);
     expect(result.valid).toBe(false);
+  });
+});
+
+describe("describeComponentFailure", () => {
+  it("names the failing text line by its own content, pluralized", () => {
+    const message = describeComponentFailure({
+      source: { kind: "text", text: "Thousand Cuts" },
+      vanishedFeatureCount: 2,
+      featureCount: 5,
+    });
+
+    expect(message).toBe('Text "Thousand Cuts": 2 of 5 details too thin to print at this size.');
+  });
+
+  it("names the failing icon by its own id", () => {
+    const message = describeComponentFailure({
+      source: { kind: "icon", iconId: "axe" },
+      vanishedFeatureCount: 1,
+      featureCount: 3,
+    });
+
+    expect(message).toBe('Icon "axe": 1 of 3 details too thin to print at this size.');
+  });
+
+  it("names a failing decoration generically, since it has no id or text of its own", () => {
+    const message = describeComponentFailure({
+      source: { kind: "decoration" },
+      vanishedFeatureCount: 1,
+      featureCount: 1,
+    });
+
+    expect(message).toBe("Decoration: 1 of 1 detail too thin to print at this size.");
+  });
+
+  it("falls back to a generic label for a component with no known source", () => {
+    const message = describeComponentFailure({
+      source: { kind: "unknown" },
+      vanishedFeatureCount: 1,
+      featureCount: 2,
+    });
+
+    expect(message).toBe("This detail: 1 of 2 details too thin to print at this size.");
+  });
+
+  it("uses the singular for a single detail", () => {
+    const message = describeComponentFailure({
+      source: { kind: "text", text: "L" },
+      vanishedFeatureCount: 1,
+      featureCount: 1,
+    });
+
+    expect(message).toBe('Text "L": 1 of 1 detail too thin to print at this size.');
+  });
+});
+
+describe("describeVanishedDetailCount", () => {
+  it("gives just the count, with no source label -- for when the caller already names the source", () => {
+    const message = describeVanishedDetailCount({ vanishedFeatureCount: 2, featureCount: 5 });
+
+    expect(message).toBe("2 of 5 details too thin to print at this size.");
+  });
+
+  it("uses the singular for a single detail", () => {
+    const message = describeVanishedDetailCount({ vanishedFeatureCount: 1, featureCount: 1 });
+
+    expect(message).toBe("1 of 1 detail too thin to print at this size.");
   });
 });

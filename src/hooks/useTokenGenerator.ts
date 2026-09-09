@@ -168,6 +168,19 @@ export const useTokenGenerator = () => {
     pendingExportRef,
   } = usePreview(catalog, selection, sharedConfig);
 
+  const invalidPreviewItems = useMemo(
+    () =>
+      previewItems
+        .filter((item) => !item.valid)
+        .map((item) => ({
+          id: item.id,
+          group: item.group,
+          title: item.title,
+          reason: item.reason,
+        })),
+    [previewItems],
+  );
+
   const { isExporting, exportError, exportFailures, exportThreeMf } = useExport(
     workerRef,
     requestIdRef,
@@ -216,6 +229,7 @@ export const useTokenGenerator = () => {
     previewItems,
     validCount,
     invalidCount,
+    invalidPreviewItems,
     isExporting,
     exportError,
     exportFailures,

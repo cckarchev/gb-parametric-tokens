@@ -74,6 +74,8 @@ describe("buildTokenItems", () => {
 
     expect(items).toHaveLength(1);
     expect(items[0].label).toBe("Tapper: Commanding Aura");
+    expect(items[0].group).toBe("Tapper");
+    expect(items[0].title).toBe("Commanding Aura");
     expect(items[0].copies).toBe(1);
     expect(items[0].spec.shape).toEqual(sharedConfig.arcShape);
     expect(items[0].spec.lines).toEqual([
@@ -233,6 +235,8 @@ describe("buildTokenItems", () => {
     expect(enabled).toHaveLength(1);
     expect(enabled[0].copies).toBe(3);
     expect(enabled[0].spec.shape).toEqual(sharedConfig.discShape);
+    expect(enabled[0].group).toBeUndefined();
+    expect(enabled[0].title).toBe("Beer Token");
   });
 
   it("includes a single, unnumbered Influence item carrying the requested copies count", () => {
@@ -245,6 +249,8 @@ describe("buildTokenItems", () => {
     expect(items).toHaveLength(1);
     expect(items[0].id).toBe("influence");
     expect(items[0].label).toBe("Influence");
+    expect(items[0].group).toBeUndefined();
+    expect(items[0].title).toBe("Influence");
     expect(items[0].copies).toBe(13);
     expect(items[0].spec.lines).toEqual([]);
     expect(items[0].spec.icons).toEqual([

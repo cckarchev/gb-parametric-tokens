@@ -40,6 +40,7 @@ const buildRingLineComponent = (
       "mathYUp",
     ),
     colorGroup: line.colorGroup,
+    source: { kind: "text", text: line.text },
   };
 };
 

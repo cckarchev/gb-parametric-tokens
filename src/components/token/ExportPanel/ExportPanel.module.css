@@ -32,7 +32,87 @@
 .alert {
   margin: 0;
   padding: var(--space-3);
-  border: 1px solid var(--color-error);
   border-radius: var(--radius-sm);
-  color: var(--color-error);
+  color: var(--color-text);
+}
+
+/* No padding/border: the collapsed summary must sit at the exact same position as the plain
+   .status paragraph it replaces (see describeStatus's "ready"/"neutral" tones) -- any box
+   padding here shifted the icon and text sideways the moment a token count went invalid
+   (user feedback). */
+.attentionBox {
+  margin: 0;
+}
+
+.attentionSummary {
+  justify-content: space-between;
+  list-style: none;
+  cursor: pointer;
+}
+
+.attentionSummary::-webkit-details-marker {
+  display: none;
+}
+
+.attentionSummaryText {
+  flex: 1;
+}
+
+.attentionChevron {
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+  border-right: 2px solid var(--color-error);
+  border-bottom: 2px solid var(--color-error);
+  transform: rotate(45deg);
+  transition: transform 0.15s ease;
+}
+
+.attentionBox:not([open]) > .attentionSummary .attentionChevron {
+  transform: rotate(-45deg);
+}
+
+.attentionList {
+  margin: var(--space-2) 0 0;
+  padding-left: var(--space-4);
+}
+
+.attentionGroup {
+  margin-bottom: var(--space-3);
+}
+
+.attentionGroup:last-child {
+  margin-bottom: 0;
+}
+
+.attentionLabel {
+  display: block;
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.attentionSubList {
+  margin: var(--space-1) 0 0;
+  padding-left: var(--space-4);
+}
+
+.attentionItem {
+  margin-bottom: var(--space-1);
+}
+
+.attentionItem:last-child {
+  margin-bottom: 0;
+}
+
+.attentionTitle {
+  color: var(--color-text);
+}
+
+.attentionReason {
+  color: var(--color-text-muted);
+  /* One failing component per line (tokenWorker.ts joins them with \n) instead of a run-on
+     paragraph -- several "Icon ...: Text ...:" clauses back to back read as illegible (user
+     feedback). white-space:pre-line renders each \n as a real line break while still wrapping
+     an overlong single line normally. */
+  white-space: pre-line;
 }

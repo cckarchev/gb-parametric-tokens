@@ -1,6 +1,7 @@
 import type { CrossSection } from "manifold-3d";
 
 import { getManifoldModule } from "../mesh/manifoldModule";
+import { ReliefComponentSource } from "../mesh/reliefComponent";
 import { Vec2 } from "../types";
 
 const EROSION_CIRCULAR_SEGMENTS = 32;
@@ -46,4 +47,44 @@ export const validateMinStrokeWidth = async (
     featureCount: features.length,
     vanishedFeatureCount,
   };
+};
+
+// One relief component (a text line, an icon, a decoration) that failed the min-stroke-width
+// check, computed by running validateMinStrokeWidth per component instead of once over every
+// contour combined -- see computeReliefComponents.ts.
+export type ComponentFailure = {
+  source: ReliefComponentSource;
+  vanishedFeatureCount: number;
+  featureCount: number;
+};
+
+const describeReliefComponentSource = (source: ReliefComponentSource): string => {
+  switch (source.kind) {
+    case "text":
+      return `Text "${source.text}"`;
+    case "icon":
+      return `Icon "${source.iconId}"`;
+    case "decoration":
+      return "Decoration";
+    case "unknown":
+      return "This detail";
+  }
+};
+
+// The bare count, with no source label -- for a caller that already names the source some other
+// way (tokenWorker.ts drops the redundant "Text "..."" prefix when a token's only failing
+// component is its own title, since the surrounding UI already names that token by title).
+export const describeVanishedDetailCount = (
+  failure: Pick<ComponentFailure, "vanishedFeatureCount" | "featureCount">,
+): string => {
+  const { vanishedFeatureCount, featureCount } = failure;
+  const detailWord = featureCount === 1 ? "detail" : "details";
+
+  return `${vanishedFeatureCount} of ${featureCount} ${detailWord} too thin to print at this size.`;
+};
+
+// Shared by the UI (the "N tokens need attention" list) and the contact-sheet preview marker, so
+// both describe the same failure in the same words.
+export const describeComponentFailure = (failure: ComponentFailure): string => {
+  return `${describeReliefComponentSource(failure.source)}: ${describeVanishedDetailCount(failure)}`;
 };

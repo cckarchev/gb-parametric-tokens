@@ -38,6 +38,7 @@ export const computeDiscReliefComponents = async (
       printProfile.bezierToleranceMm,
     ),
     colorGroup: line.colorGroup,
+    source: { kind: "text", text: line.text },
   }));
 
   const decorationComponents = buildDecorationComponents(spec.decorations);

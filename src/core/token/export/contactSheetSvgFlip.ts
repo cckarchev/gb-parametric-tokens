@@ -19,5 +19,8 @@ export const flipItem = (item: ContactSheetItem): FlippedContactSheetItem => {
     shape: item.shape,
     baseContours: flipY(item.baseContours),
     reliefContoursByColorGroup: groupReliefComponentsByColorGroup(flippedReliefComponents),
+    label: item.label,
+    valid: item.valid,
+    reason: item.reason,
   };
 };

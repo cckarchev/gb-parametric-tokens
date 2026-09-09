@@ -91,6 +91,7 @@ export const TokenEditor = () => {
                 isPreviewing={generator.isPreviewing}
                 validCount={generator.validCount}
                 invalidCount={generator.invalidCount}
+                invalidItems={generator.invalidPreviewItems}
               />
             </>
           )}

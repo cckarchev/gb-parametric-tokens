@@ -39,7 +39,7 @@ export const buildIconComponent = async (
   const rotated = rotateContours(normalized, rotationDeg);
   const contours = translateContours(rotated, center);
 
-  return { contours, colorGroup: icon.colorGroup };
+  return { contours, colorGroup: icon.colorGroup, source: { kind: "icon", iconId: icon.iconId } };
 };
 
 // Shared by every disc-shaped layout (flat and ring alike): both center their icons at the
@@ -71,5 +71,6 @@ export const buildDecorationComponents = (
     .map((decoration) => ({
       contours: computeRingContour(decoration.radiusMm, decoration.widthMm),
       colorGroup: decoration.colorGroup,
+      source: { kind: "decoration" as const },
     }));
 };
