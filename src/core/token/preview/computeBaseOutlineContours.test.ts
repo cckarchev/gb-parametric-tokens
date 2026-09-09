@@ -77,4 +77,31 @@ describe("computeBaseOutlineContours", () => {
     // half-plane, so it never encloses the origin.
     expect(bounds.min[1]).toBeGreaterThan(0);
   });
+
+  it("unions a growOutline contour into a disc shape's outline", async () => {
+    const shape: ShapeSpec = { type: "disc", diameterMm: 40 };
+    const growSquare: Vec2[][] = [
+      [
+        [-30, -30],
+        [30, -30],
+        [30, 30],
+        [-30, 30],
+      ],
+    ];
+
+    const contours = await computeBaseOutlineContours(shape, 90, growSquare);
+
+    // The disc's own radius is 20mm; the grow square's own corners reach ~42.4mm from the
+    // origin, so only an actual union (not floating-point noise around the plain circle) can
+    // push the outline this far out.
+    expect(maxDistanceFromOrigin(contours)).toBeGreaterThan(25);
+  });
+
+  it("returns the plain outline when no growOutline contours are given", async () => {
+    const shape: ShapeSpec = { type: "disc", diameterMm: 40 };
+
+    const contours = await computeBaseOutlineContours(shape, 90);
+
+    expect(maxDistanceFromOrigin(contours)).toBeCloseTo(20, 0);
+  });
 });

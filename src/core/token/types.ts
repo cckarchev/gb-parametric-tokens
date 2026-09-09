@@ -19,7 +19,9 @@ export type LineSpec = {
 //   geometry/iconPlacement.ts's placeIcon. No attention flag, since it's already handled.
 // - "trim": cut off whatever pokes past the circle instead of shrinking the icon -- see
 //   geometry/trimIconToCircle.ts. No attention flag either.
-export type IconOverflowBehavior = "none" | "shrink" | "trim";
+// - "grow": leave the icon itself untouched, and instead grow the nob/disc's own body to hug
+//   it -- see geometry/growIconOutline.ts. No attention flag either.
+export type IconOverflowBehavior = "none" | "shrink" | "trim" | "grow";
 
 export type IconSpec = {
   iconId: string;

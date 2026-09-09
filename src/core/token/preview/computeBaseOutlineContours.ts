@@ -12,15 +12,24 @@ const RING_CIRCULAR_SEGMENTS = 128;
 const WEDGE_STEPS = 64;
 const WEDGE_RADIUS_PADDING_MM = 10; // extends the wedge past outerR so float error never clips the ring
 
+// IconOverflowBehavior "grow"'s dilated icon footprints (see mesh/reliefComponent.ts's
+// growOutline, already flattened across every icon by the caller): unioned into the outline
+// here too, so the 2D preview matches the real mesh's own grown nob/disc body (buildArcTokenMesh.ts,
+// buildTokenMesh.ts) instead of showing a plain circle the print itself no longer has.
 export const computeBaseOutlineContours = async (
   shape: ShapeSpec,
   centerAngleDeg: number,
+  growOutlineContours: Vec2[][] = [],
 ): Promise<Vec2[][]> => {
   const wasm = await getManifoldModule();
   const { CrossSection } = wasm;
+  const grow =
+    growOutlineContours.length > 0 ? new CrossSection(growOutlineContours, "Positive") : undefined;
 
   if (shape.type === "disc") {
-    return CrossSection.circle(shape.diameterMm / 2, RING_CIRCULAR_SEGMENTS).toPolygons();
+    const disc = CrossSection.circle(shape.diameterMm / 2, RING_CIRCULAR_SEGMENTS);
+
+    return (grow ? disc.add(grow) : disc).toPolygons();
   }
 
   const outerRadiusMm = computeOuterRadiusMm(shape);
@@ -54,5 +63,7 @@ export const computeBaseOutlineContours = async (
     nobPlacements.right.position,
   );
 
-  return sector.add(leftNob).add(rightNob).toPolygons();
+  const withNobs = sector.add(leftNob).add(rightNob);
+
+  return (grow ? withNobs.add(grow) : withNobs).toPolygons();
 };

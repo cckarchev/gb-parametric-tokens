@@ -35,7 +35,18 @@ export const buildArcTokenMesh = async (input: BuildArcTokenMeshInput): Promise<
     .translate(input.nobPositions.right[0], input.nobPositions.right[1])
     .extrude(input.style.baseThicknessMm);
 
-  const base = ribbon.add(leftNob).add(rightNob);
+  // IconOverflowBehavior "grow" (see types.ts): a nob icon that overflowed its plain circle
+  // carries its own dilated footprint here (computeReliefComponentsShared.ts), already in the
+  // same absolute mm space as the nob positions above, so unioning it in makes the nob's own
+  // body hug the icon instead of leaving it a plain circle.
+  const growContours = input.reliefComponents.flatMap((component) => component.growOutline ?? []);
+  const withNobs = ribbon.add(leftNob).add(rightNob);
+  const base =
+    growContours.length > 0
+      ? withNobs.add(
+          new CrossSection(growContours, "Positive").extrude(input.style.baseThicknessMm),
+        )
+      : withNobs;
 
   return applyReliefToBase(base, input.style, input.reliefComponents, CrossSection);
 };

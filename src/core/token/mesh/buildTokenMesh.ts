@@ -23,9 +23,19 @@ export const buildTokenMesh = async (input: BuildTokenMeshInput): Promise<TokenP
 
   const baseThicknessMm = input.spec.style.baseThicknessMm;
 
-  const base = CrossSection.circle(input.spec.shape.diameterMm / 2, DISC_CIRCULAR_SEGMENTS).extrude(
+  const disc = CrossSection.circle(input.spec.shape.diameterMm / 2, DISC_CIRCULAR_SEGMENTS).extrude(
     baseThicknessMm,
   );
+
+  // IconOverflowBehavior "grow" (see types.ts): a center icon that overflowed the disc's plain
+  // circle carries its own dilated footprint here (computeReliefComponentsShared.ts), already
+  // centered the same way the disc is, so unioning it in makes the disc's own body hug the icon
+  // instead of leaving it a plain circle.
+  const growContours = input.reliefComponents.flatMap((component) => component.growOutline ?? []);
+  const base =
+    growContours.length > 0
+      ? disc.add(new CrossSection(growContours, "Positive").extrude(baseThicknessMm))
+      : disc;
 
   return applyReliefToBase(base, input.spec.style, input.reliefComponents, CrossSection);
 };

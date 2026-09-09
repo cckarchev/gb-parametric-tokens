@@ -17,8 +17,14 @@ export type ReliefComponent = {
   source?: ReliefComponentSource;
   // Set only by an icon component (see computeReliefComponentsShared.ts's buildIconComponent):
   // true when the icon's own artwork pokes past its target circle AND nothing corrected it
-  // (IconSpec.overflowBehavior is "none", the default) -- "shrink" and "trim" both clear this
-  // once they've fixed it, so it drives the "needs attention" list without double-reporting an
-  // already-handled icon.
+  // (IconSpec.overflowBehavior is "none", the default) -- "shrink", "trim", and "grow" all clear
+  // this once they've handled it, so it drives the "needs attention" list without
+  // double-reporting an already-handled icon.
   overflowsCircle?: boolean;
+  // Set only by an icon component whose overflowBehavior is "grow" and that actually overflowed:
+  // the icon's own footprint, dilated outward (see geometry/growIconOutline.ts), in the same
+  // absolute mm space as `contours`. The base builders (buildArcTokenMesh.ts, buildTokenMesh.ts)
+  // and the 2D preview outline (preview/computeBaseOutlineContours.ts) union this into the
+  // nob/disc's own body instead of leaving it a plain circle.
+  growOutline?: Vec2[][];
 };

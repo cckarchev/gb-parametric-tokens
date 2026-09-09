@@ -5,4 +5,5 @@ export const ICON_OVERFLOW_BEHAVIOR_OPTIONS: SelectFieldOption<IconOverflowBehav
   { value: "none", label: "None" },
   { value: "shrink", label: "Shrink" },
   { value: "trim", label: "Trim" },
+  { value: "grow", label: "Grow" },
 ];

@@ -77,6 +77,27 @@ describe("buildTokenMesh", () => {
     expect(accentPart?.manifold.boundingBox().max[2]).toBeGreaterThan(3);
   });
 
+  it("unions a growOutline contour into the base, past the plain disc's own radius", async () => {
+    // The disc is 25mm diameter (radius 12.5mm) -- this square reaches well past that.
+    const growSquare: Vec2[][] = [
+      [
+        [-20, -20],
+        [20, -20],
+        [20, 20],
+        [-20, 20],
+      ],
+    ];
+
+    const parts = await buildTokenMesh({
+      spec: baseSpec({ relief: "raised" }),
+      reliefComponents: [{ contours: squareIcon, growOutline: growSquare }],
+    });
+
+    expect(parts).toHaveLength(1);
+    expect(parts[0].manifold.status()).toBe("NoError");
+    expect(parts[0].manifold.boundingBox().max[0]).toBeGreaterThan(12.5);
+  });
+
   it("fuses an icon explicitly tagged with the base colorGroup into a single part", async () => {
     const parts = await buildTokenMesh({
       spec: baseSpec({ relief: "raised" }),

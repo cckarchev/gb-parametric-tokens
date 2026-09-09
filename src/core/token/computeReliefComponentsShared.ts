@@ -1,3 +1,4 @@
+import { growIconOutline } from "./geometry/growIconOutline";
 import { placeIcon, rotateContours, translateContours } from "./geometry/iconPlacement";
 import { computeRingContour } from "./geometry/ringContour";
 import { trimIconToCircle } from "./geometry/trimIconToCircle";
@@ -10,6 +11,14 @@ import { IconSpec, PrintProfile, TokenSpec, Vec2 } from "./types";
 
 export type LoadIconSourceResult = { svgSource: string; resolvedId: string; substituted: boolean };
 export type LoadIconSource = (iconId: string) => Promise<LoadIconSourceResult>;
+
+// How far the "grow" IconOverflowBehavior (see types.ts) dilates the nob/disc's own body past
+// the icon it's hugging, as a multiple of the print profile's own minStrokeWidthMm. A bare
+// minStrokeWidthMm rim (1x) is technically printable but reads as a hairline next to the icon
+// it's supposed to visibly embrace (user feedback: "creo que deberia ser mas grueso"); this
+// still scales with the print profile (a fine resin nozzle gets a thinner rim than a coarse FDM
+// one), it's just a deliberately generous multiple of the bare minimum.
+const GROW_MARGIN_MULTIPLIER = 4;
 
 export const buildIconComponent = async (
   icon: IconSpec,
@@ -57,13 +66,22 @@ export const buildIconComponent = async (
   const rotated = rotateContours(trimmed, rotationDeg);
   const contours = translateContours(rotated, center);
 
+  // "grow" never touches the icon's own contours (unlike "shrink"/"trim" above) -- it grows the
+  // nob/disc's own body around them instead, so the dilated footprint is computed from the
+  // icon's final absolute position, matching the space the base builders place the nob/disc in.
+  const growOutline =
+    overflowBehavior === "grow" && overflowsCircle
+      ? await growIconOutline(contours, printProfile.minStrokeWidthMm * GROW_MARGIN_MULTIPLIER)
+      : undefined;
+
   return {
     contours,
     colorGroup: icon.colorGroup,
     source: { kind: "icon", iconId: icon.iconId },
     // Only "none" leaves the overflow uncorrected, so only "none" needs the attention flag --
-    // "shrink" and "trim" already fixed it (see IconOverflowBehavior in types.ts).
+    // "shrink", "trim", and "grow" already handled it (see IconOverflowBehavior in types.ts).
     overflowsCircle: overflowBehavior === "none" && overflowsCircle,
+    growOutline,
   };
 };
 

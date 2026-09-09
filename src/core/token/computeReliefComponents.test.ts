@@ -445,6 +445,48 @@ describe("computeReliefComponents", () => {
     expect(maxRadius).toBeLessThanOrEqual(25 / 2 + 1e-6);
   });
 
+  it("leaves the icon's own contours untouched and raises no icon-overflow failure when overflowBehavior is 'grow'", async () => {
+    const font = loadTestFont();
+
+    const result = await computeReliefComponents(
+      discSpec({
+        icons: [{ iconId: "cooks", side: "center", scale: 0.9, overflowBehavior: "grow" }],
+        lines: [],
+      }),
+      font,
+      printProfile,
+      loadSquareIcon,
+    );
+
+    expect(result.valid).toBe(true);
+    expect(result.componentFailures).toEqual([]);
+
+    const [icon] = result.reliefComponents;
+    const maxRadius = Math.max(...icon.contours.flat().map(([x, y]) => Math.hypot(x, y)));
+    // Unlike 'shrink' and 'trim', 'grow' never touches the icon's own footprint -- it stays
+    // past the target circle's radius (discSpec's diameter is 25mm).
+    expect(maxRadius).toBeGreaterThan(25 / 2);
+    expect(icon.growOutline).toBeDefined();
+    expect(icon.growOutline?.length).toBeGreaterThan(0);
+  });
+
+  it("does not set growOutline on an icon that never overflows its target circle, even with overflowBehavior 'grow'", async () => {
+    const font = loadTestFont();
+
+    const result = await computeReliefComponents(
+      discSpec({
+        icons: [{ iconId: "ball", side: "center", scale: 0.7, overflowBehavior: "grow" }],
+        lines: [],
+      }),
+      font,
+      printProfile,
+      stubLoadIconSource,
+    );
+
+    const [icon] = result.reliefComponents;
+    expect(icon.growOutline).toBeUndefined();
+  });
+
   it("keeps a chunky icon out of the failures list even when a hairline text line beside it fails", async () => {
     const font = loadTestFont();
 

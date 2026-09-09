@@ -79,6 +79,40 @@ describe("buildArcTokenMesh", () => {
     expect(bounds.max[0]).toBeGreaterThan(nobPlacements.right.position[0] - 1);
   });
 
+  it("unions a growOutline contour into the base, past the plain nob's own radius", async () => {
+    const style: StyleSpec = { relief: "raised", reliefHeightMm: 0.6, baseThicknessMm: 3 };
+    const nobRadiusMm = shape.nobDiameterMm / 2;
+    // A square centered on the left nob, wider than the nob itself: proves the grown footprint
+    // (not just the plain circle) makes it into the base's own outline.
+    const farReachMm = nobRadiusMm + 5;
+    const growSquareAtLeftNob: Vec2[][] = [
+      [
+        [nobPlacements.left.position[0] - farReachMm, nobPlacements.left.position[1] - farReachMm],
+        [nobPlacements.left.position[0] + farReachMm, nobPlacements.left.position[1] - farReachMm],
+        [nobPlacements.left.position[0] + farReachMm, nobPlacements.left.position[1] + farReachMm],
+        [nobPlacements.left.position[0] - farReachMm, nobPlacements.left.position[1] + farReachMm],
+      ],
+    ];
+
+    const parts = await buildArcTokenMesh({
+      ...baseInput(style),
+      reliefComponents: [{ contours: smallSquareAt([0, bandMidRadiusMm] as Vec2) }],
+    });
+    const partsWithGrow = await buildArcTokenMesh({
+      ...baseInput(style),
+      reliefComponents: [
+        { contours: smallSquareAt([0, bandMidRadiusMm] as Vec2), growOutline: growSquareAtLeftNob },
+      ],
+    });
+
+    const boundsWithoutGrow = parts[0].manifold.boundingBox();
+    const boundsWithGrow = partsWithGrow[0].manifold.boundingBox();
+
+    expect(boundsWithGrow.min[0]).toBeLessThan(boundsWithoutGrow.min[0]);
+    expect(partsWithGrow[0].manifold.status()).toBe("NoError");
+    expect(partsWithGrow[0].manifold.decompose().length).toBe(1);
+  });
+
   it("keeps a distinctly colorGrouped text line as its own separate part", async () => {
     const style: StyleSpec = { relief: "raised", reliefHeightMm: 0.6, baseThicknessMm: 3 };
 
