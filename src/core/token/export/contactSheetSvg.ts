@@ -6,7 +6,12 @@ import { layoutPreparedSection } from "./contactSheetSvgLayout";
 import { groupDiscItemsByDiameter, prepareSection } from "./contactSheetSvgPrepare";
 import { ContactSheetItem, FlippedContactSheetItem } from "./contactSheetSvgTypes";
 
-const CELL_PADDING_MM = 5;
+// A multiple of GRID_STEP_MM (not the 5mm this used to be) so the grid-alignment rounding in
+// prepareSection never has to add a baseline margin on top of it just to reach the next 10mm
+// line -- keeping arc cells as tight as the grid allows instead of always carrying extra,
+// unused padding (user feedback: cells read as "too separated" once alignment made the gaps
+// obvious).
+const CELL_PADDING_MM = 0;
 // Disc items (guild generics, influence/momentum/goal-influence/MP counters) carry no
 // base-reference circle overhead and, once split into their own section below the arc items
 // (see buildContactSheetSvg), no longer need to share a cell size with anything bigger. They

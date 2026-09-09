@@ -4,6 +4,7 @@ import {
   allContoursOf,
   CIRCLE_FOOTPRINT_BOUNDS,
   computeOverflowMarginMm,
+  roundUpToGridStep,
   roundUpToGridVertexStep,
   shiftForArcAnchor,
   unionBounds,
@@ -46,8 +47,23 @@ export const prepareSection = (
   const arcCombinedBounds = flippedItems
     .map((item, index) => (item.shape.type === "arc" ? boundsByItem[index] : undefined))
     .filter((bounds): bounds is { min: Vec2; max: Vec2 } => bounds !== undefined);
-  const arcLeftMarginMm = computeOverflowMarginMm(arcCombinedBounds, 0);
-  const arcTopMarginMm = computeOverflowMarginMm(arcCombinedBounds, 1);
+  const rawArcLeftMarginMm = computeOverflowMarginMm(arcCombinedBounds, 0);
+  const rawArcTopMarginMm = computeOverflowMarginMm(arcCombinedBounds, 1);
+
+  // Arc cells aren't centered (see the offsetX/offsetY comment in layoutPreparedSection), so
+  // their own grid alignment lives entirely in this left/top margin: the base-reference
+  // circle's local footprint (0,0)-(MODEL_BASE_DIAMETER_MM,MODEL_BASE_DIAMETER_MM), already a
+  // clean 3-grid-square size, only lands on the sheet's actual 10mm grid lines if
+  // cellPaddingMm + this margin comes out to an exact multiple of GRID_STEP_MM. Rounding the
+  // combined amount up (not the margin alone) guarantees that -- even when there's no real
+  // content overflow (raw margin 0), since cellPaddingMm on its own usually isn't already a
+  // clean multiple of the grid step.
+  const arcLeftMarginMm = alignToGridVertex
+    ? rawArcLeftMarginMm
+    : roundUpToGridStep(cellPaddingMm + rawArcLeftMarginMm) - cellPaddingMm;
+  const arcTopMarginMm = alignToGridVertex
+    ? rawArcTopMarginMm
+    : roundUpToGridStep(cellPaddingMm + rawArcTopMarginMm) - cellPaddingMm;
 
   const rawCellWidthMm =
     Math.max(...boundsByItem.map((bounds) => bounds.max[0] - bounds.min[0])) +
@@ -58,10 +74,15 @@ export const prepareSection = (
     cellPaddingMm * 2 +
     arcTopMarginMm;
 
-  const cellWidthMm = alignToGridVertex ? roundUpToGridVertexStep(rawCellWidthMm) : rawCellWidthMm;
+  // Disc cells round up to a 20mm grid-VERTEX step (so a centered item's own middle still lands
+  // on a vertex); arc cells only need every column/row origin to land on a plain 10mm grid line
+  // (the margin above already handles the anchor point itself), so a 10mm step is enough.
+  const cellWidthMm = alignToGridVertex
+    ? roundUpToGridVertexStep(rawCellWidthMm)
+    : roundUpToGridStep(rawCellWidthMm);
   const cellHeightMm = alignToGridVertex
     ? roundUpToGridVertexStep(rawCellHeightMm)
-    : rawCellHeightMm;
+    : roundUpToGridStep(rawCellHeightMm);
 
   return {
     flippedItems,
