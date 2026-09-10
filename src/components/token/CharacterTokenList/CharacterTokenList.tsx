@@ -9,7 +9,7 @@ import { Panel } from "../../primitives/Panel/Panel";
 import { SelectAllCheckbox } from "../../primitives/SelectAllCheckbox/SelectAllCheckbox";
 import styles from "./CharacterTokenList.module.css";
 
-export type CharacterTokenListProps = {
+type CharacterTokenListProps = {
   catalog: GuildCatalog;
   selectedTokenIds: string[];
   onSelectedTokenIdsChange: (selectedTokenIds: string[]) => void;

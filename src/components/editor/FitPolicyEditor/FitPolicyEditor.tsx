@@ -3,7 +3,7 @@ import { CheckboxField } from "../../primitives/CheckboxField/CheckboxField";
 import { NumberField } from "../../primitives/NumberField/NumberField";
 import { Panel } from "../../primitives/Panel/Panel";
 
-export type FitPolicyEditorProps = {
+type FitPolicyEditorProps = {
   fitPolicy: FitPolicy;
   onChange: (fitPolicy: FitPolicy) => void;
 };

@@ -4,7 +4,7 @@ import { Panel } from "../../primitives/Panel/Panel";
 import { SelectAllCheckbox } from "../../primitives/SelectAllCheckbox/SelectAllCheckbox";
 import { CounterCountField } from "../CounterCountField/CounterCountField";
 
-export type GuildTokenListProps = {
+type GuildTokenListProps = {
   catalog: GuildCatalog;
   genericTokens: Record<string, CounterSelection>;
   onGenericTokensChange: (genericTokens: Record<string, CounterSelection>) => void;

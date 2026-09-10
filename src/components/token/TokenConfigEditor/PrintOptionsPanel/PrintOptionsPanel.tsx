@@ -8,7 +8,7 @@ import { SelectField } from "../../../primitives/SelectField/SelectField";
 import { GuildColorsEditor } from "../../GuildColorsEditor/GuildColorsEditor";
 import styles from "./PrintOptionsPanel.module.css";
 
-export type PrintOptionsPanelProps = {
+type PrintOptionsPanelProps = {
   sharedConfig: SharedConfig;
   onChange: (sharedConfig: SharedConfig) => void;
 };

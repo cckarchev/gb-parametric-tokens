@@ -2,7 +2,7 @@ import { ReactNode, useState } from "react";
 
 import styles from "./Panel.module.css";
 
-export type PanelProps = {
+type PanelProps = {
   title: string;
   defaultExpanded?: boolean;
   // Controlled expand/collapse: when both are given, the panel's own toggle button still works,

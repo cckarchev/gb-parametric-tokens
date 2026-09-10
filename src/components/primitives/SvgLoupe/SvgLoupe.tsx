@@ -8,7 +8,7 @@ import {
 } from "./computeLoupeTransform";
 import styles from "./SvgLoupe.module.css";
 
-export type SvgLoupeProps = {
+type SvgLoupeProps = {
   svg: string;
   viewBox: ViewBoxSize;
   ariaLabel: string;

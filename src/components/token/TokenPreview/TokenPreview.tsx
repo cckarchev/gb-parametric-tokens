@@ -4,7 +4,7 @@ import { PreviewItem } from "../../../hooks/useTokenGenerator";
 import { SvgLoupe } from "../../primitives/SvgLoupe/SvgLoupe";
 import styles from "./TokenPreview.module.css";
 
-export type TokenPreviewProps = {
+type TokenPreviewProps = {
   items: PreviewItem[];
   isPreviewing: boolean;
   colorGroups: ColorGroupSpec[];

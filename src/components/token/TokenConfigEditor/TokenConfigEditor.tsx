@@ -3,7 +3,7 @@ import { AdvancedSettingsPanel } from "./AdvancedSettingsPanel/AdvancedSettingsP
 import { PrintOptionsPanel } from "./PrintOptionsPanel/PrintOptionsPanel";
 import styles from "./TokenConfigEditor.module.css";
 
-export type TokenConfigEditorProps = {
+type TokenConfigEditorProps = {
   sharedConfig: SharedConfig;
   onChange: (sharedConfig: SharedConfig) => void;
   onExportSettings: () => void;

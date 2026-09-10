@@ -1,6 +1,6 @@
 import styles from "./ColorField.module.css";
 
-export type ColorFieldProps = {
+type ColorFieldProps = {
   label: string;
   value: string;
   onChange: (value: string) => void;

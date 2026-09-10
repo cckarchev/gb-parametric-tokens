@@ -29,7 +29,7 @@ const groupInvalidItems = (items: InvalidPreviewItem[]): AttentionGroup[] => {
   return [...groupsByKey.values()];
 };
 
-export type ExportPanelProps = {
+type ExportPanelProps = {
   isExporting: boolean;
   exportError: string | undefined;
   exportFailures: ExportFailureItem[];

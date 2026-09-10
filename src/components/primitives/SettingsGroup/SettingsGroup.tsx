@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 
 import styles from "./SettingsGroup.module.css";
 
-export type SettingsGroupProps = {
+type SettingsGroupProps = {
   title: string;
   children: ReactNode;
 };

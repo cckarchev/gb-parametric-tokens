@@ -2,7 +2,7 @@ import { ChangeEvent } from "react";
 
 import styles from "../../../styles/field.module.css";
 
-export type FileFieldProps = {
+type FileFieldProps = {
   label: string;
   accept: string;
   onSelect: (file: File) => void;

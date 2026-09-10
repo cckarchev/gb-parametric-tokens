@@ -2,7 +2,7 @@ import styles from "../../../styles/listRow.module.css";
 import { CheckboxField } from "../../primitives/CheckboxField/CheckboxField";
 import { NumberField } from "../../primitives/NumberField/NumberField";
 
-export type CounterCountFieldProps = {
+type CounterCountFieldProps = {
   label: string;
   enabled: boolean;
   onEnabledChange: (enabled: boolean) => void;

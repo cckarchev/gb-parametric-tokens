@@ -2,7 +2,7 @@ import styles from "./SelectField.module.css";
 
 export type SelectFieldOption<T extends string> = { value: T; label: string };
 
-export type SelectFieldProps<T extends string> = {
+type SelectFieldProps<T extends string> = {
   label: string;
   value: T;
   options: SelectFieldOption<T>[];

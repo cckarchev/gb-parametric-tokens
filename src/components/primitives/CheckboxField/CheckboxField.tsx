@@ -1,6 +1,6 @@
 import styles from "./CheckboxField.module.css";
 
-export type CheckboxFieldProps = {
+type CheckboxFieldProps = {
   label: string;
   checked: boolean;
   onChange: (checked: boolean) => void;

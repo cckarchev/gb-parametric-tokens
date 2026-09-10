@@ -1,6 +1,6 @@
 import styles from "./Button.module.css";
 
-export type ButtonProps = {
+type ButtonProps = {
   label: string;
   onClick: () => void;
   variant?: "primary" | "secondary";

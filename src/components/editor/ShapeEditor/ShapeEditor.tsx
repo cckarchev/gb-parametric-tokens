@@ -7,7 +7,7 @@ import { Panel } from "../../primitives/Panel/Panel";
 // owns a disc gets a disc. A shape's type is fixed by whichever slot of the config it belongs to
 // and is not something this editor can change: it just renders the fields of the arm it was
 // handed.
-export type ShapeEditorProps<T extends ShapeSpec> = {
+type ShapeEditorProps<T extends ShapeSpec> = {
   shape: T;
   onChange: (shape: T) => void;
 };

@@ -24,7 +24,7 @@ const ShapeSlot = <T extends ShapeSpec>({ title, shape, onChange }: ShapeSlotPro
   );
 };
 
-export type AdvancedSettingsPanelProps = {
+type AdvancedSettingsPanelProps = {
   sharedConfig: SharedConfig;
   onChange: (sharedConfig: SharedConfig) => void;
   onExportSettings: () => void;

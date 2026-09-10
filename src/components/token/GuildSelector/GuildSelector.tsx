@@ -4,7 +4,7 @@ import { AvailableGuild } from "../../../browser/listAvailableGuilds";
 import { Panel } from "../../primitives/Panel/Panel";
 import styles from "./GuildSelector.module.css";
 
-export type GuildSelectorProps = {
+type GuildSelectorProps = {
   guilds: AvailableGuild[];
   selectedGuildId?: string;
   onSelect: (guildId: string) => void;

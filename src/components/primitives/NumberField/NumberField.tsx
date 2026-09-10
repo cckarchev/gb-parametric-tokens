@@ -1,6 +1,6 @@
 import styles from "./NumberField.module.css";
 
-export type NumberFieldProps = {
+type NumberFieldProps = {
   label: string;
   value: number;
   onChange: (value: number) => void;

@@ -3,7 +3,7 @@ import { FileField } from "../../../primitives/FileField/FileField";
 import { SettingsGroup } from "../../../primitives/SettingsGroup/SettingsGroup";
 import styles from "./SettingsFileGroup.module.css";
 
-export type SettingsFileGroupProps = {
+type SettingsFileGroupProps = {
   onExportSettings: () => void;
   onImportSettings: (file: File) => void;
   importSettingsError: string | undefined;

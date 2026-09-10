@@ -1,6 +1,6 @@
 import { CheckboxField } from "../CheckboxField/CheckboxField";
 
-export type SelectAllCheckboxProps = {
+type SelectAllCheckboxProps = {
   checked: boolean;
   onChange: (checked: boolean) => void;
   disabled?: boolean;

@@ -1,7 +1,7 @@
 import { PRINT_PROFILES } from "../../../core/token/printProfiles";
 import { SelectField } from "../../primitives/SelectField/SelectField";
 
-export type PrintProfileSelectorProps = {
+type PrintProfileSelectorProps = {
   printProfileId: string;
   onChange: (printProfileId: string) => void;
 };

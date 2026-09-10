@@ -4,7 +4,7 @@ import { ColorGroupSpec } from "../../../core/token/types";
 import { ColorField } from "../../primitives/ColorField/ColorField";
 import styles from "./GuildColorsEditor.module.css";
 
-export type GuildColorsEditorProps = {
+type GuildColorsEditorProps = {
   colorGroups: ColorGroupSpec[];
   onChange: (colorGroups: ColorGroupSpec[]) => void;
 };
