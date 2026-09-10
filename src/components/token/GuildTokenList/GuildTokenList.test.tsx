@@ -13,21 +13,33 @@ const catalog: GuildCatalog = {
   genericTokens: [{ name: "Beer Token" }],
 };
 
-const renderList = (overrides: Partial<Parameters<typeof GuildTokenList>[0]> = {}) => {
-  return render(
-    <GuildTokenList
-      catalog={catalog}
-      genericTokens={{}}
-      onGenericTokensChange={vi.fn()}
-      influence={{ enabled: false, copies: 1 }}
-      onInfluenceChange={vi.fn()}
-      momentum={{ enabled: false, copies: 1 }}
-      onMomentumChange={vi.fn()}
-      goalInfluence={{ enabled: false, copies: 1 }}
-      onGoalInfluenceChange={vi.fn()}
-      {...overrides}
-    />,
-  );
+type GuildTokenListProps = Parameters<typeof GuildTokenList>[0];
+
+const listElement = (overrides: Partial<GuildTokenListProps> = {}) => (
+  <GuildTokenList
+    catalog={catalog}
+    genericTokens={{}}
+    onGenericTokensChange={vi.fn()}
+    influence={{ enabled: false, copies: 1 }}
+    onInfluenceChange={vi.fn()}
+    momentum={{ enabled: false, copies: 1 }}
+    onMomentumChange={vi.fn()}
+    goalInfluence={{ enabled: false, copies: 1 }}
+    onGoalInfluenceChange={vi.fn()}
+    {...overrides}
+  />
+);
+
+// Rerendering goes back through the same defaults as the first render, so a test that re-renders
+// only has to say which props changed, the same way the initial render does.
+const renderList = (overrides: Partial<GuildTokenListProps> = {}) => {
+  const { rerender } = render(listElement(overrides));
+
+  return {
+    rerenderList: (next: Partial<GuildTokenListProps> = {}) => {
+      rerender(listElement(next));
+    },
+  };
 };
 
 describe("GuildTokenList", () => {
@@ -168,7 +180,7 @@ describe("GuildTokenList", () => {
   });
 
   it("shows 'Select all' as checked only once every counter is enabled", () => {
-    const { rerender } = renderList({
+    const { rerenderList } = renderList({
       influence: { enabled: true, copies: 13 },
       momentum: { enabled: true, copies: 15 },
       goalInfluence: { enabled: false, copies: 2 },
@@ -177,19 +189,12 @@ describe("GuildTokenList", () => {
 
     expect(screen.getByLabelText("Select all")).not.toBeChecked();
 
-    rerender(
-      <GuildTokenList
-        catalog={catalog}
-        genericTokens={{ "Beer Token": { enabled: true, copies: 4 } }}
-        onGenericTokensChange={vi.fn()}
-        influence={{ enabled: true, copies: 13 }}
-        onInfluenceChange={vi.fn()}
-        momentum={{ enabled: true, copies: 15 }}
-        onMomentumChange={vi.fn()}
-        goalInfluence={{ enabled: true, copies: 2 }}
-        onGoalInfluenceChange={vi.fn()}
-      />,
-    );
+    rerenderList({
+      influence: { enabled: true, copies: 13 },
+      momentum: { enabled: true, copies: 15 },
+      goalInfluence: { enabled: true, copies: 2 },
+      genericTokens: { "Beer Token": { enabled: true, copies: 4 } },
+    });
 
     expect(screen.getByLabelText("Select all")).toBeChecked();
   });

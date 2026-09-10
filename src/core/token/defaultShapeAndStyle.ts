@@ -3,7 +3,8 @@ import { ArcShapeSpec, ColorGroupSpec, DiscShapeSpec, FitPolicy, StyleSpec } fro
 // Starting point for the fixed-innerR arc model (see
 // docs/superpowers/specs/2026-09-02-arc-parametrization-design.md) -- not a physical
 // measurement, the user adjusts these by feel. Shared by every flow that needs a starting
-// shape (the token editor and ShapeEditor's type-switch default).
+// shape: the token editor's own default, and ShapeEditor's fallback for the stud fillet radius
+// on an arc that has never had one set.
 export const DEFAULT_ARC_SHAPE: ArcShapeSpec = {
   type: "arc",
   ribbonWidthMm: 6,

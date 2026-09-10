@@ -25,6 +25,21 @@ const sharedConfig: SharedConfig = {
   iconOverflowBehavior: "none",
 };
 
+type TokenConfigEditorProps = Parameters<typeof TokenConfigEditor>[0];
+
+const renderEditor = (overrides: Partial<TokenConfigEditorProps> = {}) => {
+  render(
+    <TokenConfigEditor
+      sharedConfig={sharedConfig}
+      onChange={vi.fn()}
+      onExportSettings={vi.fn()}
+      onImportSettings={vi.fn()}
+      importSettingsError={undefined}
+      {...overrides}
+    />,
+  );
+};
+
 const openAdvancedSettings = async () => {
   await userEvent.click(screen.getByRole("button", { name: "Advanced settings" }));
 };
@@ -33,15 +48,7 @@ describe("TokenConfigEditor", () => {
   it("triggers the settings export callback", async () => {
     const onExportSettings = vi.fn();
 
-    render(
-      <TokenConfigEditor
-        sharedConfig={sharedConfig}
-        onChange={vi.fn()}
-        onExportSettings={onExportSettings}
-        onImportSettings={vi.fn()}
-        importSettingsError={undefined}
-      />,
-    );
+    renderEditor({ onExportSettings });
 
     await openAdvancedSettings();
     await userEvent.click(screen.getByRole("button", { name: "Export settings (.json)" }));
@@ -52,15 +59,7 @@ describe("TokenConfigEditor", () => {
   it("reports the chosen file for settings import", async () => {
     const onImportSettings = vi.fn();
 
-    render(
-      <TokenConfigEditor
-        sharedConfig={sharedConfig}
-        onChange={vi.fn()}
-        onExportSettings={vi.fn()}
-        onImportSettings={onImportSettings}
-        importSettingsError={undefined}
-      />,
-    );
+    renderEditor({ onImportSettings });
 
     await openAdvancedSettings();
 
@@ -74,15 +73,7 @@ describe("TokenConfigEditor", () => {
   });
 
   it("shows the settings import error", async () => {
-    render(
-      <TokenConfigEditor
-        sharedConfig={sharedConfig}
-        onChange={vi.fn()}
-        onExportSettings={vi.fn()}
-        onImportSettings={vi.fn()}
-        importSettingsError="This file is not a valid settings file."
-      />,
-    );
+    renderEditor({ importSettingsError: "This file is not a valid settings file." });
 
     await openAdvancedSettings();
 
@@ -90,29 +81,13 @@ describe("TokenConfigEditor", () => {
   });
 
   it("keeps the print profile selector visible without opening advanced settings", () => {
-    render(
-      <TokenConfigEditor
-        sharedConfig={sharedConfig}
-        onChange={vi.fn()}
-        onExportSettings={vi.fn()}
-        onImportSettings={vi.fn()}
-        importSettingsError={undefined}
-      />,
-    );
+    renderEditor();
 
     expect(screen.getByLabelText("Print profile")).toBeInTheDocument();
   });
 
   it("keeps relief and the guild colors visible without opening advanced settings", () => {
-    render(
-      <TokenConfigEditor
-        sharedConfig={sharedConfig}
-        onChange={vi.fn()}
-        onExportSettings={vi.fn()}
-        onImportSettings={vi.fn()}
-        importSettingsError={undefined}
-      />,
-    );
+    renderEditor();
 
     expect(screen.getByLabelText("Relief")).toHaveValue("raised");
     expect(screen.getByLabelText("Body")).toHaveValue("#cdb320");
@@ -122,15 +97,7 @@ describe("TokenConfigEditor", () => {
   it("updates only the relief field when the quick relief selector changes", async () => {
     const onChange = vi.fn();
 
-    render(
-      <TokenConfigEditor
-        sharedConfig={sharedConfig}
-        onChange={onChange}
-        onExportSettings={vi.fn()}
-        onImportSettings={vi.fn()}
-        importSettingsError={undefined}
-      />,
-    );
+    renderEditor({ onChange });
 
     await userEvent.selectOptions(screen.getByLabelText("Relief"), "Engraved");
 
@@ -141,15 +108,7 @@ describe("TokenConfigEditor", () => {
   });
 
   it("renders the arc, disc, and Goal Influence shape editors with their own values once expanded", async () => {
-    render(
-      <TokenConfigEditor
-        sharedConfig={sharedConfig}
-        onChange={vi.fn()}
-        onExportSettings={vi.fn()}
-        onImportSettings={vi.fn()}
-        importSettingsError={undefined}
-      />,
-    );
+    renderEditor();
 
     await openAdvancedSettings();
 
@@ -162,15 +121,7 @@ describe("TokenConfigEditor", () => {
   it("updates the Goal Influence shape independently from the generic disc shape", async () => {
     const onChange = vi.fn();
 
-    render(
-      <TokenConfigEditor
-        sharedConfig={sharedConfig}
-        onChange={onChange}
-        onExportSettings={vi.fn()}
-        onImportSettings={vi.fn()}
-        importSettingsError={undefined}
-      />,
-    );
+    renderEditor({ onChange });
 
     await openAdvancedSettings();
 
@@ -185,15 +136,7 @@ describe("TokenConfigEditor", () => {
   it("toggles the arc shape's stud fillet from the print options panel", async () => {
     const onChange = vi.fn();
 
-    render(
-      <TokenConfigEditor
-        sharedConfig={sharedConfig}
-        onChange={onChange}
-        onExportSettings={vi.fn()}
-        onImportSettings={vi.fn()}
-        importSettingsError={undefined}
-      />,
-    );
+    renderEditor({ onChange });
 
     await userEvent.click(screen.getByLabelText("Fillet between stud and arc"));
 
@@ -206,15 +149,7 @@ describe("TokenConfigEditor", () => {
   it("updates the arc shape when the arc editor's ribbon width changes", async () => {
     const onChange = vi.fn();
 
-    render(
-      <TokenConfigEditor
-        sharedConfig={sharedConfig}
-        onChange={onChange}
-        onExportSettings={vi.fn()}
-        onImportSettings={vi.fn()}
-        importSettingsError={undefined}
-      />,
-    );
+    renderEditor({ onChange });
 
     await openAdvancedSettings();
 
@@ -229,15 +164,7 @@ describe("TokenConfigEditor", () => {
   // Each slot is locked to one shape type: an arc token's shape can never become a disc, or vice
   // versa. Offering no type control at all is what enforces that.
   it("offers no shape type control in any of the shape slots", async () => {
-    render(
-      <TokenConfigEditor
-        sharedConfig={sharedConfig}
-        onChange={vi.fn()}
-        onExportSettings={vi.fn()}
-        onImportSettings={vi.fn()}
-        importSettingsError={undefined}
-      />,
-    );
+    renderEditor();
 
     await openAdvancedSettings();
 
@@ -247,15 +174,7 @@ describe("TokenConfigEditor", () => {
   it("updates the name and effect text sizes independently from advanced settings", async () => {
     const onChange = vi.fn();
 
-    render(
-      <TokenConfigEditor
-        sharedConfig={sharedConfig}
-        onChange={onChange}
-        onExportSettings={vi.fn()}
-        onImportSettings={vi.fn()}
-        importSettingsError={undefined}
-      />,
-    );
+    renderEditor({ onChange });
 
     await openAdvancedSettings();
 
@@ -267,15 +186,7 @@ describe("TokenConfigEditor", () => {
   it("reports a body color change while preserving the text color group", async () => {
     const onChange = vi.fn();
 
-    render(
-      <TokenConfigEditor
-        sharedConfig={sharedConfig}
-        onChange={onChange}
-        onExportSettings={vi.fn()}
-        onImportSettings={vi.fn()}
-        importSettingsError={undefined}
-      />,
-    );
+    renderEditor({ onChange });
 
     fireEvent.change(screen.getByLabelText("Body"), { target: { value: "#111111" } });
 

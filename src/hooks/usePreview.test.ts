@@ -5,6 +5,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { GuildCatalog } from "../core/token/catalog/catalogTypes";
 import { SharedConfig, TokenSelection } from "../core/token/catalog/tokenItems/tokenItem";
 import { FakeWorker, installFakeWorker, lastPostedRequest } from "./fakeWorker";
+import { LIVE_PREVIEW_DEBOUNCE_MS } from "./livePreviewDebounce";
 import { usePreview } from "./usePreview";
 
 const catalog: GuildCatalog = {
@@ -93,7 +94,7 @@ describe("usePreview debounce", () => {
     rerender({ selection: selectionWith(["Tapper-0", "Tapper-1"]) });
     expect(worker.postMessage).toHaveBeenCalledTimes(1);
 
-    vi.advanceTimersByTime(299);
+    vi.advanceTimersByTime(LIVE_PREVIEW_DEBOUNCE_MS - 1);
     expect(worker.postMessage).toHaveBeenCalledTimes(1);
 
     vi.advanceTimersByTime(1);
@@ -117,7 +118,7 @@ describe("usePreview debounce", () => {
     rerender({ selection: selectionWith(["Tapper-0"]) });
     expect(worker.postMessage).toHaveBeenCalledTimes(1);
 
-    vi.advanceTimersByTime(300);
+    vi.advanceTimersByTime(LIVE_PREVIEW_DEBOUNCE_MS);
 
     rerender({ selection: selectionWith(["Tapper-1"]) });
     expect(worker.postMessage).toHaveBeenCalledTimes(2);

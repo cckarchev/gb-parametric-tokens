@@ -6,7 +6,7 @@ import type { ShapeSpec } from "../../../core/token/types";
 import { ShapeEditor } from "./ShapeEditor";
 
 describe("ShapeEditor", () => {
-  it("shows the disc radius field for a disc shape", () => {
+  it("shows the disc diameter field for a disc shape", () => {
     const discShape: ShapeSpec = { type: "disc", diameterMm: 12.5 };
 
     render(<ShapeEditor shape={discShape} onChange={vi.fn()} />);

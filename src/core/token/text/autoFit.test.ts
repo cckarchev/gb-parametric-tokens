@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { FitPolicy, PrintProfile } from "../types";
+import { PRINT_PROFILES } from "../printProfiles";
+import { FitPolicy } from "../types";
 import { autoFitLine } from "./autoFit";
 import { loadTestFont } from "./testFont";
 
@@ -10,15 +11,7 @@ const fitPolicy: FitPolicy = {
   minScale: 0.5,
   allowTwoLines: true,
 };
-const printProfile: PrintProfile = {
-  id: "fdm-04",
-  name: "FDM 0.4mm",
-  minStrokeWidthMm: 0.45,
-  minReliefHeightMm: 0.4,
-  minFeatureGapMm: 0.4,
-  bezierToleranceMm: 0.1,
-  defaultRelief: "raised",
-};
+const printProfile = PRINT_PROFILES["fdm-04"];
 
 describe("autoFitLine", () => {
   it("leaves short text unchanged when it already fits comfortably", () => {
