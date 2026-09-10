@@ -1,19 +1,19 @@
 import type { Font } from "opentype.js";
 
-import { buildIconComponent, LoadIconSource } from "./computeReliefComponentsShared";
-import { CENTER_ANGLE_DEG, RADIAL_TO_UPRIGHT_OFFSET_DEG } from "./geometry/angleConventions";
+import { CENTER_ANGLE_DEG, RADIAL_TO_UPRIGHT_OFFSET_DEG } from "../geometry/angleConventions";
 import {
   computeEffectiveStudDiameterMm,
   computeInnerRadiusMm,
   computeOuterRadiusMm,
   computeStudPlacements,
   computeSweepDeg,
-} from "./geometry/studPlacement";
-import { ReliefComponent } from "./mesh/reliefComponent";
-import { autoFitLine } from "./text/autoFit";
-import { estimateAscentMm } from "./text/glyphMetrics";
-import { layoutArcText } from "./text/layoutArcText";
-import { PrintProfile, TokenSpec } from "./types";
+} from "../geometry/studPlacement";
+import { ReliefComponent } from "../mesh/reliefComponent";
+import { autoFitLine } from "../text/autoFit";
+import { estimateAscentMm } from "../text/glyphMetrics";
+import { layoutArcText } from "../text/layoutArcText";
+import { PrintProfile, TokenSpec } from "../types";
+import { buildIconComponent, LoadIconSource } from "./computeReliefComponentsShared";
 
 const STUD_TEXT_CLEARANCE_DEG = 6;
 

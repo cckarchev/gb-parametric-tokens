@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
+import { TokenSpec } from "../types";
 import { requireDiscShape } from "./computeReliefComponentsShared";
-import { TokenSpec } from "./types";
 
 const spec = (shape: TokenSpec["shape"]): TokenSpec => ({
   version: 1,

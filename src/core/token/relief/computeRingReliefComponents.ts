@@ -1,14 +1,14 @@
 import type { Font } from "opentype.js";
 
+import { ReliefComponent } from "../mesh/reliefComponent";
+import { layoutArcText } from "../text/layoutArcText";
+import { LineSpec, PrintProfile, TokenSpec } from "../types";
 import {
   buildCenterIconComponents,
   buildDecorationComponents,
   LoadIconSource,
   requireDiscShape,
 } from "./computeReliefComponentsShared";
-import { ReliefComponent } from "./mesh/reliefComponent";
-import { layoutArcText } from "./text/layoutArcText";
-import { LineSpec, PrintProfile, TokenSpec } from "./types";
 
 // The ring layout's two text bands: top (outward-reading, same convention as the ribbon arc)
 // and bottom (inward-reading, so it stays upright for a viewer who never rotates the token --

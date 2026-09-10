@@ -1,12 +1,12 @@
 import type { Font } from "opentype.js";
 
+import { ReliefComponent, ReliefComponentSource } from "../mesh/reliefComponent";
+import { PrintProfile, TokenSpec } from "../types";
+import { ComponentFailure, validateMinStrokeWidth } from "../validation/validateMinStrokeWidth";
 import { computeArcReliefComponents } from "./computeArcReliefComponents";
 import { computeDiscReliefComponents } from "./computeDiscReliefComponents";
 import { LoadIconSource, LoadIconSourceResult } from "./computeReliefComponentsShared";
 import { computeRingReliefComponents } from "./computeRingReliefComponents";
-import { ReliefComponent, ReliefComponentSource } from "./mesh/reliefComponent";
-import { PrintProfile, TokenSpec } from "./types";
-import { ComponentFailure, validateMinStrokeWidth } from "./validation/validateMinStrokeWidth";
 
 export type { LoadIconSource, LoadIconSourceResult };
 

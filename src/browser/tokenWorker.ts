@@ -2,7 +2,6 @@
 import { describeError } from "../core/describeError";
 import { buildTokenParts } from "../core/token/buildTokenParts";
 import { TokenItem } from "../core/token/catalog/tokenItems/tokenItem";
-import { computeReliefComponents } from "../core/token/computeReliefComponents";
 import {
   buildCombinedThreeMfModelXml,
   CombinedThreeMfItem,
@@ -17,6 +16,7 @@ import {
 import { ReliefComponent } from "../core/token/mesh/reliefComponent";
 import { computeBaseOutlineContours } from "../core/token/preview/computeBaseOutlineContours";
 import { PRINT_PROFILES } from "../core/token/printProfiles";
+import { computeReliefComponents } from "../core/token/relief/computeReliefComponents";
 import { ColorGroupSpec, ShapeSpec } from "../core/token/types";
 import {
   ComponentFailure,

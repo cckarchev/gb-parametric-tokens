@@ -1,14 +1,14 @@
-import { rotateContours, translateContours } from "./geometry/contourTransforms";
-import { growIconOutline } from "./geometry/growIconOutline";
-import { placeIcon } from "./geometry/iconPlacement";
-import { computeRingContour } from "./geometry/ringContour";
-import { trimIconToCircle } from "./geometry/trimIconToCircle";
-import { ReliefComponent } from "./mesh/reliefComponent";
-import { extractPathData } from "./svg/extractPathData";
-import { flattenPath } from "./svg/flattenPath";
-import { normalizeWinding } from "./svg/normalizeWinding";
-import { parsePathData } from "./svg/parsePathData";
-import { DiscShapeSpec, IconSpec, PrintProfile, TokenSpec, Vec2 } from "./types";
+import { rotateContours, translateContours } from "../geometry/contourTransforms";
+import { growIconOutline } from "../geometry/growIconOutline";
+import { placeIcon } from "../geometry/iconPlacement";
+import { computeRingContour } from "../geometry/ringContour";
+import { trimIconToCircle } from "../geometry/trimIconToCircle";
+import { ReliefComponent } from "../mesh/reliefComponent";
+import { extractPathData } from "../svg/extractPathData";
+import { flattenPath } from "../svg/flattenPath";
+import { normalizeWinding } from "../svg/normalizeWinding";
+import { parsePathData } from "../svg/parsePathData";
+import { DiscShapeSpec, IconSpec, PrintProfile, TokenSpec, Vec2 } from "../types";
 
 export type LoadIconSourceResult = { svgSource: string; resolvedId: string; substituted: boolean };
 export type LoadIconSource = (iconId: string) => Promise<LoadIconSourceResult>;

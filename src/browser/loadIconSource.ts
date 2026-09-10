@@ -1,6 +1,6 @@
-import { LoadIconSource, LoadIconSourceResult } from "../core/token/computeReliefComponents";
 import { FALLBACK_ICON_ID, ManifestEntry } from "../core/token/icons/iconManifest";
 import { resolveIconId } from "../core/token/icons/resolveIconId";
+import { LoadIconSource, LoadIconSourceResult } from "../core/token/relief/computeReliefComponents";
 
 export const createLoadIconSource = (manifest: ManifestEntry[]): LoadIconSource => {
   return async (iconId: string): Promise<LoadIconSourceResult> => {

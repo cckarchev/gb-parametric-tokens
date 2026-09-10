@@ -1,15 +1,15 @@
 import { describe, expect, it } from "vitest";
 
-import { computeReliefComponents, LoadIconSource } from "./computeReliefComponents";
-import { CENTER_ANGLE_DEG } from "./geometry/angleConventions";
+import { CENTER_ANGLE_DEG } from "../geometry/angleConventions";
 import {
   computeInnerRadiusMm,
   computeOuterRadiusMm,
   computeStudPlacements,
-} from "./geometry/studPlacement";
-import { PRINT_PROFILES } from "./printProfiles";
-import { loadTestFont } from "./text/testFont";
-import { TokenSpec } from "./types";
+} from "../geometry/studPlacement";
+import { PRINT_PROFILES } from "../printProfiles";
+import { loadTestFont } from "../text/testFont";
+import { TokenSpec } from "../types";
+import { computeReliefComponents, LoadIconSource } from "./computeReliefComponents";
 
 // A diamond whose vertices sit exactly on its own bounding box's inscribed circle (see
 // iconPlacement.test.ts's identical fixture): fits within a circular stud/disc with no shrink, so

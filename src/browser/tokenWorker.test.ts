@@ -2,7 +2,9 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("./loadFont", () => ({ loadFont: vi.fn().mockResolvedValue({}) }));
 vi.mock("./loadIconManifest", () => ({ loadIconManifest: vi.fn().mockResolvedValue([]) }));
-vi.mock("../core/token/computeReliefComponents", () => ({ computeReliefComponents: vi.fn() }));
+vi.mock("../core/token/relief/computeReliefComponents", () => ({
+  computeReliefComponents: vi.fn(),
+}));
 vi.mock("../core/token/preview/computeBaseOutlineContours", () => ({
   computeBaseOutlineContours: vi.fn(),
 }));
@@ -21,7 +23,7 @@ const { computeFootprintMm, handleExport, handlePreview } = await import("./toke
 const { computeEffectiveStudDiameterMm, computeOuterRadiusMm } = await import(
   "../core/token/geometry/studPlacement"
 );
-const { computeReliefComponents } = await import("../core/token/computeReliefComponents");
+const { computeReliefComponents } = await import("../core/token/relief/computeReliefComponents");
 const { computeBaseOutlineContours } = await import(
   "../core/token/preview/computeBaseOutlineContours"
 );
