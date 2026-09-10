@@ -1,7 +1,7 @@
 import { BASE_COLOR_GROUP_ID, resolveColorGroupDisplay } from "../mesh/colorGroups";
 import { ColorGroupSpec, Vec2 } from "../types";
 
-export const contourToPathSegment = (contour: Vec2[]): string => {
+const contourToPathSegment = (contour: Vec2[]): string => {
   const [first, ...rest] = contour;
   const moveTo = `M${first[0]},${first[1]}`;
   const lineTos = rest.map(([x, y]) => `L${x},${y}`).join(" ");
@@ -13,7 +13,7 @@ export const contourToPathSegment = (contour: Vec2[]): string => {
 // ring decoration), so the nonzero default would fill those holes in.
 const FILL_RULE = "evenodd";
 
-export const contoursToPathSvg = (contours: Vec2[][], color: string): string => {
+const contoursToPathSvg = (contours: Vec2[][], color: string): string => {
   const pathData = contours.map(contourToPathSegment).join(" ");
 
   return `<path d="${pathData}" fill="${color}" fill-rule="${FILL_RULE}" />`;

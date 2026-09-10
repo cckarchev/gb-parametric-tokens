@@ -8,7 +8,7 @@ import { getManifoldModule } from "./manifoldModule";
 import { collectGrowOutlineContours, ReliefComponent } from "./reliefComponent";
 import { TokenPart } from "./tokenPart";
 
-export type BuildArcTokenMeshInput = {
+type BuildArcTokenMeshInput = {
   shape: ArcShapeSpec;
   centerAngleDeg: number;
   style: StyleSpec;

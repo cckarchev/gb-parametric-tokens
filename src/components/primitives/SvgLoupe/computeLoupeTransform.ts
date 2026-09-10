@@ -5,11 +5,11 @@ const MM_PER_INCH = 25.4;
 // can express "true physical size" at all, since it has no access to the display's real DPI.
 export const CSS_PX_PER_MM = CSS_DPI / MM_PER_INCH;
 
-export type SizePx = { width: number; height: number };
+type SizePx = { width: number; height: number };
 export type PointPx = { x: number; y: number };
 export type ViewBoxSize = { width: number; height: number };
 
-export type LoupeTransform = {
+type LoupeTransform = {
   contentWidthPx: number;
   contentHeightPx: number;
   offsetXPx: number;

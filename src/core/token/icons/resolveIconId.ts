@@ -1,6 +1,6 @@
 import { ManifestEntry } from "./iconManifest";
 
-export type ResolveIconIdResult = { resolvedId: string; substituted: boolean };
+type ResolveIconIdResult = { resolvedId: string; substituted: boolean };
 
 export const resolveIconId = (
   iconId: string,

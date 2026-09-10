@@ -4,7 +4,7 @@ export const BASE_COLOR_GROUP_ID = "base";
 
 const FALLBACK_DISPLAY_COLOR = "#CCCCCC";
 
-export type ColorGroupDisplay = { name: string; color: string };
+type ColorGroupDisplay = { name: string; color: string };
 
 export const resolveColorGroupId = (colorGroup?: string): string => {
   return colorGroup ?? BASE_COLOR_GROUP_ID;

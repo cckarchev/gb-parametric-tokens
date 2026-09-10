@@ -2,7 +2,7 @@ import { DEGREES_PER_RADIAN, RADIAL_TO_UPRIGHT_OFFSET_DEG } from "../geometry/an
 import { Vec2 } from "../types";
 import { computePenPositions } from "./measureAdvances";
 
-export type ArcGlyphPlacement = {
+type ArcGlyphPlacement = {
   angleDeg: number;
   position: Vec2;
   rotationDeg: number;
@@ -22,7 +22,7 @@ export type ArcGlyphPlacement = {
 // token -- the classic "challenge coin" bottom-band convention.
 export type ArcOrientation = "outward" | "inward";
 
-export type ArcGlyphPlacementInput = {
+type ArcGlyphPlacementInput = {
   advancesMm: number[];
   kerningsMm: number[];
   radiusMm: number;

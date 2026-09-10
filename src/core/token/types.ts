@@ -20,7 +20,7 @@ export type ShapeSpec =
 export type ArcShapeSpec = Extract<ShapeSpec, { type: "arc" }>;
 export type DiscShapeSpec = Extract<ShapeSpec, { type: "disc" }>;
 
-export type TextLayout = "arc" | "flat" | "ring";
+type TextLayout = "arc" | "flat" | "ring";
 
 export type LineSpec = {
   text: string;
@@ -61,7 +61,7 @@ export type ColorGroupSpec = {
   color: string;
 };
 
-export type DecorationSpec = {
+type DecorationSpec = {
   type: "ring";
   radiusMm: number;
   widthMm: number;

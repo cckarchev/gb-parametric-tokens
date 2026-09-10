@@ -6,7 +6,7 @@ import { Vec2 } from "../types";
 import { flipGlyphContoursToYUp, getGlyphContours } from "./glyphOutline";
 import { computePenPositions, DEFAULT_TRACKING_MM, measureAdvances } from "./measureAdvances";
 
-export type FlatLineSpec = { text: string; sizeMm: number; trackingMm?: number };
+type FlatLineSpec = { text: string; sizeMm: number; trackingMm?: number };
 
 export const layoutFlatText = (font: Font, line: FlatLineSpec, toleranceMm: number): Vec2[][] => {
   const glyphs = [...line.text].map((character) => font.charToGlyph(character));

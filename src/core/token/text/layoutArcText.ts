@@ -6,7 +6,7 @@ import { ArcOrientation, applyArcPlacement, computeArcGlyphPlacements } from "./
 import { flipGlyphContoursToYUp, getGlyphContours } from "./glyphOutline";
 import { DEFAULT_TRACKING_MM, measureAdvances } from "./measureAdvances";
 
-export type ArcLineSpec = {
+type ArcLineSpec = {
   text: string;
   sizeMm: number;
   radiusMm: number;

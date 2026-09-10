@@ -60,7 +60,7 @@ export const roundUpToGridStep = (valueMm: number): number => {
 // the cell's origin (always a multiple of GRID_STEP_MM, see layoutPreparedSection) and its size are
 // multiples of GRID_VERTEX_STEP_MM, since half of a GRID_VERTEX_STEP_MM-sized cell is itself a
 // whole multiple of GRID_STEP_MM.
-export const GRID_VERTEX_STEP_MM = GRID_STEP_MM * 2;
+const GRID_VERTEX_STEP_MM = GRID_STEP_MM * 2;
 
 export const roundUpToGridVertexStep = (valueMm: number): number => {
   return Math.ceil(valueMm / GRID_VERTEX_STEP_MM) * GRID_VERTEX_STEP_MM;

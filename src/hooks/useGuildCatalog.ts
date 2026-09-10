@@ -7,7 +7,7 @@ import { GuildCatalog } from "../core/token/catalog/catalogTypes";
 
 // No "loading": every guild's catalog is inlined in the bundle, so selecting one either resolves
 // on the spot or throws on the spot -- there is no in-between state to render.
-export type CatalogStatus = "idle" | "ready" | "error";
+type CatalogStatus = "idle" | "ready" | "error";
 
 export const useGuildCatalog = () => {
   // Built once: the underlying list is a module-level constant, but rebuilding the mapped array

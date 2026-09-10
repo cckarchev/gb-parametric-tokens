@@ -4,7 +4,7 @@ import type { Font } from "opentype.js";
 // start here and only depart from it when a caller (or autoFit.ts's cascade) asks for tracking.
 export const DEFAULT_TRACKING_MM = 0;
 
-export type LineAdvances = {
+type LineAdvances = {
   advancesMm: number[];
   kerningsMm: number[];
 };

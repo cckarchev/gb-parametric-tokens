@@ -4,7 +4,7 @@ import styles from "./ExportPanel.module.css";
 
 // The slice of a failed PreviewItem this panel actually renders, derived from it rather than
 // restated, so the two can't drift apart.
-export type InvalidPreviewItem = Pick<PreviewItem, "id" | "group" | "name" | "reason">;
+type InvalidPreviewItem = Pick<PreviewItem, "id" | "group" | "name" | "reason">;
 
 // A character's tokens share one heading instead of repeating the character's name on every
 // line (see TokenItem's `group`); anything without a group (guild generics, Influence,

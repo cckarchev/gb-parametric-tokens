@@ -16,21 +16,21 @@ const DEFAULT_FONT_STEM_WIDTH_MM_PER_SIZE_MM = 0.129;
 const TWO_LINE_RADIUS_OFFSET_MM = 3.5;
 const TRUNCATION_MARKER = "…";
 
-export type AutoFitLineInput = {
+type AutoFitLineInput = {
   text: string;
   sizeMm: number;
   radiusMm: number;
   availableSweepDeg: number;
 };
 
-export type AutoFitLineOutput = {
+type AutoFitLineOutput = {
   text: string;
   sizeMm: number;
   trackingMm: number;
   radiusMm: number;
 };
 
-export type AutoFitResult = {
+type AutoFitResult = {
   lines: AutoFitLineOutput[];
   truncated: boolean;
 };

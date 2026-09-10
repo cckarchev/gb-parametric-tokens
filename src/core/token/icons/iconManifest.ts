@@ -3,9 +3,9 @@
 // placeholder the shared config carries before any guild has been selected.
 export const FALLBACK_ICON_ID = "blank";
 
-export type IconKind = "guild" | "status" | "generic";
+type IconKind = "guild" | "status" | "generic";
 
-export type IconBbox = { minX: number; minY: number; maxX: number; maxY: number };
+type IconBbox = { minX: number; minY: number; maxX: number; maxY: number };
 
 export type ManifestEntry = {
   id: string;

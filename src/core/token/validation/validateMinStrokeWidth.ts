@@ -5,7 +5,7 @@ import { getManifoldModule } from "../mesh/manifoldModule";
 import { ReliefComponentSource } from "../mesh/reliefComponent";
 import { Vec2 } from "../types";
 
-export type MinStrokeWidthValidation = {
+type MinStrokeWidthValidation = {
   valid: boolean;
   featureCount: number;
   vanishedFeatureCount: number;
@@ -46,7 +46,7 @@ export const validateMinStrokeWidth = async (
 // One relief component (a text line, an icon, a decoration) that failed the min-stroke-width
 // check, computed by running validateMinStrokeWidth per component instead of once over every
 // contour combined -- see computeReliefComponents.ts.
-export type StrokeWidthFailure = {
+type StrokeWidthFailure = {
   kind: "stroke-width";
   source: ReliefComponentSource;
   vanishedFeatureCount: number;
@@ -60,7 +60,7 @@ export type StrokeWidthFailure = {
 // really does print past the circle -- and a raised relief icon is unioned onto the base with no
 // clip against the stud/disc's own circle (applyReliefToBase.ts), leaving that excess as an
 // unsupported overhang.
-export type IconOverflowFailure = {
+type IconOverflowFailure = {
   kind: "icon-overflow";
   source: Extract<ReliefComponentSource, { kind: "icon" }>;
 };

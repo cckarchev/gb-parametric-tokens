@@ -2,7 +2,7 @@ import { Vec2 } from "../types";
 import { computeBounds } from "./computeBounds";
 import { flipContoursY } from "./contourTransforms";
 
-export type IconPlacementOptions = {
+type IconPlacementOptions = {
   targetDiameterMm: number;
   scale: number;
   // Off by default (see IconSpec.overflowBehavior's "shrink" value): when true, an icon whose own
@@ -12,7 +12,7 @@ export type IconPlacementOptions = {
   constrainToCircle: boolean;
 };
 
-export type PlaceIconResult = {
+type PlaceIconResult = {
   contours: Vec2[][];
   // True when the icon's own farthest point from its center would poke past the target circle
   // under a plain bounding-box fit, regardless of whether constrainToCircle actually corrected

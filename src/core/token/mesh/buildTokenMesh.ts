@@ -5,7 +5,7 @@ import { getManifoldModule } from "./manifoldModule";
 import { collectGrowOutlineContours, ReliefComponent } from "./reliefComponent";
 import { TokenPart } from "./tokenPart";
 
-export type BuildTokenMeshInput = {
+type BuildTokenMeshInput = {
   spec: TokenSpec;
   reliefComponents: ReliefComponent[];
 };
