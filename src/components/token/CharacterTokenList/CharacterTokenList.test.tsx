@@ -3,35 +3,14 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 
-import { CatalogEffect, GuildCatalog } from "../../../core/token/catalog/catalogTypes";
+import { GuildCatalog } from "../../../core/token/catalog/catalogTypes";
 import { characterTokenId } from "../../../core/token/catalog/tokenItems/tokenItem";
 import { CharacterTokenList } from "./CharacterTokenList";
 
-// vi.mock is hoisted above these imports, so the fixture data it closes over has to be built
-// inside vi.hoisted -- a plain top-level const here would still be uninitialized when the mock
-// factory below actually runs.
-const { fixtureEffects } = vi.hoisted(() => {
-  const fixtureEffects: Record<string, CatalogEffect> = {
-    "Commanding Aura": { name: "Commanding Aura", effect: '4" Aura +1 TAC +1 DMG' },
-    "Marked Target": { name: "Marked Target" },
-    "Singled Out": { name: "Singled Out", maxCopies: 2 },
-  };
-
-  return { fixtureEffects };
-});
-
-vi.mock("../../../core/token/catalog/effects", () => ({
-  resolveEffect: (effectId: string) => {
-    const effect = fixtureEffects[effectId];
-
-    if (!effect) {
-      throw new Error(`Unknown effect id "${effectId}"`);
-    }
-
-    return effect;
-  },
-}));
-
+// A deliberately tiny guild, but every character and effect named here is a real entry in the
+// catalog data, so the fixture describes a roster that could actually exist. "Singled Out" is the
+// only effect in the whole registry that carries maxCopies, which is what makes it the token this
+// file uses to cover the copies field.
 const catalog: GuildCatalog = {
   guildId: "brewers",
   name: "Brewers",
@@ -42,7 +21,7 @@ const catalog: GuildCatalog = {
       effects: ["Commanding Aura", "Marked Target"],
     },
     {
-      name: "Keg",
+      name: "Scum",
       effects: [],
     },
     {
@@ -132,7 +111,7 @@ describe("CharacterTokenList", () => {
   it("disables the header checkbox for a character with no tokens", () => {
     renderList();
 
-    expect(screen.getByLabelText("Keg")).toBeDisabled();
+    expect(screen.getByLabelText("Scum")).toBeDisabled();
     expect(screen.getByText("No tokens")).toBeInTheDocument();
   });
 

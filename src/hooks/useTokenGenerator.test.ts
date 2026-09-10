@@ -11,24 +11,10 @@ const { loadGuildCatalog } = await import("../browser/loadGuildCatalog");
 const { downloadBlob } = await import("../browser/downloadBlob");
 const { useTokenGenerator } = await import("./useTokenGenerator");
 
-import type { ExportResponse, PreviewResponse, WorkerRequest } from "../browser/tokenWorker";
+import type { WorkerRequest } from "../browser/tokenWorker";
 import type { GuildCatalog } from "../core/token/catalog/catalogTypes";
+import { FakeWorker, installFakeWorker, lastPostedRequest } from "./fakeWorker";
 import { LIVE_PREVIEW_DEBOUNCE_MS } from "./livePreviewDebounce";
-
-class FakeWorker {
-  static instances: FakeWorker[] = [];
-  onmessage: ((event: MessageEvent) => void) | null = null;
-  postMessage = vi.fn();
-  terminate = vi.fn();
-
-  constructor() {
-    FakeWorker.instances.push(this);
-  }
-
-  emit(data: PreviewResponse | ExportResponse) {
-    this.onmessage?.({ data } as MessageEvent);
-  }
-}
 
 const catalog: GuildCatalog = {
   guildId: "brewers",
@@ -43,15 +29,8 @@ const catalog: GuildCatalog = {
   genericTokens: [{ name: "Beer Token" }],
 };
 
-const lastPostedRequest = (worker: FakeWorker): WorkerRequest => {
-  const calls = worker.postMessage.mock.calls;
-
-  return calls[calls.length - 1][0] as WorkerRequest;
-};
-
 beforeEach(() => {
-  FakeWorker.instances = [];
-  vi.stubGlobal("Worker", FakeWorker);
+  installFakeWorker();
   vi.mocked(listAvailableGuilds)
     .mockReset()
     .mockReturnValue([{ id: "brewers", name: "Brewers", color: "#cdb320" }]);

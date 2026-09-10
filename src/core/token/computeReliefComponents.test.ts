@@ -1,6 +1,3 @@
-import { readFileSync } from "fs";
-import opentype from "opentype.js";
-import path from "path";
 import { describe, expect, it } from "vitest";
 
 import { computeReliefComponents, LoadIconSource } from "./computeReliefComponents";
@@ -11,14 +8,8 @@ import {
   computeStudPlacements,
 } from "./geometry/studPlacement";
 import { PRINT_PROFILES } from "./printProfiles";
+import { loadTestFont } from "./text/testFont";
 import { TokenSpec } from "./types";
-
-const loadTestFont = () => {
-  const buffer = readFileSync(path.join(process.cwd(), "public/fonts/SairaCondensed-Bold.ttf"));
-  const arrayBuffer = buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.byteLength);
-
-  return opentype.parse(arrayBuffer);
-};
 
 // A diamond whose vertices sit exactly on its own bounding box's inscribed circle (see
 // iconPlacement.test.ts's identical fixture): fits within a circular stud/disc with no shrink, so

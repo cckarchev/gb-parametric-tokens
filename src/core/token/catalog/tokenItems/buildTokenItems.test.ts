@@ -1,35 +1,12 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 
-import { CatalogEffect, GuildCatalog } from "../catalogTypes";
+import { GuildCatalog } from "../catalogTypes";
+import { resolveEffect } from "../effects";
 import { buildTokenItems } from "./buildTokenItems";
 import { characterTokenId, SharedConfig, TokenSelection } from "./tokenItem";
 
-// vi.mock is hoisted above these imports, so the fixture data it closes over has to be built
-// inside vi.hoisted -- a plain top-level const here would still be uninitialized when the mock
-// factory below actually runs.
-const { fixtureEffects } = vi.hoisted(() => {
-  const fixtureEffects: Record<string, CatalogEffect> = {
-    "Commanding Aura": { name: "Commanding Aura", effect: '4" Aura +1 TAC +1 DMG' },
-    "Marked Target": { name: "Marked Target" },
-    "Time's Called": { name: "Time's Called", effect: '4" Aura +2"/+2" MOV' },
-    "Singled Out": { name: "Singled Out", maxCopies: 2 },
-  };
-
-  return { fixtureEffects };
-});
-
-vi.mock("../effects", () => ({
-  resolveEffect: (effectId: string) => {
-    const effect = fixtureEffects[effectId];
-
-    if (!effect) {
-      throw new Error(`Unknown effect id "${effectId}"`);
-    }
-
-    return effect;
-  },
-}));
-
+// A deliberately tiny guild, but every character and effect named here is a real entry in the
+// catalog data, so the fixture describes a roster that could actually exist.
 const catalog: GuildCatalog = {
   guildId: "brewers",
   name: "Brewers",
@@ -66,13 +43,21 @@ const emptySelection: TokenSelection = {
   goalInfluence: { enabled: false, copies: 1 },
 };
 
+// "Singled Out" is the only effect in the whole registry that carries maxCopies, so Wellington is
+// what the copies-count tests below have to go through.
 const catalogWithMultiCopyToken: GuildCatalog = {
   guildId: "cooks",
   name: "Cooks",
-  color: "#e0a020",
+  color: "#eb2629",
   characters: [{ name: "Wellington", effects: ["Singled Out"] }],
   genericTokens: [],
 };
+
+// Derived rather than restated: the two tests that use this are about the size on each line, so
+// pinning the effect's own wording there would fail them for an edit to the catalog data that has
+// nothing to do with what they cover. The first test below keeps the literal on purpose, as the
+// one anchor proving the real text is what reaches the line.
+const commandingAuraText = resolveEffect("Commanding Aura").effect;
 
 describe("buildTokenItems", () => {
   it("includes only the character tokens listed in the selection", () => {
@@ -106,7 +91,7 @@ describe("buildTokenItems", () => {
 
     expect(items[0].spec.lines).toEqual([
       { text: "Commanding Aura", sizeMm: 8.5, colorGroup: "text" },
-      { text: '4" Aura +1 TAC +1 DMG', sizeMm: 5, colorGroup: "text" },
+      { text: commandingAuraText, sizeMm: 5, colorGroup: "text" },
     ]);
   });
 
@@ -146,7 +131,7 @@ describe("buildTokenItems", () => {
 
     expect(items[0].spec.lines).toEqual([
       { text: "Commanding Aura", sizeMm: 5.4, colorGroup: "text" },
-      { text: '4" Aura +1 TAC +1 DMG', sizeMm: 4.8, colorGroup: "text" },
+      { text: commandingAuraText, sizeMm: 4.8, colorGroup: "text" },
     ]);
   });
 

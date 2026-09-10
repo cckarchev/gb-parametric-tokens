@@ -1,16 +1,7 @@
-import { readFileSync } from "fs";
-import opentype from "opentype.js";
-import path from "path";
 import { describe, expect, it } from "vitest";
 
 import { getGlyphContours } from "./glyphOutline";
-
-const loadTestFont = () => {
-  const buffer = readFileSync(path.join(process.cwd(), "public/fonts/SairaCondensed-Bold.ttf"));
-  const arrayBuffer = buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.byteLength);
-
-  return opentype.parse(arrayBuffer);
-};
+import { loadTestFont } from "./testFont";
 
 describe("getGlyphContours", () => {
   it("produces one CCW contour for a hole-free glyph like 'l'", () => {

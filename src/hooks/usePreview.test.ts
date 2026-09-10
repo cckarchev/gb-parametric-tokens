@@ -2,21 +2,10 @@
 import { renderHook } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import type { WorkerRequest } from "../browser/tokenWorker";
 import { GuildCatalog } from "../core/token/catalog/catalogTypes";
 import { SharedConfig, TokenSelection } from "../core/token/catalog/tokenItems/tokenItem";
+import { FakeWorker, installFakeWorker, lastPostedRequest } from "./fakeWorker";
 import { usePreview } from "./usePreview";
-
-class FakeWorker {
-  static instances: FakeWorker[] = [];
-  onmessage: ((event: MessageEvent) => void) | null = null;
-  postMessage = vi.fn();
-  terminate = vi.fn();
-
-  constructor() {
-    FakeWorker.instances.push(this);
-  }
-}
 
 const catalog: GuildCatalog = {
   guildId: "brewers",
@@ -61,15 +50,8 @@ const selectionWith = (characterTokenIds: string[]): TokenSelection => ({
   characterTokenIds,
 });
 
-const lastPostedRequest = (worker: FakeWorker): WorkerRequest => {
-  const calls = worker.postMessage.mock.calls;
-
-  return calls[calls.length - 1][0] as WorkerRequest;
-};
-
 beforeEach(() => {
-  FakeWorker.instances = [];
-  vi.stubGlobal("Worker", FakeWorker);
+  installFakeWorker();
   vi.useFakeTimers();
 });
 
