@@ -1,4 +1,4 @@
-import { IconSpec, TokenSpec } from "../../types";
+import { FitPolicy, IconSpec, TokenSpec } from "../../types";
 import { TEXT_COLOR_GROUP_ID } from "../deriveReliefColor";
 import { SharedConfig } from "./tokenItem";
 
@@ -24,14 +24,20 @@ export const buildIconSpec = (
 
 // Every token spec carries the same trailing style/printing fields from the shared config,
 // whatever its own shape, text, icons, and decorations look like.
+//
+// fitPolicyOverride exists for a token whose text is fixed by this app rather than typed by the
+// user, and so never needs fitting at all (Momentum's "MP" -- see momentumTokenSpec.ts). It's a
+// parameter rather than a field the caller re-assigns after the spread, so the override is
+// visible at the call site instead of depending on which key happens to be written last.
 export const sharedTokenFields = (
   sharedConfig: SharedConfig,
+  fitPolicyOverride?: FitPolicy,
 ): Pick<TokenSpec, "style" | "colorGroups" | "printProfileId" | "fitPolicy"> => {
   return {
     style: sharedConfig.style,
     colorGroups: sharedConfig.colorGroups,
     printProfileId: sharedConfig.printProfileId,
-    fitPolicy: sharedConfig.fitPolicy,
+    fitPolicy: fitPolicyOverride ?? sharedConfig.fitPolicy,
   };
 };
 

@@ -338,6 +338,34 @@ describe("buildTokenItems", () => {
     ]);
   });
 
+  // Momentum is the one token kind that opts out of the shared fitPolicy: its text is the fixed
+  // two-character "MP", which always fits, so it never wants tracking or shrinking applied.
+  it("gives the Momentum item its own fitPolicy instead of the shared one", () => {
+    const items = buildTokenItems(
+      catalog,
+      { ...emptySelection, momentum: { enabled: true, copies: 1 } },
+      sharedConfig,
+    );
+
+    expect(items[0].spec.fitPolicy).toEqual({
+      minTracking: 0,
+      maxTracking: 0,
+      minScale: 1,
+      allowTwoLines: false,
+    });
+    expect(items[0].spec.fitPolicy).not.toEqual(sharedConfig.fitPolicy);
+  });
+
+  it("gives every other token kind the shared fitPolicy", () => {
+    const items = buildTokenItems(
+      catalog,
+      { ...emptySelection, influence: { enabled: true, copies: 1 } },
+      sharedConfig,
+    );
+
+    expect(items[0].spec.fitPolicy).toEqual(sharedConfig.fitPolicy);
+  });
+
   it("generates no Momentum item when momentum is disabled", () => {
     const items = buildTokenItems(
       catalog,

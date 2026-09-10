@@ -1,10 +1,12 @@
 import { describe, expect, it } from "vitest";
 
+import { computeBounds } from "../geometry/computeBounds";
 import {
   computeInnerRadiusMm,
   computeOuterRadiusMm,
   computeStudPlacements,
 } from "../geometry/studPlacement";
+import { computeBaseOutlineContours } from "../preview/computeBaseOutlineContours";
 import { StyleSpec, Vec2 } from "../types";
 import { buildArcTokenMesh } from "./buildArcTokenMesh";
 
@@ -180,5 +182,39 @@ describe("buildArcTokenMesh", () => {
 
     const basePart = parts.find((part) => part.colorGroupId === "base");
     expect(basePart?.manifold.decompose().length).toBe(1); // ribbon+studs still fused on their own
+  });
+
+  // A ribbon wider than its nominal stud is exactly what computeEffectiveStudDiameterMm exists
+  // for (see geometry/studPlacement.ts): the stud grows to match the ribbon's width so its curve
+  // still encloses the ribbon's straight end edge instead of leaving a visible notch. Every other
+  // consumer -- stud placement, the icon target size, the worker's bounds, and the 2D preview
+  // outline -- goes through that helper, so the mesh's own footprint has to agree with the
+  // preview's, or the print carries a notch the user never saw on screen.
+  it("gives a ribbon wider than its stud the same footprint the 2D preview draws", async () => {
+    const wideRibbonShape = {
+      type: "arc" as const,
+      ribbonWidthMm: 15,
+      ribbonLengthMm: 20,
+      studDiameterMm: 8,
+    };
+    const placements = computeStudPlacements(wideRibbonShape, centerAngleDeg);
+
+    const parts = await buildArcTokenMesh({
+      shape: wideRibbonShape,
+      centerAngleDeg,
+      style: { relief: "raised", reliefHeightMm: 0.6, baseThicknessMm: 3 },
+      studPositions: { left: placements.left.position, right: placements.right.position },
+      reliefComponents: [],
+    });
+
+    const previewBounds = computeBounds(
+      await computeBaseOutlineContours(wideRibbonShape, centerAngleDeg),
+    );
+    const meshBox = parts[0].manifold.boundingBox();
+
+    expect(meshBox.min[0]).toBeCloseTo(previewBounds.min[0], 2);
+    expect(meshBox.max[0]).toBeCloseTo(previewBounds.max[0], 2);
+    expect(meshBox.min[1]).toBeCloseTo(previewBounds.min[1], 2);
+    expect(meshBox.max[1]).toBeCloseTo(previewBounds.max[1], 2);
   });
 });

@@ -1,5 +1,6 @@
 import { STUD_CIRCLE_SEGMENTS } from "../geometry/circleResolution";
 import { filletOutline } from "../geometry/filletOutline";
+import { computeEffectiveStudDiameterMm } from "../geometry/studPlacement";
 import { ArcShapeSpec, StyleSpec, Vec2 } from "../types";
 import { applyReliefToBase } from "./applyReliefToBase";
 import { buildArcRibbonOutline2D } from "./buildArcRibbon";
@@ -20,7 +21,11 @@ export const buildArcTokenMesh = async (input: BuildArcTokenMeshInput): Promise<
   const { CrossSection } = wasm;
 
   const ribbon = buildArcRibbonOutline2D(CrossSection, input.shape, input.centerAngleDeg);
-  const studRadiusMm = input.shape.studDiameterMm / 2;
+  // The effective diameter, never the raw studDiameterMm: computeStudPlacements already puts the
+  // stud's center where a stud of THIS size touches the ribbon's inner-edge vertex, so building
+  // the circle at the nominal size instead would draw a too-small stud around a center placed for
+  // a bigger one -- leaving the ribbon's straight end edge poking out (see studPlacement.ts).
+  const studRadiusMm = computeEffectiveStudDiameterMm(input.shape) / 2;
 
   const leftStud = CrossSection.circle(studRadiusMm, STUD_CIRCLE_SEGMENTS).translate(
     input.studPositions.left[0],

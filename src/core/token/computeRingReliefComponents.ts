@@ -4,6 +4,7 @@ import {
   buildCenterIconComponents,
   buildDecorationComponents,
   LoadIconSource,
+  requireDiscShape,
 } from "./computeReliefComponentsShared";
 import { ReliefComponent } from "./mesh/reliefComponent";
 import { layoutArcText } from "./text/layoutArcText";
@@ -56,12 +57,7 @@ export const computeRingReliefComponents = async (
   loadIconSource: LoadIconSource,
   warnings: string[],
 ): Promise<ReliefComponent[]> => {
-  const shape = spec.shape;
-
-  if (shape.type !== "disc") {
-    throw new Error("computeRingReliefComponents requires a disc shape");
-  }
-
+  const shape = requireDiscShape(spec, "computeRingReliefComponents");
   const targetDiameterMm = shape.diameterMm;
   const iconComponents = await buildCenterIconComponents(
     spec.icons,

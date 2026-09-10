@@ -8,7 +8,7 @@ import { extractPathData } from "./svg/extractPathData";
 import { flattenPath } from "./svg/flattenPath";
 import { normalizeWinding } from "./svg/normalizeWinding";
 import { parsePathData } from "./svg/parsePathData";
-import { IconSpec, PrintProfile, TokenSpec, Vec2 } from "./types";
+import { DiscShapeSpec, IconSpec, PrintProfile, TokenSpec, Vec2 } from "./types";
 
 export type LoadIconSourceResult = { svgSource: string; resolvedId: string; substituted: boolean };
 export type LoadIconSource = (iconId: string) => Promise<LoadIconSourceResult>;
@@ -20,6 +20,20 @@ export type LoadIconSource = (iconId: string) => Promise<LoadIconSourceResult>;
 // still scales with the print profile (a fine resin nozzle gets a thinner rim than a coarse FDM
 // one), it's just a deliberately generous multiple of the bare minimum.
 const GROW_MARGIN_MULTIPLIER = 4;
+
+// Both disc-shaped layouts (flat and ring) are only ever reached for a disc spec -- see
+// computeReliefComponents.ts, which dispatches on shape.type before calling either. TypeScript
+// can't see that across the call, so each one needs its own narrowing guard; this makes that one
+// guard instead of two identical throws, and hands back the narrowed shape so the caller doesn't
+// re-read spec.shape afterwards. callerName goes in the message because the two layouts are
+// otherwise indistinguishable in a stack trace.
+export const requireDiscShape = (spec: TokenSpec, callerName: string): DiscShapeSpec => {
+  if (spec.shape.type !== "disc") {
+    throw new Error(`${callerName} requires a disc shape, got "${spec.shape.type}"`);
+  }
+
+  return spec.shape;
+};
 
 export const buildIconComponent = async (
   icon: IconSpec,

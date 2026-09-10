@@ -7,6 +7,8 @@ import { sharedTokenFields } from "./tokenSpecParts";
 // kind: there is no "MP token" in the catalog, only this one.
 const MOMENTUM_TEXT = "MP";
 const MOMENTUM_TEXT_SIZE_MM = 6;
+// "MP" is fixed and two characters long, so it always fits: no tracking, no shrinking, no wrap.
+// This replaces the shared fitPolicy rather than adjusting it (see sharedTokenFields).
 const MOMENTUM_FIT_POLICY: FitPolicy = {
   minTracking: 0,
   maxTracking: 0,
@@ -43,7 +45,6 @@ export const buildMomentumTokenSpec = (sharedConfig: SharedConfig): TokenSpec =>
     ],
     icons: [],
     decorations: [buildRingDecoration(sharedConfig.discShape)],
-    ...sharedTokenFields(sharedConfig),
-    fitPolicy: MOMENTUM_FIT_POLICY,
+    ...sharedTokenFields(sharedConfig, MOMENTUM_FIT_POLICY),
   };
 };

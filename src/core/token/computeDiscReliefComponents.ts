@@ -4,6 +4,7 @@ import {
   buildCenterIconComponents,
   buildDecorationComponents,
   LoadIconSource,
+  requireDiscShape,
 } from "./computeReliefComponentsShared";
 import { ReliefComponent } from "./mesh/reliefComponent";
 import { layoutFlatText } from "./text/layoutFlatText";
@@ -16,12 +17,7 @@ export const computeDiscReliefComponents = async (
   loadIconSource: LoadIconSource,
   warnings: string[],
 ): Promise<ReliefComponent[]> => {
-  const shape = spec.shape;
-
-  if (shape.type !== "disc") {
-    throw new Error("computeDiscReliefComponents requires a disc shape");
-  }
-
+  const shape = requireDiscShape(spec, "computeDiscReliefComponents");
   const targetDiameterMm = shape.diameterMm;
   const iconComponents = await buildCenterIconComponents(
     spec.icons,
