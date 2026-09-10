@@ -1,38 +1,25 @@
-import { DEFAULT_ARC_SHAPE, DEFAULT_DISC_SHAPE } from "../../../core/token/defaultShapeAndStyle";
+import { DEFAULT_ARC_SHAPE } from "../../../core/token/defaultShapeAndStyle";
 import { ShapeSpec } from "../../../core/token/types";
 import { NumberField } from "../../primitives/NumberField/NumberField";
 import { Panel } from "../../primitives/Panel/Panel";
-import { SelectField, SelectFieldOption } from "../../primitives/SelectField/SelectField";
 
-export type ShapeEditorProps = {
-  shape: ShapeSpec;
-  onChange: (shape: ShapeSpec) => void;
+// Generic over the shape it edits, so a caller that owns an arc gets an arc back and one that
+// owns a disc gets a disc. A shape's type is fixed by whichever slot of the config it belongs to
+// and is not something this editor can change: it just renders the fields of the arm it was
+// handed.
+export type ShapeEditorProps<T extends ShapeSpec> = {
+  shape: T;
+  onChange: (shape: T) => void;
 };
 
-const SHAPE_TYPE_OPTIONS: SelectFieldOption<ShapeSpec["type"]>[] = [
-  { value: "disc", label: "Disc" },
-  { value: "arc", label: "Arc" },
-];
-
-export const ShapeEditor = ({ shape, onChange }: ShapeEditorProps) => {
-  const handleTypeChange = (type: ShapeSpec["type"]) => {
-    onChange(type === "disc" ? DEFAULT_DISC_SHAPE : DEFAULT_ARC_SHAPE);
-  };
-
+export const ShapeEditor = <T extends ShapeSpec>({ shape, onChange }: ShapeEditorProps<T>) => {
   return (
     <Panel title="Shape">
-      <SelectField
-        label="Shape type"
-        value={shape.type}
-        options={SHAPE_TYPE_OPTIONS}
-        onChange={handleTypeChange}
-      />
-
       {shape.type === "disc" && (
         <NumberField
           label="Diameter (mm)"
           value={shape.diameterMm}
-          onChange={(diameterMm) => onChange({ type: "disc", diameterMm })}
+          onChange={(diameterMm) => onChange({ ...shape, diameterMm })}
         />
       )}
 

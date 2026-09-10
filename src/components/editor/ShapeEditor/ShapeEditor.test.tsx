@@ -1,6 +1,5 @@
 // @vitest-environment happy-dom
 import { fireEvent, render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 
 import type { ShapeSpec } from "../../../core/token/types";
@@ -34,22 +33,23 @@ describe("ShapeEditor", () => {
     expect(screen.queryByLabelText("Sweep (degrees)")).not.toBeInTheDocument();
   });
 
-  it("switches to default arc shape values when the type changes to arc", async () => {
+  it("offers no way to change a shape's type", () => {
+    const discShape: ShapeSpec = { type: "disc", diameterMm: 12.5 };
+
+    render(<ShapeEditor shape={discShape} onChange={vi.fn()} />);
+
+    expect(screen.queryByLabelText("Shape type")).not.toBeInTheDocument();
+  });
+
+  it("reports an updated disc diameter", () => {
     const onChange = vi.fn();
     const discShape: ShapeSpec = { type: "disc", diameterMm: 12.5 };
 
     render(<ShapeEditor shape={discShape} onChange={onChange} />);
 
-    await userEvent.selectOptions(screen.getByLabelText("Shape type"), "Arc");
+    fireEvent.change(screen.getByLabelText("Diameter (mm)"), { target: { value: "20" } });
 
-    expect(onChange).toHaveBeenCalledWith({
-      type: "arc",
-      ribbonWidthMm: 6,
-      ribbonLengthMm: 30,
-      studDiameterMm: 12,
-      studFilletEnabled: true,
-      studFilletRadiusMm: 3,
-    });
+    expect(onChange).toHaveBeenCalledWith({ type: "disc", diameterMm: 20 });
   });
 
   it("reports an updated field while preserving the rest of the arc shape", () => {

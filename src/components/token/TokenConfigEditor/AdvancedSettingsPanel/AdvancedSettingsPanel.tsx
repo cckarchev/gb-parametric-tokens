@@ -1,5 +1,5 @@
 import { SharedConfig } from "../../../../core/token/catalog/tokenItems/tokenItem";
-import { ArcShapeSpec, DiscShapeSpec, ShapeSpec } from "../../../../core/token/types";
+import { ShapeSpec } from "../../../../core/token/types";
 import { FitPolicyEditor } from "../../../editor/FitPolicyEditor/FitPolicyEditor";
 import { ShapeEditor } from "../../../editor/ShapeEditor/ShapeEditor";
 import { NumberField } from "../../../primitives/NumberField/NumberField";
@@ -7,38 +7,19 @@ import { Panel } from "../../../primitives/Panel/Panel";
 import { SettingsGroup } from "../../../primitives/SettingsGroup/SettingsGroup";
 import { SettingsFileGroup } from "../SettingsFileGroup/SettingsFileGroup";
 
-// One shape slot of the shared config, locked to a single shape type.
-type ShapeSlotProps =
-  | {
-      title: string;
-      shapeType: "arc";
-      shape: ArcShapeSpec;
-      onChange: (shape: ArcShapeSpec) => void;
-    }
-  | {
-      title: string;
-      shapeType: "disc";
-      shape: DiscShapeSpec;
-      onChange: (shape: DiscShapeSpec) => void;
-    };
+type ShapeSlotProps<T extends ShapeSpec> = {
+  title: string;
+  shape: T;
+  onChange: (shape: T) => void;
+};
 
-// A slot's type never changes, so the type switch ShapeEditor offers is ignored here: an arc
-// token's shape can never become a disc, or vice versa.
-const ShapeSlot = (props: ShapeSlotProps) => {
-  const handleChange = (shape: ShapeSpec) => {
-    if (props.shapeType === "arc" && shape.type === "arc") {
-      props.onChange(shape);
-      return;
-    }
-
-    if (props.shapeType === "disc" && shape.type === "disc") {
-      props.onChange(shape);
-    }
-  };
-
+// One shape slot of the shared config: a titled group around the editor for whichever shape that
+// slot holds. Its type is fixed by the slot itself, so the editor gives back the same arm it was
+// given and nothing here has to narrow.
+const ShapeSlot = <T extends ShapeSpec>({ title, shape, onChange }: ShapeSlotProps<T>) => {
   return (
-    <SettingsGroup title={props.title}>
-      <ShapeEditor shape={props.shape} onChange={handleChange} />
+    <SettingsGroup title={title}>
+      <ShapeEditor shape={shape} onChange={onChange} />
     </SettingsGroup>
   );
 };
@@ -59,7 +40,7 @@ export const AdvancedSettingsPanel = ({
   importSettingsError,
 }: AdvancedSettingsPanelProps) => {
   return (
-    <Panel title="Advanced settings" defaultExpanded={false}>
+    <Panel title="Advanced settings">
       <SettingsFileGroup
         onExportSettings={onExportSettings}
         onImportSettings={onImportSettings}
@@ -68,21 +49,18 @@ export const AdvancedSettingsPanel = ({
 
       <ShapeSlot
         title="Arc tokens (character effects)"
-        shapeType="arc"
         shape={sharedConfig.arcShape}
         onChange={(arcShape) => onChange({ ...sharedConfig, arcShape })}
       />
 
       <ShapeSlot
         title="Disc tokens (generics, Influence, Momentum)"
-        shapeType="disc"
         shape={sharedConfig.discShape}
         onChange={(discShape) => onChange({ ...sharedConfig, discShape })}
       />
 
       <ShapeSlot
         title="Goal Influence tokens"
-        shapeType="disc"
         shape={sharedConfig.goalInfluenceShape}
         onChange={(goalInfluenceShape) => onChange({ ...sharedConfig, goalInfluenceShape })}
       />

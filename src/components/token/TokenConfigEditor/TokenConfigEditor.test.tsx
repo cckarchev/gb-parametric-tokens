@@ -226,13 +226,13 @@ describe("TokenConfigEditor", () => {
     });
   });
 
-  it("ignores an arc-shape onChange when the arc editor's type selector is switched to disc", async () => {
-    const onChange = vi.fn();
-
+  // Each slot is locked to one shape type: an arc token's shape can never become a disc, or vice
+  // versa. Offering no type control at all is what enforces that.
+  it("offers no shape type control in any of the shape slots", async () => {
     render(
       <TokenConfigEditor
         sharedConfig={sharedConfig}
-        onChange={onChange}
+        onChange={vi.fn()}
         onExportSettings={vi.fn()}
         onImportSettings={vi.fn()}
         importSettingsError={undefined}
@@ -241,33 +241,7 @@ describe("TokenConfigEditor", () => {
 
     await openAdvancedSettings();
 
-    const shapeTypeSelectors = screen.getAllByLabelText("Shape type");
-
-    await userEvent.selectOptions(shapeTypeSelectors[0], "Disc");
-
-    expect(onChange).not.toHaveBeenCalled();
-  });
-
-  it("ignores a disc-shape onChange when the disc editor's type selector is switched to arc", async () => {
-    const onChange = vi.fn();
-
-    render(
-      <TokenConfigEditor
-        sharedConfig={sharedConfig}
-        onChange={onChange}
-        onExportSettings={vi.fn()}
-        onImportSettings={vi.fn()}
-        importSettingsError={undefined}
-      />,
-    );
-
-    await openAdvancedSettings();
-
-    const shapeTypeSelectors = screen.getAllByLabelText("Shape type");
-
-    await userEvent.selectOptions(shapeTypeSelectors[1], "Arc");
-
-    expect(onChange).not.toHaveBeenCalled();
+    expect(screen.queryByLabelText("Shape type")).not.toBeInTheDocument();
   });
 
   it("updates the name and effect text sizes independently from advanced settings", async () => {
