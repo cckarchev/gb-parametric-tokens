@@ -17,7 +17,7 @@ type RawGuildCatalog = {
 // module's own chunk at build time. The full per-guild data (characters, tokens) rides along
 // for free since it's the same file loadGuildCatalog needs once a guild is actually selected, so
 // nothing here is duplicated between "the guild list" and "a guild's own catalog".
-const modules = import.meta.glob("../data/catalog/guilds/*.json", { eager: true }) as Record<
+const modules = import.meta.glob("../data/guilds/*.json", { eager: true }) as Record<
   string,
   { default: RawGuildCatalog }
 >;

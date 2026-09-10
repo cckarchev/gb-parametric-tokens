@@ -1,4 +1,4 @@
-import effectsData from "../../../data/catalog/effects.json";
+import effectsData from "../../../data/effects.json";
 import { CatalogEffect } from "./catalogTypes";
 import { buildLookup, resolveById } from "./resolveById";
 
