@@ -145,7 +145,7 @@ describe("handlePreview", () => {
     ]);
   });
 
-  it("keeps the source label when the failing component isn't the token's own title (an icon, or a differently-worded subtitle)", async () => {
+  it("keeps the source label when the failing component isn't the token's own name (an icon, or a second line worded differently)", async () => {
     vi.mocked(computeReliefComponents).mockResolvedValueOnce({
       reliefComponents: [],
       warnings: [],
@@ -159,7 +159,7 @@ describe("handlePreview", () => {
         },
         {
           kind: "stroke-width",
-          source: { kind: "text", text: "A subtitle line" },
+          source: { kind: "text", text: "A second line" },
           vanishedFeatureCount: 3,
           featureCount: 4,
         },
@@ -176,7 +176,7 @@ describe("handlePreview", () => {
 
     expect(response.results[0].reason).toBe(
       'Icon "axe": 1 of 2 details too thin to print at this size.\n' +
-        'Text "A subtitle line": 3 of 4 details too thin to print at this size.',
+        'Text "A second line": 3 of 4 details too thin to print at this size.',
     );
   });
 
