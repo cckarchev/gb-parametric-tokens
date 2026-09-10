@@ -3,23 +3,23 @@ import type { Font } from "opentype.js";
 import { buildIconComponent, LoadIconSource } from "./computeReliefComponentsShared";
 import { CENTER_ANGLE_DEG } from "./geometry/angleConventions";
 import {
-  computeEffectiveNobDiameterMm,
+  computeEffectiveStudDiameterMm,
   computeInnerRadiusMm,
-  computeNobPlacements,
   computeOuterRadiusMm,
+  computeStudPlacements,
   computeSweepDeg,
-} from "./geometry/nobPlacement";
+} from "./geometry/studPlacement";
 import { ReliefComponent } from "./mesh/reliefComponent";
 import { autoFitLine } from "./text/autoFit";
 import { layoutArcText } from "./text/layoutArcText";
 import { PrintProfile, TokenSpec } from "./types";
 
-const NOB_TEXT_CLEARANCE_DEG = 6;
+const STUD_TEXT_CLEARANCE_DEG = 6;
 
 // Same "outward" convention arcPlacement.ts's mathYUpRotationDeg uses for arc text: an angle of
 // 90 (pointing straight up, see CENTER_ANGLE_DEG) needs no rotation, so the offset is subtracted
-// out. Keeping the nob icons on this convention makes them turn with the arc exactly like the
-// letters beside them do, instead of staying screen-upright as the nob sweeps around the token.
+// out. Keeping the stud icons on this convention makes them turn with the arc exactly like the
+// letters beside them do, instead of staying screen-upright as the stud sweeps around the token.
 const OUTWARD_ROTATION_OFFSET_DEG = 90;
 
 // Empirically measured against the bundled font (Saira Condensed Bold) rendering arc text, via
@@ -60,16 +60,16 @@ const computeLineRadiiMm = (
     return lines.map(({ sizeMm }) => midRadiusMm - estimateAscentMm(sizeMm) / 2);
   }
 
-  const [titleLine, subtitleLine] = lines;
-  const titleAscentMm = estimateAscentMm(titleLine.sizeMm);
-  const subtitleAscentMm = estimateAscentMm(subtitleLine.sizeMm);
+  const [nameLine, effectLine] = lines;
+  const nameAscentMm = estimateAscentMm(nameLine.sizeMm);
+  const effectAscentMm = estimateAscentMm(effectLine.sizeMm);
   const bandWidthMm = outerRadiusMm - innerRadiusMm;
-  const marginMm = (bandWidthMm - titleAscentMm - subtitleAscentMm - TWO_LINE_GAP_MM) / 2;
+  const marginMm = (bandWidthMm - nameAscentMm - effectAscentMm - TWO_LINE_GAP_MM) / 2;
 
-  const subtitleRadiusMm = innerRadiusMm + marginMm;
-  const titleRadiusMm = subtitleRadiusMm + subtitleAscentMm + TWO_LINE_GAP_MM;
+  const effectRadiusMm = innerRadiusMm + marginMm;
+  const nameRadiusMm = effectRadiusMm + effectAscentMm + TWO_LINE_GAP_MM;
 
-  return [titleRadiusMm, subtitleRadiusMm];
+  return [nameRadiusMm, effectRadiusMm];
 };
 
 export const computeArcReliefComponents = async (
@@ -85,8 +85,8 @@ export const computeArcReliefComponents = async (
     throw new Error("computeArcReliefComponents requires an arc shape");
   }
 
-  const nobPlacements = computeNobPlacements(shape, CENTER_ANGLE_DEG);
-  const availableSweepDeg = computeSweepDeg(shape) - 2 * NOB_TEXT_CLEARANCE_DEG;
+  const studPlacements = computeStudPlacements(shape, CENTER_ANGLE_DEG);
+  const availableSweepDeg = computeSweepDeg(shape) - 2 * STUD_TEXT_CLEARANCE_DEG;
   const ribbonInnerRadiusMm = computeInnerRadiusMm();
   const outerRadiusMm = computeOuterRadiusMm(shape);
   const nominalLineRadiiMm = computeLineRadiiMm(ribbonInnerRadiusMm, outerRadiusMm, spec.lines);
@@ -95,13 +95,13 @@ export const computeArcReliefComponents = async (
     spec.icons
       .filter((icon) => icon.side === "left" || icon.side === "right")
       .map((icon) => {
-        const nobPlacement = icon.side === "left" ? nobPlacements.left : nobPlacements.right;
-        const rotationDeg = nobPlacement.angleDeg - OUTWARD_ROTATION_OFFSET_DEG;
+        const studPlacement = icon.side === "left" ? studPlacements.left : studPlacements.right;
+        const rotationDeg = studPlacement.angleDeg - OUTWARD_ROTATION_OFFSET_DEG;
 
         return buildIconComponent(
           icon,
-          computeEffectiveNobDiameterMm(shape),
-          nobPlacement.position,
+          computeEffectiveStudDiameterMm(shape),
+          studPlacement.position,
           printProfile,
           loadIconSource,
           warnings,

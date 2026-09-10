@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { MODEL_BASE_DIAMETER_MM } from "../geometry/nobPlacement";
+import { MODEL_BASE_DIAMETER_MM } from "../geometry/studPlacement";
 import {
   buildBaseReferenceCircleSvg,
   CIRCLE_ANCHOR_X_SVG,

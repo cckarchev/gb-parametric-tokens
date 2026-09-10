@@ -2,11 +2,11 @@ import { ExportFailureItem } from "../../../browser/tokenWorker";
 import { Button } from "../../primitives/Button/Button";
 import styles from "./ExportPanel.module.css";
 
-export type InvalidPreviewItem = { id: string; group?: string; title: string; reason: string };
+export type InvalidPreviewItem = { id: string; group?: string; name: string; reason: string };
 
 // A character's tokens share one heading instead of repeating the character's name on every
 // line (see buildTokenItems.ts's `group`); anything without a group (guild generics, Influence,
-// Momentum, Goal Influence) is its own single-item group, headed by its own title.
+// Momentum, Goal Influence) is its own single-item group, headed by its own name.
 type AttentionGroup = { key: string; heading: string; items: InvalidPreviewItem[] };
 
 const groupInvalidItems = (items: InvalidPreviewItem[]): AttentionGroup[] => {
@@ -21,7 +21,7 @@ const groupInvalidItems = (items: InvalidPreviewItem[]): AttentionGroup[] => {
       continue;
     }
 
-    groupsByKey.set(key, { key, heading: item.group ?? item.title, items: [item] });
+    groupsByKey.set(key, { key, heading: item.group ?? item.name, items: [item] });
   }
 
   return [...groupsByKey.values()];
@@ -101,7 +101,7 @@ export const ExportPanel = ({
                 <ul className={styles.attentionSubList}>
                   {group.items.map((item) => (
                     <li key={item.id} className={styles.attentionItem}>
-                      {item.group && <span className={styles.attentionTitle}>{item.title}: </span>}
+                      {item.group && <span className={styles.attentionTitle}>{item.name}: </span>}
                       <span className={styles.attentionReason}>{item.reason}</span>
                     </li>
                   ))}

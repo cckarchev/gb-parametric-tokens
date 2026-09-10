@@ -8,7 +8,7 @@ import { TokenConfigEditor } from "./TokenConfigEditor";
 
 const sharedConfig: SharedConfig = {
   printProfileId: "fdm-04",
-  arcShape: { type: "arc", ribbonWidthMm: 15, ribbonLengthMm: 20, nobDiameterMm: 24 },
+  arcShape: { type: "arc", ribbonWidthMm: 15, ribbonLengthMm: 20, studDiameterMm: 24 },
   discShape: { type: "disc", diameterMm: 25 },
   goalInfluenceShape: { type: "disc", diameterMm: 20 },
   style: { relief: "raised", reliefHeightMm: 0.6, baseThicknessMm: 3 },
@@ -18,8 +18,8 @@ const sharedConfig: SharedConfig = {
     { id: "text", name: "Text & symbols", color: "#000000" },
   ],
   influenceIconId: "influence",
-  titleSizeMm: 7,
-  subtitleSizeMm: 4.5,
+  nameSizeMm: 7,
+  effectSizeMm: 4.5,
   showSecondLine: true,
   balanceTwoLineSizes: false,
   iconOverflowBehavior: "none",
@@ -182,7 +182,7 @@ describe("TokenConfigEditor", () => {
     });
   });
 
-  it("toggles the arc shape's nob fillet from the print options panel", async () => {
+  it("toggles the arc shape's stud fillet from the print options panel", async () => {
     const onChange = vi.fn();
 
     render(
@@ -195,11 +195,11 @@ describe("TokenConfigEditor", () => {
       />,
     );
 
-    await userEvent.click(screen.getByLabelText("Fillet between nob and arc"));
+    await userEvent.click(screen.getByLabelText("Fillet between stud and arc"));
 
     expect(onChange).toHaveBeenCalledWith({
       ...sharedConfig,
-      arcShape: { ...sharedConfig.arcShape, nobFilletEnabled: true },
+      arcShape: { ...sharedConfig.arcShape, studFilletEnabled: true },
     });
   });
 
@@ -270,7 +270,7 @@ describe("TokenConfigEditor", () => {
     expect(onChange).not.toHaveBeenCalled();
   });
 
-  it("updates the title and subtitle sizes independently from advanced settings", async () => {
+  it("updates the name and effect text sizes independently from advanced settings", async () => {
     const onChange = vi.fn();
 
     render(
@@ -285,9 +285,9 @@ describe("TokenConfigEditor", () => {
 
     await openAdvancedSettings();
 
-    fireEvent.change(screen.getByLabelText("Title size (mm)"), { target: { value: "9" } });
+    fireEvent.change(screen.getByLabelText("Name size (mm)"), { target: { value: "9" } });
 
-    expect(onChange).toHaveBeenCalledWith({ ...sharedConfig, titleSizeMm: 9 });
+    expect(onChange).toHaveBeenCalledWith({ ...sharedConfig, nameSizeMm: 9 });
   });
 
   it("reports a body color change while preserving the text color group", async () => {

@@ -1,8 +1,8 @@
 import { getManifoldModule } from "../mesh/manifoldModule";
 import { Vec2 } from "../types";
 
-// Matches buildArcTokenMesh.ts's NOB_CIRCULAR_SEGMENTS: the trimmed edge shouldn't read as any
-// more or less faceted than the physical nob/disc circle it's being cut to.
+// Matches buildArcTokenMesh.ts's STUD_CIRCULAR_SEGMENTS: the trimmed edge shouldn't read as any
+// more or less faceted than the physical stud/disc circle it's being cut to.
 const TRIM_CIRCLE_SEGMENTS = 48;
 
 // Clips an icon's own contours (already normalized -- see computeReliefComponentsShared.ts's

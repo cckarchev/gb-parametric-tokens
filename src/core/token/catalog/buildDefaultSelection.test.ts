@@ -9,27 +9,22 @@ const catalog: GuildCatalog = {
   color: "#cdb320",
   characters: [
     {
-      id: "tapper",
       name: "Tapper",
-      tokens: [{ title: "Commanding Aura" }, { title: "Marked Target" }],
+      effects: ["Commanding Aura", "Marked Target"],
     },
     {
-      id: "spigot",
       name: "Spigot",
-      tokens: [],
+      effects: [],
     },
   ],
-  genericTokens: [
-    { id: "beer-token", name: "Beer Token" },
-    { id: "keg-token", name: "Keg Token" },
-  ],
+  genericTokens: [{ name: "Beer Token" }, { name: "Keg Token" }],
 };
 
 describe("buildDefaultSelection", () => {
   it("selects every character token from every character in the catalog", () => {
     const selection = buildDefaultSelection(catalog);
 
-    expect(selection.characterTokenIds).toEqual(["tapper-0", "tapper-1"]);
+    expect(selection.characterTokenIds).toEqual(["Tapper-0", "Tapper-1"]);
   });
 
   it("leaves character token copies empty so fields fall back to their own default", () => {
@@ -42,8 +37,8 @@ describe("buildDefaultSelection", () => {
     const selection = buildDefaultSelection(catalog);
 
     expect(selection.genericTokens).toEqual({
-      "beer-token": { enabled: true, copies: 1 },
-      "keg-token": { enabled: true, copies: 1 },
+      "Beer Token": { enabled: true, copies: 1 },
+      "Keg Token": { enabled: true, copies: 1 },
     });
   });
 

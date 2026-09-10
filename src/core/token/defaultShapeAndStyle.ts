@@ -1,4 +1,4 @@
-import { ArcShapeSpec, DiscShapeSpec } from "./geometry/nobPlacement";
+import { ArcShapeSpec, DiscShapeSpec } from "./geometry/studPlacement";
 import { ColorGroupSpec, FitPolicy, StyleSpec } from "./types";
 
 // Starting point for the fixed-innerR arc model (see
@@ -9,9 +9,9 @@ export const DEFAULT_ARC_SHAPE: ArcShapeSpec = {
   type: "arc",
   ribbonWidthMm: 6,
   ribbonLengthMm: 30,
-  nobDiameterMm: 12,
-  nobFilletEnabled: true,
-  nobFilletRadiusMm: 3,
+  studDiameterMm: 12,
+  studFilletEnabled: true,
+  studFilletRadiusMm: 3,
 };
 
 export const DEFAULT_DISC_SHAPE: DiscShapeSpec = {

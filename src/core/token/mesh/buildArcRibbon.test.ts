@@ -4,10 +4,10 @@ import {
   computeInnerRadiusMm,
   computeOuterRadiusMm,
   computeSweepDeg,
-} from "../geometry/nobPlacement";
+} from "../geometry/studPlacement";
 import { buildArcRibbon } from "./buildArcRibbon";
 
-const shape = { type: "arc" as const, ribbonWidthMm: 15, ribbonLengthMm: 20, nobDiameterMm: 24 };
+const shape = { type: "arc" as const, ribbonWidthMm: 15, ribbonLengthMm: 20, studDiameterMm: 24 };
 
 describe("buildArcRibbon", () => {
   it("extrudes a ring sector resting on the XY plane, up to heightMm", async () => {
@@ -41,7 +41,7 @@ describe("buildArcRibbon", () => {
     const halfSweepDeg = computeSweepDeg(shape) / 2;
     const startAngleDeg = 90 - halfSweepDeg;
 
-    // The ribbon's own inner radius is fixed (no more nob-tangent clamp), so the lowest y in
+    // The ribbon's own inner radius is fixed (no more stud-tangent clamp), so the lowest y in
     // the sweep is simply innerRadiusMm * sin(startAngleDeg).
     const expectedMinY = innerRadiusMm * Math.sin((startAngleDeg * Math.PI) / 180);
 

@@ -1,11 +1,11 @@
 import { filletOutline } from "../geometry/filletOutline";
 import {
-  computeEffectiveNobDiameterMm,
+  computeEffectiveStudDiameterMm,
   computeInnerRadiusMm,
-  computeNobPlacements,
   computeOuterRadiusMm,
+  computeStudPlacements,
   computeSweepDeg,
-} from "../geometry/nobPlacement";
+} from "../geometry/studPlacement";
 import { getManifoldModule } from "../mesh/manifoldModule";
 import { ShapeSpec, Vec2 } from "../types";
 
@@ -15,7 +15,7 @@ const WEDGE_RADIUS_PADDING_MM = 10; // extends the wedge past outerR so float er
 
 // IconOverflowBehavior "grow"'s dilated icon footprints (see mesh/reliefComponent.ts's
 // growOutline, already flattened across every icon by the caller): unioned into the outline
-// here too, so the 2D preview matches the real mesh's own grown nob/disc body (buildArcTokenMesh.ts,
+// here too, so the 2D preview matches the real mesh's own grown stud/disc body (buildArcTokenMesh.ts,
 // buildTokenMesh.ts) instead of showing a plain circle the print itself no longer has.
 export const computeBaseOutlineContours = async (
   shape: ShapeSpec,
@@ -55,23 +55,23 @@ export const computeBaseOutlineContours = async (
   const wedge = new CrossSection([wedgePoints], "Positive");
   const sector = ring.intersect(wedge);
 
-  const nobPlacements = computeNobPlacements(shape, centerAngleDeg);
-  const nobRadiusMm = computeEffectiveNobDiameterMm(shape) / 2;
-  const leftNob = CrossSection.circle(nobRadiusMm, RING_CIRCULAR_SEGMENTS).translate(
-    nobPlacements.left.position,
+  const studPlacements = computeStudPlacements(shape, centerAngleDeg);
+  const studRadiusMm = computeEffectiveStudDiameterMm(shape) / 2;
+  const leftStud = CrossSection.circle(studRadiusMm, RING_CIRCULAR_SEGMENTS).translate(
+    studPlacements.left.position,
   );
-  const rightNob = CrossSection.circle(nobRadiusMm, RING_CIRCULAR_SEGMENTS).translate(
-    nobPlacements.right.position,
+  const rightStud = CrossSection.circle(studRadiusMm, RING_CIRCULAR_SEGMENTS).translate(
+    studPlacements.right.position,
   );
 
-  const withNobs = sector.add(leftNob).add(rightNob);
+  const withStuds = sector.add(leftStud).add(rightStud);
 
   // Matches buildArcTokenMesh.ts's own fillet call exactly (same shape, same radius, same point
   // in the pipeline -- before the grow union) so the preview never diverges from the real print.
   const outline =
-    shape.nobFilletEnabled && shape.nobFilletRadiusMm
-      ? filletOutline(withNobs, shape.nobFilletRadiusMm)
-      : withNobs;
+    shape.studFilletEnabled && shape.studFilletRadiusMm
+      ? filletOutline(withStuds, shape.studFilletRadiusMm)
+      : withStuds;
 
   return (grow ? outline.add(grow) : outline).toPolygons();
 };

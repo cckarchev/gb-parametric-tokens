@@ -7,9 +7,9 @@ import { computeReliefComponents, LoadIconSource } from "./computeReliefComponen
 import { CENTER_ANGLE_DEG } from "./geometry/angleConventions";
 import {
   computeInnerRadiusMm,
-  computeNobPlacements,
   computeOuterRadiusMm,
-} from "./geometry/nobPlacement";
+  computeStudPlacements,
+} from "./geometry/studPlacement";
 import { PRINT_PROFILES } from "./printProfiles";
 import { TokenSpec } from "./types";
 
@@ -21,7 +21,7 @@ const loadTestFont = () => {
 };
 
 // A diamond whose vertices sit exactly on its own bounding box's inscribed circle (see
-// iconPlacement.test.ts's identical fixture): fits within a circular nob/disc with no shrink, so
+// iconPlacement.test.ts's identical fixture): fits within a circular stud/disc with no shrink, so
 // tests using this as a stand-in icon aren't incidentally exercising the icon-overflow check.
 const GENERIC_ICON_SVG = '<svg><path d="M5 0L10 5L5 10L0 5Z"/></svg>';
 
@@ -53,7 +53,7 @@ const arcSpec = (overrides: Partial<TokenSpec> = {}): TokenSpec => ({
   version: 1,
   // ribbonLengthMm = 120deg's worth of arc, measured on the fixed inner radius (matches the
   // old sweepDeg: 120 default's proportions).
-  shape: { type: "arc", ribbonWidthMm: 15, ribbonLengthMm: 32, nobDiameterMm: 24 },
+  shape: { type: "arc", ribbonWidthMm: 15, ribbonLengthMm: 32, studDiameterMm: 24 },
   textLayout: "arc",
   lines: [{ text: "Momentum", sizeMm: 6 }],
   icons: [
@@ -129,22 +129,22 @@ describe("computeReliefComponents", () => {
     expect(result.warnings).toEqual(['Icon "missing-icon" not found, using fallback "blank".']);
   });
 
-  it("builds relief components for both nob icons and every line on an arc shape", async () => {
+  it("builds relief components for both stud icons and every line on an arc shape", async () => {
     const font = loadTestFont();
 
     const result = await computeReliefComponents(arcSpec(), font, printProfile, stubLoadIconSource);
 
-    expect(result.reliefComponents).toHaveLength(3); // 2 nob icons + 1 line (fits on one line here)
+    expect(result.reliefComponents).toHaveLength(3); // 2 stud icons + 1 line (fits on one line here)
     expect(result.warnings).toEqual([]);
   });
 
-  it("rotates a nob icon so it turns with the arc the same way the letters beside it do", async () => {
+  it("rotates a stud icon so it turns with the arc the same way the letters beside it do", async () => {
     const font = loadTestFont();
     // Apex-up triangle: placeIcon's flip+center+scale (see iconPlacement.ts) always lands its
     // apex exactly on the local +y axis, so an unrotated icon would point it straight "north"
-    // of the nob center no matter where the nob sits on the arc. Once rotated the same
+    // of the stud center no matter where the stud sits on the arc. Once rotated the same
     // "outward" way arc text is, the apex should instead point directly away from the arc's
-    // own center -- landing on the same ray as the nob itself.
+    // own center -- landing on the same ray as the stud itself.
     const apexUpTriangleSvg = '<svg><path d="M0 20L20 20L10 0Z"/></svg>';
     const loadTriangleIcon: LoadIconSource = async (iconId) => ({
       svgSource: apexUpTriangleSvg,
@@ -155,7 +155,7 @@ describe("computeReliefComponents", () => {
       type: "arc" as const,
       ribbonWidthMm: 15,
       ribbonLengthMm: 32,
-      nobDiameterMm: 24,
+      studDiameterMm: 24,
     };
 
     const result = await computeReliefComponents(
@@ -166,15 +166,15 @@ describe("computeReliefComponents", () => {
     );
 
     const [iconComponent] = result.reliefComponents;
-    const { left } = computeNobPlacements(shape, CENTER_ANGLE_DEG);
+    const { left } = computeStudPlacements(shape, CENTER_ANGLE_DEG);
 
-    // The apex is the contour vertex closest to the nob center: the two base corners sit a
+    // The apex is the contour vertex closest to the stud center: the two base corners sit a
     // factor of sqrt(2) farther out from the center than the apex does, a relationship
-    // rotation preserves regardless of the nob's angle.
-    const [nobCenterX, nobCenterY] = left.position;
+    // rotation preserves regardless of the stud's angle.
+    const [studCenterX, studCenterY] = left.position;
     const apex = iconComponent.contours[0].reduce((closest, point) => {
-      const distance = Math.hypot(point[0] - nobCenterX, point[1] - nobCenterY);
-      const closestDistance = Math.hypot(closest[0] - nobCenterX, closest[1] - nobCenterY);
+      const distance = Math.hypot(point[0] - studCenterX, point[1] - studCenterY);
+      const closestDistance = Math.hypot(closest[0] - studCenterX, closest[1] - studCenterY);
 
       return distance < closestDistance ? point : closest;
     });
@@ -189,7 +189,7 @@ describe("computeReliefComponents", () => {
 
     const result = await computeReliefComponents(
       arcSpec({
-        shape: { type: "arc", ribbonWidthMm: 22, ribbonLengthMm: 40, nobDiameterMm: 44 },
+        shape: { type: "arc", ribbonWidthMm: 22, ribbonLengthMm: 40, studDiameterMm: 44 },
         lines: [
           { text: "Commanding Aura", sizeMm: 7 },
           { text: "Aura +1 TAC +1 DMG", sizeMm: 4.5 },
@@ -200,7 +200,7 @@ describe("computeReliefComponents", () => {
       stubLoadIconSource,
     );
 
-    // 2 nob icons + 2 lines, each line fitting on a single arc row.
+    // 2 stud icons + 2 lines, each line fitting on a single arc row.
     expect(result.reliefComponents).toHaveLength(4);
 
     const [, , firstLine, secondLine] = result.reliefComponents;
@@ -219,7 +219,7 @@ describe("computeReliefComponents", () => {
       type: "arc" as const,
       ribbonWidthMm: 22,
       ribbonLengthMm: 40,
-      nobDiameterMm: 44,
+      studDiameterMm: 44,
     };
 
     const result = await computeReliefComponents(
@@ -255,7 +255,7 @@ describe("computeReliefComponents", () => {
       type: "arc" as const,
       ribbonWidthMm: 22,
       ribbonLengthMm: 40,
-      nobDiameterMm: 44,
+      studDiameterMm: 44,
     };
 
     const result = await computeReliefComponents(
@@ -283,7 +283,7 @@ describe("computeReliefComponents", () => {
       type: "arc" as const,
       ribbonWidthMm: 6,
       ribbonLengthMm: 20,
-      nobDiameterMm: 12,
+      studDiameterMm: 12,
     };
 
     const result = await computeReliefComponents(

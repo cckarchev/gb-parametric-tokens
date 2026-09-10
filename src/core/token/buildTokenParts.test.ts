@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { buildTokenParts } from "./buildTokenParts";
-import { computeNobPlacements } from "./geometry/nobPlacement";
+import { computeStudPlacements } from "./geometry/studPlacement";
 import { TokenSpec, Vec2 } from "./types";
 
 const squareAt = (center: Vec2): Vec2[][] => [
@@ -28,7 +28,7 @@ const discSpec: TokenSpec = {
 
 const arcSpec: TokenSpec = {
   version: 1,
-  shape: { type: "arc", ribbonWidthMm: 15, ribbonLengthMm: 20, nobDiameterMm: 24 },
+  shape: { type: "arc", ribbonWidthMm: 15, ribbonLengthMm: 20, studDiameterMm: 24 },
   textLayout: "arc",
   lines: [],
   icons: [],
@@ -50,11 +50,11 @@ describe("buildTokenParts", () => {
 
   it("dispatches to buildArcTokenMesh for an arc shape", async () => {
     const shape = arcSpec.shape as Extract<TokenSpec["shape"], { type: "arc" }>;
-    const nobPlacements = computeNobPlacements(shape, 90);
+    const studPlacements = computeStudPlacements(shape, 90);
 
     const parts = await buildTokenParts(arcSpec, [
-      { contours: squareAt(nobPlacements.left.position) },
-      { contours: squareAt(nobPlacements.right.position) },
+      { contours: squareAt(studPlacements.left.position) },
+      { contours: squareAt(studPlacements.right.position) },
     ]);
 
     expect(parts).toHaveLength(1);
@@ -64,10 +64,10 @@ describe("buildTokenParts", () => {
 
   it("keeps a distinctly colorGrouped component separate on an arc shape", async () => {
     const shape = arcSpec.shape as Extract<TokenSpec["shape"], { type: "arc" }>;
-    const nobPlacements = computeNobPlacements(shape, 90);
+    const studPlacements = computeStudPlacements(shape, 90);
 
     const parts = await buildTokenParts(arcSpec, [
-      { contours: squareAt(nobPlacements.left.position), colorGroup: "accent" },
+      { contours: squareAt(studPlacements.left.position), colorGroup: "accent" },
     ]);
 
     expect(parts.map((part) => part.colorGroupId).sort()).toEqual(["accent", "base"]);

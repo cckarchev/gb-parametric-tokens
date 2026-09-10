@@ -12,7 +12,7 @@ describe("filletOutline", () => {
 
     // Two same-size circles far enough apart to stay distinct bodies but close enough to
     // overlap: their union has a concave notch on each side of the overlap, the same shape
-    // as where an arc token's ribbon meets its nob.
+    // as where an arc token's ribbon meets its stud.
     const left = CrossSection.circle(5, CIRCLE_SEGMENTS);
     const right = CrossSection.circle(5, CIRCLE_SEGMENTS).translate(7, 0);
     const peanut = left.add(right);

@@ -49,15 +49,15 @@ export const ShapeEditor = ({ shape, onChange }: ShapeEditorProps) => {
             onChange={(ribbonLengthMm) => onChange({ ...shape, ribbonLengthMm })}
           />
           <NumberField
-            label="Nob diameter (mm)"
-            value={shape.nobDiameterMm}
-            onChange={(nobDiameterMm) => onChange({ ...shape, nobDiameterMm })}
+            label="Stud diameter (mm)"
+            value={shape.studDiameterMm}
+            onChange={(studDiameterMm) => onChange({ ...shape, studDiameterMm })}
           />
           <NumberField
-            label="Nob fillet radius (mm)"
-            value={shape.nobFilletRadiusMm ?? DEFAULT_ARC_SHAPE.nobFilletRadiusMm ?? 0}
-            disabled={!shape.nobFilletEnabled}
-            onChange={(nobFilletRadiusMm) => onChange({ ...shape, nobFilletRadiusMm })}
+            label="Stud fillet radius (mm)"
+            value={shape.studFilletRadiusMm ?? DEFAULT_ARC_SHAPE.studFilletRadiusMm ?? 0}
+            disabled={!shape.studFilletEnabled}
+            onChange={(studFilletRadiusMm) => onChange({ ...shape, studFilletRadiusMm })}
           />
         </>
       )}

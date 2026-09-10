@@ -1,4 +1,4 @@
-import { MODEL_BASE_DIAMETER_MM } from "../geometry/nobPlacement";
+import { MODEL_BASE_DIAMETER_MM } from "../geometry/studPlacement";
 
 export { MODEL_BASE_DIAMETER_MM };
 
@@ -7,8 +7,8 @@ const FILL_COLOR = "#808080";
 const FILL_OPACITY = 0.35;
 
 // The ribbon's inner radius is now exactly MODEL_RADIUS_MM + BASE_CLEARANCE_MM / 2 (see
-// nobPlacement.ts's computeInnerRadiusMm), concentric with the same origin the arc's own polar
-// geometry (nob placement, sweep angle) is built around. So the reference circle no longer
+// studPlacement.ts's computeInnerRadiusMm), concentric with the same origin the arc's own polar
+// geometry (stud placement, sweep angle) is built around. So the reference circle no longer
 // needs computing at all: it's always drawn at a fixed local offset from that origin, chosen
 // once so the circle's own footprint runs from local (0, 0) to (MODEL_BASE_DIAMETER_MM,
 // MODEL_BASE_DIAMETER_MM) -- both already on 10mm grid lines. This replaces the old

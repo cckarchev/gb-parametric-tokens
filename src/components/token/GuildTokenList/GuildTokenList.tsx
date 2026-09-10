@@ -36,7 +36,7 @@ export const GuildTokenList = ({
     onGenericTokensChange({ ...genericTokens, [id]: counter });
   };
 
-  const genericIds = catalog.genericTokens.map((generic) => generic.id);
+  const genericIds = catalog.genericTokens.map((generic) => generic.name);
   const allEnabled =
     influence.enabled &&
     momentum.enabled &&
@@ -97,16 +97,16 @@ export const GuildTokenList = ({
       />
 
       {catalog.genericTokens.map((generic) => {
-        const counter = genericTokens[generic.id] ?? DEFAULT_GENERIC_COUNTER;
+        const counter = genericTokens[generic.name] ?? DEFAULT_GENERIC_COUNTER;
 
         return (
           <CounterCountField
-            key={generic.id}
+            key={generic.name}
             label={generic.name}
             enabled={counter.enabled}
-            onEnabledChange={(enabled) => setGenericCounter(generic.id, { ...counter, enabled })}
+            onEnabledChange={(enabled) => setGenericCounter(generic.name, { ...counter, enabled })}
             copies={counter.copies}
-            onCopiesChange={(copies) => setGenericCounter(generic.id, { ...counter, copies })}
+            onCopiesChange={(copies) => setGenericCounter(generic.name, { ...counter, copies })}
             min={MIN_COPIES}
             max={MAX_COPIES}
           />

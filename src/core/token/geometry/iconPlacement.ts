@@ -16,7 +16,7 @@ export type PlaceIconResult = {
   contours: Vec2[][];
   // True when the icon's own farthest point from its center would poke past the target circle
   // under a plain bounding-box fit, regardless of whether constrainToCircle actually corrected
-  // it. A raised relief icon is unioned onto the base with no clip against the nob/disc's own
+  // it. A raised relief icon is unioned onto the base with no clip against the stud/disc's own
   // circle (see applyReliefToBase.ts), so any point past that circle would print as an
   // unsupported overhang -- this is what lets a caller flag that token for attention.
   overflowsCircle: boolean;
@@ -47,7 +47,7 @@ export const placeIcon = (contours: Vec2[][], options: IconPlacementOptions): Pl
     ),
   );
   // Deliberately not multiplied by options.scale, unlike boxFitScaleFactor above: the circle
-  // fit is a physical safety limit (the real nob/disc circle a raised icon can't print past
+  // fit is a physical safety limit (the real stud/disc circle a raised icon can't print past
   // unsupported, see applyReliefToBase.ts), not the icon's own nominal aesthetic size, so a
   // smaller scale legitimately needs less correction rather than a smaller circle to correct
   // against.
@@ -74,10 +74,9 @@ export const rotateContours = (contours: Vec2[][], rotationDeg: number): Vec2[][
   const sinRotation = Math.sin(rotationRad);
 
   return contours.map((contour) =>
-    contour.map(([x, y]): Vec2 => [
-      x * cosRotation - y * sinRotation,
-      x * sinRotation + y * cosRotation,
-    ]),
+    contour.map(
+      ([x, y]): Vec2 => [x * cosRotation - y * sinRotation, x * sinRotation + y * cosRotation],
+    ),
   );
 };
 

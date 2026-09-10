@@ -30,8 +30,8 @@ const DEFAULT_GOAL_INFLUENCE_SHAPE: SharedConfig["goalInfluenceShape"] = {
 // Measured against the real DEFAULT_ARC_SHAPE's 6mm band via the real pipeline
 // (computeReliefComponents): the largest sizes that fit a two-line label like "Command" /
 // "-2/-2 MOV" without truncating or overlapping the ribbon edges.
-const DEFAULT_TITLE_SIZE_MM = 3;
-const DEFAULT_SUBTITLE_SIZE_MM = 1.9;
+const DEFAULT_NAME_SIZE_MM = 3;
+const DEFAULT_EFFECT_SIZE_MM = 1.9;
 
 const SETTINGS_FILE_NAME = "token-settings.json";
 const JSON_MIME_TYPE = "application/json";
@@ -55,8 +55,8 @@ const isSharedConfig = (value: unknown): value is SharedConfig => {
     typeof candidate.printProfileId === "string" &&
     Array.isArray(candidate.colorGroups) &&
     typeof candidate.influenceIconId === "string" &&
-    typeof candidate.titleSizeMm === "number" &&
-    typeof candidate.subtitleSizeMm === "number" &&
+    typeof candidate.nameSizeMm === "number" &&
+    typeof candidate.effectSizeMm === "number" &&
     typeof candidate.showSecondLine === "boolean" &&
     typeof candidate.balanceTwoLineSizes === "boolean"
   );
@@ -130,8 +130,8 @@ export const useTokenGenerator = () => {
     printProfileId: DEFAULT_PRINT_PROFILE_ID,
     colorGroups: DEFAULT_COLOR_GROUPS,
     influenceIconId: FALLBACK_ICON_ID,
-    titleSizeMm: DEFAULT_TITLE_SIZE_MM,
-    subtitleSizeMm: DEFAULT_SUBTITLE_SIZE_MM,
+    nameSizeMm: DEFAULT_NAME_SIZE_MM,
+    effectSizeMm: DEFAULT_EFFECT_SIZE_MM,
     showSecondLine: true,
     balanceTwoLineSizes: false,
     iconOverflowBehavior: "none",
@@ -176,7 +176,7 @@ export const useTokenGenerator = () => {
         .map((item) => ({
           id: item.id,
           group: item.group,
-          title: item.title,
+          name: item.name,
           reason: item.reason,
         })),
     [previewItems],

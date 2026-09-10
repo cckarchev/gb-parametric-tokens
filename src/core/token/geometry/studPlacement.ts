@@ -4,14 +4,14 @@ import { DEGREES_PER_RADIAN } from "./angleConventions";
 export type ArcShapeSpec = Extract<ShapeSpec, { type: "arc" }>;
 export type DiscShapeSpec = Extract<ShapeSpec, { type: "disc" }>;
 
-export type NobPlacement = {
+export type StudPlacement = {
   position: Vec2;
   angleDeg: number;
 };
 
-export type NobPlacements = {
-  left: NobPlacement;
-  right: NobPlacement;
+export type StudPlacements = {
+  left: StudPlacement;
+  right: StudPlacement;
 };
 
 // The diameter of a standard miniature base (30mm) the ribbon's inner edge wraps around.
@@ -33,38 +33,38 @@ export const computeOuterRadiusMm = (shape: ArcShapeSpec): number => {
 };
 
 // ribbonLengthMm is an arc length in mm, measured on the fixed inner radius -- the same
-// radius the nob's touching vertex sits on (see computeNobPlacements below).
+// radius the stud's touching vertex sits on (see computeStudPlacements below).
 export const computeSweepDeg = (shape: ArcShapeSpec): number => {
   return (shape.ribbonLengthMm / computeInnerRadiusMm()) * DEGREES_PER_RADIAN;
 };
 
-// If the ribbon is wider than the nominal nob, the ribbon's straight end edge would poke out
-// past the nob's curve (a visible notch), because the nob's own circle only reaches
-// nobDiameterMm past the ribbon's inner-edge vertex. Growing the effective diameter to match
-// the ribbon's width (never shrinking a nob the user actually asked to be bigger) keeps the
-// nob's curve enclosing the whole end edge. Every geometry/icon/placement call site that needs
-// the nob's real, rendered size uses this -- shape.nobDiameterMm itself stays the user's
+// If the ribbon is wider than the nominal stud, the ribbon's straight end edge would poke out
+// past the stud's curve (a visible notch), because the stud's own circle only reaches
+// studDiameterMm past the ribbon's inner-edge vertex. Growing the effective diameter to match
+// the ribbon's width (never shrinking a stud the user actually asked to be bigger) keeps the
+// stud's curve enclosing the whole end edge. Every geometry/icon/placement call site that needs
+// the stud's real, rendered size uses this -- shape.studDiameterMm itself stays the user's
 // nominal, as-typed value.
-export const computeEffectiveNobDiameterMm = (shape: ArcShapeSpec): number => {
-  return Math.max(shape.nobDiameterMm, shape.ribbonWidthMm);
+export const computeEffectiveStudDiameterMm = (shape: ArcShapeSpec): number => {
+  return Math.max(shape.studDiameterMm, shape.ribbonWidthMm);
 };
 
-export const computeNobPlacements = (
+export const computeStudPlacements = (
   shape: ArcShapeSpec,
   centerAngleDeg: number,
-): NobPlacements => {
+): StudPlacements => {
   const sweepDeg = computeSweepDeg(shape);
   const halfSweepDeg = sweepDeg / 2;
   const innerRadiusMm = computeInnerRadiusMm();
-  const nobRadiusMm = computeEffectiveNobDiameterMm(shape) / 2;
+  const studRadiusMm = computeEffectiveStudDiameterMm(shape) / 2;
 
-  // The nob's center sits further out along the same ray as the ribbon's own inner-edge
-  // vertex (innerRadiusMm, at the sweep's end angle), at exactly nobRadiusMm beyond it -- so
-  // that vertex point always lands exactly on the nob's circumference. Growing nobDiameterMm
+  // The stud's center sits further out along the same ray as the ribbon's own inner-edge
+  // vertex (innerRadiusMm, at the sweep's end angle), at exactly studRadiusMm beyond it -- so
+  // that vertex point always lands exactly on the stud's circumference. Growing studDiameterMm
   // only pushes the center further out; it never moves the vertex, the ribbon, or (since the
   // base-reference circle is now concentric with this same origin, see svgBaseReference.ts)
   // the circle.
-  const nobCenterRadiusMm = innerRadiusMm + nobRadiusMm;
+  const studCenterRadiusMm = innerRadiusMm + studRadiusMm;
 
   const leftAngleDeg = centerAngleDeg + halfSweepDeg;
   const rightAngleDeg = centerAngleDeg - halfSweepDeg;
@@ -72,7 +72,7 @@ export const computeNobPlacements = (
   const positionAtAngle = (angleDeg: number): Vec2 => {
     const angleRad = angleDeg / DEGREES_PER_RADIAN;
 
-    return [nobCenterRadiusMm * Math.cos(angleRad), nobCenterRadiusMm * Math.sin(angleRad)];
+    return [studCenterRadiusMm * Math.cos(angleRad), studCenterRadiusMm * Math.sin(angleRad)];
   };
 
   return {

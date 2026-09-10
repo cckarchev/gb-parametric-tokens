@@ -25,6 +25,6 @@ export type ReliefComponent = {
   // the icon's own footprint, dilated outward (see geometry/growIconOutline.ts), in the same
   // absolute mm space as `contours`. The base builders (buildArcTokenMesh.ts, buildTokenMesh.ts)
   // and the 2D preview outline (preview/computeBaseOutlineContours.ts) union this into the
-  // nob/disc's own body instead of leaving it a plain circle.
+  // stud/disc's own body instead of leaving it a plain circle.
   growOutline?: Vec2[][];
 };

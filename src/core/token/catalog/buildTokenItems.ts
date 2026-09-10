@@ -1,5 +1,5 @@
 import { estimateAscentMm } from "../computeArcReliefComponents";
-import { ArcShapeSpec, DiscShapeSpec } from "../geometry/nobPlacement";
+import { ArcShapeSpec, DiscShapeSpec } from "../geometry/studPlacement";
 import {
   ColorGroupSpec,
   FitPolicy,
@@ -8,8 +8,9 @@ import {
   StyleSpec,
   TokenSpec,
 } from "../types";
-import { CatalogGenericToken, CatalogTokenSpec, GuildCatalog } from "./catalogTypes";
+import { CatalogEffect, CatalogGenericToken, GuildCatalog } from "./catalogTypes";
 import { TEXT_COLOR_GROUP_ID } from "./deriveReliefColor";
+import { resolveEffect } from "./effects";
 
 export type TokenItem = {
   id: string;
@@ -18,7 +19,7 @@ export type TokenItem = {
   // (guild generics, Influence, Momentum, Goal Influence) -- lets the "needs attention" list
   // group a character's tokens together instead of repeating their name on every line.
   group?: string;
-  title: string;
+  name: string;
   spec: TokenSpec;
   copies: number;
 };
@@ -52,8 +53,8 @@ export type SharedConfig = {
   printProfileId: string;
   colorGroups: ColorGroupSpec[];
   influenceIconId: string;
-  titleSizeMm: number;
-  subtitleSizeMm: number;
+  nameSizeMm: number;
+  effectSizeMm: number;
   showSecondLine: boolean;
   balanceTwoLineSizes: boolean;
   // "none" by default: applied to every guild icon this catalog builds (see buildIconSpec below)
@@ -82,10 +83,11 @@ const RING_RADIUS_RATIO = 0.85;
 const RING_WIDTH_MM = 0.6;
 
 // Starting point for balanceTwoLineSizes, tunable by feel against a real render like every other
-// geometry/typography default in this app: shrinks the title a touch and grows the subtitle so a
-// two-line character token reads more evenly instead of the subtitle looking like an afterthought.
-const TWO_LINE_TITLE_BALANCE_SCALE = 0.9;
-const TWO_LINE_SUBTITLE_BALANCE_SCALE = 1.2;
+// geometry/typography default in this app: shrinks the name a touch and grows the effect text so
+// a two-line character token reads more evenly instead of the effect text looking like an
+// afterthought.
+const TWO_LINE_NAME_BALANCE_SCALE = 0.9;
+const TWO_LINE_EFFECT_BALANCE_SCALE = 1.2;
 
 // Moved outward from its old 0.55 now that Goal Influence no longer wears a ring border (see
 // buildGoalInfluenceTokenSpec below): the space that border used to occupy is free for the text
@@ -143,39 +145,38 @@ const guildCrestScale = (iconId: string, guildIconId: string, guildIconScale: nu
 };
 
 const buildCharacterTokenSpec = (
-  token: CatalogTokenSpec,
+  effect: CatalogEffect,
   guildIconId: string,
   guildIconScale: number,
   sharedConfig: SharedConfig,
 ): TokenSpec => {
-  const iconId = token.iconId ?? guildIconId;
-  const iconScale = DEFAULT_ICON_SCALE * guildCrestScale(iconId, guildIconId, guildIconScale);
-  const secondLineText = sharedConfig.showSecondLine ? token.subtitle : undefined;
+  const iconScale = DEFAULT_ICON_SCALE * guildIconScale;
+  const secondLineText = sharedConfig.showSecondLine ? effect.effect : undefined;
 
-  const titleSizeMm =
+  const nameSizeMm =
     secondLineText !== undefined && sharedConfig.balanceTwoLineSizes
-      ? sharedConfig.titleSizeMm * TWO_LINE_TITLE_BALANCE_SCALE
-      : sharedConfig.titleSizeMm;
+      ? sharedConfig.nameSizeMm * TWO_LINE_NAME_BALANCE_SCALE
+      : sharedConfig.nameSizeMm;
 
-  const titleLine = {
-    text: token.title,
-    sizeMm: titleSizeMm,
+  const nameLine = {
+    text: effect.name,
+    sizeMm: nameSizeMm,
     colorGroup: TEXT_COLOR_GROUP_ID,
   };
 
   const lines =
     secondLineText !== undefined
       ? [
-          titleLine,
+          nameLine,
           {
             text: secondLineText,
             sizeMm: sharedConfig.balanceTwoLineSizes
-              ? sharedConfig.subtitleSizeMm * TWO_LINE_SUBTITLE_BALANCE_SCALE
-              : sharedConfig.subtitleSizeMm,
+              ? sharedConfig.effectSizeMm * TWO_LINE_EFFECT_BALANCE_SCALE
+              : sharedConfig.effectSizeMm,
             colorGroup: TEXT_COLOR_GROUP_ID,
           },
         ]
-      : [titleLine];
+      : [nameLine];
 
   return {
     version: 1,
@@ -183,8 +184,8 @@ const buildCharacterTokenSpec = (
     textLayout: "arc",
     lines,
     icons: [
-      buildIconSpec(iconId, "left", iconScale, sharedConfig),
-      buildIconSpec(iconId, "right", iconScale, sharedConfig),
+      buildIconSpec(guildIconId, "left", iconScale, sharedConfig),
+      buildIconSpec(guildIconId, "right", iconScale, sharedConfig),
     ],
     decorations: [],
     ...sharedTokenFields(sharedConfig),
@@ -324,38 +325,39 @@ export const buildTokenItems = (
   const items: TokenItem[] = [];
 
   for (const character of catalog.characters) {
-    character.tokens.forEach((token, tokenIndex) => {
-      const id = characterTokenId(character.id, tokenIndex);
+    character.effects.forEach((effectName, tokenIndex) => {
+      const id = characterTokenId(character.name, tokenIndex);
 
       if (!selection.characterTokenIds.includes(id)) {
         return;
       }
 
+      const effect = resolveEffect(effectName);
       const copies =
-        token.maxCopies && token.maxCopies > 1 ? (selection.characterTokenCopies[id] ?? 1) : 1;
+        effect.maxCopies && effect.maxCopies > 1 ? (selection.characterTokenCopies[id] ?? 1) : 1;
 
       items.push({
         id,
-        label: `${character.name}: ${token.title}`,
+        label: `${character.name}: ${effect.name}`,
         group: character.name,
-        title: token.title,
-        spec: buildCharacterTokenSpec(token, guildIconId, guildIconScale, sharedConfig),
+        name: effect.name,
+        spec: buildCharacterTokenSpec(effect, guildIconId, guildIconScale, sharedConfig),
         copies,
       });
     });
   }
 
   for (const generic of catalog.genericTokens) {
-    const counter = selection.genericTokens[generic.id];
+    const counter = selection.genericTokens[generic.name];
 
     if (!counter?.enabled) {
       continue;
     }
 
     items.push({
-      id: generic.id,
+      id: generic.name,
       label: generic.name,
-      title: generic.name,
+      name: generic.name,
       spec: buildGenericTokenSpec(generic, guildIconId, guildIconScale, sharedConfig),
       copies: counter.copies,
     });
@@ -365,7 +367,7 @@ export const buildTokenItems = (
     items.push({
       id: "influence",
       label: "Influence",
-      title: "Influence",
+      name: "Influence",
       spec: buildInfluenceTokenSpec(guildIconId, guildIconScale, sharedConfig),
       copies: selection.influence.copies,
     });
@@ -375,7 +377,7 @@ export const buildTokenItems = (
     items.push({
       id: "momentum",
       label: "Momentum",
-      title: "Momentum",
+      name: "Momentum",
       spec: buildMomentumTokenSpec(sharedConfig),
       copies: selection.momentum.copies,
     });
@@ -385,7 +387,7 @@ export const buildTokenItems = (
     items.push({
       id: "goal-influence",
       label: "Goal Influence",
-      title: "Goal Influence",
+      name: "Goal Influence",
       spec: buildGoalInfluenceTokenSpec(guildIconId, guildIconScale, sharedConfig),
       copies: selection.goalInfluence.copies,
     });

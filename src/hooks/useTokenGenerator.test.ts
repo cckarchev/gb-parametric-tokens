@@ -36,12 +36,11 @@ const catalog: GuildCatalog = {
   color: "#cdb320",
   characters: [
     {
-      id: "tapper",
       name: "Tapper",
-      tokens: [{ title: "Commanding Aura" }, { title: "Marked Target" }],
+      effects: ["Commanding Aura", "Marked Target"],
     },
   ],
-  genericTokens: [{ id: "beer-token", name: "Beer Token" }],
+  genericTokens: [{ name: "Beer Token" }],
 };
 
 const lastPostedRequest = (worker: FakeWorker): WorkerRequest => {
@@ -99,10 +98,10 @@ describe("useTokenGenerator", () => {
 
     expect(loadGuildCatalog).toHaveBeenCalledWith("brewers");
     expect(result.current.catalog).toEqual(catalog);
-    expect(result.current.selection.characterTokenIds).toEqual(["tapper-0", "tapper-1"]);
+    expect(result.current.selection.characterTokenIds).toEqual(["Tapper-0", "Tapper-1"]);
     expect(result.current.selection.characterTokenCopies).toEqual({});
     expect(result.current.selection.genericTokens).toEqual({
-      "beer-token": { enabled: true, copies: 1 },
+      "Beer Token": { enabled: true, copies: 1 },
     });
     expect(result.current.selection.influence).toEqual({ enabled: true, copies: 13 });
     expect(result.current.selection.momentum).toEqual({ enabled: true, copies: 15 });
@@ -167,7 +166,7 @@ describe("useTokenGenerator", () => {
       guildId: "cooks",
       name: "Cooks",
       color: "#e0a020",
-      characters: [{ id: "wellington", name: "Wellington", tokens: [{ title: "Singled Out" }] }],
+      characters: [{ name: "Wellington", effects: ["Singled Out"] }],
       genericTokens: [],
     };
 
@@ -190,12 +189,12 @@ describe("useTokenGenerator", () => {
     act(() => {
       result.current.setSelection((selection) => ({
         ...selection,
-        characterTokenIds: selection.characterTokenIds.filter((id) => id !== "tapper-1"),
+        characterTokenIds: selection.characterTokenIds.filter((id) => id !== "Tapper-1"),
         momentum: { ...selection.momentum, enabled: false },
       }));
     });
 
-    expect(result.current.selection.characterTokenIds).toEqual(["tapper-0"]);
+    expect(result.current.selection.characterTokenIds).toEqual(["Tapper-0"]);
     expect(result.current.selection.momentum.enabled).toBe(false);
 
     vi.mocked(loadGuildCatalog).mockResolvedValueOnce(otherCatalog);
@@ -209,7 +208,7 @@ describe("useTokenGenerator", () => {
     });
 
     // Cooks is visited for the first time, so it gets the full default selection.
-    expect(result.current.selection.characterTokenIds).toEqual(["wellington-0"]);
+    expect(result.current.selection.characterTokenIds).toEqual(["Wellington-0"]);
     expect(result.current.selection.momentum.enabled).toBe(true);
 
     vi.mocked(loadGuildCatalog).mockResolvedValueOnce(catalog);
@@ -223,7 +222,7 @@ describe("useTokenGenerator", () => {
     });
 
     // Brewers' earlier edits are still there instead of being reset back to defaults.
-    expect(result.current.selection.characterTokenIds).toEqual(["tapper-0"]);
+    expect(result.current.selection.characterTokenIds).toEqual(["Tapper-0"]);
     expect(result.current.selection.momentum.enabled).toBe(false);
   });
 
@@ -258,7 +257,7 @@ describe("useTokenGenerator", () => {
     });
 
     act(() => {
-      result.current.setSelection({ ...result.current.selection, characterTokenIds: ["tapper-0"] });
+      result.current.setSelection({ ...result.current.selection, characterTokenIds: ["Tapper-0"] });
     });
 
     await act(async () => {
@@ -276,10 +275,10 @@ describe("useTokenGenerator", () => {
         requestId: request.requestId,
         results: [
           {
-            id: "tapper-0",
+            id: "Tapper-0",
             label: "Tapper: Commanding Aura",
             group: "Tapper",
-            title: "Commanding Aura",
+            name: "Commanding Aura",
             shape: { type: "disc", diameterMm: 10 },
             baseContours: [],
             reliefComponents: [],
@@ -311,7 +310,7 @@ describe("useTokenGenerator", () => {
     });
 
     act(() => {
-      result.current.setSelection({ ...result.current.selection, characterTokenIds: ["tapper-0"] });
+      result.current.setSelection({ ...result.current.selection, characterTokenIds: ["Tapper-0"] });
     });
 
     await act(async () => {
@@ -331,10 +330,10 @@ describe("useTokenGenerator", () => {
         requestId: request.requestId,
         results: [
           {
-            id: "tapper-0",
+            id: "Tapper-0",
             label: "Tapper: Commanding Aura",
             group: "Tapper",
-            title: "Commanding Aura",
+            name: "Commanding Aura",
             shape: { type: "disc", diameterMm: 10 },
             baseContours: [],
             reliefComponents: [],
@@ -344,10 +343,10 @@ describe("useTokenGenerator", () => {
             reason: "",
           },
           {
-            id: "tapper-1",
+            id: "Tapper-1",
             label: "Tapper: Marked Target",
             group: "Tapper",
-            title: "Marked Target",
+            name: "Marked Target",
             shape: { type: "disc", diameterMm: 10 },
             baseContours: [],
             reliefComponents: [],
@@ -364,9 +363,9 @@ describe("useTokenGenerator", () => {
 
     expect(result.current.invalidPreviewItems).toEqual([
       {
-        id: "tapper-1",
+        id: "Tapper-1",
         group: "Tapper",
-        title: "Marked Target",
+        name: "Marked Target",
         reason: "1 of 3 details (text or icon) too thin to print at this size.",
       },
     ]);
@@ -384,7 +383,7 @@ describe("useTokenGenerator", () => {
     });
 
     act(() => {
-      result.current.setSelection({ ...result.current.selection, characterTokenIds: ["tapper-0"] });
+      result.current.setSelection({ ...result.current.selection, characterTokenIds: ["Tapper-0"] });
     });
 
     const exportPromise = act(async () => {
@@ -437,7 +436,7 @@ describe("useTokenGenerator", () => {
     });
 
     act(() => {
-      result.current.setSelection({ ...result.current.selection, characterTokenIds: ["tapper-0"] });
+      result.current.setSelection({ ...result.current.selection, characterTokenIds: ["Tapper-0"] });
     });
 
     const exportPromise = act(async () => {
@@ -465,14 +464,14 @@ describe("useTokenGenerator", () => {
       kind: "export",
       requestId: exportRequest.requestId,
       status: "failed",
-      failures: [{ id: "tapper-0", label: "Tapper: Commanding Aura", reason: "Invalid mesh." }],
+      failures: [{ id: "Tapper-0", label: "Tapper: Commanding Aura", reason: "Invalid mesh." }],
     });
 
     await exportPromise;
 
     expect(downloadBlob).not.toHaveBeenCalled();
     expect(result.current.exportFailures).toEqual([
-      { id: "tapper-0", label: "Tapper: Commanding Aura", reason: "Invalid mesh." },
+      { id: "Tapper-0", label: "Tapper: Commanding Aura", reason: "Invalid mesh." },
     ]);
   });
 
@@ -494,7 +493,7 @@ describe("useTokenGenerator", () => {
     const { result } = renderHook(() => useTokenGenerator());
 
     const importedConfig = {
-      arcShape: { type: "arc", ribbonWidthMm: 20, ribbonLengthMm: 25, nobDiameterMm: 30 },
+      arcShape: { type: "arc", ribbonWidthMm: 20, ribbonLengthMm: 25, studDiameterMm: 30 },
       discShape: { type: "disc", diameterMm: 30 },
       goalInfluenceShape: { type: "disc", diameterMm: 24 },
       style: { relief: "engraved", reliefHeightMm: 0.8, baseThicknessMm: 4 },
@@ -502,8 +501,8 @@ describe("useTokenGenerator", () => {
       printProfileId: "fdm-04",
       colorGroups: [{ id: "base", name: "Body", color: "#123456" }],
       influenceIconId: "blank",
-      titleSizeMm: 5,
-      subtitleSizeMm: 3,
+      nameSizeMm: 5,
+      effectSizeMm: 3,
       showSecondLine: false,
       balanceTwoLineSizes: true,
       iconOverflowBehavior: "trim",
@@ -524,7 +523,7 @@ describe("useTokenGenerator", () => {
     const { result } = renderHook(() => useTokenGenerator());
 
     const importedConfig = {
-      arcShape: { type: "arc", ribbonWidthMm: 20, ribbonLengthMm: 25, nobDiameterMm: 30 },
+      arcShape: { type: "arc", ribbonWidthMm: 20, ribbonLengthMm: 25, studDiameterMm: 30 },
       discShape: { type: "disc", diameterMm: 30 },
       goalInfluenceShape: { type: "disc", diameterMm: 24 },
       style: { relief: "engraved", reliefHeightMm: 0.8, baseThicknessMm: 4 },
@@ -532,8 +531,8 @@ describe("useTokenGenerator", () => {
       printProfileId: "fdm-04",
       colorGroups: [{ id: "base", name: "Body", color: "#123456" }],
       influenceIconId: "blank",
-      titleSizeMm: 5,
-      subtitleSizeMm: 3,
+      nameSizeMm: 5,
+      effectSizeMm: 3,
       showSecondLine: false,
       balanceTwoLineSizes: true,
       // iconOverflowBehavior intentionally absent, as in a file exported before it existed.

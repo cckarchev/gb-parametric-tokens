@@ -129,7 +129,7 @@ describe("buildContactSheetSvg", () => {
       type: "arc",
       ribbonWidthMm: 6,
       ribbonLengthMm: 20,
-      nobDiameterMm: 12,
+      studDiameterMm: 12,
     };
     const items = [
       { shape: arcShape, baseContours: squareContour(10), reliefComponents: [], copies: 1 },
@@ -154,7 +154,7 @@ describe("buildContactSheetSvg", () => {
   });
 
   it("draws the circle exactly at the token's own local origin, wherever that origin ends up in the sheet", () => {
-    // This is the direct regression test for the original bug (changing nobDiameterMm visibly
+    // This is the direct regression test for the original bug (changing studDiameterMm visibly
     // shifted a token relative to its circle): the token's own local origin (0,0) and the
     // circle's center must always render at the exact same point, whatever that point is --
     // not merely close, not "usually" -- because the render loop applies the identical
@@ -165,7 +165,7 @@ describe("buildContactSheetSvg", () => {
       type: "arc",
       ribbonWidthMm: 6,
       ribbonLengthMm: 20,
-      nobDiameterMm: 12,
+      studDiameterMm: 12,
     };
     const contoursIncludingOrigin: Vec2[][] = [
       [
@@ -201,7 +201,7 @@ describe("buildContactSheetSvg", () => {
       type: "arc",
       ribbonWidthMm: 6,
       ribbonLengthMm: 20,
-      nobDiameterMm: 12,
+      studDiameterMm: 12,
     };
     const items = [
       { shape: arcShape, baseContours: squareContour(10), reliefComponents: [], copies: 1 },
@@ -294,7 +294,7 @@ describe("buildContactSheetSvg", () => {
       type: "arc",
       ribbonWidthMm: 6,
       ribbonLengthMm: 20,
-      nobDiameterMm: 12,
+      studDiameterMm: 12,
     };
     const smallDisc: ShapeSpec = { type: "disc", diameterMm: 10 };
     const items = [
@@ -320,7 +320,7 @@ describe("buildContactSheetSvg", () => {
       type: "arc",
       ribbonWidthMm: 6,
       ribbonLengthMm: 20,
-      nobDiameterMm: 12,
+      studDiameterMm: 12,
     };
     const bigDisc: ShapeSpec = { type: "disc", diameterMm: 90 };
     const items = [
@@ -346,7 +346,7 @@ describe("buildContactSheetSvg", () => {
       type: "arc",
       ribbonWidthMm: 6,
       ribbonLengthMm: 20,
-      nobDiameterMm: 12,
+      studDiameterMm: 12,
     };
     const smallDisc: ShapeSpec = { type: "disc", diameterMm: 10 };
     const items = [
@@ -373,7 +373,7 @@ describe("buildContactSheetSvg", () => {
       type: "arc",
       ribbonWidthMm: 6,
       ribbonLengthMm: 20,
-      nobDiameterMm: 12,
+      studDiameterMm: 12,
     };
     // Overflows past the circle's own (0,0)-(30,30) local footprint on the left and top by 7mm
     // (after the +15 shift to the circle's anchor), an amount that doesn't already line up with

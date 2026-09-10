@@ -1,5 +1,5 @@
 import { CENTER_ANGLE_DEG } from "./geometry/angleConventions";
-import { computeNobPlacements } from "./geometry/nobPlacement";
+import { computeStudPlacements } from "./geometry/studPlacement";
 import { buildArcTokenMesh } from "./mesh/buildArcTokenMesh";
 import { buildTokenMesh } from "./mesh/buildTokenMesh";
 import { ReliefComponent } from "./mesh/reliefComponent";
@@ -14,13 +14,13 @@ export const buildTokenParts = (
     return buildTokenMesh({ spec, reliefComponents });
   }
 
-  const nobPlacements = computeNobPlacements(spec.shape, CENTER_ANGLE_DEG);
+  const studPlacements = computeStudPlacements(spec.shape, CENTER_ANGLE_DEG);
 
   return buildArcTokenMesh({
     shape: spec.shape,
     centerAngleDeg: CENTER_ANGLE_DEG,
     style: spec.style,
-    nobPositions: { left: nobPlacements.left.position, right: nobPlacements.right.position },
+    studPositions: { left: studPlacements.left.position, right: studPlacements.right.position },
     reliefComponents,
   });
 };

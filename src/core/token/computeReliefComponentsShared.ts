@@ -12,7 +12,7 @@ import { IconSpec, PrintProfile, TokenSpec, Vec2 } from "./types";
 export type LoadIconSourceResult = { svgSource: string; resolvedId: string; substituted: boolean };
 export type LoadIconSource = (iconId: string) => Promise<LoadIconSourceResult>;
 
-// How far the "grow" IconOverflowBehavior (see types.ts) dilates the nob/disc's own body past
+// How far the "grow" IconOverflowBehavior (see types.ts) dilates the stud/disc's own body past
 // the icon it's hugging, as a multiple of the print profile's own minStrokeWidthMm. A bare
 // minStrokeWidthMm rim (1x) is technically printable but reads as a hairline next to the icon
 // it's supposed to visibly embrace (user feedback: "creo que deberia ser mas grueso"); this
@@ -52,7 +52,7 @@ export const buildIconComponent = async (
   // Trimming needs correctly wound contours (so a hole stays a hole under the intersection),
   // hence after normalizeWinding -- and still in the icon's own local space, centered on the
   // origin, hence before rotate/translate below.
-  // The real nob/disc radius, not scaled by icon.scale -- trim only cuts what actually pokes
+  // The real stud/disc radius, not scaled by icon.scale -- trim only cuts what actually pokes
   // past the physical circle, same reference placeIcon's own circle-fit check uses (see its
   // comment on circleFitScaleFactor), not the icon's smaller nominal-size target.
   const trimmed =
@@ -67,8 +67,8 @@ export const buildIconComponent = async (
   const contours = translateContours(rotated, center);
 
   // "grow" never touches the icon's own contours (unlike "shrink"/"trim" above) -- it grows the
-  // nob/disc's own body around them instead, so the dilated footprint is computed from the
-  // icon's final absolute position, matching the space the base builders place the nob/disc in.
+  // stud/disc's own body around them instead, so the dilated footprint is computed from the
+  // icon's final absolute position, matching the space the base builders place the stud/disc in.
   const growOutline =
     overflowBehavior === "grow" && overflowsCircle
       ? await growIconOutline(contours, printProfile.minStrokeWidthMm * GROW_MARGIN_MULTIPLIER)

@@ -164,9 +164,9 @@ describe("ExportPanel", () => {
         validCount={74}
         invalidCount={3}
         invalidItems={[
-          { id: "a", title: "Beer Token", reason: "1 of 2 details too thin to print." },
-          { id: "b", title: "Marked Target", reason: "1 of 1 detail too thin to print." },
-          { id: "c", title: "Commanding Aura", reason: "3 of 4 details too thin to print." },
+          { id: "a", name: "Beer Token", reason: "1 of 2 details too thin to print." },
+          { id: "b", name: "Marked Target", reason: "1 of 1 detail too thin to print." },
+          { id: "c", name: "Commanding Aura", reason: "3 of 4 details too thin to print." },
         ]}
       />,
     );
@@ -186,8 +186,8 @@ describe("ExportPanel", () => {
         validCount={12}
         invalidCount={2}
         invalidItems={[
-          { id: "a", title: "Beer Token", reason: "1 of 2 details too thin to print." },
-          { id: "b", title: "Marked Target", reason: "1 of 1 detail too thin to print." },
+          { id: "a", name: "Beer Token", reason: "1 of 2 details too thin to print." },
+          { id: "b", name: "Marked Target", reason: "1 of 1 detail too thin to print." },
         ]}
       />,
     );
@@ -207,8 +207,8 @@ describe("ExportPanel", () => {
         validCount={12}
         invalidCount={2}
         invalidItems={[
-          { id: "a", title: "Beer Token", reason: "1 of 2 details too thin to print." },
-          { id: "b", title: "Marked Target", reason: "1 of 1 detail too thin to print." },
+          { id: "a", name: "Beer Token", reason: "1 of 2 details too thin to print." },
+          { id: "b", name: "Marked Target", reason: "1 of 1 detail too thin to print." },
         ]}
       />,
     );
@@ -232,7 +232,7 @@ describe("ExportPanel", () => {
         validCount={12}
         invalidCount={1}
         invalidItems={[
-          { id: "a", title: "Beer Token", reason: "1 of 2 details too thin to print." },
+          { id: "a", name: "Beer Token", reason: "1 of 2 details too thin to print." },
         ]}
       />,
     );
@@ -256,13 +256,13 @@ describe("ExportPanel", () => {
           {
             id: "sugar-0",
             group: "Sugar",
-            title: "Chef's Special",
+            name: "Chef's Special",
             reason: "18 of 36 details too thin to print.",
           },
           {
             id: "sugar-1",
             group: "Sugar",
-            title: "Chilli Cook Out",
+            name: "Chilli Cook Out",
             reason: "19 of 37 details too thin to print.",
           },
         ]}

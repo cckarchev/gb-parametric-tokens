@@ -18,8 +18,8 @@ vi.mock("../core/token/export/threeMfArchive", () => ({ buildThreeMfArchive: vi.
 vi.stubGlobal("self", { postMessage: vi.fn() });
 
 const { computeFootprintMm, handleExport, handlePreview } = await import("./tokenWorker");
-const { computeEffectiveNobDiameterMm, computeOuterRadiusMm } = await import(
-  "../core/token/geometry/nobPlacement"
+const { computeEffectiveStudDiameterMm, computeOuterRadiusMm } = await import(
+  "../core/token/geometry/studPlacement"
 );
 const { computeReliefComponents } = await import("../core/token/computeReliefComponents");
 const { computeBaseOutlineContours } = await import(
@@ -50,7 +50,7 @@ const discSpec: TokenSpec = {
 
 const arcSpec: TokenSpec = {
   version: 1,
-  shape: { type: "arc", ribbonWidthMm: 15, ribbonLengthMm: 20, nobDiameterMm: 24 },
+  shape: { type: "arc", ribbonWidthMm: 15, ribbonLengthMm: 20, studDiameterMm: 24 },
   textLayout: "arc",
   lines: [],
   icons: [],
@@ -88,7 +88,7 @@ describe("computeFootprintMm", () => {
   it("uses a conservative square bounding box for an arc shape", () => {
     const shape = arcSpec.shape as Extract<typeof arcSpec.shape, { type: "arc" }>;
     const expectedSpanMm =
-      (computeOuterRadiusMm(shape) + computeEffectiveNobDiameterMm(shape) / 2) * 2;
+      (computeOuterRadiusMm(shape) + computeEffectiveStudDiameterMm(shape) / 2) * 2;
 
     const footprint = computeFootprintMm(arcSpec.shape);
 
@@ -127,11 +127,11 @@ describe("handlePreview", () => {
         id: "a",
         label: "Tapper: Token A",
         group: "Tapper",
-        title: "Token A",
+        name: "Token A",
         spec: discSpec,
         copies: 13,
       },
-      { id: "b", label: "Token B", title: "Token B", spec: discSpec, copies: 1 },
+      { id: "b", label: "Token B", name: "Token B", spec: discSpec, copies: 1 },
     ];
     const request: PreviewRequest = { kind: "preview", requestId: 7, items };
 
@@ -145,7 +145,7 @@ describe("handlePreview", () => {
         id: "a",
         label: "Tapper: Token A",
         group: "Tapper",
-        title: "Token A",
+        name: "Token A",
         shape: discSpec.shape,
         baseContours: [[[-1, -1]]],
         reliefComponents: [{ contours: [[[0, 0]]] }],
@@ -158,7 +158,7 @@ describe("handlePreview", () => {
         id: "b",
         label: "Token B",
         group: undefined,
-        title: "Token B",
+        name: "Token B",
         shape: discSpec.shape,
         baseContours: [[[-2, -2]]],
         reliefComponents: [{ contours: [[[1, 1]]] }],
@@ -193,7 +193,7 @@ describe("handlePreview", () => {
     vi.mocked(computeBaseOutlineContours).mockResolvedValueOnce([[[-1, -1]]]);
 
     const items: TokenItem[] = [
-      { id: "a", label: "Token A", title: "Token A", spec: discSpec, copies: 1 },
+      { id: "a", label: "Token A", name: "Token A", spec: discSpec, copies: 1 },
     ];
     const request: PreviewRequest = { kind: "preview", requestId: 8, items };
 
@@ -205,7 +205,7 @@ describe("handlePreview", () => {
     );
   });
 
-  it("collapses two identically-worded failures into one line, e.g. a left and right nob icon that are the same icon and fail the same way", async () => {
+  it("collapses two identically-worded failures into one line, e.g. a left and right stud icon that are the same icon and fail the same way", async () => {
     vi.mocked(computeReliefComponents).mockResolvedValueOnce({
       reliefComponents: [],
       warnings: [],
@@ -234,7 +234,7 @@ describe("handlePreview", () => {
     vi.mocked(computeBaseOutlineContours).mockResolvedValueOnce([[[-1, -1]]]);
 
     const items: TokenItem[] = [
-      { id: "a", label: "Singled Out", title: "Singled Out", spec: discSpec, copies: 1 },
+      { id: "a", label: "Singled Out", name: "Singled Out", spec: discSpec, copies: 1 },
     ];
     const request: PreviewRequest = { kind: "preview", requestId: 9, items };
 
@@ -256,7 +256,7 @@ describe("handlePreview", () => {
     vi.mocked(computeBaseOutlineContours).mockResolvedValueOnce([[[-1, -1]]]);
 
     const items: TokenItem[] = [
-      { id: "a", label: "Token A", title: "Token A", spec: discSpec, copies: 1 },
+      { id: "a", label: "Token A", name: "Token A", spec: discSpec, copies: 1 },
     ];
     const request: PreviewRequest = { kind: "preview", requestId: 10, items };
 
@@ -286,7 +286,7 @@ describe("handleExport", () => {
     vi.mocked(buildTokenParts).mockResolvedValue([fakePart("NoError")]);
 
     const items: TokenItem[] = [
-      { id: "a", label: "Token A", title: "Token A", spec: discSpec, copies: 1 },
+      { id: "a", label: "Token A", name: "Token A", spec: discSpec, copies: 1 },
     ];
     const request: ExportRequest = { kind: "export", requestId: 1, items, colorGroups };
 
@@ -311,7 +311,7 @@ describe("handleExport", () => {
     vi.mocked(buildTokenParts).mockResolvedValue([fakePart("Error")]);
 
     const items: TokenItem[] = [
-      { id: "a", label: "Token A", title: "Token A", spec: discSpec, copies: 1 },
+      { id: "a", label: "Token A", name: "Token A", spec: discSpec, copies: 1 },
     ];
     const request: ExportRequest = { kind: "export", requestId: 1, items, colorGroups };
 
@@ -352,8 +352,8 @@ describe("handleExport", () => {
     vi.mocked(buildThreeMfArchive).mockReturnValue(archive);
 
     const items: TokenItem[] = [
-      { id: "disc-a", label: "Disc A", title: "Disc A", spec: discSpec, copies: 1 },
-      { id: "arc-a", label: "Arc A", title: "Arc A", spec: arcSpec, copies: 2 },
+      { id: "disc-a", label: "Disc A", name: "Disc A", spec: discSpec, copies: 1 },
+      { id: "arc-a", label: "Arc A", name: "Arc A", spec: arcSpec, copies: 2 },
     ];
     const request: ExportRequest = { kind: "export", requestId: 9, items, colorGroups };
 

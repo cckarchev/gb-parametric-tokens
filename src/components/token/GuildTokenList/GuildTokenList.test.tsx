@@ -10,7 +10,7 @@ const catalog: GuildCatalog = {
   name: "Brewers",
   color: "#cdb320",
   characters: [],
-  genericTokens: [{ id: "beer-token", name: "Beer Token" }],
+  genericTokens: [{ name: "Beer Token" }],
 };
 
 const renderList = (overrides: Partial<Parameters<typeof GuildTokenList>[0]> = {}) => {
@@ -53,7 +53,7 @@ describe("GuildTokenList", () => {
 
     renderList({
       genericTokens: {
-        "beer-token": { enabled: false, copies: 1 },
+        "Beer Token": { enabled: false, copies: 1 },
         "other-token": { enabled: true, copies: 2 },
       },
       onGenericTokensChange,
@@ -62,7 +62,7 @@ describe("GuildTokenList", () => {
     fireEvent.click(screen.getByLabelText("Beer Token"));
 
     expect(onGenericTokensChange).toHaveBeenLastCalledWith({
-      "beer-token": { enabled: true, copies: 1 },
+      "Beer Token": { enabled: true, copies: 1 },
       "other-token": { enabled: true, copies: 2 },
     });
   });
@@ -71,7 +71,7 @@ describe("GuildTokenList", () => {
     const onGenericTokensChange = vi.fn();
 
     renderList({
-      genericTokens: { "beer-token": { enabled: true, copies: 1 } },
+      genericTokens: { "Beer Token": { enabled: true, copies: 1 } },
       onGenericTokensChange,
     });
 
@@ -80,7 +80,7 @@ describe("GuildTokenList", () => {
     });
 
     expect(onGenericTokensChange).toHaveBeenLastCalledWith({
-      "beer-token": { enabled: true, copies: 3 },
+      "Beer Token": { enabled: true, copies: 3 },
     });
   });
 
@@ -153,7 +153,7 @@ describe("GuildTokenList", () => {
       onMomentumChange,
       goalInfluence: { enabled: false, copies: 2 },
       onGoalInfluenceChange,
-      genericTokens: { "beer-token": { enabled: false, copies: 4 } },
+      genericTokens: { "Beer Token": { enabled: false, copies: 4 } },
       onGenericTokensChange,
     });
 
@@ -163,7 +163,7 @@ describe("GuildTokenList", () => {
     expect(onMomentumChange).toHaveBeenCalledWith({ enabled: true, copies: 15 });
     expect(onGoalInfluenceChange).toHaveBeenCalledWith({ enabled: true, copies: 2 });
     expect(onGenericTokensChange).toHaveBeenCalledWith({
-      "beer-token": { enabled: true, copies: 4 },
+      "Beer Token": { enabled: true, copies: 4 },
     });
   });
 
@@ -172,7 +172,7 @@ describe("GuildTokenList", () => {
       influence: { enabled: true, copies: 13 },
       momentum: { enabled: true, copies: 15 },
       goalInfluence: { enabled: false, copies: 2 },
-      genericTokens: { "beer-token": { enabled: true, copies: 4 } },
+      genericTokens: { "Beer Token": { enabled: true, copies: 4 } },
     });
 
     expect(screen.getByLabelText("Select all")).not.toBeChecked();
@@ -180,7 +180,7 @@ describe("GuildTokenList", () => {
     rerender(
       <GuildTokenList
         catalog={catalog}
-        genericTokens={{ "beer-token": { enabled: true, copies: 4 } }}
+        genericTokens={{ "Beer Token": { enabled: true, copies: 4 } }}
         onGenericTokensChange={vi.fn()}
         influence={{ enabled: true, copies: 13 }}
         onInfluenceChange={vi.fn()}

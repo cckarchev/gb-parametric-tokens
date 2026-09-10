@@ -27,7 +27,7 @@ const baseGenerator = {
   setSelection: vi.fn(),
   sharedConfig: {
     printProfileId: "fdm-04",
-    arcShape: { type: "arc", ribbonWidthMm: 15, ribbonLengthMm: 20, nobDiameterMm: 24 },
+    arcShape: { type: "arc", ribbonWidthMm: 15, ribbonLengthMm: 20, studDiameterMm: 24 },
     discShape: { type: "disc", diameterMm: 25 },
     goalInfluenceShape: { type: "disc", diameterMm: 20 },
     style: { relief: "raised", reliefHeightMm: 0.6, baseThicknessMm: 3 },
@@ -87,8 +87,8 @@ describe("TokenEditor", () => {
         guildId: "brewers",
         name: "Brewers",
         color: "#cdb320",
-        characters: [{ id: "tapper", name: "Tapper", tokens: [{ title: "Commanding Aura" }] }],
-        genericTokens: [{ id: "beer-token", name: "Beer Token" }],
+        characters: [{ name: "Tapper", effects: ["Commanding Aura"] }],
+        genericTokens: [{ name: "Beer Token" }],
       },
     });
 
@@ -117,7 +117,7 @@ describe("TokenEditor", () => {
         name: "Brewers",
         color: "#cdb320",
         characters: [],
-        genericTokens: [{ id: "beer-token", name: "Beer Token" }],
+        genericTokens: [{ name: "Beer Token" }],
       },
       setSelection,
     });
@@ -139,6 +139,6 @@ describe("TokenEditor", () => {
     expect(finalSelection.influence.enabled).toBe(true);
     expect(finalSelection.momentum.enabled).toBe(true);
     expect(finalSelection.goalInfluence.enabled).toBe(true);
-    expect(finalSelection.genericTokens["beer-token"]?.enabled).toBe(true);
+    expect(finalSelection.genericTokens["Beer Token"]?.enabled).toBe(true);
   });
 });

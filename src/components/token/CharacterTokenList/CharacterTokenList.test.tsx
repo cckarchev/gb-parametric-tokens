@@ -4,8 +4,33 @@ import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 
 import { characterTokenId } from "../../../core/token/catalog/buildTokenItems";
-import { GuildCatalog } from "../../../core/token/catalog/catalogTypes";
+import { CatalogEffect, GuildCatalog } from "../../../core/token/catalog/catalogTypes";
 import { CharacterTokenList } from "./CharacterTokenList";
+
+// vi.mock is hoisted above these imports, so the fixture data it closes over has to be built
+// inside vi.hoisted -- a plain top-level const here would still be uninitialized when the mock
+// factory below actually runs.
+const { fixtureEffects } = vi.hoisted(() => {
+  const fixtureEffects: Record<string, CatalogEffect> = {
+    "Commanding Aura": { name: "Commanding Aura", effect: '4" Aura +1 TAC +1 DMG' },
+    "Marked Target": { name: "Marked Target" },
+    "Singled Out": { name: "Singled Out", maxCopies: 2 },
+  };
+
+  return { fixtureEffects };
+});
+
+vi.mock("../../../core/token/catalog/effects", () => ({
+  resolveEffect: (effectId: string) => {
+    const effect = fixtureEffects[effectId];
+
+    if (!effect) {
+      throw new Error(`Unknown effect id "${effectId}"`);
+    }
+
+    return effect;
+  },
+}));
 
 const catalog: GuildCatalog = {
   guildId: "brewers",
@@ -13,22 +38,16 @@ const catalog: GuildCatalog = {
   color: "#cdb320",
   characters: [
     {
-      id: "tapper",
       name: "Tapper",
-      tokens: [
-        { title: "Commanding Aura", subtitle: '4" Aura +1 TAC +1 DMG' },
-        { title: "Marked Target" },
-      ],
+      effects: ["Commanding Aura", "Marked Target"],
     },
     {
-      id: "keg",
       name: "Keg",
-      tokens: [],
+      effects: [],
     },
     {
-      id: "spigot",
       name: "Spigot",
-      tokens: [{ title: "Singled Out", maxCopies: 2 }],
+      effects: ["Singled Out"],
     },
   ],
   genericTokens: [],
@@ -64,16 +83,16 @@ describe("CharacterTokenList", () => {
 
     await userEvent.click(screen.getByLabelText("Commanding Aura"));
 
-    expect(onSelectedTokenIdsChange).toHaveBeenCalledWith([characterTokenId("tapper", 0)]);
+    expect(onSelectedTokenIdsChange).toHaveBeenCalledWith([characterTokenId("Tapper", 0)]);
   });
 
   it("removes a token id from the selection when its checkbox is unchecked", async () => {
-    const selectedTokenIds = [characterTokenId("tapper", 0), characterTokenId("tapper", 1)];
+    const selectedTokenIds = [characterTokenId("Tapper", 0), characterTokenId("Tapper", 1)];
     const { onSelectedTokenIdsChange } = renderList({ selectedTokenIds });
 
     await userEvent.click(screen.getByLabelText("Marked Target"));
 
-    expect(onSelectedTokenIdsChange).toHaveBeenCalledWith([characterTokenId("tapper", 0)]);
+    expect(onSelectedTokenIdsChange).toHaveBeenCalledWith([characterTokenId("Tapper", 0)]);
   });
 
   it("selects every token of a character when its header checkbox is checked", async () => {
@@ -82,13 +101,13 @@ describe("CharacterTokenList", () => {
     await userEvent.click(screen.getByLabelText("Tapper"));
 
     expect(onSelectedTokenIdsChange).toHaveBeenCalledWith([
-      characterTokenId("tapper", 0),
-      characterTokenId("tapper", 1),
+      characterTokenId("Tapper", 0),
+      characterTokenId("Tapper", 1),
     ]);
   });
 
   it("deselects every token of a character when its header checkbox is unchecked", async () => {
-    const selectedTokenIds = [characterTokenId("tapper", 0), characterTokenId("tapper", 1)];
+    const selectedTokenIds = [characterTokenId("Tapper", 0), characterTokenId("Tapper", 1)];
     const { onSelectedTokenIdsChange } = renderList({ selectedTokenIds });
 
     expect(screen.getByLabelText("Tapper")).toBeChecked();
@@ -104,9 +123,9 @@ describe("CharacterTokenList", () => {
     await userEvent.click(screen.getByLabelText("Select all"));
 
     expect(onSelectedTokenIdsChange).toHaveBeenCalledWith([
-      characterTokenId("tapper", 0),
-      characterTokenId("tapper", 1),
-      characterTokenId("spigot", 0),
+      characterTokenId("Tapper", 0),
+      characterTokenId("Tapper", 1),
+      characterTokenId("Spigot", 0),
     ]);
   });
 
@@ -118,7 +137,7 @@ describe("CharacterTokenList", () => {
   });
 
   it("shows a selected/total count badge for a character with tokens", () => {
-    renderList({ selectedTokenIds: [characterTokenId("tapper", 0)] });
+    renderList({ selectedTokenIds: [characterTokenId("Tapper", 0)] });
 
     expect(screen.getByText("1/2")).toBeInTheDocument();
   });
@@ -135,7 +154,7 @@ describe("CharacterTokenList", () => {
   it("enables the copies field once its token is selected, keeping the previously chosen count", async () => {
     const { onSelectedTokenIdsChange } = renderList({
       selectedTokenIds: [],
-      tokenCopies: { [characterTokenId("spigot", 0)]: 2 },
+      tokenCopies: { [characterTokenId("Spigot", 0)]: 2 },
     });
 
     const copiesField = screen.getByLabelText("Singled Out copies");
@@ -145,19 +164,19 @@ describe("CharacterTokenList", () => {
 
     await userEvent.click(screen.getByLabelText("Singled Out"));
 
-    expect(onSelectedTokenIdsChange).toHaveBeenCalledWith([characterTokenId("spigot", 0)]);
+    expect(onSelectedTokenIdsChange).toHaveBeenCalledWith([characterTokenId("Spigot", 0)]);
   });
 
   it("updates the copies count without touching the selection", async () => {
     const { onTokenCopiesChange, onSelectedTokenIdsChange } = renderList({
-      selectedTokenIds: [characterTokenId("spigot", 0)],
+      selectedTokenIds: [characterTokenId("Spigot", 0)],
     });
 
     const copiesField = screen.getByLabelText("Singled Out copies");
 
     fireEvent.change(copiesField, { target: { value: "2" } });
 
-    expect(onTokenCopiesChange).toHaveBeenCalledWith({ [characterTokenId("spigot", 0)]: 2 });
+    expect(onTokenCopiesChange).toHaveBeenCalledWith({ [characterTokenId("Spigot", 0)]: 2 });
     expect(onSelectedTokenIdsChange).not.toHaveBeenCalled();
   });
 

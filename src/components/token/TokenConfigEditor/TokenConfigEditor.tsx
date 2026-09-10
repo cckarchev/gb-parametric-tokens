@@ -78,12 +78,12 @@ export const TokenConfigEditor = ({
           />
 
           <CheckboxField
-            label="Fillet between nob and arc"
-            checked={sharedConfig.arcShape.nobFilletEnabled ?? false}
-            onChange={(nobFilletEnabled) =>
+            label="Fillet between stud and arc"
+            checked={sharedConfig.arcShape.studFilletEnabled ?? false}
+            onChange={(studFilletEnabled) =>
               onChange({
                 ...sharedConfig,
-                arcShape: { ...sharedConfig.arcShape, nobFilletEnabled },
+                arcShape: { ...sharedConfig.arcShape, studFilletEnabled },
               })
             }
           />
@@ -167,14 +167,14 @@ export const TokenConfigEditor = ({
         <div className={styles.group}>
           <h3 className={styles.groupTitle}>Font</h3>
           <NumberField
-            label="Title size (mm)"
-            value={sharedConfig.titleSizeMm}
-            onChange={(titleSizeMm) => onChange({ ...sharedConfig, titleSizeMm })}
+            label="Name size (mm)"
+            value={sharedConfig.nameSizeMm}
+            onChange={(nameSizeMm) => onChange({ ...sharedConfig, nameSizeMm })}
           />
           <NumberField
-            label="Subtitle size (mm)"
-            value={sharedConfig.subtitleSizeMm}
-            onChange={(subtitleSizeMm) => onChange({ ...sharedConfig, subtitleSizeMm })}
+            label="Effect size (mm)"
+            value={sharedConfig.effectSizeMm}
+            onChange={(effectSizeMm) => onChange({ ...sharedConfig, effectSizeMm })}
           />
         </div>
 

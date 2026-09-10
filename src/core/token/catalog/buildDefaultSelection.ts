@@ -16,13 +16,13 @@ const enabledCounter = (copies: number): CounterSelection => ({ enabled: true, c
 // guild has been visited, its selection is remembered instead of being rebuilt from here again.
 export const buildDefaultSelection = (catalog: GuildCatalog): TokenSelection => {
   const characterTokenIds = catalog.characters.flatMap((character) =>
-    character.tokens.map((_, tokenIndex) => characterTokenId(character.id, tokenIndex)),
+    character.effects.map((_, tokenIndex) => characterTokenId(character.name, tokenIndex)),
   );
 
   const genericTokens: Record<string, CounterSelection> = {};
 
   for (const generic of catalog.genericTokens) {
-    genericTokens[generic.id] = enabledCounter(MIN_GENERIC_COPIES);
+    genericTokens[generic.name] = enabledCounter(MIN_GENERIC_COPIES);
   }
 
   return {

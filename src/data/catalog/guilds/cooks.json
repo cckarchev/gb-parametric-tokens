@@ -1,93 +1,15 @@
 {
-  "guildId": "cooks",
   "name": "Cooks",
   "color": "#eb2629",
   "characters": [
-    {
-      "id": "shank",
-      "name": "Shank",
-      "tokens": [
-        {
-          "title": "Thousand Cuts",
-          "subtitle": "-2 DEF"
-        }
-      ]
-    },
-    {
-      "id": "tenderiser",
-      "name": "Tenderiser",
-      "tokens": [
-        {
-          "title": "Nose Out of Joint",
-          "subtitle": "Furious"
-        }
-      ]
-    },
-    {
-      "id": "wellington",
-      "name": "Wellington",
-      "tokens": [
-        {
-          "title": "Chef's Special"
-        },
-        {
-          "title": "Singled Out",
-          "maxCopies": 2
-        },
-        {
-          "title": "Master Chef"
-        }
-      ]
-    },
-    {
-      "id": "pepper",
-      "name": "Pepper",
-      "tokens": []
-    },
-    {
-      "id": "cinnamon",
-      "name": "Cinnamon",
-      "tokens": [
-        {
-          "title": "Get Set, BAKE!",
-          "subtitle": "2\" Aura - +2\"/+2\" MOV"
-        }
-      ]
-    },
-    {
-      "id": "roast",
-      "name": "Roast",
-      "tokens": [
-        {
-          "title": "Resilience Used"
-        },
-        {
-          "title": "Get It While It's Hot",
-          "subtitle": "2\" Aura - Charge for 1 less"
-        }
-      ]
-    },
-    {
-      "id": "spice",
-      "name": "Spice",
-      "tokens": []
-    },
-    {
-      "id": "sugar",
-      "name": "Sugar",
-      "tokens": [
-        {
-          "title": "Sturdy Used"
-        },
-        {
-          "title": "Chef's Special"
-        },
-        {
-          "title": "Chilli Cook Out",
-          "extra": "AOE 3"
-        }
-      ]
-    }
+    "Shank",
+    "Tenderiser",
+    "Wellington",
+    "Pepper",
+    "Cinnamon",
+    "Roast",
+    "Spice",
+    "Sugar"
   ],
   "genericTokens": []
 }

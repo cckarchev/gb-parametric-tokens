@@ -21,14 +21,14 @@ describe("ShapeEditor", () => {
       type: "arc",
       ribbonWidthMm: 15,
       ribbonLengthMm: 20,
-      nobDiameterMm: 24,
+      studDiameterMm: 24,
     };
 
     render(<ShapeEditor shape={arcShape} onChange={vi.fn()} />);
 
     expect(screen.getByLabelText("Ribbon width (mm)")).toHaveValue(15);
     expect(screen.getByLabelText("Ribbon length (mm)")).toHaveValue(20);
-    expect(screen.getByLabelText("Nob diameter (mm)")).toHaveValue(24);
+    expect(screen.getByLabelText("Stud diameter (mm)")).toHaveValue(24);
     expect(screen.queryByLabelText("Inner radius (mm)")).not.toBeInTheDocument();
     expect(screen.queryByLabelText("Outer radius (mm)")).not.toBeInTheDocument();
     expect(screen.queryByLabelText("Sweep (degrees)")).not.toBeInTheDocument();
@@ -46,9 +46,9 @@ describe("ShapeEditor", () => {
       type: "arc",
       ribbonWidthMm: 6,
       ribbonLengthMm: 30,
-      nobDiameterMm: 12,
-      nobFilletEnabled: true,
-      nobFilletRadiusMm: 3,
+      studDiameterMm: 12,
+      studFilletEnabled: true,
+      studFilletRadiusMm: 3,
     });
   });
 
@@ -58,7 +58,7 @@ describe("ShapeEditor", () => {
       type: "arc",
       ribbonWidthMm: 15,
       ribbonLengthMm: 20,
-      nobDiameterMm: 24,
+      studDiameterMm: 24,
     };
 
     render(<ShapeEditor shape={arcShape} onChange={onChange} />);
@@ -68,52 +68,52 @@ describe("ShapeEditor", () => {
     expect(onChange).toHaveBeenCalledWith({ ...arcShape, ribbonLengthMm: 30 });
   });
 
-  it("disables the nob fillet radius field until the fillet is enabled", () => {
+  it("disables the stud fillet radius field until the fillet is enabled", () => {
     const arcShape: ShapeSpec = {
       type: "arc",
       ribbonWidthMm: 15,
       ribbonLengthMm: 20,
-      nobDiameterMm: 24,
-      nobFilletEnabled: false,
-      nobFilletRadiusMm: 2,
+      studDiameterMm: 24,
+      studFilletEnabled: false,
+      studFilletRadiusMm: 2,
     };
 
     render(<ShapeEditor shape={arcShape} onChange={vi.fn()} />);
 
-    expect(screen.getByLabelText("Nob fillet radius (mm)")).toBeDisabled();
+    expect(screen.getByLabelText("Stud fillet radius (mm)")).toBeDisabled();
   });
 
-  it("enables the nob fillet radius field once the fillet is on", () => {
+  it("enables the stud fillet radius field once the fillet is on", () => {
     const arcShape: ShapeSpec = {
       type: "arc",
       ribbonWidthMm: 15,
       ribbonLengthMm: 20,
-      nobDiameterMm: 24,
-      nobFilletEnabled: true,
-      nobFilletRadiusMm: 2,
+      studDiameterMm: 24,
+      studFilletEnabled: true,
+      studFilletRadiusMm: 2,
     };
 
     render(<ShapeEditor shape={arcShape} onChange={vi.fn()} />);
 
-    expect(screen.getByLabelText("Nob fillet radius (mm)")).toBeEnabled();
-    expect(screen.getByLabelText("Nob fillet radius (mm)")).toHaveValue(2);
+    expect(screen.getByLabelText("Stud fillet radius (mm)")).toBeEnabled();
+    expect(screen.getByLabelText("Stud fillet radius (mm)")).toHaveValue(2);
   });
 
-  it("reports a nob fillet radius change while preserving the rest of the arc shape", () => {
+  it("reports a stud fillet radius change while preserving the rest of the arc shape", () => {
     const onChange = vi.fn();
     const arcShape: ShapeSpec = {
       type: "arc",
       ribbonWidthMm: 15,
       ribbonLengthMm: 20,
-      nobDiameterMm: 24,
-      nobFilletEnabled: true,
-      nobFilletRadiusMm: 2,
+      studDiameterMm: 24,
+      studFilletEnabled: true,
+      studFilletRadiusMm: 2,
     };
 
     render(<ShapeEditor shape={arcShape} onChange={onChange} />);
 
-    fireEvent.change(screen.getByLabelText("Nob fillet radius (mm)"), { target: { value: "3" } });
+    fireEvent.change(screen.getByLabelText("Stud fillet radius (mm)"), { target: { value: "3" } });
 
-    expect(onChange).toHaveBeenCalledWith({ ...arcShape, nobFilletRadiusMm: 3 });
+    expect(onChange).toHaveBeenCalledWith({ ...arcShape, studFilletRadiusMm: 3 });
   });
 });

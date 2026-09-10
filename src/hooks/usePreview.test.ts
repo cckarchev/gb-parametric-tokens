@@ -24,16 +24,15 @@ const catalog: GuildCatalog = {
   color: "#cdb320",
   characters: [
     {
-      id: "tapper",
       name: "Tapper",
-      tokens: [{ title: "Commanding Aura" }, { title: "Marked Target" }],
+      effects: ["Commanding Aura", "Marked Target"],
     },
   ],
   genericTokens: [],
 };
 
 const sharedConfig: SharedConfig = {
-  arcShape: { type: "arc", ribbonWidthMm: 15, ribbonLengthMm: 20, nobDiameterMm: 24 },
+  arcShape: { type: "arc", ribbonWidthMm: 15, ribbonLengthMm: 20, studDiameterMm: 24 },
   discShape: { type: "disc", diameterMm: 25 },
   goalInfluenceShape: { type: "disc", diameterMm: 20 },
   style: { relief: "raised", reliefHeightMm: 0.6, baseThicknessMm: 3 },
@@ -41,8 +40,8 @@ const sharedConfig: SharedConfig = {
   printProfileId: "fdm-04",
   colorGroups: [{ id: "base", name: "Base", color: "#2B2B2B" }],
   influenceIconId: "Brewers",
-  titleSizeMm: 6,
-  subtitleSizeMm: 4,
+  nameSizeMm: 6,
+  effectSizeMm: 4,
   showSecondLine: true,
   balanceTwoLineSizes: false,
   iconOverflowBehavior: "none",
@@ -88,7 +87,7 @@ describe("usePreview debounce", () => {
 
     const worker = FakeWorker.instances[0];
 
-    rerender({ selection: selectionWith(["tapper-0"]) });
+    rerender({ selection: selectionWith(["Tapper-0"]) });
 
     // No vi.advanceTimersByTime here: a change with nothing recent before it should not need to
     // wait out the debounce window at all.
@@ -105,11 +104,11 @@ describe("usePreview debounce", () => {
     const worker = FakeWorker.instances[0];
 
     // First change of the burst: fires immediately (leading edge).
-    rerender({ selection: selectionWith(["tapper-0"]) });
+    rerender({ selection: selectionWith(["Tapper-0"]) });
     expect(worker.postMessage).toHaveBeenCalledTimes(1);
 
     // Second change arrives right after, still inside the debounce window: must not fire yet.
-    rerender({ selection: selectionWith(["tapper-0", "tapper-1"]) });
+    rerender({ selection: selectionWith(["Tapper-0", "Tapper-1"]) });
     expect(worker.postMessage).toHaveBeenCalledTimes(1);
 
     vi.advanceTimersByTime(299);
@@ -122,7 +121,7 @@ describe("usePreview debounce", () => {
     if (request.kind !== "preview") {
       throw new Error("expected a preview request");
     }
-    expect(request.items.map((item) => item.id)).toEqual(["tapper-0", "tapper-1"]);
+    expect(request.items.map((item) => item.id)).toEqual(["Tapper-0", "Tapper-1"]);
   });
 
   it("fires immediately again once the debounce window has fully elapsed", () => {
@@ -133,12 +132,12 @@ describe("usePreview debounce", () => {
 
     const worker = FakeWorker.instances[0];
 
-    rerender({ selection: selectionWith(["tapper-0"]) });
+    rerender({ selection: selectionWith(["Tapper-0"]) });
     expect(worker.postMessage).toHaveBeenCalledTimes(1);
 
     vi.advanceTimersByTime(300);
 
-    rerender({ selection: selectionWith(["tapper-1"]) });
+    rerender({ selection: selectionWith(["Tapper-1"]) });
     expect(worker.postMessage).toHaveBeenCalledTimes(2);
   });
 
@@ -148,7 +147,7 @@ describe("usePreview debounce", () => {
       { initialProps: { selection: baseSelection } },
     );
 
-    rerender({ selection: selectionWith(["tapper-0"]) });
+    rerender({ selection: selectionWith(["Tapper-0"]) });
     expect(result.current.isPreviewing).toBe(true);
 
     rerender({ selection: baseSelection });

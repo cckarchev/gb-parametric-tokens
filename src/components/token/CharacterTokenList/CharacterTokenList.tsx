@@ -1,11 +1,8 @@
 import { Fragment } from "react";
 
 import { characterTokenId } from "../../../core/token/catalog/buildTokenItems";
-import {
-  CatalogCharacter,
-  CatalogTokenSpec,
-  GuildCatalog,
-} from "../../../core/token/catalog/catalogTypes";
+import { CatalogCharacter, GuildCatalog } from "../../../core/token/catalog/catalogTypes";
+import { resolveEffect } from "../../../core/token/catalog/effects";
 import { CheckboxField } from "../../primitives/CheckboxField/CheckboxField";
 import { NumberField } from "../../primitives/NumberField/NumberField";
 import { Panel } from "../../primitives/Panel/Panel";
@@ -23,7 +20,7 @@ const DEFAULT_COPIES = 1;
 const MIN_COPIES = 1;
 
 const tokenIdsForCharacter = (character: CatalogCharacter): string[] => {
-  return character.tokens.map((_, tokenIndex) => characterTokenId(character.id, tokenIndex));
+  return character.effects.map((_, tokenIndex) => characterTokenId(character.name, tokenIndex));
 };
 
 export const CharacterTokenList = ({
@@ -90,7 +87,7 @@ export const CharacterTokenList = ({
           const characterAllSelected = hasTokens && selectedCount === ids.length;
 
           return (
-            <Fragment key={character.id}>
+            <Fragment key={character.name}>
               <div className={styles.row}>
                 <CheckboxField
                   label={character.name}
@@ -107,27 +104,28 @@ export const CharacterTokenList = ({
               </div>
 
               {hasTokens ? (
-                character.tokens.map((token: CatalogTokenSpec, tokenIndex) => {
-                  const id = characterTokenId(character.id, tokenIndex);
+                character.effects.map((effectName, tokenIndex) => {
+                  const effect = resolveEffect(effectName);
+                  const id = characterTokenId(character.name, tokenIndex);
                   const selected = selectedTokenIds.includes(id);
-                  const hasCopiesField = (token.maxCopies ?? 1) > 1;
+                  const hasCopiesField = (effect.maxCopies ?? 1) > 1;
 
                   return (
                     <div className={`${styles.row} ${styles.rowToken}`} key={id}>
                       <CheckboxField
-                        label={token.title}
+                        label={effect.name}
                         checked={selected}
                         onChange={(checked) => toggle(id, checked)}
                       />
 
                       {hasCopiesField && (
                         <NumberField
-                          label={`${token.title} copies`}
+                          label={`${effect.name} copies`}
                           hideLabel
                           stepper
                           value={tokenCopies[id] ?? DEFAULT_COPIES}
                           min={MIN_COPIES}
-                          max={token.maxCopies}
+                          max={effect.maxCopies}
                           disabled={!selected}
                           onChange={(copies) => setCopies(id, copies)}
                         />

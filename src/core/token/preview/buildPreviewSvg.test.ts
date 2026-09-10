@@ -121,7 +121,7 @@ describe("buildPreviewSvg", () => {
       type: "arc",
       ribbonWidthMm: 6,
       ribbonLengthMm: 20,
-      nobDiameterMm: 12,
+      studDiameterMm: 12,
     };
 
     const { svg } = buildPreviewSvg([square(20)], [], colorGroups, arcShape);
@@ -140,16 +140,16 @@ describe("buildPreviewSvg", () => {
   });
 
   it("keeps the circle at the same fixed anchor no matter how the shape's own parameters change", () => {
-    const smallNob: ShapeSpec = {
+    const smallStud: ShapeSpec = {
       type: "arc",
       ribbonWidthMm: 6,
       ribbonLengthMm: 20,
-      nobDiameterMm: 12,
+      studDiameterMm: 12,
     };
-    const bigNob: ShapeSpec = { ...smallNob, nobDiameterMm: 24 };
+    const bigStud: ShapeSpec = { ...smallStud, studDiameterMm: 24 };
 
-    const smallSvg = buildPreviewSvg([square(20)], [], colorGroups, smallNob).svg;
-    const bigSvg = buildPreviewSvg([square(20)], [], colorGroups, bigNob).svg;
+    const smallSvg = buildPreviewSvg([square(20)], [], colorGroups, smallStud).svg;
+    const bigSvg = buildPreviewSvg([square(20)], [], colorGroups, bigStud).svg;
 
     expect(smallSvg).toContain('cx="15" cy="15"');
     expect(bigSvg).toContain('cx="15" cy="15"');
@@ -160,7 +160,7 @@ describe("buildPreviewSvg", () => {
       type: "arc",
       ribbonWidthMm: 6,
       ribbonLengthMm: 20,
-      nobDiameterMm: 12,
+      studDiameterMm: 12,
     };
 
     const { svg } = buildPreviewSvg([square(20)], [], colorGroups, arcShape);
@@ -175,7 +175,7 @@ describe("buildPreviewSvg", () => {
       type: "arc",
       ribbonWidthMm: 6,
       ribbonLengthMm: 20,
-      nobDiameterMm: 12,
+      studDiameterMm: 12,
     };
 
     const { viewBox } = buildPreviewSvg([square(20)], [], colorGroups, arcShape);

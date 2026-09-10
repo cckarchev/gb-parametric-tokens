@@ -55,7 +55,7 @@ export const unionBounds = (
 };
 
 // The fixed anchor above still leaves an arc item free to have real content (e.g. a wide
-// sweep's nobs) to the left of, or above, the circle's own local footprint (which always runs
+// sweep's studs) to the left of, or above, the circle's own local footprint (which always runs
 // from local (0, 0) to (MODEL_BASE_DIAMETER_MM, MODEL_BASE_DIAMETER_MM)). Rather than compute a
 // per-item margin for that -- the exact pattern that caused the original bug -- one shared
 // margin covers the worst case across every arc item in the sheet, the same "Math.max over all

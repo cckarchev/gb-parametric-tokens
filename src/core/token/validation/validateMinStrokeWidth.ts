@@ -61,7 +61,7 @@ export type StrokeWidthFailure = {
 
 // An icon whose own farthest point poked past its target circle under a plain bounding-box fit
 // (see geometry/iconPlacement.ts's placeIcon) -- the icon was shrunk to fit, but that's worth
-// flagging: a raised relief icon is unioned onto the base with no clip against the nob/disc's own
+// flagging: a raised relief icon is unioned onto the base with no clip against the stud/disc's own
 // circle (applyReliefToBase.ts), so it's the kind of correction the user should double-check
 // against the real render, not just an assurance nothing exceeded the target scale.
 export type IconOverflowFailure = {

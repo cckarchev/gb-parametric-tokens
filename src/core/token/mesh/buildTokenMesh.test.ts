@@ -52,7 +52,7 @@ describe("buildTokenMesh", () => {
   it("rejects non-disc shapes", async () => {
     const spec = {
       ...baseSpec(),
-      shape: { type: "arc" as const, ribbonWidthMm: 1, ribbonLengthMm: 5, nobDiameterMm: 1 },
+      shape: { type: "arc" as const, ribbonWidthMm: 1, ribbonLengthMm: 5, studDiameterMm: 1 },
     };
 
     await expect(

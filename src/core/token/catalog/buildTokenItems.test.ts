@@ -1,32 +1,47 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import { buildTokenItems, characterTokenId, SharedConfig, TokenSelection } from "./buildTokenItems";
-import { GuildCatalog } from "./catalogTypes";
+import { CatalogEffect, GuildCatalog } from "./catalogTypes";
+
+// vi.mock is hoisted above these imports, so the fixture data it closes over has to be built
+// inside vi.hoisted -- a plain top-level const here would still be uninitialized when the mock
+// factory below actually runs.
+const { fixtureEffects } = vi.hoisted(() => {
+  const fixtureEffects: Record<string, CatalogEffect> = {
+    "Commanding Aura": { name: "Commanding Aura", effect: '4" Aura +1 TAC +1 DMG' },
+    "Marked Target": { name: "Marked Target" },
+    "Time's Called": { name: "Time's Called", effect: '4" Aura +2"/+2" MOV' },
+    "Singled Out": { name: "Singled Out", maxCopies: 2 },
+  };
+
+  return { fixtureEffects };
+});
+
+vi.mock("./effects", () => ({
+  resolveEffect: (effectId: string) => {
+    const effect = fixtureEffects[effectId];
+
+    if (!effect) {
+      throw new Error(`Unknown effect id "${effectId}"`);
+    }
+
+    return effect;
+  },
+}));
 
 const catalog: GuildCatalog = {
   guildId: "brewers",
   name: "Brewers",
   color: "#cdb320",
   characters: [
-    {
-      id: "tapper",
-      name: "Tapper",
-      tokens: [
-        { title: "Commanding Aura", subtitle: '4" Aura +1 TAC +1 DMG' },
-        { title: "Marked Target" },
-      ],
-    },
-    {
-      id: "spigot",
-      name: "Spigot",
-      tokens: [{ title: "Time's Called", subtitle: '4" Aura +2"/+2" MOV' }],
-    },
+    { name: "Tapper", effects: ["Commanding Aura", "Marked Target"] },
+    { name: "Spigot", effects: ["Time's Called"] },
   ],
-  genericTokens: [{ id: "beer-token", name: "Beer Token" }],
+  genericTokens: [{ name: "Beer Token" }],
 };
 
 const sharedConfig: SharedConfig = {
-  arcShape: { type: "arc", ribbonWidthMm: 15, ribbonLengthMm: 20, nobDiameterMm: 24 },
+  arcShape: { type: "arc", ribbonWidthMm: 15, ribbonLengthMm: 20, studDiameterMm: 24 },
   discShape: { type: "disc", diameterMm: 25 },
   goalInfluenceShape: { type: "disc", diameterMm: 20 },
   style: { relief: "raised", reliefHeightMm: 0.6, baseThicknessMm: 3 },
@@ -34,8 +49,8 @@ const sharedConfig: SharedConfig = {
   printProfileId: "fdm-04",
   colorGroups: [{ id: "base", name: "Base", color: "#2B2B2B" }],
   influenceIconId: "Brewers",
-  titleSizeMm: 6,
-  subtitleSizeMm: 4,
+  nameSizeMm: 6,
+  effectSizeMm: 4,
   showSecondLine: true,
   balanceTwoLineSizes: false,
   iconOverflowBehavior: "none",
@@ -54,13 +69,7 @@ const catalogWithMultiCopyToken: GuildCatalog = {
   guildId: "cooks",
   name: "Cooks",
   color: "#e0a020",
-  characters: [
-    {
-      id: "wellington",
-      name: "Wellington",
-      tokens: [{ title: "Singled Out", maxCopies: 2 }],
-    },
-  ],
+  characters: [{ name: "Wellington", effects: ["Singled Out"] }],
   genericTokens: [],
 };
 
@@ -68,7 +77,7 @@ describe("buildTokenItems", () => {
   it("includes only the character tokens listed in the selection", () => {
     const selection: TokenSelection = {
       ...emptySelection,
-      characterTokenIds: [characterTokenId("tapper", 0)],
+      characterTokenIds: [characterTokenId("Tapper", 0)],
     };
 
     const items = buildTokenItems(catalog, selection, sharedConfig);
@@ -76,7 +85,7 @@ describe("buildTokenItems", () => {
     expect(items).toHaveLength(1);
     expect(items[0].label).toBe("Tapper: Commanding Aura");
     expect(items[0].group).toBe("Tapper");
-    expect(items[0].title).toBe("Commanding Aura");
+    expect(items[0].name).toBe("Commanding Aura");
     expect(items[0].copies).toBe(1);
     expect(items[0].spec.shape).toEqual(sharedConfig.arcShape);
     expect(items[0].spec.lines).toEqual([
@@ -85,16 +94,12 @@ describe("buildTokenItems", () => {
     ]);
   });
 
-  it("uses the shared config's title and subtitle sizes for each line, not a fixed constant", () => {
+  it("uses the shared config's name and effect text sizes for each line, not a fixed constant", () => {
     const selection: TokenSelection = {
       ...emptySelection,
-      characterTokenIds: [characterTokenId("tapper", 0)],
+      characterTokenIds: [characterTokenId("Tapper", 0)],
     };
-    const customConfig: SharedConfig = {
-      ...sharedConfig,
-      titleSizeMm: 8.5,
-      subtitleSizeMm: 5,
-    };
+    const customConfig: SharedConfig = { ...sharedConfig, nameSizeMm: 8.5, effectSizeMm: 5 };
 
     const items = buildTokenItems(catalog, selection, customConfig);
 
@@ -104,10 +109,10 @@ describe("buildTokenItems", () => {
     ]);
   });
 
-  it("omits the second line for a token with no subtitle", () => {
+  it("omits the second line for a token with no effect text", () => {
     const selection: TokenSelection = {
       ...emptySelection,
-      characterTokenIds: [characterTokenId("tapper", 1)],
+      characterTokenIds: [characterTokenId("Tapper", 1)],
     };
 
     const items = buildTokenItems(catalog, selection, sharedConfig);
@@ -115,10 +120,10 @@ describe("buildTokenItems", () => {
     expect(items[0].spec.lines).toEqual([{ text: "Marked Target", sizeMm: 6, colorGroup: "text" }]);
   });
 
-  it("omits the second line entirely when showSecondLine is off, even if the token has a subtitle", () => {
+  it("omits the second line entirely when showSecondLine is off, even if the token has effect text", () => {
     const selection: TokenSelection = {
       ...emptySelection,
-      characterTokenIds: [characterTokenId("tapper", 0)],
+      characterTokenIds: [characterTokenId("Tapper", 0)],
     };
     const customConfig: SharedConfig = { ...sharedConfig, showSecondLine: false };
 
@@ -129,10 +134,10 @@ describe("buildTokenItems", () => {
     ]);
   });
 
-  it("shrinks the title and grows the subtitle when balanceTwoLineSizes is on", () => {
+  it("shrinks the name and grows the effect text when balanceTwoLineSizes is on", () => {
     const selection: TokenSelection = {
       ...emptySelection,
-      characterTokenIds: [characterTokenId("tapper", 0)],
+      characterTokenIds: [characterTokenId("Tapper", 0)],
     };
     const customConfig: SharedConfig = { ...sharedConfig, balanceTwoLineSizes: true };
 
@@ -144,10 +149,10 @@ describe("buildTokenItems", () => {
     ]);
   });
 
-  it("leaves a single-line character token's title size untouched by balanceTwoLineSizes", () => {
+  it("leaves a single-line character token's name size untouched by balanceTwoLineSizes", () => {
     const selection: TokenSelection = {
       ...emptySelection,
-      characterTokenIds: [characterTokenId("tapper", 1)],
+      characterTokenIds: [characterTokenId("Tapper", 1)],
     };
     const customConfig: SharedConfig = { ...sharedConfig, balanceTwoLineSizes: true };
 
@@ -159,7 +164,7 @@ describe("buildTokenItems", () => {
   it("defaults a character token's icon to the guild's own icon id, tagged with the text color group", () => {
     const selection: TokenSelection = {
       ...emptySelection,
-      characterTokenIds: [characterTokenId("tapper", 1)],
+      characterTokenIds: [characterTokenId("Tapper", 1)],
     };
 
     const items = buildTokenItems(catalog, selection, sharedConfig);
@@ -173,7 +178,7 @@ describe("buildTokenItems", () => {
   it("leaves overflowBehavior unset on every icon when iconOverflowBehavior is 'none' (the default)", () => {
     const selection: TokenSelection = {
       ...emptySelection,
-      characterTokenIds: [characterTokenId("tapper", 1)],
+      characterTokenIds: [characterTokenId("Tapper", 1)],
     };
 
     const items = buildTokenItems(catalog, selection, sharedConfig);
@@ -188,7 +193,7 @@ describe("buildTokenItems", () => {
     (behavior) => {
       const selection: TokenSelection = {
         ...emptySelection,
-        characterTokenIds: [characterTokenId("tapper", 1)],
+        characterTokenIds: [characterTokenId("Tapper", 1)],
       };
       const customConfig: SharedConfig = { ...sharedConfig, iconOverflowBehavior: behavior };
 
@@ -216,8 +221,8 @@ describe("buildTokenItems", () => {
   it("uses the requested copies count for a character token with maxCopies set", () => {
     const selection: TokenSelection = {
       ...emptySelection,
-      characterTokenIds: [characterTokenId("wellington", 0)],
-      characterTokenCopies: { [characterTokenId("wellington", 0)]: 2 },
+      characterTokenIds: [characterTokenId("Wellington", 0)],
+      characterTokenCopies: { [characterTokenId("Wellington", 0)]: 2 },
     };
 
     const items = buildTokenItems(catalogWithMultiCopyToken, selection, sharedConfig);
@@ -229,7 +234,7 @@ describe("buildTokenItems", () => {
   it("defaults a selected maxCopies token to 1 copy when no count was chosen yet", () => {
     const selection: TokenSelection = {
       ...emptySelection,
-      characterTokenIds: [characterTokenId("wellington", 0)],
+      characterTokenIds: [characterTokenId("Wellington", 0)],
     };
 
     const items = buildTokenItems(catalogWithMultiCopyToken, selection, sharedConfig);
@@ -241,7 +246,7 @@ describe("buildTokenItems", () => {
     const selection: TokenSelection = {
       ...emptySelection,
       characterTokenIds: [],
-      characterTokenCopies: { [characterTokenId("wellington", 0)]: 2 },
+      characterTokenCopies: { [characterTokenId("Wellington", 0)]: 2 },
     };
 
     const items = buildTokenItems(catalogWithMultiCopyToken, selection, sharedConfig);
@@ -252,8 +257,8 @@ describe("buildTokenItems", () => {
   it("ignores characterTokenCopies for a token without maxCopies, always using 1", () => {
     const selection: TokenSelection = {
       ...emptySelection,
-      characterTokenIds: [characterTokenId("tapper", 0)],
-      characterTokenCopies: { [characterTokenId("tapper", 0)]: 5 },
+      characterTokenIds: [characterTokenId("Tapper", 0)],
+      characterTokenCopies: { [characterTokenId("Tapper", 0)]: 5 },
     };
 
     const items = buildTokenItems(catalog, selection, sharedConfig);
@@ -264,7 +269,7 @@ describe("buildTokenItems", () => {
   it("excludes a disabled generic token and includes an enabled one with its chosen count", () => {
     const disabled = buildTokenItems(
       catalog,
-      { ...emptySelection, genericTokens: { "beer-token": { enabled: false, copies: 3 } } },
+      { ...emptySelection, genericTokens: { "Beer Token": { enabled: false, copies: 3 } } },
       sharedConfig,
     );
 
@@ -272,7 +277,7 @@ describe("buildTokenItems", () => {
 
     const enabled = buildTokenItems(
       catalog,
-      { ...emptySelection, genericTokens: { "beer-token": { enabled: true, copies: 3 } } },
+      { ...emptySelection, genericTokens: { "Beer Token": { enabled: true, copies: 3 } } },
       sharedConfig,
     );
 
@@ -280,7 +285,7 @@ describe("buildTokenItems", () => {
     expect(enabled[0].copies).toBe(3);
     expect(enabled[0].spec.shape).toEqual(sharedConfig.discShape);
     expect(enabled[0].group).toBeUndefined();
-    expect(enabled[0].title).toBe("Beer Token");
+    expect(enabled[0].name).toBe("Beer Token");
   });
 
   it("includes a single, unnumbered Influence item carrying the requested copies count", () => {
@@ -294,7 +299,7 @@ describe("buildTokenItems", () => {
     expect(items[0].id).toBe("influence");
     expect(items[0].label).toBe("Influence");
     expect(items[0].group).toBeUndefined();
-    expect(items[0].title).toBe("Influence");
+    expect(items[0].name).toBe("Influence");
     expect(items[0].copies).toBe(13);
     expect(items[0].spec.lines).toEqual([]);
     expect(items[0].spec.icons).toEqual([
@@ -394,7 +399,7 @@ describe("buildTokenItems", () => {
     const scaledCatalog: GuildCatalog = { ...catalog, iconScale: 1.5 };
     const selection: TokenSelection = {
       ...emptySelection,
-      characterTokenIds: [characterTokenId("tapper", 1)],
+      characterTokenIds: [characterTokenId("Tapper", 1)],
     };
 
     const items = buildTokenItems(scaledCatalog, selection, sharedConfig);
@@ -405,37 +410,12 @@ describe("buildTokenItems", () => {
     ]);
   });
 
-  it("does not apply the catalog's iconScale to a token's own custom icon", () => {
-    const scaledCatalog: GuildCatalog = {
-      ...catalog,
-      iconScale: 1.5,
-      characters: [
-        {
-          id: "tapper",
-          name: "Tapper",
-          tokens: [{ title: "Commanding Aura", iconId: "ball" }],
-        },
-      ],
-    };
-    const selection: TokenSelection = {
-      ...emptySelection,
-      characterTokenIds: [characterTokenId("tapper", 0)],
-    };
-
-    const items = buildTokenItems(scaledCatalog, selection, sharedConfig);
-
-    expect(items[0].spec.icons).toEqual([
-      { iconId: "ball", side: "left", scale: 0.85, colorGroup: "text" },
-      { iconId: "ball", side: "right", scale: 0.85, colorGroup: "text" },
-    ]);
-  });
-
   it("multiplies the guild crest icon's scale by the catalog's iconScale on a generic token", () => {
     const scaledCatalog: GuildCatalog = { ...catalog, iconScale: 1.5 };
 
     const items = buildTokenItems(
       scaledCatalog,
-      { ...emptySelection, genericTokens: { "beer-token": { enabled: true, copies: 1 } } },
+      { ...emptySelection, genericTokens: { "Beer Token": { enabled: true, copies: 1 } } },
       sharedConfig,
     );
 
@@ -476,7 +456,7 @@ describe("buildTokenItems", () => {
   it("defaults the catalog's iconScale to 1 when omitted, leaving the guild crest scale untouched", () => {
     const selection: TokenSelection = {
       ...emptySelection,
-      characterTokenIds: [characterTokenId("tapper", 1)],
+      characterTokenIds: [characterTokenId("Tapper", 1)],
     };
 
     const items = buildTokenItems(catalog, selection, sharedConfig);
