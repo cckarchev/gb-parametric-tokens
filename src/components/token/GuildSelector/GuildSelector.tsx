@@ -45,7 +45,8 @@ export const GuildSelector = ({ guilds, selectedGuildId, onSelect }: GuildSelect
               {/* Near-white badge is just the icon's own backing plate; the icon itself carries
                   the guild's color. The logo files are solid-black artwork with no way to
                   recolor an <img>, so the silhouette is painted via a CSS mask instead. Every
-                  /icons/*.svg has its viewBox cropped to its own ink bounding box (see
+                  guild's icons/guilds/<Guild>/logo.svg has its viewBox cropped to its own ink
+                  bounding box (see
                   GuildSelector.module.css's .logo comment), so a shared base size
                   (LOGO_BASE_SIZE_PERCENT) renders every guild at a consistent size with no
                   per-guild tuning needed in the common case. .badge and .logo are siblings
@@ -58,8 +59,8 @@ export const GuildSelector = ({ guilds, selectedGuildId, onSelect }: GuildSelect
                   className={styles.logo}
                   style={{
                     backgroundColor: guild.color,
-                    maskImage: `url(/icons/${guild.name}.svg)`,
-                    WebkitMaskImage: `url(/icons/${guild.name}.svg)`,
+                    maskImage: `url(/icons/guilds/${guild.name}/logo.svg)`,
+                    WebkitMaskImage: `url(/icons/guilds/${guild.name}/logo.svg)`,
                     width: `${logoSizePercent}%`,
                     height: `${logoSizePercent}%`,
                   }}
