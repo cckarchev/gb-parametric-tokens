@@ -28,3 +28,10 @@ export type ReliefComponent = {
   // stud/disc's own body instead of leaving it a plain circle.
   growOutline?: Vec2[][];
 };
+
+// Every grown icon footprint in one flat contour list, ready to union into a token body. All
+// three consumers named on growOutline above need exactly this, and an empty result means no
+// icon asked to grow, so each of them can skip the union entirely.
+export const collectGrowOutlineContours = (components: ReliefComponent[]): Vec2[][] => {
+  return components.flatMap((component) => component.growOutline ?? []);
+};

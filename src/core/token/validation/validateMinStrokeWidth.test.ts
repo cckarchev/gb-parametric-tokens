@@ -20,7 +20,6 @@ describe("validateMinStrokeWidth", () => {
     const result = await validateMinStrokeWidth(thinBar, 0.45);
 
     expect(result.valid).toBe(false);
-    expect(result.areaAfterErosionMm2).toBe(0);
     expect(result.featureCount).toBe(1);
     expect(result.vanishedFeatureCount).toBe(1);
   });
@@ -38,8 +37,6 @@ describe("validateMinStrokeWidth", () => {
     const result = await validateMinStrokeWidth(thickBar, 0.45);
 
     expect(result.valid).toBe(true);
-    expect(result.areaAfterErosionMm2).toBeGreaterThan(0);
-    expect(result.areaBeforeMm2).toBeGreaterThan(result.areaAfterErosionMm2);
     expect(result.featureCount).toBe(1);
     expect(result.vanishedFeatureCount).toBe(0);
   });
@@ -68,7 +65,6 @@ describe("validateMinStrokeWidth", () => {
     expect(result.featureCount).toBe(2);
     expect(result.vanishedFeatureCount).toBe(1);
     expect(result.valid).toBe(false);
-    expect(result.areaAfterErosionMm2).toBeGreaterThan(0); // the square alone masks the loss
   });
 
   // Erosion routinely splits a real glyph into several pieces, so a "fewer pieces than
@@ -169,7 +165,9 @@ describe("describeComponentFailure", () => {
       source: { kind: "icon", iconId: "cooks" },
     });
 
-    expect(message).toBe('Icon "cooks": extends past its printed edge, shrunk to fit the circle.');
+    expect(message).toBe(
+      'Icon "cooks": extends past its circle and nothing corrects it -- see "Icons that overflow their circle".',
+    );
   });
 });
 

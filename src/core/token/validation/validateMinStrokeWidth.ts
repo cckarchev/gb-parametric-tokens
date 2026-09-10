@@ -1,15 +1,12 @@
 import type { CrossSection } from "manifold-3d";
 
+import { OFFSET_ARC_SEGMENTS, OFFSET_MITER_LIMIT } from "../geometry/circleResolution";
 import { getManifoldModule } from "../mesh/manifoldModule";
 import { ReliefComponentSource } from "../mesh/reliefComponent";
 import { Vec2 } from "../types";
 
-const EROSION_CIRCULAR_SEGMENTS = 32;
-
 export type MinStrokeWidthValidation = {
   valid: boolean;
-  areaBeforeMm2: number;
-  areaAfterErosionMm2: number;
   featureCount: number;
   vanishedFeatureCount: number;
 };
@@ -23,11 +20,10 @@ export const validateMinStrokeWidth = async (
 
   const erosionRadiusMm = -minStrokeWidthMm / 2;
   const erode = (section: CrossSection): CrossSection => {
-    return section.offset(erosionRadiusMm, "Round", 2, EROSION_CIRCULAR_SEGMENTS);
+    return section.offset(erosionRadiusMm, "Round", OFFSET_MITER_LIMIT, OFFSET_ARC_SEGMENTS);
   };
 
   const relief = new CrossSection(reliefContours, "Positive");
-  const eroded = erode(relief);
 
   // Asking only whether the eroded union is non-empty is useless on a composed token: the
   // icons are far thicker than minStrokeWidthMm, always survive, and mask any hairline glyph
@@ -42,8 +38,6 @@ export const validateMinStrokeWidth = async (
 
   return {
     valid: vanishedFeatureCount === 0,
-    areaBeforeMm2: relief.area(),
-    areaAfterErosionMm2: eroded.area(),
     featureCount: features.length,
     vanishedFeatureCount,
   };
@@ -60,10 +54,12 @@ export type StrokeWidthFailure = {
 };
 
 // An icon whose own farthest point poked past its target circle under a plain bounding-box fit
-// (see geometry/iconPlacement.ts's placeIcon) -- the icon was shrunk to fit, but that's worth
-// flagging: a raised relief icon is unioned onto the base with no clip against the stud/disc's own
-// circle (applyReliefToBase.ts), so it's the kind of correction the user should double-check
-// against the real render, not just an assurance nothing exceeded the target scale.
+// (see geometry/iconPlacement.ts's placeIcon) AND that nothing corrected: this failure is only
+// ever raised for IconOverflowBehavior "none" (see computeReliefComponentsShared.ts, which clears
+// the flag for "shrink", "trim" and "grow" because each of those already handled it). So the icon
+// really does print past the circle -- and a raised relief icon is unioned onto the base with no
+// clip against the stud/disc's own circle (applyReliefToBase.ts), leaving that excess as an
+// unsupported overhang.
 export type IconOverflowFailure = {
   kind: "icon-overflow";
   source: Extract<ReliefComponentSource, { kind: "icon" }>;
@@ -98,7 +94,8 @@ export const describeVanishedDetailCount = (
   return `${vanishedFeatureCount} of ${featureCount} ${detailWord} too thin to print at this size.`;
 };
 
-const ICON_OVERFLOW_MESSAGE = "extends past its printed edge, shrunk to fit the circle.";
+const ICON_OVERFLOW_MESSAGE =
+  'extends past its circle and nothing corrects it -- see "Icons that overflow their circle".';
 
 // Shared by the UI (the "N tokens need attention" list) and the contact-sheet preview marker, so
 // both describe the same failure in the same words.

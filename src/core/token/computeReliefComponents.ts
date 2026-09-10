@@ -53,9 +53,10 @@ export const computeReliefComponents = async (
       featureCount: validation.featureCount,
     }));
 
-  // placeIcon (geometry/iconPlacement.ts) already shrinks an overflowing icon to fit its target
-  // circle -- this only surfaces that it happened, so the user notices and can check the real
-  // render, the same way an icon substitution becomes a warning above.
+  // Only icons left uncorrected reach here: computeReliefComponentsShared.ts sets
+  // overflowsCircle solely for IconOverflowBehavior "none", since "shrink", "trim" and "grow"
+  // each already handled the overflow. So this flags real, uncorrected overhang, the same way an
+  // icon substitution becomes a warning above.
   const iconOverflowFailures: ComponentFailure[] = reliefComponents
     .filter(
       (component): component is typeof component & { source: { kind: "icon"; iconId: string } } =>

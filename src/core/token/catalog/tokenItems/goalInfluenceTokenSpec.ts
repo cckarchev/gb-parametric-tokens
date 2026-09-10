@@ -1,4 +1,4 @@
-import { estimateAscentMm } from "../../computeArcReliefComponents";
+import { estimateAscentMm } from "../../text/glyphMetrics";
 import { TokenSpec } from "../../types";
 import { TEXT_COLOR_GROUP_ID } from "../deriveReliefColor";
 import { SharedConfig } from "./tokenItem";

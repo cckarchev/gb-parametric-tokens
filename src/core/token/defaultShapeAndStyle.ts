@@ -1,5 +1,4 @@
-import { ArcShapeSpec, DiscShapeSpec } from "./geometry/studPlacement";
-import { ColorGroupSpec, FitPolicy, StyleSpec } from "./types";
+import { ArcShapeSpec, ColorGroupSpec, DiscShapeSpec, FitPolicy, StyleSpec } from "./types";
 
 // Starting point for the fixed-innerR arc model (see
 // docs/superpowers/specs/2026-09-02-arc-parametrization-design.md) -- not a physical

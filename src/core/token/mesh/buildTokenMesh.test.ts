@@ -57,7 +57,7 @@ describe("buildTokenMesh", () => {
 
     await expect(
       buildTokenMesh({ spec, reliefComponents: [{ contours: squareIcon }] }),
-    ).rejects.toThrow(/only supports shape: "disc"/);
+    ).rejects.toThrow(/only supports a "disc" shape/);
   });
 
   it("keeps a distinctly colorGrouped icon as its own separate part for relief: raised", async () => {

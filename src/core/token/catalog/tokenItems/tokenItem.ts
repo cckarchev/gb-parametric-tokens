@@ -1,5 +1,12 @@
-import { ArcShapeSpec, DiscShapeSpec } from "../../geometry/studPlacement";
-import { ColorGroupSpec, FitPolicy, IconOverflowBehavior, StyleSpec, TokenSpec } from "../../types";
+import {
+  ArcShapeSpec,
+  ColorGroupSpec,
+  DiscShapeSpec,
+  FitPolicy,
+  IconOverflowBehavior,
+  StyleSpec,
+  TokenSpec,
+} from "../../types";
 
 export type TokenItem = {
   id: string;

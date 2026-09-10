@@ -1,13 +1,14 @@
+import { translateContours } from "../geometry/contourTransforms";
 import { BASE_COLOR_GROUP_ID, resolveColorGroupDisplay } from "../mesh/colorGroups";
 import {
   buildBaseReferenceCircleSvg,
   CIRCLE_ANCHOR_X_SVG,
   CIRCLE_ANCHOR_Y_SVG,
 } from "../preview/svgBaseReference";
-import { ColorGroupSpec } from "../types";
+import { ColorGroupSpec, Vec2 } from "../types";
 import { buildAttentionMarkerSvg } from "./contactSheetSvgAttention";
-import { contourToPathSegment, offsetContour } from "./contactSheetSvgGeometry";
 import { PreparedSection, SectionLayout } from "./contactSheetSvgTypes";
+import { contourToPathSegment } from "./svgDocument";
 
 const FALLBACK_ITEM_LABEL = "This token";
 // Only reachable if an invalid item somehow carries no reason (never happens via the real
@@ -62,17 +63,16 @@ export const layoutPreparedSection = (
           ? cellOriginY + cellHeightMm / 2 - (bounds.min[1] + bounds.max[1]) / 2
           : cellOriginY + cellPaddingMm - bounds.min[1];
 
-      const contoursOffsetX = isArc ? offsetX + CIRCLE_ANCHOR_X_SVG : offsetX;
-      const contoursOffsetY = isArc ? offsetY + CIRCLE_ANCHOR_Y_SVG : offsetY;
+      const contoursOffset: Vec2 = isArc
+        ? [offsetX + CIRCLE_ANCHOR_X_SVG, offsetY + CIRCLE_ANCHOR_Y_SVG]
+        : [offsetX, offsetY];
 
       const baseReferenceCircleSvg = isArc
-        ? buildBaseReferenceCircleSvg(contoursOffsetX, contoursOffsetY)
+        ? buildBaseReferenceCircleSvg(contoursOffset[0], contoursOffset[1])
         : "";
 
-      const basePathData = item.baseContours
-        .map((contour) =>
-          contourToPathSegment(offsetContour(contour, contoursOffsetX, contoursOffsetY)),
-        )
+      const basePathData = translateContours(item.baseContours, contoursOffset)
+        .map(contourToPathSegment)
         .join(" ");
       const paths = [
         baseReferenceCircleSvg,
@@ -81,10 +81,8 @@ export const layoutPreparedSection = (
 
       for (const [colorGroupId, contours] of item.reliefContoursByColorGroup) {
         const color = resolveColorGroupDisplay(colorGroupId, colorGroups).color;
-        const pathData = contours
-          .map((contour) =>
-            contourToPathSegment(offsetContour(contour, contoursOffsetX, contoursOffsetY)),
-          )
+        const pathData = translateContours(contours, contoursOffset)
+          .map(contourToPathSegment)
           .join(" ");
 
         paths.push(`<path d="${pathData}" fill="${color}" fill-rule="evenodd" />`);

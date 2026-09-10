@@ -1,3 +1,4 @@
+import { Bounds } from "../geometry/computeBounds";
 import { ReliefComponent } from "../mesh/reliefComponent";
 import { ShapeSpec, Vec2 } from "../types";
 
@@ -37,7 +38,7 @@ export type SectionLayout = { cellsXml: string; widthMm: number; heightMm: numbe
 // geometric center lands exactly on a grid intersection, regardless of that item's own size.
 export type PreparedSection = {
   flippedItems: FlippedContactSheetItem[];
-  boundsByItem: { min: Vec2; max: Vec2 }[];
+  boundsByItem: Bounds[];
   cellWidthMm: number;
   cellHeightMm: number;
   cellPaddingMm: number;

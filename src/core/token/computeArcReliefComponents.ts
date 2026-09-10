@@ -1,7 +1,7 @@
 import type { Font } from "opentype.js";
 
 import { buildIconComponent, LoadIconSource } from "./computeReliefComponentsShared";
-import { CENTER_ANGLE_DEG } from "./geometry/angleConventions";
+import { CENTER_ANGLE_DEG, RADIAL_TO_UPRIGHT_OFFSET_DEG } from "./geometry/angleConventions";
 import {
   computeEffectiveStudDiameterMm,
   computeInnerRadiusMm,
@@ -11,36 +11,17 @@ import {
 } from "./geometry/studPlacement";
 import { ReliefComponent } from "./mesh/reliefComponent";
 import { autoFitLine } from "./text/autoFit";
+import { estimateAscentMm } from "./text/glyphMetrics";
 import { layoutArcText } from "./text/layoutArcText";
 import { PrintProfile, TokenSpec } from "./types";
 
 const STUD_TEXT_CLEARANCE_DEG = 6;
 
-// Same "outward" convention arcPlacement.ts's mathYUpRotationDeg uses for arc text: an angle of
-// 90 (pointing straight up, see CENTER_ANGLE_DEG) needs no rotation, so the offset is subtracted
-// out. Keeping the stud icons on this convention makes them turn with the arc exactly like the
-// letters beside them do, instead of staying screen-upright as the stud sweeps around the token.
-const OUTWARD_ROTATION_OFFSET_DEG = 90;
-
-// Empirically measured against the bundled font (Saira Condensed Bold) rendering arc text, via
-// the real pipeline (layoutArcText itself): how far a typical capital letter's top edge sits
-// above its baseline radius, as a fraction of sizeMm. Deliberately not the font's own
-// `ascender` metric, which reserves headroom for accents this text never uses and would
-// overestimate the true ink, throwing off the margin balance below. Remeasure (see this file's
-// git history for the throwaway `_measure-saira.test.ts` approach) if the default font ever
-// changes again. Shared with the ring layout's own outward/inward radius balancing (see
-// catalog/tokenItems/goalInfluenceTokenSpec.ts), not just this file's two-line centering, since
-// both are the same "how tall does this line of ink actually stand" question.
-const GLYPH_ASCENT_RATIO = 0.69;
 // An absolute mm gap, not proportional to the ribbon band width, so it only makes sense
 // relative to the app's own default arc shape (see useTokenGenerator.ts's DEFAULT_ARC_SHAPE / Frozen
 // Forge measurements). Remeasure via the real pipeline if the default shape's band width
 // changes significantly again.
 const TWO_LINE_GAP_MM = 0.5;
-
-export const estimateAscentMm = (sizeMm: number): number => {
-  return sizeMm * GLYPH_ASCENT_RATIO;
-};
 
 // The arc's line position is fixed by line count, not user-editable (spec.lines is capped at
 // 2 by the UI). Arc text has no descender in this all-caps use case, so a line's rendered
@@ -96,7 +77,10 @@ export const computeArcReliefComponents = async (
       .filter((icon) => icon.side === "left" || icon.side === "right")
       .map((icon) => {
         const studPlacement = icon.side === "left" ? studPlacements.left : studPlacements.right;
-        const rotationDeg = studPlacement.angleDeg - OUTWARD_ROTATION_OFFSET_DEG;
+        // Same "outward" convention arcPlacement.ts's mathYUpRotationDeg uses for arc text, via
+        // the same offset: keeping the stud icons on it makes them turn with the arc exactly like
+        // the letters beside them do, instead of staying screen-upright as the stud sweeps around.
+        const rotationDeg = studPlacement.angleDeg - RADIAL_TO_UPRIGHT_OFFSET_DEG;
 
         return buildIconComponent(
           icon,

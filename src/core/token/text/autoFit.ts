@@ -1,5 +1,6 @@
 import type { Font } from "opentype.js";
 
+import { DEGREES_PER_RADIAN } from "../geometry/angleConventions";
 import { FitPolicy, PrintProfile } from "../types";
 import { computeSingleLineFit, SingleLineFitResult } from "./fitCascade";
 import { measureAdvances } from "./measureAdvances";
@@ -7,7 +8,11 @@ import { measureAdvances } from "./measureAdvances";
 // "l" glyph bbox width in Saira Condensed Bold at sizeMm = 1, measured live against the real
 // font file; not font-agnostic, remeasure if the default font ever changes again.
 const DEFAULT_FONT_STEM_WIDTH_MM_PER_SIZE_MM = 0.129;
-// mirrors the old scad's `shift = size / 2 + 1` for ~5mm text.
+// How far each half of a mid-word split moves off the line's own radius: the first half outward
+// by this much, the second half inward by the same, so the pair straddles where the single line
+// would have sat. Not physically calibrated -- carried over from the original OpenSCAD pipeline,
+// where it was `size / 2 + 1` at the ~5mm text size that pipeline used. Tune by feel against a
+// real render if the default text size moves far from there.
 const TWO_LINE_RADIUS_OFFSET_MM = 3.5;
 const TRUNCATION_MARKER = "…";
 
@@ -31,7 +36,7 @@ export type AutoFitResult = {
 };
 
 const arcLengthMm = (sweepDeg: number, radiusMm: number): number => {
-  return (sweepDeg * Math.PI * radiusMm) / 180;
+  return (sweepDeg / DEGREES_PER_RADIAN) * radiusMm;
 };
 
 // Everything a single fit attempt needs except the text and radius, which vary per call

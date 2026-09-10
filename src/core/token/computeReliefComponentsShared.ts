@@ -1,5 +1,6 @@
+import { rotateContours, translateContours } from "./geometry/contourTransforms";
 import { growIconOutline } from "./geometry/growIconOutline";
-import { placeIcon, rotateContours, translateContours } from "./geometry/iconPlacement";
+import { placeIcon } from "./geometry/iconPlacement";
 import { computeRingContour } from "./geometry/ringContour";
 import { trimIconToCircle } from "./geometry/trimIconToCircle";
 import { ReliefComponent } from "./mesh/reliefComponent";

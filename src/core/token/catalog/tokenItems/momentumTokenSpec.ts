@@ -1,11 +1,10 @@
-import { DiscShapeSpec } from "../../geometry/studPlacement";
-import { FitPolicy, TokenSpec } from "../../types";
+import { DiscShapeSpec, FitPolicy, TokenSpec } from "../../types";
 import { TEXT_COLOR_GROUP_ID } from "../deriveReliefColor";
 import { SharedConfig } from "./tokenItem";
 import { sharedTokenFields } from "./tokenSpecParts";
 
-// "MP" (Momentum Points) is the text printed on the Momentum token itself -- not a separate
-// token kind, see [[batch-grid-and-tokens-2026-09-02]].
+// "MP" (Momentum Points) is the text printed on the Momentum token itself, not a separate token
+// kind: there is no "MP token" in the catalog, only this one.
 const MOMENTUM_TEXT = "MP";
 const MOMENTUM_TEXT_SIZE_MM = 6;
 const MOMENTUM_FIT_POLICY: FitPolicy = {
@@ -15,10 +14,9 @@ const MOMENTUM_FIT_POLICY: FitPolicy = {
   allowTwoLines: false,
 };
 
-// Not physically calibrated (see arc-ribbon-parametrization's precedent for this project's
-// disc/arc shape defaults): a starting point for a thin border ring, proportional to the disc's
-// own diameter so it tracks that shape's default if it ever changes -- tune by feel / real
-// render, same as every other geometry default in this app.
+// Not physically calibrated: a starting point for a thin border ring, proportional to the disc's
+// own diameter so it tracks that shape's default if it ever changes -- tune by feel against a
+// real render, same as every other geometry default in this app (see defaultShapeAndStyle.ts).
 const RING_RADIUS_RATIO = 0.85;
 const RING_WIDTH_MM = 0.6;
 

@@ -1,13 +1,11 @@
+import { STUD_CIRCLE_SEGMENTS } from "../geometry/circleResolution";
 import { filletOutline } from "../geometry/filletOutline";
-import { ArcShapeSpec } from "../geometry/studPlacement";
-import { StyleSpec, Vec2 } from "../types";
+import { ArcShapeSpec, StyleSpec, Vec2 } from "../types";
 import { applyReliefToBase } from "./applyReliefToBase";
 import { buildArcRibbonOutline2D } from "./buildArcRibbon";
 import { getManifoldModule } from "./manifoldModule";
-import { ReliefComponent } from "./reliefComponent";
+import { collectGrowOutlineContours, ReliefComponent } from "./reliefComponent";
 import { TokenPart } from "./tokenPart";
-
-const STUD_CIRCULAR_SEGMENTS = 48;
 
 export type BuildArcTokenMeshInput = {
   shape: ArcShapeSpec;
@@ -24,12 +22,12 @@ export const buildArcTokenMesh = async (input: BuildArcTokenMeshInput): Promise<
   const ribbon = buildArcRibbonOutline2D(CrossSection, input.shape, input.centerAngleDeg);
   const studRadiusMm = input.shape.studDiameterMm / 2;
 
-  const leftStud = CrossSection.circle(studRadiusMm, STUD_CIRCULAR_SEGMENTS).translate(
+  const leftStud = CrossSection.circle(studRadiusMm, STUD_CIRCLE_SEGMENTS).translate(
     input.studPositions.left[0],
     input.studPositions.left[1],
   );
 
-  const rightStud = CrossSection.circle(studRadiusMm, STUD_CIRCULAR_SEGMENTS).translate(
+  const rightStud = CrossSection.circle(studRadiusMm, STUD_CIRCLE_SEGMENTS).translate(
     input.studPositions.right[0],
     input.studPositions.right[1],
   );
@@ -48,7 +46,7 @@ export const buildArcTokenMesh = async (input: BuildArcTokenMeshInput): Promise<
   // same absolute mm space as the stud positions above, so unioning it in makes the stud's own
   // body hug the icon instead of leaving it a plain circle. Added after the fillet, not before,
   // so the fillet radius only ever smooths the stud/ribbon junction it was tuned for.
-  const growContours = input.reliefComponents.flatMap((component) => component.growOutline ?? []);
+  const growContours = collectGrowOutlineContours(input.reliefComponents);
   const outlineWithGrow =
     growContours.length > 0 ? outline2D.add(new CrossSection(growContours, "Positive")) : outline2D;
 

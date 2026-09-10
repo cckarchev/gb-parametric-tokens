@@ -1,10 +1,9 @@
+import { BODY_CIRCLE_SEGMENTS } from "../geometry/circleResolution";
 import { TokenSpec } from "../types";
 import { applyReliefToBase } from "./applyReliefToBase";
 import { getManifoldModule } from "./manifoldModule";
-import { ReliefComponent } from "./reliefComponent";
+import { collectGrowOutlineContours, ReliefComponent } from "./reliefComponent";
 import { TokenPart } from "./tokenPart";
-
-const DISC_CIRCULAR_SEGMENTS = 128;
 
 export type BuildTokenMeshInput = {
   spec: TokenSpec;
@@ -14,7 +13,7 @@ export type BuildTokenMeshInput = {
 export const buildTokenMesh = async (input: BuildTokenMeshInput): Promise<TokenPart[]> => {
   if (input.spec.shape.type !== "disc") {
     throw new Error(
-      `buildTokenMesh only supports shape: "disc" in M1, got "${input.spec.shape.type}"`,
+      `buildTokenMesh only supports a "disc" shape, got "${input.spec.shape.type}" -- an arc shape goes through buildArcTokenMesh instead (see buildTokenParts.ts)`,
     );
   }
 
@@ -23,7 +22,7 @@ export const buildTokenMesh = async (input: BuildTokenMeshInput): Promise<TokenP
 
   const baseThicknessMm = input.spec.style.baseThicknessMm;
 
-  const disc = CrossSection.circle(input.spec.shape.diameterMm / 2, DISC_CIRCULAR_SEGMENTS).extrude(
+  const disc = CrossSection.circle(input.spec.shape.diameterMm / 2, BODY_CIRCLE_SEGMENTS).extrude(
     baseThicknessMm,
   );
 
@@ -31,7 +30,7 @@ export const buildTokenMesh = async (input: BuildTokenMeshInput): Promise<TokenP
   // circle carries its own dilated footprint here (computeReliefComponentsShared.ts), already
   // centered the same way the disc is, so unioning it in makes the disc's own body hug the icon
   // instead of leaving it a plain circle.
-  const growContours = input.reliefComponents.flatMap((component) => component.growOutline ?? []);
+  const growContours = collectGrowOutlineContours(input.reliefComponents);
   const base =
     growContours.length > 0
       ? disc.add(new CrossSection(growContours, "Positive").extrude(baseThicknessMm))

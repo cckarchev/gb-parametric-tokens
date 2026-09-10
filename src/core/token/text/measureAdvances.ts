@@ -1,5 +1,9 @@
 import type { Font } from "opentype.js";
 
+// No extra space between glyphs beyond the font's own advances and kerning. Both text layouts
+// start here and only depart from it when a caller (or autoFit.ts's cascade) asks for tracking.
+export const DEFAULT_TRACKING_MM = 0;
+
 export type LineAdvances = {
   advancesMm: number[];
   kerningsMm: number[];
@@ -15,4 +19,22 @@ export const measureAdvances = (font: Font, text: string, sizeMm: number): LineA
     .map((glyph, index) => font.getKerningValue(glyphs[index], glyph) * scaleFactor);
 
   return { advancesMm, kerningsMm };
+};
+
+// Where each glyph's pen starts, measured along the baseline from the first glyph's origin: the
+// running sum of the advances and kernings above. Flat text uses these as x coordinates directly,
+// arc text converts them into angles (see arcPlacement.ts), but the accumulation is the same, so
+// tracking is folded into kerningsMm by the caller rather than handled twice here.
+export const computePenPositions = (advancesMm: number[], kerningsMm: number[]): number[] => {
+  const penPositionsMm: number[] = [0];
+
+  for (let index = 1; index < advancesMm.length; index++) {
+    const previousPen = penPositionsMm[index - 1];
+    const previousAdvance = advancesMm[index - 1];
+    const kerning = kerningsMm[index - 1];
+
+    penPositionsMm.push(previousPen + previousAdvance + kerning);
+  }
+
+  return penPositionsMm;
 };

@@ -15,6 +15,11 @@ export type ShapeSpec =
     }
   | { type: "disc"; diameterMm: number };
 
+// The two arms of ShapeSpec on their own, for the many builders that only ever handle one of
+// them (mesh/buildArcRibbon.ts, catalog/tokenItems/momentumTokenSpec.ts, and so on).
+export type ArcShapeSpec = Extract<ShapeSpec, { type: "arc" }>;
+export type DiscShapeSpec = Extract<ShapeSpec, { type: "disc" }>;
+
 export type TextLayout = "arc" | "flat" | "ring";
 
 export type LineSpec = {

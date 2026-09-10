@@ -1,7 +1,5 @@
 import { MODEL_BASE_DIAMETER_MM } from "../geometry/studPlacement";
 
-export { MODEL_BASE_DIAMETER_MM };
-
 const MODEL_RADIUS_MM = MODEL_BASE_DIAMETER_MM / 2;
 const FILL_COLOR = "#808080";
 const FILL_OPACITY = 0.35;

@@ -1,6 +1,6 @@
 import { Vec2 } from "../types";
-import { DEGREES_PER_RADIAN } from "./angleConventions";
 import { computeBounds } from "./computeBounds";
+import { flipContoursY } from "./contourTransforms";
 
 export type IconPlacementOptions = {
   targetDiameterMm: number;
@@ -22,16 +22,12 @@ export type PlaceIconResult = {
   overflowsCircle: boolean;
 };
 
-const flipY = (contours: Vec2[][]): Vec2[][] => {
-  return contours.map((contour) => contour.map(([x, y]): Vec2 => [x, -y]));
-};
-
 // A tiny tolerance so an icon whose farthest point already sits exactly on the inscribed circle
 // (the box fit and the circle fit agree) isn't flagged as overflowing from float noise alone.
 const OVERFLOW_EPSILON = 1e-9;
 
 export const placeIcon = (contours: Vec2[][], options: IconPlacementOptions): PlaceIconResult => {
-  const flipped = flipY(contours);
+  const flipped = flipContoursY(contours);
   const bounds = computeBounds(flipped);
 
   const boundsWidth = bounds.max[0] - bounds.min[0];
@@ -63,23 +59,4 @@ export const placeIcon = (contours: Vec2[][], options: IconPlacementOptions): Pl
   );
 
   return { contours: placedContours, overflowsCircle };
-};
-
-// Standard mathYUp CCW rotation about the origin -- the same convention arcPlacement.ts's
-// applyArcPlacement uses for glyph rotation, so an icon rotated by this and a glyph rotated by
-// that agree on which way a positive angle turns.
-export const rotateContours = (contours: Vec2[][], rotationDeg: number): Vec2[][] => {
-  const rotationRad = rotationDeg / DEGREES_PER_RADIAN;
-  const cosRotation = Math.cos(rotationRad);
-  const sinRotation = Math.sin(rotationRad);
-
-  return contours.map((contour) =>
-    contour.map(
-      ([x, y]): Vec2 => [x * cosRotation - y * sinRotation, x * sinRotation + y * cosRotation],
-    ),
-  );
-};
-
-export const translateContours = (contours: Vec2[][], offset: Vec2): Vec2[][] => {
-  return contours.map((contour) => contour.map(([x, y]): Vec2 => [x + offset[0], y + offset[1]]));
 };

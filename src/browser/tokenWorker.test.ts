@@ -263,7 +263,7 @@ describe("handlePreview", () => {
     const response = await handlePreview(request);
 
     expect(response.results[0].reason).toBe(
-      'Icon "Cooks": extends past its printed edge, shrunk to fit the circle.',
+      'Icon "Cooks": extends past its circle and nothing corrects it -- see "Icons that overflow their circle".',
     );
   });
 });

@@ -1,5 +1,6 @@
-import { DEGREES_PER_RADIAN } from "../geometry/angleConventions";
+import { DEGREES_PER_RADIAN, RADIAL_TO_UPRIGHT_OFFSET_DEG } from "../geometry/angleConventions";
 import { Vec2 } from "../types";
+import { computePenPositions } from "./measureAdvances";
 
 export type ArcGlyphPlacement = {
   angleDeg: number;
@@ -28,20 +29,6 @@ export type ArcGlyphPlacementInput = {
   centerAngleDeg: number;
   coordinateConvention: "svgYDown" | "mathYUp";
   orientation?: ArcOrientation;
-};
-
-const computePenPositions = (advancesMm: number[], kerningsMm: number[]): number[] => {
-  const penPositions: number[] = [0];
-
-  for (let i = 1; i < advancesMm.length; i++) {
-    const previousPen = penPositions[i - 1];
-    const previousAdvance = advancesMm[i - 1];
-    const kerning = kerningsMm[i - 1];
-
-    penPositions.push(previousPen + previousAdvance + kerning);
-  }
-
-  return penPositions;
 };
 
 export const computeArcGlyphPlacements = (input: ArcGlyphPlacementInput): ArcGlyphPlacement[] => {
@@ -73,10 +60,14 @@ export const computeArcGlyphPlacements = (input: ArcGlyphPlacementInput): ArcGly
         ? [input.radiusMm * Math.cos(angleRad), -input.radiusMm * Math.sin(angleRad)]
         : [input.radiusMm * Math.cos(angleRad), input.radiusMm * Math.sin(angleRad)];
 
-    // outward points the glyph's ascender away from the center (angleDeg - 90 in mathYUp);
-    // inward points it toward the center instead (angleDeg + 90). svgYDown always mirrors
-    // whatever mathYUp computes, same relationship as before orientation existed.
-    const mathYUpRotationDeg = orientation === "outward" ? angleDeg - 90 : angleDeg + 90;
+    // outward points the glyph's ascender away from the center, inward points it toward the
+    // center instead -- a quarter turn either side of the point's own polar angle (see
+    // RADIAL_TO_UPRIGHT_OFFSET_DEG). svgYDown always mirrors whatever mathYUp computes, same
+    // relationship as before orientation existed.
+    const mathYUpRotationDeg =
+      orientation === "outward"
+        ? angleDeg - RADIAL_TO_UPRIGHT_OFFSET_DEG
+        : angleDeg + RADIAL_TO_UPRIGHT_OFFSET_DEG;
     const rotationDeg =
       input.coordinateConvention === "svgYDown" ? -mathYUpRotationDeg : mathYUpRotationDeg;
 

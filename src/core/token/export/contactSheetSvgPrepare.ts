@@ -1,5 +1,4 @@
-import { computeBounds } from "../geometry/computeBounds";
-import { Vec2 } from "../types";
+import { Bounds, computeBounds } from "../geometry/computeBounds";
 import {
   allContoursOf,
   CIRCLE_FOOTPRINT_BOUNDS,
@@ -46,7 +45,7 @@ export const prepareSection = (
 
   const arcCombinedBounds = flippedItems
     .map((item, index) => (item.shape.type === "arc" ? boundsByItem[index] : undefined))
-    .filter((bounds): bounds is { min: Vec2; max: Vec2 } => bounds !== undefined);
+    .filter((bounds): bounds is Bounds => bounds !== undefined);
   const rawArcLeftMarginMm = computeOverflowMarginMm(arcCombinedBounds, 0);
   const rawArcTopMarginMm = computeOverflowMarginMm(arcCombinedBounds, 1);
 

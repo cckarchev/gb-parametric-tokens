@@ -1,3 +1,5 @@
+import { DEGREES_PER_RADIAN } from "../geometry/angleConventions";
+import { BODY_CIRCLE_SEGMENTS } from "../geometry/circleResolution";
 import { filletOutline } from "../geometry/filletOutline";
 import {
   computeEffectiveStudDiameterMm,
@@ -9,9 +11,9 @@ import {
 import { getManifoldModule } from "../mesh/manifoldModule";
 import { ShapeSpec, Vec2 } from "../types";
 
-const RING_CIRCULAR_SEGMENTS = 128;
 const WEDGE_STEPS = 64;
-const WEDGE_RADIUS_PADDING_MM = 10; // extends the wedge past outerR so float error never clips the ring
+// Extends the wedge past the ribbon's outer radius so float error never clips the ring it cuts.
+const WEDGE_RADIUS_PADDING_MM = 10;
 
 // IconOverflowBehavior "grow"'s dilated icon footprints (see mesh/reliefComponent.ts's
 // growOutline, already flattened across every icon by the caller): unioned into the outline
@@ -28,15 +30,15 @@ export const computeBaseOutlineContours = async (
     growOutlineContours.length > 0 ? new CrossSection(growOutlineContours, "Positive") : undefined;
 
   if (shape.type === "disc") {
-    const disc = CrossSection.circle(shape.diameterMm / 2, RING_CIRCULAR_SEGMENTS);
+    const disc = CrossSection.circle(shape.diameterMm / 2, BODY_CIRCLE_SEGMENTS);
 
     return (grow ? disc.add(grow) : disc).toPolygons();
   }
 
   const outerRadiusMm = computeOuterRadiusMm(shape);
   const sweepDeg = computeSweepDeg(shape);
-  const outer = CrossSection.circle(outerRadiusMm, RING_CIRCULAR_SEGMENTS);
-  const inner = CrossSection.circle(computeInnerRadiusMm(), RING_CIRCULAR_SEGMENTS);
+  const outer = CrossSection.circle(outerRadiusMm, BODY_CIRCLE_SEGMENTS);
+  const inner = CrossSection.circle(computeInnerRadiusMm(), BODY_CIRCLE_SEGMENTS);
   const ring = outer.subtract(inner);
 
   const startAngleDeg = centerAngleDeg - sweepDeg / 2;
@@ -47,7 +49,7 @@ export const computeBaseOutlineContours = async (
 
   for (let step = 0; step <= WEDGE_STEPS; step++) {
     const angleDeg = startAngleDeg + ((endAngleDeg - startAngleDeg) * step) / WEDGE_STEPS;
-    const angleRad = (angleDeg * Math.PI) / 180;
+    const angleRad = angleDeg / DEGREES_PER_RADIAN;
 
     wedgePoints.push([Math.cos(angleRad) * wedgeRadiusMm, Math.sin(angleRad) * wedgeRadiusMm]);
   }
@@ -57,10 +59,10 @@ export const computeBaseOutlineContours = async (
 
   const studPlacements = computeStudPlacements(shape, centerAngleDeg);
   const studRadiusMm = computeEffectiveStudDiameterMm(shape) / 2;
-  const leftStud = CrossSection.circle(studRadiusMm, RING_CIRCULAR_SEGMENTS).translate(
+  const leftStud = CrossSection.circle(studRadiusMm, BODY_CIRCLE_SEGMENTS).translate(
     studPlacements.left.position,
   );
-  const rightStud = CrossSection.circle(studRadiusMm, RING_CIRCULAR_SEGMENTS).translate(
+  const rightStud = CrossSection.circle(studRadiusMm, BODY_CIRCLE_SEGMENTS).translate(
     studPlacements.right.position,
   );
 

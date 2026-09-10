@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { Vec2 } from "../types";
-import { placeIcon, rotateContours, translateContours } from "./iconPlacement";
+import { placeIcon } from "./iconPlacement";
 
 const SOLID_SQUARE: Vec2[][] = [
   [
@@ -120,51 +120,5 @@ describe("placeIcon", () => {
     });
 
     expect(overflowsCircle).toBe(false);
-  });
-});
-
-describe("rotateContours", () => {
-  it("leaves points unchanged at a rotation of 0 degrees", () => {
-    const point: Vec2[][] = [[[3, 4]]];
-
-    expect(rotateContours(point, 0)).toEqual([[[3, 4]]]);
-  });
-
-  it("rotates a point 90 degrees counterclockwise about the origin", () => {
-    const point: Vec2[][] = [[[1, 0]]];
-    const [[[x, y]]] = rotateContours(point, 90);
-
-    expect(x).toBeCloseTo(0);
-    expect(y).toBeCloseTo(1);
-  });
-
-  it("rotates a point -90 degrees (clockwise) about the origin", () => {
-    const point: Vec2[][] = [[[0, 1]]];
-    const [[[x, y]]] = rotateContours(point, -90);
-
-    expect(x).toBeCloseTo(1);
-    expect(y).toBeCloseTo(0);
-  });
-});
-
-describe("translateContours", () => {
-  it("translateContours shifts every point by a fixed offset", () => {
-    const square: Vec2[][] = [
-      [
-        [0, 0],
-        [1, 0],
-        [1, 1],
-        [0, 1],
-      ],
-    ];
-
-    expect(translateContours(square, [10, -5])).toEqual([
-      [
-        [10, -5],
-        [11, -5],
-        [11, -4],
-        [10, -4],
-      ],
-    ]);
   });
 });

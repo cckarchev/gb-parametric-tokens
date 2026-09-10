@@ -1,16 +1,18 @@
 import type { CrossSection, Manifold, ManifoldToplevel } from "manifold-3d";
 
+import { DEGREES_PER_RADIAN } from "../geometry/angleConventions";
+import { BODY_CIRCLE_SEGMENTS } from "../geometry/circleResolution";
 import {
-  ArcShapeSpec,
   computeInnerRadiusMm,
   computeOuterRadiusMm,
   computeSweepDeg,
 } from "../geometry/studPlacement";
+import { ArcShapeSpec } from "../types";
 import { getManifoldModule } from "./manifoldModule";
 
-const RING_CIRCULAR_SEGMENTS = 128;
 const WEDGE_STEPS = 64;
-const WEDGE_RADIUS_PADDING_MM = 10; // extends the wedge past outerR so float error never clips the ring
+// Extends the wedge past the ribbon's outer radius so float error never clips the ring it cuts.
+const WEDGE_RADIUS_PADDING_MM = 10;
 
 // The ribbon's flat 2D sector (outer radius minus inner radius, cut down to the sweep angle),
 // with no height yet -- exported so buildArcTokenMesh.ts can union studs onto it in 2D (required
@@ -23,8 +25,8 @@ export const buildArcRibbonOutline2D = (
 ): CrossSection => {
   const outerRadiusMm = computeOuterRadiusMm(shape);
   const sweepDeg = computeSweepDeg(shape);
-  const outer = CrossSectionCtor.circle(outerRadiusMm, RING_CIRCULAR_SEGMENTS);
-  const inner = CrossSectionCtor.circle(computeInnerRadiusMm(), RING_CIRCULAR_SEGMENTS);
+  const outer = CrossSectionCtor.circle(outerRadiusMm, BODY_CIRCLE_SEGMENTS);
+  const inner = CrossSectionCtor.circle(computeInnerRadiusMm(), BODY_CIRCLE_SEGMENTS);
   const ring = outer.subtract(inner);
 
   const startAngleDeg = centerAngleDeg - sweepDeg / 2;
@@ -35,7 +37,7 @@ export const buildArcRibbonOutline2D = (
 
   for (let step = 0; step <= WEDGE_STEPS; step++) {
     const angleDeg = startAngleDeg + ((endAngleDeg - startAngleDeg) * step) / WEDGE_STEPS;
-    const angleRad = (angleDeg * Math.PI) / 180;
+    const angleRad = angleDeg / DEGREES_PER_RADIAN;
 
     wedgePoints.push([Math.cos(angleRad) * wedgeRadiusMm, Math.sin(angleRad) * wedgeRadiusMm]);
   }

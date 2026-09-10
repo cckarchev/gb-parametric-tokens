@@ -7,9 +7,9 @@ import {
   sharedTokenFields,
 } from "./tokenSpecParts";
 
-// A single, identical, unnumbered token -- the selection's copies count is the physical
-// quantity to print, not a range of distinct values (see [[batch-grid-and-tokens-2026-09-02]]
-// in memory for why Influence/Momentum moved away from a numbered-per-value design).
+// A single, identical, unnumbered token: Influence and Momentum are physical chips you stack to
+// count, so the selection's copies count is the quantity to print rather than a range of distinct
+// numbered values, which is what an earlier design generated.
 // influenceIconId is always the current guild's own crest (see useTokenGenerator.ts, which
 // seeds it from catalog.name on every guild load), so it earns the same guildIconScale
 // treatment as a character or generic token's crest.

@@ -1,9 +1,6 @@
 import { getManifoldModule } from "../mesh/manifoldModule";
 import { Vec2 } from "../types";
-
-// Matches validateMinStrokeWidth.ts's own erosion offset call: same join type, same segment
-// count, just the opposite (outward) sign.
-const GROW_OFFSET_CIRCULAR_SEGMENTS = 32;
+import { OFFSET_ARC_SEGMENTS, OFFSET_MITER_LIMIT } from "./circleResolution";
 
 // Dilates an icon's own contours outward by marginMm, for the "grow" IconOverflowBehavior (see
 // types.ts): the result gets unioned into the stud/disc's own outline so the token body hugs
@@ -15,7 +12,7 @@ export const growIconOutline = async (contours: Vec2[][], marginMm: number): Pro
   const { CrossSection } = wasm;
 
   const icon = new CrossSection(contours, "Positive");
-  const grown = icon.offset(marginMm, "Round", 2, GROW_OFFSET_CIRCULAR_SEGMENTS);
+  const grown = icon.offset(marginMm, "Round", OFFSET_MITER_LIMIT, OFFSET_ARC_SEGMENTS);
 
   return grown.toPolygons();
 };

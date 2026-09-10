@@ -1,11 +1,10 @@
 import { normalizeWinding } from "../svg/normalizeWinding";
 import { Vec2 } from "../types";
-
-const RING_SEGMENTS = 128;
+import { BODY_CIRCLE_SEGMENTS } from "./circleResolution";
 
 const buildCirclePolygon = (radiusMm: number): Vec2[] => {
-  return Array.from({ length: RING_SEGMENTS }, (_, index): Vec2 => {
-    const angleRad = (index / RING_SEGMENTS) * 2 * Math.PI;
+  return Array.from({ length: BODY_CIRCLE_SEGMENTS }, (_, index): Vec2 => {
+    const angleRad = (index / BODY_CIRCLE_SEGMENTS) * 2 * Math.PI;
 
     return [radiusMm * Math.cos(angleRad), radiusMm * Math.sin(angleRad)];
   });
