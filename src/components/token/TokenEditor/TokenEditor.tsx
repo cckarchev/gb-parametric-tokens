@@ -1,3 +1,4 @@
+import { TokenSelection } from "../../../core/token/catalog/tokenItems/tokenItem";
 import { useTokenGenerator } from "../../../hooks/useTokenGenerator";
 import { CharacterTokenList } from "../CharacterTokenList/CharacterTokenList";
 import { ExportPanel } from "../ExportPanel/ExportPanel";
@@ -9,6 +10,18 @@ import styles from "./TokenEditor.module.css";
 
 export const TokenEditor = () => {
   const generator = useTokenGenerator();
+
+  // Every list below owns exactly one field of the selection. Functional updates (not
+  // `{ ...generator.selection, [field]: value }`): GuildTokenList's own "Select all" fires
+  // several of these setters synchronously in one click handler, and each one needs to build on
+  // the previous call's result, not on the single `generator.selection` snapshot this render
+  // closed over -- otherwise only the last call would actually stick (a real, user-caught bug:
+  // the checkbox looked like it did nothing).
+  const updateSelectionField =
+    <Field extends keyof TokenSelection>(field: Field) =>
+    (value: TokenSelection[Field]) => {
+      generator.setSelection((selection) => ({ ...selection, [field]: value }));
+    };
 
   return (
     <div className={styles.page}>
@@ -30,7 +43,6 @@ export const TokenEditor = () => {
         </div>
 
         <div className={styles.formColumn}>
-          {generator.catalogStatus === "loading" && <p>Loading catalog...</p>}
           {generator.catalogStatus === "error" && (
             <p>Failed to load catalog: {generator.catalogError}</p>
           )}
@@ -40,39 +52,21 @@ export const TokenEditor = () => {
               <CharacterTokenList
                 catalog={generator.catalog}
                 selectedTokenIds={generator.selection.characterTokenIds}
-                onSelectedTokenIdsChange={(characterTokenIds) =>
-                  generator.setSelection((selection) => ({ ...selection, characterTokenIds }))
-                }
+                onSelectedTokenIdsChange={updateSelectionField("characterTokenIds")}
                 tokenCopies={generator.selection.characterTokenCopies}
-                onTokenCopiesChange={(characterTokenCopies) =>
-                  generator.setSelection((selection) => ({ ...selection, characterTokenCopies }))
-                }
+                onTokenCopiesChange={updateSelectionField("characterTokenCopies")}
               />
 
-              {/* Functional updates (not `{ ...generator.selection, field }`) below: GuildTokenList's
-                  own "Select all" fires all four of these onChange callbacks synchronously in one
-                  click handler, and each one needs to build on the previous call's result, not on
-                  the single `generator.selection` snapshot this render closed over -- otherwise only
-                  the last of the four calls would actually stick (a real, user-caught bug: the
-                  checkbox looked like it did nothing). */}
               <GuildTokenList
                 catalog={generator.catalog}
                 genericTokens={generator.selection.genericTokens}
-                onGenericTokensChange={(genericTokens) =>
-                  generator.setSelection((selection) => ({ ...selection, genericTokens }))
-                }
+                onGenericTokensChange={updateSelectionField("genericTokens")}
                 influence={generator.selection.influence}
-                onInfluenceChange={(influence) =>
-                  generator.setSelection((selection) => ({ ...selection, influence }))
-                }
+                onInfluenceChange={updateSelectionField("influence")}
                 momentum={generator.selection.momentum}
-                onMomentumChange={(momentum) =>
-                  generator.setSelection((selection) => ({ ...selection, momentum }))
-                }
+                onMomentumChange={updateSelectionField("momentum")}
                 goalInfluence={generator.selection.goalInfluence}
-                onGoalInfluenceChange={(goalInfluence) =>
-                  generator.setSelection((selection) => ({ ...selection, goalInfluence }))
-                }
+                onGoalInfluenceChange={updateSelectionField("goalInfluence")}
               />
 
               <TokenConfigEditor

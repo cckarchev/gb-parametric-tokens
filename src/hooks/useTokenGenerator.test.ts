@@ -54,8 +54,8 @@ beforeEach(() => {
   vi.stubGlobal("Worker", FakeWorker);
   vi.mocked(listAvailableGuilds)
     .mockReset()
-    .mockResolvedValue([{ id: "brewers", name: "Brewers", color: "#cdb320" }]);
-  vi.mocked(loadGuildCatalog).mockReset().mockResolvedValue(catalog);
+    .mockReturnValue([{ id: "brewers", name: "Brewers", color: "#cdb320" }]);
+  vi.mocked(loadGuildCatalog).mockReset().mockReturnValue(catalog);
   vi.mocked(downloadBlob).mockClear();
   vi.useFakeTimers();
 });
@@ -170,7 +170,7 @@ describe("useTokenGenerator", () => {
       genericTokens: [],
     };
 
-    vi.mocked(listAvailableGuilds).mockResolvedValue([
+    vi.mocked(listAvailableGuilds).mockReturnValue([
       { id: "brewers", name: "Brewers", color: "#cdb320" },
       { id: "cooks", name: "Cooks", color: "#e0a020" },
     ]);
@@ -197,7 +197,7 @@ describe("useTokenGenerator", () => {
     expect(result.current.selection.characterTokenIds).toEqual(["Tapper-0"]);
     expect(result.current.selection.momentum.enabled).toBe(false);
 
-    vi.mocked(loadGuildCatalog).mockResolvedValueOnce(otherCatalog);
+    vi.mocked(loadGuildCatalog).mockReturnValueOnce(otherCatalog);
 
     await act(async () => {
       result.current.selectGuild("cooks");
@@ -211,7 +211,7 @@ describe("useTokenGenerator", () => {
     expect(result.current.selection.characterTokenIds).toEqual(["Wellington-0"]);
     expect(result.current.selection.momentum.enabled).toBe(true);
 
-    vi.mocked(loadGuildCatalog).mockResolvedValueOnce(catalog);
+    vi.mocked(loadGuildCatalog).mockReturnValueOnce(catalog);
 
     await act(async () => {
       result.current.selectGuild("brewers");

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { downloadBlob } from "../browser/downloadBlob";
+import { describeError } from "../core/describeError";
 import { buildDefaultSelection } from "../core/token/catalog/buildDefaultSelection";
 import { deriveReliefColor, TEXT_COLOR_GROUP_ID } from "../core/token/catalog/deriveReliefColor";
 import { SharedConfig, TokenSelection } from "../core/token/catalog/tokenItems/tokenItem";
@@ -11,6 +12,7 @@ import {
   DEFAULT_FIT_POLICY,
   DEFAULT_STYLE,
 } from "../core/token/defaultShapeAndStyle";
+import { FALLBACK_ICON_ID } from "../core/token/icons/iconManifest";
 import { BASE_COLOR_GROUP_ID } from "../core/token/mesh/colorGroups";
 import { DEFAULT_PRINT_PROFILE_ID } from "../core/token/printProfiles";
 import { useExport } from "./useExport";
@@ -18,10 +20,6 @@ import { useGuildCatalog } from "./useGuildCatalog";
 import { usePreview } from "./usePreview";
 
 export type { PreviewItem } from "./useWorker";
-
-// Placeholder for influenceIconId before any guild has loaded (selectGuild overwrites it with
-// the guild's own icon id). "blank" is a real icon in the manifest, so this never substitutes.
-const FALLBACK_ICON_ID = "blank";
 
 const DEFAULT_GOAL_INFLUENCE_SHAPE: SharedConfig["goalInfluenceShape"] = {
   type: "disc",
@@ -129,6 +127,8 @@ export const useTokenGenerator = () => {
     fitPolicy: DEFAULT_FIT_POLICY,
     printProfileId: DEFAULT_PRINT_PROFILE_ID,
     colorGroups: DEFAULT_COLOR_GROUPS,
+    // Stands in only until a guild has loaded; the effect below overwrites it with that guild's
+    // own icon id.
     influenceIconId: FALLBACK_ICON_ID,
     nameSizeMm: DEFAULT_NAME_SIZE_MM,
     effectSizeMm: DEFAULT_EFFECT_SIZE_MM,
@@ -215,7 +215,7 @@ export const useTokenGenerator = () => {
         iconOverflowBehavior: parsed.iconOverflowBehavior ?? "none",
       });
     } catch (error) {
-      setImportSettingsError(error instanceof Error ? error.message : String(error));
+      setImportSettingsError(describeError(error));
     }
   }, []);
 

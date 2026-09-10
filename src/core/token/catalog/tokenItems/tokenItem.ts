@@ -28,6 +28,11 @@ export type TokenItem = {
 // the same behavior characterTokenCopies already has for character tokens (see below).
 export type CounterSelection = { enabled: boolean; copies: number };
 
+// The floor for any copies count the user can edit, whether it belongs to a counter or to a
+// character token: a selected token always prints at least once, and dropping to zero is
+// expressed by unchecking it rather than by counting down to nothing.
+export const MIN_COPIES = 1;
+
 export type TokenSelection = {
   characterTokenIds: string[];
   // Copies for a selected character token whose catalog entry sets maxCopies > 1. Not consulted

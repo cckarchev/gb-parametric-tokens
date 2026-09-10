@@ -1,4 +1,5 @@
 /// <reference lib="webworker" />
+import { describeError } from "../core/describeError";
 import { buildTokenParts } from "../core/token/buildTokenParts";
 import { TokenItem } from "../core/token/catalog/tokenItems/tokenItem";
 import { computeReliefComponents } from "../core/token/computeReliefComponents";
@@ -212,7 +213,7 @@ export const handleExport = async (request: ExportRequest): Promise<ExportRespon
     return { kind: "export", requestId: request.requestId, status: "failed", failures };
   }
 
-  const layoutItems: PlateLayoutItem[] = built.map(({ item, parts: _parts }) => ({
+  const layoutItems: PlateLayoutItem[] = built.map(({ item }) => ({
     shapeType: item.spec.shape.type,
     footprintMm: computeFootprintMm(item.spec.shape),
     copies: item.copies,
@@ -244,11 +245,10 @@ self.onmessage = async (event: MessageEvent<WorkerRequest>) => {
 
     self.postMessage(response);
   } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
     const errorResponse: WorkerErrorResponse = {
       kind: "error",
       requestId: request.requestId,
-      message,
+      message: describeError(error),
     };
 
     self.postMessage(errorResponse);

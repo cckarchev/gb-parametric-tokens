@@ -1,13 +1,19 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
-import { AvailableGuild, listAvailableGuilds } from "../browser/listAvailableGuilds";
+import { listAvailableGuilds } from "../browser/listAvailableGuilds";
 import { loadGuildCatalog } from "../browser/loadGuildCatalog";
+import { describeError } from "../core/describeError";
 import { GuildCatalog } from "../core/token/catalog/catalogTypes";
 
-export type CatalogStatus = "idle" | "loading" | "ready" | "error";
+// No "loading": every guild's catalog is inlined in the bundle, so selecting one either resolves
+// on the spot or throws on the spot -- there is no in-between state to render.
+export type CatalogStatus = "idle" | "ready" | "error";
 
 export const useGuildCatalog = () => {
-  const [guilds, setGuilds] = useState<AvailableGuild[]>([]);
+  // Built once: the underlying list is a module-level constant, but rebuilding the mapped array
+  // on every render would hand consumers a new array identity each time for no reason.
+  const guilds = useMemo(() => listAvailableGuilds(), []);
+
   const [selectedGuildId, setSelectedGuildId] = useState<string>();
   const [catalog, setCatalog] = useState<GuildCatalog>();
   const [catalogStatus, setCatalogStatus] = useState<CatalogStatus>("idle");
@@ -15,28 +21,15 @@ export const useGuildCatalog = () => {
 
   const selectGuild = useCallback((guildId: string) => {
     setSelectedGuildId(guildId);
-    setCatalogStatus("loading");
     setCatalogError(undefined);
 
-    loadGuildCatalog(guildId)
-      .then((loadedCatalog) => {
-        setCatalog(loadedCatalog);
-        setCatalogStatus("ready");
-      })
-      .catch((error: unknown) => {
-        setCatalogStatus("error");
-        setCatalogError(error instanceof Error ? error.message : String(error));
-      });
-  }, []);
-
-  useEffect(() => {
-    listAvailableGuilds()
-      .then((loadedGuilds) => {
-        setGuilds(loadedGuilds);
-      })
-      .catch((error: unknown) => {
-        setCatalogError(error instanceof Error ? error.message : String(error));
-      });
+    try {
+      setCatalog(loadGuildCatalog(guildId));
+      setCatalogStatus("ready");
+    } catch (error) {
+      setCatalogStatus("error");
+      setCatalogError(describeError(error));
+    }
   }, []);
 
   return { guilds, selectedGuildId, selectGuild, catalog, catalogStatus, catalogError };

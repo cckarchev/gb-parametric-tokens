@@ -1,8 +1,10 @@
-import { ExportFailureItem } from "../../../browser/tokenWorker";
+import { ExportFailureItem, PreviewItem } from "../../../browser/tokenWorker";
 import { Button } from "../../primitives/Button/Button";
 import styles from "./ExportPanel.module.css";
 
-export type InvalidPreviewItem = { id: string; group?: string; name: string; reason: string };
+// The slice of a failed PreviewItem this panel actually renders, derived from it rather than
+// restated, so the two can't drift apart.
+export type InvalidPreviewItem = Pick<PreviewItem, "id" | "group" | "name" | "reason">;
 
 // A character's tokens share one heading instead of repeating the character's name on every
 // line (see TokenItem's `group`); anything without a group (guild generics, Influence,

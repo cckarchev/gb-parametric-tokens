@@ -12,7 +12,9 @@ export type AvailableGuild = {
   iconScale?: number;
 };
 
-export const listAvailableGuilds = async (): Promise<AvailableGuild[]> => {
+// Synchronous on purpose: Vite inlines every guild's JSON into this bundle at build time (see
+// guildCatalogs.ts), so there is nothing to fetch and nothing to wait for.
+export const listAvailableGuilds = (): AvailableGuild[] => {
   return guildCatalogs.map((catalog) => ({
     id: catalog.guildId,
     name: catalog.name,

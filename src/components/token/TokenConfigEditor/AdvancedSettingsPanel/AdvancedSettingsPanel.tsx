@@ -1,10 +1,47 @@
 import { SharedConfig } from "../../../../core/token/catalog/tokenItems/tokenItem";
+import { ArcShapeSpec, DiscShapeSpec, ShapeSpec } from "../../../../core/token/types";
 import { FitPolicyEditor } from "../../../editor/FitPolicyEditor/FitPolicyEditor";
 import { ShapeEditor } from "../../../editor/ShapeEditor/ShapeEditor";
 import { NumberField } from "../../../primitives/NumberField/NumberField";
 import { Panel } from "../../../primitives/Panel/Panel";
 import { SettingsGroup } from "../../../primitives/SettingsGroup/SettingsGroup";
 import { SettingsFileGroup } from "../SettingsFileGroup/SettingsFileGroup";
+
+// One shape slot of the shared config, locked to a single shape type.
+type ShapeSlotProps =
+  | {
+      title: string;
+      shapeType: "arc";
+      shape: ArcShapeSpec;
+      onChange: (shape: ArcShapeSpec) => void;
+    }
+  | {
+      title: string;
+      shapeType: "disc";
+      shape: DiscShapeSpec;
+      onChange: (shape: DiscShapeSpec) => void;
+    };
+
+// A slot's type never changes, so the type switch ShapeEditor offers is ignored here: an arc
+// token's shape can never become a disc, or vice versa.
+const ShapeSlot = (props: ShapeSlotProps) => {
+  const handleChange = (shape: ShapeSpec) => {
+    if (props.shapeType === "arc" && shape.type === "arc") {
+      props.onChange(shape);
+      return;
+    }
+
+    if (props.shapeType === "disc" && shape.type === "disc") {
+      props.onChange(shape);
+    }
+  };
+
+  return (
+    <SettingsGroup title={props.title}>
+      <ShapeEditor shape={props.shape} onChange={handleChange} />
+    </SettingsGroup>
+  );
+};
 
 export type AdvancedSettingsPanelProps = {
   sharedConfig: SharedConfig;
@@ -29,40 +66,26 @@ export const AdvancedSettingsPanel = ({
         importSettingsError={importSettingsError}
       />
 
-      {/* Each slot below is locked to one shape type, so the type switch ShapeEditor offers is
-          ignored here: an arc token's shape can never become a disc, or vice versa. */}
-      <SettingsGroup title="Arc tokens (character effects)">
-        <ShapeEditor
-          shape={sharedConfig.arcShape}
-          onChange={(shape) => {
-            if (shape.type === "arc") {
-              onChange({ ...sharedConfig, arcShape: shape });
-            }
-          }}
-        />
-      </SettingsGroup>
+      <ShapeSlot
+        title="Arc tokens (character effects)"
+        shapeType="arc"
+        shape={sharedConfig.arcShape}
+        onChange={(arcShape) => onChange({ ...sharedConfig, arcShape })}
+      />
 
-      <SettingsGroup title="Disc tokens (generics, Influence, Momentum)">
-        <ShapeEditor
-          shape={sharedConfig.discShape}
-          onChange={(shape) => {
-            if (shape.type === "disc") {
-              onChange({ ...sharedConfig, discShape: shape });
-            }
-          }}
-        />
-      </SettingsGroup>
+      <ShapeSlot
+        title="Disc tokens (generics, Influence, Momentum)"
+        shapeType="disc"
+        shape={sharedConfig.discShape}
+        onChange={(discShape) => onChange({ ...sharedConfig, discShape })}
+      />
 
-      <SettingsGroup title="Goal Influence tokens">
-        <ShapeEditor
-          shape={sharedConfig.goalInfluenceShape}
-          onChange={(shape) => {
-            if (shape.type === "disc") {
-              onChange({ ...sharedConfig, goalInfluenceShape: shape });
-            }
-          }}
-        />
-      </SettingsGroup>
+      <ShapeSlot
+        title="Goal Influence tokens"
+        shapeType="disc"
+        shape={sharedConfig.goalInfluenceShape}
+        onChange={(goalInfluenceShape) => onChange({ ...sharedConfig, goalInfluenceShape })}
+      />
 
       <SettingsGroup title="Style">
         <NumberField

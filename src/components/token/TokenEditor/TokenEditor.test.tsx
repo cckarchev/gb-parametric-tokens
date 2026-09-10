@@ -59,14 +59,6 @@ describe("TokenEditor", () => {
     expect(screen.queryByLabelText("Influence tokens")).not.toBeInTheDocument();
   });
 
-  it("shows a loading message while the catalog loads", () => {
-    vi.mocked(useTokenGenerator).mockReturnValue({ ...baseGenerator, catalogStatus: "loading" });
-
-    render(<TokenEditor />);
-
-    expect(screen.getByText("Loading catalog...")).toBeInTheDocument();
-  });
-
   it("shows the catalog error message", () => {
     vi.mocked(useTokenGenerator).mockReturnValue({
       ...baseGenerator,

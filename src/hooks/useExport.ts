@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 
 import { downloadBlob } from "../browser/downloadBlob";
 import type { ExportFailureItem, ExportResponse, WorkerRequest } from "../browser/tokenWorker";
+import { describeError } from "../core/describeError";
 import { SharedConfig, TokenItem } from "../core/token/catalog/tokenItems/tokenItem";
 import { PendingExport } from "./useWorker";
 
@@ -51,7 +52,7 @@ export const useExport = (
 
       downloadBlob(response.archive, `${guildName ?? "tokens"}.3mf`, THREE_MF_MIME_TYPE);
     } catch (error) {
-      setExportError(error instanceof Error ? error.message : String(error));
+      setExportError(describeError(error));
     } finally {
       setIsExporting(false);
     }

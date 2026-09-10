@@ -7,8 +7,6 @@ import { SharedConfig, TokenSelection } from "../core/token/catalog/tokenItems/t
 import { LIVE_PREVIEW_DEBOUNCE_MS } from "./livePreviewDebounce";
 import { PreviewItem, useWorker } from "./useWorker";
 
-export type { PreviewItem };
-
 export const usePreview = (
   catalog: GuildCatalog | undefined,
   selection: TokenSelection,

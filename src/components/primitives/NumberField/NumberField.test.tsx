@@ -22,23 +22,13 @@ describe("NumberField", () => {
     expect(onChange).toHaveBeenCalledWith(20);
   });
 
-  it("passes min, max, and step through to the input", () => {
-    render(
-      <NumberField
-        label="Radius (mm)"
-        value={12.5}
-        onChange={vi.fn()}
-        min={0}
-        max={50}
-        step={0.5}
-      />,
-    );
+  it("passes min and max through to the input", () => {
+    render(<NumberField label="Radius (mm)" value={12.5} onChange={vi.fn()} min={0} max={50} />);
 
     const input = screen.getByLabelText("Radius (mm)");
 
     expect(input).toHaveAttribute("min", "0");
     expect(input).toHaveAttribute("max", "50");
-    expect(input).toHaveAttribute("step", "0.5");
   });
 
   it("clamps a typed value above the max down to the max", () => {

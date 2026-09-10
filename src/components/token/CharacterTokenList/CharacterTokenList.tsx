@@ -2,10 +2,11 @@ import { Fragment } from "react";
 
 import { CatalogCharacter, GuildCatalog } from "../../../core/token/catalog/catalogTypes";
 import { resolveEffect } from "../../../core/token/catalog/effects";
-import { characterTokenId } from "../../../core/token/catalog/tokenItems/tokenItem";
+import { characterTokenId, MIN_COPIES } from "../../../core/token/catalog/tokenItems/tokenItem";
 import { CheckboxField } from "../../primitives/CheckboxField/CheckboxField";
 import { NumberField } from "../../primitives/NumberField/NumberField";
 import { Panel } from "../../primitives/Panel/Panel";
+import { SelectAllCheckbox } from "../../primitives/SelectAllCheckbox/SelectAllCheckbox";
 import styles from "./CharacterTokenList.module.css";
 
 export type CharacterTokenListProps = {
@@ -15,9 +16,6 @@ export type CharacterTokenListProps = {
   tokenCopies: Record<string, number>;
   onTokenCopiesChange: (tokenCopies: Record<string, number>) => void;
 };
-
-const DEFAULT_COPIES = 1;
-const MIN_COPIES = 1;
 
 const tokenIdsForCharacter = (character: CatalogCharacter): string[] => {
   return character.effects.map((_, tokenIndex) => characterTokenId(character.name, tokenIndex));
@@ -68,9 +66,7 @@ export const CharacterTokenList = ({
     <Panel
       title="Character tokens"
       headerAccessory={
-        <CheckboxField
-          label="Select all"
-          hideLabel
+        <SelectAllCheckbox
           checked={allSelected}
           onChange={toggleAll}
           disabled={allTokenIds.length === 0}
@@ -123,7 +119,7 @@ export const CharacterTokenList = ({
                           label={`${effect.name} copies`}
                           hideLabel
                           stepper
-                          value={tokenCopies[id] ?? DEFAULT_COPIES}
+                          value={tokenCopies[id] ?? MIN_COPIES}
                           min={MIN_COPIES}
                           max={effect.maxCopies}
                           disabled={!selected}

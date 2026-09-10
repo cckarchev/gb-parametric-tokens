@@ -1,7 +1,9 @@
 import { GuildCatalog } from "../core/token/catalog/catalogTypes";
 import { guildCatalogs } from "./guildCatalogs";
 
-export const loadGuildCatalog = async (guildId: string): Promise<GuildCatalog> => {
+// Synchronous on purpose: every guild's catalog is already inlined in this bundle (see
+// guildCatalogs.ts), so this is a lookup, not a load.
+export const loadGuildCatalog = (guildId: string): GuildCatalog => {
   const catalog = guildCatalogs.find((entry) => entry.guildId === guildId);
 
   if (!catalog) {
