@@ -17,7 +17,7 @@ const sharedConfig: SharedConfig = {
     { id: "base", name: "Body", color: "#cdb320" },
     { id: "text", name: "Text & symbols", color: "#000000" },
   ],
-  influenceIconId: "influence",
+  influenceIconId: "Brewers",
   nameSizeMm: 7,
   effectSizeMm: 4.5,
   showSecondLine: true,

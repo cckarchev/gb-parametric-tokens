@@ -144,14 +144,14 @@ describe("useTokenGenerator", () => {
     const otherCatalog: GuildCatalog = {
       guildId: "cooks",
       name: "Cooks",
-      color: "#e0a020",
+      color: "#eb2629",
       characters: [{ name: "Wellington", effects: ["Singled Out"] }],
       genericTokens: [],
     };
 
     vi.mocked(listAvailableGuilds).mockReturnValue([
       { id: "brewers", name: "Brewers", color: "#cdb320" },
-      { id: "cooks", name: "Cooks", color: "#e0a020" },
+      { id: "cooks", name: "Cooks", color: "#eb2629" },
     ]);
 
     const { result } = renderHook(() => useTokenGenerator());
