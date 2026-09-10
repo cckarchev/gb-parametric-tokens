@@ -62,7 +62,9 @@ export const buildIconComponent = async (
     constrainToCircle: overflowBehavior === "shrink",
   });
 
-  // placeIcon flips Y; normalizeWinding must run after, same trap M1/M4 scripts document.
+  // placeIcon flips Y, and a y-flip reverses contour winding (see contourTransforms.ts), so
+  // normalizeWinding must run after it. Run it before and manifold silently collapses the icon
+  // CrossSection to empty.
   const normalized = normalizeWinding(placed);
   // Trimming needs correctly wound contours (so a hole stays a hole under the intersection),
   // hence after normalizeWinding -- and still in the icon's own local space, centered on the
