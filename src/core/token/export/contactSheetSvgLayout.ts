@@ -59,21 +59,33 @@ export const layoutPreparedSection = (
       const cellOriginY = originYMm + row * cellHeightMm;
       const isArc = item.shape.type === "arc";
 
+      // Written once and applied per axis, so the horizontal and vertical placement can never
+      // drift apart.
+      //
       // Arc items: a fixed offset, the same for every arc cell, never derived from this
       // item's own bounds (unaffected by alignToGridVertex, per the LOCKED base-reference
       // circle geometry in svgBaseReference.ts). Disc items: centered within the cell when
       // alignToGridVertex is set, so the item's own center -- not merely its padded corner --
       // sits at the cell's center, which is itself a grid vertex.
-      const offsetX = isArc
-        ? cellOriginX + cellPaddingMm + arcLeftMarginMm
-        : alignToGridVertex
-          ? cellOriginX + cellWidthMm / 2 - (bounds.min[0] + bounds.max[0]) / 2
-          : cellOriginX + cellPaddingMm - bounds.min[0];
-      const offsetY = isArc
-        ? cellOriginY + cellPaddingMm + arcTopMarginMm
-        : alignToGridVertex
-          ? cellOriginY + cellHeightMm / 2 - (bounds.min[1] + bounds.max[1]) / 2
-          : cellOriginY + cellPaddingMm - bounds.min[1];
+      const axisOffsetMm = (
+        axis: 0 | 1,
+        cellOriginMm: number,
+        cellSizeMm: number,
+        arcMarginMm: number,
+      ): number => {
+        if (isArc) {
+          return cellOriginMm + cellPaddingMm + arcMarginMm;
+        }
+
+        if (alignToGridVertex) {
+          return cellOriginMm + cellSizeMm / 2 - (bounds.min[axis] + bounds.max[axis]) / 2;
+        }
+
+        return cellOriginMm + cellPaddingMm - bounds.min[axis];
+      };
+
+      const offsetX = axisOffsetMm(0, cellOriginX, cellWidthMm, arcLeftMarginMm);
+      const offsetY = axisOffsetMm(1, cellOriginY, cellHeightMm, arcTopMarginMm);
 
       const contoursOffset: Vec2 = isArc
         ? [offsetX + CIRCLE_ANCHOR_X_SVG, offsetY + CIRCLE_ANCHOR_Y_SVG]
