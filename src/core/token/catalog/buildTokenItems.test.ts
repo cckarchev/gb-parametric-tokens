@@ -358,9 +358,26 @@ describe("buildTokenItems", () => {
     expect(items[0].spec.icons).toEqual([
       { iconId: "Brewers", side: "center", scale: expect.any(Number), colorGroup: "text" },
     ]);
-    expect(items[0].spec.decorations).toEqual([
-      expect.objectContaining({ type: "ring", colorGroup: "text" }),
-    ]);
+    // No ring decoration: that border was designed around the old, circular Guild Ball logo
+    // Goal Influence used to wear. A guild's own crest isn't circular, so pairing it with a
+    // ring read as a redundant "double circle" instead of a clean badge.
+    expect(items[0].spec.decorations).toEqual([]);
+  });
+
+  it("positions the bottom ring line further from center than the top one, so their ink lines up", () => {
+    const items = buildTokenItems(
+      catalog,
+      { ...emptySelection, goalInfluence: { enabled: true, copies: 1 } },
+      sharedConfig,
+    );
+
+    const [topLine, bottomLine] = items[0].spec.lines;
+
+    // Top ("Goal") reads outward, so its ink grows past its own radius; bottom ("Influence")
+    // reads inward, so its ink grows back toward its own radius from further out. Giving them
+    // the same radiusMm leaves "Influence" reading closer to the icon than "Goal" reads to the
+    // rim, so the bottom line needs a larger radius to make their ink line up.
+    expect(bottomLine.radiusMm).toBeGreaterThan(topLine.radiusMm ?? 0);
   });
 
   it("generates no Goal Influence item when goalInfluence is disabled", () => {
@@ -442,7 +459,7 @@ describe("buildTokenItems", () => {
     );
   });
 
-  it("does not apply the catalog's iconScale to Influence, which never wears the guild crest", () => {
+  it("multiplies the guild crest icon's scale by the catalog's iconScale on Influence, which wears the guild crest too", () => {
     const scaledCatalog: GuildCatalog = { ...catalog, iconScale: 1.5 };
 
     const items = buildTokenItems(
@@ -452,7 +469,7 @@ describe("buildTokenItems", () => {
     );
 
     expect(items[0].spec.icons).toEqual([
-      { iconId: "Brewers", side: "center", scale: 0.85, colorGroup: "text" },
+      { iconId: "Brewers", side: "center", scale: 0.85 * 1.5, colorGroup: "text" },
     ]);
   });
 

@@ -28,7 +28,9 @@ const OUTWARD_ROTATION_OFFSET_DEG = 90;
 // `ascender` metric, which reserves headroom for accents this text never uses and would
 // overestimate the true ink, throwing off the margin balance below. Remeasure (see this file's
 // git history for the throwaway `_measure-saira.test.ts` approach) if the default font ever
-// changes again.
+// changes again. Shared with the ring layout's own outward/inward radius balancing (see
+// buildTokenItems.ts's Goal Influence token), not just this file's two-line centering, since
+// both are the same "how tall does this line of ink actually stand" question.
 const GLYPH_ASCENT_RATIO = 0.69;
 // An absolute mm gap, not proportional to the ribbon band width, so it only makes sense
 // relative to the app's own default arc shape (see useTokenGenerator.ts's DEFAULT_ARC_SHAPE / Frozen
@@ -36,7 +38,7 @@ const GLYPH_ASCENT_RATIO = 0.69;
 // changes significantly again.
 const TWO_LINE_GAP_MM = 0.5;
 
-const estimateAscentMm = (sizeMm: number): number => {
+export const estimateAscentMm = (sizeMm: number): number => {
   return sizeMm * GLYPH_ASCENT_RATIO;
 };
 
