@@ -1,7 +1,18 @@
 export type Vec2 = [number, number];
 
 export type ShapeSpec =
-  | { type: "arc"; ribbonWidthMm: number; ribbonLengthMm: number; nobDiameterMm: number }
+  | {
+      type: "arc";
+      ribbonWidthMm: number;
+      ribbonLengthMm: number;
+      nobDiameterMm: number;
+      // Smooths the concave corner where the ribbon meets a nob (see geometry/filletOutline.ts).
+      // Both optional, undefined behaving as "off", so existing shape literals and imported
+      // settings without them keep working unchanged -- same convention as
+      // IconSpec.overflowBehavior in this file.
+      nobFilletEnabled?: boolean;
+      nobFilletRadiusMm?: number;
+    }
   | { type: "disc"; diameterMm: number };
 
 export type TextLayout = "arc" | "flat" | "ring";

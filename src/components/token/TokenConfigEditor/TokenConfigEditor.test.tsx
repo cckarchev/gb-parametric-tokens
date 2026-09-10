@@ -182,6 +182,27 @@ describe("TokenConfigEditor", () => {
     });
   });
 
+  it("toggles the arc shape's nob fillet from the print options panel", async () => {
+    const onChange = vi.fn();
+
+    render(
+      <TokenConfigEditor
+        sharedConfig={sharedConfig}
+        onChange={onChange}
+        onExportSettings={vi.fn()}
+        onImportSettings={vi.fn()}
+        importSettingsError={undefined}
+      />,
+    );
+
+    await userEvent.click(screen.getByLabelText("Fillet between nob and arc"));
+
+    expect(onChange).toHaveBeenCalledWith({
+      ...sharedConfig,
+      arcShape: { ...sharedConfig.arcShape, nobFilletEnabled: true },
+    });
+  });
+
   it("updates the arc shape when the arc editor's ribbon width changes", async () => {
     const onChange = vi.fn();
 

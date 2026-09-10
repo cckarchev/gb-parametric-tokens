@@ -77,6 +77,17 @@ export const TokenConfigEditor = ({
             onChange={(iconOverflowBehavior) => onChange({ ...sharedConfig, iconOverflowBehavior })}
           />
 
+          <CheckboxField
+            label="Fillet between nob and arc"
+            checked={sharedConfig.arcShape.nobFilletEnabled ?? false}
+            onChange={(nobFilletEnabled) =>
+              onChange({
+                ...sharedConfig,
+                arcShape: { ...sharedConfig.arcShape, nobFilletEnabled },
+              })
+            }
+          />
+
           <GuildColorsEditor
             colorGroups={sharedConfig.colorGroups}
             onChange={(colorGroups) => onChange({ ...sharedConfig, colorGroups })}

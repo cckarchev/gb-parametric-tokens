@@ -10,6 +10,8 @@ export const DEFAULT_ARC_SHAPE: ArcShapeSpec = {
   ribbonWidthMm: 6,
   ribbonLengthMm: 30,
   nobDiameterMm: 12,
+  nobFilletEnabled: true,
+  nobFilletRadiusMm: 3,
 };
 
 export const DEFAULT_DISC_SHAPE: DiscShapeSpec = {

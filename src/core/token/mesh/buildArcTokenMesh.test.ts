@@ -113,6 +113,41 @@ describe("buildArcTokenMesh", () => {
     expect(partsWithGrow[0].manifold.decompose().length).toBe(1);
   });
 
+  it("adds material at the nob/ribbon junction when the fillet is enabled", async () => {
+    const style: StyleSpec = { relief: "raised", reliefHeightMm: 0.6, baseThicknessMm: 3 };
+    const filletedShape = { ...shape, nobFilletEnabled: true, nobFilletRadiusMm: 3 };
+
+    const plainParts = await buildArcTokenMesh({
+      ...baseInput(style),
+      reliefComponents: [],
+    });
+    const filletedParts = await buildArcTokenMesh({
+      ...baseInput(style),
+      shape: filletedShape,
+      reliefComponents: [],
+    });
+
+    expect(filletedParts[0].manifold.status()).toBe("NoError");
+    expect(filletedParts[0].manifold.decompose().length).toBe(1);
+    // Closing only ever adds material (see filletOutline.ts), so the filleted solid's volume
+    // is strictly larger once there's an actual notch at the nob/ribbon junction to fill.
+    expect(filletedParts[0].manifold.volume()).toBeGreaterThan(plainParts[0].manifold.volume());
+  });
+
+  it("leaves the solid unchanged when the fillet is off", async () => {
+    const style: StyleSpec = { relief: "raised", reliefHeightMm: 0.6, baseThicknessMm: 3 };
+    const disabledShape = { ...shape, nobFilletEnabled: false, nobFilletRadiusMm: 3 };
+
+    const plainParts = await buildArcTokenMesh({ ...baseInput(style), reliefComponents: [] });
+    const disabledParts = await buildArcTokenMesh({
+      ...baseInput(style),
+      shape: disabledShape,
+      reliefComponents: [],
+    });
+
+    expect(disabledParts[0].manifold.volume()).toBeCloseTo(plainParts[0].manifold.volume(), 1);
+  });
+
   it("keeps a distinctly colorGrouped text line as its own separate part", async () => {
     const style: StyleSpec = { relief: "raised", reliefHeightMm: 0.6, baseThicknessMm: 3 };
 

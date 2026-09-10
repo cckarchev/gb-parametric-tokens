@@ -53,6 +53,12 @@ export const ShapeEditor = ({ shape, onChange }: ShapeEditorProps) => {
             value={shape.nobDiameterMm}
             onChange={(nobDiameterMm) => onChange({ ...shape, nobDiameterMm })}
           />
+          <NumberField
+            label="Nob fillet radius (mm)"
+            value={shape.nobFilletRadiusMm ?? DEFAULT_ARC_SHAPE.nobFilletRadiusMm ?? 0}
+            disabled={!shape.nobFilletEnabled}
+            onChange={(nobFilletRadiusMm) => onChange({ ...shape, nobFilletRadiusMm })}
+          />
         </>
       )}
     </Panel>

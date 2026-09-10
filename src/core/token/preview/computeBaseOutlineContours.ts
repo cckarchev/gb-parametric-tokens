@@ -1,3 +1,4 @@
+import { filletOutline } from "../geometry/filletOutline";
 import {
   computeEffectiveNobDiameterMm,
   computeInnerRadiusMm,
@@ -65,5 +66,12 @@ export const computeBaseOutlineContours = async (
 
   const withNobs = sector.add(leftNob).add(rightNob);
 
-  return (grow ? withNobs.add(grow) : withNobs).toPolygons();
+  // Matches buildArcTokenMesh.ts's own fillet call exactly (same shape, same radius, same point
+  // in the pipeline -- before the grow union) so the preview never diverges from the real print.
+  const outline =
+    shape.nobFilletEnabled && shape.nobFilletRadiusMm
+      ? filletOutline(withNobs, shape.nobFilletRadiusMm)
+      : withNobs;
+
+  return (grow ? outline.add(grow) : outline).toPolygons();
 };
