@@ -1,6 +1,6 @@
 /// <reference lib="webworker" />
 import { buildTokenParts } from "../core/token/buildTokenParts";
-import { TokenItem } from "../core/token/catalog/buildTokenItems";
+import { TokenItem } from "../core/token/catalog/tokenItems/tokenItem";
 import { computeReliefComponents } from "../core/token/computeReliefComponents";
 import {
   buildCombinedThreeMfModelXml,

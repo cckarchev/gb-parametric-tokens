@@ -3,8 +3,8 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 
-import { characterTokenId } from "../../../core/token/catalog/buildTokenItems";
 import { CatalogEffect, GuildCatalog } from "../../../core/token/catalog/catalogTypes";
+import { characterTokenId } from "../../../core/token/catalog/tokenItems/tokenItem";
 import { CharacterTokenList } from "./CharacterTokenList";
 
 // vi.mock is hoisted above these imports, so the fixture data it closes over has to be built

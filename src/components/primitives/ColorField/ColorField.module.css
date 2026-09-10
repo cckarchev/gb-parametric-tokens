@@ -1,17 +1,16 @@
 .field {
-  display: flex;
-  flex-direction: column;
+  composes: field from "../../../styles/field.module.css";
   align-items: center;
-  gap: var(--space-1);
-  font-size: var(--font-size-base);
 }
 
 .label {
-  font-size: var(--font-size-sm);
-  color: var(--color-text-muted);
+  composes: label from "../../../styles/field.module.css";
 }
 
+/* A native color swatch, not a text box: it gets its own fixed size and hairline padding rather
+   than the shared .input box. */
 .input {
+  composes: focusRing from "../../../styles/field.module.css";
   width: 48px;
   height: 40px;
   padding: 2px;
@@ -19,9 +18,4 @@
   border-radius: var(--radius-sm);
   background: var(--color-bg-input);
   cursor: pointer;
-}
-
-.input:focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: -1px;
 }

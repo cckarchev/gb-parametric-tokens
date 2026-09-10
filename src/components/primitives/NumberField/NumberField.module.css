@@ -1,43 +1,17 @@
 .field {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
-  font-size: var(--font-size-base);
+  composes: field from "../../../styles/field.module.css";
 }
 
 .label {
-  font-size: var(--font-size-sm);
-  color: var(--color-text-muted);
+  composes: label from "../../../styles/field.module.css";
 }
 
 .labelHidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
+  composes: labelHidden from "../../../styles/field.module.css";
 }
 
 .input {
-  padding: var(--space-2) var(--space-3);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  background: var(--color-bg-input);
-  color: var(--color-text);
-  font-family: inherit;
-  font-size: var(--font-size-base);
-}
-
-.input:focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: -1px;
-}
-
-.input:disabled {
-  color: var(--color-text-muted);
-  background: var(--color-bg-panel-header);
-  cursor: not-allowed;
+  composes: input from "../../../styles/field.module.css";
 }
 
 /* Sized to match a single text line (CheckboxField's row is 16px checkbox + text), so a stepper
@@ -49,6 +23,7 @@
 }
 
 .stepperButton {
+  composes: focusRing from "../../../styles/field.module.css";
   width: 20px;
   padding: 0;
   border: 1px solid var(--color-border);
@@ -74,12 +49,8 @@
   cursor: not-allowed;
 }
 
-.stepperButton:focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: -1px;
-}
-
 .stepperInput {
+  composes: focusRing from "../../../styles/field.module.css";
   width: 2.2em;
   padding: 0;
   border: 1px solid var(--color-border);
@@ -103,9 +74,4 @@
   color: var(--color-text-muted);
   background: var(--color-bg-panel-header);
   cursor: not-allowed;
-}
-
-.stepperInput:focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: -1px;
 }

@@ -29,7 +29,7 @@ const OUTWARD_ROTATION_OFFSET_DEG = 90;
 // overestimate the true ink, throwing off the margin balance below. Remeasure (see this file's
 // git history for the throwaway `_measure-saira.test.ts` approach) if the default font ever
 // changes again. Shared with the ring layout's own outward/inward radius balancing (see
-// buildTokenItems.ts's Goal Influence token), not just this file's two-line centering, since
+// catalog/tokenItems/goalInfluenceTokenSpec.ts), not just this file's two-line centering, since
 // both are the same "how tall does this line of ink actually stand" question.
 const GLYPH_ASCENT_RATIO = 0.69;
 // An absolute mm gap, not proportional to the ribbon band width, so it only makes sense

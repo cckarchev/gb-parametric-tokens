@@ -30,7 +30,7 @@ const { computePlateLayout } = await import("../core/token/geometry/computePlate
 const { buildCombinedThreeMfModelXml } = await import("../core/token/export/combinedThreeMfModel");
 const { buildThreeMfArchive } = await import("../core/token/export/threeMfArchive");
 
-import type { TokenItem } from "../core/token/catalog/buildTokenItems";
+import type { TokenItem } from "../core/token/catalog/tokenItems/tokenItem";
 import type { TokenPart } from "../core/token/mesh/tokenPart";
 import type { ColorGroupSpec, TokenSpec } from "../core/token/types";
 import type { ExportRequest, PreviewRequest } from "./tokenWorker";

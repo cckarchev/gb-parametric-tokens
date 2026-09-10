@@ -48,7 +48,7 @@ const buildRingLineComponent = (
 // see the RING_*_CENTER_ANGLE_DEG constants above), a center icon, and ring/border decorations.
 // Unlike the ribbon arc's lines, ring lines have no dynamic auto-centering: the disc has no
 // content-driven band to center within, so each line's radiusMm is the caller's own explicit
-// choice (see catalog/buildTokenItems.ts's Goal Influence token).
+// choice (see catalog/tokenItems/goalInfluenceTokenSpec.ts).
 export const computeRingReliefComponents = async (
   spec: TokenSpec,
   font: Font,

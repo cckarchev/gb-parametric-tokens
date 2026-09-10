@@ -1,0 +1,47 @@
+/* The shared form-field family: every labelled input primitive (text, number, select, color)
+   is built from these, so they stay visually identical without each one restating the rules. */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  font-size: var(--font-size-base);
+}
+
+.label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.labelHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+/* Composed on its own by controls that are not a plain .input box (a color swatch, a stepper
+   button) but still need the app's one keyboard-focus ring. */
+.focusRing:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -1px;
+}
+
+.input {
+  composes: focusRing;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-input);
+  color: var(--color-text);
+  font-family: inherit;
+  font-size: var(--font-size-base);
+}
+
+.input:disabled {
+  color: var(--color-text-muted);
+  background: var(--color-bg-panel-header);
+  cursor: not-allowed;
+}

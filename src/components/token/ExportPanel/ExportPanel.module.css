@@ -59,13 +59,9 @@
 }
 
 .attentionChevron {
-  width: 8px;
-  height: 8px;
+  composes: chevron from "../../../styles/chevron.module.css";
   flex-shrink: 0;
-  border-right: 2px solid var(--color-error);
-  border-bottom: 2px solid var(--color-error);
-  transform: rotate(45deg);
-  transition: transform 0.15s ease;
+  color: var(--color-error);
 }
 
 .attentionBox:not([open]) > .attentionSummary .attentionChevron {

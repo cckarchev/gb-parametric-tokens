@@ -1,5 +1,5 @@
-import { CounterSelection, characterTokenId, TokenSelection } from "./buildTokenItems";
 import { GuildCatalog } from "./catalogTypes";
+import { CounterSelection, characterTokenId, TokenSelection } from "./tokenItems/tokenItem";
 
 const MIN_GENERIC_COPIES = 1;
 

@@ -3,8 +3,8 @@ import { renderHook } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import type { WorkerRequest } from "../browser/tokenWorker";
-import { SharedConfig, TokenSelection } from "../core/token/catalog/buildTokenItems";
 import { GuildCatalog } from "../core/token/catalog/catalogTypes";
+import { SharedConfig, TokenSelection } from "../core/token/catalog/tokenItems/tokenItem";
 import { usePreview } from "./usePreview";
 
 class FakeWorker {

@@ -2,8 +2,8 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { downloadBlob } from "../browser/downloadBlob";
 import { buildDefaultSelection } from "../core/token/catalog/buildDefaultSelection";
-import { SharedConfig, TokenSelection } from "../core/token/catalog/buildTokenItems";
 import { deriveReliefColor, TEXT_COLOR_GROUP_ID } from "../core/token/catalog/deriveReliefColor";
+import { SharedConfig, TokenSelection } from "../core/token/catalog/tokenItems/tokenItem";
 import {
   DEFAULT_ARC_SHAPE,
   DEFAULT_COLOR_GROUPS,

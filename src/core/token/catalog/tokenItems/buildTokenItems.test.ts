@@ -1,7 +1,8 @@
 import { describe, expect, it, vi } from "vitest";
 
-import { buildTokenItems, characterTokenId, SharedConfig, TokenSelection } from "./buildTokenItems";
-import { CatalogEffect, GuildCatalog } from "./catalogTypes";
+import { CatalogEffect, GuildCatalog } from "../catalogTypes";
+import { buildTokenItems } from "./buildTokenItems";
+import { characterTokenId, SharedConfig, TokenSelection } from "./tokenItem";
 
 // vi.mock is hoisted above these imports, so the fixture data it closes over has to be built
 // inside vi.hoisted -- a plain top-level const here would still be uninitialized when the mock
@@ -17,7 +18,7 @@ const { fixtureEffects } = vi.hoisted(() => {
   return { fixtureEffects };
 });
 
-vi.mock("./effects", () => ({
+vi.mock("../effects", () => ({
   resolveEffect: (effectId: string) => {
     const effect = fixtureEffects[effectId];
 

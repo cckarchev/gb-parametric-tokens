@@ -1,13 +1,9 @@
 .field {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
-  font-size: var(--font-size-base);
+  composes: field from "../../../styles/field.module.css";
 }
 
 .label {
-  font-size: var(--font-size-sm);
-  color: var(--color-text-muted);
+  composes: label from "../../../styles/field.module.css";
 }
 
 .row {
@@ -17,18 +13,7 @@
 }
 
 .input {
+  composes: input from "../../../styles/field.module.css";
   width: 100%;
-  padding: var(--space-2) var(--space-3);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  background: var(--color-bg-input);
-  color: var(--color-text);
-  font-family: inherit;
-  font-size: var(--font-size-base);
   cursor: pointer;
-}
-
-.input:focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: -1px;
 }

@@ -5,7 +5,7 @@ import styles from "./ExportPanel.module.css";
 export type InvalidPreviewItem = { id: string; group?: string; name: string; reason: string };
 
 // A character's tokens share one heading instead of repeating the character's name on every
-// line (see buildTokenItems.ts's `group`); anything without a group (guild generics, Influence,
+// line (see TokenItem's `group`); anything without a group (guild generics, Influence,
 // Momentum, Goal Influence) is its own single-item group, headed by its own name.
 type AttentionGroup = { key: string; heading: string; items: InvalidPreviewItem[] };
 

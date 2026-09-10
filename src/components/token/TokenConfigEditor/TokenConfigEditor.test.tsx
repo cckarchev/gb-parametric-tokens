@@ -3,7 +3,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 
-import type { SharedConfig } from "../../../core/token/catalog/buildTokenItems";
+import type { SharedConfig } from "../../../core/token/catalog/tokenItems/tokenItem";
 import { TokenConfigEditor } from "./TokenConfigEditor";
 
 const sharedConfig: SharedConfig = {

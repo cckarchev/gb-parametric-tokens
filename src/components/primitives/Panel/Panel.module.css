@@ -41,12 +41,8 @@
 }
 
 .chevron {
-  width: 8px;
-  height: 8px;
-  border-right: 2px solid var(--color-text-muted);
-  border-bottom: 2px solid var(--color-text-muted);
-  transform: rotate(45deg);
-  transition: transform 0.15s ease;
+  composes: chevron from "../../../styles/chevron.module.css";
+  color: var(--color-text-muted);
 }
 
 .toggle[aria-expanded="false"] .chevron {

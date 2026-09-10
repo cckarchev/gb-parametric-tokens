@@ -2,7 +2,7 @@
 import { fireEvent, render, screen, within } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import { TokenSelection } from "../../../core/token/catalog/buildTokenItems";
+import { TokenSelection } from "../../../core/token/catalog/tokenItems/tokenItem";
 
 vi.mock("../../../hooks/useTokenGenerator", () => ({ useTokenGenerator: vi.fn() }));
 

@@ -4,11 +4,7 @@
 }
 
 .row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-3);
-  padding: var(--space-1) var(--space-2);
+  composes: listRow from "../../../styles/listRow.module.css";
   border-radius: var(--radius-sm);
 }
 

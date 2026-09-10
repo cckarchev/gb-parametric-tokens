@@ -1,8 +1,8 @@
 import { Fragment } from "react";
 
-import { characterTokenId } from "../../../core/token/catalog/buildTokenItems";
 import { CatalogCharacter, GuildCatalog } from "../../../core/token/catalog/catalogTypes";
 import { resolveEffect } from "../../../core/token/catalog/effects";
+import { characterTokenId } from "../../../core/token/catalog/tokenItems/tokenItem";
 import { CheckboxField } from "../../primitives/CheckboxField/CheckboxField";
 import { NumberField } from "../../primitives/NumberField/NumberField";
 import { Panel } from "../../primitives/Panel/Panel";

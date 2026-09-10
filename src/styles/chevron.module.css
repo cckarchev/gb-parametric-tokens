@@ -1,0 +1,13 @@
+/* A disclosure arrow drawn as two borders of an empty box, rotated. Deliberately sets no color of
+   its own: the borders take currentColor, so a consumer picks the arrow's color with a plain
+   `color` declaration instead of overriding a property this class already set (CSS Modules does
+   not guarantee which of the two rules wins). The collapsed-state rotation stays with each
+   consumer too, since it hangs off that component's own parent selector. */
+.chevron {
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform 0.15s ease;
+}

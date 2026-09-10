@@ -1,6 +1,6 @@
+import styles from "../../../styles/listRow.module.css";
 import { CheckboxField } from "../../primitives/CheckboxField/CheckboxField";
 import { NumberField } from "../../primitives/NumberField/NumberField";
-import styles from "./CounterCountField.module.css";
 
 export type CounterCountFieldProps = {
   label: string;
@@ -26,7 +26,7 @@ export const CounterCountField = ({
   max,
 }: CounterCountFieldProps) => {
   return (
-    <div className={styles.row}>
+    <div className={styles.listRow}>
       <CheckboxField label={label} checked={enabled} onChange={onEnabledChange} />
 
       <NumberField

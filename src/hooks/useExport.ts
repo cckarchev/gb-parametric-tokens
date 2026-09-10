@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 
 import { downloadBlob } from "../browser/downloadBlob";
 import type { ExportFailureItem, ExportResponse, WorkerRequest } from "../browser/tokenWorker";
-import { SharedConfig, TokenItem } from "../core/token/catalog/buildTokenItems";
+import { SharedConfig, TokenItem } from "../core/token/catalog/tokenItems/tokenItem";
 import { PendingExport } from "./useWorker";
 
 const THREE_MF_MIME_TYPE = "model/3mf";

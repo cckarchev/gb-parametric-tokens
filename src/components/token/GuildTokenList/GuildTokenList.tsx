@@ -1,5 +1,5 @@
-import { CounterSelection } from "../../../core/token/catalog/buildTokenItems";
 import { GuildCatalog } from "../../../core/token/catalog/catalogTypes";
+import { CounterSelection } from "../../../core/token/catalog/tokenItems/tokenItem";
 import { CheckboxField } from "../../primitives/CheckboxField/CheckboxField";
 import { Panel } from "../../primitives/Panel/Panel";
 import { CounterCountField } from "../CounterCountField/CounterCountField";
