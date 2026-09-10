@@ -18,8 +18,8 @@ import { PrintProfile, TokenSpec } from "./types";
 const STUD_TEXT_CLEARANCE_DEG = 6;
 
 // An absolute mm gap, not proportional to the ribbon band width, so it only makes sense
-// relative to the app's own default arc shape (see useTokenGenerator.ts's DEFAULT_ARC_SHAPE / Frozen
-// Forge measurements). Remeasure via the real pipeline if the default shape's band width
+// relative to the app's own default arc shape (see defaultShapeAndStyle.ts's DEFAULT_ARC_SHAPE /
+// Frozen Forge measurements). Remeasure via the real pipeline if the default shape's band width
 // changes significantly again.
 const TWO_LINE_GAP_MM = 0.5;
 

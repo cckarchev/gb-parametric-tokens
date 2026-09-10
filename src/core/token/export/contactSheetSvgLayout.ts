@@ -1,5 +1,4 @@
 import { translateContours } from "../geometry/contourTransforms";
-import { BASE_COLOR_GROUP_ID, resolveColorGroupDisplay } from "../mesh/colorGroups";
 import {
   buildBaseReferenceCircleSvg,
   CIRCLE_ANCHOR_X_SVG,
@@ -8,13 +7,28 @@ import {
 import { ColorGroupSpec, Vec2 } from "../types";
 import { buildAttentionMarkerSvg } from "./contactSheetSvgAttention";
 import { PreparedSection, SectionLayout } from "./contactSheetSvgTypes";
-import { contourToPathSegment } from "./svgDocument";
+import { buildTokenPathsSvg } from "./svgDocument";
 
 const FALLBACK_ITEM_LABEL = "This token";
 // Only reachable if an invalid item somehow carries no reason (never happens via the real
 // pipeline, which always sets one alongside `valid: false` -- see tokenWorker.ts); kept so the
 // marker still says something useful instead of "undefined".
 const FALLBACK_ATTENTION_REASON = "This detail is thinner than the minimum printable stroke width.";
+
+// buildTokenPathsSvg paints contours where they already are, so a cell's own offset has to reach
+// the relief groups too, not just the base contours.
+const positionContoursByColorGroup = (
+  contoursByColorGroup: Map<string, Vec2[][]>,
+  offset: Vec2,
+): Map<string, Vec2[][]> => {
+  const positioned = new Map<string, Vec2[][]>();
+
+  for (const [colorGroupId, contours] of contoursByColorGroup) {
+    positioned.set(colorGroupId, translateContours(contours, offset));
+  }
+
+  return positioned;
+};
 
 // Renders one homogeneous grid (every item the same shape.type, cell size already decided by
 // prepareSection) of cells at the given column count, offset vertically by originYMm so multiple
@@ -35,8 +49,6 @@ export const layoutPreparedSection = (
     arcTopMarginMm,
     alignToGridVertex,
   } = prepared;
-
-  const baseColor = resolveColorGroupDisplay(BASE_COLOR_GROUP_ID, colorGroups).color;
 
   const cellsXml = flippedItems
     .map((item, index) => {
@@ -71,25 +83,23 @@ export const layoutPreparedSection = (
         ? buildBaseReferenceCircleSvg(contoursOffset[0], contoursOffset[1])
         : "";
 
-      const basePathData = translateContours(item.baseContours, contoursOffset)
-        .map(contourToPathSegment)
-        .join(" ");
+      const positionedReliefContours = positionContoursByColorGroup(
+        item.reliefContoursByColorGroup,
+        contoursOffset,
+      );
+
       const paths = [
         baseReferenceCircleSvg,
-        `<path d="${basePathData}" fill="${baseColor}" fill-rule="evenodd" />`,
+        ...buildTokenPathsSvg(
+          translateContours(item.baseContours, contoursOffset),
+          positionedReliefContours,
+          colorGroups,
+        ),
       ];
-
-      for (const [colorGroupId, contours] of item.reliefContoursByColorGroup) {
-        const color = resolveColorGroupDisplay(colorGroupId, colorGroups).color;
-        const pathData = translateContours(contours, contoursOffset)
-          .map(contourToPathSegment)
-          .join(" ");
-
-        paths.push(`<path d="${pathData}" fill="${color}" fill-rule="evenodd" />`);
-      }
 
       if (item.valid === false) {
         const label = item.label ?? FALLBACK_ITEM_LABEL;
+        // `||`, not `??`: an empty reason string is as useless to a reader as a missing one.
         const reason = item.reason || FALLBACK_ATTENTION_REASON;
 
         // Fit to the item's own rendered content (bounds, shifted by this same offset every

@@ -1,7 +1,6 @@
-import { contourToPathSegment } from "../export/svgDocument";
+import { buildTokenPathsSvg } from "../export/svgDocument";
 import { computeBounds } from "../geometry/computeBounds";
 import { flipContoursY, translateContours } from "../geometry/contourTransforms";
-import { BASE_COLOR_GROUP_ID, resolveColorGroupDisplay } from "../mesh/colorGroups";
 import { groupReliefComponentsByColorGroup } from "../mesh/groupReliefComponents";
 import { ReliefComponent } from "../mesh/reliefComponent";
 import { ColorGroupSpec, ShapeSpec, Vec2 } from "../types";
@@ -70,16 +69,7 @@ export const buildPreviewSvg = (
     height: bottomBoundMm - bounds.min[1] + DEFAULT_PADDING_MM * 2,
   };
 
-  const baseColor = resolveColorGroupDisplay(BASE_COLOR_GROUP_ID, colorGroups).color;
-  const basePathData = shiftedBaseContours.map(contourToPathSegment).join(" ");
-  const paths = [`<path d="${basePathData}" fill="${baseColor}" fill-rule="evenodd" />`];
-
-  for (const [colorGroupId, contours] of reliefContoursByColorGroup) {
-    const color = resolveColorGroupDisplay(colorGroupId, colorGroups).color;
-    const pathData = contours.map(contourToPathSegment).join(" ");
-
-    paths.push(`<path d="${pathData}" fill="${color}" fill-rule="evenodd" />`);
-  }
+  const paths = buildTokenPathsSvg(shiftedBaseContours, reliefContoursByColorGroup, colorGroups);
 
   const baseReferenceCircleSvg =
     shape?.type === "arc"

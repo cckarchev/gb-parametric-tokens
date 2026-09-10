@@ -19,6 +19,30 @@ export type ComputeReliefComponentsResult = {
   warnings: string[];
 };
 
+// The one signature every layout arm implements. Having it named is what lets the dispatch below
+// pick an arm and call it once, instead of repeating the same five arguments per branch.
+type ComputeLayoutComponents = (
+  spec: TokenSpec,
+  font: Font,
+  printProfile: PrintProfile,
+  loadIconSource: LoadIconSource,
+  warnings: string[],
+) => Promise<ReliefComponent[]>;
+
+// Only a disc can carry the ring layout; everything else is an arc, whose text layout is never
+// anything but "arc".
+const selectLayoutComputation = (spec: TokenSpec): ComputeLayoutComponents => {
+  if (spec.shape.type !== "disc") {
+    return computeArcReliefComponents;
+  }
+
+  if (spec.textLayout === "ring") {
+    return computeRingReliefComponents;
+  }
+
+  return computeDiscReliefComponents;
+};
+
 export const computeReliefComponents = async (
   spec: TokenSpec,
   font: Font,
@@ -27,12 +51,14 @@ export const computeReliefComponents = async (
 ): Promise<ComputeReliefComponentsResult> => {
   const warnings: string[] = [];
 
-  const reliefComponents =
-    spec.shape.type === "disc" && spec.textLayout === "ring"
-      ? await computeRingReliefComponents(spec, font, printProfile, loadIconSource, warnings)
-      : spec.shape.type === "disc"
-        ? await computeDiscReliefComponents(spec, font, printProfile, loadIconSource, warnings)
-        : await computeArcReliefComponents(spec, font, printProfile, loadIconSource, warnings);
+  const computeLayoutComponents = selectLayoutComputation(spec);
+  const reliefComponents = await computeLayoutComponents(
+    spec,
+    font,
+    printProfile,
+    loadIconSource,
+    warnings,
+  );
 
   // Validated one component at a time (not the old single union over every contour combined) so
   // a failure can be traced back to the specific text line or icon it came from, instead of just

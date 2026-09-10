@@ -66,6 +66,25 @@ const fitSingleLine = (
   });
 };
 
+type SuccessfulFit = Extract<SingleLineFitResult, { fits: true }>;
+
+// Every successful fit becomes an output line the same way: the fit's own scale factor applied to
+// the nominal size, its tracking carried through, at whatever radius it was fitted against. Only
+// the give-up case below builds a line any other way.
+const toOutputLine = (
+  context: FitContext,
+  text: string,
+  fit: SuccessfulFit,
+  radiusMm: number,
+): AutoFitLineOutput => {
+  return {
+    text,
+    sizeMm: context.sizeMm * fit.scaleFactor,
+    trackingMm: fit.trackingMm,
+    radiusMm,
+  };
+};
+
 const truncateToFit = (context: FitContext, text: string, radiusMm: number): AutoFitLineOutput => {
   for (let length = text.length; length > 0; length--) {
     const candidate =
@@ -73,12 +92,7 @@ const truncateToFit = (context: FitContext, text: string, radiusMm: number): Aut
     const fit = fitSingleLine(context, candidate, radiusMm);
 
     if (fit.fits) {
-      return {
-        text: candidate,
-        sizeMm: context.sizeMm * fit.scaleFactor,
-        trackingMm: fit.trackingMm,
-        radiusMm,
-      };
+      return toOutputLine(context, candidate, fit, radiusMm);
     }
   }
 
@@ -133,14 +147,7 @@ export const autoFitLine = (
 
   if (wholeLineFit.fits) {
     return {
-      lines: [
-        {
-          text: input.text,
-          sizeMm: input.sizeMm * wholeLineFit.scaleFactor,
-          trackingMm: wholeLineFit.trackingMm,
-          radiusMm: input.radiusMm,
-        },
-      ],
+      lines: [toOutputLine(context, input.text, wholeLineFit, input.radiusMm)],
       truncated: false,
     };
   }
@@ -158,18 +165,8 @@ export const autoFitLine = (
     if (firstFit.fits && secondFit.fits) {
       return {
         lines: [
-          {
-            text: firstHalf,
-            sizeMm: input.sizeMm * firstFit.scaleFactor,
-            trackingMm: firstFit.trackingMm,
-            radiusMm: outerRadiusMm,
-          },
-          {
-            text: secondHalf,
-            sizeMm: input.sizeMm * secondFit.scaleFactor,
-            trackingMm: secondFit.trackingMm,
-            radiusMm: innerRadiusMm,
-          },
+          toOutputLine(context, firstHalf, firstFit, outerRadiusMm),
+          toOutputLine(context, secondHalf, secondFit, innerRadiusMm),
         ],
         truncated: false,
       };
