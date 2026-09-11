@@ -65,7 +65,7 @@
   },
   {
     "name": "Brick",
-    "effects": ["Fulcrum"]
+    "effects": ["Fulcrum", "Poised Used"]
   },
   {
     "name": "Brisket",
@@ -169,7 +169,7 @@
   },
   {
     "name": "Culverin",
-    "effects": ["Eye Spy", "Get In the Goal!"]
+    "effects": ["Eye Spy", "Goal Defence"]
   },
   {
     "name": "Cut",
@@ -197,7 +197,7 @@
   },
   {
     "name": "Ebb",
-    "effects": ["Grasping Earth", "Sprung a Leak", "Anatomical Precision"]
+    "effects": ["Grasping Earth", "Sprung a Leak"]
   },
   {
     "name": "Edge",
@@ -469,7 +469,7 @@
   },
   {
     "name": "Millstone",
-    "effects": ["Take One for the Team Used", "Get In the Goal!"]
+    "effects": ["Take One for the Team Used", "Goal Defence"]
   },
   {
     "name": "Minerva",
@@ -533,7 +533,7 @@
   },
   {
     "name": "Phosphor",
-    "effects": ["Flash Point", "Fulcrum"]
+    "effects": ["Flash Point", "Fulcrum", "Poised Used"]
   },
   {
     "name": "Pintpot",
@@ -564,7 +564,7 @@
   },
   {
     "name": "Pride",
-    "effects": ["Rush Keeper", "Feral Instincts", "Predatory Gaze"]
+    "effects": ["Rush Keeper", "Anatomical Precision", "Predatory Gaze"]
   },
   {
     "name": "Princess",
@@ -682,7 +682,7 @@
   },
   {
     "name": "Snow",
-    "effects": ["Loved Creature", "Feral Instincts"]
+    "effects": ["Loved Creature", "Anatomical Precision"]
   },
   {
     "name": "Soma",
@@ -742,7 +742,7 @@
   },
   {
     "name": "Tenderiser",
-    "effects": ["Furious"]
+    "effects": ["Furious", "Goal Defence"]
   },
   {
     "name": "Tentacles",
@@ -770,7 +770,7 @@
   },
   {
     "name": "Ulfr",
-    "effects": ["Feral Instincts"]
+    "effects": ["Anatomical Precision"]
   },
   {
     "name": "vBoar",

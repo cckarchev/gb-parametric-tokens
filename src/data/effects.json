@@ -142,7 +142,8 @@
     "name": "Confidence"
   },
   {
-    "name": "Constitution"
+    "name": "Constitution",
+    "effect": "4\" Aura - Tough Hide"
   },
   {
     "name": "Constrict"
@@ -214,9 +215,6 @@
     "name": "Fear Used"
   },
   {
-    "name": "Feral Instincts"
-  },
-  {
     "name": "Fertile Soil Used"
   },
   {
@@ -238,7 +236,8 @@
     "name": "Forward, Minions!"
   },
   {
-    "name": "Fulcrum"
+    "name": "Fulcrum",
+    "effect": "6\" Aura - Poised"
   },
   {
     "name": "Full Speed Ahead"
@@ -251,9 +250,6 @@
   },
   {
     "name": "Get 'Em Lads!"
-  },
-  {
-    "name": "Get In the Goal!"
   },
   {
     "name": "Get It While It's Hot",
@@ -271,6 +267,9 @@
   },
   {
     "name": "Goad"
+  },
+  {
+    "name": "Goal Defence"
   },
   {
     "name": "Grasping Earth"
@@ -291,10 +290,12 @@
     "name": "Heavy Burden"
   },
   {
-    "name": "Help 'Em Out"
+    "name": "Help 'Em Out",
+    "effect": "4\" Aura - Close Ranks"
   },
   {
-    "name": "Hold the Ball!"
+    "name": "Hold the Ball!",
+    "effect": "Close Control"
   },
   {
     "name": "Horrific Odour"
@@ -336,7 +337,8 @@
     "name": "Lightning Reflexes Used"
   },
   {
-    "name": "Littermates"
+    "name": "Littermates",
+    "effect": "Furious +4 TAC"
   },
   {
     "name": "Lockdown"
