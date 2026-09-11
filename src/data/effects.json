@@ -24,192 +24,239 @@
     "name": "2″ Melee"
   },
   {
-    "name": "About Their Necks"
+    "name": "About Their Necks",
+    "effect": "Enemies -1 TAC"
   },
   {
-    "name": "Above and Beyond"
+    "name": "Above and Beyond",
+    "effect": "+1/+0 INF"
   },
   {
     "name": "Afterglow Used"
   },
   {
-    "name": "All About The Game"
+    "name": "All About The Game",
+    "effect": "Allies +1/+1\" KICK"
   },
   {
-    "name": "Alternator"
+    "name": "Alternator",
+    "effect": "+2\"/+2\" MOV"
   },
   {
-    "name": "Anatomical Precision"
+    "name": "Anatomical Precision",
+    "effect": "Enemy -1 ARM"
   },
   {
-    "name": "Animal Treat"
+    "name": "Animal Treat",
+    "effect": "+2 TAC"
   },
   {
-    "name": "Aqua Tofana"
+    "name": "Aqua Tofana",
+    "effect": "4\" Aura: Poison -1 TAC"
   },
   {
-    "name": "Armoury"
+    "name": "Armoury",
+    "effect": "6\" Aura: 3\" Melee"
   },
   {
-    "name": "Arrow to the Knee"
+    "name": "Arrow to the Knee",
+    "effect": "-2/-2\" KICK"
   },
   {
     "name": "Ass Kicking Used"
   },
   {
-    "name": "Assist"
+    "name": "Assist",
+    "effect": "+1 TAC +1 DMG"
   },
   {
-    "name": "Axe A Question"
+    "name": "Back to His Best",
+    "effect": "+2\"/+2\" MOV"
   },
   {
-    "name": "Back to His Best"
+    "name": "Bag of Coffers",
+    "effect": "Free Bonus Time"
   },
   {
-    "name": "Bag of Coffers"
+    "name": "Beaker Keeper",
+    "effect": "Free 1-2 cost play"
   },
   {
-    "name": "Beaker Keeper"
+    "name": "Between a Rock... Used",
+    "effect": "Used"
   },
   {
-    "name": "Between a Rock... Used"
+    "name": "Big Breakfast",
+    "effect": "+2\"/+2\" MOV"
   },
   {
-    "name": "Big Breakfast"
+    "name": "Bleed the Cleats",
+    "effect": "+1/+0\" KICK"
   },
   {
-    "name": "Bleed the Cleats"
+    "name": "Blessing of the Moon Goddess",
+    "effect": "Adds <<"
   },
   {
-    "name": "Blessing of the Moon Goddess"
+    "name": "Blessing of the Sun Father",
+    "effect": "Free play"
   },
   {
-    "name": "Blessing of the Sun Father"
+    "name": "Blind",
+    "effect": "-2 TAC, -2/-2\" KICK, -2\"/-2\" MOV"
   },
   {
-    "name": "Blind"
+    "name": "Blood Lust",
+    "effect": "Berserk"
   },
   {
-    "name": "Blood Lust"
+    "name": "Bloody Coin",
+    "effect": "+1 TAC +1 DMG"
   },
   {
-    "name": "Bloody Coin"
+    "name": "Braced",
+    "effect": "+2 ARM"
   },
   {
-    "name": "Braced"
+    "name": "Broken Earth",
+    "effect": "4\" Aura: Rough Terrain"
   },
   {
-    "name": "Broken Earth"
+    "name": "Lend a Hand",
+    "effect": "Gang up: +1 TAC"
   },
   {
-    "name": "Bull of the Woods"
+    "name": "Butchery",
+    "effect": "+1 DMG"
   },
   {
-    "name": "Butchery"
+    "name": "Careless Whisper",
+    "effect": "+2 TAC vs it"
   },
   {
-    "name": "Careless Whisper"
+    "name": "Casket Time Used"
   },
   {
-    "name": "Casket Time"
+    "name": "Caught in a Net",
+    "effect": "-4\"/-4\" MOV"
   },
   {
-    "name": "Caught in a Net"
+    "name": "Chef's Special",
+    "effect": "4\" Aura: +1 DMG"
   },
   {
-    "name": "Chef's Special"
+    "name": "Chop Chop!",
+    "effect": "6\" Aura: Furious"
   },
   {
-    "name": "Chop Chop!"
-  },
-  {
-    "name": "Clone"
+    "name": "Clone",
+    "effect": "Ignores next hit"
   },
   {
     "name": "Close Control Used"
   },
   {
-    "name": "Cocksure"
+    "name": "Cocksure",
+    "effect": "Ignores next condition"
   },
   {
-    "name": "Come On, Then!"
+    "name": "Come On, Then!",
+    "effect": "Ignores next hit"
   },
   {
     "name": "Commanding Aura",
-    "effect": "4\" Aura +1 TAC +1 DMG"
+    "effect": "4\" Aura: +1 TAC +1 DMG"
   },
   {
-    "name": "Confidence"
+    "name": "Confidence",
+    "effect": "Rerolls next TN test"
   },
   {
     "name": "Constitution",
-    "effect": "4\" Aura - Tough Hide"
+    "effect": "4\" Aura: Tough Hide"
   },
   {
-    "name": "Constrict"
+    "name": "Constrict",
+    "effect": "-4\"/-4\" MOV"
   },
   {
-    "name": "Controller"
+    "name": "Counter-Charge Used",
+    "effect": "Used"
   },
   {
-    "name": "Counter-Charge Used"
+    "name": "Coup de Grâce",
+    "effect": "Used"
   },
   {
-    "name": "Coup de Grâce Used"
+    "name": "Covering Fire",
+    "effect": "6\" Aura: Reinforced Plating"
   },
   {
-    "name": "Covering Fire"
+    "name": "Crumb Boss",
+    "effect": "+1\"/+1\" MOV"
   },
   {
-    "name": "Crumb Boss"
+    "name": "Cut Em Down",
+    "effect": "-1 DEF, -2\"/-2\" MOV"
   },
   {
-    "name": "Cut Em Down"
+    "name": "Decoy",
+    "effect": "+2 DEF vs next attack"
   },
   {
-    "name": "Decoy"
+    "name": "Deletion",
+    "effect": "+1 DMG"
   },
   {
-    "name": "Deletion"
+    "name": "Dirty Knives",
+    "effect": "-1 DEF"
   },
   {
-    "name": "Dirty Knives"
+    "name": "Disarm",
+    "effect": "-2 TAC"
   },
   {
-    "name": "Disarm"
+    "name": "Dismember",
+    "effect": "+3 DMG next hit"
   },
   {
-    "name": "Dismember"
+    "name": "Do the Thing!",
+    "effect": "Used"
   },
   {
-    "name": "Do the Thing! Used"
+    "name": "Duellist's Lunge",
+    "effect": "1\" dodge toward target"
   },
   {
-    "name": "Duellist's Lunge"
+    "name": "Elbow Grease",
+    "effect": "Momentous DMG"
   },
   {
-    "name": "Elbow Grease"
-  },
-  {
-    "name": "Empathy"
+    "name": "Empathy",
+    "effect": "No Momentous DMG"
   },
   {
     "name": "Escaping Fate Used"
   },
   {
-    "name": "Exhaustion"
+    "name": "Exhaustion",
+    "effect": "4\" Aura: +1 MP to Counter"
   },
   {
-    "name": "Eye Spy"
+    "name": "Eye Spy",
+    "effect": "+2 TAC"
   },
   {
-    "name": "Faithful Protector"
+    "name": "Faithful Protector",
+    "effect": "-1 TAC"
   },
   {
-    "name": "Family"
+    "name": "Family",
+    "effect": "6 TAC 4/6\" KICK"
   },
   {
-    "name": "Fangtooth Unleashed"
+    "name": "Fangtooth Unleashed",
+    "effect": "+2\"/+2\" MOV, +1 DMG"
   },
   {
     "name": "Fear Used"
@@ -218,10 +265,12 @@
     "name": "Fertile Soil Used"
   },
   {
-    "name": "Fields of Wheat Used"
+    "name": "Fields of Wheat Used",
+    "effect": "Used"
   },
   {
-    "name": "Flash Point"
+    "name": "Flash Point",
+    "effect": "-1\"/-1\" MOV"
   },
   {
     "name": "Flying"
@@ -233,34 +282,40 @@
     "name": "Fork Off! Used"
   },
   {
-    "name": "Forward, Minions!"
+    "name": "Forward, Minions!",
+    "effect": "6\" Aura: +2\"/+2\" MOV"
   },
   {
     "name": "Fulcrum",
-    "effect": "6\" Aura - Poised"
+    "effect": "6\" Aura: Poised"
   },
   {
-    "name": "Full Speed Ahead"
+    "name": "Full Speed Ahead",
+    "effect": "+0\"/+2\" MOV"
   },
   {
-    "name": "Fulmination"
+    "name": "Fulmination",
+    "effect": "Adds <"
   },
   {
-    "name": "Furious"
+    "name": "Furious",
+    "effect": "Free charges"
   },
   {
-    "name": "Get 'Em Lads!"
+    "name": "Get 'Em Lads!",
+    "effect": "6\" Aura: +1 DMG, -1 ARM"
   },
   {
     "name": "Get It While It's Hot",
-    "effect": "2\" Aura - Charge for 1 less"
+    "effect": "2\" Aura: Charge for 1 less"
   },
   {
     "name": "Get Set, BAKE!",
-    "effect": "2\" Aura - +2\"/+2\" MOV"
+    "effect": "2\" Aura: +2\"/+2\" MOV"
   },
   {
-    "name": "Get Stuck In!"
+    "name": "Rowdy",
+    "effect": "Ignores crowding out"
   },
   {
     "name": "Gimme Fuel... Used"
@@ -269,79 +324,98 @@
     "name": "Goad"
   },
   {
-    "name": "Goal Defence"
+    "name": "Goal Defence",
+    "effect": "Shots +1 TN"
   },
   {
-    "name": "Grasping Earth"
+    "name": "Grasping Earth",
+    "effect": "-2\"/-2\" MOV"
   },
   {
-    "name": "Grave Wind"
+    "name": "Grave Wind",
+    "effect": "Next >: KD"
   },
   {
-    "name": "Gut & String"
+    "name": "Gut & String",
+    "effect": "-2\"/-2\" MOV, -1 DEF"
   },
   {
     "name": "Haunting Gaze"
   },
   {
-    "name": "Have You Any Wool?"
+    "name": "Have You Any Wool?",
+    "effect": "+2 ARM"
   },
   {
-    "name": "Heavy Burden"
+    "name": "Heavy Burden",
+    "effect": "-4\"/-4\" MOV, -2 dice for plays"
   },
   {
     "name": "Help 'Em Out",
-    "effect": "4\" Aura - Close Ranks"
+    "effect": "4\" Aura: Close Ranks"
   },
   {
     "name": "Hold the Ball!",
     "effect": "Close Control"
   },
   {
-    "name": "Horrific Odour"
+    "name": "Horrific Odour",
+    "effect": "6\" Aura: +1 INF to kick"
   },
   {
-    "name": "Huge Tracts of Land"
+    "name": "Huge Tracts of Land",
+    "effect": "6\" Aura: Sturdy"
   },
   {
-    "name": "Human Ball of Fire"
+    "name": "Human Ball of Fire",
+    "effect": "+1\"/+1\" MOV"
   },
   {
-    "name": "Hypnosis"
+    "name": "Hypnosis",
+    "effect": "+1 INF cost"
   },
   {
-    "name": "Impetus"
+    "name": "Impetus",
+    "effect": "+2\"/+2\" MOV"
   },
   {
     "name": "Inferno"
   },
   {
-    "name": "Instruction"
+    "name": "Instruction",
+    "effect": "+2 net hits"
   },
   {
-    "name": "Iron Fist"
+    "name": "Iron Fist",
+    "effect": "+1 DMG"
   },
   {
-    "name": "Last Light"
+    "name": "Last Light",
+    "effect": "Pays CST with MP"
   },
   {
-    "name": "Left Boot"
+    "name": "Left Boot",
+    "effect": "+1/+2\" KICK"
   },
   {
-    "name": "Lens Flare"
+    "name": "Lens Flare",
+    "effect": "Caps TAC/KICK"
   },
   {
-    "name": "Life Drinker"
+    "name": "Life Drinker",
+    "effect": "Heals 1 HP on DMG"
   },
   {
-    "name": "Lightning Reflexes Used"
+    "name": "Lightning Reflexes Used",
+    "effect": "Used"
   },
   {
     "name": "Littermates",
     "effect": "Furious +4 TAC"
   },
   {
-    "name": "Lockdown"
+    "name": "Lockdown",
+    "effect": "-4\"/-4\" MOV"
   },
   {
     "name": "Loved Creature",
@@ -351,61 +425,79 @@
     "name": "Making Space"
   },
   {
-    "name": "Malice"
+    "name": "Malice",
+    "effect": "+2 TAC"
   },
   {
-    "name": "Marked for Death"
+    "name": "Marked for Death",
+    "effect": "-1 INF, +0\"/+2\" MOV Charges"
   },
   {
-    "name": "Marked for Felling"
+    "name": "Marked for Felling",
+    "effect": "+0/+2\" MOV Charges"
   },
   {
-    "name": "Marked Target"
+    "name": "Marked Target",
+    "effect": "+0\"/+2\" MOV Charges"
   },
   {
-    "name": "Master Chef"
+    "name": "Master Chef",
+    "effect": "6\" Aura: Free plays"
   },
   {
-    "name": "Maximum Effort"
+    "name": "Maximum Effort",
+    "effect": "Momentous DMG"
   },
   {
-    "name": "Minefield"
+    "name": "Minefield",
+    "effect": "4\" Aura: 4 DMG on advance"
   },
   {
-    "name": "My Gang"
+    "name": "My Gang",
+    "effect": "6\" Aura: +1 TAC +1 DMG"
   },
   {
-    "name": "Nimble"
+    "name": "Nimble",
+    "effect": "+1 DEF"
   },
   {
-    "name": "One at a Time Lads!"
+    "name": "One at a Time Lads!",
+    "effect": "2\" Aura: Ignores crowding"
   },
   {
-    "name": "One of Our Own"
+    "name": "One of Our Own",
+    "effect": "+2 TAC"
   },
   {
-    "name": "Our Tools Are Sharp"
+    "name": "Our Tools Are Sharp",
+    "effect": "Condition DMG"
   },
   {
-    "name": "Overclocked"
+    "name": "Overclocked",
+    "effect": "Free sprint/charge"
   },
   {
     "name": "Pain Response Used"
   },
   {
-    "name": "Pay the Piper"
+    "name": "Pay the Piper",
+    "effect": "6\" Aura: Steals MP"
   },
   {
-    "name": "Pest Control"
+    "name": "Pest Control",
+    "effect": "-1/-2\" KICK"
   },
   {
-    "name": "Pick Me Up"
+    "name": "Pick Me Up",
+    "effect": "+1 TAC"
   },
   {
-    "name": "Pick of the Crop"
+    "name": "Pick of the Crop",
+    "effect": "+0\"/+2\" MOV on charges"
   },
   {
-    "name": "Piledriver"
+    "name": "Piledriver",
+    "effect": "+3 net hits"
   },
   {
     "name": "Pinned"
@@ -420,32 +512,36 @@
     "name": "Poltergeists Used"
   },
   {
-    "name": "Potbellied Pass Used"
+    "name": "Potbellied Pass Used",
+    "effect": "Used"
   },
   {
-    "name": "Predatory Gaze"
+    "name": "Predatory Gaze",
+    "effect": "Shots +1 INF"
   },
   {
     "name": "Protect the Ball",
     "effect": "Close Control"
   },
   {
-    "name": "Protect Those Close"
+    "name": "Protect Those Close",
+    "effect": "4\" Aura: Sturdy"
   },
   {
-    "name": "Protective Instinct"
+    "name": "Protective Instinct",
+    "effect": "Can't attack others"
   },
   {
-    "name": "Put Me Back In, Coach! Used"
+    "name": "Put Me Back In, Coach! Used",
+    "effect": "Used"
   },
   {
-    "name": "Quick Foot"
+    "name": "Quick Foot",
+    "effect": "+2\"/+2\" MOV"
   },
   {
-    "name": "Quoining"
-  },
-  {
-    "name": "Rabid Animal"
+    "name": "Rabid Animal",
+    "effect": "-4\"/-4\" MOV"
   },
   {
     "name": "Raise the Black Flag"
@@ -454,75 +550,91 @@
     "name": "Reanimate Used"
   },
   {
-    "name": "Reconnaissance"
+    "name": "Reconnaissance",
+    "effect": "6\" Aura: Ignores cover"
   },
   {
-    "name": "Reinforced Plating Used"
+    "name": "Reinforced Plating Used",
+    "effect": "Used"
   },
   {
     "name": "Resilience Used"
   },
   {
-    "name": "Revelling"
+    "name": "Revelling",
+    "effect": "+2 ARM"
   },
   {
-    "name": "Ride Off"
+    "name": "Ride Off",
+    "effect": "6\" Aura: +1/+0\" KICK"
   },
   {
     "name": "Rising Anger Used"
   },
   {
-    "name": "Rush Keeper"
+    "name": "Rush Keeper",
+    "effect": "Counter-Charge"
   },
   {
-    "name": "Sanguine Pool"
+    "name": "Sanguine Pool",
+    "effect": "-4\"/-4\" MOV"
   },
   {
-    "name": "Scything March"
+    "name": "Scything March",
+    "effect": "3\" melee zone"
   },
   {
-    "name": "Searing Strike"
+    "name": "Searing Strike",
+    "effect": "-1 ARM"
   },
   {
-    "name": "Second Wind"
+    "name": "Second Wind",
+    "effect": "4\" dodge"
   },
   {
-    "name": "Shield Glare"
+    "name": "Shield Glare",
+    "effect": "-1 TAC, -1 DEF"
   },
   {
-    "name": "Shroud of Darkness"
-  },
-  {
-    "name": "Shutout"
+    "name": "Shutout",
+    "effect": "Must activate last"
   },
   {
     "name": "Singled Out",
-    "maxCopies": 2
+    "maxCopies": 2,
+    "effect": "+2 TAC"
   },
   {
-    "name": "Sliced Tendon"
+    "name": "Sliced Tendon",
+    "effect": "-2/-2\" KICK"
   },
   {
-    "name": "Smashed Shins"
+    "name": "Smashed Shins",
+    "effect": "-4/-4\" KICK"
   },
   {
-    "name": "Spark"
+    "name": "Spark",
+    "effect": "-1 ARM"
   },
   {
-    "name": "Sprung a Leak"
+    "name": "Sprung a Leak",
+    "effect": "-2 ARM"
   },
   {
-    "name": "Stagger"
+    "name": "Stagger",
+    "effect": "-1 DEF"
   },
   {
     "name": "Stand Firm",
     "effect": "Sturdy"
   },
   {
-    "name": "Steel Toecaps"
+    "name": "Steel Toecaps",
+    "effect": "+1 ARM, +0/+2\" KICK"
   },
   {
-    "name": "Sticky Bomb"
+    "name": "Sticky Bomb",
+    "effect": "-2\"/-2\" MOV"
   },
   {
     "name": "Stoic Used"
@@ -534,37 +646,47 @@
     "name": "Sun Strike"
   },
   {
-    "name": "Super Shot"
+    "name": "Super Shot",
+    "effect": "+1/+2\" KICK"
   },
   {
-    "name": "Superior Strategy"
+    "name": "Superior Strategy",
+    "effect": "+1 activation"
   },
   {
-    "name": "Swerve Shot"
+    "name": "Swerve Shot",
+    "effect": "Kick ignores intervening models"
   },
   {
     "name": "Tag Along Used"
   },
   {
-    "name": "Tainted Wounds"
+    "name": "Tainted Wounds",
+    "effect": "Enemies can't heal"
   },
   {
-    "name": "Take One for the Team Used"
+    "name": "Take One for the Team Used",
+    "effect": "Used"
   },
   {
-    "name": "Tempered Steel"
+    "name": "Tempered Steel",
+    "effect": "6\" Aura: +1 TAC"
   },
   {
-    "name": "Tested Mettle"
+    "name": "Tested Mettle",
+    "effect": "6\" Aura: Stoic and Tough Hide"
   },
   {
-    "name": "The Knowledge"
+    "name": "The Knowledge",
+    "effect": "+0/+2\" KICK"
   },
   {
-    "name": "The Old Ways"
+    "name": "The Old Ways",
+    "effect": "6\" Aura: +1 DMG"
   },
   {
-    "name": "They Ain't Tough!"
+    "name": "They Ain't Tough!",
+    "effect": "-1 ARM"
   },
   {
     "name": "Thousand Cuts",
@@ -572,54 +694,70 @@
   },
   {
     "name": "Time's Called",
-    "effect": "4\" Aura +2\"/+2\" MOV"
+    "effect": "4\" Aura: +2\"/+2\" MOV"
   },
   {
-    "name": "Tong in Cheek"
+    "name": "Tong in Cheek",
+    "effect": "+2\"/+2\" MOV"
   },
   {
-    "name": "Tooled Up"
+    "name": "Tooled Up",
+    "effect": "+1 DMG"
   },
   {
-    "name": "Topping Out! (ARM)"
+    "name": "Topping Out! (ARM)",
+    "effect": "+1 ARM"
   },
   {
-    "name": "Tortoise Power"
+    "name": "Tortoise Power",
+    "effect": "Battering Ram"
   },
   {
-    "name": "Tough Skin"
+    "name": "Tough Skin",
+    "effect": "+1 ARM"
   },
   {
-    "name": "Towering Presence"
+    "name": "Towering Presence",
+    "effect": "4\" Aura: -1 MP Pass/Snap"
   },
   {
-    "name": "True Grit"
+    "name": "True Grit",
+    "effect": "+2 TAC"
   },
   {
-    "name": "Tucked"
+    "name": "Tucked",
+    "effect": "Must activate next"
   },
   {
-    "name": "Unpredictable Movement Used"
+    "name": "Unpredictable Movement Used",
+    "effect": "Used"
   },
   {
-    "name": "Use This!"
+    "name": "Use This!",
+    "effect": "2\" melee zone"
   },
   {
-    "name": "Vulnerable Prey"
+    "name": "Vulnerable Prey",
+    "effect": "+3 DMG"
   },
   {
-    "name": "Weak Point"
+    "name": "Weak Point",
+    "effect": "-1 ARM"
   },
   {
-    "name": "Well Oiled Machine Used"
+    "name": "Well Oiled Machine Used",
+    "effect": "Used"
   },
   {
-    "name": "Whisky Chaser"
+    "name": "Whisky Chaser",
+    "effect": "Adds KD"
   },
   {
-    "name": "Winter's Night"
+    "name": "Winter's Night",
+    "effect": "6\" Aura: Adds <"
   },
   {
-    "name": "With Aplomb"
+    "name": "With Aplomb",
+    "effect": "Next goal: +1 VP"
   }
 ]

@@ -73,7 +73,7 @@
   },
   {
     "name": "Bucker",
-    "effects": ["Axe A Question", "Poised Used"]
+    "effects": ["Assist", "Poised Used"]
   },
   {
     "name": "Buckwheat",
@@ -93,7 +93,7 @@
   },
   {
     "name": "Casket",
-    "effects": ["Reanimate Used", "Heavy Burden", "Casket Time"]
+    "effects": ["Reanimate Used", "Heavy Burden", "Casket Time Used"]
   },
   {
     "name": "Cast",
@@ -145,7 +145,7 @@
   },
   {
     "name": "Corsair",
-    "effects": ["Coup de Grâce Used", "Sturdy Used"]
+    "effects": ["Coup de Grâce", "Sturdy Used"]
   },
   {
     "name": "Cosset",
@@ -217,7 +217,7 @@
   },
   {
     "name": "Fallow",
-    "effects": ["Between a Rock... Used", "Get Stuck In!"]
+    "effects": ["Between a Rock... Used", "Rowdy"]
   },
   {
     "name": "Fangtooth",
@@ -481,7 +481,7 @@
   },
   {
     "name": "Mist",
-    "effects": ["Shroud of Darkness"]
+    "effects": []
   },
   {
     "name": "Mother",
@@ -509,7 +509,7 @@
   },
   {
     "name": "Oak",
-    "effects": ["Between a Rock... Used", "Stoic Used", "Bull of the Woods", "Cut Em Down"]
+    "effects": ["Between a Rock... Used", "Stoic Used", "Lend a Hand", "Cut Em Down"]
   },
   {
     "name": "Obulus",
@@ -545,7 +545,6 @@
       "Close Control Used",
       "Reanimate Used",
       "Well Oiled Machine Used",
-      "Controller",
       "Alternator",
       "Deletion"
     ]
@@ -762,7 +761,7 @@
   },
   {
     "name": "Tower",
-    "effects": ["Quoining", "Protect Those Close", "Sturdy Used"]
+    "effects": ["Protect Those Close", "Sturdy Used", "Protective Instinct"]
   },
   {
     "name": "Truffles",
@@ -814,7 +813,7 @@
   },
   {
     "name": "vGreede",
-    "effects": ["Do the Thing! Used", "Forward, Minions!"]
+    "effects": ["Do the Thing!", "Forward, Minions!"]
   },
   {
     "name": "vGutter",

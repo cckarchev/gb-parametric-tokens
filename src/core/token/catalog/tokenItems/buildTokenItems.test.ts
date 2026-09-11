@@ -12,7 +12,7 @@ const catalog: GuildCatalog = {
   name: "Brewers",
   color: "#cdb320",
   characters: [
-    { name: "Tapper", effects: ["Commanding Aura", "Marked Target"] },
+    { name: "Tapper", effects: ["Commanding Aura", "+1 DEF"] },
     { name: "Spigot", effects: ["Time's Called"] },
   ],
   genericTokens: [{ name: "Beer Token" }],
@@ -76,7 +76,7 @@ describe("buildTokenItems", () => {
     expect(items[0].spec.shape).toEqual(sharedConfig.arcShape);
     expect(items[0].spec.lines).toEqual([
       { text: "Commanding Aura", sizeMm: 6, colorGroup: "text" },
-      { text: '4" Aura +1 TAC +1 DMG', sizeMm: 4, colorGroup: "text" },
+      { text: '4" Aura: +1 TAC +1 DMG', sizeMm: 4, colorGroup: "text" },
     ]);
   });
 
@@ -103,7 +103,7 @@ describe("buildTokenItems", () => {
 
     const items = buildTokenItems(catalog, selection, sharedConfig);
 
-    expect(items[0].spec.lines).toEqual([{ text: "Marked Target", sizeMm: 6, colorGroup: "text" }]);
+    expect(items[0].spec.lines).toEqual([{ text: "+1 DEF", sizeMm: 6, colorGroup: "text" }]);
   });
 
   it("omits the second line entirely when showSecondLine is off, even if the token has effect text", () => {
@@ -144,7 +144,7 @@ describe("buildTokenItems", () => {
 
     const items = buildTokenItems(catalog, selection, customConfig);
 
-    expect(items[0].spec.lines).toEqual([{ text: "Marked Target", sizeMm: 6, colorGroup: "text" }]);
+    expect(items[0].spec.lines).toEqual([{ text: "+1 DEF", sizeMm: 6, colorGroup: "text" }]);
   });
 
   it("defaults a character token's icon to the guild's own icon id, tagged with the text color group", () => {

@@ -4,7 +4,10 @@ import { resolveEffect } from "./effects";
 
 describe("resolveEffect", () => {
   it("resolves a known effect from the bundled catalog", () => {
-    expect(resolveEffect("About Their Necks")).toEqual({ name: "About Their Necks" });
+    expect(resolveEffect("About Their Necks")).toEqual({
+      name: "About Their Necks",
+      effect: "Enemies -1 TAC",
+    });
   });
 
   it("throws for an unknown effect name", () => {
