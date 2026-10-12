@@ -56,4 +56,24 @@ describe("computePlateLayout", () => {
     expect(result[1]).toEqual([[0, 0]]); // the arc item, placed first despite being listed second
     expect(result[0]).toEqual([[0, 45]]); // the disc item, placed below
   });
+
+  it("gives discs of different sizes their own blocks, so one large disc never widens the small ones", () => {
+    const result = computePlateLayout(
+      [
+        { shapeType: "disc", footprintMm: { width: 15, height: 15 }, copies: 4 },
+        { shapeType: "disc", footprintMm: { width: 76.2, height: 76.2 }, copies: 1 },
+      ],
+      5,
+    );
+
+    // The small discs pack at their own 15 + 5 pitch in a 2x2 grid...
+    expect(result[0]).toEqual([
+      [0, 0],
+      [20, 0],
+      [0, 20],
+      [20, 20],
+    ]);
+    // ...and the large disc starts below their block (2 rows x 20mm).
+    expect(result[1]).toEqual([[0, 40]]);
+  });
 });

@@ -1,0 +1,45 @@
+import { MIN_COPIES } from "../../../core/token/catalog/tokenItems/tokenItem";
+import { CheckboxField } from "../../primitives/CheckboxField/CheckboxField";
+import { NumberField } from "../../primitives/NumberField/NumberField";
+import styles from "./CharacterTokenList.module.css";
+
+type TokenRowProps = {
+  label: string;
+  maxCopies?: number;
+  selected: boolean;
+  copies: number;
+  onToggle: (checked: boolean) => void;
+  onCopiesChange: (copies: number) => void;
+};
+
+// One selectable line under a character, shared by its tokens and its AOE templates: a checkbox,
+// plus a copies stepper only when the catalog entry allows more than one copy.
+export const TokenRow = ({
+  label,
+  maxCopies,
+  selected,
+  copies,
+  onToggle,
+  onCopiesChange,
+}: TokenRowProps) => {
+  const hasCopiesField = (maxCopies ?? 1) > 1;
+
+  return (
+    <div className={`${styles.row} ${styles.rowToken}`}>
+      <CheckboxField label={label} checked={selected} onChange={onToggle} />
+
+      {hasCopiesField && (
+        <NumberField
+          label={`${label} copies`}
+          hideLabel
+          stepper
+          value={copies}
+          min={MIN_COPIES}
+          max={maxCopies}
+          disabled={!selected}
+          onChange={onCopiesChange}
+        />
+      )}
+    </div>
+  );
+};

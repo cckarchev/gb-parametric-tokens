@@ -1,14 +1,20 @@
 import { Fragment } from "react";
 
+import { resolveAoeTemplate } from "../../../core/token/catalog/aoeTemplates";
 import { CatalogCharacter, GuildCatalog } from "../../../core/token/catalog/catalogTypes";
+import { characterSelectableIds } from "../../../core/token/catalog/characterSelectableIds";
 import { buildEffectLabels } from "../../../core/token/catalog/effectLabels";
 import { resolveEffect } from "../../../core/token/catalog/effects";
-import { characterTokenId, MIN_COPIES } from "../../../core/token/catalog/tokenItems/tokenItem";
+import {
+  characterAoeTemplateId,
+  characterTokenId,
+  MIN_COPIES,
+} from "../../../core/token/catalog/tokenItems/tokenItem";
 import { CheckboxField } from "../../primitives/CheckboxField/CheckboxField";
-import { NumberField } from "../../primitives/NumberField/NumberField";
 import { Panel } from "../../primitives/Panel/Panel";
 import { SelectAllCheckbox } from "../../primitives/SelectAllCheckbox/SelectAllCheckbox";
 import styles from "./CharacterTokenList.module.css";
+import { TokenRow } from "./TokenRow";
 
 type CharacterTokenListProps = {
   catalog: GuildCatalog;
@@ -16,10 +22,6 @@ type CharacterTokenListProps = {
   onSelectedTokenIdsChange: (selectedTokenIds: string[]) => void;
   tokenCopies: Record<string, number>;
   onTokenCopiesChange: (tokenCopies: Record<string, number>) => void;
-};
-
-const tokenIdsForCharacter = (character: CatalogCharacter): string[] => {
-  return character.effects.map((_, tokenIndex) => characterTokenId(character.name, tokenIndex));
 };
 
 export const CharacterTokenList = ({
@@ -39,7 +41,7 @@ export const CharacterTokenList = ({
   };
 
   const toggleCharacter = (character: CatalogCharacter, checked: boolean) => {
-    const ids = tokenIdsForCharacter(character);
+    const ids = characterSelectableIds(character);
 
     if (checked) {
       const withoutCharacter = selectedTokenIds.filter((id) => !ids.includes(id));
@@ -51,7 +53,7 @@ export const CharacterTokenList = ({
     onSelectedTokenIdsChange(selectedTokenIds.filter((id) => !ids.includes(id)));
   };
 
-  const allTokenIds = catalog.characters.flatMap(tokenIdsForCharacter);
+  const allTokenIds = catalog.characters.flatMap(characterSelectableIds);
   const everyTokenSelected = allTokenIds.every((id) => selectedTokenIds.includes(id));
   const allSelected = allTokenIds.length > 0 && everyTokenSelected;
 
@@ -61,6 +63,20 @@ export const CharacterTokenList = ({
 
   const setCopies = (id: string, copies: number) => {
     onTokenCopiesChange({ ...tokenCopies, [id]: copies });
+  };
+
+  const renderRow = (id: string, label: string, maxCopies: number | undefined) => {
+    return (
+      <TokenRow
+        key={id}
+        label={label}
+        maxCopies={maxCopies}
+        selected={selectedTokenIds.includes(id)}
+        copies={tokenCopies[id] ?? MIN_COPIES}
+        onToggle={(checked) => toggle(id, checked)}
+        onCopiesChange={(copies) => setCopies(id, copies)}
+      />
+    );
   };
 
   return (
@@ -78,12 +94,13 @@ export const CharacterTokenList = ({
           whole table instead of resetting inside each character's own token group. */}
       <div className={styles.rows}>
         {catalog.characters.map((character) => {
-          const ids = tokenIdsForCharacter(character);
+          const ids = characterSelectableIds(character);
           const hasTokens = ids.length > 0;
           const selectedCount = ids.filter((id) => selectedTokenIds.includes(id)).length;
           const characterAllSelected = hasTokens && selectedCount === ids.length;
           const effects = character.effects.map(resolveEffect);
           const effectLabels = buildEffectLabels(effects);
+          const templates = (character.aoeTemplates ?? []).map(resolveAoeTemplate);
 
           return (
             <Fragment key={character.name}>
@@ -102,37 +119,29 @@ export const CharacterTokenList = ({
                 )}
               </div>
 
-              {hasTokens ? (
-                effects.map((effect, tokenIndex) => {
-                  const effectLabel = effectLabels[tokenIndex];
-                  const id = characterTokenId(character.name, tokenIndex);
-                  const selected = selectedTokenIds.includes(id);
-                  const hasCopiesField = (effect.maxCopies ?? 1) > 1;
+              {effects.map((effect, tokenIndex) =>
+                renderRow(
+                  characterTokenId(character.name, tokenIndex),
+                  effectLabels[tokenIndex],
+                  effect.maxCopies,
+                ),
+              )}
 
-                  return (
-                    <div className={`${styles.row} ${styles.rowToken}`} key={id}>
-                      <CheckboxField
-                        label={effectLabel}
-                        checked={selected}
-                        onChange={(checked) => toggle(id, checked)}
-                      />
+              {templates.length > 0 && (
+                <div className={`${styles.row} ${styles.rowToken} ${styles.subheading}`}>
+                  AOE templates
+                </div>
+              )}
 
-                      {hasCopiesField && (
-                        <NumberField
-                          label={`${effectLabel} copies`}
-                          hideLabel
-                          stepper
-                          value={tokenCopies[id] ?? MIN_COPIES}
-                          min={MIN_COPIES}
-                          max={effect.maxCopies}
-                          disabled={!selected}
-                          onChange={(copies) => setCopies(id, copies)}
-                        />
-                      )}
-                    </div>
-                  );
-                })
-              ) : (
+              {templates.map((template, templateIndex) =>
+                renderRow(
+                  characterAoeTemplateId(character.name, templateIndex),
+                  template.name,
+                  template.maxCopies,
+                ),
+              )}
+
+              {!hasTokens && (
                 <div className={`${styles.row} ${styles.rowToken}`}>
                   <span className={styles.characterNameDisabled}>No tokens</span>
                 </div>

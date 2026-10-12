@@ -107,4 +107,27 @@ describe("buildTokenMesh", () => {
     expect(parts).toHaveLength(1);
     expect(parts[0].manifold.boundingBox().max[2]).toBeGreaterThan(3);
   });
+
+  it("leaves no material at the center of a disc with an inner diameter", async () => {
+    const holeDiameterMm = 15;
+    // A separately colorGrouped relief stays its own part, so the base part is the bare body.
+    const reliefComponents = [{ contours: squareIcon, colorGroup: "accent" }];
+    const hollowSpec: TokenSpec = {
+      ...baseSpec(),
+      shape: { type: "disc", diameterMm: 25, innerDiameterMm: holeDiameterMm },
+    };
+
+    const solidParts = await buildTokenMesh({ spec: baseSpec(), reliefComponents });
+    const hollowParts = await buildTokenMesh({ spec: hollowSpec, reliefComponents });
+    const solidBase = solidParts.find((part) => part.colorGroupId === "base");
+    const hollowBase = hollowParts.find((part) => part.colorGroupId === "base");
+
+    const holeRadiusMm = holeDiameterMm / 2;
+    const thicknessMm = hollowSpec.style.baseThicknessMm;
+    const holeVolume = Math.PI * holeRadiusMm * holeRadiusMm * thicknessMm;
+    const removedVolume =
+      (solidBase?.manifold.volume() ?? 0) - (hollowBase?.manifold.volume() ?? 0);
+
+    expect(removedVolume).toBeCloseTo(holeVolume, -1);
+  });
 });

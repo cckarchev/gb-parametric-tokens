@@ -13,7 +13,14 @@ export type ShapeSpec =
       studFilletEnabled?: boolean;
       studFilletRadiusMm?: number;
     }
-  | { type: "disc"; diameterMm: number };
+  | {
+      type: "disc";
+      diameterMm: number;
+      // Cuts a centered hole of this diameter, leaving a hollow ring (see
+      // geometry/discFootprint.ts). Optional, undefined meaning a solid disc, so every existing
+      // shape literal and imported setting keeps working unchanged.
+      innerDiameterMm?: number;
+    };
 
 // The two arms of ShapeSpec on their own, for the many builders that only ever handle one of
 // them (mesh/buildArcRibbon.ts, catalog/tokenItems/momentumTokenSpec.ts, and so on).

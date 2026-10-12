@@ -1,5 +1,6 @@
 import { DEGREES_PER_RADIAN } from "../geometry/angleConventions";
 import { BODY_CIRCLE_SEGMENTS } from "../geometry/circleResolution";
+import { buildDiscFootprint } from "../geometry/discFootprint";
 import { filletOutline } from "../geometry/filletOutline";
 import {
   computeEffectiveStudDiameterMm,
@@ -30,7 +31,7 @@ export const computeBaseOutlineContours = async (
     growOutlineContours.length > 0 ? new CrossSection(growOutlineContours, "Positive") : undefined;
 
   if (shape.type === "disc") {
-    const disc = CrossSection.circle(shape.diameterMm / 2, BODY_CIRCLE_SEGMENTS);
+    const disc = buildDiscFootprint(CrossSection, shape);
 
     return (grow ? disc.add(grow) : disc).toPolygons();
   }

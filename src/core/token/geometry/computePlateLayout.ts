@@ -7,9 +7,37 @@ export type PlateLayoutItem = {
 };
 
 // Arc tokens (wide ribbons) and disc tokens (small squares) have very different footprints,
-// so mixing them into one uniform grid wastes space or overlaps. Each block gets its own grid
-// sized to its own items, stacked vertically: arc block first, disc block below it.
+// so mixing them into one uniform grid wastes space or overlaps. The same holds between discs of
+// different sizes: one 76.2mm AOE template in a block of 15mm counters would widen every cell to
+// its own size. So each shape type and footprint size gets its own block, a grid sized to its own
+// items, stacked vertically: arc blocks first, then disc blocks, smallest footprint first.
 const SHAPE_TYPE_ORDER: PlateLayoutItem["shapeType"][] = ["arc", "disc"];
+
+type BlockEntry = { item: PlateLayoutItem; index: number };
+
+const footprintKey = (item: PlateLayoutItem): string => {
+  return `${item.footprintMm.width}x${item.footprintMm.height}`;
+};
+
+// One block per distinct footprint within a shape type, ordered by footprint width so the
+// stacking is predictable whatever order the items arrive in.
+const groupBlocksBySize = (shapeEntries: BlockEntry[]): BlockEntry[][] => {
+  const blocksByKey = new Map<string, BlockEntry[]>();
+
+  for (const entry of shapeEntries) {
+    const key = footprintKey(entry.item);
+    const block = blocksByKey.get(key) ?? [];
+
+    block.push(entry);
+    blocksByKey.set(key, block);
+  }
+
+  const blocks = [...blocksByKey.values()];
+
+  return blocks.sort(
+    (first, second) => first[0].item.footprintMm.width - second[0].item.footprintMm.width,
+  );
+};
 
 type BlockLayoutResult = { offsetsByItem: Vec2[][]; blockHeightMm: number };
 
@@ -54,22 +82,24 @@ export const computePlateLayout = (items: PlateLayoutItem[], spacingMm: number):
   const result: Vec2[][] = new Array(items.length);
   let originY = 0;
 
+  const entries: BlockEntry[] = items.map((item, index) => ({ item, index }));
+
   for (const shapeType of SHAPE_TYPE_ORDER) {
-    const blockEntries = items
-      .map((item, index) => ({ item, index }))
-      .filter(({ item }) => item.shapeType === shapeType);
+    const shapeEntries = entries.filter(({ item }) => item.shapeType === shapeType);
 
-    const { offsetsByItem, blockHeightMm } = layoutBlock(
-      blockEntries.map(({ item }) => item),
-      spacingMm,
-      originY,
-    );
+    for (const blockEntries of groupBlocksBySize(shapeEntries)) {
+      const { offsetsByItem, blockHeightMm } = layoutBlock(
+        blockEntries.map(({ item }) => item),
+        spacingMm,
+        originY,
+      );
 
-    blockEntries.forEach(({ index }, blockPosition) => {
-      result[index] = offsetsByItem[blockPosition];
-    });
+      blockEntries.forEach(({ index }, blockPosition) => {
+        result[index] = offsetsByItem[blockPosition];
+      });
 
-    originY += blockHeightMm;
+      originY += blockHeightMm;
+    }
   }
 
   return result;

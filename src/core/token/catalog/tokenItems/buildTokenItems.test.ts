@@ -3,7 +3,12 @@ import { describe, expect, it } from "vitest";
 import { GuildCatalog } from "../catalogTypes";
 import { resolveEffect } from "../effects";
 import { buildTokenItems } from "./buildTokenItems";
-import { characterTokenId, SharedConfig, TokenSelection } from "./tokenItem";
+import {
+  characterAoeTemplateId,
+  characterTokenId,
+  SharedConfig,
+  TokenSelection,
+} from "./tokenItem";
 
 // A deliberately tiny guild, but every character and effect named here is a real entry in the
 // catalog data, so the fixture describes a roster that could actually exist.
@@ -57,6 +62,16 @@ const catalogWithMultiCopyToken: GuildCatalog = {
 // pinning the effect's own wording there would fail them for an edit to the catalog data that has
 // nothing to do with what they cover. The first test below keeps the literal on purpose, as the
 // one anchor proving the real text is what reaches the line.
+// Cutlass really has no effects in characters.json, only Broadside, which positions two AOEs and
+// so is the template the copies case goes through.
+const blacksmithsCatalog: GuildCatalog = {
+  guildId: "blacksmiths",
+  name: "Blacksmiths",
+  color: "#82969f",
+  characters: [{ name: "Cutlass", effects: [], aoeTemplates: ["broadside"] }],
+  genericTokens: [],
+};
+
 const commandingAuraText = resolveEffect("commandingAura").effect;
 
 describe("buildTokenItems", () => {
@@ -526,5 +541,29 @@ describe("buildTokenItems", () => {
     const items = buildTokenItems(catalog, selection, sharedConfig);
 
     expect(items[0].spec.icons[0].scale).toBe(0.85);
+  });
+
+  it("builds an AOE template item for a selected template, with its copies", () => {
+    const templateId = characterAoeTemplateId("Cutlass", 0);
+    const selection: TokenSelection = {
+      ...emptySelection,
+      characterTokenIds: [templateId],
+      characterTokenCopies: { [templateId]: 2 },
+    };
+
+    const items = buildTokenItems(blacksmithsCatalog, selection, sharedConfig);
+    const template = items.find((item) => item.id === templateId);
+
+    expect(template?.label).toBe("Cutlass: Broadside (AOE)");
+    expect(template?.group).toBe("Cutlass");
+    expect(template?.name).toBe("Broadside (AOE)");
+    expect(template?.copies).toBe(2);
+    expect(template?.spec.textLayout).toBe("ring");
+  });
+
+  it("skips an AOE template that is not selected", () => {
+    const items = buildTokenItems(blacksmithsCatalog, emptySelection, sharedConfig);
+
+    expect(items).toEqual([]);
   });
 });

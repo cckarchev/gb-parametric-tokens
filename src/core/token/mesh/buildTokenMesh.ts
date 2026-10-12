@@ -1,4 +1,4 @@
-import { BODY_CIRCLE_SEGMENTS } from "../geometry/circleResolution";
+import { buildDiscFootprint } from "../geometry/discFootprint";
 import { TokenSpec } from "../types";
 import { applyReliefToBase } from "./applyReliefToBase";
 import { getManifoldModule } from "./manifoldModule";
@@ -22,9 +22,8 @@ export const buildTokenMesh = async (input: BuildTokenMeshInput): Promise<TokenP
 
   const baseThicknessMm = input.spec.style.baseThicknessMm;
 
-  const disc = CrossSection.circle(input.spec.shape.diameterMm / 2, BODY_CIRCLE_SEGMENTS).extrude(
-    baseThicknessMm,
-  );
+  const footprint = buildDiscFootprint(CrossSection, input.spec.shape);
+  const disc = footprint.extrude(baseThicknessMm);
 
   // IconOverflowBehavior "grow" (see types.ts): a center icon that overflowed the disc's plain
   // circle carries its own dilated footprint here (computeReliefComponentsShared.ts), already

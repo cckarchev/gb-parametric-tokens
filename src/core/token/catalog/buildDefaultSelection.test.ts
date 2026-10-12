@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { buildDefaultSelection } from "./buildDefaultSelection";
 import { GuildCatalog } from "./catalogTypes";
+import { characterAoeTemplateId } from "./tokenItems/tokenItem";
 
 const catalog: GuildCatalog = {
   guildId: "brewers",
@@ -63,5 +64,19 @@ describe("buildDefaultSelection", () => {
 
     expect(selection.characterTokenIds).toEqual([]);
     expect(selection.genericTokens).toEqual({});
+  });
+
+  it("selects a character's AOE templates by default too", () => {
+    const blacksmithsCatalog: GuildCatalog = {
+      guildId: "blacksmiths",
+      name: "Blacksmiths",
+      color: "#82969f",
+      characters: [{ name: "Cutlass", effects: [], aoeTemplates: ["broadside"] }],
+      genericTokens: [],
+    };
+
+    expect(buildDefaultSelection(blacksmithsCatalog).characterTokenIds).toEqual([
+      characterAoeTemplateId("Cutlass", 0),
+    ]);
   });
 });

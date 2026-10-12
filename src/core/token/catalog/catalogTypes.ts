@@ -14,11 +14,24 @@ export type CatalogEffect = {
   layout?: "ring";
 };
 
+// A fixed-size 3″ AOE template (see catalog/tokenItems/aoeTemplateSpec.ts), not a reminder
+// token: its own catalog, referenced from a character by id just like effects.
+export type CatalogAoeTemplate = {
+  id: string;
+  name: string;
+  effect: string;
+  // Max simultaneous copies in play (Broadside positions two). Omitted means 1.
+  maxCopies?: number;
+};
+
 export type CatalogCharacter = {
   name: string;
   // The ids of this character's own tokens, each one a reference into effects.json, see
   // resolveEffect.
   effects: string[];
+  // The ids of this character's AOE templates, each one a reference into aoeTemplates.json, see
+  // resolveAoeTemplate. Omitted for the many characters that have none.
+  aoeTemplates?: string[];
 };
 
 export type CatalogGenericToken = {

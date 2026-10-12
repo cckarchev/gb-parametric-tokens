@@ -1,5 +1,6 @@
 import { GuildCatalog } from "./catalogTypes";
-import { CounterSelection, characterTokenId, TokenSelection } from "./tokenItems/tokenItem";
+import { characterSelectableIds } from "./characterSelectableIds";
+import { CounterSelection, TokenSelection } from "./tokenItems/tokenItem";
 
 const MIN_GENERIC_COPIES = 1;
 
@@ -15,9 +16,7 @@ const enabledCounter = (copies: number): CounterSelection => ({ enabled: true, c
 // user opts out of what they don't want rather than opting into everything from scratch. Once a
 // guild has been visited, its selection is remembered instead of being rebuilt from here again.
 export const buildDefaultSelection = (catalog: GuildCatalog): TokenSelection => {
-  const characterTokenIds = catalog.characters.flatMap((character) =>
-    character.effects.map((_, tokenIndex) => characterTokenId(character.name, tokenIndex)),
-  );
+  const characterTokenIds = catalog.characters.flatMap(characterSelectableIds);
 
   const genericTokens: Record<string, CounterSelection> = {};
 

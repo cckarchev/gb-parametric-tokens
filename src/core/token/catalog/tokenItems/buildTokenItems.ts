@@ -1,12 +1,20 @@
+import { resolveAoeTemplate } from "../aoeTemplates";
 import { GuildCatalog } from "../catalogTypes";
 import { buildEffectLabels } from "../effectLabels";
 import { resolveEffect } from "../effects";
+import { buildAoeTemplateSpec } from "./aoeTemplateSpec";
 import { buildCharacterTokenSpec } from "./characterTokenSpec";
 import { buildGenericTokenSpec } from "./genericTokenSpec";
 import { buildGoalInfluenceTokenSpec } from "./goalInfluenceTokenSpec";
 import { buildInfluenceTokenSpec } from "./influenceTokenSpec";
 import { buildMomentumTokenSpec } from "./momentumTokenSpec";
-import { characterTokenId, SharedConfig, TokenItem, TokenSelection } from "./tokenItem";
+import {
+  characterAoeTemplateId,
+  characterTokenId,
+  SharedConfig,
+  TokenItem,
+  TokenSelection,
+} from "./tokenItem";
 
 export const buildTokenItems = (
   catalog: GuildCatalog,
@@ -38,6 +46,35 @@ export const buildTokenItems = (
         group: character.name,
         name: effectLabel,
         spec: buildCharacterTokenSpec(effect, guildIconId, guildIconScale, sharedConfig),
+        copies,
+      });
+    });
+
+    const templates = (character.aoeTemplates ?? []).map(resolveAoeTemplate);
+
+    templates.forEach((template, templateIndex) => {
+      const id = characterAoeTemplateId(character.name, templateIndex);
+
+      if (!selection.characterTokenIds.includes(id)) {
+        return;
+      }
+
+      const copies =
+        template.maxCopies && template.maxCopies > 1
+          ? (selection.characterTokenCopies[id] ?? 1)
+          : 1;
+
+      // Some abilities are both a reminder token and a template (Ebb's Sprung a Leak, vCalculus's
+      // Sticky Bomb), so outside the picker's own "AOE templates" subheading the template needs
+      // its own marker to stay distinguishable in the attention list and export failures.
+      const templateName = `${template.name} (AOE)`;
+
+      items.push({
+        id,
+        label: `${character.name}: ${templateName}`,
+        group: character.name,
+        name: templateName,
+        spec: buildAoeTemplateSpec(template, sharedConfig),
         copies,
       });
     });

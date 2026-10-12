@@ -34,8 +34,9 @@ export type CounterSelection = { enabled: boolean; copies: number };
 export const MIN_COPIES = 1;
 
 export type TokenSelection = {
+  // Holds a character's AOE template ids too (see characterAoeTemplateId below).
   characterTokenIds: string[];
-  // Copies for a selected character token whose catalog entry sets maxCopies > 1. Not consulted
+  // Copies for a selected character token or AOE template whose catalog entry sets maxCopies > 1. Not consulted
   // for tokens with no maxCopies (those always print 1 copy) and left untouched when a token is
   // deselected, so re-selecting it restores the count instead of resetting to 1.
   characterTokenCopies: Record<string, number>;
@@ -65,4 +66,11 @@ export type SharedConfig = {
 
 export const characterTokenId = (characterId: string, tokenIndex: number): string => {
   return `${characterId}-${tokenIndex}`;
+};
+
+// Its own "-aoe-" segment so a template's id can never collide with a token's, while still
+// living in the same selection arrays (characterTokenIds/characterTokenCopies) so the stored and
+// exported selection keeps its shape.
+export const characterAoeTemplateId = (characterId: string, templateIndex: number): string => {
+  return `${characterId}-aoe-${templateIndex}`;
 };

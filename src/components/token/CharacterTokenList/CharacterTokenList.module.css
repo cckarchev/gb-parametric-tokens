@@ -27,3 +27,9 @@
   /* Lines up under the header checkbox's own label text, not its square. */
   padding-left: calc(16px + var(--space-2) + var(--space-2));
 }
+
+/* Separates a character's AOE templates from its tokens, in the same muted voice as the count. */
+.subheading {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}

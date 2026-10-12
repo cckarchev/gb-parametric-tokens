@@ -81,7 +81,8 @@
   },
   {
     "name": "Burnish",
-    "effects": ["reinforcedPlatingUsed", "coveringFire"]
+    "effects": ["reinforcedPlatingUsed", "coveringFire"],
+    "aoeTemplates": ["flameBelch"]
   },
   {
     "name": "Bushel",
@@ -89,11 +90,13 @@
   },
   {
     "name": "Calculus",
-    "effects": ["blind"]
+    "effects": ["blind"],
+    "aoeTemplates": ["noxiousBlast"]
   },
   {
     "name": "Casket",
-    "effects": ["reanimateUsed", "heavyBurden", "casketTimeUsed"]
+    "effects": ["reanimateUsed", "heavyBurden", "casketTimeUsed"],
+    "aoeTemplates": ["ghostlyVisage"]
   },
   {
     "name": "Cast",
@@ -177,7 +180,8 @@
   },
   {
     "name": "Cutlass",
-    "effects": []
+    "effects": [],
+    "aoeTemplates": ["broadside"]
   },
   {
     "name": "Decimate",
@@ -197,7 +201,8 @@
   },
   {
     "name": "Ebb",
-    "effects": ["graspingEarth", "sprungALeak"]
+    "effects": ["graspingEarth", "sprungALeak"],
+    "aoeTemplates": ["sprungALeak"]
   },
   {
     "name": "Edge",
@@ -241,7 +246,8 @@
   },
   {
     "name": "Fillet",
-    "effects": ["quickFoot"]
+    "effects": ["quickFoot"],
+    "aoeTemplates": ["painCircle"]
   },
   {
     "name": "Fissure",
@@ -249,7 +255,8 @@
   },
   {
     "name": "Flask",
-    "effects": ["beakerKeeper"]
+    "effects": ["beakerKeeper"],
+    "aoeTemplates": ["smokeBomb"]
   },
   {
     "name": "Flea",
@@ -329,11 +336,13 @@
   },
   {
     "name": "Harry ‘the Hat’",
-    "effects": ["risingAngerUsed", "singledOut"]
+    "effects": ["risingAngerUsed", "singledOut"],
+    "aoeTemplates": ["molotov"]
   },
   {
     "name": "Hearne",
-    "effects": ["singledOut", "blessingOfTheSunFather"]
+    "effects": ["singledOut", "blessingOfTheSunFather"],
+    "aoeTemplates": ["forestGrove"]
   },
   {
     "name": "Hearth",
@@ -345,7 +354,8 @@
   },
   {
     "name": "Hemlocke",
-    "effects": ["blind"]
+    "effects": ["blind"],
+    "aoeTemplates": ["noxiousBlast"]
   },
   {
     "name": "Herder",
@@ -373,7 +383,8 @@
   },
   {
     "name": "Ikaros",
-    "effects": ["closeControlUsed"]
+    "effects": ["closeControlUsed"],
+    "aoeTemplates": ["harrier"]
   },
   {
     "name": "Iron",
@@ -445,7 +456,8 @@
   },
   {
     "name": "Mataagi",
-    "effects": []
+    "effects": [],
+    "aoeTemplates": ["harrier"]
   },
   {
     "name": "Meathook",
@@ -457,7 +469,8 @@
   },
   {
     "name": "Mercury",
-    "effects": []
+    "effects": [],
+    "aoeTemplates": ["fireBlast"]
   },
   {
     "name": "Miasma",
@@ -473,7 +486,8 @@
   },
   {
     "name": "Minerva",
-    "effects": ["eyeSpy"]
+    "effects": ["eyeSpy"],
+    "aoeTemplates": ["harrier"]
   },
   {
     "name": "Minx",
@@ -481,7 +495,8 @@
   },
   {
     "name": "Mist",
-    "effects": []
+    "effects": [],
+    "aoeTemplates": ["smokeBomb"]
   },
   {
     "name": "Mother",
@@ -583,7 +598,8 @@
   },
   {
     "name": "Ratchet",
-    "effects": ["tooledUp", "overclocked"]
+    "effects": ["tooledUp", "overclocked"],
+    "aoeTemplates": ["blastEarth"]
   },
   {
     "name": "Rivet",
@@ -595,11 +611,13 @@
   },
   {
     "name": "Rundaas",
-    "effects": ["dirtyKnives"]
+    "effects": ["dirtyKnives"],
+    "aoeTemplates": ["harrier"]
   },
   {
     "name": "Sakana",
-    "effects": ["poisedUsed"]
+    "effects": ["poisedUsed"],
+    "aoeTemplates": ["smokeBomb"]
   },
   {
     "name": "Salt",
@@ -647,7 +665,8 @@
   },
   {
     "name": "Silence",
-    "effects": ["shutout", "tucked"]
+    "effects": ["shutout", "tucked"],
+    "aoeTemplates": ["fireBlast"]
   },
   {
     "name": "Siren",
@@ -655,7 +674,8 @@
   },
   {
     "name": "Skatha",
-    "effects": ["blessingOfTheMoonGoddess", "wintersNight"]
+    "effects": ["blessingOfTheMoonGoddess", "wintersNight"],
+    "aoeTemplates": ["naturesChill"]
   },
   {
     "name": "Skulk",
@@ -673,7 +693,8 @@
   },
   {
     "name": "Smoke",
-    "effects": ["unpredictableMovementUsed"]
+    "effects": ["unpredictableMovementUsed"],
+    "aoeTemplates": ["smokeBomb"]
   },
   {
     "name": "Snakeskin",
@@ -721,7 +742,8 @@
   },
   {
     "name": "Stoker",
-    "effects": ["searingStrike", "humanBallOfFire"]
+    "effects": ["searingStrike", "humanBallOfFire"],
+    "aoeTemplates": ["molotov"]
   },
   {
     "name": "Strongbox",
@@ -729,7 +751,8 @@
   },
   {
     "name": "Sugar",
-    "effects": ["sturdyUsed", "chefsSpecial"]
+    "effects": ["sturdyUsed", "chefsSpecial"],
+    "aoeTemplates": ["chilliCookOut"]
   },
   {
     "name": "Tapper",
@@ -749,7 +772,8 @@
   },
   {
     "name": "Theron",
-    "effects": ["arrowToTheKnee", "pinned", "sunStrike", "blessingOfTheSunFather"]
+    "effects": ["arrowToTheKnee", "pinned", "sunStrike", "blessingOfTheSunFather"],
+    "aoeTemplates": ["naturesGrowth"]
   },
   {
     "name": "Thresher",
@@ -781,7 +805,8 @@
   },
   {
     "name": "vCalculus",
-    "effects": ["stickyBomb"]
+    "effects": ["stickyBomb"],
+    "aoeTemplates": ["stickyBomb"]
   },
   {
     "name": "vChisel",

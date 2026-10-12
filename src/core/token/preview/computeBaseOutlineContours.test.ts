@@ -160,4 +160,16 @@ describe("computeBaseOutlineContours", () => {
     // is strictly larger once there's an actual notch for it to fill.
     expect(totalArea(filletedContours)).toBeGreaterThan(totalArea(plainContours));
   });
+
+  it("returns an outer and an inner contour for a disc with an inner diameter", async () => {
+    const innerRadiusMm = 15;
+    const shape: ShapeSpec = { type: "disc", diameterMm: 40, innerDiameterMm: innerRadiusMm * 2 };
+
+    const contours = await computeBaseOutlineContours(shape, 90);
+    const farthestDistances = contours.map((contour) => maxDistanceFromOrigin([contour]));
+    const innerContours = farthestDistances.filter((distance) => distance < innerRadiusMm + 0.1);
+
+    expect(contours).toHaveLength(2);
+    expect(innerContours).toHaveLength(1);
+  });
 });

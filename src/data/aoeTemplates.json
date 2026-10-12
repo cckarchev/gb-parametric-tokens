@@ -1,0 +1,18 @@
+[
+  { "id": "stickyBomb", "name": "Sticky Bomb", "effect": "Poison" },
+  { "id": "ghostlyVisage", "name": "Ghostly Visage", "effect": "Charge -4\" MOV -2 TAC" },
+  { "id": "sprungALeak", "name": "Sprung a Leak", "effect": "2 DMG -2 ARM" },
+  { "id": "smokeBomb", "name": "Smoke Bomb", "effect": "Cover" },
+  { "id": "noxiousBlast", "name": "Noxious Blast", "effect": "Poison" },
+  { "id": "fireBlast", "name": "Fire Blast", "effect": "Burning" },
+  { "id": "flameBelch", "name": "Flame Belch", "effect": "Burning" },
+  { "id": "molotov", "name": "Molotov", "effect": "Burning" },
+  { "id": "painCircle", "name": "Pain Circle", "effect": "Bleed" },
+  { "id": "chilliCookOut", "name": "Chilli Cook Out", "effect": "Burning" },
+  { "id": "broadside", "name": "Broadside", "effect": "Rough Terrain", "maxCopies": 2 },
+  { "id": "blastEarth", "name": "Blast Earth", "effect": "Rough Terrain" },
+  { "id": "harrier", "name": "Harrier", "effect": "+1 DMG Taken" },
+  { "id": "forestGrove", "name": "Forest Grove", "effect": "Forest Terrain" },
+  { "id": "naturesGrowth", "name": "Nature's Growth", "effect": "Forest Terrain" },
+  { "id": "naturesChill", "name": "Nature's Chill", "effect": "Fast Terrain" }
+]

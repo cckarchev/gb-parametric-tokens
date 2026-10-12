@@ -4,7 +4,10 @@ import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 
 import { GuildCatalog } from "../../../core/token/catalog/catalogTypes";
-import { characterTokenId } from "../../../core/token/catalog/tokenItems/tokenItem";
+import {
+  characterAoeTemplateId,
+  characterTokenId,
+} from "../../../core/token/catalog/tokenItems/tokenItem";
 import { CharacterTokenList } from "./CharacterTokenList";
 
 // A deliberately tiny guild, but every character and effect named here is a real entry in the
@@ -54,6 +57,32 @@ const renderList = (
   );
 
   return { onSelectedTokenIdsChange, onTokenCopiesChange };
+};
+
+// Cutlass is a real Broadside owner with no effects in characters.json, so this one fixture
+// covers both the template rows and a character that has templates but no tokens.
+const blacksmithsCatalog: GuildCatalog = {
+  guildId: "blacksmiths",
+  name: "Blacksmiths",
+  color: "#82969f",
+  characters: [{ name: "Cutlass", effects: [], aoeTemplates: ["broadside"] }],
+  genericTokens: [],
+};
+
+const renderBlacksmiths = () => {
+  const onSelectedTokenIdsChange = vi.fn();
+
+  render(
+    <CharacterTokenList
+      catalog={blacksmithsCatalog}
+      selectedTokenIds={[]}
+      onSelectedTokenIdsChange={onSelectedTokenIdsChange}
+      tokenCopies={{}}
+      onTokenCopiesChange={vi.fn()}
+    />,
+  );
+
+  return onSelectedTokenIdsChange;
 };
 
 describe("CharacterTokenList", () => {
@@ -186,5 +215,29 @@ describe("CharacterTokenList", () => {
 
     expect(screen.getByLabelText("Hammer Time! (+1 DMG)")).toBeInTheDocument();
     expect(screen.getByLabelText('Hammer Time! (+2"/+2" MOV)')).toBeInTheDocument();
+  });
+
+  it("lists a character's AOE templates under their own subheading", async () => {
+    const onSelectedTokenIdsChange = renderBlacksmiths();
+
+    expect(screen.getByText("AOE templates")).toBeInTheDocument();
+    expect(screen.getByLabelText("Broadside copies")).toBeDisabled();
+
+    await userEvent.click(screen.getByLabelText("Broadside"));
+
+    expect(onSelectedTokenIdsChange).toHaveBeenCalledWith([characterAoeTemplateId("Cutlass", 0)]);
+  });
+
+  it("shows no AOE templates subheading for a guild without templates", () => {
+    renderList();
+
+    expect(screen.queryByText("AOE templates")).not.toBeInTheDocument();
+  });
+
+  it("enables a character's header checkbox when it has templates but no tokens", () => {
+    renderBlacksmiths();
+
+    expect(screen.getByLabelText("Cutlass")).toBeEnabled();
+    expect(screen.queryByText("No tokens")).not.toBeInTheDocument();
   });
 });
