@@ -158,6 +158,11 @@ describe("useTokenGenerator", () => {
       { id: "cooks", name: "Cooks", color: "#eb2629" },
     ]);
 
+    // Looked up by id like the real lookup, since the hook resolves the catalog on every render.
+    vi.mocked(loadGuildCatalog).mockImplementation((guildId) => {
+      return guildId === otherCatalog.guildId ? otherCatalog : catalog;
+    });
+
     const { result } = renderHook(() => useTokenGenerator());
 
     await act(async () => {
@@ -180,8 +185,6 @@ describe("useTokenGenerator", () => {
     expect(result.current.selection.characterTokenIds).toEqual(["Tapper-0"]);
     expect(result.current.selection.momentum.enabled).toBe(false);
 
-    vi.mocked(loadGuildCatalog).mockReturnValueOnce(otherCatalog);
-
     await act(async () => {
       result.current.selectGuild("cooks");
     });
@@ -193,8 +196,6 @@ describe("useTokenGenerator", () => {
     // Cooks is visited for the first time, so it gets the full default selection.
     expect(result.current.selection.characterTokenIds).toEqual(["Wellington-0"]);
     expect(result.current.selection.momentum.enabled).toBe(true);
-
-    vi.mocked(loadGuildCatalog).mockReturnValueOnce(catalog);
 
     await act(async () => {
       result.current.selectGuild("brewers");
