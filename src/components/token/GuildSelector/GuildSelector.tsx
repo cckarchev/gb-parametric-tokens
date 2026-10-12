@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { AvailableGuild } from "../../../browser/listAvailableGuilds";
 import { Panel } from "../../primitives/Panel/Panel";
@@ -17,11 +17,19 @@ type GuildSelectorProps = {
 const LOGO_BASE_SIZE_PERCENT = 80;
 
 export const GuildSelector = ({ guilds, selectedGuildId, onSelect }: GuildSelectorProps) => {
-  // Starts open (nothing to pick yet), then collapses out of the way as soon as a guild is
-  // picked, freeing space for the preview and the rest of the form. Controlled (not just
-  // defaultExpanded) so picking a tile can collapse it explicitly, and the user can still
-  // reopen it manually afterwards to switch guilds.
-  const [expanded, setExpanded] = useState(true);
+  // Starts open only when there is nothing picked yet (a /guild/<id> deep link arrives with a
+  // guild already chosen), then collapses out of the way as soon as a guild is picked, freeing
+  // space for the preview and the rest of the form. Controlled (not just defaultExpanded) so
+  // picking a tile can collapse it explicitly, and the user can still reopen it manually
+  // afterwards to switch guilds.
+  const [expanded, setExpanded] = useState(selectedGuildId === undefined);
+
+  // Going back to the root URL clears the guild, which puts the picker back up front.
+  useEffect(() => {
+    if (selectedGuildId === undefined) {
+      setExpanded(true);
+    }
+  }, [selectedGuildId]);
 
   const selectGuild = (guildId: string) => {
     onSelect(guildId);

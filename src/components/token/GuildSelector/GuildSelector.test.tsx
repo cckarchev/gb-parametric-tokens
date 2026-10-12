@@ -15,6 +15,9 @@ describe("GuildSelector", () => {
 
     render(<GuildSelector guilds={guilds} selectedGuildId="brewers" onSelect={onSelect} />);
 
+    // A guild is already picked, so the panel starts collapsed; reopen it to reach the tiles.
+    await userEvent.click(screen.getByRole("button", { name: "Guild" }));
+
     expect(screen.getByRole("button", { name: "Brewers" })).toHaveAttribute("aria-pressed", "true");
     expect(screen.getByRole("button", { name: "Morticians" })).toHaveAttribute(
       "aria-pressed",
@@ -74,5 +77,25 @@ describe("GuildSelector", () => {
     await userEvent.click(screen.getByRole("button", { name: "Brewers" }));
 
     expect(screen.getByRole("button", { name: "Brewers", hidden: true })).not.toBeVisible();
+  });
+
+  it("starts collapsed when a guild is already selected, as on a /guild/<id> deep link", () => {
+    const guilds = [{ id: "brewers", name: "Brewers", color: "#cdb320" }];
+
+    render(<GuildSelector guilds={guilds} selectedGuildId="brewers" onSelect={vi.fn()} />);
+
+    expect(screen.getByRole("button", { name: "Brewers", hidden: true })).not.toBeVisible();
+  });
+
+  it("reopens the panel when the selection is cleared, as on going back to the root URL", () => {
+    const guilds = [{ id: "brewers", name: "Brewers", color: "#cdb320" }];
+
+    const { rerender } = render(
+      <GuildSelector guilds={guilds} selectedGuildId="brewers" onSelect={vi.fn()} />,
+    );
+
+    rerender(<GuildSelector guilds={guilds} onSelect={vi.fn()} />);
+
+    expect(screen.getByRole("button", { name: "Brewers" })).toBeVisible();
   });
 });

@@ -8,5 +8,9 @@ import "@testing-library/jest-dom/vitest";
 if (typeof document !== "undefined") {
   afterEach(() => {
     cleanup();
+
+    // Picking a guild pushes /guild/<id> onto the history, and the URL decides the starting
+    // guild, so every test has to begin back at the root or it inherits the last one's guild.
+    window.history.replaceState(null, "", "/");
   });
 }
