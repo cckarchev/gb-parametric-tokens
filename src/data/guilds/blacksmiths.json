@@ -19,5 +19,6 @@
     "Iron",
     "Sledge"
   ],
-  "genericTokens": []
+  "genericTokens": [],
+  "conditions": ["knockedDown", "burning"]
 }

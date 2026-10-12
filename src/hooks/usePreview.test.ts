@@ -20,6 +20,7 @@ const catalog: GuildCatalog = {
   ],
   genericTokens: [],
   conditions: [],
+  appliedConditionIds: [],
 };
 
 const sharedConfig: SharedConfig = {

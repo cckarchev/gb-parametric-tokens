@@ -18,5 +18,6 @@
       "name": "Log Pile Dodge Used",
       "maxCopies": 6
     }
-  ]
+  ],
+  "conditions": ["knockedDown"]
 }

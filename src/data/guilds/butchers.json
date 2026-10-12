@@ -20,5 +20,6 @@
     "Cinnamon",
     "Roast"
   ],
-  "genericTokens": []
+  "genericTokens": [],
+  "conditions": ["knockedDown", "snared", "bleed", "poison", "burning"]
 }

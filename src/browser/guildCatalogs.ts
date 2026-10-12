@@ -11,6 +11,7 @@ type RawGuildCatalog = {
   iconScale?: number;
   characters: string[];
   genericTokens: CatalogGenericToken[];
+  conditions: string[];
 };
 
 // Eager (not lazy) so the guild picker can list every guild's id/name/color/iconScale up front
@@ -44,5 +45,6 @@ export const guildCatalogs: GuildCatalog[] = Object.entries(modules).map(([path,
     characters: raw.characters.map(resolveCharacter),
     genericTokens: raw.genericTokens,
     conditions: conditionsForGuild(guildId),
+    appliedConditionIds: raw.conditions,
   };
 });

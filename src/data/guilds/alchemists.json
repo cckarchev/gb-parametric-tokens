@@ -21,5 +21,6 @@
     "Heat",
     "Phosphor"
   ],
-  "genericTokens": []
+  "genericTokens": [],
+  "conditions": ["knockedDown", "poison", "burning"]
 }

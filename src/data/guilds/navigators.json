@@ -3,5 +3,6 @@
   "color": "#50b8c8",
   "iconScale": 1.1,
   "characters": ["Angel", "Siren", "Windfinder", "Wander", "Azimuth", "Ebb", "Fathom", "Horizon"],
-  "genericTokens": []
+  "genericTokens": [],
+  "conditions": ["knockedDown"]
 }

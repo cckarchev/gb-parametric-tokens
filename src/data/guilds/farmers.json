@@ -25,5 +25,6 @@
       "name": "Harvest Influence",
       "maxCopies": 5
     }
-  ]
+  ],
+  "conditions": ["knockedDown"]
 }

@@ -12,6 +12,7 @@ const catalog: GuildCatalog = {
   characters: [],
   genericTokens: [{ name: "Beer Token" }],
   conditions: [],
+  appliedConditionIds: [],
 };
 
 type GuildTokenListProps = Parameters<typeof GuildTokenList>[0];

@@ -34,6 +34,7 @@ const catalog: GuildCatalog = {
   ],
   genericTokens: [],
   conditions: [],
+  appliedConditionIds: [],
 };
 
 const renderList = (
@@ -69,6 +70,7 @@ const blacksmithsCatalog: GuildCatalog = {
   characters: [{ name: "Cutlass", effects: [], aoeTemplates: ["broadside"] }],
   genericTokens: [],
   conditions: [],
+  appliedConditionIds: [],
 };
 
 const renderBlacksmiths = () => {
@@ -204,6 +206,7 @@ describe("CharacterTokenList", () => {
       characters: [{ name: "Hammer", effects: ["hammerTimeDmg", "hammerTimeMov"] }],
       genericTokens: [],
       conditions: [],
+      appliedConditionIds: [],
     };
 
     render(

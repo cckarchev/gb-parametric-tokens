@@ -23,6 +23,7 @@ const catalog: GuildCatalog = {
     { id: "poison", name: "Poison", iconId: "poison" },
     { id: "burning", name: "Burning", iconId: "burning" },
   ],
+  appliedConditionIds: ["burning"],
 };
 
 describe("buildDefaultSelection", () => {
@@ -55,11 +56,11 @@ describe("buildDefaultSelection", () => {
     expect(selection.goalInfluence).toEqual({ enabled: true, copies: 2 });
   });
 
-  it("enables every condition with a few copies, keyed by the condition's id", () => {
+  it("enables only the conditions the guild applies, keyed by id, all with a few copies", () => {
     const selection = buildDefaultSelection(catalog);
 
     expect(selection.conditions).toEqual({
-      poison: { enabled: true, copies: 4 },
+      poison: { enabled: false, copies: 4 },
       burning: { enabled: true, copies: 4 },
     });
   });
@@ -72,6 +73,7 @@ describe("buildDefaultSelection", () => {
       characters: [],
       genericTokens: [],
       conditions: [],
+      appliedConditionIds: [],
     };
 
     const selection = buildDefaultSelection(emptyCatalog);
@@ -89,6 +91,7 @@ describe("buildDefaultSelection", () => {
       characters: [{ name: "Cutlass", effects: [], aoeTemplates: ["broadside"] }],
       genericTokens: [],
       conditions: [],
+      appliedConditionIds: [],
     };
 
     expect(buildDefaultSelection(blacksmithsCatalog).characterTokenIds).toEqual([

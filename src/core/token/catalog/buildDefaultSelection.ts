@@ -28,7 +28,9 @@ export const buildDefaultSelection = (catalog: GuildCatalog): TokenSelection => 
   const conditions: Record<string, CounterSelection> = {};
 
   for (const condition of catalog.conditions) {
-    conditions[condition.id] = enabledCounter(DEFAULT_CONDITION_COPIES);
+    const isApplied = catalog.appliedConditionIds.includes(condition.id);
+
+    conditions[condition.id] = { enabled: isApplied, copies: DEFAULT_CONDITION_COPIES };
   }
 
   return {

@@ -21,5 +21,6 @@
     "Harry \u2018the Hat\u2019",
     "Mist"
   ],
-  "genericTokens": []
+  "genericTokens": [],
+  "conditions": ["knockedDown", "snared", "bleed", "poison", "burning"]
 }

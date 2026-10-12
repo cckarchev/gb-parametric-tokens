@@ -33,6 +33,28 @@ describe("conditionsForGuild", () => {
   });
 });
 
+describe("guild files' applied conditions", () => {
+  it("only name conditions that guild is offered", () => {
+    const unknownReferences = guildCatalogs.flatMap((catalog) => {
+      const offeredIds = new Set(catalog.conditions.map((condition) => condition.id));
+
+      return catalog.appliedConditionIds
+        .filter((conditionId) => !offeredIds.has(conditionId))
+        .map((conditionId) => `${catalog.guildId}: ${conditionId}`);
+    });
+
+    expect(unknownReferences).toEqual([]);
+  });
+
+  it("include knocked down for every guild, since every roster can inflict it", () => {
+    const guildsWithoutKnockDown = guildCatalogs
+      .filter((catalog) => !catalog.appliedConditionIds.includes("knockedDown"))
+      .map((catalog) => catalog.guildId);
+
+    expect(guildsWithoutKnockDown).toEqual([]);
+  });
+});
+
 describe("conditions.json", () => {
   it("gives every condition a camelCase id", () => {
     const ids = conditionsData.map((condition) => condition.id);

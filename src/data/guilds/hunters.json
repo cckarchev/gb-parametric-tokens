@@ -20,5 +20,6 @@
     "Mataagi",
     "Minerva"
   ],
-  "genericTokens": []
+  "genericTokens": [],
+  "conditions": ["knockedDown", "snared", "bleed", "poison"]
 }

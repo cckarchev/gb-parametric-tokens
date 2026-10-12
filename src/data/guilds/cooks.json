@@ -11,5 +11,6 @@
     "Spice",
     "Sugar"
   ],
-  "genericTokens": []
+  "genericTokens": [],
+  "conditions": ["knockedDown", "burning"]
 }

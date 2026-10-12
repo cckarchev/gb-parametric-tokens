@@ -12,5 +12,6 @@
     "Mist",
     "sSpigot"
   ],
-  "genericTokens": []
+  "genericTokens": [],
+  "conditions": ["knockedDown", "burning"]
 }

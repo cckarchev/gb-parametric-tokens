@@ -22,6 +22,7 @@ const catalog: GuildCatalog = {
   ],
   genericTokens: [{ name: "Beer Token" }],
   conditions: [],
+  appliedConditionIds: [],
 };
 
 const sharedConfig: SharedConfig = {
@@ -59,6 +60,7 @@ const catalogWithMultiCopyToken: GuildCatalog = {
   characters: [{ name: "Wellington", effects: ["singledOut"] }],
   genericTokens: [],
   conditions: [],
+  appliedConditionIds: [],
 };
 
 // Derived rather than restated: the two tests that use this are about the size on each line, so
@@ -74,6 +76,7 @@ const blacksmithsCatalog: GuildCatalog = {
   characters: [{ name: "Cutlass", effects: [], aoeTemplates: ["broadside"] }],
   genericTokens: [],
   conditions: [],
+  appliedConditionIds: [],
 };
 
 const commandingAuraText = resolveEffect("commandingAura").effect;
@@ -426,6 +429,7 @@ describe("buildTokenItems", () => {
       characters: [{ name: "Honour", effects: ["toppingOutInfluence"] }],
       genericTokens: [],
       conditions: [],
+      appliedConditionIds: [],
     };
     const tokenId = characterTokenId("Honour", 0);
     const selection: TokenSelection = {
@@ -454,6 +458,7 @@ describe("buildTokenItems", () => {
       characters: [{ name: "Hammer", effects: ["hammerTimeDmg", "hammerTimeMov"] }],
       genericTokens: [],
       conditions: [],
+      appliedConditionIds: [],
     };
     const selection: TokenSelection = {
       ...emptySelection,

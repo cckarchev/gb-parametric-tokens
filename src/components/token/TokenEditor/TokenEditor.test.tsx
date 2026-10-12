@@ -83,6 +83,7 @@ describe("TokenEditor", () => {
         characters: [{ name: "Tapper", effects: ["commandingAura"] }],
         genericTokens: [{ name: "Beer Token" }],
         conditions: [],
+        appliedConditionIds: [],
       },
     });
 
@@ -113,6 +114,7 @@ describe("TokenEditor", () => {
         characters: [],
         genericTokens: [{ name: "Beer Token" }],
         conditions: [],
+        appliedConditionIds: [],
       },
       setSelection,
     });

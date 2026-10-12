@@ -73,4 +73,8 @@ export type GuildCatalog = {
   // Resolved from conditions.json at load time (see guildCatalogs.ts): every shared condition
   // plus any restricted to this guild.
   conditions: CatalogCondition[];
+  // The ids of the conditions this guild's roster can actually inflict (the guild file's own
+  // `conditions` field), preselected in its default selection. The rest of `conditions` is still
+  // offered, just unchecked.
+  appliedConditionIds: string[];
 };

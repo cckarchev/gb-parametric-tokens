@@ -20,5 +20,6 @@
     "Fathom",
     "Horizon"
   ],
-  "genericTokens": []
+  "genericTokens": [],
+  "conditions": ["knockedDown"]
 }

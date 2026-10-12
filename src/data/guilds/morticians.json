@@ -21,5 +21,6 @@
     "Pelage",
     "Skulk"
   ],
-  "genericTokens": []
+  "genericTokens": [],
+  "conditions": ["knockedDown", "burning"]
 }

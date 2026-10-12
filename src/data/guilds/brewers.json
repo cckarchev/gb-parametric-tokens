@@ -24,5 +24,6 @@
       "name": "Beer Token",
       "maxCopies": 6
     }
-  ]
+  ],
+  "conditions": ["knockedDown", "bleed", "burning"]
 }
