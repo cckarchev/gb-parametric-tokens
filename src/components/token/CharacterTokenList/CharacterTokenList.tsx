@@ -16,6 +16,8 @@ import { SelectAllCheckbox } from "../../primitives/SelectAllCheckbox/SelectAllC
 import styles from "./CharacterTokenList.module.css";
 import { TokenRow } from "./TokenRow";
 
+const AOE_TEMPLATE_TAG = "AOE";
+
 type CharacterTokenListProps = {
   catalog: GuildCatalog;
   selectedTokenIds: string[];
@@ -65,11 +67,12 @@ export const CharacterTokenList = ({
     onTokenCopiesChange({ ...tokenCopies, [id]: copies });
   };
 
-  const renderRow = (id: string, label: string, maxCopies: number | undefined) => {
+  const renderRow = (id: string, label: string, maxCopies: number | undefined, tag?: string) => {
     return (
       <TokenRow
         key={id}
         label={label}
+        tag={tag}
         maxCopies={maxCopies}
         selected={selectedTokenIds.includes(id)}
         copies={tokenCopies[id] ?? MIN_COPIES}
@@ -127,17 +130,12 @@ export const CharacterTokenList = ({
                 ),
               )}
 
-              {templates.length > 0 && (
-                <div className={`${styles.row} ${styles.rowToken} ${styles.subheading}`}>
-                  AOE templates
-                </div>
-              )}
-
               {templates.map((template, templateIndex) =>
                 renderRow(
                   characterAoeTemplateId(character.name, templateIndex),
                   template.name,
                   template.maxCopies,
+                  AOE_TEMPLATE_TAG,
                 ),
               )}
 

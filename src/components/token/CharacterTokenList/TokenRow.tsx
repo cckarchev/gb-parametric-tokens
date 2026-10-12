@@ -5,6 +5,7 @@ import styles from "./CharacterTokenList.module.css";
 
 type TokenRowProps = {
   label: string;
+  tag?: string;
   maxCopies?: number;
   selected: boolean;
   copies: number;
@@ -13,9 +14,11 @@ type TokenRowProps = {
 };
 
 // One selectable line under a character, shared by its tokens and its AOE templates: a checkbox,
-// plus a copies stepper only when the catalog entry allows more than one copy.
+// an optional muted tag that tells the kinds apart, and a copies stepper only when the catalog entry
+// allows more than one copy.
 export const TokenRow = ({
   label,
+  tag,
   maxCopies,
   selected,
   copies,
@@ -28,18 +31,22 @@ export const TokenRow = ({
     <div className={`${styles.row} ${styles.rowToken}`}>
       <CheckboxField label={label} checked={selected} onChange={onToggle} />
 
-      {hasCopiesField && (
-        <NumberField
-          label={`${label} copies`}
-          hideLabel
-          stepper
-          value={copies}
-          min={MIN_COPIES}
-          max={maxCopies}
-          disabled={!selected}
-          onChange={onCopiesChange}
-        />
-      )}
+      <div className={styles.rowAccessories}>
+        {tag && <span className={styles.tag}>{tag}</span>}
+
+        {hasCopiesField && (
+          <NumberField
+            label={`${label} copies`}
+            hideLabel
+            stepper
+            value={copies}
+            min={MIN_COPIES}
+            max={maxCopies}
+            disabled={!selected}
+            onChange={onCopiesChange}
+          />
+        )}
+      </div>
     </div>
   );
 };

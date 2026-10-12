@@ -217,10 +217,10 @@ describe("CharacterTokenList", () => {
     expect(screen.getByLabelText('Hammer Time! (+2"/+2" MOV)')).toBeInTheDocument();
   });
 
-  it("lists a character's AOE templates under their own subheading", async () => {
+  it("lists a character's AOE templates with an AOE tag", async () => {
     const onSelectedTokenIdsChange = renderBlacksmiths();
 
-    expect(screen.getByText("AOE templates")).toBeInTheDocument();
+    expect(screen.getByText("AOE")).toBeInTheDocument();
     expect(screen.getByLabelText("Broadside copies")).toBeDisabled();
 
     await userEvent.click(screen.getByLabelText("Broadside"));
@@ -228,10 +228,10 @@ describe("CharacterTokenList", () => {
     expect(onSelectedTokenIdsChange).toHaveBeenCalledWith([characterAoeTemplateId("Cutlass", 0)]);
   });
 
-  it("shows no AOE templates subheading for a guild without templates", () => {
+  it("shows no AOE tag for a guild without templates", () => {
     renderList();
 
-    expect(screen.queryByText("AOE templates")).not.toBeInTheDocument();
+    expect(screen.queryByText("AOE")).not.toBeInTheDocument();
   });
 
   it("enables a character's header checkbox when it has templates but no tokens", () => {
