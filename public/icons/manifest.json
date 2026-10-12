@@ -352,14 +352,14 @@
   {
     "id": "knock-down",
     "kind": "status",
-    "pathCount": 6,
+    "pathCount": 3,
     "bbox": {
-      "minX": 0.6049999999999995,
-      "minY": 0.0026249999999985903,
-      "maxX": 15.392406249999997,
+      "minX": 0.6048421020507808,
+      "minY": 0.00087304687499859,
+      "maxX": 12.509567352294921,
       "maxY": 15.995843750000002
     },
-    "aspect": 0.9246047641285462,
+    "aspect": 0.744279278230767,
     "needsUnion": true,
     "overflowsEmBox": false
   },

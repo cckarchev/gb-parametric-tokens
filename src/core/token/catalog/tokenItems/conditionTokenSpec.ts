@@ -1,23 +1,30 @@
 import { TokenSpec } from "../../types";
 import { CatalogCondition } from "../catalogTypes";
-import { buildRingTokenSpec } from "./ringTokenSpec";
 import { SharedConfig } from "./tokenItem";
+import { buildIconSpec, sharedTokenFields } from "./tokenSpecParts";
 
-// The guild's iconScale only tunes its own crest (see guildCrestScale), so a condition's icon
-// stays at the ring's own scale.
-const CONDITION_ICON_SCALE = 1;
+// Below DEFAULT_ICON_SCALE (0.85) on purpose: these icons fill their own square, so a box fit
+// pushes their corners past the rim (poison already touches it at 0.82). 0.72 leaves every
+// condition icon about 1mm clear of the edge on the 20mm disc.
+const CONDITION_ICON_SCALE = 0.72;
+const DEFAULT_CONDITION_ICON_SCALE_MULTIPLIER = 1;
 
-// The Goal Influence badge with the condition's icon in place of the crest and its name curved
-// on top: in a single ink color, Poison, Disease and Bleed are too easy to mix up by icon alone.
+// Icon only, no name: each condition's icon is recognizable on its own, so the whole disc goes to
+// the icon. Goal Influence's diameter rather than the smaller shared disc, so it reads at a glance.
 export const buildConditionTokenSpec = (
   condition: CatalogCondition,
   sharedConfig: SharedConfig,
 ): TokenSpec => {
-  return buildRingTokenSpec(
-    condition.name,
-    undefined,
-    condition.iconId,
-    CONDITION_ICON_SCALE,
-    sharedConfig,
-  );
+  const iconScaleMultiplier = condition.iconScale ?? DEFAULT_CONDITION_ICON_SCALE_MULTIPLIER;
+  const iconScale = CONDITION_ICON_SCALE * iconScaleMultiplier;
+
+  return {
+    version: 1,
+    shape: sharedConfig.goalInfluenceShape,
+    textLayout: "flat",
+    lines: [],
+    icons: [buildIconSpec(condition.iconId, "center", iconScale, sharedConfig)],
+    decorations: [],
+    ...sharedTokenFields(sharedConfig),
+  };
 };

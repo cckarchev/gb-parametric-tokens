@@ -4,5 +4,5 @@
   { "id": "disease", "name": "Disease", "iconId": "disease", "guilds": ["ratcatchers"] },
   { "id": "knockedDown", "name": "Knocked Down", "iconId": "knock-down" },
   { "id": "poison", "name": "Poison", "iconId": "poison" },
-  { "id": "snared", "name": "Snared", "iconId": "snared" }
+  { "id": "snared", "name": "Snared", "iconId": "snared", "iconScale": 1.2 }
 ]

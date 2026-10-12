@@ -31,6 +31,9 @@ export type CatalogCondition = {
   id: string;
   name: string;
   iconId: string;
+  // Multiplies the shared condition icon scale for an icon whose shape leaves room to grow (or
+  // needs to shrink) on the disc. Optional; defaults to 1.
+  iconScale?: number;
   guilds?: string[];
 };
 
