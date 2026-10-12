@@ -20,5 +20,10 @@
     "Lamb",
     "Shearer"
   ],
-  "genericTokens": []
+  "genericTokens": [
+    {
+      "name": "Harvest Influence",
+      "maxCopies": 5
+    }
+  ]
 }

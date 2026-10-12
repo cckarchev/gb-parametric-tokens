@@ -21,5 +21,10 @@
     "Bucker",
     "Tinder"
   ],
-  "genericTokens": []
+  "genericTokens": [
+    {
+      "name": "Log Pile Dodge Used",
+      "maxCopies": 3
+    }
+  ]
 }

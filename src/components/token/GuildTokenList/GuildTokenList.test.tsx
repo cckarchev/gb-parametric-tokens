@@ -60,6 +60,20 @@ describe("GuildTokenList", () => {
     expect(screen.getByLabelText("Beer Token copies")).toHaveValue(1);
   });
 
+  it("caps a generic token's copies at 20 when its catalog entry sets no maxCopies", () => {
+    renderList();
+
+    expect(screen.getByLabelText("Beer Token copies")).toHaveAttribute("max", "20");
+  });
+
+  it("caps a generic token's copies at its own catalog maxCopies instead of the 20 default", () => {
+    renderList({
+      catalog: { ...catalog, genericTokens: [{ name: "Beer Token", maxCopies: 6 }] },
+    });
+
+    expect(screen.getByLabelText("Beer Token copies")).toHaveAttribute("max", "6");
+  });
+
   it("reports an enabled change for a generic token, preserving the rest of the map", () => {
     const onGenericTokensChange = vi.fn();
 

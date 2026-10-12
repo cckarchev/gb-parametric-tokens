@@ -21,6 +21,9 @@ export type CatalogCharacter = {
 export type CatalogGenericToken = {
   name: string;
   iconId?: string;
+  // Max simultaneous copies of this token in play. Omitted means the UI's own default cap (see
+  // GuildTokenList's MAX_COPIES), only set when the rules impose a lower one.
+  maxCopies?: number;
 };
 
 export type GuildCatalog = {

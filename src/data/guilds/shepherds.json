@@ -2,5 +2,10 @@
   "name": "Shepherds",
   "color": "#ea8329",
   "characters": ["Bushel", "vHonour", "Herder", "Babe", "Crook", "Hook", "Lamb", "Ram", "Shearer"],
-  "genericTokens": []
+  "genericTokens": [
+    {
+      "name": "Harvest Influence",
+      "maxCopies": 5
+    }
+  ]
 }

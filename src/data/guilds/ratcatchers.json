@@ -2,5 +2,10 @@
   "name": "Ratcatchers",
   "color": "#1d2022",
   "characters": ["Bonesaw", "vGraves", "Piper", "Squeak", "Miasma", "Pelage", "Scourge", "Skulk"],
-  "genericTokens": []
+  "genericTokens": [
+    {
+      "name": "Disease",
+      "maxCopies": 12
+    }
+  ]
 }

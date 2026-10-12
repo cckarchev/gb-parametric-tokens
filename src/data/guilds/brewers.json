@@ -21,7 +21,8 @@
   ],
   "genericTokens": [
     {
-      "name": "Beer Token"
+      "name": "Beer Token",
+      "maxCopies": 6
     }
   ]
 }

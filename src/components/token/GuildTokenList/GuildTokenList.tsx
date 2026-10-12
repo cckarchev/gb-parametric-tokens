@@ -71,7 +71,7 @@ export const GuildTokenList = ({
     label: generic.name,
     selection: genericTokens[generic.name] ?? DEFAULT_GENERIC_COUNTER,
     onChange: (selection) => onGenericTokensChange({ ...genericTokens, [generic.name]: selection }),
-    maxCopies: MAX_COPIES,
+    maxCopies: generic.maxCopies ?? MAX_COPIES,
   }));
 
   const rows = [...fixedRows, ...genericRows];
