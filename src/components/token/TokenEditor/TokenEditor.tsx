@@ -71,6 +71,17 @@ export const TokenEditor = () => {
                 />
               )}
 
+              {/* In the roster's spot: for the generic catalog, the game plans are its "models". */}
+              {hasGamePlans && (
+                <CounterRecordList
+                  title="Game Plans"
+                  entries={generator.catalog.gamePlans}
+                  maxCopies={MAX_GAME_PLAN_COPIES}
+                  selection={generator.selection.gamePlans}
+                  onSelectionChange={updateSelectionField("gamePlans")}
+                />
+              )}
+
               <GuildTokenList
                 catalog={generator.catalog}
                 genericTokens={generator.selection.genericTokens}
@@ -90,16 +101,6 @@ export const TokenEditor = () => {
                 selection={generator.selection.conditions}
                 onSelectionChange={updateSelectionField("conditions")}
               />
-
-              {hasGamePlans && (
-                <CounterRecordList
-                  title="Game Plans"
-                  entries={generator.catalog.gamePlans}
-                  maxCopies={MAX_GAME_PLAN_COPIES}
-                  selection={generator.selection.gamePlans}
-                  onSelectionChange={updateSelectionField("gamePlans")}
-                />
-              )}
 
               <TokenConfigEditor
                 sharedConfig={generator.sharedConfig}
