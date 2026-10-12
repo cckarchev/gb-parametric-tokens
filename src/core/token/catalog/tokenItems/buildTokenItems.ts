@@ -13,6 +13,7 @@ import {
   characterAoeTemplateId,
   characterTokenId,
   conditionTokenId,
+  gamePlanTokenId,
   SharedConfig,
   TokenItem,
   TokenSelection,
@@ -110,6 +111,24 @@ export const buildTokenItems = (
       label: condition.name,
       name: condition.name,
       spec: buildConditionTokenSpec(condition, sharedConfig),
+      copies: counter.copies,
+    });
+  }
+
+  for (const gamePlan of catalog.gamePlans) {
+    const counter = selection.gamePlans[gamePlan.id];
+
+    if (!counter?.enabled) {
+      continue;
+    }
+
+    // Structurally a character effect (name plus the effect line below it), so it is printed as
+    // the same arc token, wearing the catalog's own crest.
+    items.push({
+      id: gamePlanTokenId(gamePlan.id),
+      label: gamePlan.name,
+      name: gamePlan.name,
+      spec: buildCharacterTokenSpec(gamePlan, guildIconId, guildIconScale, sharedConfig),
       copies: counter.copies,
     });
   }

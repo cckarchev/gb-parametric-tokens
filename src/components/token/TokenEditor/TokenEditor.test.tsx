@@ -24,6 +24,7 @@ const baseGenerator = {
     momentum: { enabled: false, copies: 1 },
     goalInfluence: { enabled: false, copies: 1 },
     conditions: {},
+    gamePlans: {},
   },
   setSelection: vi.fn(),
   sharedConfig: {
@@ -84,6 +85,7 @@ describe("TokenEditor", () => {
         genericTokens: [{ name: "Beer Token" }],
         conditions: [],
         appliedConditionIds: [],
+        gamePlans: [],
       },
     });
 
@@ -92,6 +94,31 @@ describe("TokenEditor", () => {
     expect(screen.getByLabelText("Influence tokens")).toBeInTheDocument();
     expect(screen.getByLabelText("Momentum tokens")).toBeInTheDocument();
     expect(screen.getByLabelText("Beer Token")).toBeInTheDocument();
+    expect(screen.getByText("Character tokens")).toBeInTheDocument();
+    expect(screen.queryByText("Game Plans")).not.toBeInTheDocument();
+  });
+
+  it("shows game plans and hides the empty character list for a catalog with no roster", () => {
+    vi.mocked(useTokenGenerator).mockReturnValue({
+      ...baseGenerator,
+      catalogStatus: "ready",
+      catalog: {
+        guildId: "generic",
+        name: "Generic",
+        color: "#4a4a4a",
+        characters: [],
+        genericTokens: [],
+        conditions: [],
+        appliedConditionIds: [],
+        gamePlans: [{ id: "extraShot", name: "Extra Shot", effect: "+1 TAC, free Sprint" }],
+      },
+    });
+
+    render(<TokenEditor />);
+
+    expect(screen.queryByText("Character tokens")).not.toBeInTheDocument();
+    expect(screen.getByText("Game Plans")).toBeInTheDocument();
+    expect(screen.getByLabelText("Extra Shot")).toBeInTheDocument();
   });
 
   it("composes every field update from Guild tokens' own Select all instead of only the last one sticking (regression)", () => {
@@ -115,6 +142,7 @@ describe("TokenEditor", () => {
         genericTokens: [{ name: "Beer Token" }],
         conditions: [],
         appliedConditionIds: [],
+        gamePlans: [],
       },
       setSelection,
     });

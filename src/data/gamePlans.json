@@ -1,0 +1,28 @@
+[
+  {
+    "id": "extraShot",
+    "name": "Extra Shot",
+    "effect": "+1 TAC, free Sprint",
+    "maxCopies": 2
+  },
+  {
+    "id": "manMarking",
+    "name": "Man Marking",
+    "effect": "+0\"/+2\" MOV Charges"
+  },
+  {
+    "id": "catenaccio",
+    "name": "Catenaccio",
+    "effect": "+2 TAC vs ball carrier"
+  },
+  {
+    "id": "brownEnvelope",
+    "name": "Brown Envelope",
+    "effect": "-1\"/-1\" MOV or -1 TAC"
+  },
+  {
+    "id": "nowhereToHide",
+    "name": "Nowhere to Hide",
+    "effect": "No cover"
+  }
+]

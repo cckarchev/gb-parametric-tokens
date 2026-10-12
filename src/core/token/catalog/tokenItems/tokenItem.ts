@@ -46,6 +46,8 @@ export type TokenSelection = {
   goalInfluence: CounterSelection;
   // Keyed by condition id (see conditions.json), like genericTokens is keyed by name.
   conditions: Record<string, CounterSelection>;
+  // Keyed by game plan id (see gamePlans.json).
+  gamePlans: Record<string, CounterSelection>;
 };
 
 export type SharedConfig = {
@@ -81,4 +83,9 @@ export const characterAoeTemplateId = (characterId: string, templateIndex: numbe
 // bare name.
 export const conditionTokenId = (conditionId: string): string => {
   return `condition-${conditionId}`;
+};
+
+// Prefixed for the same reason as conditionTokenId.
+export const gamePlanTokenId = (gamePlanId: string): string => {
+  return `game-plan-${gamePlanId}`;
 };

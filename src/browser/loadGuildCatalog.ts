@@ -1,10 +1,10 @@
 import { GuildCatalog } from "../core/token/catalog/catalogTypes";
-import { guildCatalogs } from "./guildCatalogs";
+import { selectableCatalogs } from "./guildCatalogs";
 
 // Synchronous on purpose: every guild's catalog is already inlined in this bundle (see
 // guildCatalogs.ts), so this is a lookup, not a load.
 export const loadGuildCatalog = (guildId: string): GuildCatalog => {
-  const catalog = guildCatalogs.find((entry) => entry.guildId === guildId);
+  const catalog = selectableCatalogs.find((entry) => entry.guildId === guildId);
 
   if (!catalog) {
     throw new Error(`Failed to load catalog for guild "${guildId}"`);

@@ -37,6 +37,17 @@ export type CatalogCondition = {
   guilds?: string[];
 };
 
+// A Game Plan card whose effect stays on the table for the turn (a model buffed or marked, a
+// terrain piece stripped of cover), printed as an arc token just like a character effect. Only
+// the generic catalog offers them: the deck is shared by every guild (see gamePlans.json).
+export type CatalogGamePlan = {
+  id: string;
+  name: string;
+  effect: string;
+  // Max simultaneous copies in play (Extra Shot buffs two models). Omitted means 1.
+  maxCopies?: number;
+};
+
 export type CatalogCharacter = {
   name: string;
   // The ids of this character's own tokens, each one a reference into effects.json, see
@@ -77,4 +88,6 @@ export type GuildCatalog = {
   // `conditions` field), preselected in its default selection. The rest of `conditions` is still
   // offered, just unchecked.
   appliedConditionIds: string[];
+  // Empty for every guild: only the generic catalog carries the shared Game Plan deck.
+  gamePlans: CatalogGamePlan[];
 };

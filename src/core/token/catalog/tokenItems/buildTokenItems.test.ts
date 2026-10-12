@@ -6,6 +6,7 @@ import { buildTokenItems } from "./buildTokenItems";
 import {
   characterAoeTemplateId,
   characterTokenId,
+  gamePlanTokenId,
   SharedConfig,
   TokenSelection,
 } from "./tokenItem";
@@ -23,6 +24,7 @@ const catalog: GuildCatalog = {
   genericTokens: [{ name: "Beer Token" }],
   conditions: [],
   appliedConditionIds: [],
+  gamePlans: [],
 };
 
 const sharedConfig: SharedConfig = {
@@ -49,6 +51,7 @@ const emptySelection: TokenSelection = {
   momentum: { enabled: false, copies: 1 },
   goalInfluence: { enabled: false, copies: 1 },
   conditions: {},
+  gamePlans: {},
 };
 
 // "Singled Out" is the only effect in the whole registry that carries maxCopies, so Wellington is
@@ -61,6 +64,7 @@ const catalogWithMultiCopyToken: GuildCatalog = {
   genericTokens: [],
   conditions: [],
   appliedConditionIds: [],
+  gamePlans: [],
 };
 
 // Derived rather than restated: the two tests that use this are about the size on each line, so
@@ -77,6 +81,7 @@ const blacksmithsCatalog: GuildCatalog = {
   genericTokens: [],
   conditions: [],
   appliedConditionIds: [],
+  gamePlans: [],
 };
 
 const commandingAuraText = resolveEffect("commandingAura").effect;
@@ -430,6 +435,7 @@ describe("buildTokenItems", () => {
       genericTokens: [],
       conditions: [],
       appliedConditionIds: [],
+      gamePlans: [],
     };
     const tokenId = characterTokenId("Honour", 0);
     const selection: TokenSelection = {
@@ -459,6 +465,7 @@ describe("buildTokenItems", () => {
       genericTokens: [],
       conditions: [],
       appliedConditionIds: [],
+      gamePlans: [],
     };
     const selection: TokenSelection = {
       ...emptySelection,
@@ -613,6 +620,48 @@ describe("buildTokenItems", () => {
     };
 
     const items = buildTokenItems(catalogWithConditions, emptySelection, sharedConfig);
+
+    expect(items).toEqual([]);
+  });
+
+  it("builds an arc token for an enabled game plan, with its effect below and the crest on both sides", () => {
+    const catalogWithGamePlans: GuildCatalog = {
+      ...catalog,
+      gamePlans: [
+        { id: "extraShot", name: "Extra Shot", effect: "+1 TAC, free Sprint", maxCopies: 2 },
+        { id: "nowhereToHide", name: "Nowhere to Hide", effect: "No cover" },
+      ],
+    };
+
+    const selection: TokenSelection = {
+      ...emptySelection,
+      gamePlans: {
+        extraShot: { enabled: true, copies: 2 },
+        nowhereToHide: { enabled: false, copies: 1 },
+      },
+    };
+
+    const items = buildTokenItems(catalogWithGamePlans, selection, sharedConfig);
+    const [item] = items;
+
+    expect(items).toHaveLength(1);
+    expect(item.id).toBe(gamePlanTokenId("extraShot"));
+    expect(item.label).toBe("Extra Shot");
+    expect(item.name).toBe("Extra Shot");
+    expect(item.group).toBeUndefined();
+    expect(item.copies).toBe(2);
+    expect(item.spec.textLayout).toBe("arc");
+    expect(item.spec.lines.map((line) => line.text)).toEqual(["Extra Shot", "+1 TAC, free Sprint"]);
+    expect(item.spec.icons.map((icon) => icon.iconId)).toEqual(["Brewers", "Brewers"]);
+  });
+
+  it("skips a game plan the selection has no entry for", () => {
+    const catalogWithGamePlans: GuildCatalog = {
+      ...catalog,
+      gamePlans: [{ id: "nowhereToHide", name: "Nowhere to Hide", effect: "No cover" }],
+    };
+
+    const items = buildTokenItems(catalogWithGamePlans, emptySelection, sharedConfig);
 
     expect(items).toEqual([]);
   });

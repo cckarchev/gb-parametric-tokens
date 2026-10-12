@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import manifestData from "../../../../public/icons/manifest.json";
 import { guildCatalogs } from "../../../browser/guildCatalogs";
 import conditionsData from "../../../data/conditions.json";
-import { conditionsForGuild } from "./conditions";
+import { allConditions, conditionsForGuild } from "./conditions";
 
 // Biome's useNamingConvention default for identifiers: lower camelCase, ASCII letters and digits.
 const CAMEL_CASE_ID = /^[a-z][a-zA-Z0-9]*$/;
@@ -30,6 +30,15 @@ describe("conditionsForGuild", () => {
 
   it("returns only the shared conditions for a guild id it does not know", () => {
     expect(conditionNames("notARealGuild")).toEqual(conditionNames("brewers"));
+  });
+});
+
+describe("allConditions", () => {
+  it("offers every condition, guild-restricted ones included", () => {
+    const names = allConditions().map((condition) => condition.name);
+
+    expect(names).toEqual(conditionsData.map((condition) => condition.name));
+    expect(names).toContain("Disease");
   });
 });
 

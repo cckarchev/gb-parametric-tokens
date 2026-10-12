@@ -1,13 +1,16 @@
 import { TokenSelection } from "../../../core/token/catalog/tokenItems/tokenItem";
 import { useTokenGenerator } from "../../../hooks/useTokenGenerator";
 import { CharacterTokenList } from "../CharacterTokenList/CharacterTokenList";
-import { ConditionList } from "../ConditionList/ConditionList";
+import { CounterRecordList } from "../CounterRecordList/CounterRecordList";
 import { ExportPanel } from "../ExportPanel/ExportPanel";
 import { GuildSelector } from "../GuildSelector/GuildSelector";
 import { GuildTokenList } from "../GuildTokenList/GuildTokenList";
 import { TokenConfigEditor } from "../TokenConfigEditor/TokenConfigEditor";
 import { TokenPreview } from "../TokenPreview/TokenPreview";
 import styles from "./TokenEditor.module.css";
+
+const MAX_CONDITION_COPIES = 12;
+const MAX_GAME_PLAN_COPIES = 1;
 
 export const TokenEditor = () => {
   const generator = useTokenGenerator();
@@ -23,6 +26,10 @@ export const TokenEditor = () => {
     (value: TokenSelection[Field]) => {
       generator.setSelection((selection) => ({ ...selection, [field]: value }));
     };
+
+  // The generic catalog has no roster, and only it carries the Game Plan deck.
+  const hasCharacters = (generator.catalog?.characters.length ?? 0) > 0;
+  const hasGamePlans = (generator.catalog?.gamePlans.length ?? 0) > 0;
 
   return (
     <div className={styles.page}>
@@ -50,13 +57,15 @@ export const TokenEditor = () => {
 
           {generator.catalog && (
             <>
-              <CharacterTokenList
-                catalog={generator.catalog}
-                selectedTokenIds={generator.selection.characterTokenIds}
-                onSelectedTokenIdsChange={updateSelectionField("characterTokenIds")}
-                tokenCopies={generator.selection.characterTokenCopies}
-                onTokenCopiesChange={updateSelectionField("characterTokenCopies")}
-              />
+              {hasCharacters && (
+                <CharacterTokenList
+                  catalog={generator.catalog}
+                  selectedTokenIds={generator.selection.characterTokenIds}
+                  onSelectedTokenIdsChange={updateSelectionField("characterTokenIds")}
+                  tokenCopies={generator.selection.characterTokenCopies}
+                  onTokenCopiesChange={updateSelectionField("characterTokenCopies")}
+                />
+              )}
 
               <GuildTokenList
                 catalog={generator.catalog}
@@ -70,11 +79,23 @@ export const TokenEditor = () => {
                 onGoalInfluenceChange={updateSelectionField("goalInfluence")}
               />
 
-              <ConditionList
-                conditions={generator.catalog.conditions}
+              <CounterRecordList
+                title="Conditions"
+                entries={generator.catalog.conditions}
+                maxCopies={MAX_CONDITION_COPIES}
                 selection={generator.selection.conditions}
                 onSelectionChange={updateSelectionField("conditions")}
               />
+
+              {hasGamePlans && (
+                <CounterRecordList
+                  title="Game Plans"
+                  entries={generator.catalog.gamePlans}
+                  maxCopies={MAX_GAME_PLAN_COPIES}
+                  selection={generator.selection.gamePlans}
+                  onSelectionChange={updateSelectionField("gamePlans")}
+                />
+              )}
 
               <TokenConfigEditor
                 sharedConfig={generator.sharedConfig}

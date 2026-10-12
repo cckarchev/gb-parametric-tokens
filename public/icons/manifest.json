@@ -280,6 +280,20 @@
     "overflowsEmBox": false
   },
   {
+    "id": "Generic",
+    "kind": "guild",
+    "pathCount": 1,
+    "bbox": {
+      "minX": -0.009416015624999975,
+      "minY": -0.0030000000000003912,
+      "maxX": 15.988279541015627,
+      "maxY": 15.997134521484375
+    },
+    "aspect": 0.9998475659788688,
+    "needsUnion": false,
+    "overflowsEmBox": true
+  },
+  {
     "id": "ball",
     "kind": "generic",
     "pathCount": 1,

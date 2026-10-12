@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { buildDefaultSelection } from "./buildDefaultSelection";
 import { GuildCatalog } from "./catalogTypes";
+import { GENERIC_CATALOG_ID } from "./genericCatalog";
 import { characterAoeTemplateId } from "./tokenItems/tokenItem";
 
 const catalog: GuildCatalog = {
@@ -24,6 +25,7 @@ const catalog: GuildCatalog = {
     { id: "burning", name: "Burning", iconId: "burning" },
   ],
   appliedConditionIds: ["burning"],
+  gamePlans: [],
 };
 
 describe("buildDefaultSelection", () => {
@@ -65,6 +67,33 @@ describe("buildDefaultSelection", () => {
     });
   });
 
+  it("enables every game plan, at its max copies when it has one", () => {
+    const catalogWithGamePlans: GuildCatalog = {
+      ...catalog,
+      gamePlans: [
+        { id: "extraShot", name: "Extra Shot", effect: "+1 TAC, free Sprint", maxCopies: 2 },
+        { id: "nowhereToHide", name: "Nowhere to Hide", effect: "No cover" },
+      ],
+    };
+
+    const selection = buildDefaultSelection(catalogWithGamePlans);
+
+    expect(selection.gamePlans).toEqual({
+      extraShot: { enabled: true, copies: 2 },
+      nowhereToHide: { enabled: true, copies: 1 },
+    });
+  });
+
+  it("leaves the generic catalog's crest counters unchecked, at their usual counts", () => {
+    const genericCatalog: GuildCatalog = { ...catalog, guildId: GENERIC_CATALOG_ID };
+
+    const selection = buildDefaultSelection(genericCatalog);
+
+    expect(selection.influence).toEqual({ enabled: false, copies: 13 });
+    expect(selection.momentum).toEqual({ enabled: false, copies: 15 });
+    expect(selection.goalInfluence).toEqual({ enabled: false, copies: 2 });
+  });
+
   it("selects nothing for a catalog with no characters or generic tokens", () => {
     const emptyCatalog: GuildCatalog = {
       guildId: "empty",
@@ -74,6 +103,7 @@ describe("buildDefaultSelection", () => {
       genericTokens: [],
       conditions: [],
       appliedConditionIds: [],
+      gamePlans: [],
     };
 
     const selection = buildDefaultSelection(emptyCatalog);
@@ -81,6 +111,7 @@ describe("buildDefaultSelection", () => {
     expect(selection.characterTokenIds).toEqual([]);
     expect(selection.genericTokens).toEqual({});
     expect(selection.conditions).toEqual({});
+    expect(selection.gamePlans).toEqual({});
   });
 
   it("selects a character's AOE templates by default too", () => {
@@ -92,6 +123,7 @@ describe("buildDefaultSelection", () => {
       genericTokens: [],
       conditions: [],
       appliedConditionIds: [],
+      gamePlans: [],
     };
 
     expect(buildDefaultSelection(blacksmithsCatalog).characterTokenIds).toEqual([

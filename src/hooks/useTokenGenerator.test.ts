@@ -29,6 +29,7 @@ const catalog: GuildCatalog = {
   genericTokens: [{ name: "Beer Token" }],
   conditions: [],
   appliedConditionIds: [],
+  gamePlans: [],
 };
 
 beforeEach(() => {
@@ -151,6 +152,7 @@ describe("useTokenGenerator", () => {
       genericTokens: [],
       conditions: [],
       appliedConditionIds: [],
+      gamePlans: [],
     };
 
     vi.mocked(listAvailableGuilds).mockReturnValue([

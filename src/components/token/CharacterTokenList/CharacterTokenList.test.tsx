@@ -35,6 +35,7 @@ const catalog: GuildCatalog = {
   genericTokens: [],
   conditions: [],
   appliedConditionIds: [],
+  gamePlans: [],
 };
 
 const renderList = (
@@ -71,6 +72,7 @@ const blacksmithsCatalog: GuildCatalog = {
   genericTokens: [],
   conditions: [],
   appliedConditionIds: [],
+  gamePlans: [],
 };
 
 const renderBlacksmiths = () => {
@@ -207,6 +209,7 @@ describe("CharacterTokenList", () => {
       genericTokens: [],
       conditions: [],
       appliedConditionIds: [],
+      gamePlans: [],
     };
 
     render(

@@ -38,6 +38,25 @@ describe("useGuildCatalog routing", () => {
     expect(result.current.catalogStatus).toBe("ready");
   });
 
+  it("opens the generic catalog from its own route and navigates back to it", () => {
+    window.history.replaceState(null, "", "/generic");
+
+    const { result } = renderHook(() => useGuildCatalog());
+
+    expect(result.current.selectedGuildId).toBe("generic");
+    expect(result.current.catalog?.name).toBe("Generic");
+
+    act(() => {
+      result.current.selectGuild("brewers");
+    });
+
+    act(() => {
+      result.current.selectGuild("generic");
+    });
+
+    expect(window.location.pathname).toBe("/generic");
+  });
+
   it("rewrites an unknown guild route to the root and opens no guild", () => {
     window.history.replaceState(null, "", "/guild/not-a-guild");
 

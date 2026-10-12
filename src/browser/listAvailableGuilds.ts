@@ -1,4 +1,4 @@
-import { guildCatalogs } from "./guildCatalogs";
+import { selectableCatalogs } from "./guildCatalogs";
 
 export type AvailableGuild = {
   id: string;
@@ -15,7 +15,7 @@ export type AvailableGuild = {
 // Synchronous on purpose: Vite inlines every guild's JSON into this bundle at build time (see
 // guildCatalogs.ts), so there is nothing to fetch and nothing to wait for.
 export const listAvailableGuilds = (): AvailableGuild[] => {
-  return guildCatalogs.map((catalog) => ({
+  return selectableCatalogs.map((catalog) => ({
     id: catalog.guildId,
     name: catalog.name,
     color: catalog.color,

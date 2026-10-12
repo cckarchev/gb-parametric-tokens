@@ -1,5 +1,6 @@
 import { GuildCatalog } from "./catalogTypes";
 import { characterSelectableIds } from "./characterSelectableIds";
+import { GENERIC_CATALOG_ID } from "./genericCatalog";
 import { CounterSelection, TokenSelection } from "./tokenItems/tokenItem";
 
 const MIN_GENERIC_COPIES = 1;
@@ -10,8 +11,14 @@ const DEFAULT_INFLUENCE_COPIES = 13;
 const DEFAULT_MOMENTUM_COPIES = 15;
 const DEFAULT_GOAL_INFLUENCE_COPIES = 2;
 const DEFAULT_CONDITION_COPIES = 4;
+const DEFAULT_GAME_PLAN_COPIES = 1;
 
 const enabledCounter = (copies: number): CounterSelection => ({ enabled: true, copies });
+
+const crestCounter = (copies: number, isEnabled: boolean): CounterSelection => ({
+  enabled: isEnabled,
+  copies,
+});
 
 // A guild's first-ever selection: everything the catalog offers, tildado by default, so the
 // user opts out of what they don't want rather than opting into everything from scratch. Once a
@@ -33,13 +40,24 @@ export const buildDefaultSelection = (catalog: GuildCatalog): TokenSelection => 
     conditions[condition.id] = { enabled: isApplied, copies: DEFAULT_CONDITION_COPIES };
   }
 
+  const gamePlans: Record<string, CounterSelection> = {};
+
+  for (const gamePlan of catalog.gamePlans) {
+    gamePlans[gamePlan.id] = enabledCounter(gamePlan.maxCopies ?? DEFAULT_GAME_PLAN_COPIES);
+  }
+
+  // The generic catalog still offers Influence, Momentum and Goal Influence as a neutral set
+  // wearing the Guild Ball logo, but unchecked: a player normally prints their own guild's.
+  const areCrestCountersEnabled = catalog.guildId !== GENERIC_CATALOG_ID;
+
   return {
     characterTokenIds,
     characterTokenCopies: {},
     genericTokens,
-    influence: enabledCounter(DEFAULT_INFLUENCE_COPIES),
-    momentum: enabledCounter(DEFAULT_MOMENTUM_COPIES),
-    goalInfluence: enabledCounter(DEFAULT_GOAL_INFLUENCE_COPIES),
+    influence: crestCounter(DEFAULT_INFLUENCE_COPIES, areCrestCountersEnabled),
+    momentum: crestCounter(DEFAULT_MOMENTUM_COPIES, areCrestCountersEnabled),
+    goalInfluence: crestCounter(DEFAULT_GOAL_INFLUENCE_COPIES, areCrestCountersEnabled),
     conditions,
+    gamePlans,
   };
 };

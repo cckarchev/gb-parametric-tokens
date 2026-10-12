@@ -71,6 +71,7 @@ const NO_GUILD_SELECTED: TokenSelection = {
   momentum: { enabled: false, copies: 1 },
   goalInfluence: { enabled: false, copies: 1 },
   conditions: {},
+  gamePlans: {},
 };
 
 type SelectionUpdate = TokenSelection | ((current: TokenSelection) => TokenSelection);
