@@ -1,4 +1,5 @@
 import { GuildCatalog } from "../catalogTypes";
+import { buildEffectLabels } from "../effectLabels";
 import { resolveEffect } from "../effects";
 import { buildCharacterTokenSpec } from "./characterTokenSpec";
 import { buildGenericTokenSpec } from "./genericTokenSpec";
@@ -17,22 +18,25 @@ export const buildTokenItems = (
   const items: TokenItem[] = [];
 
   for (const character of catalog.characters) {
-    character.effects.forEach((effectId, tokenIndex) => {
+    const effects = character.effects.map(resolveEffect);
+    const effectLabels = buildEffectLabels(effects);
+
+    effects.forEach((effect, tokenIndex) => {
       const id = characterTokenId(character.name, tokenIndex);
 
       if (!selection.characterTokenIds.includes(id)) {
         return;
       }
 
-      const effect = resolveEffect(effectId);
+      const effectLabel = effectLabels[tokenIndex];
       const copies =
         effect.maxCopies && effect.maxCopies > 1 ? (selection.characterTokenCopies[id] ?? 1) : 1;
 
       items.push({
         id,
-        label: `${character.name}: ${effect.name}`,
+        label: `${character.name}: ${effectLabel}`,
         group: character.name,
-        name: effect.name,
+        name: effectLabel,
         spec: buildCharacterTokenSpec(effect, guildIconId, guildIconScale, sharedConfig),
         copies,
       });

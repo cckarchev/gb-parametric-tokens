@@ -1,6 +1,7 @@
 import { Fragment } from "react";
 
 import { CatalogCharacter, GuildCatalog } from "../../../core/token/catalog/catalogTypes";
+import { buildEffectLabels } from "../../../core/token/catalog/effectLabels";
 import { resolveEffect } from "../../../core/token/catalog/effects";
 import { characterTokenId, MIN_COPIES } from "../../../core/token/catalog/tokenItems/tokenItem";
 import { CheckboxField } from "../../primitives/CheckboxField/CheckboxField";
@@ -81,6 +82,8 @@ export const CharacterTokenList = ({
           const hasTokens = ids.length > 0;
           const selectedCount = ids.filter((id) => selectedTokenIds.includes(id)).length;
           const characterAllSelected = hasTokens && selectedCount === ids.length;
+          const effects = character.effects.map(resolveEffect);
+          const effectLabels = buildEffectLabels(effects);
 
           return (
             <Fragment key={character.name}>
@@ -100,8 +103,8 @@ export const CharacterTokenList = ({
               </div>
 
               {hasTokens ? (
-                character.effects.map((effectId, tokenIndex) => {
-                  const effect = resolveEffect(effectId);
+                effects.map((effect, tokenIndex) => {
+                  const effectLabel = effectLabels[tokenIndex];
                   const id = characterTokenId(character.name, tokenIndex);
                   const selected = selectedTokenIds.includes(id);
                   const hasCopiesField = (effect.maxCopies ?? 1) > 1;
@@ -109,14 +112,14 @@ export const CharacterTokenList = ({
                   return (
                     <div className={`${styles.row} ${styles.rowToken}`} key={id}>
                       <CheckboxField
-                        label={effect.name}
+                        label={effectLabel}
                         checked={selected}
                         onChange={(checked) => toggle(id, checked)}
                       />
 
                       {hasCopiesField && (
                         <NumberField
-                          label={`${effect.name} copies`}
+                          label={`${effectLabel} copies`}
                           hideLabel
                           stepper
                           value={tokenCopies[id] ?? MIN_COPIES}

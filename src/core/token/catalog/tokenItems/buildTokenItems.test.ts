@@ -426,6 +426,29 @@ describe("buildTokenItems", () => {
     ]);
   });
 
+  it("tells apart a character's tokens that share a name by appending their effect text", () => {
+    const masonsCatalog: GuildCatalog = {
+      guildId: "masons",
+      name: "Masons",
+      color: "#416abb",
+      characters: [{ name: "Hammer", effects: ["hammerTimeDmg", "hammerTimeMov"] }],
+      genericTokens: [],
+    };
+    const selection: TokenSelection = {
+      ...emptySelection,
+      characterTokenIds: [characterTokenId("Hammer", 0), characterTokenId("Hammer", 1)],
+    };
+
+    const items = buildTokenItems(masonsCatalog, selection, sharedConfig);
+
+    expect(items.map((item) => item.name)).toEqual([
+      "Hammer Time! (+1 DMG)",
+      'Hammer Time! (+2"/+2" MOV)',
+    ]);
+    expect(items[0].label).toBe("Hammer: Hammer Time! (+1 DMG)");
+    expect(items[0].spec.lines[0].text).toBe("Hammer Time!");
+  });
+
   it("generates no Goal Influence item when goalInfluence is disabled", () => {
     const items = buildTokenItems(
       catalog,

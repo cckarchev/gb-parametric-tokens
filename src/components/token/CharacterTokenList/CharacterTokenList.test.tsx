@@ -164,4 +164,27 @@ describe("CharacterTokenList", () => {
 
     expect(screen.queryByLabelText("Commanding Aura copies")).not.toBeInTheDocument();
   });
+
+  it("labels a character's tokens that share a name with their effect text", () => {
+    const masonsCatalog: GuildCatalog = {
+      guildId: "masons",
+      name: "Masons",
+      color: "#416abb",
+      characters: [{ name: "Hammer", effects: ["hammerTimeDmg", "hammerTimeMov"] }],
+      genericTokens: [],
+    };
+
+    render(
+      <CharacterTokenList
+        catalog={masonsCatalog}
+        selectedTokenIds={[]}
+        onSelectedTokenIdsChange={vi.fn()}
+        tokenCopies={{}}
+        onTokenCopiesChange={vi.fn()}
+      />,
+    );
+
+    expect(screen.getByLabelText("Hammer Time! (+1 DMG)")).toBeInTheDocument();
+    expect(screen.getByLabelText('Hammer Time! (+2"/+2" MOV)')).toBeInTheDocument();
+  });
 });
