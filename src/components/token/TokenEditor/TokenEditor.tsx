@@ -1,6 +1,7 @@
 import { TokenSelection } from "../../../core/token/catalog/tokenItems/tokenItem";
 import { useTokenGenerator } from "../../../hooks/useTokenGenerator";
 import { CharacterTokenList } from "../CharacterTokenList/CharacterTokenList";
+import { ConditionList } from "../ConditionList/ConditionList";
 import { ExportPanel } from "../ExportPanel/ExportPanel";
 import { GuildSelector } from "../GuildSelector/GuildSelector";
 import { GuildTokenList } from "../GuildTokenList/GuildTokenList";
@@ -67,6 +68,12 @@ export const TokenEditor = () => {
                 onMomentumChange={updateSelectionField("momentum")}
                 goalInfluence={generator.selection.goalInfluence}
                 onGoalInfluenceChange={updateSelectionField("goalInfluence")}
+              />
+
+              <ConditionList
+                conditions={generator.catalog.conditions}
+                selection={generator.selection.conditions}
+                onSelectionChange={updateSelectionField("conditions")}
               />
 
               <TokenConfigEditor

@@ -44,6 +44,8 @@ export type TokenSelection = {
   influence: CounterSelection;
   momentum: CounterSelection;
   goalInfluence: CounterSelection;
+  // Keyed by condition id (see conditions.json), like genericTokens is keyed by name.
+  conditions: Record<string, CounterSelection>;
 };
 
 export type SharedConfig = {
@@ -73,4 +75,10 @@ export const characterTokenId = (characterId: string, tokenIndex: number): strin
 // exported selection keeps its shape.
 export const characterAoeTemplateId = (characterId: string, templateIndex: number): string => {
   return `${characterId}-aoe-${templateIndex}`;
+};
+
+// Prefixed so a condition can never collide with a guild generic token, whose item id is its
+// bare name.
+export const conditionTokenId = (conditionId: string): string => {
+  return `condition-${conditionId}`;
 };

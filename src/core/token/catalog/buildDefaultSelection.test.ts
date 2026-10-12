@@ -19,6 +19,10 @@ const catalog: GuildCatalog = {
     },
   ],
   genericTokens: [{ name: "Beer Token" }, { name: "Keg Token" }],
+  conditions: [
+    { id: "poison", name: "Poison", iconId: "poison" },
+    { id: "burning", name: "Burning", iconId: "burning" },
+  ],
 };
 
 describe("buildDefaultSelection", () => {
@@ -51,6 +55,15 @@ describe("buildDefaultSelection", () => {
     expect(selection.goalInfluence).toEqual({ enabled: true, copies: 2 });
   });
 
+  it("enables every condition with a few copies, keyed by the condition's id", () => {
+    const selection = buildDefaultSelection(catalog);
+
+    expect(selection.conditions).toEqual({
+      poison: { enabled: true, copies: 4 },
+      burning: { enabled: true, copies: 4 },
+    });
+  });
+
   it("selects nothing for a catalog with no characters or generic tokens", () => {
     const emptyCatalog: GuildCatalog = {
       guildId: "empty",
@@ -58,12 +71,14 @@ describe("buildDefaultSelection", () => {
       color: "#000000",
       characters: [],
       genericTokens: [],
+      conditions: [],
     };
 
     const selection = buildDefaultSelection(emptyCatalog);
 
     expect(selection.characterTokenIds).toEqual([]);
     expect(selection.genericTokens).toEqual({});
+    expect(selection.conditions).toEqual({});
   });
 
   it("selects a character's AOE templates by default too", () => {
@@ -73,6 +88,7 @@ describe("buildDefaultSelection", () => {
       color: "#82969f",
       characters: [{ name: "Cutlass", effects: [], aoeTemplates: ["broadside"] }],
       genericTokens: [],
+      conditions: [],
     };
 
     expect(buildDefaultSelection(blacksmithsCatalog).characterTokenIds).toEqual([

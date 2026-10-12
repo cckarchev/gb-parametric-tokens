@@ -23,6 +23,7 @@ const baseGenerator = {
     influence: { enabled: false, copies: 1 },
     momentum: { enabled: false, copies: 1 },
     goalInfluence: { enabled: false, copies: 1 },
+    conditions: {},
   },
   setSelection: vi.fn(),
   sharedConfig: {
@@ -81,6 +82,7 @@ describe("TokenEditor", () => {
         color: "#cdb320",
         characters: [{ name: "Tapper", effects: ["commandingAura"] }],
         genericTokens: [{ name: "Beer Token" }],
+        conditions: [],
       },
     });
 
@@ -110,6 +112,7 @@ describe("TokenEditor", () => {
         color: "#cdb320",
         characters: [],
         genericTokens: [{ name: "Beer Token" }],
+        conditions: [],
       },
       setSelection,
     });

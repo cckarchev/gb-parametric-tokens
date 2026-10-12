@@ -24,6 +24,16 @@ export type CatalogAoeTemplate = {
   maxCopies?: number;
 };
 
+// A game condition marker (Poison, Burning...) printed with its own icon, not the guild crest:
+// its own catalog, shared by every guild unless `guilds` restricts it to the listed guild ids
+// (Disease only exists for Ratcatchers).
+export type CatalogCondition = {
+  id: string;
+  name: string;
+  iconId: string;
+  guilds?: string[];
+};
+
 export type CatalogCharacter = {
   name: string;
   // The ids of this character's own tokens, each one a reference into effects.json, see
@@ -57,4 +67,7 @@ export type GuildCatalog = {
   iconScale?: number;
   characters: CatalogCharacter[];
   genericTokens: CatalogGenericToken[];
+  // Resolved from conditions.json at load time (see guildCatalogs.ts): every shared condition
+  // plus any restricted to this guild.
+  conditions: CatalogCondition[];
 };

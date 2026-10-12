@@ -21,6 +21,7 @@ const catalog: GuildCatalog = {
     { name: "Spigot", effects: ["timesCalled"] },
   ],
   genericTokens: [{ name: "Beer Token" }],
+  conditions: [],
 };
 
 const sharedConfig: SharedConfig = {
@@ -46,6 +47,7 @@ const emptySelection: TokenSelection = {
   influence: { enabled: false, copies: 1 },
   momentum: { enabled: false, copies: 1 },
   goalInfluence: { enabled: false, copies: 1 },
+  conditions: {},
 };
 
 // "Singled Out" is the only effect in the whole registry that carries maxCopies, so Wellington is
@@ -56,6 +58,7 @@ const catalogWithMultiCopyToken: GuildCatalog = {
   color: "#eb2629",
   characters: [{ name: "Wellington", effects: ["singledOut"] }],
   genericTokens: [],
+  conditions: [],
 };
 
 // Derived rather than restated: the two tests that use this are about the size on each line, so
@@ -70,6 +73,7 @@ const blacksmithsCatalog: GuildCatalog = {
   color: "#82969f",
   characters: [{ name: "Cutlass", effects: [], aoeTemplates: ["broadside"] }],
   genericTokens: [],
+  conditions: [],
 };
 
 const commandingAuraText = resolveEffect("commandingAura").effect;
@@ -421,6 +425,7 @@ describe("buildTokenItems", () => {
       color: "#416abb",
       characters: [{ name: "Honour", effects: ["toppingOutInfluence"] }],
       genericTokens: [],
+      conditions: [],
     };
     const tokenId = characterTokenId("Honour", 0);
     const selection: TokenSelection = {
@@ -448,6 +453,7 @@ describe("buildTokenItems", () => {
       color: "#416abb",
       characters: [{ name: "Hammer", effects: ["hammerTimeDmg", "hammerTimeMov"] }],
       genericTokens: [],
+      conditions: [],
     };
     const selection: TokenSelection = {
       ...emptySelection,
@@ -563,6 +569,45 @@ describe("buildTokenItems", () => {
 
   it("skips an AOE template that is not selected", () => {
     const items = buildTokenItems(blacksmithsCatalog, emptySelection, sharedConfig);
+
+    expect(items).toEqual([]);
+  });
+
+  it("excludes a disabled condition and includes an enabled one with its chosen count and icon", () => {
+    const catalogWithConditions: GuildCatalog = {
+      ...catalog,
+      conditions: [
+        { id: "poison", name: "Poison", iconId: "poison" },
+        { id: "knockedDown", name: "Knocked Down", iconId: "knock-down" },
+      ],
+    };
+
+    const selection: TokenSelection = {
+      ...emptySelection,
+      conditions: {
+        poison: { enabled: false, copies: 4 },
+        knockedDown: { enabled: true, copies: 3 },
+      },
+    };
+
+    const items = buildTokenItems(catalogWithConditions, selection, sharedConfig);
+
+    expect(items).toHaveLength(1);
+    expect(items[0].id).toBe("condition-knockedDown");
+    expect(items[0].label).toBe("Knocked Down");
+    expect(items[0].name).toBe("Knocked Down");
+    expect(items[0].group).toBeUndefined();
+    expect(items[0].copies).toBe(3);
+    expect(items[0].spec.icons[0].iconId).toBe("knock-down");
+  });
+
+  it("skips a condition the selection has no entry for", () => {
+    const catalogWithConditions: GuildCatalog = {
+      ...catalog,
+      conditions: [{ id: "poison", name: "Poison", iconId: "poison" }],
+    };
+
+    const items = buildTokenItems(catalogWithConditions, emptySelection, sharedConfig);
 
     expect(items).toEqual([]);
   });

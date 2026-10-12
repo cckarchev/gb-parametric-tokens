@@ -4,6 +4,7 @@ import { buildEffectLabels } from "../effectLabels";
 import { resolveEffect } from "../effects";
 import { buildAoeTemplateSpec } from "./aoeTemplateSpec";
 import { buildCharacterTokenSpec } from "./characterTokenSpec";
+import { buildConditionTokenSpec } from "./conditionTokenSpec";
 import { buildGenericTokenSpec } from "./genericTokenSpec";
 import { buildGoalInfluenceTokenSpec } from "./goalInfluenceTokenSpec";
 import { buildInfluenceTokenSpec } from "./influenceTokenSpec";
@@ -11,6 +12,7 @@ import { buildMomentumTokenSpec } from "./momentumTokenSpec";
 import {
   characterAoeTemplateId,
   characterTokenId,
+  conditionTokenId,
   SharedConfig,
   TokenItem,
   TokenSelection,
@@ -92,6 +94,22 @@ export const buildTokenItems = (
       label: generic.name,
       name: generic.name,
       spec: buildGenericTokenSpec(generic, guildIconId, guildIconScale, sharedConfig),
+      copies: counter.copies,
+    });
+  }
+
+  for (const condition of catalog.conditions) {
+    const counter = selection.conditions[condition.id];
+
+    if (!counter?.enabled) {
+      continue;
+    }
+
+    items.push({
+      id: conditionTokenId(condition.id),
+      label: condition.name,
+      name: condition.name,
+      spec: buildConditionTokenSpec(condition, sharedConfig),
       copies: counter.copies,
     });
   }

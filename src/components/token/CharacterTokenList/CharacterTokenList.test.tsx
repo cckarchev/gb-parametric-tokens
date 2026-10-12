@@ -33,6 +33,7 @@ const catalog: GuildCatalog = {
     },
   ],
   genericTokens: [],
+  conditions: [],
 };
 
 const renderList = (
@@ -67,6 +68,7 @@ const blacksmithsCatalog: GuildCatalog = {
   color: "#82969f",
   characters: [{ name: "Cutlass", effects: [], aoeTemplates: ["broadside"] }],
   genericTokens: [],
+  conditions: [],
 };
 
 const renderBlacksmiths = () => {
@@ -201,6 +203,7 @@ describe("CharacterTokenList", () => {
       color: "#416abb",
       characters: [{ name: "Hammer", effects: ["hammerTimeDmg", "hammerTimeMov"] }],
       genericTokens: [],
+      conditions: [],
     };
 
     render(

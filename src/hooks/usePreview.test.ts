@@ -19,6 +19,7 @@ const catalog: GuildCatalog = {
     },
   ],
   genericTokens: [],
+  conditions: [],
 };
 
 const sharedConfig: SharedConfig = {
@@ -44,6 +45,7 @@ const baseSelection: TokenSelection = {
   influence: { enabled: false, copies: 1 },
   momentum: { enabled: false, copies: 1 },
   goalInfluence: { enabled: false, copies: 1 },
+  conditions: {},
 };
 
 const selectionWith = (characterTokenIds: string[]): TokenSelection => ({

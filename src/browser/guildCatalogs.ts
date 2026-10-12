@@ -1,5 +1,6 @@
 import { CatalogGenericToken, GuildCatalog } from "../core/token/catalog/catalogTypes";
 import { resolveCharacter } from "../core/token/catalog/characters";
+import { conditionsForGuild } from "../core/token/catalog/conditions";
 
 // On disk, a guild only stores which characters it has, by name, not their data -- see
 // characters.ts for where that data actually lives. This is the shape Vite hands back for each
@@ -33,13 +34,15 @@ const guildIdFromPath = (path: string): string => {
 
 export const guildCatalogs: GuildCatalog[] = Object.entries(modules).map(([path, module]) => {
   const raw = module.default;
+  const guildId = guildIdFromPath(path);
 
   return {
-    guildId: guildIdFromPath(path),
+    guildId,
     name: raw.name,
     color: raw.color,
     iconScale: raw.iconScale,
     characters: raw.characters.map(resolveCharacter),
     genericTokens: raw.genericTokens,
+    conditions: conditionsForGuild(guildId),
   };
 });

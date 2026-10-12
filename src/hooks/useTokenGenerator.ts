@@ -70,6 +70,7 @@ const NO_GUILD_SELECTED: TokenSelection = {
   influence: { enabled: false, copies: 1 },
   momentum: { enabled: false, copies: 1 },
   goalInfluence: { enabled: false, copies: 1 },
+  conditions: {},
 };
 
 type SelectionUpdate = TokenSelection | ((current: TokenSelection) => TokenSelection);

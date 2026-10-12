@@ -1,8 +1,6 @@
 import { GuildCatalog } from "../../../core/token/catalog/catalogTypes";
 import { CounterSelection, MIN_COPIES } from "../../../core/token/catalog/tokenItems/tokenItem";
-import { Panel } from "../../primitives/Panel/Panel";
-import { SelectAllCheckbox } from "../../primitives/SelectAllCheckbox/SelectAllCheckbox";
-import { CounterCountField } from "../CounterCountField/CounterCountField";
+import { CounterPanel, CounterRow } from "../CounterPanel/CounterPanel";
 
 type GuildTokenListProps = {
   catalog: GuildCatalog;
@@ -19,17 +17,6 @@ type GuildTokenListProps = {
 const MAX_COPIES = 20;
 const MAX_GOAL_INFLUENCE_COPIES = 2;
 const DEFAULT_GENERIC_COUNTER: CounterSelection = { enabled: false, copies: MIN_COPIES };
-
-// One row of this panel, whatever it is backed by: the three counters that every guild has (each
-// its own prop) and the guild's own generic tokens (all sharing one record-shaped prop) render
-// identically, so they are flattened into one list rather than two parallel blocks of JSX.
-type CounterRow = {
-  key: string;
-  label: string;
-  selection: CounterSelection;
-  onChange: (selection: CounterSelection) => void;
-  maxCopies: number;
-};
 
 export const GuildTokenList = ({
   catalog,
@@ -75,7 +62,6 @@ export const GuildTokenList = ({
   }));
 
   const rows = [...fixedRows, ...genericRows];
-  const allEnabled = rows.every((row) => row.selection.enabled);
 
   // Only ever flips `enabled` -- every counter's own copies count (default or already chosen)
   // is left exactly as it was, on or off, so toggling this twice in a row is a no-op on the
@@ -98,22 +84,5 @@ export const GuildTokenList = ({
     onGenericTokensChange(nextGenericTokens);
   };
 
-  return (
-    <Panel
-      title="Guild tokens"
-      headerAccessory={<SelectAllCheckbox checked={allEnabled} onChange={toggleAll} />}>
-      {rows.map((row) => (
-        <CounterCountField
-          key={row.key}
-          label={row.label}
-          enabled={row.selection.enabled}
-          onEnabledChange={(enabled) => row.onChange({ ...row.selection, enabled })}
-          copies={row.selection.copies}
-          onCopiesChange={(copies) => row.onChange({ ...row.selection, copies })}
-          min={MIN_COPIES}
-          max={row.maxCopies}
-        />
-      ))}
-    </Panel>
-  );
+  return <CounterPanel title="Guild tokens" rows={rows} onToggleAll={toggleAll} />;
 };

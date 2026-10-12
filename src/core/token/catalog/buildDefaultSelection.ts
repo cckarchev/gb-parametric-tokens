@@ -9,6 +9,7 @@ const MIN_GENERIC_COPIES = 1;
 const DEFAULT_INFLUENCE_COPIES = 13;
 const DEFAULT_MOMENTUM_COPIES = 15;
 const DEFAULT_GOAL_INFLUENCE_COPIES = 2;
+const DEFAULT_CONDITION_COPIES = 4;
 
 const enabledCounter = (copies: number): CounterSelection => ({ enabled: true, copies });
 
@@ -24,6 +25,12 @@ export const buildDefaultSelection = (catalog: GuildCatalog): TokenSelection => 
     genericTokens[generic.name] = enabledCounter(MIN_GENERIC_COPIES);
   }
 
+  const conditions: Record<string, CounterSelection> = {};
+
+  for (const condition of catalog.conditions) {
+    conditions[condition.id] = enabledCounter(DEFAULT_CONDITION_COPIES);
+  }
+
   return {
     characterTokenIds,
     characterTokenCopies: {},
@@ -31,5 +38,6 @@ export const buildDefaultSelection = (catalog: GuildCatalog): TokenSelection => 
     influence: enabledCounter(DEFAULT_INFLUENCE_COPIES),
     momentum: enabledCounter(DEFAULT_MOMENTUM_COPIES),
     goalInfluence: enabledCounter(DEFAULT_GOAL_INFLUENCE_COPIES),
+    conditions,
   };
 };
