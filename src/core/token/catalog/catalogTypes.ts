@@ -8,6 +8,10 @@ export type CatalogEffect = {
   effect?: string;
   // Max simultaneous copies of this effect's token in play. Omitted means 1, only set when higher.
   maxCopies?: number;
+  // "ring" prints a round token shaped like Goal Influence (crest centered, name curved on top,
+  // effect text curved below) instead of the usual arc, for an effect that tracks a pool of
+  // something rather than a status on a model. Omitted means the arc.
+  layout?: "ring";
 };
 
 export type CatalogCharacter = {

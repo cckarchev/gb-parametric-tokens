@@ -12,7 +12,7 @@ const catalog: GuildCatalog = {
   name: "Brewers",
   color: "#cdb320",
   characters: [
-    { name: "Tapper", effects: ["commandingAura", "plus1Def"] },
+    { name: "Tapper", effects: ["commandingAura", "stoicUsed"] },
     { name: "Spigot", effects: ["timesCalled"] },
   ],
   genericTokens: [{ name: "Beer Token" }],
@@ -103,7 +103,7 @@ describe("buildTokenItems", () => {
 
     const items = buildTokenItems(catalog, selection, sharedConfig);
 
-    expect(items[0].spec.lines).toEqual([{ text: "+1 DEF", sizeMm: 6, colorGroup: "text" }]);
+    expect(items[0].spec.lines).toEqual([{ text: "Stoic Used", sizeMm: 6, colorGroup: "text" }]);
   });
 
   it("omits the second line entirely when showSecondLine is off, even if the token has effect text", () => {
@@ -144,7 +144,7 @@ describe("buildTokenItems", () => {
 
     const items = buildTokenItems(catalog, selection, customConfig);
 
-    expect(items[0].spec.lines).toEqual([{ text: "+1 DEF", sizeMm: 6, colorGroup: "text" }]);
+    expect(items[0].spec.lines).toEqual([{ text: "Stoic Used", sizeMm: 6, colorGroup: "text" }]);
   });
 
   it("defaults a character token's icon to the guild's own icon id, tagged with the text color group", () => {
@@ -397,6 +397,33 @@ describe("buildTokenItems", () => {
     // the same radiusMm leaves "Influence" reading closer to the icon than "Goal" reads to the
     // rim, so the bottom line needs a larger radius to make their ink line up.
     expect(bottomLine.radiusMm).toBeGreaterThan(topLine.radiusMm ?? 0);
+  });
+
+  it("builds a ring-layout character token like Goal Influence, with the effect's name on top and its text below", () => {
+    const masonsCatalog: GuildCatalog = {
+      guildId: "masons",
+      name: "Masons",
+      color: "#416abb",
+      characters: [{ name: "Honour", effects: ["toppingOutInfluence"] }],
+      genericTokens: [],
+    };
+    const tokenId = characterTokenId("Honour", 0);
+    const selection: TokenSelection = {
+      ...emptySelection,
+      characterTokenIds: [tokenId],
+      characterTokenCopies: { [tokenId]: 6 },
+    };
+
+    const items = buildTokenItems(masonsCatalog, selection, sharedConfig);
+
+    expect(items).toHaveLength(1);
+    expect(items[0].copies).toBe(6);
+    expect(items[0].spec.shape).toEqual(sharedConfig.goalInfluenceShape);
+    expect(items[0].spec.textLayout).toBe("ring");
+    expect(items[0].spec.lines.map((line) => line.text)).toEqual(["Topping Out!", "+1 INF"]);
+    expect(items[0].spec.icons).toEqual([
+      { iconId: "Masons", side: "center", scale: expect.any(Number), colorGroup: "text" },
+    ]);
   });
 
   it("generates no Goal Influence item when goalInfluence is disabled", () => {

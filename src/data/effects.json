@@ -1,33 +1,5 @@
 [
   {
-    "id": "plus0Plus2Kick",
-    "name": "+0/+2″ KICK"
-  },
-  {
-    "id": "plus0Plus2Mov",
-    "name": "+0″/+2″ MOV"
-  },
-  {
-    "id": "plus1Def",
-    "name": "+1 DEF"
-  },
-  {
-    "id": "plus1Dmg",
-    "name": "+1 DMG"
-  },
-  {
-    "id": "plus1Tac",
-    "name": "+1 TAC"
-  },
-  {
-    "id": "plus1Plus1Mov",
-    "name": "+1″/+1″ MOV"
-  },
-  {
-    "id": "plus2Plus2Mov",
-    "name": "+2″/+2″ MOV"
-  },
-  {
     "id": "twoInchMelee",
     "name": "2″ Melee"
   },
@@ -153,6 +125,26 @@
     "id": "brokenEarth",
     "name": "Broken Earth",
     "effect": "4\" Aura: Rough Terrain"
+  },
+  {
+    "id": "catchingTheScentTac",
+    "name": "Catching the Scent",
+    "effect": "+1 TAC"
+  },
+  {
+    "id": "catchingTheScentMov",
+    "name": "Catching the Scent",
+    "effect": "+0\"/+2\" MOV"
+  },
+  {
+    "id": "hammerTimeDmg",
+    "name": "Hammer Time!",
+    "effect": "+1 DMG"
+  },
+  {
+    "id": "hammerTimeMov",
+    "name": "Hammer Time!",
+    "effect": "+2\"/+2\" MOV"
   },
   {
     "id": "lendAHand",
@@ -395,6 +387,31 @@
     "id": "getSetBake",
     "name": "Get Set, BAKE!",
     "effect": "2\" Aura: +2\"/+2\" MOV"
+  },
+  {
+    "id": "raiseTheBlackFlagEnemy",
+    "name": "Raise the Black Flag",
+    "effect": "Enemy -2\"/-2\" MOV"
+  },
+  {
+    "id": "raiseTheBlackFlagAlly",
+    "name": "Raise the Black Flag",
+    "effect": "Ally +2\"/+2\" MOV"
+  },
+  {
+    "id": "rouletteMov",
+    "name": "Roulette",
+    "effect": "+1\"/+1\" MOV"
+  },
+  {
+    "id": "rouletteTac",
+    "name": "Roulette",
+    "effect": "+1 TAC"
+  },
+  {
+    "id": "rouletteKick",
+    "name": "Roulette",
+    "effect": "+0/+2\" KICK"
   },
   {
     "id": "rowdy",
@@ -687,10 +704,6 @@
     "effect": "-4\"/-4\" MOV"
   },
   {
-    "id": "raiseTheBlackFlag",
-    "name": "Raise the Black Flag"
-  },
-  {
     "id": "reanimateUsed",
     "name": "Reanimate Used"
   },
@@ -808,6 +821,11 @@
     "name": "Stoic Used"
   },
   {
+    "id": "strikeFromTheShadowsDef",
+    "name": "Strike from the Shadows",
+    "effect": "+1 DEF"
+  },
+  {
     "id": "sturdyUsed",
     "name": "Sturdy Used"
   },
@@ -891,8 +909,15 @@
   },
   {
     "id": "toppingOutArm",
-    "name": "Topping Out! (ARM)",
+    "name": "Topping Out!",
     "effect": "+1 ARM"
+  },
+  {
+    "id": "toppingOutInfluence",
+    "name": "Topping Out!",
+    "effect": "+1 INF",
+    "maxCopies": 6,
+    "layout": "ring"
   },
   {
     "id": "tortoisePower",

@@ -1,6 +1,7 @@
 import { TokenSpec } from "../../types";
 import { CatalogEffect } from "../catalogTypes";
 import { TEXT_COLOR_GROUP_ID } from "../deriveReliefColor";
+import { buildRingTokenSpec } from "./ringTokenSpec";
 import { SharedConfig } from "./tokenItem";
 import { buildIconSpec, DEFAULT_ICON_SCALE, sharedTokenFields } from "./tokenSpecParts";
 
@@ -17,6 +18,16 @@ export const buildCharacterTokenSpec = (
   guildIconScale: number,
   sharedConfig: SharedConfig,
 ): TokenSpec => {
+  if (effect.layout === "ring") {
+    return buildRingTokenSpec(
+      effect.name,
+      effect.effect,
+      guildIconId,
+      guildIconScale,
+      sharedConfig,
+    );
+  }
+
   const iconScale = DEFAULT_ICON_SCALE * guildIconScale;
   const secondLineText = sharedConfig.showSecondLine ? effect.effect : undefined;
 

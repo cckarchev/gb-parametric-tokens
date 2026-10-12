@@ -41,7 +41,7 @@
   },
   {
     "name": "Blackheart",
-    "effects": ["butchery", "plus1Def"]
+    "effects": ["butchery", "strikeFromTheShadowsDef"]
   },
   {
     "name": "Boar",
@@ -317,7 +317,7 @@
   },
   {
     "name": "Hammer",
-    "effects": ["impetus", "ironFist", "plus1Dmg", "plus2Plus2Mov"]
+    "effects": ["impetus", "ironFist", "hammerTimeDmg", "hammerTimeMov"]
   },
   {
     "name": "Harmony",
@@ -357,7 +357,7 @@
   },
   {
     "name": "Honour",
-    "effects": ["poisedUsed", "superiorStrategy", "toppingOutArm"]
+    "effects": ["poisedUsed", "superiorStrategy", "toppingOutArm", "toppingOutInfluence"]
   },
   {
     "name": "Hook",
@@ -505,7 +505,7 @@
   },
   {
     "name": "Nomad",
-    "effects": ["unpredictableMovementUsed", "spark", "plus1Plus1Mov", "plus1Tac", "plus0Plus2Kick"]
+    "effects": ["unpredictableMovementUsed", "spark", "rouletteMov", "rouletteTac", "rouletteKick"]
   },
   {
     "name": "Oak",
@@ -865,7 +865,7 @@
   },
   {
     "name": "vSakana",
-    "effects": ["bagOfCoffers", "raiseTheBlackFlag"]
+    "effects": ["bagOfCoffers", "raiseTheBlackFlagEnemy", "raiseTheBlackFlagAlly"]
   },
   {
     "name": "vSiren",
@@ -909,6 +909,6 @@
   },
   {
     "name": "Zarola",
-    "effects": ["unpredictableMovementUsed", "plus1Tac", "plus0Plus2Mov"]
+    "effects": ["unpredictableMovementUsed", "catchingTheScentTac", "catchingTheScentMov"]
   }
 ]

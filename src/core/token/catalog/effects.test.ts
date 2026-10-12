@@ -36,6 +36,15 @@ describe("effects.json", () => {
     expect(duplicateIds).toEqual([]);
   });
 
+  it("only uses layouts the token builders know", () => {
+    const knownLayouts = new Set([undefined, "ring"]);
+    const unknownLayouts = effectsData
+      .map((effect) => effect.layout)
+      .filter((layout) => !knownLayouts.has(layout));
+
+    expect(unknownLayouts).toEqual([]);
+  });
+
   it("only lets characters reference effect ids that exist", () => {
     const knownIds = new Set(effectsData.map((effect) => effect.id));
     const unknownReferences = charactersData.flatMap((character) =>
