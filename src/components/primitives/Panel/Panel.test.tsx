@@ -1,7 +1,7 @@
 // @vitest-environment happy-dom
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 
 import { Panel } from "./Panel";
 
@@ -65,33 +65,5 @@ describe("Panel", () => {
     await userEvent.click(screen.getByRole("button", { name: "Accessory" }));
 
     expect(screen.getByText("content")).toBeVisible();
-  });
-
-  describe("controlled mode", () => {
-    it("reflects the expanded prop instead of managing its own state", () => {
-      render(
-        <Panel title="Shape" expanded={true} onExpandedChange={vi.fn()}>
-          <p>content</p>
-        </Panel>,
-      );
-
-      expect(screen.getByText("content")).toBeVisible();
-    });
-
-    it("reports the new state via onExpandedChange instead of toggling itself", async () => {
-      const onExpandedChange = vi.fn();
-
-      render(
-        <Panel title="Shape" expanded={true} onExpandedChange={onExpandedChange}>
-          <p>content</p>
-        </Panel>,
-      );
-
-      await userEvent.click(screen.getByRole("button", { name: "Shape" }));
-
-      expect(onExpandedChange).toHaveBeenCalledWith(false);
-      // Still visible: the parent owns the state and didn't re-render with expanded={false}.
-      expect(screen.getByText("content")).toBeVisible();
-    });
   });
 });

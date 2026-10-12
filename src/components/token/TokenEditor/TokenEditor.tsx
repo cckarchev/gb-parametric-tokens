@@ -31,14 +31,18 @@ export const TokenEditor = () => {
   const hasCharacters = (generator.catalog?.characters.length ?? 0) > 0;
   const hasGamePlans = (generator.catalog?.gamePlans.length ?? 0) > 0;
 
+  // The guild picker is the home screen: it shows only while no guild is open, and the header's
+  // logo brings it back.
+  if (generator.selectedGuildId === undefined) {
+    return (
+      <div className={styles.page}>
+        <GuildSelector guilds={generator.guilds} onSelect={generator.selectGuild} />
+      </div>
+    );
+  }
+
   return (
     <div className={styles.page}>
-      <GuildSelector
-        guilds={generator.guilds}
-        selectedGuildId={generator.selectedGuildId}
-        onSelect={generator.selectGuild}
-      />
-
       <div className={styles.layout}>
         <div className={styles.previewColumn}>
           {generator.catalog && (

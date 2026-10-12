@@ -1,85 +1,36 @@
-import { useEffect, useState } from "react";
-
 import { AvailableGuild } from "../../../browser/listAvailableGuilds";
-import { Panel } from "../../primitives/Panel/Panel";
+import { GENERIC_CATALOG_ID } from "../../../core/token/catalog/genericCatalog";
 import styles from "./GuildSelector.module.css";
+import { GuildTile } from "./GuildTile";
 
 type GuildSelectorProps = {
   guilds: AvailableGuild[];
-  selectedGuildId?: string;
   onSelect: (guildId: string) => void;
 };
 
-// Shared logo size, as a percentage of the tile, that already looks right for the vast majority
-// of guilds once their SVG's viewBox is cropped to its own ink bounding box (see
-// GuildSelector.module.css's .logo comment). A guild's optional iconScale multiplies this base
-// for the rare crest that still reads a touch small or large after that normalization.
-const LOGO_BASE_SIZE_PERCENT = 80;
-
-export const GuildSelector = ({ guilds, selectedGuildId, onSelect }: GuildSelectorProps) => {
-  // Starts open only when there is nothing picked yet (a /guild/<id> deep link arrives with a
-  // guild already chosen), then collapses out of the way as soon as a guild is picked, freeing
-  // space for the preview and the rest of the form. Controlled (not just defaultExpanded) so
-  // picking a tile can collapse it explicitly, and the user can still reopen it manually
-  // afterwards to switch guilds.
-  const [expanded, setExpanded] = useState(selectedGuildId === undefined);
-
-  // Going back to the root URL clears the guild, which puts the picker back up front.
-  useEffect(() => {
-    if (selectedGuildId === undefined) {
-      setExpanded(true);
-    }
-  }, [selectedGuildId]);
-
-  const selectGuild = (guildId: string) => {
-    onSelect(guildId);
-    setExpanded(false);
-  };
+// The home screen: shown only while no guild is open (the header's logo brings it back), so it
+// needs no collapsing or selected state of its own. The generic catalog is not a guild, so it
+// gets its own group below the guild grid instead of a tile among them.
+export const GuildSelector = ({ guilds, onSelect }: GuildSelectorProps) => {
+  const guildEntries = guilds.filter((guild) => guild.id !== GENERIC_CATALOG_ID);
+  const genericEntries = guilds.filter((guild) => guild.id === GENERIC_CATALOG_ID);
+  const hasGenericEntries = genericEntries.length > 0;
 
   return (
-    <Panel title="Guild" expanded={expanded} onExpandedChange={setExpanded}>
-      <div className={styles.grid}>
-        {guilds.map((guild) => {
-          const logoSizePercent = LOGO_BASE_SIZE_PERCENT * (guild.iconScale ?? 1);
-
-          return (
-            <button
-              key={guild.id}
-              type="button"
-              className={guild.id === selectedGuildId ? styles.tileSelected : styles.tile}
-              title={guild.name}
-              aria-pressed={guild.id === selectedGuildId}
-              onClick={() => selectGuild(guild.id)}>
-              {/* Near-white badge is just the icon's own backing plate; the icon itself carries
-                  the guild's color. The logo files are solid-black artwork with no way to
-                  recolor an <img>, so the silhouette is painted via a CSS mask instead. Every
-                  guild's icons/guilds/<Guild>/logo.svg has its viewBox cropped to its own ink
-                  bounding box (see
-                  GuildSelector.module.css's .logo comment), so a shared base size
-                  (LOGO_BASE_SIZE_PERCENT) renders every guild at a consistent size with no
-                  per-guild tuning needed in the common case. .badge and .logo are siblings
-                  stacked in the same grid cell (not nested) so their sizes are independent:
-                  shrinking the white circle does not shrink the icon riding on top of it. The
-                  guild name is a tooltip (the button's `title`) only, not a permanent label. */}
-              <span className={styles.badgeStack}>
-                <span className={styles.badge} />
-                <span
-                  className={styles.logo}
-                  style={{
-                    backgroundColor: guild.color,
-                    maskImage: `url(/icons/guilds/${guild.name}/logo.svg)`,
-                    WebkitMaskImage: `url(/icons/guilds/${guild.name}/logo.svg)`,
-                    width: `${logoSizePercent}%`,
-                    height: `${logoSizePercent}%`,
-                  }}
-                  role="img"
-                  aria-label={guild.name}
-                />
-              </span>
-            </button>
-          );
-        })}
+    <section className={styles.home}>
+      <div role="group" aria-label="Guilds" className={styles.grid}>
+        {guildEntries.map((guild) => (
+          <GuildTile key={guild.id} guild={guild} onSelect={onSelect} />
+        ))}
       </div>
-    </Panel>
+
+      {hasGenericEntries && (
+        <div role="group" aria-label="Not tied to a guild" className={styles.genericGroup}>
+          {genericEntries.map((guild) => (
+            <GuildTile key={guild.id} guild={guild} onSelect={onSelect} />
+          ))}
+        </div>
+      )}
+    </section>
   );
 };

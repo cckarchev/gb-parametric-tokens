@@ -52,18 +52,42 @@ const baseGenerator = {
 } as unknown as ReturnType<typeof useTokenGenerator>;
 
 describe("TokenEditor", () => {
-  it("shows the guild selector but not the catalog sections when no catalog is loaded", () => {
+  it("shows only the guild selector while no guild is open", () => {
     vi.mocked(useTokenGenerator).mockReturnValue(baseGenerator);
 
     render(<TokenEditor />);
 
-    expect(screen.getByRole("group", { name: "Guild" })).toBeInTheDocument();
+    expect(screen.getByRole("group", { name: "Guilds" })).toBeInTheDocument();
     expect(screen.queryByLabelText("Influence tokens")).not.toBeInTheDocument();
+  });
+
+  it("hides the guild selector once a guild is open", () => {
+    vi.mocked(useTokenGenerator).mockReturnValue({
+      ...baseGenerator,
+      selectedGuildId: "brewers",
+      catalogStatus: "ready",
+      catalog: {
+        guildId: "brewers",
+        name: "Brewers",
+        color: "#cdb320",
+        characters: [],
+        genericTokens: [],
+        conditions: [],
+        appliedConditionIds: [],
+        gamePlans: [],
+      },
+    });
+
+    render(<TokenEditor />);
+
+    expect(screen.queryByRole("group", { name: "Guilds" })).not.toBeInTheDocument();
+    expect(screen.getByLabelText("Influence tokens")).toBeInTheDocument();
   });
 
   it("shows the catalog error message", () => {
     vi.mocked(useTokenGenerator).mockReturnValue({
       ...baseGenerator,
+      selectedGuildId: "brewers",
       catalogStatus: "error",
       catalogError: "Not Found",
     });
@@ -77,6 +101,7 @@ describe("TokenEditor", () => {
     vi.mocked(useTokenGenerator).mockReturnValue({
       ...baseGenerator,
       catalogStatus: "ready",
+      selectedGuildId: "brewers",
       catalog: {
         guildId: "brewers",
         name: "Brewers",
@@ -102,6 +127,7 @@ describe("TokenEditor", () => {
     vi.mocked(useTokenGenerator).mockReturnValue({
       ...baseGenerator,
       catalogStatus: "ready",
+      selectedGuildId: "generic",
       catalog: {
         guildId: "generic",
         name: "Generic",
@@ -134,6 +160,7 @@ describe("TokenEditor", () => {
     vi.mocked(useTokenGenerator).mockReturnValue({
       ...baseGenerator,
       catalogStatus: "ready",
+      selectedGuildId: "brewers",
       catalog: {
         guildId: "brewers",
         name: "Brewers",

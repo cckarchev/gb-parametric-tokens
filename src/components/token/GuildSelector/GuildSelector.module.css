@@ -1,3 +1,9 @@
+.home {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
 .grid {
   display: grid;
   /* Full-width strip now (moved out of the narrow form column), so a fixed column count no
@@ -28,10 +34,12 @@
   background: var(--color-bg-panel-header);
 }
 
-.tileSelected {
-  composes: tile;
-  border-color: var(--color-accent);
-  box-shadow: 0 0 0 2px var(--color-accent);
+/* Same tile size as the guild grid, set apart by a rule above it: the generic catalog is not a
+   guild, so it should not read as one more crest in the grid. */
+.genericGroup {
+  composes: grid;
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--color-border);
 }
 
 .badgeStack {
