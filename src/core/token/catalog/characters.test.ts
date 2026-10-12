@@ -6,7 +6,7 @@ describe("resolveCharacter", () => {
   it("resolves a known character from the bundled catalog", () => {
     expect(resolveCharacter("Shank")).toEqual({
       name: "Shank",
-      effects: ["Thousand Cuts"],
+      effects: ["thousandCuts"],
     });
   });
 

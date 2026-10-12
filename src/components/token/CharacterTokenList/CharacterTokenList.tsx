@@ -100,8 +100,8 @@ export const CharacterTokenList = ({
               </div>
 
               {hasTokens ? (
-                character.effects.map((effectName, tokenIndex) => {
-                  const effect = resolveEffect(effectName);
+                character.effects.map((effectId, tokenIndex) => {
+                  const effect = resolveEffect(effectId);
                   const id = characterTokenId(character.name, tokenIndex);
                   const selected = selectedTokenIds.includes(id);
                   const hasCopiesField = (effect.maxCopies ?? 1) > 1;

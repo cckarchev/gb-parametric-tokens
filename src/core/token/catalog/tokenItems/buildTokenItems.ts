@@ -17,14 +17,14 @@ export const buildTokenItems = (
   const items: TokenItem[] = [];
 
   for (const character of catalog.characters) {
-    character.effects.forEach((effectName, tokenIndex) => {
+    character.effects.forEach((effectId, tokenIndex) => {
       const id = characterTokenId(character.name, tokenIndex);
 
       if (!selection.characterTokenIds.includes(id)) {
         return;
       }
 
-      const effect = resolveEffect(effectName);
+      const effect = resolveEffect(effectId);
       const copies =
         effect.maxCopies && effect.maxCopies > 1 ? (selection.characterTokenCopies[id] ?? 1) : 1;
 

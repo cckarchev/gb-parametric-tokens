@@ -1,16 +1,47 @@
 import { describe, expect, it } from "vitest";
 
+import charactersData from "../../../data/characters.json";
+import effectsData from "../../../data/effects.json";
 import { resolveEffect } from "./effects";
 
+// Biome's useNamingConvention default for identifiers: lower camelCase, ASCII letters and digits.
+const CAMEL_CASE_ID = /^[a-z][a-zA-Z0-9]*$/;
+
 describe("resolveEffect", () => {
-  it("resolves a known effect from the bundled catalog", () => {
-    expect(resolveEffect("About Their Necks")).toEqual({
+  it("resolves a known effect by its id from the bundled catalog", () => {
+    expect(resolveEffect("aboutTheirNecks")).toEqual({
+      id: "aboutTheirNecks",
       name: "About Their Necks",
       effect: "Enemies -1 TAC",
     });
   });
 
-  it("throws for an unknown effect name", () => {
-    expect(() => resolveEffect("Not A Real Effect")).toThrow('Unknown effect "Not A Real Effect"');
+  it("throws for an unknown effect id", () => {
+    expect(() => resolveEffect("notARealEffect")).toThrow('Unknown effect "notARealEffect"');
+  });
+});
+
+describe("effects.json", () => {
+  it("gives every effect a camelCase id", () => {
+    const ids = effectsData.map((effect) => effect.id);
+    const invalidIds = ids.filter((id) => !CAMEL_CASE_ID.test(id));
+
+    expect(invalidIds).toEqual([]);
+  });
+
+  it("never reuses an id", () => {
+    const ids = effectsData.map((effect) => effect.id);
+    const duplicateIds = ids.filter((id, index) => ids.indexOf(id) !== index);
+
+    expect(duplicateIds).toEqual([]);
+  });
+
+  it("only lets characters reference effect ids that exist", () => {
+    const knownIds = new Set(effectsData.map((effect) => effect.id));
+    const unknownReferences = charactersData.flatMap((character) =>
+      character.effects.filter((effectId) => !knownIds.has(effectId)),
+    );
+
+    expect(unknownReferences).toEqual([]);
   });
 });

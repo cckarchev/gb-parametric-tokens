@@ -1,19 +1,19 @@
 [
   {
     "name": "Alloy",
-    "effects": ["Instruction", "2″ Melee"]
+    "effects": ["instruction", "twoInchMelee"]
   },
   {
     "name": "Amber",
-    "effects": ["Left Boot", "One of Our Own", "Swerve Shot"]
+    "effects": ["leftBoot", "oneOfOurOwn", "swerveShot"]
   },
   {
     "name": "Angel",
-    "effects": ["Nimble", "Super Shot"]
+    "effects": ["nimble", "superShot"]
   },
   {
     "name": "Anvil",
-    "effects": ["Singled Out", "Tested Mettle", "Stoic Used"]
+    "effects": ["singledOut", "testedMettle", "stoicUsed"]
   },
   {
     "name": "Avarisse",
@@ -21,15 +21,15 @@
   },
   {
     "name": "Azimuth",
-    "effects": ["Close Control Used", "Poised Used", "Disarm"]
+    "effects": ["closeControlUsed", "poisedUsed", "disarm"]
   },
   {
     "name": "Babe",
-    "effects": ["Loved Creature", "Singled Out"]
+    "effects": ["lovedCreature", "singledOut"]
   },
   {
     "name": "Ballista",
-    "effects": ["Minefield", "Second Wind"]
+    "effects": ["minefield", "secondWind"]
   },
   {
     "name": "Beacon",
@@ -37,11 +37,11 @@
   },
   {
     "name": "Benediction",
-    "effects": ["Playmaker Used", "Poised Used", "Braced", "Stand Firm"]
+    "effects": ["playmakerUsed", "poisedUsed", "braced", "standFirm"]
   },
   {
     "name": "Blackheart",
-    "effects": ["Butchery", "+1 DEF"]
+    "effects": ["butchery", "plus1Def"]
   },
   {
     "name": "Boar",
@@ -49,7 +49,7 @@
   },
   {
     "name": "Boiler",
-    "effects": ["Marked Target"]
+    "effects": ["markedTarget"]
   },
   {
     "name": "Bolt",
@@ -57,7 +57,7 @@
   },
   {
     "name": "Bonesaw",
-    "effects": ["Grave Wind"]
+    "effects": ["graveWind"]
   },
   {
     "name": "Brainpan",
@@ -65,43 +65,43 @@
   },
   {
     "name": "Brick",
-    "effects": ["Fulcrum", "Poised Used"]
+    "effects": ["fulcrum", "poisedUsed"]
   },
   {
     "name": "Brisket",
-    "effects": ["Above and Beyond", "Unpredictable Movement Used", "Super Shot", "Dirty Knives"]
+    "effects": ["aboveAndBeyond", "unpredictableMovementUsed", "superShot", "dirtyKnives"]
   },
   {
     "name": "Bucker",
-    "effects": ["Assist", "Poised Used"]
+    "effects": ["assist", "poisedUsed"]
   },
   {
     "name": "Buckwheat",
-    "effects": ["Ass Kicking Used", "Stoic Used"]
+    "effects": ["assKickingUsed", "stoicUsed"]
   },
   {
     "name": "Burnish",
-    "effects": ["Reinforced Plating Used", "Covering Fire"]
+    "effects": ["reinforcedPlatingUsed", "coveringFire"]
   },
   {
     "name": "Bushel",
-    "effects": ["Close Control Used"]
+    "effects": ["closeControlUsed"]
   },
   {
     "name": "Calculus",
-    "effects": ["Blind"]
+    "effects": ["blind"]
   },
   {
     "name": "Casket",
-    "effects": ["Reanimate Used", "Heavy Burden", "Casket Time Used"]
+    "effects": ["reanimateUsed", "heavyBurden", "casketTimeUsed"]
   },
   {
     "name": "Cast",
-    "effects": ["Shield Glare"]
+    "effects": ["shieldGlare"]
   },
   {
     "name": "Champ",
-    "effects": ["Put Me Back In, Coach! Used", "Poised Used", "Hold the Ball!"]
+    "effects": ["putMeBackInCoachUsed", "poisedUsed", "holdTheBall"]
   },
   {
     "name": "Chaska",
@@ -109,43 +109,43 @@
   },
   {
     "name": "Chipper",
-    "effects": ["Loved Creature"]
+    "effects": ["lovedCreature"]
   },
   {
     "name": "Chisel",
-    "effects": ["Revelling", "Iron Fist"]
+    "effects": ["revelling", "ironFist"]
   },
   {
     "name": "Cinder",
-    "effects": ["Searing Strike", "Decoy"]
+    "effects": ["searingStrike", "decoy"]
   },
   {
     "name": "Cinnamon",
-    "effects": ["Get Set, BAKE!"]
+    "effects": ["getSetBake"]
   },
   {
     "name": "Coin",
-    "effects": ["Bag of Coffers", "Follow Up Used", "Constrict"]
+    "effects": ["bagOfCoffers", "followUpUsed", "constrict"]
   },
   {
     "name": "Colossus",
-    "effects": ["Close Control Used", "Stoic Used", "Singled Out"]
+    "effects": ["closeControlUsed", "stoicUsed", "singledOut"]
   },
   {
     "name": "Compound",
-    "effects": ["Resilience Used", "Rush Keeper", "Horrific Odour"]
+    "effects": ["resilienceUsed", "rushKeeper", "horrificOdour"]
   },
   {
     "name": "Corbelli",
-    "effects": ["Close Control Used", "Making Space", "Towering Presence"]
+    "effects": ["closeControlUsed", "makingSpace", "toweringPresence"]
   },
   {
     "name": "Corker",
-    "effects": ["Iron Fist", "Tough Skin", "Whisky Chaser"]
+    "effects": ["ironFist", "toughSkin", "whiskyChaser"]
   },
   {
     "name": "Corsair",
-    "effects": ["Coup de Grâce", "Sturdy Used"]
+    "effects": ["coupDeGrace", "sturdyUsed"]
   },
   {
     "name": "Cosset",
@@ -153,11 +153,11 @@
   },
   {
     "name": "Crook",
-    "effects": ["Littermates"]
+    "effects": ["littermates"]
   },
   {
     "name": "Cross",
-    "effects": ["Quick Foot", "Crumb Boss"]
+    "effects": ["quickFoot", "crumbBoss"]
   },
   {
     "name": "Cross Cut",
@@ -169,11 +169,11 @@
   },
   {
     "name": "Culverin",
-    "effects": ["Eye Spy", "Goal Defence"]
+    "effects": ["eyeSpy", "goalDefence"]
   },
   {
     "name": "Cut",
-    "effects": ["Steel Toecaps"]
+    "effects": ["steelToecaps"]
   },
   {
     "name": "Cutlass",
@@ -181,7 +181,7 @@
   },
   {
     "name": "Decimate",
-    "effects": ["Second Wind", "Thousand Cuts"]
+    "effects": ["secondWind", "thousandCuts"]
   },
   {
     "name": "Devana",
@@ -189,19 +189,19 @@
   },
   {
     "name": "Digger",
-    "effects": ["Close Control Used"]
+    "effects": ["closeControlUsed"]
   },
   {
     "name": "Dirge",
-    "effects": ["Tag Along Used", "Singled Out"]
+    "effects": ["tagAlongUsed", "singledOut"]
   },
   {
     "name": "Ebb",
-    "effects": ["Grasping Earth", "Sprung a Leak"]
+    "effects": ["graspingEarth", "sprungALeak"]
   },
   {
     "name": "Edge",
-    "effects": ["Close Control Used"]
+    "effects": ["closeControlUsed"]
   },
   {
     "name": "Egret",
@@ -209,23 +209,23 @@
   },
   {
     "name": "Esters",
-    "effects": ["Resilience Used", "Tooled Up", "Quick Foot"]
+    "effects": ["resilienceUsed", "tooledUp", "quickFoot"]
   },
   {
     "name": "Fahad",
-    "effects": ["Nimble"]
+    "effects": ["nimble"]
   },
   {
     "name": "Fallow",
-    "effects": ["Between a Rock... Used", "Rowdy"]
+    "effects": ["betweenARockUsed", "rowdy"]
   },
   {
     "name": "Fangtooth",
-    "effects": ["Resilience Used", "Fangtooth Unleashed"]
+    "effects": ["resilienceUsed", "fangtoothUnleashed"]
   },
   {
     "name": "Farris",
-    "effects": ["Stagger", "Quick Foot", "Ride Off"]
+    "effects": ["stagger", "quickFoot", "rideOff"]
   },
   {
     "name": "Fathom",
@@ -233,15 +233,15 @@
   },
   {
     "name": "Ferrite",
-    "effects": ["Disarm", "Weak Point", "Tong in Cheek"]
+    "effects": ["disarm", "weakPoint", "tongInCheek"]
   },
   {
     "name": "Festival",
-    "effects": ["Our Tools Are Sharp"]
+    "effects": ["ourToolsAreSharp"]
   },
   {
     "name": "Fillet",
-    "effects": ["Quick Foot"]
+    "effects": ["quickFoot"]
   },
   {
     "name": "Fissure",
@@ -249,27 +249,27 @@
   },
   {
     "name": "Flask",
-    "effects": ["Beaker Keeper"]
+    "effects": ["beakerKeeper"]
   },
   {
     "name": "Flea",
-    "effects": ["Animal Treat"]
+    "effects": ["animalTreat"]
   },
   {
     "name": "Flint",
-    "effects": ["Close Control Used"]
+    "effects": ["closeControlUsed"]
   },
   {
     "name": "Frelsi",
-    "effects": ["Loved Creature"]
+    "effects": ["lovedCreature"]
   },
   {
     "name": "Friday",
-    "effects": ["Sliced Tendon"]
+    "effects": ["slicedTendon"]
   },
   {
     "name": "Furnace",
-    "effects": ["Searing Strike", "One at a Time Lads!", "Tooled Up", "Tempered Steel"]
+    "effects": ["searingStrike", "oneAtATimeLads", "tooledUp", "temperedSteel"]
   },
   {
     "name": "Fuse",
@@ -277,35 +277,35 @@
   },
   {
     "name": "Gaffer",
-    "effects": ["The Knowledge", "Careless Whisper"]
+    "effects": ["theKnowledge", "carelessWhisper"]
   },
   {
     "name": "Ghast",
-    "effects": ["Fear Used", "Rising Anger Used"]
+    "effects": ["fearUsed", "risingAngerUsed"]
   },
   {
     "name": "Grace",
-    "effects": ["Quick Foot"]
+    "effects": ["quickFoot"]
   },
   {
     "name": "Grange",
-    "effects": ["Constitution", "Help 'Em Out", "Huge Tracts of Land", "Sturdy Used"]
+    "effects": ["constitution", "helpEmOut", "hugeTractsOfLand", "sturdyUsed"]
   },
   {
     "name": "Granite",
-    "effects": ["Between a Rock... Used", "Sturdy Used", "Gut & String", "Broken Earth"]
+    "effects": ["betweenARockUsed", "sturdyUsed", "gutString", "brokenEarth"]
   },
   {
     "name": "Graves",
-    "effects": ["Dismember", "Tainted Wounds"]
+    "effects": ["dismember", "taintedWounds"]
   },
   {
     "name": "Greede",
-    "effects": ["Singled Out"]
+    "effects": ["singledOut"]
   },
   {
     "name": "Greyscales",
-    "effects": ["Unpredictable Movement Used", "Decoy"]
+    "effects": ["unpredictableMovementUsed", "decoy"]
   },
   {
     "name": "Gutter",
@@ -313,59 +313,59 @@
   },
   {
     "name": "Hag",
-    "effects": ["Fear Used", "Decoy"]
+    "effects": ["fearUsed", "decoy"]
   },
   {
     "name": "Hammer",
-    "effects": ["Impetus", "Iron Fist", "+1 DMG", "+2″/+2″ MOV"]
+    "effects": ["impetus", "ironFist", "plus1Dmg", "plus2Plus2Mov"]
   },
   {
     "name": "Harmony",
-    "effects": ["Family", "Weak Point"]
+    "effects": ["family", "weakPoint"]
   },
   {
     "name": "Harrow",
-    "effects": ["Pick of the Crop", "Maximum Effort"]
+    "effects": ["pickOfTheCrop", "maximumEffort"]
   },
   {
     "name": "Harry ‘the Hat’",
-    "effects": ["Rising Anger Used", "Singled Out"]
+    "effects": ["risingAngerUsed", "singledOut"]
   },
   {
     "name": "Hearne",
-    "effects": ["Singled Out", "Blessing of the Sun Father"]
+    "effects": ["singledOut", "blessingOfTheSunFather"]
   },
   {
     "name": "Hearth",
-    "effects": ["Sturdy Used", "Instruction", "Use This!", "Armoury"]
+    "effects": ["sturdyUsed", "instruction", "useThis", "armoury"]
   },
   {
     "name": "Heat",
-    "effects": ["Afterglow Used", "Unpredictable Movement Used"]
+    "effects": ["afterglowUsed", "unpredictableMovementUsed"]
   },
   {
     "name": "Hemlocke",
-    "effects": ["Blind"]
+    "effects": ["blind"]
   },
   {
     "name": "Herder",
-    "effects": ["Protect the Ball"]
+    "effects": ["protectTheBall"]
   },
   {
     "name": "Hoist",
-    "effects": ["Reanimate Used", "Sturdy Used"]
+    "effects": ["reanimateUsed", "sturdyUsed"]
   },
   {
     "name": "Honour",
-    "effects": ["Poised Used", "Superior Strategy", "Topping Out! (ARM)"]
+    "effects": ["poisedUsed", "superiorStrategy", "toppingOutArm"]
   },
   {
     "name": "Hook",
-    "effects": ["Littermates"]
+    "effects": ["littermates"]
   },
   {
     "name": "Hooper",
-    "effects": ["Smashed Shins", "Tough Skin", "True Grit"]
+    "effects": ["smashedShins", "toughSkin", "trueGrit"]
   },
   {
     "name": "Horizon",
@@ -373,27 +373,27 @@
   },
   {
     "name": "Ikaros",
-    "effects": ["Close Control Used"]
+    "effects": ["closeControlUsed"]
   },
   {
     "name": "Iron",
-    "effects": ["Close Control Used", "Impetus"]
+    "effects": ["closeControlUsed", "impetus"]
   },
   {
     "name": "Itsa",
-    "effects": ["Marked for Felling", "Reconnaissance"]
+    "effects": ["markedForFelling", "reconnaissance"]
   },
   {
     "name": "Jac",
-    "effects": ["Goad"]
+    "effects": ["goad"]
   },
   {
     "name": "Jackstraw",
-    "effects": ["Reanimate Used"]
+    "effects": ["reanimateUsed"]
   },
   {
     "name": "Jaecar",
-    "effects": ["Gut & String"]
+    "effects": ["gutString"]
   },
   {
     "name": "Kami",
@@ -405,7 +405,7 @@
   },
   {
     "name": "Knuckles",
-    "effects": ["Lightning Reflexes Used", "Resilience Used"]
+    "effects": ["lightningReflexesUsed", "resilienceUsed"]
   },
   {
     "name": "Kraken",
@@ -413,15 +413,15 @@
   },
   {
     "name": "Lamb",
-    "effects": ["Weak Point"]
+    "effects": ["weakPoint"]
   },
   {
     "name": "Layne",
-    "effects": ["Bleed the Cleats", "Close Control Used"]
+    "effects": ["bleedTheCleats", "closeControlUsed"]
   },
   {
     "name": "Locus",
-    "effects": ["Reanimate Used"]
+    "effects": ["reanimateUsed"]
   },
   {
     "name": "Lucky",
@@ -433,15 +433,15 @@
   },
   {
     "name": "Mallet",
-    "effects": ["Singled Out", "Smashed Shins"]
+    "effects": ["singledOut", "smashedShins"]
   },
   {
     "name": "Marbles",
-    "effects": ["Counter-Charge Used", "Loved Creature", "Goad"]
+    "effects": ["counterChargeUsed", "lovedCreature", "goad"]
   },
   {
     "name": "Mash",
-    "effects": ["Resilience Used"]
+    "effects": ["resilienceUsed"]
   },
   {
     "name": "Mataagi",
@@ -449,7 +449,7 @@
   },
   {
     "name": "Meathook",
-    "effects": ["Tooled Up", "Sanguine Pool"]
+    "effects": ["tooledUp", "sanguinePool"]
   },
   {
     "name": "Memory",
@@ -465,19 +465,19 @@
   },
   {
     "name": "Midas",
-    "effects": ["Unpredictable Movement Used", "Fulmination"]
+    "effects": ["unpredictableMovementUsed", "fulmination"]
   },
   {
     "name": "Millstone",
-    "effects": ["Take One for the Team Used", "Goal Defence"]
+    "effects": ["takeOneForTheTeamUsed", "goalDefence"]
   },
   {
     "name": "Minerva",
-    "effects": ["Eye Spy"]
+    "effects": ["eyeSpy"]
   },
   {
     "name": "Minx",
-    "effects": ["Marked Target"]
+    "effects": ["markedTarget"]
   },
   {
     "name": "Mist",
@@ -489,43 +489,43 @@
   },
   {
     "name": "Mourn",
-    "effects": ["Poltergeists Used", "Haunting Gaze", "Malice", "Empathy"]
+    "effects": ["poltergeistsUsed", "hauntingGaze", "malice", "empathy"]
   },
   {
     "name": "Mule",
-    "effects": ["Reanimate Used", "Lockdown"]
+    "effects": ["reanimateUsed", "lockdown"]
   },
   {
     "name": "Naja",
-    "effects": ["Unpredictable Movement Used", "Hypnosis"]
+    "effects": ["unpredictableMovementUsed", "hypnosis"]
   },
   {
     "name": "Nightlight",
-    "effects": ["Lens Flare"]
+    "effects": ["lensFlare"]
   },
   {
     "name": "Nomad",
-    "effects": ["Unpredictable Movement Used", "Spark", "+1″/+1″ MOV", "+1 TAC", "+0/+2″ KICK"]
+    "effects": ["unpredictableMovementUsed", "spark", "plus1Plus1Mov", "plus1Tac", "plus0Plus2Kick"]
   },
   {
     "name": "Oak",
-    "effects": ["Between a Rock... Used", "Stoic Used", "Lend a Hand", "Cut Em Down"]
+    "effects": ["betweenARockUsed", "stoicUsed", "lendAHand", "cutEmDown"]
   },
   {
     "name": "Obulus",
-    "effects": ["Confidence", "Unpredictable Movement Used"]
+    "effects": ["confidence", "unpredictableMovementUsed"]
   },
   {
     "name": "Ox",
-    "effects": ["They Ain't Tough!", "Butchery", "Get 'Em Lads!"]
+    "effects": ["theyAintTough", "butchery", "getEmLads"]
   },
   {
     "name": "Peck",
-    "effects": ["Pain Response Used", "Cocksure", "Protective Instinct"]
+    "effects": ["painResponseUsed", "cocksure", "protectiveInstinct"]
   },
   {
     "name": "Pelage",
-    "effects": ["Singled Out"]
+    "effects": ["singledOut"]
   },
   {
     "name": "Pepper",
@@ -533,89 +533,89 @@
   },
   {
     "name": "Phosphor",
-    "effects": ["Flash Point", "Fulcrum", "Poised Used"]
+    "effects": ["flashPoint", "fulcrum", "poisedUsed"]
   },
   {
     "name": "Pintpot",
-    "effects": ["Come On, Then!"]
+    "effects": ["comeOnThen"]
   },
   {
     "name": "Pin Vice",
     "effects": [
-      "Close Control Used",
-      "Reanimate Used",
-      "Well Oiled Machine Used",
-      "Alternator",
-      "Deletion"
+      "closeControlUsed",
+      "reanimateUsed",
+      "wellOiledMachineUsed",
+      "alternator",
+      "deletion"
     ]
   },
   {
     "name": "Piper",
-    "effects": ["Pay the Piper"]
+    "effects": ["payThePiper"]
   },
   {
     "name": "Ploughman",
-    "effects": ["Fertile Soil Used", "Broken Earth"]
+    "effects": ["fertileSoilUsed", "brokenEarth"]
   },
   {
     "name": "Pneuma",
-    "effects": ["Inferno"]
+    "effects": ["inferno"]
   },
   {
     "name": "Pride",
-    "effects": ["Rush Keeper", "Anatomical Precision", "Predatory Gaze"]
+    "effects": ["rushKeeper", "anatomicalPrecision", "predatoryGaze"]
   },
   {
     "name": "Princess",
-    "effects": ["Loved Creature", "Rabid Animal"]
+    "effects": ["lovedCreature", "rabidAnimal"]
   },
   {
     "name": "Quaff",
-    "effects": ["Pick Me Up", "Loved Creature", "Second Wind"]
+    "effects": ["pickMeUp", "lovedCreature", "secondWind"]
   },
   {
     "name": "Rage",
-    "effects": ["Tooled Up"]
+    "effects": ["tooledUp"]
   },
   {
     "name": "Ram",
-    "effects": ["Have You Any Wool?", "Impetus", "Protective Instinct"]
+    "effects": ["haveYouAnyWool", "impetus", "protectiveInstinct"]
   },
   {
     "name": "Ratchet",
-    "effects": ["Tooled Up", "Overclocked"]
+    "effects": ["tooledUp", "overclocked"]
   },
   {
     "name": "Rivet",
-    "effects": ["Elbow Grease", "Use This!", "Protect Those Close", "Sturdy Used"]
+    "effects": ["elbowGrease", "useThis", "protectThoseClose", "sturdyUsed"]
   },
   {
     "name": "Roast",
-    "effects": ["Resilience Used", "Get It While It's Hot"]
+    "effects": ["resilienceUsed", "getItWhileItsHot"]
   },
   {
     "name": "Rundaas",
-    "effects": ["Dirty Knives"]
+    "effects": ["dirtyKnives"]
   },
   {
     "name": "Sakana",
-    "effects": ["Poised Used"]
+    "effects": ["poisedUsed"]
   },
   {
     "name": "Salt",
-    "effects": ["Loved Creature"]
+    "effects": ["lovedCreature"]
   },
   {
     "name": "Salvo",
-    "effects": ["Arrow to the Knee"]
+    "effects": ["arrowToTheKnee"]
   },
   {
     "name": "sBrisket",
-    "effects": ["Unpredictable Movement Used", "With Aplomb"]
+    "effects": ["unpredictableMovementUsed", "withAplomb"]
   },
   {
     "name": "Scalpel",
-    "effects": ["Second Wind", "Vulnerable Prey"]
+    "effects": ["secondWind", "vulnerablePrey"]
   },
   {
     "name": "Scourge",
@@ -623,7 +623,7 @@
   },
   {
     "name": "Scum",
-    "effects": ["Unpredictable Movement Used"]
+    "effects": ["unpredictableMovementUsed"]
   },
   {
     "name": "Seenah",
@@ -631,23 +631,23 @@
   },
   {
     "name": "Shaft",
-    "effects": ["Weak Point"]
+    "effects": ["weakPoint"]
   },
   {
     "name": "Shank",
-    "effects": ["Thousand Cuts"]
+    "effects": ["thousandCuts"]
   },
   {
     "name": "Shark",
-    "effects": ["Quick Foot", "Caught in a Net"]
+    "effects": ["quickFoot", "caughtInANet"]
   },
   {
     "name": "Shearer",
-    "effects": ["All About The Game"]
+    "effects": ["allAboutTheGame"]
   },
   {
     "name": "Silence",
-    "effects": ["Shutout", "Tucked"]
+    "effects": ["shutout", "tucked"]
   },
   {
     "name": "Siren",
@@ -655,45 +655,45 @@
   },
   {
     "name": "Skatha",
-    "effects": ["Blessing of the Moon Goddess", "Winter's Night"]
+    "effects": ["blessingOfTheMoonGoddess", "wintersNight"]
   },
   {
     "name": "Skulk",
     "effects": [
-      "Follow Up Used",
-      "Lightning Reflexes Used",
-      "Poised Used",
-      "Horrific Odour",
-      "Pest Control"
+      "followUpUsed",
+      "lightningReflexesUsed",
+      "poisedUsed",
+      "horrificOdour",
+      "pestControl"
     ]
   },
   {
     "name": "Sledge",
-    "effects": ["Piledriver"]
+    "effects": ["piledriver"]
   },
   {
     "name": "Smoke",
-    "effects": ["Unpredictable Movement Used"]
+    "effects": ["unpredictableMovementUsed"]
   },
   {
     "name": "Snakeskin",
-    "effects": ["Aqua Tofana"]
+    "effects": ["aquaTofana"]
   },
   {
     "name": "Snow",
-    "effects": ["Loved Creature", "Anatomical Precision"]
+    "effects": ["lovedCreature", "anatomicalPrecision"]
   },
   {
     "name": "Soma",
-    "effects": ["Gimme Fuel... Used", "Inferno"]
+    "effects": ["gimmeFuelUsed", "inferno"]
   },
   {
     "name": "Soot",
-    "effects": ["Eye Spy"]
+    "effects": ["eyeSpy"]
   },
   {
     "name": "Spade",
-    "effects": ["Close Control Used"]
+    "effects": ["closeControlUsed"]
   },
   {
     "name": "Spice",
@@ -701,15 +701,15 @@
   },
   {
     "name": "Spigot",
-    "effects": ["Time's Called"]
+    "effects": ["timesCalled"]
   },
   {
     "name": "Squeak",
-    "effects": ["Tag Along Used"]
+    "effects": ["tagAlongUsed"]
   },
   {
     "name": "sSpigot",
-    "effects": ["Close Control Used"]
+    "effects": ["closeControlUsed"]
   },
   {
     "name": "Stave",
@@ -717,43 +717,43 @@
   },
   {
     "name": "Steeljaw",
-    "effects": ["Disarm", "Weak Point"]
+    "effects": ["disarm", "weakPoint"]
   },
   {
     "name": "Stoker",
-    "effects": ["Searing Strike", "Human Ball of Fire"]
+    "effects": ["searingStrike", "humanBallOfFire"]
   },
   {
     "name": "Strongbox",
-    "effects": ["Confidence", "Tag Along Used", "Tortoise Power"]
+    "effects": ["confidence", "tagAlongUsed", "tortoisePower"]
   },
   {
     "name": "Sugar",
-    "effects": ["Sturdy Used", "Chef's Special"]
+    "effects": ["sturdyUsed", "chefsSpecial"]
   },
   {
     "name": "Tapper",
-    "effects": ["Commanding Aura", "Marked Target"]
+    "effects": ["commandingAura", "markedTarget"]
   },
   {
     "name": "Tater",
-    "effects": ["Fork Off! Used"]
+    "effects": ["forkOffUsed"]
   },
   {
     "name": "Tenderiser",
-    "effects": ["Furious", "Goal Defence"]
+    "effects": ["furious", "goalDefence"]
   },
   {
     "name": "Tentacles",
-    "effects": ["Close Control Used", "Tag Along Used", "Blind"]
+    "effects": ["closeControlUsed", "tagAlongUsed", "blind"]
   },
   {
     "name": "Theron",
-    "effects": ["Arrow to the Knee", "Pinned", "Sun Strike", "Blessing of the Sun Father"]
+    "effects": ["arrowToTheKnee", "pinned", "sunStrike", "blessingOfTheSunFather"]
   },
   {
     "name": "Thresher",
-    "effects": ["Poised Used", "Scything March", "They Ain't Tough!", "Life Drinker"]
+    "effects": ["poisedUsed", "scythingMarch", "theyAintTough", "lifeDrinker"]
   },
   {
     "name": "Tinder",
@@ -761,43 +761,43 @@
   },
   {
     "name": "Tower",
-    "effects": ["Protect Those Close", "Sturdy Used", "Protective Instinct"]
+    "effects": ["protectThoseClose", "sturdyUsed", "protectiveInstinct"]
   },
   {
     "name": "Truffles",
-    "effects": ["Sturdy Used"]
+    "effects": ["sturdyUsed"]
   },
   {
     "name": "Ulfr",
-    "effects": ["Anatomical Precision"]
+    "effects": ["anatomicalPrecision"]
   },
   {
     "name": "vBoar",
-    "effects": ["Blood Lust", "Singled Out", "Stagger", "Chop Chop!", "Furious"]
+    "effects": ["bloodLust", "singledOut", "stagger", "chopChop", "furious"]
   },
   {
     "name": "vBrisket",
-    "effects": ["Unpredictable Movement Used"]
+    "effects": ["unpredictableMovementUsed"]
   },
   {
     "name": "vCalculus",
-    "effects": ["Sticky Bomb"]
+    "effects": ["stickyBomb"]
   },
   {
     "name": "vChisel",
-    "effects": ["Take One for the Team Used", "Assist"]
+    "effects": ["takeOneForTheTeamUsed", "assist"]
   },
   {
     "name": "vCinder",
-    "effects": ["Searing Strike"]
+    "effects": ["searingStrike"]
   },
   {
     "name": "vDecimate",
-    "effects": ["Stagger", "Duellist's Lunge"]
+    "effects": ["stagger", "duellistsLunge"]
   },
   {
     "name": "Velocity",
-    "effects": ["Close Control Used", "Reanimate Used", "Nimble"]
+    "effects": ["closeControlUsed", "reanimateUsed", "nimble"]
   },
   {
     "name": "Venin",
@@ -805,15 +805,15 @@
   },
   {
     "name": "vFangtooth",
-    "effects": ["Potbellied Pass Used", "Resilience Used"]
+    "effects": ["potbelliedPassUsed", "resilienceUsed"]
   },
   {
     "name": "vGraves",
-    "effects": ["Exhaustion", "They Ain't Tough!"]
+    "effects": ["exhaustion", "theyAintTough"]
   },
   {
     "name": "vGreede",
-    "effects": ["Do the Thing!", "Forward, Minions!"]
+    "effects": ["doTheThing", "forwardMinions"]
   },
   {
     "name": "vGutter",
@@ -821,23 +821,23 @@
   },
   {
     "name": "vHarmony",
-    "effects": ["Marked Target"]
+    "effects": ["markedTarget"]
   },
   {
     "name": "vHarriet ‘the Hat’",
-    "effects": ["Disarm"]
+    "effects": ["disarm"]
   },
   {
     "name": "vHearne",
-    "effects": ["Last Light"]
+    "effects": ["lastLight"]
   },
   {
     "name": "vHemlocke",
-    "effects": ["Blind"]
+    "effects": ["blind"]
   },
   {
     "name": "vHonour",
-    "effects": ["Faithful Protector", "Fields of Wheat Used"]
+    "effects": ["faithfulProtector", "fieldsOfWheatUsed"]
   },
   {
     "name": "Vileswarm",
@@ -845,7 +845,7 @@
   },
   {
     "name": "Vitriol",
-    "effects": ["Clone"]
+    "effects": ["clone"]
   },
   {
     "name": "vKatalyst",
@@ -853,39 +853,39 @@
   },
   {
     "name": "vMinx",
-    "effects": ["Marked for Death", "Blessing of the Sun Father"]
+    "effects": ["markedForDeath", "blessingOfTheSunFather"]
   },
   {
     "name": "vOx",
-    "effects": ["The Old Ways"]
+    "effects": ["theOldWays"]
   },
   {
     "name": "vRage",
-    "effects": ["Rising Anger Used", "Bloody Coin", "My Gang"]
+    "effects": ["risingAngerUsed", "bloodyCoin", "myGang"]
   },
   {
     "name": "vSakana",
-    "effects": ["Bag of Coffers", "Raise the Black Flag"]
+    "effects": ["bagOfCoffers", "raiseTheBlackFlag"]
   },
   {
     "name": "vSiren",
-    "effects": ["Escaping Fate Used"]
+    "effects": ["escapingFateUsed"]
   },
   {
     "name": "vSpigot",
-    "effects": ["Close Control Used", "Goad", "Back to His Best"]
+    "effects": ["closeControlUsed", "goad", "backToHisBest"]
   },
   {
     "name": "vVelocity",
-    "effects": ["Reanimate Used"]
+    "effects": ["reanimateUsed"]
   },
   {
     "name": "Wander",
-    "effects": ["About Their Necks"]
+    "effects": ["aboutTheirNecks"]
   },
   {
     "name": "Wellington",
-    "effects": ["Chef's Special", "Singled Out", "Master Chef"]
+    "effects": ["chefsSpecial", "singledOut", "masterChef"]
   },
   {
     "name": "Wick",
@@ -893,22 +893,22 @@
   },
   {
     "name": "Windfinder",
-    "effects": ["Eye Spy", "Full Speed Ahead"]
+    "effects": ["eyeSpy", "fullSpeedAhead"]
   },
   {
     "name": "Windle",
-    "effects": ["Big Breakfast"]
+    "effects": ["bigBreakfast"]
   },
   {
     "name": "Wrecker",
-    "effects": ["Follow Up Used"]
+    "effects": ["followUpUsed"]
   },
   {
     "name": "Yukai",
-    "effects": ["Flying"]
+    "effects": ["flying"]
   },
   {
     "name": "Zarola",
-    "effects": ["Unpredictable Movement Used", "+1 TAC", "+0″/+2″ MOV"]
+    "effects": ["unpredictableMovementUsed", "plus1Tac", "plus0Plus2Mov"]
   }
 ]

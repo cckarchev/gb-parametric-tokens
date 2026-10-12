@@ -15,7 +15,7 @@ const catalog: GuildCatalog = {
   characters: [
     {
       name: "Tapper",
-      effects: ["Commanding Aura", "Marked Target"],
+      effects: ["commandingAura", "markedTarget"],
     },
   ],
   genericTokens: [],

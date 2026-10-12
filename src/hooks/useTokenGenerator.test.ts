@@ -23,7 +23,7 @@ const catalog: GuildCatalog = {
   characters: [
     {
       name: "Tapper",
-      effects: ["Commanding Aura", "Marked Target"],
+      effects: ["commandingAura", "markedTarget"],
     },
   ],
   genericTokens: [{ name: "Beer Token" }],
@@ -145,7 +145,7 @@ describe("useTokenGenerator", () => {
       guildId: "cooks",
       name: "Cooks",
       color: "#eb2629",
-      characters: [{ name: "Wellington", effects: ["Singled Out"] }],
+      characters: [{ name: "Wellington", effects: ["singledOut"] }],
       genericTokens: [],
     };
 

@@ -12,8 +12,8 @@ const catalog: GuildCatalog = {
   name: "Brewers",
   color: "#cdb320",
   characters: [
-    { name: "Tapper", effects: ["Commanding Aura", "+1 DEF"] },
-    { name: "Spigot", effects: ["Time's Called"] },
+    { name: "Tapper", effects: ["commandingAura", "plus1Def"] },
+    { name: "Spigot", effects: ["timesCalled"] },
   ],
   genericTokens: [{ name: "Beer Token" }],
 };
@@ -49,7 +49,7 @@ const catalogWithMultiCopyToken: GuildCatalog = {
   guildId: "cooks",
   name: "Cooks",
   color: "#eb2629",
-  characters: [{ name: "Wellington", effects: ["Singled Out"] }],
+  characters: [{ name: "Wellington", effects: ["singledOut"] }],
   genericTokens: [],
 };
 
@@ -57,7 +57,7 @@ const catalogWithMultiCopyToken: GuildCatalog = {
 // pinning the effect's own wording there would fail them for an edit to the catalog data that has
 // nothing to do with what they cover. The first test below keeps the literal on purpose, as the
 // one anchor proving the real text is what reaches the line.
-const commandingAuraText = resolveEffect("Commanding Aura").effect;
+const commandingAuraText = resolveEffect("commandingAura").effect;
 
 describe("buildTokenItems", () => {
   it("includes only the character tokens listed in the selection", () => {

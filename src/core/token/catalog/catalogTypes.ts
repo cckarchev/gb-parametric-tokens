@@ -1,10 +1,9 @@
-// No `id` field on any of these: each one's own `name` is already unique across the whole
-// catalog (see characters.json's vX/sX veteran/seasoned naming), so a second, separately
-// maintained identifier would only ever be redundant with it or drift out of sync. Anything that
-// needs to reference one of these (a character's effects, a guild's characters, a React list key,
-// a selection map) just uses that name directly, literal string and all -- no derived slug layer
-// to keep in sync with it.
+// Characters and generic tokens are still keyed by their own `name`, which is unique across the
+// catalog (see characters.json's vX/sX veteran/seasoned naming). Effects are not: one ability
+// can offer several outcomes, each its own token sharing the ability's printed name, so effects
+// carry a separate camelCase `id` and are referenced by that instead.
 export type CatalogEffect = {
+  id: string;
   name: string;
   effect?: string;
   // Max simultaneous copies of this effect's token in play. Omitted means 1, only set when higher.
@@ -13,7 +12,7 @@ export type CatalogEffect = {
 
 export type CatalogCharacter = {
   name: string;
-  // The names of this character's own tokens, each one a reference into effects.json -- see
+  // The ids of this character's own tokens, each one a reference into effects.json, see
   // resolveEffect.
   effects: string[];
 };

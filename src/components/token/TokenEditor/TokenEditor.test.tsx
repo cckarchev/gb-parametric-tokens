@@ -79,7 +79,7 @@ describe("TokenEditor", () => {
         guildId: "brewers",
         name: "Brewers",
         color: "#cdb320",
-        characters: [{ name: "Tapper", effects: ["Commanding Aura"] }],
+        characters: [{ name: "Tapper", effects: ["commandingAura"] }],
         genericTokens: [{ name: "Beer Token" }],
       },
     });
