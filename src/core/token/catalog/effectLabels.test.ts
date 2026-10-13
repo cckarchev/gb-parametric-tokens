@@ -7,10 +7,10 @@ describe("buildEffectLabels", () => {
   it("uses the plain name for an effect whose name is unique within the list", () => {
     const effects: CatalogEffect[] = [
       { id: "impetus", name: "Impetus", effect: "+1 DMG" },
-      { id: "stoicUsed", name: "Stoic Used" },
+      { id: "goad", name: "Goad" },
     ];
 
-    expect(buildEffectLabels(effects)).toEqual(["Impetus", "Stoic Used"]);
+    expect(buildEffectLabels(effects)).toEqual(["Impetus", "Goad"]);
   });
 
   it("appends the effect text to every effect sharing a name with another one in the list", () => {

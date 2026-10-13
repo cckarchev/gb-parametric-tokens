@@ -3,14 +3,7 @@ import { CatalogEffect } from "../catalogTypes";
 import { TEXT_COLOR_GROUP_ID } from "../deriveReliefColor";
 import { buildRingTokenSpec } from "./ringTokenSpec";
 import { SharedConfig } from "./tokenItem";
-import { buildIconSpec, DEFAULT_ICON_SCALE, sharedTokenFields } from "./tokenSpecParts";
-
-// Starting point for balanceTwoLineSizes, tunable by feel against a real render like every other
-// geometry/typography default in this app: shrinks the name a touch and grows the effect text so
-// a two-line character token reads more evenly instead of the effect text looking like an
-// afterthought.
-const TWO_LINE_NAME_BALANCE_SCALE = 0.9;
-const TWO_LINE_EFFECT_BALANCE_SCALE = 1.2;
+import { buildIconSpec, sharedTokenFields } from "./tokenSpecParts";
 
 export const buildCharacterTokenSpec = (
   effect: CatalogEffect,
@@ -28,12 +21,15 @@ export const buildCharacterTokenSpec = (
     );
   }
 
-  const iconScale = DEFAULT_ICON_SCALE * guildIconScale;
+  const { crestScale, balanceNameScale, balanceEffectScale } = sharedConfig.characterToken;
+  const iconScale = crestScale * guildIconScale;
   const secondLineText = sharedConfig.showSecondLine ? effect.effect : undefined;
 
+  // balanceTwoLineSizes shrinks the name a touch and grows the effect text, so a two-line
+  // character token reads more evenly instead of the effect text looking like an afterthought.
   const nameSizeMm =
     secondLineText !== undefined && sharedConfig.balanceTwoLineSizes
-      ? sharedConfig.nameSizeMm * TWO_LINE_NAME_BALANCE_SCALE
+      ? sharedConfig.nameSizeMm * balanceNameScale
       : sharedConfig.nameSizeMm;
 
   const nameLine = {
@@ -49,7 +45,7 @@ export const buildCharacterTokenSpec = (
           {
             text: secondLineText,
             sizeMm: sharedConfig.balanceTwoLineSizes
-              ? sharedConfig.effectSizeMm * TWO_LINE_EFFECT_BALANCE_SCALE
+              ? sharedConfig.effectSizeMm * balanceEffectScale
               : sharedConfig.effectSizeMm,
             colorGroup: TEXT_COLOR_GROUP_ID,
           },

@@ -1,7 +1,6 @@
 import { FitPolicy } from "../../../core/token/types";
 import { CheckboxField } from "../../primitives/CheckboxField/CheckboxField";
 import { NumberField } from "../../primitives/NumberField/NumberField";
-import { Panel } from "../../primitives/Panel/Panel";
 
 type FitPolicyEditorProps = {
   fitPolicy: FitPolicy;
@@ -10,7 +9,7 @@ type FitPolicyEditorProps = {
 
 export const FitPolicyEditor = ({ fitPolicy, onChange }: FitPolicyEditorProps) => {
   return (
-    <Panel title="Fit policy">
+    <>
       <NumberField
         label="Min tracking (mm)"
         value={fitPolicy.minTracking}
@@ -31,6 +30,6 @@ export const FitPolicyEditor = ({ fitPolicy, onChange }: FitPolicyEditorProps) =
         checked={fitPolicy.allowTwoLines}
         onChange={(allowTwoLines) => onChange({ ...fitPolicy, allowTwoLines })}
       />
-    </Panel>
+    </>
   );
 };

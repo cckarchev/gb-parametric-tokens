@@ -1,7 +1,14 @@
 import type { Font } from "opentype.js";
 
-import { ReliefComponent, ReliefComponentSource } from "../mesh/reliefComponent";
+import { CENTER_ANGLE_DEG } from "../geometry/angleConventions";
+import {
+  collectGrowOutlineContours,
+  ReliefComponent,
+  ReliefComponentSource,
+} from "../mesh/reliefComponent";
+import { computeBaseOutlineContours } from "../preview/computeBaseOutlineContours";
 import { PrintProfile, TokenSpec } from "../types";
+import { validateLayoutGeometry } from "../validation/validateLayoutGeometry";
 import { ComponentFailure, validateMinStrokeWidth } from "../validation/validateMinStrokeWidth";
 import { computeArcReliefComponents } from "./computeArcReliefComponents";
 import { computeDiscReliefComponents } from "./computeDiscReliefComponents";
@@ -14,7 +21,13 @@ const UNKNOWN_SOURCE: ReliefComponentSource = { kind: "unknown" };
 
 export type ComputeReliefComponentsResult = {
   reliefComponents: ReliefComponent[];
+  // False whenever anything needs attention, layout warnings included: drives the preview's
+  // "needs attention" list and the contact sheet marker.
   valid: boolean;
+  // Only the failures that make a print go wrong (a detail too thin to print, an icon's
+  // unsupported overhang) stop the export. Layout warnings (see validateLayoutGeometry.ts) are
+  // left to the user's judgment in the preview: a crest grazing a long name still prints fine.
+  blocksExport: boolean;
   componentFailures: ComponentFailure[];
   warnings: string[];
 };
@@ -90,7 +103,23 @@ export const computeReliefComponents = async (
     )
     .map((component) => ({ kind: "icon-overflow" as const, source: component.source }));
 
-  const componentFailures = [...strokeWidthFailures, ...iconOverflowFailures];
+  // Checked against the same outline the preview draws (grown icons included), so a flagged
+  // token and the picture of it always agree.
+  const footprintContours = await computeBaseOutlineContours(
+    spec.shape,
+    CENTER_ANGLE_DEG,
+    collectGrowOutlineContours(reliefComponents),
+  );
+  const layoutFailures = await validateLayoutGeometry(reliefComponents, footprintContours);
 
-  return { reliefComponents, valid: componentFailures.length === 0, componentFailures, warnings };
+  const blockingFailures = [...strokeWidthFailures, ...iconOverflowFailures];
+  const componentFailures = [...blockingFailures, ...layoutFailures];
+
+  return {
+    reliefComponents,
+    valid: componentFailures.length === 0,
+    blocksExport: blockingFailures.length > 0,
+    componentFailures,
+    warnings,
+  };
 };

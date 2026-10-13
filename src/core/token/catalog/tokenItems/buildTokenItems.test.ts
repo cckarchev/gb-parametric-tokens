@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { GuildCatalog } from "../catalogTypes";
 import { resolveEffect } from "../effects";
 import { buildTokenItems } from "./buildTokenItems";
+import { DEFAULT_TOKEN_TUNING } from "./defaultSharedConfig";
 import { DEFAULT_TOKEN_COPIES } from "./resolveTokenCopies";
 import {
   characterAoeTemplateId,
@@ -19,7 +20,7 @@ const catalog: GuildCatalog = {
   name: "Brewers",
   color: "#cdb320",
   characters: [
-    { name: "Tapper", effects: ["commandingAura", "stoicUsed"] },
+    { name: "Tapper", effects: ["commandingAura", "goad"] },
     { name: "Spigot", effects: ["timesCalled"] },
   ],
   genericTokens: [{ name: "Beer Token" }],
@@ -43,6 +44,7 @@ const sharedConfig: SharedConfig = {
   balanceTwoLineSizes: false,
   iconOverflowBehavior: "none",
   aoeTemplateVariant: "ring",
+  ...DEFAULT_TOKEN_TUNING,
 };
 
 const emptySelection: TokenSelection = {
@@ -119,7 +121,7 @@ describe("buildTokenItems", () => {
 
     const items = buildTokenItems(catalog, selection, sharedConfig);
 
-    expect(items[0].spec.lines).toEqual([{ text: "Stoic Used", sizeMm: 6, colorGroup: "text" }]);
+    expect(items[0].spec.lines).toEqual([{ text: "Goad", sizeMm: 6, colorGroup: "text" }]);
   });
 
   it("omits the second line entirely when showSecondLine is off, even if the token has effect text", () => {
@@ -160,7 +162,7 @@ describe("buildTokenItems", () => {
 
     const items = buildTokenItems(catalog, selection, customConfig);
 
-    expect(items[0].spec.lines).toEqual([{ text: "Stoic Used", sizeMm: 6, colorGroup: "text" }]);
+    expect(items[0].spec.lines).toEqual([{ text: "Goad", sizeMm: 6, colorGroup: "text" }]);
   });
 
   it("defaults a character token's icon to the guild's own icon id, tagged with the text color group", () => {

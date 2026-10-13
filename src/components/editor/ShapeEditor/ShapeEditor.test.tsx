@@ -116,4 +116,22 @@ describe("ShapeEditor", () => {
 
     expect(onChange).toHaveBeenCalledWith({ ...arcShape, studFilletRadiusMm: 3 });
   });
+
+  it("reports the stud fillet toggle while preserving the rest of the arc shape", () => {
+    const onChange = vi.fn();
+    const arcShape: ShapeSpec = {
+      type: "arc",
+      ribbonWidthMm: 15,
+      ribbonLengthMm: 20,
+      studDiameterMm: 24,
+      studFilletEnabled: false,
+      studFilletRadiusMm: 2,
+    };
+
+    render(<ShapeEditor shape={arcShape} onChange={onChange} />);
+
+    fireEvent.click(screen.getByLabelText("Fillet between stud and arc"));
+
+    expect(onChange).toHaveBeenCalledWith({ ...arcShape, studFilletEnabled: true });
+  });
 });

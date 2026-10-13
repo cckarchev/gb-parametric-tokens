@@ -4,61 +4,18 @@ import { downloadBlob } from "../browser/downloadBlob";
 import { describeError } from "../core/describeError";
 import { buildDefaultSelection } from "../core/token/catalog/buildDefaultSelection";
 import { deriveReliefColor, TEXT_COLOR_GROUP_ID } from "../core/token/catalog/deriveReliefColor";
+import { DEFAULT_SHARED_CONFIG } from "../core/token/catalog/tokenItems/defaultSharedConfig";
+import { parseSettingsFile } from "../core/token/catalog/tokenItems/parseSettingsFile";
 import { SharedConfig, TokenSelection } from "../core/token/catalog/tokenItems/tokenItem";
-import {
-  DEFAULT_ARC_SHAPE,
-  DEFAULT_COLOR_GROUPS,
-  DEFAULT_DISC_SHAPE,
-  DEFAULT_FIT_POLICY,
-  DEFAULT_STYLE,
-} from "../core/token/defaultShapeAndStyle";
-import { FALLBACK_ICON_ID } from "../core/token/icons/iconManifest";
 import { BASE_COLOR_GROUP_ID } from "../core/token/mesh/colorGroups";
-import { DEFAULT_PRINT_PROFILE_ID } from "../core/token/printProfiles";
 import { useExport } from "./useExport";
 import { useGuildCatalog } from "./useGuildCatalog";
 import { usePreview } from "./usePreview";
 
 export type { PreviewItem } from "./useWorker";
 
-const DEFAULT_GOAL_INFLUENCE_SHAPE: SharedConfig["goalInfluenceShape"] = {
-  type: "disc",
-  diameterMm: 20,
-};
-// Measured against the real DEFAULT_ARC_SHAPE's 6mm band via the real pipeline
-// (computeReliefComponents): the largest sizes that fit a two-line label like "Command" /
-// "-2/-2 MOV" without truncating or overlapping the ribbon edges.
-const DEFAULT_NAME_SIZE_MM = 3;
-const DEFAULT_EFFECT_SIZE_MM = 1.9;
-
 const SETTINGS_FILE_NAME = "token-settings.json";
 const JSON_MIME_TYPE = "application/json";
-
-// The fine-tuning settings (shapes, style, fit policy, colors...) live separately from the
-// per-run token selection, so they can be shared/reused across runs independently of which
-// tokens a given download happens to include.
-const isSharedConfig = (value: unknown): value is SharedConfig => {
-  if (typeof value !== "object" || value === null) {
-    return false;
-  }
-
-  const candidate = value as Partial<SharedConfig>;
-
-  return (
-    typeof candidate.arcShape === "object" &&
-    typeof candidate.discShape === "object" &&
-    typeof candidate.goalInfluenceShape === "object" &&
-    typeof candidate.style === "object" &&
-    typeof candidate.fitPolicy === "object" &&
-    typeof candidate.printProfileId === "string" &&
-    Array.isArray(candidate.colorGroups) &&
-    typeof candidate.influenceIconId === "string" &&
-    typeof candidate.nameSizeMm === "number" &&
-    typeof candidate.effectSizeMm === "number" &&
-    typeof candidate.showSecondLine === "boolean" &&
-    typeof candidate.balanceTwoLineSizes === "boolean"
-  );
-};
 
 // Rendered only before any guild has been selected (TokenEditor gates every consumer of
 // `selection` behind `generator.catalog &&`), so its actual values are never seen -- it exists
@@ -121,24 +78,7 @@ export const useTokenGenerator = () => {
 
   const [importSettingsError, setImportSettingsError] = useState<string>();
 
-  const [sharedConfig, setSharedConfig] = useState<SharedConfig>({
-    arcShape: DEFAULT_ARC_SHAPE,
-    discShape: DEFAULT_DISC_SHAPE,
-    goalInfluenceShape: DEFAULT_GOAL_INFLUENCE_SHAPE,
-    style: DEFAULT_STYLE,
-    fitPolicy: DEFAULT_FIT_POLICY,
-    printProfileId: DEFAULT_PRINT_PROFILE_ID,
-    colorGroups: DEFAULT_COLOR_GROUPS,
-    // Stands in only until a guild has loaded; the effect below overwrites it with that guild's
-    // own icon id.
-    influenceIconId: FALLBACK_ICON_ID,
-    nameSizeMm: DEFAULT_NAME_SIZE_MM,
-    effectSizeMm: DEFAULT_EFFECT_SIZE_MM,
-    showSecondLine: true,
-    balanceTwoLineSizes: false,
-    iconOverflowBehavior: "none",
-    aoeTemplateVariant: "ring",
-  });
+  const [sharedConfig, setSharedConfig] = useState<SharedConfig>(DEFAULT_SHARED_CONFIG);
 
   // Every successful guild load re-seeds the two catalog-derived colors (the selection itself is
   // handled above, per guild, and is not reset here).
@@ -205,19 +145,9 @@ export const useTokenGenerator = () => {
 
     try {
       const text = await file.text();
-      const parsed = JSON.parse(text);
+      const parsed: unknown = JSON.parse(text);
 
-      if (!isSharedConfig(parsed)) {
-        throw new Error("This file is not a valid settings file.");
-      }
-
-      // Not validated above: a settings file exported before these options existed simply lacks
-      // them, and should still import cleanly with their defaults rather than being rejected.
-      setSharedConfig({
-        ...parsed,
-        iconOverflowBehavior: parsed.iconOverflowBehavior ?? "none",
-        aoeTemplateVariant: parsed.aoeTemplateVariant ?? "ring",
-      });
+      setSharedConfig(parseSettingsFile(parsed));
     } catch (error) {
       setImportSettingsError(describeError(error));
     }

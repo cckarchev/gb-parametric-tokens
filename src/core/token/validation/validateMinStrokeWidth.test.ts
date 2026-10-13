@@ -171,6 +171,35 @@ describe("describeComponentFailure", () => {
   });
 });
 
+describe("describeComponentFailure, layout failures", () => {
+  it("names the text that runs past the token's edge", () => {
+    const message = describeComponentFailure({
+      kind: "outside-footprint",
+      source: { kind: "text", text: "Smoke Bomb" },
+    });
+
+    expect(message).toBe('Text "Smoke Bomb": runs past the token\'s edge.');
+  });
+
+  it("names both the crest and the text it overlaps", () => {
+    const message = describeComponentFailure({
+      kind: "crest-over-text",
+      source: { kind: "icon", iconId: "Brewers" },
+      textSource: { kind: "text", text: "Goal" },
+    });
+
+    expect(message).toBe('Icon "Brewers" overlaps Text "Goal".');
+  });
+
+  it("explains a broken outline without naming a component", () => {
+    const message = describeComponentFailure({ kind: "broken-footprint", pieceCount: 2 });
+
+    expect(message).toBe(
+      "The token's outline came out empty or in separate pieces: check its shape settings.",
+    );
+  });
+});
+
 describe("describeVanishedDetailCount", () => {
   it("gives just the count, with no source label -- for when the caller already names the source", () => {
     const message = describeVanishedDetailCount({ vanishedFeatureCount: 2, featureCount: 5 });

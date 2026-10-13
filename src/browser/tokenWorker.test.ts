@@ -80,12 +80,14 @@ describe("handlePreview", () => {
         reliefComponents: [{ contours: [[[0, 0]]] }],
         warnings: ["warn-a"],
         valid: true,
+        blocksExport: false,
         componentFailures: [],
       })
       .mockResolvedValueOnce({
         reliefComponents: [{ contours: [[[1, 1]]] }],
         warnings: [],
         valid: false,
+        blocksExport: true,
         componentFailures: [
           {
             kind: "stroke-width",
@@ -152,6 +154,7 @@ describe("handlePreview", () => {
       reliefComponents: [],
       warnings: [],
       valid: false,
+      blocksExport: true,
       componentFailures: [
         {
           kind: "stroke-width",
@@ -187,6 +190,7 @@ describe("handlePreview", () => {
       reliefComponents: [],
       warnings: [],
       valid: false,
+      blocksExport: true,
       componentFailures: [
         {
           kind: "stroke-width",
@@ -228,6 +232,7 @@ describe("handlePreview", () => {
       reliefComponents: [],
       warnings: [],
       valid: false,
+      blocksExport: true,
       componentFailures: [{ kind: "icon-overflow", source: { kind: "icon", iconId: "Cooks" } }],
     });
     vi.mocked(computeBaseOutlineContours).mockResolvedValueOnce([[[-1, -1]]]);
@@ -251,6 +256,7 @@ describe("handleExport", () => {
       reliefComponents: [],
       warnings: [],
       valid: false,
+      blocksExport: true,
       componentFailures: [
         {
           kind: "stroke-width",
@@ -272,10 +278,39 @@ describe("handleExport", () => {
     expect(response.status).toBe("failed");
     if (response.status === "failed") {
       expect(response.failures).toEqual([
-        { id: "a", label: "Token A", reason: "Fails the minimum stroke width check." },
+        { id: "a", label: "Token A", reason: "1 of 1 detail too thin to print at this size." },
       ]);
     }
     expect(computePlateLayout).not.toHaveBeenCalled();
+  });
+
+  it("still exports a token whose only failures are layout warnings", async () => {
+    vi.mocked(computeReliefComponents).mockResolvedValue({
+      reliefComponents: [],
+      warnings: [],
+      valid: false,
+      blocksExport: false,
+      componentFailures: [
+        {
+          kind: "crest-over-text",
+          source: { kind: "icon", iconId: "Brewers" },
+          textSource: { kind: "text", text: "Token A" },
+        },
+      ],
+    });
+    vi.mocked(buildTokenParts).mockResolvedValue([fakePart("NoError")]);
+    vi.mocked(computePlateLayout).mockReturnValue([[[0, 0]]]);
+    vi.mocked(buildCombinedThreeMfModelXml).mockReturnValue("<model/>");
+    vi.mocked(buildThreeMfArchive).mockReturnValue(new Uint8Array([1]));
+
+    const items: TokenItem[] = [
+      { id: "a", label: "Token A", name: "Token A", spec: discSpec, copies: 1 },
+    ];
+    const request: ExportRequest = { kind: "export", requestId: 1, items, colorGroups };
+
+    const response = await handleExport(request);
+
+    expect(response.status).toBe("ok");
   });
 
   it("collects a failure for a part with a non-NoError manifold status", async () => {
@@ -283,6 +318,7 @@ describe("handleExport", () => {
       reliefComponents: [],
       warnings: [],
       valid: true,
+      blocksExport: false,
       componentFailures: [],
     });
     vi.mocked(buildTokenParts).mockResolvedValue([fakePart("Error")]);
@@ -307,6 +343,7 @@ describe("handleExport", () => {
       reliefComponents: [],
       warnings: [],
       valid: true,
+      blocksExport: false,
       componentFailures: [],
     });
 

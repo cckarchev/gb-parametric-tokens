@@ -185,11 +185,11 @@ export const handleExport = async (request: ExportRequest): Promise<ExportRespon
       const printProfile = PRINT_PROFILES[item.spec.printProfileId];
       const result = await computeReliefComponents(item.spec, font, printProfile, loadIconSource);
 
-      if (!result.valid) {
+      if (result.blocksExport) {
         failures.push({
           id: item.id,
           label: item.label,
-          reason: "Fails the minimum stroke width check.",
+          reason: describeReason(item.name, result.componentFailures),
         });
       }
 

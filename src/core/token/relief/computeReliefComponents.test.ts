@@ -358,8 +358,8 @@ describe("computeReliefComponents", () => {
 
     expect(result.valid).toBe(false);
     expect(result.componentFailures).toHaveLength(1);
-    expect(failure.source).toEqual({ kind: "text", text: "l" });
-    expect(failure.kind).toBe("stroke-width");
+    expect(failure).toMatchObject({ kind: "stroke-width", source: { kind: "text", text: "l" } });
+    expect(result.blocksExport).toBe(true);
 
     if (failure.kind === "stroke-width") {
       expect(failure.vanishedFeatureCount).toBeGreaterThan(0);
@@ -493,7 +493,7 @@ describe("computeReliefComponents", () => {
 
     expect(result.valid).toBe(false);
     expect(result.componentFailures).toHaveLength(1);
-    expect(result.componentFailures[0].source).toEqual({ kind: "text", text: "l" });
+    expect(result.componentFailures[0]).toMatchObject({ source: { kind: "text", text: "l" } });
   });
 
   const ringSpec = (overrides: Partial<TokenSpec> = {}): TokenSpec => ({
@@ -683,5 +683,40 @@ describe("computeReliefComponents", () => {
         stubLoadIconSource,
       ),
     ).rejects.toThrow(/centerAngleDeg/);
+  });
+});
+
+describe("computeReliefComponents, layout checks", () => {
+  const LAYOUT_FAILURE_KINDS = ["outside-footprint", "crest-over-text", "broken-footprint"];
+
+  it("flags ring text that runs past the disc's rim", async () => {
+    const font = loadTestFont();
+    const spec = discSpec({
+      textLayout: "ring",
+      icons: [],
+      lines: [{ text: "TOO FAR", sizeMm: 4, radiusMm: 12 }],
+    });
+
+    const result = await computeReliefComponents(spec, font, printProfile, stubLoadIconSource);
+
+    expect(result.valid).toBe(false);
+    expect(result.blocksExport).toBe(false);
+    expect(result.componentFailures.map((failure) => failure.kind)).toContain("outside-footprint");
+  });
+
+  it("adds no layout failure to a token whose text and icon fit", async () => {
+    const font = loadTestFont();
+    const spec = discSpec({
+      textLayout: "ring",
+      icons: [{ iconId: "ball", side: "center", scale: 0.4 }],
+      lines: [{ text: "FITS", sizeMm: 2, radiusMm: 9 }],
+    });
+
+    const result = await computeReliefComponents(spec, font, printProfile, stubLoadIconSource);
+    const layoutFailures = result.componentFailures.filter((failure) =>
+      LAYOUT_FAILURE_KINDS.includes(failure.kind),
+    );
+
+    expect(layoutFailures).toEqual([]);
   });
 });

@@ -1,12 +1,11 @@
 import { DiscShapeSpec, FitPolicy, TokenSpec } from "../../types";
 import { TEXT_COLOR_GROUP_ID } from "../deriveReliefColor";
-import { SharedConfig } from "./tokenItem";
+import { MomentumTuning, SharedConfig } from "./tokenItem";
 import { sharedTokenFields } from "./tokenSpecParts";
 
 // "MP" (Momentum Points) is the text printed on the Momentum token itself, not a separate token
 // kind: there is no "MP token" in the catalog, only this one.
 const MOMENTUM_TEXT = "MP";
-const MOMENTUM_TEXT_SIZE_MM = 6;
 // "MP" is fixed and two characters long, so it always fits: no tracking, no shrinking, no wrap.
 // This replaces the shared fitPolicy rather than adjusting it (see sharedTokenFields).
 const MOMENTUM_FIT_POLICY: FitPolicy = {
@@ -16,19 +15,16 @@ const MOMENTUM_FIT_POLICY: FitPolicy = {
   allowTwoLines: false,
 };
 
-// Not physically calibrated: a starting point for a thin border ring, proportional to the disc's
-// own diameter so it tracks that shape's default if it ever changes -- tune by feel against a
-// real render, same as every other geometry default in this app (see defaultShapeAndStyle.ts).
-const RING_RADIUS_RATIO = 0.85;
-const RING_WIDTH_MM = 0.6;
-
-const buildRingDecoration = (discShape: DiscShapeSpec) => {
-  const radiusMm = (discShape.diameterMm / 2) * RING_RADIUS_RATIO;
+// A thin border ring whose outer edge sits ringInsetMm in from the rim. The ring decoration's
+// radiusMm is its centerline, hence the half width.
+const buildRingDecoration = (discShape: DiscShapeSpec, tuning: MomentumTuning) => {
+  const discRadiusMm = discShape.diameterMm / 2;
+  const radiusMm = discRadiusMm - tuning.ringInsetMm - tuning.ringWidthMm / 2;
 
   return {
     type: "ring" as const,
     radiusMm,
-    widthMm: RING_WIDTH_MM,
+    widthMm: tuning.ringWidthMm,
     colorGroup: TEXT_COLOR_GROUP_ID,
   };
 };
@@ -41,10 +37,14 @@ export const buildMomentumTokenSpec = (sharedConfig: SharedConfig): TokenSpec =>
     shape: sharedConfig.discShape,
     textLayout: "flat",
     lines: [
-      { text: MOMENTUM_TEXT, sizeMm: MOMENTUM_TEXT_SIZE_MM, colorGroup: TEXT_COLOR_GROUP_ID },
+      {
+        text: MOMENTUM_TEXT,
+        sizeMm: sharedConfig.momentum.textSizeMm,
+        colorGroup: TEXT_COLOR_GROUP_ID,
+      },
     ],
     icons: [],
-    decorations: [buildRingDecoration(sharedConfig.discShape)],
+    decorations: [buildRingDecoration(sharedConfig.discShape, sharedConfig.momentum)],
     ...sharedTokenFields(sharedConfig, MOMENTUM_FIT_POLICY),
   };
 };

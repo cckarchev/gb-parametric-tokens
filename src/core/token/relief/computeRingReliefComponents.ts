@@ -6,6 +6,7 @@ import { ReliefComponent } from "../mesh/reliefComponent";
 import { layoutArcText } from "../text/layoutArcText";
 import { layoutFlatText } from "../text/layoutFlatText";
 import { computeRadialTextRotationDeg } from "../text/radialTextRotation";
+import { resolveRingLineOrientation } from "../text/ringLineOrientation";
 import { LineSpec, PrintProfile, TokenSpec, Vec2 } from "../types";
 import {
   buildCenterIconComponents,
@@ -20,8 +21,6 @@ import {
 const RING_TOP_CENTER_ANGLE_DEG = 90;
 const RING_BOTTOM_CENTER_ANGLE_DEG = 270;
 const DEFAULT_CENTER_ANGLES_DEG = [RING_TOP_CENTER_ANGLE_DEG, RING_BOTTOM_CENTER_ANGLE_DEG];
-const HALF_TURN_DEG = 180;
-const FULL_TURN_DEG = 360;
 
 const resolveCenterAngleDeg = (line: LineSpec, index: number): number => {
   const centerAngleDeg = line.centerAngleDeg ?? DEFAULT_CENTER_ANGLES_DEG[index];
@@ -33,15 +32,6 @@ const resolveCenterAngleDeg = (line: LineSpec, index: number): number => {
   }
 
   return centerAngleDeg;
-};
-
-// A line in the lower half reads inward, like the bottom line, so it stays upright for the same
-// viewer as the top one.
-const resolveOrientation = (centerAngleDeg: number): "outward" | "inward" => {
-  const normalizedAngleDeg = ((centerAngleDeg % FULL_TURN_DEG) + FULL_TURN_DEG) % FULL_TURN_DEG;
-  const isLowerHalf = normalizedAngleDeg > HALF_TURN_DEG;
-
-  return isLowerHalf ? "inward" : "outward";
 };
 
 const layoutCurvedLine = (
@@ -58,7 +48,7 @@ const layoutCurvedLine = (
       sizeMm: line.sizeMm,
       radiusMm,
       centerAngleDeg,
-      orientation: resolveOrientation(centerAngleDeg),
+      orientation: resolveRingLineOrientation(centerAngleDeg),
     },
     toleranceMm,
     "mathYUp",

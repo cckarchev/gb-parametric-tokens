@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 
 import { CatalogAoeTemplate } from "../catalogTypes";
 import { buildAoeTemplateSpec } from "./aoeTemplateSpec";
+import { DEFAULT_TOKEN_TUNING } from "./defaultSharedConfig";
+import { computeRingTextRadii } from "./ringTextRadii";
 import { SharedConfig } from "./tokenItem";
 
 const sharedConfig: SharedConfig = {
@@ -19,6 +21,7 @@ const sharedConfig: SharedConfig = {
   balanceTwoLineSizes: false,
   iconOverflowBehavior: "none",
   aoeTemplateVariant: "ring",
+  ...DEFAULT_TOKEN_TUNING,
 };
 
 const template: CatalogAoeTemplate = { id: "smokeBomb", name: "Smoke Bomb", effect: "Cover" };
@@ -63,6 +66,57 @@ describe("buildAoeTemplateSpec, crow's foot variant", () => {
   const TOP_ANGLE_DEG = 90;
   const LOWER_LEFT_ANGLE_DEG = 210;
   const LOWER_RIGHT_ANGLE_DEG = 330;
+
+  it("puts a name and an effect on every spoke when the spoke count changes", () => {
+    const config: SharedConfig = {
+      ...crowfootConfig,
+      aoe: {
+        ...crowfootConfig.aoe,
+        crowfoot: { ...crowfootConfig.aoe.crowfoot, spokeCount: 4 },
+      },
+    };
+    const spec = buildAoeTemplateSpec(template, GUILD_ICON_ID, GUILD_ICON_SCALE, config);
+    const nameLines = spec.lines.filter((line) => line.placement !== "radial");
+    const effectLines = spec.lines.filter((line) => line.placement === "radial");
+
+    expect(nameLines.map((line) => line.centerAngleDeg)).toEqual([90, 180, 270, 360]);
+    expect(effectLines.map((line) => line.centerAngleDeg)).toEqual([90, 180, 270, 360]);
+    expect(spec.shape.type === "disc" && spec.shape.crowfoot?.spokeCount).toBe(4);
+  });
+
+  it("passes a 0 fillet radius down when the fillet is off", () => {
+    const config: SharedConfig = {
+      ...crowfootConfig,
+      aoe: {
+        ...crowfootConfig.aoe,
+        crowfoot: { ...crowfootConfig.aoe.crowfoot, filletEnabled: false },
+      },
+    };
+    const spec = buildAoeTemplateSpec(template, GUILD_ICON_ID, GUILD_ICON_SCALE, config);
+
+    expect(spec.shape.type === "disc" && spec.shape.crowfoot?.filletRadiusMm).toBe(0);
+  });
+
+  it("narrows the band with the band width setting", () => {
+    const bandWidthMm = 8;
+    const config: SharedConfig = {
+      ...crowfootConfig,
+      aoe: { ...crowfootConfig.aoe, bandWidthMm },
+    };
+    const ringSpec = buildAoeTemplateSpec(template, GUILD_ICON_ID, GUILD_ICON_SCALE, {
+      ...config,
+      aoeTemplateVariant: "ring",
+    });
+    const crowfootSpec = buildAoeTemplateSpec(template, GUILD_ICON_ID, GUILD_ICON_SCALE, config);
+    const expectedInnerDiameterMm = 76.2 - bandWidthMm * 2;
+
+    expect(ringSpec.shape.type === "disc" && ringSpec.shape.innerDiameterMm).toBeCloseTo(
+      expectedInnerDiameterMm,
+    );
+    expect(crowfootSpec.shape.type === "disc" && crowfootSpec.shape.innerDiameterMm).toBeCloseTo(
+      expectedInnerDiameterMm,
+    );
+  });
 
   it("cuts the 3 inch ring down to three rounded 30 degree arcs on filleted 5mm spokes", () => {
     const spec = buildAoeTemplateSpec(template, GUILD_ICON_ID, GUILD_ICON_SCALE, crowfootConfig);
@@ -120,6 +174,22 @@ describe("buildAoeTemplateSpec, crow's foot variant", () => {
 
 describe("buildAoeTemplateSpec, compact disc variant", () => {
   const compactConfig: SharedConfig = { ...sharedConfig, aoeTemplateVariant: "compactDisc" };
+
+  it("reads its text size, inset and crest from the compact disc settings", () => {
+    const config: SharedConfig = {
+      ...compactConfig,
+      aoe: {
+        ...compactConfig.aoe,
+        compactDisc: { textSizeMm: 2, textInsetMm: 2, crestScale: 0.4 },
+      },
+    };
+    const spec = buildAoeTemplateSpec(template, GUILD_ICON_ID, GUILD_ICON_SCALE, config);
+    const radii = computeRingTextRadii(25.4, 2, 2);
+
+    expect(spec.lines.map((line) => line.radiusMm)).toEqual([radii.topMm, radii.bottomMm]);
+    expect(spec.lines.map((line) => line.sizeMm)).toEqual([2, 2]);
+    expect(spec.icons[0].scale).toBeCloseTo(0.4 * GUILD_ICON_SCALE);
+  });
 
   it("is a solid 1 inch disc, so the rest of the 3 inch area is a whole inch from its edge", () => {
     const spec = buildAoeTemplateSpec(template, GUILD_ICON_ID, GUILD_ICON_SCALE, compactConfig);

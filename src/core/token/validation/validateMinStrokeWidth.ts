@@ -4,6 +4,7 @@ import { OFFSET_ARC_SEGMENTS, OFFSET_MITER_LIMIT } from "../geometry/circleResol
 import { getManifoldModule } from "../mesh/manifoldModule";
 import { ReliefComponentSource } from "../mesh/reliefComponent";
 import { Vec2 } from "../types";
+import type { LayoutGeometryFailure } from "./validateLayoutGeometry";
 
 type MinStrokeWidthValidation = {
   valid: boolean;
@@ -65,9 +66,9 @@ type IconOverflowFailure = {
   source: Extract<ReliefComponentSource, { kind: "icon" }>;
 };
 
-// Every reason a relief component can land in the "needs attention" list -- computeReliefComponents.ts
-// combines both kinds into one list, tokenWorker.ts turns it into one reason string per token.
-export type ComponentFailure = StrokeWidthFailure | IconOverflowFailure;
+// Every reason a token can land in the "needs attention" list -- computeReliefComponents.ts
+// combines every kind into one list, tokenWorker.ts turns it into one reason string per token.
+export type ComponentFailure = StrokeWidthFailure | IconOverflowFailure | LayoutGeometryFailure;
 
 const describeReliefComponentSource = (source: ReliefComponentSource): string => {
   switch (source.kind) {
@@ -96,12 +97,27 @@ export const describeVanishedDetailCount = (
 
 const ICON_OVERFLOW_MESSAGE =
   'extends past its circle and nothing corrects it -- see "Icons that overflow their circle".';
+const OUTSIDE_FOOTPRINT_MESSAGE = "runs past the token's edge.";
+const BROKEN_FOOTPRINT_MESSAGE =
+  "The token's outline came out empty or in separate pieces: check its shape settings.";
 
 // Shared by the UI (the "N tokens need attention" list) and the contact-sheet preview marker, so
 // both describe the same failure in the same words.
 export const describeComponentFailure = (failure: ComponentFailure): string => {
-  const detail =
-    failure.kind === "icon-overflow" ? ICON_OVERFLOW_MESSAGE : describeVanishedDetailCount(failure);
+  switch (failure.kind) {
+    case "stroke-width":
+      return `${describeReliefComponentSource(failure.source)}: ${describeVanishedDetailCount(failure)}`;
+    case "icon-overflow":
+      return `${describeReliefComponentSource(failure.source)}: ${ICON_OVERFLOW_MESSAGE}`;
+    case "outside-footprint":
+      return `${describeReliefComponentSource(failure.source)}: ${OUTSIDE_FOOTPRINT_MESSAGE}`;
+    case "crest-over-text": {
+      const iconLabel = describeReliefComponentSource(failure.source);
+      const textLabel = describeReliefComponentSource(failure.textSource);
 
-  return `${describeReliefComponentSource(failure.source)}: ${detail}`;
+      return `${iconLabel} overlaps ${textLabel}.`;
+    }
+    case "broken-footprint":
+      return BROKEN_FOOTPRINT_MESSAGE;
+  }
 };

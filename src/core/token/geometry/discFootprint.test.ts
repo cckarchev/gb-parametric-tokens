@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { getManifoldModule } from "../mesh/manifoldModule";
+import { CrowfootSpec } from "../types";
 import { buildDiscFootprint } from "./discFootprint";
 
 const OUTER_DIAMETER_MM = 40;
@@ -68,7 +69,7 @@ const pointAtAngle = (radiusMm: number, angleDeg: number): [number, number] => {
 };
 
 describe("buildDiscFootprint, crowfoot", () => {
-  const buildCrowfoot = async () => {
+  const buildCrowfoot = async (overrides: Partial<CrowfootSpec> = {}) => {
     const { CrossSection } = await getManifoldModule();
     const footprint = buildDiscFootprint(CrossSection, {
       type: "disc",
@@ -80,6 +81,7 @@ describe("buildDiscFootprint, crowfoot", () => {
         arcSweepDeg: CROWFOOT_ARC_SWEEP_DEG,
         cornerRadiusMm: CROWFOOT_CORNER_RADIUS_MM,
         filletRadiusMm: CROWFOOT_FILLET_RADIUS_MM,
+        ...overrides,
       },
     });
 
@@ -166,6 +168,35 @@ describe("buildDiscFootprint, crowfoot", () => {
     expect(isSolidAt(pointAtAngle(sharpCornerDistanceMm + pastCornerMm, bisectorAngleDeg))).toBe(
       true,
     );
+  });
+
+  it("leaves the corners between spokes sharp when the fillet radius is 0", async () => {
+    const { isSolidAt } = await buildCrowfoot({ filletRadiusMm: 0 });
+    const halfWidthMm = CROWFOOT_SPOKE_WIDTH_MM / 2;
+    const halfSpokeGapDeg = 60;
+    const sharpCornerDistanceMm = halfWidthMm / Math.sin(halfSpokeGapDeg * DEGREES_TO_RADIANS);
+    const pastCornerMm = 0.3;
+    const bisectorAngleDeg = 150;
+
+    expect(isSolidAt(pointAtAngle(sharpCornerDistanceMm + pastCornerMm, bisectorAngleDeg))).toBe(
+      false,
+    );
+  });
+
+  it("keeps the arcs' ends square when the corner radius is 0", async () => {
+    const { footprint } = await buildCrowfoot({ cornerRadiusMm: 0, filletRadiusMm: 0 });
+
+    expect(footprint.isEmpty()).toBe(false);
+  });
+
+  it("spaces any number of spokes evenly, the first pointing up", async () => {
+    const { isSolidAt } = await buildCrowfoot({ spokeCount: 4 });
+
+    for (const angleDeg of [90, 180, 270, 0]) {
+      expect(isSolidAt(pointAtAngle(BAND_MID_RADIUS_MM, angleDeg))).toBe(true);
+    }
+
+    expect(isSolidAt(pointAtAngle(BAND_MID_RADIUS_MM, 45))).toBe(false);
   });
 
   it("never reaches past the AOE's outer radius", async () => {

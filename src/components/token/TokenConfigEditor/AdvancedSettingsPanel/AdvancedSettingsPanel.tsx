@@ -1,28 +1,12 @@
 import { SharedConfig } from "../../../../core/token/catalog/tokenItems/tokenItem";
-import { ShapeSpec } from "../../../../core/token/types";
-import { FitPolicyEditor } from "../../../editor/FitPolicyEditor/FitPolicyEditor";
-import { ShapeEditor } from "../../../editor/ShapeEditor/ShapeEditor";
-import { NumberField } from "../../../primitives/NumberField/NumberField";
 import { Panel } from "../../../primitives/Panel/Panel";
-import { SettingsGroup } from "../../../primitives/SettingsGroup/SettingsGroup";
-import { SettingsFileGroup } from "../SettingsFileGroup/SettingsFileGroup";
-
-type ShapeSlotProps<T extends ShapeSpec> = {
-  title: string;
-  shape: T;
-  onChange: (shape: T) => void;
-};
-
-// One shape slot of the shared config: a titled group around the editor for whichever shape that
-// slot holds. Its type is fixed by the slot itself, so the editor gives back the same arm it was
-// given and nothing here has to narrow.
-const ShapeSlot = <T extends ShapeSpec>({ title, shape, onChange }: ShapeSlotProps<T>) => {
-  return (
-    <SettingsGroup title={title}>
-      <ShapeEditor shape={shape} onChange={onChange} />
-    </SettingsGroup>
-  );
-};
+import { AoeTemplatesSection } from "./sections/AoeTemplatesSection";
+import { ArcTokensSection } from "./sections/ArcTokensSection";
+import { ConditionsSection } from "./sections/ConditionsSection";
+import { DiscTokensSection } from "./sections/DiscTokensSection";
+import { GeneralSection } from "./sections/GeneralSection";
+import { MomentumSection } from "./sections/MomentumSection";
+import { RingBadgeSection } from "./sections/RingBadgeSection";
 
 type AdvancedSettingsPanelProps = {
   sharedConfig: SharedConfig;
@@ -32,6 +16,7 @@ type AdvancedSettingsPanelProps = {
   importSettingsError: string | undefined;
 };
 
+// One collapsible section per token kind, each owning its own fields and its own reset.
 export const AdvancedSettingsPanel = ({
   sharedConfig,
   onChange,
@@ -41,64 +26,19 @@ export const AdvancedSettingsPanel = ({
 }: AdvancedSettingsPanelProps) => {
   return (
     <Panel title="Advanced settings">
-      <SettingsFileGroup
+      <GeneralSection
+        sharedConfig={sharedConfig}
+        onChange={onChange}
         onExportSettings={onExportSettings}
         onImportSettings={onImportSettings}
         importSettingsError={importSettingsError}
       />
-
-      <ShapeSlot
-        title="Arc tokens (character effects)"
-        shape={sharedConfig.arcShape}
-        onChange={(arcShape) => onChange({ ...sharedConfig, arcShape })}
-      />
-
-      <ShapeSlot
-        title="Disc tokens (generics, Influence, Momentum)"
-        shape={sharedConfig.discShape}
-        onChange={(discShape) => onChange({ ...sharedConfig, discShape })}
-      />
-
-      <ShapeSlot
-        title="Goal Influence tokens"
-        shape={sharedConfig.goalInfluenceShape}
-        onChange={(goalInfluenceShape) => onChange({ ...sharedConfig, goalInfluenceShape })}
-      />
-
-      <SettingsGroup title="Style">
-        <NumberField
-          label="Relief height (mm)"
-          value={sharedConfig.style.reliefHeightMm}
-          onChange={(reliefHeightMm) =>
-            onChange({ ...sharedConfig, style: { ...sharedConfig.style, reliefHeightMm } })
-          }
-        />
-        <NumberField
-          label="Base thickness (mm)"
-          value={sharedConfig.style.baseThicknessMm}
-          onChange={(baseThicknessMm) =>
-            onChange({ ...sharedConfig, style: { ...sharedConfig.style, baseThicknessMm } })
-          }
-        />
-      </SettingsGroup>
-
-      <SettingsGroup title="Font">
-        <NumberField
-          label="Name size (mm)"
-          value={sharedConfig.nameSizeMm}
-          onChange={(nameSizeMm) => onChange({ ...sharedConfig, nameSizeMm })}
-        />
-        <NumberField
-          label="Effect size (mm)"
-          value={sharedConfig.effectSizeMm}
-          onChange={(effectSizeMm) => onChange({ ...sharedConfig, effectSizeMm })}
-        />
-      </SettingsGroup>
-
-      <FitPolicyEditor
-        fitPolicy={sharedConfig.fitPolicy}
-        onChange={(fitPolicy) => onChange({ ...sharedConfig, fitPolicy })}
-      />
+      <ArcTokensSection sharedConfig={sharedConfig} onChange={onChange} />
+      <DiscTokensSection sharedConfig={sharedConfig} onChange={onChange} />
+      <RingBadgeSection sharedConfig={sharedConfig} onChange={onChange} />
+      <MomentumSection sharedConfig={sharedConfig} onChange={onChange} />
+      <ConditionsSection sharedConfig={sharedConfig} onChange={onChange} />
+      <AoeTemplatesSection sharedConfig={sharedConfig} onChange={onChange} />
     </Panel>
   );
 };

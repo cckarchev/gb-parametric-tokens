@@ -2,8 +2,6 @@ import { FitPolicy, IconSpec, TokenSpec } from "../../types";
 import { TEXT_COLOR_GROUP_ID } from "../deriveReliefColor";
 import { SharedConfig } from "./tokenItem";
 
-export const DEFAULT_ICON_SCALE = 0.85;
-
 // Every icon a guild token wears goes through here, so iconOverflowBehavior only needs to be
 // threaded once: when it's "none" (the default), the built IconSpec looks exactly as it always
 // has, so no overflow correction ever runs even though it's still flagged for attention.

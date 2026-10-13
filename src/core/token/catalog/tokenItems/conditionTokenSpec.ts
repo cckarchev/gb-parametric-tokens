@@ -3,10 +3,6 @@ import { CatalogCondition } from "../catalogTypes";
 import { SharedConfig } from "./tokenItem";
 import { buildIconSpec, sharedTokenFields } from "./tokenSpecParts";
 
-// Below DEFAULT_ICON_SCALE (0.85) on purpose: these icons fill their own square, so a box fit
-// pushes their corners past the rim (poison already touches it at 0.82). 0.72 leaves every
-// condition icon about 1mm clear of the edge on the 20mm disc.
-const CONDITION_ICON_SCALE = 0.72;
 const DEFAULT_CONDITION_ICON_SCALE_MULTIPLIER = 1;
 
 // Icon only, no name: each condition's icon is recognizable on its own, so the whole disc goes to
@@ -16,7 +12,10 @@ export const buildConditionTokenSpec = (
   sharedConfig: SharedConfig,
 ): TokenSpec => {
   const iconScaleMultiplier = condition.iconScale ?? DEFAULT_CONDITION_ICON_SCALE_MULTIPLIER;
-  const iconScale = CONDITION_ICON_SCALE * iconScaleMultiplier;
+  // condition.iconScale's default (0.72) sits below the crest scale on purpose: these icons fill
+  // their own square, so a box fit pushes their corners past the rim (poison already touches it
+  // at 0.82). 0.72 leaves every condition icon about 1mm clear of the edge on the 20mm disc.
+  const iconScale = sharedConfig.condition.iconScale * iconScaleMultiplier;
 
   return {
     version: 1,

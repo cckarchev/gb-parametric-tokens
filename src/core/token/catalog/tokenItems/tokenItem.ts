@@ -60,7 +60,71 @@ export type TokenSelection = {
 // 3″ edge on spokes from the center: the edge itself is marked, with far less plastic to place.
 export type AoeTemplateVariant = "ring" | "compactDisc" | "crowfoot";
 
-export type SharedConfig = {
+// The tuning groups below hold what used to be module constants in each catalog builder, so the
+// Advanced settings panel can edit them. Scales are fractions (0.55 shows as 55 %), lengths are mm.
+export type DiscTokenTuning = {
+  // Generics and Influence; Momentum has no crest.
+  crestScale: number;
+};
+
+export type CharacterTokenTuning = {
+  crestScale: number;
+  // Applied only with balanceTwoLineSizes on and a second line shown.
+  balanceNameScale: number;
+  balanceEffectScale: number;
+};
+
+// Goal Influence and every effect with layout "ring" (see ringTokenSpec.ts).
+export type RingBadgeTuning = {
+  textSizeMm: number;
+  // From the rim to the outer edge of the text's ink (see ringTextRadii.ts).
+  textInsetMm: number;
+  crestScale: number;
+};
+
+export type MomentumTuning = {
+  textSizeMm: number;
+  // From the rim to the ring decoration's outer edge.
+  ringInsetMm: number;
+  ringWidthMm: number;
+};
+
+export type ConditionTuning = {
+  iconScale: number;
+};
+
+export type CrowfootTuning = {
+  spokeCount: number;
+  spokeWidthMm: number;
+  arcSweepDeg: number;
+  cornerRadiusMm: number;
+  filletEnabled: boolean;
+  filletRadiusMm: number;
+  textSizeMm: number;
+  // The stretch of each spoke the effect text may use: this far from the center, and this far
+  // short of the arc.
+  spokeTextCenterClearanceMm: number;
+  spokeTextBandMarginMm: number;
+};
+
+export type AoeTuning = {
+  // Shared by the full ring and the crow's foot's arcs.
+  bandWidthMm: number;
+  ring: { textSizeMm: number };
+  compactDisc: { textSizeMm: number; textInsetMm: number; crestScale: number };
+  crowfoot: CrowfootTuning;
+};
+
+export type TokenTuning = {
+  discToken: DiscTokenTuning;
+  characterToken: CharacterTokenTuning;
+  ringBadge: RingBadgeTuning;
+  momentum: MomentumTuning;
+  condition: ConditionTuning;
+  aoe: AoeTuning;
+};
+
+export type SharedConfig = TokenTuning & {
   arcShape: ArcShapeSpec;
   discShape: DiscShapeSpec;
   goalInfluenceShape: DiscShapeSpec;

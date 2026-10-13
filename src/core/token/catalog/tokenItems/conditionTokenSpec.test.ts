@@ -8,6 +8,7 @@ import { flattenPath } from "../../svg/flattenPath";
 import { parsePathData } from "../../svg/parsePathData";
 import { CatalogCondition } from "../catalogTypes";
 import { buildConditionTokenSpec } from "./conditionTokenSpec";
+import { DEFAULT_TOKEN_TUNING } from "./defaultSharedConfig";
 import { SharedConfig } from "./tokenItem";
 
 const CONDITION_ICONS_DIR = new URL("../../../../../public/icons/conditions/", import.meta.url);
@@ -38,6 +39,7 @@ const sharedConfig: SharedConfig = {
   balanceTwoLineSizes: false,
   iconOverflowBehavior: "none",
   aoeTemplateVariant: "ring",
+  ...DEFAULT_TOKEN_TUNING,
 };
 
 const condition: CatalogCondition = {

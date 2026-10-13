@@ -13,6 +13,8 @@ const { useTokenGenerator } = await import("./useTokenGenerator");
 
 import type { WorkerRequest } from "../browser/tokenWorker";
 import type { GuildCatalog } from "../core/token/catalog/catalogTypes";
+import { DEFAULT_TOKEN_TUNING } from "../core/token/catalog/tokenItems/defaultSharedConfig";
+import { DEFAULT_ARC_SHAPE } from "../core/token/defaultShapeAndStyle";
 import { FakeWorker, installFakeWorker, lastPostedRequest } from "./fakeWorker";
 import { LIVE_PREVIEW_DEBOUNCE_MS } from "./livePreviewDebounce";
 
@@ -502,7 +504,15 @@ describe("useTokenGenerator", () => {
       await result.current.importSettingsJson(file);
     });
 
-    expect(result.current.sharedConfig).toEqual(importedConfig);
+    expect(result.current.sharedConfig).toEqual({
+      ...DEFAULT_TOKEN_TUNING,
+      ...importedConfig,
+      arcShape: {
+        ...importedConfig.arcShape,
+        studFilletEnabled: DEFAULT_ARC_SHAPE.studFilletEnabled,
+        studFilletRadiusMm: DEFAULT_ARC_SHAPE.studFilletRadiusMm,
+      },
+    });
     expect(result.current.importSettingsError).toBeUndefined();
   });
 
@@ -534,7 +544,13 @@ describe("useTokenGenerator", () => {
     });
 
     expect(result.current.sharedConfig).toEqual({
+      ...DEFAULT_TOKEN_TUNING,
       ...importedConfig,
+      arcShape: {
+        ...importedConfig.arcShape,
+        studFilletEnabled: DEFAULT_ARC_SHAPE.studFilletEnabled,
+        studFilletRadiusMm: DEFAULT_ARC_SHAPE.studFilletRadiusMm,
+      },
       iconOverflowBehavior: "none",
       aoeTemplateVariant: "ring",
     });
