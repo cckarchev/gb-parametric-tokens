@@ -84,6 +84,34 @@ describe("buildAoeTemplateSpec, crow's foot variant", () => {
     expect(spec.shape.type === "disc" && spec.shape.crowfoot?.spokeCount).toBe(4);
   });
 
+  it("rounds a fractional spoke count so the outline and the texts agree", () => {
+    const config: SharedConfig = {
+      ...crowfootConfig,
+      aoe: {
+        ...crowfootConfig.aoe,
+        crowfoot: { ...crowfootConfig.aoe.crowfoot, spokeCount: 2.6 },
+      },
+    };
+    const spec = buildAoeTemplateSpec(template, GUILD_ICON_ID, GUILD_ICON_SCALE, config);
+    const nameLines = spec.lines.filter((line) => line.placement !== "radial");
+
+    expect(spec.shape.type === "disc" && spec.shape.crowfoot?.spokeCount).toBe(3);
+    expect(nameLines).toHaveLength(3);
+  });
+
+  it("never builds fewer than two spokes", () => {
+    const config: SharedConfig = {
+      ...crowfootConfig,
+      aoe: {
+        ...crowfootConfig.aoe,
+        crowfoot: { ...crowfootConfig.aoe.crowfoot, spokeCount: 1 },
+      },
+    };
+    const spec = buildAoeTemplateSpec(template, GUILD_ICON_ID, GUILD_ICON_SCALE, config);
+
+    expect(spec.shape.type === "disc" && spec.shape.crowfoot?.spokeCount).toBe(2);
+  });
+
   it("passes a 0 fillet radius down when the fillet is off", () => {
     const config: SharedConfig = {
       ...crowfootConfig,

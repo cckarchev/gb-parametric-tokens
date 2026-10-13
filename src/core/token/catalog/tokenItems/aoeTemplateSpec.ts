@@ -13,6 +13,8 @@ const AOE_DIAMETER_INCHES = 3;
 const AOE_OUTER_DIAMETER_MM = AOE_DIAMETER_INCHES * MM_PER_INCH;
 const AOE_OUTER_RADIUS_MM = AOE_OUTER_DIAMETER_MM / 2;
 const FULL_TURN_DEG = 360;
+// Fewer than two spokes is no longer a crow's foot, just a stick.
+const MIN_SPOKE_COUNT = 2;
 
 // The compact marker: 1″ across, so the 1.5″ AOE radius ends exactly 1″ past its edge. A whole
 // inch is what makes it worth using: half inches are hard to measure on the table.
@@ -37,11 +39,17 @@ const buildAoeShape = (bandWidthMm: number): DiscShapeSpec => {
 // first spoke pointing up. Defaults: spokes 5mm wide so the template stays firm (user's call),
 // inside corners filleted for durability, arc ends rounded, and 30° arcs that carry about 18mm of
 // text each, which is why its default text (3mm) is smaller than the full ring's.
+// A whole number, so the outline (discFootprint.ts loops while index < spokeCount) and the texts
+// (one per spoke) always count the same spokes, even for a value typed as 2.6.
+const resolveSpokeCount = (spokeCount: number): number => {
+  return Math.max(MIN_SPOKE_COUNT, Math.round(spokeCount));
+};
+
 const toCrowfootSpec = (tuning: CrowfootTuning): CrowfootSpec => {
   const filletRadiusMm = tuning.filletEnabled ? tuning.filletRadiusMm : 0;
 
   return {
-    spokeCount: tuning.spokeCount,
+    spokeCount: resolveSpokeCount(tuning.spokeCount),
     spokeWidthMm: tuning.spokeWidthMm,
     arcSweepDeg: tuning.arcSweepDeg,
     cornerRadiusMm: tuning.cornerRadiusMm,
@@ -115,7 +123,7 @@ const computeSpokeTextRadiusMm = (aoe: AoeTuning): number => {
 const buildCrowfootLines = (template: CatalogAoeTemplate, aoe: AoeTuning): LineSpec[] => {
   const sizeMm = aoe.crowfoot.textSizeMm;
   const radii = computeBandTextRadii(aoe.bandWidthMm, sizeMm);
-  const spokeAnglesDeg = computeSpokeAnglesDeg(aoe.crowfoot.spokeCount);
+  const spokeAnglesDeg = computeSpokeAnglesDeg(resolveSpokeCount(aoe.crowfoot.spokeCount));
   const spokeTextRadiusMm = computeSpokeTextRadiusMm(aoe);
 
   const nameLines = spokeAnglesDeg.map((centerAngleDeg): LineSpec => {

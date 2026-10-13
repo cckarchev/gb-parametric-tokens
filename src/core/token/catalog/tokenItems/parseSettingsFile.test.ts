@@ -70,6 +70,35 @@ describe("parseSettingsFile", () => {
     expect(config.aoe.bandWidthMm).toBe(DEFAULT_SHARED_CONFIG.aoe.bandWidthMm);
   });
 
+  it("falls back to the default for an option value this app does not know", () => {
+    const config = parseSettingsFile({
+      ...LEGACY_FILE,
+      style: { ...LEGACY_FILE.style, relief: "embossed" },
+      printProfileId: "fdm-99",
+      iconOverflowBehavior: "explode",
+      aoeTemplateVariant: "square",
+    });
+
+    expect(config.style.relief).toBe(DEFAULT_SHARED_CONFIG.style.relief);
+    expect(config.style.reliefHeightMm).toBe(LEGACY_FILE.style.reliefHeightMm);
+    expect(config.printProfileId).toBe(DEFAULT_SHARED_CONFIG.printProfileId);
+    expect(config.iconOverflowBehavior).toBe(DEFAULT_SHARED_CONFIG.iconOverflowBehavior);
+    expect(config.aoeTemplateVariant).toBe(DEFAULT_SHARED_CONFIG.aoeTemplateVariant);
+  });
+
+  it("keeps every option value this app knows", () => {
+    const config = parseSettingsFile({
+      ...LEGACY_FILE,
+      iconOverflowBehavior: "trim",
+      aoeTemplateVariant: "crowfoot",
+    });
+
+    expect(config.style.relief).toBe("engraved");
+    expect(config.printProfileId).toBe("fdm-04");
+    expect(config.iconOverflowBehavior).toBe("trim");
+    expect(config.aoeTemplateVariant).toBe("crowfoot");
+  });
+
   it("rejects something that is not a settings file at all", () => {
     expect(() => parseSettingsFile({})).toThrow("This file is not a valid settings file.");
     expect(() => parseSettingsFile(null)).toThrow("This file is not a valid settings file.");
