@@ -1,4 +1,5 @@
-import effectsData from "../../../data/effects.json";
+import effectsData from "@/data/effects.json";
+
 import { CatalogEffect } from "./catalogTypes";
 import { buildLookup, resolveById } from "./resolveById";
 import { CHARACTER_TOKEN_MAX_COPIES, MIN_COPIES } from "./tokenItems/tokenItem";

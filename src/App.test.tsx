@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 
-vi.mock("./components/token/TokenEditor/TokenEditor", () => ({
+vi.mock("@/components/token/token-editor/TokenEditor", () => ({
   TokenEditor: () => <p>Token editor</p>,
 }));
 

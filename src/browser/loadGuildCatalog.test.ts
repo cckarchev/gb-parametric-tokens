@@ -1,8 +1,9 @@
 import { describe, expect, it } from "vitest";
 
-import { GENERIC_CATALOG_ID } from "../core/token/catalog/genericCatalog";
-import conditionsData from "../data/conditions.json";
-import gamePlansData from "../data/gamePlans.json";
+import { GENERIC_CATALOG_ID } from "@/core/token/catalog/genericCatalog";
+import conditionsData from "@/data/conditions.json";
+import gamePlansData from "@/data/gamePlans.json";
+
 import { loadGuildCatalog } from "./loadGuildCatalog";
 
 describe("loadGuildCatalog", () => {

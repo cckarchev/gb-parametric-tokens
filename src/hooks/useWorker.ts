@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-import type { ExportResponse, PreviewItem, WorkerResponse } from "../browser/tokenWorker";
+import type { ExportResponse, PreviewItem, WorkerResponse } from "@/browser/tokenWorker";
 
 export type { PreviewItem };
 

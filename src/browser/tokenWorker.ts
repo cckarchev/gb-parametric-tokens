@@ -1,28 +1,29 @@
 /// <reference lib="webworker" />
-import { describeError } from "../core/describeError";
-import { buildTokenParts } from "../core/token/buildTokenParts";
-import { TokenItem } from "../core/token/catalog/tokenItems/tokenItem";
+import { describeError } from "@/core/describeError";
+import { buildTokenParts } from "@/core/token/buildTokenParts";
+import { TokenItem } from "@/core/token/catalog/tokenItems/tokenItem";
 import {
   buildCombinedThreeMfModelXml,
   CombinedThreeMfItem,
-} from "../core/token/export/combinedThreeMfModel";
-import { buildThreeMfArchive } from "../core/token/export/threeMfArchive";
-import { CENTER_ANGLE_DEG } from "../core/token/geometry/angleConventions";
-import { computePlateLayout, PlateLayoutItem } from "../core/token/geometry/computePlateLayout";
+} from "@/core/token/export/combinedThreeMfModel";
+import { buildThreeMfArchive } from "@/core/token/export/threeMfArchive";
+import { CENTER_ANGLE_DEG } from "@/core/token/geometry/angleConventions";
+import { computePlateLayout, PlateLayoutItem } from "@/core/token/geometry/computePlateLayout";
 import {
   computeEffectiveStudDiameterMm,
   computeOuterRadiusMm,
-} from "../core/token/geometry/studPlacement";
-import { ReliefComponent } from "../core/token/mesh/reliefComponent";
-import { computeBaseOutlineContours } from "../core/token/preview/computeBaseOutlineContours";
-import { PRINT_PROFILES } from "../core/token/printProfiles";
-import { computeReliefComponents } from "../core/token/relief/computeReliefComponents";
-import { ColorGroupSpec, ShapeSpec } from "../core/token/types";
+} from "@/core/token/geometry/studPlacement";
+import { ReliefComponent } from "@/core/token/mesh/reliefComponent";
+import { computeBaseOutlineContours } from "@/core/token/preview/computeBaseOutlineContours";
+import { PRINT_PROFILES } from "@/core/token/printProfiles";
+import { computeReliefComponents } from "@/core/token/relief/computeReliefComponents";
+import { ColorGroupSpec, ShapeSpec } from "@/core/token/types";
 import {
   ComponentFailure,
   describeComponentFailure,
   describeVanishedDetailCount,
-} from "../core/token/validation/validateMinStrokeWidth";
+} from "@/core/token/validation/validateMinStrokeWidth";
+
 import { loadFont } from "./loadFont";
 import { loadIconManifest } from "./loadIconManifest";
 import { createLoadIconSource } from "./loadIconSource";

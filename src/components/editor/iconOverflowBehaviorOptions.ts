@@ -1,5 +1,5 @@
-import { IconOverflowBehavior } from "../../core/token/types";
-import { SelectFieldOption } from "../primitives/SelectField/SelectField";
+import { SelectFieldOption } from "@/components/primitives/select-field/SelectField";
+import { IconOverflowBehavior } from "@/core/token/types";
 
 export const ICON_OVERFLOW_BEHAVIOR_OPTIONS: SelectFieldOption<IconOverflowBehavior>[] = [
   { value: "none", label: "None" },

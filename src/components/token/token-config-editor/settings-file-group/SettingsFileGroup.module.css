@@ -1,0 +1,12 @@
+/* The group is a flex column, which would otherwise stretch the export button across the whole
+   panel width; this row keeps it at its own intrinsic size. */
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.error {
+  composes: errorText from "../../../../styles/errorText.module.css";
+  margin: 0;
+}

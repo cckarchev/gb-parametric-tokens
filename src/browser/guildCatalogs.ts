@@ -1,9 +1,9 @@
-import { CatalogGenericToken, GuildCatalog } from "../core/token/catalog/catalogTypes";
-import { resolveCharacter } from "../core/token/catalog/characters";
-import { allConditions, conditionsForGuild } from "../core/token/catalog/conditions";
-import { gamePlans } from "../core/token/catalog/gamePlans";
-import { GENERIC_CATALOG_ID } from "../core/token/catalog/genericCatalog";
-import genericData from "../data/generic.json";
+import { CatalogGenericToken, GuildCatalog } from "@/core/token/catalog/catalogTypes";
+import { resolveCharacter } from "@/core/token/catalog/characters";
+import { allConditions, conditionsForGuild } from "@/core/token/catalog/conditions";
+import { gamePlans } from "@/core/token/catalog/gamePlans";
+import { GENERIC_CATALOG_ID } from "@/core/token/catalog/genericCatalog";
+import genericData from "@/data/generic.json";
 
 // On disk, a guild only stores which characters it has, by name, not their data -- see
 // characters.ts for where that data actually lives. This is the shape Vite hands back for each

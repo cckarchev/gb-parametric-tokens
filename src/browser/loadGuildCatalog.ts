@@ -1,4 +1,5 @@
-import { GuildCatalog } from "../core/token/catalog/catalogTypes";
+import { GuildCatalog } from "@/core/token/catalog/catalogTypes";
+
 import { selectableCatalogs } from "./guildCatalogs";
 
 // Synchronous on purpose: every guild's catalog is already inlined in this bundle (see

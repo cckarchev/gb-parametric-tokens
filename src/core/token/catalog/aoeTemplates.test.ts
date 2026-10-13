@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
 
-import aoeTemplatesData from "../../../data/aoeTemplates.json";
-import charactersData from "../../../data/characters.json";
+import aoeTemplatesData from "@/data/aoeTemplates.json";
+import charactersData from "@/data/characters.json";
+
 import { resolveAoeTemplate } from "./aoeTemplates";
 import { CatalogCharacter } from "./catalogTypes";
 

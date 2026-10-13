@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import gamePlansData from "../../../data/gamePlans.json";
+import gamePlansData from "@/data/gamePlans.json";
+
 import { gamePlans } from "./gamePlans";
 
 // Biome's useNamingConvention default for identifiers: lower camelCase, ASCII letters and digits.

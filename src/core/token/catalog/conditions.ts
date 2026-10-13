@@ -1,4 +1,5 @@
-import conditionsData from "../../../data/conditions.json";
+import conditionsData from "@/data/conditions.json";
+
 import { CatalogCondition } from "./catalogTypes";
 
 const conditions: CatalogCondition[] = conditionsData;

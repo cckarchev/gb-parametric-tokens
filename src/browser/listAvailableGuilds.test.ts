@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { GENERIC_CATALOG_ID } from "../core/token/catalog/genericCatalog";
+import { GENERIC_CATALOG_ID } from "@/core/token/catalog/genericCatalog";
+
 import { listAvailableGuilds } from "./listAvailableGuilds";
 
 describe("listAvailableGuilds", () => {

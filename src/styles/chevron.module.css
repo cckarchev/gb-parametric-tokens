@@ -4,10 +4,10 @@
    not guarantee which of the two rules wins). The collapsed-state rotation stays with each
    consumer too, since it hangs off that component's own parent selector. */
 .chevron {
-  width: 8px;
-  height: 8px;
-  border-right: 2px solid currentColor;
-  border-bottom: 2px solid currentColor;
+  width: var(--size-chevron);
+  height: var(--size-chevron);
+  border-right: var(--border-width-thick) solid currentColor;
+  border-bottom: var(--border-width-thick) solid currentColor;
   transform: rotate(45deg);
-  transition: transform 0.15s ease;
+  transition: transform var(--duration-fast) var(--easing-standard);
 }

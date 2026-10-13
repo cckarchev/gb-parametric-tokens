@@ -2,19 +2,20 @@
 import { act, renderHook, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-vi.mock("../browser/listAvailableGuilds", () => ({ listAvailableGuilds: vi.fn() }));
-vi.mock("../browser/loadGuildCatalog", () => ({ loadGuildCatalog: vi.fn() }));
-vi.mock("../browser/downloadBlob", () => ({ downloadBlob: vi.fn() }));
+vi.mock("@/browser/listAvailableGuilds", () => ({ listAvailableGuilds: vi.fn() }));
+vi.mock("@/browser/loadGuildCatalog", () => ({ loadGuildCatalog: vi.fn() }));
+vi.mock("@/browser/downloadBlob", () => ({ downloadBlob: vi.fn() }));
 
-const { listAvailableGuilds } = await import("../browser/listAvailableGuilds");
-const { loadGuildCatalog } = await import("../browser/loadGuildCatalog");
-const { downloadBlob } = await import("../browser/downloadBlob");
+const { listAvailableGuilds } = await import("@/browser/listAvailableGuilds");
+const { loadGuildCatalog } = await import("@/browser/loadGuildCatalog");
+const { downloadBlob } = await import("@/browser/downloadBlob");
 const { useTokenGenerator } = await import("./useTokenGenerator");
 
-import type { WorkerRequest } from "../browser/tokenWorker";
-import type { GuildCatalog } from "../core/token/catalog/catalogTypes";
-import { DEFAULT_TOKEN_TUNING } from "../core/token/catalog/tokenItems/defaultSharedConfig";
-import { DEFAULT_ARC_SHAPE } from "../core/token/defaultShapeAndStyle";
+import type { WorkerRequest } from "@/browser/tokenWorker";
+import type { GuildCatalog } from "@/core/token/catalog/catalogTypes";
+import { DEFAULT_TOKEN_TUNING } from "@/core/token/catalog/tokenItems/defaultSharedConfig";
+import { DEFAULT_ARC_SHAPE } from "@/core/token/defaultShapeAndStyle";
+
 import { FakeWorker, installFakeWorker, lastPostedRequest } from "./fakeWorker";
 import { LIVE_PREVIEW_DEBOUNCE_MS } from "./livePreviewDebounce";
 

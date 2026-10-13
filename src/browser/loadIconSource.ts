@@ -1,7 +1,7 @@
-import { FALLBACK_ICON_ID, ManifestEntry } from "../core/token/icons/iconManifest";
-import { resolveIconId } from "../core/token/icons/resolveIconId";
-import { resolveIconPath } from "../core/token/icons/resolveIconPath";
-import { LoadIconSource, LoadIconSourceResult } from "../core/token/relief/computeReliefComponents";
+import { FALLBACK_ICON_ID, ManifestEntry } from "@/core/token/icons/iconManifest";
+import { resolveIconId } from "@/core/token/icons/resolveIconId";
+import { resolveIconPath } from "@/core/token/icons/resolveIconPath";
+import { LoadIconSource, LoadIconSourceResult } from "@/core/token/relief/computeReliefComponents";
 
 export const createLoadIconSource = (manifest: ManifestEntry[]): LoadIconSource => {
   return async (iconId: string): Promise<LoadIconSourceResult> => {

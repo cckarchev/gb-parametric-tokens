@@ -1,6 +1,6 @@
 import { vi } from "vitest";
 
-import type { ExportResponse, PreviewResponse, WorkerRequest } from "../browser/tokenWorker";
+import type { ExportResponse, PreviewResponse, WorkerRequest } from "@/browser/tokenWorker";
 
 // Stands in for the real Worker global that useWorker constructs. The hooks under test only ever
 // touch postMessage, onmessage and terminate, so the double covers exactly those, and records

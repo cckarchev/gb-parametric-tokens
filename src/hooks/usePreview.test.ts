@@ -2,9 +2,10 @@
 import { renderHook } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import { GuildCatalog } from "../core/token/catalog/catalogTypes";
-import { DEFAULT_TOKEN_TUNING } from "../core/token/catalog/tokenItems/defaultSharedConfig";
-import { SharedConfig, TokenSelection } from "../core/token/catalog/tokenItems/tokenItem";
+import { GuildCatalog } from "@/core/token/catalog/catalogTypes";
+import { DEFAULT_TOKEN_TUNING } from "@/core/token/catalog/tokenItems/defaultSharedConfig";
+import { SharedConfig, TokenSelection } from "@/core/token/catalog/tokenItems/tokenItem";
+
 import { FakeWorker, installFakeWorker, lastPostedRequest } from "./fakeWorker";
 import { LIVE_PREVIEW_DEBOUNCE_MS } from "./livePreviewDebounce";
 import { usePreview } from "./usePreview";

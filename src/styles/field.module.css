@@ -4,8 +4,8 @@
 .field {
   display: flex;
   flex-direction: column;
-  gap: var(--space-1);
-  font-size: var(--font-size-base);
+  gap: var(--space-4xs);
+  font-size: var(--font-size-md);
 }
 
 .label {
@@ -15,33 +15,25 @@
 
 .labelHidden {
   position: absolute;
-  width: 1px;
-  height: 1px;
+  width: var(--size-visually-hidden);
+  height: var(--size-visually-hidden);
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
 }
 
-/* Composed on its own by controls that are not a plain .input box (a color swatch, a stepper
-   button) but still need the app's one keyboard-focus ring. */
-.focusRing:focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: -1px;
-}
-
 .input {
-  composes: focusRing;
-  padding: var(--space-2) var(--space-3);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  background: var(--color-bg-input);
-  color: var(--color-text);
-  font-family: inherit;
-  font-size: var(--font-size-base);
+  composes: focusRing from "./mixins.module.css";
+  padding: var(--space-2xs) var(--space-sm);
+  border: var(--border-default);
+  border-radius: var(--radius-none);
+  background: var(--color-surface-field);
+  color: var(--color-text-strong);
+  font-size: var(--font-size-md);
 }
 
 .input:disabled {
-  color: var(--color-text-muted);
-  background: var(--color-bg-panel-header);
+  color: var(--color-disabled);
+  border-color: var(--color-border-disabled);
   cursor: not-allowed;
 }

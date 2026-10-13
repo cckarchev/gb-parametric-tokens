@@ -1,7 +1,8 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
-import conditionsData from "../../../../data/conditions.json";
+import conditionsData from "@/data/conditions.json";
+
 import { placeIcon } from "../../geometry/iconPlacement";
 import { extractPathData } from "../../svg/extractPathData";
 import { flattenPath } from "../../svg/flattenPath";

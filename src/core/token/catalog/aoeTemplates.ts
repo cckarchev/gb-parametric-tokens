@@ -1,4 +1,5 @@
-import aoeTemplatesData from "../../../data/aoeTemplates.json";
+import aoeTemplatesData from "@/data/aoeTemplates.json";
+
 import { CatalogAoeTemplate } from "./catalogTypes";
 import { buildLookup, resolveById } from "./resolveById";
 

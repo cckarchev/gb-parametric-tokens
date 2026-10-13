@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-import { AvailableGuild, listAvailableGuilds } from "../browser/listAvailableGuilds";
-import { loadGuildCatalog } from "../browser/loadGuildCatalog";
-import { describeError } from "../core/describeError";
-import { guildIdFromPathname, guildPathname } from "../core/routing/guildRoute";
-import { GuildCatalog } from "../core/token/catalog/catalogTypes";
+import { AvailableGuild, listAvailableGuilds } from "@/browser/listAvailableGuilds";
+import { loadGuildCatalog } from "@/browser/loadGuildCatalog";
+import { describeError } from "@/core/describeError";
+import { guildIdFromPathname, guildPathname } from "@/core/routing/guildRoute";
+import { GuildCatalog } from "@/core/token/catalog/catalogTypes";
 
 // No "loading": every guild's catalog is inlined in the bundle, so selecting one either resolves
 // on the spot or throws on the spot -- there is no in-between state to render.

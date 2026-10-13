@@ -1,13 +1,14 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-import { downloadBlob } from "../browser/downloadBlob";
-import { describeError } from "../core/describeError";
-import { buildDefaultSelection } from "../core/token/catalog/buildDefaultSelection";
-import { deriveReliefColor, TEXT_COLOR_GROUP_ID } from "../core/token/catalog/deriveReliefColor";
-import { DEFAULT_SHARED_CONFIG } from "../core/token/catalog/tokenItems/defaultSharedConfig";
-import { parseSettingsFile } from "../core/token/catalog/tokenItems/parseSettingsFile";
-import { SharedConfig, TokenSelection } from "../core/token/catalog/tokenItems/tokenItem";
-import { BASE_COLOR_GROUP_ID } from "../core/token/mesh/colorGroups";
+import { downloadBlob } from "@/browser/downloadBlob";
+import { describeError } from "@/core/describeError";
+import { buildDefaultSelection } from "@/core/token/catalog/buildDefaultSelection";
+import { deriveReliefColor, TEXT_COLOR_GROUP_ID } from "@/core/token/catalog/deriveReliefColor";
+import { DEFAULT_SHARED_CONFIG } from "@/core/token/catalog/tokenItems/defaultSharedConfig";
+import { parseSettingsFile } from "@/core/token/catalog/tokenItems/parseSettingsFile";
+import { SharedConfig, TokenSelection } from "@/core/token/catalog/tokenItems/tokenItem";
+import { BASE_COLOR_GROUP_ID } from "@/core/token/mesh/colorGroups";
+
 import { useExport } from "./useExport";
 import { useGuildCatalog } from "./useGuildCatalog";
 import { usePreview } from "./usePreview";

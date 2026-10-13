@@ -2,40 +2,41 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("./loadFont", () => ({ loadFont: vi.fn().mockResolvedValue({}) }));
 vi.mock("./loadIconManifest", () => ({ loadIconManifest: vi.fn().mockResolvedValue([]) }));
-vi.mock("../core/token/relief/computeReliefComponents", () => ({
+vi.mock("@/core/token/relief/computeReliefComponents", () => ({
   computeReliefComponents: vi.fn(),
 }));
-vi.mock("../core/token/preview/computeBaseOutlineContours", () => ({
+vi.mock("@/core/token/preview/computeBaseOutlineContours", () => ({
   computeBaseOutlineContours: vi.fn(),
 }));
-vi.mock("../core/token/buildTokenParts", () => ({ buildTokenParts: vi.fn() }));
-vi.mock("../core/token/geometry/computePlateLayout", () => ({
+vi.mock("@/core/token/buildTokenParts", () => ({ buildTokenParts: vi.fn() }));
+vi.mock("@/core/token/geometry/computePlateLayout", () => ({
   computePlateLayout: vi.fn(),
 }));
-vi.mock("../core/token/export/combinedThreeMfModel", () => ({
+vi.mock("@/core/token/export/combinedThreeMfModel", () => ({
   buildCombinedThreeMfModelXml: vi.fn(),
 }));
-vi.mock("../core/token/export/threeMfArchive", () => ({ buildThreeMfArchive: vi.fn() }));
+vi.mock("@/core/token/export/threeMfArchive", () => ({ buildThreeMfArchive: vi.fn() }));
 
 vi.stubGlobal("self", { postMessage: vi.fn() });
 
 const { computeFootprintMm, handleExport, handlePreview } = await import("./tokenWorker");
 const { computeEffectiveStudDiameterMm, computeOuterRadiusMm } = await import(
-  "../core/token/geometry/studPlacement"
+  "@/core/token/geometry/studPlacement"
 );
-const { computeReliefComponents } = await import("../core/token/relief/computeReliefComponents");
+const { computeReliefComponents } = await import("@/core/token/relief/computeReliefComponents");
 const { computeBaseOutlineContours } = await import(
-  "../core/token/preview/computeBaseOutlineContours"
+  "@/core/token/preview/computeBaseOutlineContours"
 );
-const { buildTokenParts } = await import("../core/token/buildTokenParts");
-const { computePlateLayout } = await import("../core/token/geometry/computePlateLayout");
-const { buildCombinedThreeMfModelXml } = await import("../core/token/export/combinedThreeMfModel");
-const { buildThreeMfArchive } = await import("../core/token/export/threeMfArchive");
+const { buildTokenParts } = await import("@/core/token/buildTokenParts");
+const { computePlateLayout } = await import("@/core/token/geometry/computePlateLayout");
+const { buildCombinedThreeMfModelXml } = await import("@/core/token/export/combinedThreeMfModel");
+const { buildThreeMfArchive } = await import("@/core/token/export/threeMfArchive");
 
-import type { TokenItem } from "../core/token/catalog/tokenItems/tokenItem";
-import type { TokenPart } from "../core/token/mesh/tokenPart";
-import { arcSpec, discSpec } from "../core/token/testSpecs";
-import type { ColorGroupSpec } from "../core/token/types";
+import type { TokenItem } from "@/core/token/catalog/tokenItems/tokenItem";
+import type { TokenPart } from "@/core/token/mesh/tokenPart";
+import { arcSpec, discSpec } from "@/core/token/testSpecs";
+import type { ColorGroupSpec } from "@/core/token/types";
+
 import type { ExportRequest, PreviewRequest } from "./tokenWorker";
 
 const colorGroups: ColorGroupSpec[] = [{ id: "base", name: "Base", color: "#2B2B2B" }];

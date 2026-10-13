@@ -1,0 +1,37 @@
+/* Shared type and focus treatments, pulled into components with `composes`. */
+
+/* The manual's title voice: Big Noodle, uppercase, at a generous size. */
+.displayHeading {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-regular);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-display);
+  line-height: var(--leading-solid);
+}
+
+/* Figures that line up: number inputs, steppers, counts. */
+.monoFigure {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Small uppercase label in teal, the manual's secondary information voice. */
+.monoLabel {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--color-teal);
+}
+
+.focusRing:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* For a control that sits flush inside a bar, where an outside ring would be clipped. */
+.focusRingInset:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-inset);
+}

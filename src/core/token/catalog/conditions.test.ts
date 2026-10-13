@@ -1,8 +1,9 @@
 import { describe, expect, it } from "vitest";
 
-import manifestData from "../../../../public/icons/manifest.json";
-import { guildCatalogs } from "../../../browser/guildCatalogs";
-import conditionsData from "../../../data/conditions.json";
+import manifestData from "@/../public/icons/manifest.json";
+import { guildCatalogs } from "@/browser/guildCatalogs";
+import conditionsData from "@/data/conditions.json";
+
 import { allConditions, conditionsForGuild } from "./conditions";
 
 // Biome's useNamingConvention default for identifiers: lower camelCase, ASCII letters and digits.

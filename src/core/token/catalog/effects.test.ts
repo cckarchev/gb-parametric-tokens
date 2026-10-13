@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
 
-import charactersData from "../../../data/characters.json";
-import effectsData from "../../../data/effects.json";
+import charactersData from "@/data/characters.json";
+import effectsData from "@/data/effects.json";
+
 import { resolveEffect } from "./effects";
 
 // Biome's useNamingConvention default for identifiers: lower camelCase, ASCII letters and digits.

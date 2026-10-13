@@ -1,4 +1,5 @@
-import gamePlansData from "../../../data/gamePlans.json";
+import gamePlansData from "@/data/gamePlans.json";
+
 import { CatalogGamePlan } from "./catalogTypes";
 
 // Only the Game Plan cards (gameplans-2025) whose effect lingers on a model or terrain piece for

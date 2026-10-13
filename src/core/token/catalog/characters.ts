@@ -1,4 +1,5 @@
-import charactersData from "../../../data/characters.json";
+import charactersData from "@/data/characters.json";
+
 import { CatalogCharacter } from "./catalogTypes";
 import { buildLookup, resolveById } from "./resolveById";
 

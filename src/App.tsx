@@ -1,8 +1,9 @@
 import { MouseEvent } from "react";
 
+import { navigateTo } from "@/browser/navigateTo";
+import { TokenEditor } from "@/components/token/token-editor/TokenEditor";
+
 import styles from "./App.module.css";
-import { navigateTo } from "./browser/navigateTo";
-import { TokenEditor } from "./components/token/TokenEditor/TokenEditor";
 
 const HOME_PATHNAME = "/";
 
