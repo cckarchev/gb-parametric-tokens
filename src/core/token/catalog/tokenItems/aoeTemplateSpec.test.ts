@@ -62,7 +62,7 @@ describe("buildAoeTemplateSpec", () => {
 
 describe("buildAoeTemplateSpec, crow's foot variant", () => {
   const crowfootConfig: SharedConfig = { ...sharedConfig, aoeTemplateVariant: "crowfoot" };
-  const CROWFOOT_TEXT_SIZE_MM = 3;
+  const CROWFOOT_TEXT_SIZE_MM = 4;
   const TOP_ANGLE_DEG = 90;
   const LOWER_LEFT_ANGLE_DEG = 210;
   const LOWER_RIGHT_ANGLE_DEG = 330;
@@ -146,7 +146,7 @@ describe("buildAoeTemplateSpec, crow's foot variant", () => {
     );
   });
 
-  it("cuts the 3 inch ring down to three rounded 30 degree arcs on filleted 5mm spokes", () => {
+  it("cuts the 3 inch ring down to three rounded 40 degree arcs on filleted 5mm spokes", () => {
     const spec = buildAoeTemplateSpec(template, GUILD_ICON_ID, GUILD_ICON_SCALE, crowfootConfig);
 
     expect(spec.shape).toEqual({
@@ -156,7 +156,7 @@ describe("buildAoeTemplateSpec, crow's foot variant", () => {
       crowfoot: {
         spokeCount: 3,
         spokeWidthMm: 5,
-        arcSweepDeg: 30,
+        arcSweepDeg: 40,
         cornerRadiusMm: 1.5,
         filletRadiusMm: 3,
       },

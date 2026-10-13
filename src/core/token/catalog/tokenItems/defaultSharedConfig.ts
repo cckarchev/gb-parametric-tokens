@@ -37,11 +37,11 @@ export const DEFAULT_TOKEN_TUNING: TokenTuning = {
     crowfoot: {
       spokeCount: 3,
       spokeWidthMm: 5,
-      arcSweepDeg: 30,
+      arcSweepDeg: 40,
       cornerRadiusMm: 1.5,
       filletEnabled: true,
       filletRadiusMm: 3,
-      textSizeMm: 3,
+      textSizeMm: 4,
       spokeTextCenterClearanceMm: 4,
       spokeTextBandMarginMm: 1,
     },

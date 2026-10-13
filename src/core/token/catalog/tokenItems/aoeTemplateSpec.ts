@@ -35,16 +35,17 @@ const buildAoeShape = (bandWidthMm: number): DiscShapeSpec => {
   return { type: "disc", diameterMm: AOE_OUTER_DIAMETER_MM, innerDiameterMm };
 };
 
-// The crow's foot: short arcs of the 3″ band, each at the end of a spoke from the center, the
-// first spoke pointing up. Defaults: spokes 5mm wide so the template stays firm (user's call),
-// inside corners filleted for durability, arc ends rounded, and 30° arcs that carry about 18mm of
-// text each, which is why its default text (3mm) is smaller than the full ring's.
 // A whole number, so the outline (discFootprint.ts loops while index < spokeCount) and the texts
 // (one per spoke) always count the same spokes, even for a value typed as 2.6.
 const resolveSpokeCount = (spokeCount: number): number => {
   return Math.max(MIN_SPOKE_COUNT, Math.round(spokeCount));
 };
 
+// The crow's foot: short arcs of the 3″ band, each at the end of a spoke from the center, the
+// first spoke pointing up. Defaults: spokes 5mm wide so the template stays firm (user's call),
+// inside corners filleted for durability, arc ends rounded. The text defaults to 4mm on 40° arcs:
+// at 3mm a 0.4mm nozzle (fdm-04) lost strokes on every template, and at 4mm the longest names
+// (Ghostly Visage, Nature's Growth...) need 40° of arc to fit.
 const toCrowfootSpec = (tuning: CrowfootTuning): CrowfootSpec => {
   const filletRadiusMm = tuning.filletEnabled ? tuning.filletRadiusMm : 0;
 

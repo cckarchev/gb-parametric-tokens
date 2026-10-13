@@ -16,19 +16,19 @@ describe("DEFAULT_TOKEN_TUNING", () => {
     expect(DEFAULT_TOKEN_TUNING.momentum.textSizeMm).toBe(6);
     expect(DEFAULT_TOKEN_TUNING.aoe.ring.textSizeMm).toBe(3.5);
     expect(DEFAULT_TOKEN_TUNING.aoe.compactDisc.textSizeMm).toBe(2.6);
-    expect(DEFAULT_TOKEN_TUNING.aoe.crowfoot.textSizeMm).toBe(3);
+    expect(DEFAULT_TOKEN_TUNING.aoe.crowfoot.textSizeMm).toBe(4);
   });
 
-  it("keeps today's crow's foot geometry, fillet on", () => {
+  it("keeps the crow's foot geometry, fillet on, sized to print on a 0.4mm nozzle", () => {
     expect(DEFAULT_TOKEN_TUNING.aoe.bandWidthMm).toBe(6);
     expect(DEFAULT_TOKEN_TUNING.aoe.crowfoot).toEqual({
       spokeCount: 3,
       spokeWidthMm: 5,
-      arcSweepDeg: 30,
+      arcSweepDeg: 40,
       cornerRadiusMm: 1.5,
       filletEnabled: true,
       filletRadiusMm: 3,
-      textSizeMm: 3,
+      textSizeMm: 4,
       spokeTextCenterClearanceMm: 4,
       spokeTextBandMarginMm: 1,
     });
