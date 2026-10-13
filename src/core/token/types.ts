@@ -20,7 +20,22 @@ export type ShapeSpec =
       // geometry/discFootprint.ts). Optional, undefined meaning a solid disc, so every existing
       // shape literal and imported setting keeps working unchanged.
       innerDiameterMm?: number;
+      // Cuts the ring down to a "crow's foot": short arcs of the band joined to the center by
+      // straight spokes, the first one pointing up (see geometry/discFootprint.ts). Optional,
+      // undefined meaning the plain disc or ring above.
+      crowfoot?: CrowfootSpec;
     };
+
+export type CrowfootSpec = {
+  spokeCount: number;
+  spokeWidthMm: number;
+  // How much of the band each spoke keeps, centered on the spoke.
+  arcSweepDeg: number;
+  // Rounds the arcs' square ends. Only convex corners: the spokes still meet the arcs sharply.
+  cornerRadiusMm: number;
+  // Rounds the concave corners, where spokes meet arcs and each other, so they don't snap there.
+  filletRadiusMm: number;
+};
 
 // The two arms of ShapeSpec on their own, for the many builders that only ever handle one of
 // them (mesh/buildArcRibbon.ts, catalog/tokenItems/momentumTokenSpec.ts, and so on).
@@ -33,6 +48,12 @@ export type LineSpec = {
   text: string;
   sizeMm: number;
   radiusMm?: number;
+  // Ring layout only: where along the circle the line is centered. Optional for the first two
+  // lines, which default to top and bottom (see relief/computeRingReliefComponents.ts).
+  centerAngleDeg?: number;
+  // Ring layout only: "arc" (the default) curves the line along the circle at radiusMm;
+  // "radial" lays it straight along the spoke at centerAngleDeg, centered radiusMm out.
+  placement?: "arc" | "radial";
   colorGroup?: string;
 };
 

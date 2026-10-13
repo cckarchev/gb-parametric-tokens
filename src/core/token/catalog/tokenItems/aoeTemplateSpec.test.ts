@@ -23,6 +23,7 @@ const sharedConfig: SharedConfig = {
 
 const template: CatalogAoeTemplate = { id: "smokeBomb", name: "Smoke Bomb", effect: "Cover" };
 const BAND_MID_RADIUS_MM = 35.1;
+const BAND_INNER_RADIUS_MM = 32.1;
 const GUILD_ICON_ID = "Alchemists";
 const GUILD_ICON_SCALE = 1.2;
 const COMPACT_ICON_SCALE = 0.55;
@@ -53,6 +54,67 @@ describe("buildAoeTemplateSpec", () => {
     const spec = buildAoeTemplateSpec(template, GUILD_ICON_ID, GUILD_ICON_SCALE, sharedConfig);
 
     expect(spec.icons).toEqual([]);
+  });
+});
+
+describe("buildAoeTemplateSpec, crow's foot variant", () => {
+  const crowfootConfig: SharedConfig = { ...sharedConfig, aoeTemplateVariant: "crowfoot" };
+  const CROWFOOT_TEXT_SIZE_MM = 3;
+  const TOP_ANGLE_DEG = 90;
+  const LOWER_LEFT_ANGLE_DEG = 210;
+  const LOWER_RIGHT_ANGLE_DEG = 330;
+
+  it("cuts the 3 inch ring down to three rounded 30 degree arcs on filleted 5mm spokes", () => {
+    const spec = buildAoeTemplateSpec(template, GUILD_ICON_ID, GUILD_ICON_SCALE, crowfootConfig);
+
+    expect(spec.shape).toEqual({
+      type: "disc",
+      diameterMm: expect.closeTo(76.2),
+      innerDiameterMm: expect.closeTo(64.2),
+      crowfoot: {
+        spokeCount: 3,
+        spokeWidthMm: 5,
+        arcSweepDeg: 30,
+        cornerRadiusMm: 1.5,
+        filletRadiusMm: 3,
+      },
+    });
+  });
+
+  it("writes the name on every arc and the effect along every spoke, with no crest", () => {
+    const spec = buildAoeTemplateSpec(template, GUILD_ICON_ID, GUILD_ICON_SCALE, crowfootConfig);
+    const arcLines = spec.lines.filter((line) => line.placement !== "radial");
+    const spokeLines = spec.lines.filter((line) => line.placement === "radial");
+    const spokeAngles = [TOP_ANGLE_DEG, LOWER_LEFT_ANGLE_DEG, LOWER_RIGHT_ANGLE_DEG];
+
+    expect(spec.textLayout).toBe("ring");
+    expect(arcLines.map((line) => [line.text, line.centerAngleDeg])).toEqual(
+      spokeAngles.map((angleDeg) => ["Smoke Bomb", angleDeg]),
+    );
+    expect(spokeLines.map((line) => [line.text, line.centerAngleDeg])).toEqual(
+      spokeAngles.map((angleDeg) => ["Cover", angleDeg]),
+    );
+    expect(spec.lines.every((line) => line.sizeMm === CROWFOOT_TEXT_SIZE_MM)).toBe(true);
+    expect(spec.icons).toEqual([]);
+  });
+
+  it("centers each arc name on the band, top one inside the middle, lower ones outside it", () => {
+    const spec = buildAoeTemplateSpec(template, GUILD_ICON_ID, GUILD_ICON_SCALE, crowfootConfig);
+    const [topName, lowerLeftName, lowerRightName] = spec.lines;
+
+    expect(topName.radiusMm).toBeLessThan(BAND_MID_RADIUS_MM);
+    expect(lowerLeftName.radiusMm).toBeGreaterThan(BAND_MID_RADIUS_MM);
+    expect(lowerRightName.radiusMm).toBeGreaterThan(BAND_MID_RADIUS_MM);
+  });
+
+  it("keeps the spoke effects between the center and the band", () => {
+    const spec = buildAoeTemplateSpec(template, GUILD_ICON_ID, GUILD_ICON_SCALE, crowfootConfig);
+    const spokeLines = spec.lines.filter((line) => line.placement === "radial");
+
+    for (const line of spokeLines) {
+      expect(line.radiusMm).toBeGreaterThan(0);
+      expect(line.radiusMm).toBeLessThan(BAND_INNER_RADIUS_MM);
+    }
   });
 });
 

@@ -568,4 +568,120 @@ describe("computeReliefComponents", () => {
     // Bottom line (inward): its ascender grows inward, below its own 9mm radius.
     expect(radialExtent(bottomLine.contours).min).toBeLessThan(9);
   });
+
+  it("centers a ring line on its own centerAngleDeg, reading inward in the lower half", async () => {
+    const font = loadTestFont();
+    const lowerRightAngleDeg = 330;
+    const angleToleranceDeg = 5;
+
+    const result = await computeReliefComponents(
+      ringSpec({
+        icons: [],
+        decorations: [],
+        lines: [{ text: "LL", sizeMm: 3, radiusMm: 9, centerAngleDeg: lowerRightAngleDeg }],
+      }),
+      font,
+      printProfile,
+      stubLoadIconSource,
+    );
+
+    const points = result.reliefComponents[0].contours.flat();
+    const meanX = points.reduce((sum, [x]) => sum + x, 0) / points.length;
+    const meanY = points.reduce((sum, [, y]) => sum + y, 0) / points.length;
+    const centroidAngleDeg = (Math.atan2(meanY, meanX) * 180) / Math.PI + 360;
+    const distances = points.map(([x, y]) => Math.hypot(x, y));
+
+    expect(Math.abs(centroidAngleDeg - lowerRightAngleDeg)).toBeLessThan(angleToleranceDeg);
+    // Inward: its ascender grows below its own 9mm radius.
+    expect(Math.min(...distances)).toBeLessThan(9);
+  });
+
+  it("lays out every ring line that names its own angle, not just the first two", async () => {
+    const font = loadTestFont();
+
+    const result = await computeReliefComponents(
+      ringSpec({
+        icons: [],
+        decorations: [],
+        lines: [
+          { text: "A", sizeMm: 3, radiusMm: 9, centerAngleDeg: 90 },
+          { text: "B", sizeMm: 3, radiusMm: 9, centerAngleDeg: 210 },
+          { text: "C", sizeMm: 3, radiusMm: 9, centerAngleDeg: 330 },
+        ],
+      }),
+      font,
+      printProfile,
+      stubLoadIconSource,
+    );
+
+    expect(result.reliefComponents).toHaveLength(3);
+  });
+
+  it("lays a radial ring line straight along its spoke, centered at its radius", async () => {
+    const font = loadTestFont();
+    const radiusMm = 15;
+    const centerToleranceMm = 0.5;
+    const placements = [
+      { angleDeg: 90, expectedCenter: [0, radiusMm] },
+      { angleDeg: 210, expectedCenter: [-radiusMm * Math.cos(Math.PI / 6), -radiusMm / 2] },
+    ];
+
+    for (const { angleDeg, expectedCenter } of placements) {
+      const result = await computeReliefComponents(
+        ringSpec({
+          icons: [],
+          decorations: [],
+          lines: [
+            {
+              text: "LLLLLL",
+              sizeMm: 3,
+              radiusMm,
+              centerAngleDeg: angleDeg,
+              placement: "radial",
+            },
+          ],
+        }),
+        font,
+        printProfile,
+        stubLoadIconSource,
+      );
+
+      const points = result.reliefComponents[0].contours.flat();
+      const xs = points.map(([x]) => x);
+      const ys = points.map(([, y]) => y);
+      const centerX = (Math.min(...xs) + Math.max(...xs)) / 2;
+      const centerY = (Math.min(...ys) + Math.max(...ys)) / 2;
+      const spokeDirection = [
+        Math.cos((angleDeg * Math.PI) / 180),
+        Math.sin((angleDeg * Math.PI) / 180),
+      ];
+      const alongSpoke = points.map(([x, y]) => x * spokeDirection[0] + y * spokeDirection[1]);
+      const acrossSpoke = points.map(([x, y]) => -x * spokeDirection[1] + y * spokeDirection[0]);
+      const lengthAlong = Math.max(...alongSpoke) - Math.min(...alongSpoke);
+      const lengthAcross = Math.max(...acrossSpoke) - Math.min(...acrossSpoke);
+
+      expect(Math.abs(centerX - expectedCenter[0])).toBeLessThan(centerToleranceMm);
+      expect(Math.abs(centerY - expectedCenter[1])).toBeLessThan(centerToleranceMm);
+      expect(lengthAlong).toBeGreaterThan(lengthAcross);
+    }
+  });
+
+  it("throws when a ring line past the second has no centerAngleDeg", async () => {
+    const font = loadTestFont();
+
+    await expect(
+      computeReliefComponents(
+        ringSpec({
+          lines: [
+            { text: "A", sizeMm: 3, radiusMm: 9 },
+            { text: "B", sizeMm: 3, radiusMm: 9 },
+            { text: "C", sizeMm: 3, radiusMm: 9 },
+          ],
+        }),
+        font,
+        printProfile,
+        stubLoadIconSource,
+      ),
+    ).rejects.toThrow(/centerAngleDeg/);
+  });
 });

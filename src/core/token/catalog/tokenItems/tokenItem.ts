@@ -56,8 +56,9 @@ export type TokenSelection = {
 
 // "ring" is the full 3″ hollow template. "compactDisc" is a 1″ marker set at the AOE's center:
 // the area's edge is then a whole inch from the marker's own edge, easy to measure, and the small
-// disc fits between models where the full ring doesn't.
-export type AoeTemplateVariant = "ring" | "compactDisc";
+// disc fits between models where the full ring doesn't. "crowfoot" keeps three short arcs of the
+// 3″ edge on spokes from the center: the edge itself is marked, with far less plastic to place.
+export type AoeTemplateVariant = "ring" | "compactDisc" | "crowfoot";
 
 export type SharedConfig = {
   arcShape: ArcShapeSpec;
