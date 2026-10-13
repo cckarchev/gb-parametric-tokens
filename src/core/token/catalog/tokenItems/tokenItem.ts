@@ -33,12 +33,16 @@ export type CounterSelection = { enabled: boolean; copies: number };
 // expressed by unchecking it rather than by counting down to nothing.
 export const MIN_COPIES = 1;
 
+// The cap for a repeatable character token (see CatalogEffect.repeatable): rather than deriving a
+// per-play limit from cost and influence, whoever prints a set picks what their list really needs.
+export const CHARACTER_TOKEN_MAX_COPIES = 6;
+
 export type TokenSelection = {
   // Holds a character's AOE template ids too (see characterAoeTemplateId below).
   characterTokenIds: string[];
-  // Copies for a selected character token or AOE template whose catalog entry sets maxCopies > 1. Not consulted
-  // for tokens with no maxCopies (those always print 1 copy) and left untouched when a token is
-  // deselected, so re-selecting it restores the count instead of resetting to 1.
+  // Copies for a selected character token or AOE template, see resolveTokenCopies for the
+  // default while unset. Left untouched when a token is deselected, so re-selecting it restores
+  // the count instead of resetting it.
   characterTokenCopies: Record<string, number>;
   genericTokens: Record<string, CounterSelection>;
   influence: CounterSelection;

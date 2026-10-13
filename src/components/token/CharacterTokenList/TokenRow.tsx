@@ -6,7 +6,7 @@ import styles from "./CharacterTokenList.module.css";
 type TokenRowProps = {
   label: string;
   tag?: string;
-  maxCopies?: number;
+  maxCopies: number;
   selected: boolean;
   copies: number;
   onToggle: (checked: boolean) => void;
@@ -25,7 +25,7 @@ export const TokenRow = ({
   onToggle,
   onCopiesChange,
 }: TokenRowProps) => {
-  const hasCopiesField = (maxCopies ?? 1) > 1;
+  const hasCopiesField = maxCopies > MIN_COPIES;
 
   return (
     <div className={`${styles.row} ${styles.rowToken}`}>

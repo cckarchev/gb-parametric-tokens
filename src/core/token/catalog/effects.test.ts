@@ -45,6 +45,19 @@ describe("effects.json", () => {
     expect(unknownLayouts).toEqual([]);
   });
 
+  it("only marks an effect repeatable with a literal true", () => {
+    const invalidFlags = effectsData
+      .map((effect) => effect.repeatable)
+      .filter((repeatable) => repeatable !== undefined && repeatable !== true);
+
+    expect(invalidFlags).toEqual([]);
+  });
+
+  it("marks a play that isn't once per turn as repeatable and a once-per-turn one as not", () => {
+    expect(resolveEffect("markedTarget").repeatable).toBe(true);
+    expect(resolveEffect("commandingAura").repeatable).toBeUndefined();
+  });
+
   it("only lets characters reference effect ids that exist", () => {
     const knownIds = new Set(effectsData.map((effect) => effect.id));
     const unknownReferences = charactersData.flatMap((character) =>

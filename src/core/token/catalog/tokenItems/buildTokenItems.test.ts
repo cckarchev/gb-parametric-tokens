@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { GuildCatalog } from "../catalogTypes";
 import { resolveEffect } from "../effects";
 import { buildTokenItems } from "./buildTokenItems";
+import { DEFAULT_TOKEN_COPIES } from "./resolveTokenCopies";
 import {
   characterAoeTemplateId,
   characterTokenId,
@@ -52,19 +53,6 @@ const emptySelection: TokenSelection = {
   goalInfluence: { enabled: false, copies: 1 },
   conditions: {},
   gamePlans: {},
-};
-
-// "Singled Out" is the only effect in the whole registry that carries maxCopies, so Wellington is
-// what the copies-count tests below have to go through.
-const catalogWithMultiCopyToken: GuildCatalog = {
-  guildId: "cooks",
-  name: "Cooks",
-  color: "#eb2629",
-  characters: [{ name: "Wellington", effects: ["singledOut"] }],
-  genericTokens: [],
-  conditions: [],
-  appliedConditionIds: [],
-  gamePlans: [],
 };
 
 // Derived rather than restated: the two tests that use this are about the size on each line, so
@@ -231,43 +219,55 @@ describe("buildTokenItems", () => {
     },
   );
 
-  it("uses the requested copies count for a character token with maxCopies set", () => {
+  it("uses the requested copies count for a repeatable character token", () => {
     const selection: TokenSelection = {
       ...emptySelection,
-      characterTokenIds: [characterTokenId("Wellington", 0)],
-      characterTokenCopies: { [characterTokenId("Wellington", 0)]: 2 },
+      characterTokenIds: [characterTokenId("Spigot", 0)],
+      characterTokenCopies: { [characterTokenId("Spigot", 0)]: 5 },
     };
 
-    const items = buildTokenItems(catalogWithMultiCopyToken, selection, sharedConfig);
+    const items = buildTokenItems(catalog, selection, sharedConfig);
 
     expect(items).toHaveLength(1);
-    expect(items[0].copies).toBe(2);
+    expect(items[0].copies).toBe(5);
   });
 
-  it("defaults a selected maxCopies token to 1 copy when no count was chosen yet", () => {
+  it("defaults a selected repeatable character token to 2 copies when no count was chosen yet", () => {
     const selection: TokenSelection = {
       ...emptySelection,
-      characterTokenIds: [characterTokenId("Wellington", 0)],
+      characterTokenIds: [characterTokenId("Spigot", 0)],
     };
 
-    const items = buildTokenItems(catalogWithMultiCopyToken, selection, sharedConfig);
+    const items = buildTokenItems(catalog, selection, sharedConfig);
 
-    expect(items[0].copies).toBe(1);
+    expect(items[0].copies).toBe(DEFAULT_TOKEN_COPIES);
   });
 
   it("ignores a leftover copies count for a token that isn't selected", () => {
     const selection: TokenSelection = {
       ...emptySelection,
       characterTokenIds: [],
-      characterTokenCopies: { [characterTokenId("Wellington", 0)]: 2 },
+      characterTokenCopies: { [characterTokenId("Tapper", 0)]: 2 },
     };
 
-    const items = buildTokenItems(catalogWithMultiCopyToken, selection, sharedConfig);
+    const items = buildTokenItems(catalog, selection, sharedConfig);
 
     expect(items).toHaveLength(0);
   });
 
-  it("ignores characterTokenCopies for a token without maxCopies, always using 1", () => {
+  it("caps a repeatable character token at 6 copies", () => {
+    const selection: TokenSelection = {
+      ...emptySelection,
+      characterTokenIds: [characterTokenId("Spigot", 0)],
+      characterTokenCopies: { [characterTokenId("Spigot", 0)]: 9 },
+    };
+
+    const items = buildTokenItems(catalog, selection, sharedConfig);
+
+    expect(items[0].copies).toBe(6);
+  });
+
+  it("always prints a single copy of a token that isn't repeatable, like a once-per-turn play", () => {
     const selection: TokenSelection = {
       ...emptySelection,
       characterTokenIds: [characterTokenId("Tapper", 0)],

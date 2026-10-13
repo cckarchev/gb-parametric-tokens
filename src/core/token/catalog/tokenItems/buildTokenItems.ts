@@ -1,7 +1,7 @@
 import { resolveAoeTemplate } from "../aoeTemplates";
 import { GuildCatalog } from "../catalogTypes";
 import { buildEffectLabels } from "../effectLabels";
-import { resolveEffect } from "../effects";
+import { effectMaxCopies, resolveEffect } from "../effects";
 import { buildAoeTemplateSpec } from "./aoeTemplateSpec";
 import { buildCharacterTokenSpec } from "./characterTokenSpec";
 import { buildConditionTokenSpec } from "./conditionTokenSpec";
@@ -9,11 +9,13 @@ import { buildGenericTokenSpec } from "./genericTokenSpec";
 import { buildGoalInfluenceTokenSpec } from "./goalInfluenceTokenSpec";
 import { buildInfluenceTokenSpec } from "./influenceTokenSpec";
 import { buildMomentumTokenSpec } from "./momentumTokenSpec";
+import { resolveTokenCopies } from "./resolveTokenCopies";
 import {
   characterAoeTemplateId,
   characterTokenId,
   conditionTokenId,
   gamePlanTokenId,
+  MIN_COPIES,
   SharedConfig,
   TokenItem,
   TokenSelection,
@@ -40,8 +42,10 @@ export const buildTokenItems = (
       }
 
       const effectLabel = effectLabels[tokenIndex];
-      const copies =
-        effect.maxCopies && effect.maxCopies > 1 ? (selection.characterTokenCopies[id] ?? 1) : 1;
+      const copies = resolveTokenCopies(
+        selection.characterTokenCopies[id],
+        effectMaxCopies(effect),
+      );
 
       items.push({
         id,
@@ -62,10 +66,8 @@ export const buildTokenItems = (
         return;
       }
 
-      const copies =
-        template.maxCopies && template.maxCopies > 1
-          ? (selection.characterTokenCopies[id] ?? 1)
-          : 1;
+      const templateMaxCopies = template.maxCopies ?? MIN_COPIES;
+      const copies = resolveTokenCopies(selection.characterTokenCopies[id], templateMaxCopies);
 
       // Some abilities are both a reminder token and a template (Ebb's Sprung a Leak, vCalculus's
       // Sticky Bomb), so outside the picker's own "AOE templates" subheading the template needs

@@ -6,8 +6,10 @@ export type CatalogEffect = {
   id: string;
   name: string;
   effect?: string;
-  // Max simultaneous copies of this effect's token in play. Omitted means 1, only set when higher.
-  maxCopies?: number;
+  // Set when one model's token isn't enough: a play that isn't once per turn, a bonus that
+  // stacks, or a pulse that lands on several models. Such a token gets a copies count; anything
+  // else (once-per-turn plays, "Used" markers, auras, most traits) always prints once.
+  repeatable?: true;
   // "ring" prints a round token shaped like Goal Influence (crest centered, name curved on top,
   // effect text curved below) instead of the usual arc, for an effect that tracks a pool of
   // something rather than a status on a model. Omitted means the arc.

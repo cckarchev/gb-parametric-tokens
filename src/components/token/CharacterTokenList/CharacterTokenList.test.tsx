@@ -11,9 +11,7 @@ import {
 import { CharacterTokenList } from "./CharacterTokenList";
 
 // A deliberately tiny guild, but every character and effect named here is a real entry in the
-// catalog data, so the fixture describes a roster that could actually exist. "Singled Out" is the
-// only effect in the whole registry that carries maxCopies, which is what makes it the token this
-// file uses to cover the copies field.
+// catalog data, so the fixture describes a roster that could actually exist.
 const catalog: GuildCatalog = {
   guildId: "brewers",
   name: "Brewers",
@@ -156,25 +154,31 @@ describe("CharacterTokenList", () => {
     expect(screen.getByText("1/2")).toBeInTheDocument();
   });
 
-  it("shows a copies field for a token with maxCopies greater than 1, disabled until selected", () => {
+  it("shows a copies field for a repeatable token, starting at 2 and disabled until selected", () => {
     renderList();
 
-    const copiesField = screen.getByLabelText("Singled Out copies");
+    const copiesField = screen.getByLabelText("Marked Target copies");
 
     expect(copiesField).toBeDisabled();
-    expect(copiesField).toHaveValue(1);
+    expect(copiesField).toHaveValue(2);
+  });
+
+  it("does not show a copies field for a once-per-turn token", () => {
+    renderList();
+
+    expect(screen.queryByLabelText("Commanding Aura copies")).not.toBeInTheDocument();
   });
 
   it("enables the copies field once its token is selected, keeping the previously chosen count", async () => {
     const { onSelectedTokenIdsChange } = renderList({
       selectedTokenIds: [],
-      tokenCopies: { [characterTokenId("Spigot", 0)]: 2 },
+      tokenCopies: { [characterTokenId("Spigot", 0)]: 4 },
     });
 
     const copiesField = screen.getByLabelText("Singled Out copies");
 
     expect(copiesField).toBeDisabled();
-    expect(copiesField).toHaveValue(2);
+    expect(copiesField).toHaveValue(4);
 
     await userEvent.click(screen.getByLabelText("Singled Out"));
 
@@ -188,16 +192,10 @@ describe("CharacterTokenList", () => {
 
     const copiesField = screen.getByLabelText("Singled Out copies");
 
-    fireEvent.change(copiesField, { target: { value: "2" } });
+    fireEvent.change(copiesField, { target: { value: "5" } });
 
-    expect(onTokenCopiesChange).toHaveBeenCalledWith({ [characterTokenId("Spigot", 0)]: 2 });
+    expect(onTokenCopiesChange).toHaveBeenCalledWith({ [characterTokenId("Spigot", 0)]: 5 });
     expect(onSelectedTokenIdsChange).not.toHaveBeenCalled();
-  });
-
-  it("does not show a copies field for a token without maxCopies", () => {
-    renderList();
-
-    expect(screen.queryByLabelText("Commanding Aura copies")).not.toBeInTheDocument();
   });
 
   it("labels a character's tokens that share a name with their effect text", () => {

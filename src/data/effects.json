@@ -11,7 +11,8 @@
   {
     "id": "aboveAndBeyond",
     "name": "Above and Beyond",
-    "effect": "+1/+0 INF"
+    "effect": "+1/+0 INF",
+    "repeatable": true
   },
   {
     "id": "afterglowUsed",
@@ -25,7 +26,8 @@
   {
     "id": "alternator",
     "name": "Alternator",
-    "effect": "+2\"/+2\" MOV"
+    "effect": "+2\"/+2\" MOV",
+    "repeatable": true
   },
   {
     "id": "anatomicalPrecision",
@@ -50,7 +52,8 @@
   {
     "id": "arrowToTheKnee",
     "name": "Arrow to the Knee",
-    "effect": "-2/-2\" KICK"
+    "effect": "-2/-2\" KICK",
+    "repeatable": true
   },
   {
     "id": "assKickingUsed",
@@ -89,12 +92,14 @@
   {
     "id": "bleedTheCleats",
     "name": "Bleed the Cleats",
-    "effect": "+1/+0\" KICK"
+    "effect": "+1/+0\" KICK",
+    "repeatable": true
   },
   {
     "id": "blessingOfTheMoonGoddess",
     "name": "Blessing of the Moon Goddess",
-    "effect": "Adds <<"
+    "effect": "Adds <<",
+    "repeatable": true
   },
   {
     "id": "blessingOfTheSunFather",
@@ -139,12 +144,14 @@
   {
     "id": "hammerTimeDmg",
     "name": "Hammer Time!",
-    "effect": "+1 DMG"
+    "effect": "+1 DMG",
+    "repeatable": true
   },
   {
     "id": "hammerTimeMov",
     "name": "Hammer Time!",
-    "effect": "+2\"/+2\" MOV"
+    "effect": "+2\"/+2\" MOV",
+    "repeatable": true
   },
   {
     "id": "lendAHand",
@@ -154,7 +161,8 @@
   {
     "id": "butchery",
     "name": "Butchery",
-    "effect": "+1 DMG"
+    "effect": "+1 DMG",
+    "repeatable": true
   },
   {
     "id": "carelessWhisper",
@@ -168,7 +176,8 @@
   {
     "id": "caughtInANet",
     "name": "Caught in a Net",
-    "effect": "-4\"/-4\" MOV"
+    "effect": "-4\"/-4\" MOV",
+    "repeatable": true
   },
   {
     "id": "chefsSpecial",
@@ -217,7 +226,8 @@
   {
     "id": "constrict",
     "name": "Constrict",
-    "effect": "-4\"/-4\" MOV"
+    "effect": "-4\"/-4\" MOV",
+    "repeatable": true
   },
   {
     "id": "counterChargeUsed",
@@ -257,12 +267,14 @@
   {
     "id": "dirtyKnives",
     "name": "Dirty Knives",
-    "effect": "-1 DEF"
+    "effect": "-1 DEF",
+    "repeatable": true
   },
   {
     "id": "disarm",
     "name": "Disarm",
-    "effect": "-2 TAC"
+    "effect": "-2 TAC",
+    "repeatable": true
   },
   {
     "id": "dismember",
@@ -282,7 +294,8 @@
   {
     "id": "elbowGrease",
     "name": "Elbow Grease",
-    "effect": "Momentous DMG"
+    "effect": "Momentous DMG",
+    "repeatable": true
   },
   {
     "id": "empathy",
@@ -334,7 +347,8 @@
   {
     "id": "flashPoint",
     "name": "Flash Point",
-    "effect": "-1\"/-1\" MOV"
+    "effect": "-1\"/-1\" MOV",
+    "repeatable": true
   },
   {
     "id": "flying",
@@ -434,7 +448,8 @@
   {
     "id": "graspingEarth",
     "name": "Grasping Earth",
-    "effect": "-2\"/-2\" MOV"
+    "effect": "-2\"/-2\" MOV",
+    "repeatable": true
   },
   {
     "id": "graveWind",
@@ -444,7 +459,8 @@
   {
     "id": "gutString",
     "name": "Gut & String",
-    "effect": "-2\"/-2\" MOV, -1 DEF"
+    "effect": "-2\"/-2\" MOV, -1 DEF",
+    "repeatable": true
   },
   {
     "id": "hauntingGaze",
@@ -502,7 +518,8 @@
   {
     "id": "instruction",
     "name": "Instruction",
-    "effect": "+2 net hits"
+    "effect": "+2 net hits",
+    "repeatable": true
   },
   {
     "id": "ironFist",
@@ -522,7 +539,8 @@
   {
     "id": "lensFlare",
     "name": "Lens Flare",
-    "effect": "Caps TAC/KICK"
+    "effect": "Caps TAC/KICK",
+    "repeatable": true
   },
   {
     "id": "lifeDrinker",
@@ -556,7 +574,8 @@
   {
     "id": "malice",
     "name": "Malice",
-    "effect": "+2 TAC"
+    "effect": "+2 TAC",
+    "repeatable": true
   },
   {
     "id": "markedForDeath",
@@ -566,12 +585,14 @@
   {
     "id": "markedForFelling",
     "name": "Marked for Felling",
-    "effect": "+0/+2\" MOV Charges"
+    "effect": "+0/+2\" MOV Charges",
+    "repeatable": true
   },
   {
     "id": "markedTarget",
     "name": "Marked Target",
-    "effect": "+0\"/+2\" MOV Charges"
+    "effect": "+0\"/+2\" MOV Charges",
+    "repeatable": true
   },
   {
     "id": "masterChef",
@@ -611,7 +632,8 @@
   {
     "id": "ourToolsAreSharp",
     "name": "Our Tools Are Sharp",
-    "effect": "Condition DMG"
+    "effect": "Condition DMG",
+    "repeatable": true
   },
   {
     "id": "overclocked",
@@ -640,12 +662,14 @@
   {
     "id": "pickOfTheCrop",
     "name": "Pick of the Crop",
-    "effect": "+0\"/+2\" MOV on charges"
+    "effect": "+0\"/+2\" MOV on charges",
+    "repeatable": true
   },
   {
     "id": "piledriver",
     "name": "Piledriver",
-    "effect": "+3 net hits"
+    "effect": "+3 net hits",
+    "repeatable": true
   },
   {
     "id": "pinned",
@@ -676,7 +700,8 @@
   {
     "id": "protectTheBall",
     "name": "Protect the Ball",
-    "effect": "Close Control"
+    "effect": "Close Control",
+    "repeatable": true
   },
   {
     "id": "protectThoseClose",
@@ -696,12 +721,14 @@
   {
     "id": "quickFoot",
     "name": "Quick Foot",
-    "effect": "+2\"/+2\" MOV"
+    "effect": "+2\"/+2\" MOV",
+    "repeatable": true
   },
   {
     "id": "rabidAnimal",
     "name": "Rabid Animal",
-    "effect": "-4\"/-4\" MOV"
+    "effect": "-4\"/-4\" MOV",
+    "repeatable": true
   },
   {
     "id": "reanimateUsed",
@@ -743,7 +770,8 @@
   {
     "id": "sanguinePool",
     "name": "Sanguine Pool",
-    "effect": "-4\"/-4\" MOV"
+    "effect": "-4\"/-4\" MOV",
+    "repeatable": true
   },
   {
     "id": "scythingMarch",
@@ -753,7 +781,8 @@
   {
     "id": "searingStrike",
     "name": "Searing Strike",
-    "effect": "-1 ARM"
+    "effect": "-1 ARM",
+    "repeatable": true
   },
   {
     "id": "secondWind",
@@ -763,7 +792,8 @@
   {
     "id": "shieldGlare",
     "name": "Shield Glare",
-    "effect": "-1 TAC, -1 DEF"
+    "effect": "-1 TAC, -1 DEF",
+    "repeatable": true
   },
   {
     "id": "shutout",
@@ -773,8 +803,8 @@
   {
     "id": "singledOut",
     "name": "Singled Out",
-    "maxCopies": 2,
-    "effect": "+2 TAC"
+    "effect": "+2 TAC",
+    "repeatable": true
   },
   {
     "id": "slicedTendon",
@@ -784,7 +814,8 @@
   {
     "id": "smashedShins",
     "name": "Smashed Shins",
-    "effect": "-4/-4\" KICK"
+    "effect": "-4/-4\" KICK",
+    "repeatable": true
   },
   {
     "id": "spark",
@@ -799,7 +830,8 @@
   {
     "id": "stagger",
     "name": "Stagger",
-    "effect": "-1 DEF"
+    "effect": "-1 DEF",
+    "repeatable": true
   },
   {
     "id": "standFirm",
@@ -823,7 +855,8 @@
   {
     "id": "strikeFromTheShadowsDef",
     "name": "Strike from the Shadows",
-    "effect": "+1 DEF"
+    "effect": "+1 DEF",
+    "repeatable": true
   },
   {
     "id": "sturdyUsed",
@@ -831,7 +864,8 @@
   },
   {
     "id": "sunStrike",
-    "name": "Sun Strike"
+    "name": "Sun Strike",
+    "repeatable": true
   },
   {
     "id": "superShot",
@@ -846,7 +880,8 @@
   {
     "id": "swerveShot",
     "name": "Swerve Shot",
-    "effect": "Kick ignores intervening models"
+    "effect": "Kick ignores intervening models",
+    "repeatable": true
   },
   {
     "id": "tagAlongUsed",
@@ -885,7 +920,8 @@
   {
     "id": "theyAintTough",
     "name": "They Ain't Tough!",
-    "effect": "-1 ARM"
+    "effect": "-1 ARM",
+    "repeatable": true
   },
   {
     "id": "thousandCuts",
@@ -895,12 +931,14 @@
   {
     "id": "timesCalled",
     "name": "Time's Called",
-    "effect": "4\" Aura: +2\"/+2\" MOV"
+    "effect": "4\" Aura: +2\"/+2\" MOV",
+    "repeatable": true
   },
   {
     "id": "tongInCheek",
     "name": "Tong in Cheek",
-    "effect": "+2\"/+2\" MOV"
+    "effect": "+2\"/+2\" MOV",
+    "repeatable": true
   },
   {
     "id": "tooledUp",
@@ -910,13 +948,14 @@
   {
     "id": "toppingOutArm",
     "name": "Topping Out!",
-    "effect": "+1 ARM"
+    "effect": "+1 ARM",
+    "repeatable": true
   },
   {
     "id": "toppingOutInfluence",
     "name": "Topping Out!",
     "effect": "+1 INF",
-    "maxCopies": 6,
+    "repeatable": true,
     "layout": "ring"
   },
   {
@@ -962,7 +1001,8 @@
   {
     "id": "weakPoint",
     "name": "Weak Point",
-    "effect": "-1 ARM"
+    "effect": "-1 ARM",
+    "repeatable": true
   },
   {
     "id": "wellOiledMachineUsed",
@@ -972,7 +1012,8 @@
   {
     "id": "whiskyChaser",
     "name": "Whisky Chaser",
-    "effect": "Adds KD"
+    "effect": "Adds KD",
+    "repeatable": true
   },
   {
     "id": "wintersNight",

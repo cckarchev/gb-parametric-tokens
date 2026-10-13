@@ -4,7 +4,8 @@ import { resolveAoeTemplate } from "../../../core/token/catalog/aoeTemplates";
 import { CatalogCharacter, GuildCatalog } from "../../../core/token/catalog/catalogTypes";
 import { characterSelectableIds } from "../../../core/token/catalog/characterSelectableIds";
 import { buildEffectLabels } from "../../../core/token/catalog/effectLabels";
-import { resolveEffect } from "../../../core/token/catalog/effects";
+import { effectMaxCopies, resolveEffect } from "../../../core/token/catalog/effects";
+import { resolveTokenCopies } from "../../../core/token/catalog/tokenItems/resolveTokenCopies";
 import {
   characterAoeTemplateId,
   characterTokenId,
@@ -67,7 +68,7 @@ export const CharacterTokenList = ({
     onTokenCopiesChange({ ...tokenCopies, [id]: copies });
   };
 
-  const renderRow = (id: string, label: string, maxCopies: number | undefined, tag?: string) => {
+  const renderRow = (id: string, label: string, maxCopies: number, tag?: string) => {
     return (
       <TokenRow
         key={id}
@@ -75,7 +76,7 @@ export const CharacterTokenList = ({
         tag={tag}
         maxCopies={maxCopies}
         selected={selectedTokenIds.includes(id)}
-        copies={tokenCopies[id] ?? MIN_COPIES}
+        copies={resolveTokenCopies(tokenCopies[id], maxCopies)}
         onToggle={(checked) => toggle(id, checked)}
         onCopiesChange={(copies) => setCopies(id, copies)}
       />
@@ -126,7 +127,7 @@ export const CharacterTokenList = ({
                 renderRow(
                   characterTokenId(character.name, tokenIndex),
                   effectLabels[tokenIndex],
-                  effect.maxCopies,
+                  effectMaxCopies(effect),
                 ),
               )}
 
@@ -134,7 +135,7 @@ export const CharacterTokenList = ({
                 renderRow(
                   characterAoeTemplateId(character.name, templateIndex),
                   template.name,
-                  template.maxCopies,
+                  template.maxCopies ?? MIN_COPIES,
                   AOE_TEMPLATE_TAG,
                 ),
               )}
