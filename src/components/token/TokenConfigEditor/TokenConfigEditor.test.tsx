@@ -23,6 +23,7 @@ const sharedConfig: SharedConfig = {
   showSecondLine: true,
   balanceTwoLineSizes: false,
   iconOverflowBehavior: "none",
+  aoeTemplateVariant: "ring",
 };
 
 type TokenConfigEditorProps = Parameters<typeof TokenConfigEditor>[0];

@@ -492,6 +492,7 @@ describe("useTokenGenerator", () => {
       showSecondLine: false,
       balanceTwoLineSizes: true,
       iconOverflowBehavior: "trim",
+      aoeTemplateVariant: "compactDisc",
     };
     const file = new File([JSON.stringify(importedConfig)], "settings.json", {
       type: "application/json",
@@ -505,7 +506,7 @@ describe("useTokenGenerator", () => {
     expect(result.current.importSettingsError).toBeUndefined();
   });
 
-  it("defaults iconOverflowBehavior to 'none' when importing a settings file exported before that option existed", async () => {
+  it("defaults the options added later when importing a settings file exported before they existed", async () => {
     const { result } = renderHook(() => useTokenGenerator());
 
     const importedConfig = {
@@ -521,7 +522,8 @@ describe("useTokenGenerator", () => {
       effectSizeMm: 3,
       showSecondLine: false,
       balanceTwoLineSizes: true,
-      // iconOverflowBehavior intentionally absent, as in a file exported before it existed.
+      // iconOverflowBehavior and aoeTemplateVariant intentionally absent, as in a file exported
+      // before they existed.
     };
     const file = new File([JSON.stringify(importedConfig)], "settings.json", {
       type: "application/json",
@@ -534,6 +536,7 @@ describe("useTokenGenerator", () => {
     expect(result.current.sharedConfig).toEqual({
       ...importedConfig,
       iconOverflowBehavior: "none",
+      aoeTemplateVariant: "ring",
     });
     expect(result.current.importSettingsError).toBeUndefined();
   });

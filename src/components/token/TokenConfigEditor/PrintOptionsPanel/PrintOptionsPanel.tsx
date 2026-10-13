@@ -1,4 +1,5 @@
 import { SharedConfig } from "../../../../core/token/catalog/tokenItems/tokenItem";
+import { AOE_TEMPLATE_VARIANT_OPTIONS } from "../../../editor/aoeTemplateVariantOptions";
 import { ICON_OVERFLOW_BEHAVIOR_OPTIONS } from "../../../editor/iconOverflowBehaviorOptions";
 import { PrintProfileSelector } from "../../../editor/PrintProfileSelector/PrintProfileSelector";
 import { RELIEF_OPTIONS } from "../../../editor/reliefOptions";
@@ -49,6 +50,13 @@ export const PrintOptionsPanel = ({ sharedConfig, onChange }: PrintOptionsPanelP
           value={sharedConfig.iconOverflowBehavior}
           options={ICON_OVERFLOW_BEHAVIOR_OPTIONS}
           onChange={(iconOverflowBehavior) => onChange({ ...sharedConfig, iconOverflowBehavior })}
+        />
+
+        <SelectField
+          label="AOE templates"
+          value={sharedConfig.aoeTemplateVariant}
+          options={AOE_TEMPLATE_VARIANT_OPTIONS}
+          onChange={(aoeTemplateVariant) => onChange({ ...sharedConfig, aoeTemplateVariant })}
         />
 
         <CheckboxField

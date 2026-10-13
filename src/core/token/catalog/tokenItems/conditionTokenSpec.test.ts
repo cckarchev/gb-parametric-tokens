@@ -37,6 +37,7 @@ const sharedConfig: SharedConfig = {
   showSecondLine: true,
   balanceTwoLineSizes: false,
   iconOverflowBehavior: "none",
+  aoeTemplateVariant: "ring",
 };
 
 const condition: CatalogCondition = {

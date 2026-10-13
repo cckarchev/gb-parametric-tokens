@@ -54,6 +54,11 @@ export type TokenSelection = {
   gamePlans: Record<string, CounterSelection>;
 };
 
+// "ring" is the full 3″ hollow template. "compactDisc" is a 1″ marker set at the AOE's center:
+// the area's edge is then a whole inch from the marker's own edge, easy to measure, and the small
+// disc fits between models where the full ring doesn't.
+export type AoeTemplateVariant = "ring" | "compactDisc";
+
 export type SharedConfig = {
   arcShape: ArcShapeSpec;
   discShape: DiscShapeSpec;
@@ -70,6 +75,7 @@ export type SharedConfig = {
   // "none" by default: applied to every guild icon this catalog builds (see buildIconSpec in
   // tokenSpecParts.ts) -- see IconOverflowBehavior in types.ts for what each value does.
   iconOverflowBehavior: IconOverflowBehavior;
+  aoeTemplateVariant: AoeTemplateVariant;
 };
 
 export const characterTokenId = (characterId: string, tokenIndex: number): string => {

@@ -18,14 +18,18 @@ const sharedConfig: SharedConfig = {
   showSecondLine: true,
   balanceTwoLineSizes: false,
   iconOverflowBehavior: "none",
+  aoeTemplateVariant: "ring",
 };
 
 const template: CatalogAoeTemplate = { id: "smokeBomb", name: "Smoke Bomb", effect: "Cover" };
 const BAND_MID_RADIUS_MM = 35.1;
+const GUILD_ICON_ID = "Alchemists";
+const GUILD_ICON_SCALE = 1.2;
+const COMPACT_ICON_SCALE = 0.55;
 
 describe("buildAoeTemplateSpec", () => {
   it("is a fixed 3 inch hollow disc whatever the shared shapes say", () => {
-    const spec = buildAoeTemplateSpec(template, sharedConfig);
+    const spec = buildAoeTemplateSpec(template, GUILD_ICON_ID, GUILD_ICON_SCALE, sharedConfig);
 
     expect(spec.shape.type).toBe("disc");
     expect(spec.shape.type === "disc" && spec.shape.diameterMm).toBeCloseTo(76.2);
@@ -34,7 +38,7 @@ describe("buildAoeTemplateSpec", () => {
   });
 
   it("puts the name on top and the effect below, their ink centered on the band", () => {
-    const spec = buildAoeTemplateSpec(template, sharedConfig);
+    const spec = buildAoeTemplateSpec(template, GUILD_ICON_ID, GUILD_ICON_SCALE, sharedConfig);
     const [topLine, bottomLine] = spec.lines;
     const radiusSum = (topLine.radiusMm ?? 0) + (bottomLine.radiusMm ?? 0);
 
@@ -46,8 +50,44 @@ describe("buildAoeTemplateSpec", () => {
   });
 
   it("carries no icons, only its text", () => {
-    const spec = buildAoeTemplateSpec(template, sharedConfig);
+    const spec = buildAoeTemplateSpec(template, GUILD_ICON_ID, GUILD_ICON_SCALE, sharedConfig);
 
     expect(spec.icons).toEqual([]);
+  });
+});
+
+describe("buildAoeTemplateSpec, compact disc variant", () => {
+  const compactConfig: SharedConfig = { ...sharedConfig, aoeTemplateVariant: "compactDisc" };
+
+  it("is a solid 1 inch disc, so the rest of the 3 inch area is a whole inch from its edge", () => {
+    const spec = buildAoeTemplateSpec(template, GUILD_ICON_ID, GUILD_ICON_SCALE, compactConfig);
+
+    expect(spec.shape.type).toBe("disc");
+    expect(spec.shape.type === "disc" && spec.shape.diameterMm).toBeCloseTo(25.4);
+    expect(spec.shape.type === "disc" && spec.shape.innerDiameterMm).toBeUndefined();
+  });
+
+  it("curves the name on top and the effect below", () => {
+    const spec = buildAoeTemplateSpec(template, GUILD_ICON_ID, GUILD_ICON_SCALE, compactConfig);
+    const [topLine, bottomLine] = spec.lines;
+
+    expect(spec.textLayout).toBe("ring");
+    expect(topLine.text).toBe("Smoke Bomb");
+    expect(bottomLine.text).toBe("Cover");
+    expect(bottomLine.radiusMm).toBeGreaterThan(topLine.radiusMm ?? 0);
+    expect(bottomLine.radiusMm).toBeLessThan(25.4 / 2);
+  });
+
+  it("wears the guild crest at its center, scaled by the guild's own icon scale", () => {
+    const spec = buildAoeTemplateSpec(template, GUILD_ICON_ID, GUILD_ICON_SCALE, compactConfig);
+
+    expect(spec.icons).toEqual([
+      {
+        iconId: GUILD_ICON_ID,
+        side: "center",
+        scale: COMPACT_ICON_SCALE * GUILD_ICON_SCALE,
+        colorGroup: "text",
+      },
+    ]);
   });
 });

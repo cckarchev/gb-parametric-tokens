@@ -79,7 +79,7 @@ export const buildTokenItems = (
         label: `${character.name}: ${templateName}`,
         group: character.name,
         name: templateName,
-        spec: buildAoeTemplateSpec(template, sharedConfig),
+        spec: buildAoeTemplateSpec(template, guildIconId, guildIconScale, sharedConfig),
         copies,
       });
     });

@@ -137,6 +137,7 @@ export const useTokenGenerator = () => {
     showSecondLine: true,
     balanceTwoLineSizes: false,
     iconOverflowBehavior: "none",
+    aoeTemplateVariant: "ring",
   });
 
   // Every successful guild load re-seeds the two catalog-derived colors (the selection itself is
@@ -210,11 +211,12 @@ export const useTokenGenerator = () => {
         throw new Error("This file is not a valid settings file.");
       }
 
-      // Not validated above: a settings file exported before this option existed simply lacks
-      // it, and should still import cleanly, defaulting to "none" rather than being rejected.
+      // Not validated above: a settings file exported before these options existed simply lacks
+      // them, and should still import cleanly with their defaults rather than being rejected.
       setSharedConfig({
         ...parsed,
         iconOverflowBehavior: parsed.iconOverflowBehavior ?? "none",
+        aoeTemplateVariant: parsed.aoeTemplateVariant ?? "ring",
       });
     } catch (error) {
       setImportSettingsError(describeError(error));
