@@ -16,7 +16,8 @@
   },
   {
     "id": "afterglowUsed",
-    "name": "Afterglow Used"
+    "name": "Afterglow",
+    "effect": "Used"
   },
   {
     "id": "allAboutTheGame",
@@ -57,7 +58,8 @@
   },
   {
     "id": "assKickingUsed",
-    "name": "Ass Kicking Used"
+    "name": "Ass Kicking",
+    "effect": "Used"
   },
   {
     "id": "assist",
@@ -81,7 +83,7 @@
   },
   {
     "id": "betweenARockUsed",
-    "name": "Between a Rock... Used",
+    "name": "Between a Rock...",
     "effect": "Used"
   },
   {
@@ -171,7 +173,8 @@
   },
   {
     "id": "casketTimeUsed",
-    "name": "Casket Time Used"
+    "name": "Casket Time",
+    "effect": "Used"
   },
   {
     "id": "caughtInANet",
@@ -196,7 +199,8 @@
   },
   {
     "id": "closeControlUsed",
-    "name": "Close Control Used"
+    "name": "Close Control",
+    "effect": "Used"
   },
   {
     "id": "cocksure",
@@ -231,7 +235,7 @@
   },
   {
     "id": "counterChargeUsed",
-    "name": "Counter-Charge Used",
+    "name": "Counter-Charge",
     "effect": "Used"
   },
   {
@@ -304,7 +308,8 @@
   },
   {
     "id": "escapingFateUsed",
-    "name": "Escaping Fate Used"
+    "name": "Escaping Fate",
+    "effect": "Used"
   },
   {
     "id": "exhaustion",
@@ -333,15 +338,17 @@
   },
   {
     "id": "fearUsed",
-    "name": "Fear Used"
+    "name": "Fear",
+    "effect": "Used"
   },
   {
     "id": "fertileSoilUsed",
-    "name": "Fertile Soil Used"
+    "name": "Fertile Soil",
+    "effect": "Used"
   },
   {
     "id": "fieldsOfWheatUsed",
-    "name": "Fields of Wheat Used",
+    "name": "Fields of Wheat",
     "effect": "Used"
   },
   {
@@ -356,11 +363,13 @@
   },
   {
     "id": "followUpUsed",
-    "name": "Follow Up Used"
+    "name": "Follow Up",
+    "effect": "Used"
   },
   {
     "id": "forkOffUsed",
-    "name": "Fork Off! Used"
+    "name": "Fork Off!",
+    "effect": "Used"
   },
   {
     "id": "forwardMinions",
@@ -434,7 +443,8 @@
   },
   {
     "id": "gimmeFuelUsed",
-    "name": "Gimme Fuel... Used"
+    "name": "Gimme Fuel...",
+    "effect": "Used"
   },
   {
     "id": "goad",
@@ -549,7 +559,7 @@
   },
   {
     "id": "lightningReflexesUsed",
-    "name": "Lightning Reflexes Used",
+    "name": "Lightning Reflexes",
     "effect": "Used"
   },
   {
@@ -642,7 +652,8 @@
   },
   {
     "id": "painResponseUsed",
-    "name": "Pain Response Used"
+    "name": "Pain Response",
+    "effect": "Used"
   },
   {
     "id": "payThePiper",
@@ -677,19 +688,22 @@
   },
   {
     "id": "playmakerUsed",
-    "name": "Playmaker Used"
+    "name": "Playmaker",
+    "effect": "Used"
   },
   {
     "id": "poisedUsed",
-    "name": "Poised Used"
+    "name": "Poised",
+    "effect": "Used"
   },
   {
     "id": "poltergeistsUsed",
-    "name": "Poltergeists Used"
+    "name": "Poltergeists",
+    "effect": "Used"
   },
   {
     "id": "potbelliedPassUsed",
-    "name": "Potbellied Pass Used",
+    "name": "Potbellied Pass",
     "effect": "Used"
   },
   {
@@ -715,7 +729,7 @@
   },
   {
     "id": "putMeBackInCoachUsed",
-    "name": "Put Me Back In, Coach! Used",
+    "name": "Put Me Back In, Coach!",
     "effect": "Used"
   },
   {
@@ -732,7 +746,8 @@
   },
   {
     "id": "reanimateUsed",
-    "name": "Reanimate Used"
+    "name": "Reanimate",
+    "effect": "Used"
   },
   {
     "id": "reconnaissance",
@@ -741,12 +756,13 @@
   },
   {
     "id": "reinforcedPlatingUsed",
-    "name": "Reinforced Plating Used",
+    "name": "Reinforced Plating",
     "effect": "Used"
   },
   {
     "id": "resilienceUsed",
-    "name": "Resilience Used"
+    "name": "Resilience",
+    "effect": "Used"
   },
   {
     "id": "revelling",
@@ -760,7 +776,8 @@
   },
   {
     "id": "risingAngerUsed",
-    "name": "Rising Anger Used"
+    "name": "Rising Anger",
+    "effect": "Used"
   },
   {
     "id": "rushKeeper",
@@ -850,7 +867,8 @@
   },
   {
     "id": "stoicUsed",
-    "name": "Stoic Used"
+    "name": "Stoic",
+    "effect": "Used"
   },
   {
     "id": "strikeFromTheShadowsDef",
@@ -860,7 +878,8 @@
   },
   {
     "id": "sturdyUsed",
-    "name": "Sturdy Used"
+    "name": "Sturdy",
+    "effect": "Used"
   },
   {
     "id": "sunStrike",
@@ -885,7 +904,8 @@
   },
   {
     "id": "tagAlongUsed",
-    "name": "Tag Along Used"
+    "name": "Tag Along",
+    "effect": "Used"
   },
   {
     "id": "taintedWounds",
@@ -894,7 +914,7 @@
   },
   {
     "id": "takeOneForTheTeamUsed",
-    "name": "Take One for the Team Used",
+    "name": "Take One for the Team",
     "effect": "Used"
   },
   {
@@ -985,7 +1005,7 @@
   },
   {
     "id": "unpredictableMovementUsed",
-    "name": "Unpredictable Movement Used",
+    "name": "Unpredictable Movement",
     "effect": "Used"
   },
   {
@@ -1006,7 +1026,7 @@
   },
   {
     "id": "wellOiledMachineUsed",
-    "name": "Well Oiled Machine Used",
+    "name": "Well Oiled Machine",
     "effect": "Used"
   },
   {
