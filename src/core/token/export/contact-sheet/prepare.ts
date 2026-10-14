@@ -1,4 +1,5 @@
 import { Bounds, computeBounds } from "../../geometry/computeBounds";
+import { CIRCLE_ANCHOR_X_SVG } from "../../preview/svgBaseReference";
 import {
   allContoursOf,
   CIRCLE_FOOTPRINT_BOUNDS,
@@ -29,11 +30,55 @@ export const groupDiscItemsByDiameter = (
   return [...itemsByDiameterMm.values()];
 };
 
+// Without the base-reference circle an arc cell hugs its tokens vertically. Horizontally the
+// tokens' axis (the anchor, where the circle's center was) stays on a vertical grid line: each
+// side of it is rounded up to the grid on its own.
+const prepareTightArcSection = (
+  flippedItems: FlippedContactSheetItem[],
+  cellPaddingMm: number,
+): PreparedSection => {
+  const boundsByItem = flippedItems.map((item) =>
+    computeBounds(shiftForArcAnchor(allContoursOf(item))),
+  );
+  const combinedBounds = boundsByItem.reduce(unionBounds);
+
+  const extentLeftOfAxisMm = Math.max(0, CIRCLE_ANCHOR_X_SVG - combinedBounds.min[0]);
+  const extentRightOfAxisMm = Math.max(0, combinedBounds.max[0] - CIRCLE_ANCHOR_X_SVG);
+  const spaceLeftOfAxisMm = roundUpToGridStep(cellPaddingMm + extentLeftOfAxisMm);
+  const spaceRightOfAxisMm = roundUpToGridStep(extentRightOfAxisMm + cellPaddingMm);
+
+  const contentHeightMm = combinedBounds.max[1] - combinedBounds.min[1];
+
+  // The layout places the axis at padding + margin + anchor, so this margin puts it at
+  // spaceLeftOfAxisMm. Negative when the tokens start below the anchor: the top margin pulls them
+  // back up so their top sits on the padding.
+  const arcLeftMarginMm = spaceLeftOfAxisMm - cellPaddingMm - CIRCLE_ANCHOR_X_SVG;
+  const arcTopMarginMm = -combinedBounds.min[1];
+
+  return {
+    flippedItems,
+    boundsByItem,
+    cellWidthMm: spaceLeftOfAxisMm + spaceRightOfAxisMm,
+    cellHeightMm: contentHeightMm + cellPaddingMm * 2,
+    cellPaddingMm,
+    arcLeftMarginMm,
+    arcTopMarginMm,
+    alignToGridVertex: false,
+  };
+};
+
 export const prepareSection = (
   flippedItems: FlippedContactSheetItem[],
   cellPaddingMm: number,
   alignToGridVertex: boolean,
+  fitBaseReference = true,
 ): PreparedSection => {
+  const isArcSection = flippedItems.every((item) => item.shape.type === "arc");
+
+  if (isArcSection && !fitBaseReference) {
+    return prepareTightArcSection(flippedItems, cellPaddingMm);
+  }
+
   const boundsByItem = flippedItems.map((item) =>
     item.shape.type === "arc"
       ? unionBounds(computeBounds(shiftForArcAnchor(allContoursOf(item))), CIRCLE_FOOTPRINT_BOUNDS)

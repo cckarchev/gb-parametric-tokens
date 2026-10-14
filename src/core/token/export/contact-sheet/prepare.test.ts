@@ -77,4 +77,40 @@ describe("prepareSection", () => {
     // 35mm of content + 2 * 2 padding + 8 margin = 47, rounded up to 50.
     expect(prepared.cellWidthMm).toBe(50);
   });
+
+  it("fits an arc cell to the token alone when the base-reference circle is hidden", () => {
+    // Shifted onto the anchor (15, 15), the contour spans (13, 11) to (37, 19). Vertically the
+    // cell is the 8mm of content plus 2 * 2mm padding, with no rounding. Horizontally the token's
+    // axis stays on a grid line: 2mm left of it plus padding rounds up to 10, 22mm right of it
+    // plus padding rounds up to 30.
+    const arc = buildItem(ARC_SHAPE, [
+      [
+        [-2, -4],
+        [22, -4],
+        [22, 4],
+        [-2, 4],
+      ],
+    ]);
+
+    const prepared = prepareSection([arc], CELL_PADDING_MM, false, false);
+
+    expect(prepared.cellWidthMm).toBe(40);
+    expect(prepared.cellHeightMm).toBe(12);
+    // The axis lands at padding + margin + anchor = 2 - 7 + 15 = 10, on the grid line.
+    expect(prepared.arcLeftMarginMm).toBe(-7);
+    // The top margin pulls the token's top back onto the padding.
+    expect(prepared.arcTopMarginMm).toBe(-11);
+  });
+
+  it("spans every hidden-circle arc's extent, so differently placed tokens all fit one cell", () => {
+    // Anchored, one spans x 10..20 and the other 15..30, so together they reach 5mm left of the
+    // axis at 15 (rounds to 10 with padding) and 15mm right of it (rounds to 20).
+    const left = buildItem(ARC_SHAPE, [squareContour(-5, 5)]);
+    const right = buildItem(ARC_SHAPE, [squareContour(0, 15)]);
+
+    const prepared = prepareSection([left, right], CELL_PADDING_MM, false, false);
+
+    expect(prepared.cellWidthMm).toBe(30);
+    expect(prepared.arcLeftMarginMm).toBe(-7);
+  });
 });

@@ -34,6 +34,7 @@ export const layoutPreparedSection = (
   columns: number,
   originYMm: number,
   colorGroups: ColorGroupSpec[],
+  showBaseReference = true,
 ): SectionLayout => {
   const {
     flippedItems,
@@ -82,9 +83,10 @@ export const layoutPreparedSection = (
         ? [offsetX + CIRCLE_ANCHOR_X_SVG, offsetY + CIRCLE_ANCHOR_Y_SVG]
         : [offsetX, offsetY];
 
-      const baseReferenceCircleSvg = isArc
-        ? buildBaseReferenceCircleSvg(contoursOffset[0], contoursOffset[1])
-        : "";
+      const baseReferenceCircleSvg =
+        isArc && showBaseReference
+          ? buildBaseReferenceCircleSvg(contoursOffset[0], contoursOffset[1])
+          : "";
 
       const positionedReliefContours = positionContoursByColorGroup(
         item.reliefContoursByColorGroup,
