@@ -124,11 +124,24 @@ const measureStemWidthUnits = (font: Font): number => {
   return widestRun;
 };
 
-export const measureFontMetrics = (font: Font): FontMetrics => {
-  const capitalBounds = font.charToGlyph(CAPITAL_REFERENCE_GLYPH).getBoundingBox();
+// Text fitting asks once per line, so each font is measured once. Weak, so a font that is no
+// longer used can still be collected.
+const metricsByFont = new WeakMap<Font, FontMetrics>();
 
-  return {
+export const measureFontMetrics = (font: Font): FontMetrics => {
+  const cachedMetrics = metricsByFont.get(font);
+
+  if (cachedMetrics) {
+    return cachedMetrics;
+  }
+
+  const capitalBounds = font.charToGlyph(CAPITAL_REFERENCE_GLYPH).getBoundingBox();
+  const metrics: FontMetrics = {
     ascentRatio: capitalBounds.y2 / font.unitsPerEm,
     stemWidthRatio: measureStemWidthUnits(font) / font.unitsPerEm,
   };
+
+  metricsByFont.set(font, metrics);
+
+  return metrics;
 };

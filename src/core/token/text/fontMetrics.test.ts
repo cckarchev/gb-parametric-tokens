@@ -1,5 +1,5 @@
 import path from "path";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import { findFontEntry, fontFilePath } from "./fontCatalog";
 import { measureFontMetrics } from "./fontMetrics";
@@ -32,5 +32,16 @@ describe("measureFontMetrics", () => {
     // Fira's l curls into a tail at the foot, so its outline is far wider than its stroke.
     expect(metrics.stemWidthRatio).toBeLessThan(outlineWidthRatio * 0.75);
     expect(metrics.stemWidthRatio).toBeGreaterThan(0.1);
+  });
+
+  it("measures each font only once, since every fitted line asks again", () => {
+    const font = loadCatalogFontFile("lilita-one");
+    const first = measureFontMetrics(font);
+    const charToGlyph = vi.spyOn(font, "charToGlyph");
+
+    const second = measureFontMetrics(font);
+
+    expect(second).toEqual(first);
+    expect(charToGlyph).not.toHaveBeenCalled();
   });
 });

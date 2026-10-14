@@ -8,6 +8,15 @@ import { TokenPart } from "./tokenPart";
 
 // Sinks the relief slightly into the base to avoid a coplanar boolean op.
 const RELIEF_OVERLAP_MM = 0.05;
+// The least base left under an engraving or an inlay pocket, so a relief deeper than the base
+// can't cut through it or push an inlay below the bed.
+const MIN_FLOOR_MM = 0.4;
+
+const computePocketDepthMm = (style: StyleSpec): number => {
+  const deepestPocketMm = Math.max(0, style.baseThicknessMm - MIN_FLOOR_MM);
+
+  return Math.min(style.reliefHeightMm, deepestPocketMm);
+};
 
 // Each non-base color becomes a part that fills a pocket of its own shape, both ending flush with
 // the top of the base. Base-colored relief would be invisible on a flat token, so it is dropped.
@@ -17,7 +26,7 @@ const inlayReliefIntoBase = (
   reliefComponents: ReliefComponent[],
   CrossSection: ManifoldToplevel["CrossSection"],
 ): TokenPart[] => {
-  const inlayDepthMm = style.reliefHeightMm;
+  const inlayDepthMm = computePocketDepthMm(style);
   const inlayBottomZ = style.baseThicknessMm - inlayDepthMm;
   // The cut reaches past the top face so it never shares that face with the base.
   const cutHeightMm = inlayDepthMm + RELIEF_OVERLAP_MM;
@@ -52,11 +61,14 @@ export const applyReliefToBase = (
 
   if (style.relief === "engraved") {
     // A cut has no volume to color, so every relief contour subtracts whatever its colorGroup.
+    // Like an inlay pocket, the cut reaches past the top face only, so its floor sits exactly
+    // engraveDepthMm down.
     const allContours = reliefComponents.flatMap((component) => component.contours);
-    const cutHeight = reliefHeightMm + RELIEF_OVERLAP_MM * 2;
+    const engraveDepthMm = computePocketDepthMm(style);
+    const cutHeight = engraveDepthMm + RELIEF_OVERLAP_MM;
     const cutTool = new CrossSection(allContours, "Positive")
       .extrude(cutHeight)
-      .translate(0, 0, style.baseThicknessMm - reliefHeightMm - RELIEF_OVERLAP_MM);
+      .translate(0, 0, style.baseThicknessMm - engraveDepthMm);
 
     return [{ colorGroupId: BASE_COLOR_GROUP_ID, manifold: base.subtract(cutTool) }];
   }
