@@ -46,5 +46,8 @@ export const buildMomentumTokenSpec = (sharedConfig: SharedConfig): TokenSpec =>
     icons: [],
     decorations: [buildRingDecoration(sharedConfig.discShape, sharedConfig.momentum)],
     ...sharedTokenFields(sharedConfig, MOMENTUM_FIT_POLICY),
+    // Two fixed letters never need fitting, so they can wear a rounder, wider face than the
+    // condensed one the rest of the text needs.
+    typeface: "display",
   };
 };

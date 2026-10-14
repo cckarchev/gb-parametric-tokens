@@ -1,6 +1,10 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-vi.mock("./loadFont", () => ({ loadFont: vi.fn().mockResolvedValue({}) }));
+vi.mock("./loadFont", () => ({
+  loadFonts: vi
+    .fn()
+    .mockResolvedValue({ body: { typeface: "body" }, display: { typeface: "display" } }),
+}));
 vi.mock("./loadIconManifest", () => ({ loadIconManifest: vi.fn().mockResolvedValue([]) }));
 vi.mock("@/core/token/relief/computeReliefComponents", () => ({
   computeReliefComponents: vi.fn(),
@@ -59,10 +63,10 @@ describe("resource loading", () => {
     vi.resetModules();
 
     const freshWorker = await import("./tokenWorker");
-    const { loadFont } = await import("./loadFont");
+    const { loadFonts } = await import("./loadFont");
     const emptyRequest: PreviewRequest = { kind: "preview", requestId: 1, items: [] };
 
-    vi.mocked(loadFont).mockRejectedValueOnce(new Error("Failed to load font: Not Found"));
+    vi.mocked(loadFonts).mockRejectedValueOnce(new Error("Failed to load font: Not Found"));
 
     await expect(freshWorker.handlePreview(emptyRequest)).rejects.toThrow("Not Found");
     await expect(freshWorker.handlePreview(emptyRequest)).resolves.toMatchObject({
@@ -72,6 +76,37 @@ describe("resource loading", () => {
 });
 
 describe("handlePreview", () => {
+  it("lays out each token in the font of its own typeface", async () => {
+    const { loadFonts } = await import("./loadFont");
+    const fonts = await loadFonts();
+    const reliefResult = {
+      reliefComponents: [],
+      warnings: [],
+      valid: true,
+      blocksExport: false,
+      componentFailures: [],
+    };
+    vi.mocked(computeReliefComponents).mockResolvedValue(reliefResult);
+    vi.mocked(computeBaseOutlineContours).mockResolvedValue([]);
+
+    const items: TokenItem[] = [
+      { id: "body", label: "Body", name: "Body", spec: discSpec, copies: 1 },
+      {
+        id: "display",
+        label: "Display",
+        name: "Display",
+        spec: { ...discSpec, typeface: "display" },
+        copies: 1,
+      },
+    ];
+
+    await handlePreview({ kind: "preview", requestId: 1, items });
+
+    const fontsUsed = vi.mocked(computeReliefComponents).mock.calls.map((call) => call[1]);
+
+    expect(fontsUsed).toEqual([fonts.body, fonts.display]);
+  });
+
   it("returns one result per item, with its outline, relief, warnings and failure reason", async () => {
     vi.mocked(computeReliefComponents)
       .mockResolvedValueOnce({

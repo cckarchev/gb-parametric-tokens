@@ -25,6 +25,12 @@ describe("buildMomentumTokenSpec", () => {
     expect(spec.icons).toEqual([]);
   });
 
+  it("prints MP in the display typeface", () => {
+    const spec = buildMomentumTokenSpec(config);
+
+    expect(spec.typeface).toBe("display");
+  });
+
   it("places the ring centerline so its outer edge sits the inset in from the rim", () => {
     const spec = buildMomentumTokenSpec(config);
     const [ring] = spec.decorations;
