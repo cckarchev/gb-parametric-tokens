@@ -69,3 +69,6 @@ raw-output
 docs
 # wrangler local state
 .wrangler
+
+# TypeScript incremental build cache
+*.tsbuildinfo
