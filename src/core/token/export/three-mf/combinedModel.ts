@@ -96,7 +96,7 @@ export const buildCombinedThreeMfModel = (
 
       objectsXml += buildMeshObjectXml(objectId, name, objectMaterialIndex, meshXml);
       itemsXml += buildItemXml(objectId);
-      prusaObjects.push({ objectId, name, instanceCount: 1, volumeRanges });
+      prusaObjects.push({ objectId, name, volumeRanges });
     });
   }
 

@@ -3,10 +3,12 @@ import { escapeXmlAttribute, VolumeTriangleRange } from "./xml";
 // Where PrusaSlicer looks for the parts of each object inside a 3MF archive.
 export const PRUSA_MODEL_CONFIG_PATH = "Metadata/Slic3r_PE_model.config";
 
+// Every copy is its own object, never an instance (see combinedModel.ts), so each has one.
+const INSTANCES_PER_OBJECT = 1;
+
 export type PrusaObjectConfig = {
   objectId: number;
   name: string;
-  instanceCount: number;
   volumeRanges: VolumeTriangleRange[];
 };
 
@@ -29,7 +31,7 @@ export const buildPrusaModelConfigXml = (objects: PrusaObjectConfig[]): string =
   const objectsXml = objects
     .map(
       (object) =>
-        `<object id="${object.objectId}" instances_count="${object.instanceCount}">` +
+        `<object id="${object.objectId}" instances_count="${INSTANCES_PER_OBJECT}">` +
         buildMetadataXml("object", "name", object.name) +
         object.volumeRanges.map(buildVolumeXml).join("") +
         `</object>`,

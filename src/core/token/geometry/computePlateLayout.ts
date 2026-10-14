@@ -1,11 +1,10 @@
 import { Vec2 } from "../types";
-
-export type BoundsMm = { min: Vec2; max: Vec2 };
+import { Bounds } from "./computeBounds";
 
 export type PlateLayoutItem = {
   shapeType: "arc" | "disc";
   // The token's real extent around its own origin, which an arc's ribbon sits well away from.
-  boundsMm: BoundsMm;
+  boundsMm: Bounds;
   copies: number;
 };
 
@@ -16,9 +15,9 @@ const SHAPE_TYPE_ORDER: PlateLayoutItem["shapeType"][] = ["arc", "disc"];
 
 type BlockEntry = { item: PlateLayoutItem; index: number };
 
-const boundsWidthMm = (bounds: BoundsMm): number => bounds.max[0] - bounds.min[0];
+const boundsWidthMm = (bounds: Bounds): number => bounds.max[0] - bounds.min[0];
 
-const boundsHeightMm = (bounds: BoundsMm): number => bounds.max[1] - bounds.min[1];
+const boundsHeightMm = (bounds: Bounds): number => bounds.max[1] - bounds.min[1];
 
 // Bounds are measured off the mesh, so two tokens of the same nominal size can differ by float
 // noise; the key compares them at this many decimals.

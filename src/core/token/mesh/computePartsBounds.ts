@@ -1,8 +1,8 @@
-import { BoundsMm } from "../geometry/computePlateLayout";
+import { Bounds } from "../geometry/computeBounds";
 import { TokenPart } from "./tokenPart";
 
 // The flat (x, y) extent a token covers on the plate, across all of its color parts.
-export const computePartsBounds = (parts: TokenPart[]): BoundsMm => {
+export const computePartsBounds = (parts: TokenPart[]): Bounds => {
   const boxes = parts.map((part) => part.manifold.boundingBox());
 
   const minX = Math.min(...boxes.map((box) => box.min[0]));

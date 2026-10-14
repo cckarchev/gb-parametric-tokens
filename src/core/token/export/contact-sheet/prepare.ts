@@ -71,11 +71,11 @@ export const prepareSection = (
   flippedItems: FlippedContactSheetItem[],
   cellPaddingMm: number,
   alignToGridVertex: boolean,
-  fitBaseReference = true,
+  showBaseReference = true,
 ): PreparedSection => {
   const isArcSection = flippedItems.every((item) => item.shape.type === "arc");
 
-  if (isArcSection && !fitBaseReference) {
+  if (isArcSection && !showBaseReference) {
     return prepareTightArcSection(flippedItems, cellPaddingMm);
   }
 
