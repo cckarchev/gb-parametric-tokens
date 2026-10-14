@@ -14,7 +14,7 @@ const AOE_OUTER_DIAMETER_MM = AOE_DIAMETER_INCHES * MM_PER_INCH;
 const AOE_OUTER_RADIUS_MM = AOE_OUTER_DIAMETER_MM / 2;
 const FULL_TURN_DEG = 360;
 // Fewer than two spokes is no longer a crow's foot, just a stick.
-const MIN_SPOKE_COUNT = 2;
+export const MIN_SPOKE_COUNT = 2;
 
 // The compact marker: 1″ across, so the 1.5″ AOE radius ends exactly 1″ past its edge. A whole
 // inch is what makes it worth using: half inches are hard to measure on the table.

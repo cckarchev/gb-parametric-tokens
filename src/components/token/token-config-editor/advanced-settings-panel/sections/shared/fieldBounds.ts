@@ -1,3 +1,5 @@
+import { MIN_SPOKE_COUNT } from "@/core/token/catalog/tokenItems/aoeTemplateSpec";
+
 // The fixed range of every editable number in the advanced settings. Wide enough for real
 // experimentation, narrow enough to keep obvious nonsense out; combinations that still break a
 // token are caught by the layout checks (see core/token/validation/validateLayoutGeometry.ts).
@@ -18,7 +20,7 @@ export const RING_WIDTH_BOUNDS: FieldBounds = { min: 0.2, max: 3 };
 export const CREST_SCALE_BOUNDS: FieldBounds = { min: 0.1, max: 1.5 };
 export const BALANCE_SCALE_BOUNDS: FieldBounds = { min: 0.5, max: 2 };
 export const BAND_WIDTH_BOUNDS: FieldBounds = { min: 3, max: 15 };
-export const SPOKE_COUNT_BOUNDS: FieldBounds = { min: 2, max: 8 };
+export const SPOKE_COUNT_BOUNDS: FieldBounds = { min: MIN_SPOKE_COUNT, max: 8 };
 export const SPOKE_WIDTH_BOUNDS: FieldBounds = { min: 2, max: 15 };
 export const ARC_SWEEP_BOUNDS: FieldBounds = { min: 5, max: 120 };
 export const CORNER_RADIUS_BOUNDS: FieldBounds = { min: 0, max: 5 };

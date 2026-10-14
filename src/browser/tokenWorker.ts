@@ -10,7 +10,7 @@ import { buildThreeMfArchive } from "@/core/token/export/threeMfArchive";
 import { CENTER_ANGLE_DEG } from "@/core/token/geometry/angleConventions";
 import { computeFootprintMm } from "@/core/token/geometry/computeFootprintMm";
 import { computePlateLayout, PlateLayoutItem } from "@/core/token/geometry/computePlateLayout";
-import { ReliefComponent } from "@/core/token/mesh/reliefComponent";
+import { collectGrowOutlineContours, ReliefComponent } from "@/core/token/mesh/reliefComponent";
 import { computeBaseOutlineContours } from "@/core/token/preview/computeBaseOutlineContours";
 import { PRINT_PROFILES } from "@/core/token/printProfiles";
 import { computeReliefComponents } from "@/core/token/relief/computeReliefComponents";
@@ -96,9 +96,7 @@ export const handlePreview = async (request: PreviewRequest): Promise<PreviewRes
       // grew, so this preview matches the real mesh (buildArcTokenMesh.ts, buildTokenMesh.ts)
       // instead of showing a plain circle. Only known once the icons above are placed, hence
       // sequential rather than a Promise.all with computeReliefComponents.
-      const growOutlineContours = result.reliefComponents.flatMap(
-        (component) => component.growOutline ?? [],
-      );
+      const growOutlineContours = collectGrowOutlineContours(result.reliefComponents);
       const baseContours = await computeBaseOutlineContours(
         item.spec.shape,
         CENTER_ANGLE_DEG,
