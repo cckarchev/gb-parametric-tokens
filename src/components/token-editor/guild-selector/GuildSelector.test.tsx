@@ -22,26 +22,19 @@ describe("GuildSelector", () => {
     expect(onSelect).toHaveBeenCalledWith("morticians");
   });
 
-  it("keeps the generic catalog out of the guild grid, in its own group below it", async () => {
+  it("puts the generic catalog in the guild grid as its last tile", async () => {
     const onSelect = vi.fn();
 
-    render(<GuildSelector guilds={[brewers, generic]} onSelect={onSelect} />);
+    render(<GuildSelector guilds={[generic, brewers, morticians]} onSelect={onSelect} />);
 
     const guildGrid = screen.getByRole("group", { name: "Guilds" });
-    const genericGroup = screen.getByRole("group", { name: "Not tied to a guild" });
+    const tileNames = Array.from(guildGrid.querySelectorAll("button")).map((tile) => tile.title);
 
-    expect(guildGrid).not.toContainElement(screen.getByRole("button", { name: "Generic" }));
-    expect(genericGroup).toContainElement(screen.getByRole("button", { name: "Generic" }));
+    expect(tileNames).toEqual(["Brewers", "Morticians", "Generic"]);
 
     await userEvent.click(screen.getByRole("button", { name: "Generic" }));
 
     expect(onSelect).toHaveBeenCalledWith(GENERIC_CATALOG_ID);
-  });
-
-  it("leaves out the generic group when the list has no generic catalog", () => {
-    render(<GuildSelector guilds={[brewers]} onSelect={vi.fn()} />);
-
-    expect(screen.queryByRole("group", { name: "Not tied to a guild" })).not.toBeInTheDocument();
   });
 
   it("paints each guild's icon with its own color", () => {
@@ -50,6 +43,16 @@ describe("GuildSelector", () => {
     expect(screen.getByRole("img", { name: "Brewers" })).toHaveStyle({
       backgroundColor: "#cdb320",
     });
+  });
+
+  it("inverts the generic tile: the badge takes the catalog color and the logo goes white", () => {
+    render(<GuildSelector guilds={[generic]} onSelect={vi.fn()} />);
+
+    const logo = screen.getByRole("img", { name: "Generic" });
+    const badge = logo.previousElementSibling;
+
+    expect(badge).toHaveStyle({ backgroundColor: "#4a4a4a" });
+    expect(logo.style.backgroundColor).toBe("var(--color-paper)");
   });
 
   it("shows the guild name as a tooltip, not a permanent label", () => {

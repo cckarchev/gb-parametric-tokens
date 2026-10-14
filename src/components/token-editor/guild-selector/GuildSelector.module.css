@@ -1,13 +1,9 @@
-.home {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xl);
-}
-
 .grid {
-  display: grid;
-  /* The grid spans the full width, so it fits as many tiles per row as the window allows. */
-  grid-template-columns: repeat(auto-fill, minmax(var(--size-guild-tile-min), 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  /* Fixed-size tiles in a centered wrap, so a last row that does not fill up sits centered
+     under the full rows instead of hanging off the left edge. */
+  justify-content: center;
   gap: var(--space-sm);
 }
 
@@ -16,6 +12,7 @@
   align-items: center;
   justify-content: center;
   padding: var(--space-2xs);
+  width: var(--size-guild-tile);
   aspect-ratio: 1;
   border: var(--border-default);
   border-radius: var(--radius-none);
@@ -27,14 +24,6 @@
 .tile:hover {
   border-color: var(--color-accent);
   background: var(--color-surface-header);
-}
-
-/* Same tile size as the guild grid, set apart by a rule above it: the generic catalog is not a
-   guild, so it should not read as one more crest in the grid. */
-.genericGroup {
-  composes: grid;
-  padding-top: var(--space-xl);
-  border-top: var(--border-divider);
 }
 
 .badgeStack {
@@ -59,9 +48,8 @@
   width: 73%;
   height: 73%;
   border-radius: var(--radius-round);
-  /* Near-white backing plate so the guild-colored icon (painted on .logo) stays readable
-     regardless of the app's own dark theme. */
-  background: var(--color-paper);
+  /* The near-white backing plate (or the guild color, on an inverted tile) is set inline in
+     GuildTile.tsx, so the guild-colored icon stays readable regardless of the app's dark theme. */
   /* Any icon whose ink reaches its own box's corners (not just wide ones) would otherwise paint
      straight past this circle onto the tile background: keep this no matter what future icon
      or size change happens here. */

@@ -25,12 +25,13 @@
 }
 
 /* The Guild Ball logo is solid-black artwork, so it is painted through a CSS mask (like the
-   guild tiles) in the link's own text color, which makes it follow the hover too. */
+   guild tiles) in the title's color. It stays out of the link's accent hover: the brand mark
+   keeps its own color, only the name lights up. */
 .logo {
   flex-shrink: 0;
   width: var(--size-header-logo);
   height: var(--size-header-logo);
-  background-color: currentColor;
+  background-color: var(--color-text-strong);
   mask: url(/icons/guilds/Generic/logo.svg) center / contain no-repeat;
   -webkit-mask: url(/icons/guilds/Generic/logo.svg) center / contain no-repeat;
 }
