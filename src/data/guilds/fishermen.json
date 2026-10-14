@@ -1,0 +1,25 @@
+{
+  "name": "Fishermen",
+  "color": "#50b8c8",
+  "characters": [
+    "Shark",
+    "Corsair",
+    "Yukai",
+    "Salt",
+    "Tentacles",
+    "Angel",
+    "Greyscales",
+    "Hag",
+    "Jac",
+    "Knuckles",
+    "Kraken",
+    "Sakana",
+    "vSakana",
+    "Siren",
+    "vSiren",
+    "Fathom",
+    "Horizon"
+  ],
+  "genericTokens": [],
+  "conditions": ["knockedDown"]
+}

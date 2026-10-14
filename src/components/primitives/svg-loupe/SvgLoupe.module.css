@@ -1,0 +1,46 @@
+.positionAnchor {
+  position: relative;
+}
+
+.trackArea svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.zoomHint {
+  composes: monoFigure from "../../../styles/mixins.module.css";
+  position: absolute;
+  right: var(--space-2xs);
+  bottom: var(--space-2xs);
+  padding: var(--space-5xs) var(--space-2xs);
+  background: var(--color-surface-scrim);
+  color: var(--color-text-strong);
+  font-size: var(--font-size-sm);
+  pointer-events: none;
+}
+
+.lens {
+  position: absolute;
+  overflow: hidden;
+  border-radius: var(--radius-round);
+  border: var(--border-width-thick) solid var(--color-accent);
+  /* A fixed paper backdrop, independent of whatever panel background sits behind the loupe,
+     so the magnified copy reads consistently regardless of which preview hosts it. */
+  background: var(--color-paper);
+  box-shadow: var(--shadow-lens);
+  pointer-events: none;
+  z-index: var(--layer-overlay);
+}
+
+.lensContent {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.lensContent svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}

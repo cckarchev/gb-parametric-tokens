@@ -1,0 +1,26 @@
+{
+  "name": "Union",
+  "color": "#5b257f",
+  "characters": [
+    "Blackheart",
+    "vRage",
+    "vGreede",
+    "Coin",
+    "Strongbox",
+    "Avarisse",
+    "Greede",
+    "Decimate",
+    "Fangtooth",
+    "Gutter",
+    "Hemlocke",
+    "Minx",
+    "Rage",
+    "Snakeskin",
+    "Benediction",
+    "Grace",
+    "Harry \u2018the Hat\u2019",
+    "Mist"
+  ],
+  "genericTokens": [],
+  "conditions": ["knockedDown", "snared", "bleed", "poison", "burning"]
+}

@@ -64,3 +64,8 @@ swagger
 
 # output
 raw-output
+
+# internal docs, not published
+docs
+# wrangler local state
+.wrangler

@@ -1,0 +1,10 @@
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.title {
+  composes: monoLabel from "../../../styles/mixins.module.css";
+  margin: 0;
+}

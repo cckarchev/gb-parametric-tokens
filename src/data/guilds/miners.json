@@ -1,0 +1,7 @@
+{
+  "name": "Miners",
+  "color": "#76151e",
+  "characters": ["Colossus", "Salvo", "Shaft", "Digger", "Fissure", "Fuse", "Mule", "Spade"],
+  "genericTokens": [],
+  "conditions": ["knockedDown"]
+}

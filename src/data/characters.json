@@ -1,0 +1,939 @@
+[
+  {
+    "name": "Alloy",
+    "effects": ["instruction", "twoInchMelee"]
+  },
+  {
+    "name": "Amber",
+    "effects": ["leftBoot", "oneOfOurOwn", "swerveShot"]
+  },
+  {
+    "name": "Angel",
+    "effects": ["nimble", "superShot"]
+  },
+  {
+    "name": "Anvil",
+    "effects": ["singledOut", "testedMettle", "stoicUsed"]
+  },
+  {
+    "name": "Avarisse",
+    "effects": []
+  },
+  {
+    "name": "Azimuth",
+    "effects": ["closeControlUsed", "poisedUsed", "disarm"]
+  },
+  {
+    "name": "Babe",
+    "effects": ["lovedCreature", "singledOut"]
+  },
+  {
+    "name": "Ballista",
+    "effects": ["minefield", "secondWind"]
+  },
+  {
+    "name": "Beacon",
+    "effects": []
+  },
+  {
+    "name": "Benediction",
+    "effects": ["playmakerUsed", "poisedUsed", "braced", "standFirm"]
+  },
+  {
+    "name": "Blackheart",
+    "effects": ["butchery", "strikeFromTheShadowsDef"]
+  },
+  {
+    "name": "Boar",
+    "effects": []
+  },
+  {
+    "name": "Boiler",
+    "effects": ["markedTarget"]
+  },
+  {
+    "name": "Bolt",
+    "effects": []
+  },
+  {
+    "name": "Bonesaw",
+    "effects": ["graveWind"]
+  },
+  {
+    "name": "Brainpan",
+    "effects": []
+  },
+  {
+    "name": "Brick",
+    "effects": ["fulcrum", "poisedUsed"]
+  },
+  {
+    "name": "Brisket",
+    "effects": ["aboveAndBeyond", "unpredictableMovementUsed", "superShot", "dirtyKnives"]
+  },
+  {
+    "name": "Bucker",
+    "effects": ["assist", "poisedUsed"]
+  },
+  {
+    "name": "Buckwheat",
+    "effects": ["assKickingUsed", "stoicUsed"]
+  },
+  {
+    "name": "Burnish",
+    "effects": ["reinforcedPlatingUsed", "coveringFire"],
+    "aoeTemplates": ["flameBelch"]
+  },
+  {
+    "name": "Bushel",
+    "effects": ["closeControlUsed"]
+  },
+  {
+    "name": "Calculus",
+    "effects": ["blind"],
+    "aoeTemplates": ["noxiousBlast"]
+  },
+  {
+    "name": "Casket",
+    "effects": ["reanimateUsed", "heavyBurden", "casketTimeUsed"],
+    "aoeTemplates": ["ghostlyVisage"]
+  },
+  {
+    "name": "Cast",
+    "effects": ["shieldGlare"]
+  },
+  {
+    "name": "Champ",
+    "effects": ["putMeBackInCoachUsed", "poisedUsed", "holdTheBall"]
+  },
+  {
+    "name": "Chaska",
+    "effects": []
+  },
+  {
+    "name": "Chipper",
+    "effects": ["lovedCreature"]
+  },
+  {
+    "name": "Chisel",
+    "effects": ["revelling", "ironFist"]
+  },
+  {
+    "name": "Cinder",
+    "effects": ["searingStrike", "decoy"]
+  },
+  {
+    "name": "Cinnamon",
+    "effects": ["getSetBake"]
+  },
+  {
+    "name": "Coin",
+    "effects": ["bagOfCoffers", "followUpUsed", "constrict"]
+  },
+  {
+    "name": "Colossus",
+    "effects": ["closeControlUsed", "stoicUsed", "singledOut"]
+  },
+  {
+    "name": "Compound",
+    "effects": ["resilienceUsed", "rushKeeper", "horrificOdour"]
+  },
+  {
+    "name": "Corbelli",
+    "effects": ["closeControlUsed", "makingSpace", "toweringPresence"]
+  },
+  {
+    "name": "Corker",
+    "effects": ["ironFist", "toughSkin", "whiskyChaser"]
+  },
+  {
+    "name": "Corsair",
+    "effects": ["coupDeGrace", "sturdyUsed"]
+  },
+  {
+    "name": "Cosset",
+    "effects": []
+  },
+  {
+    "name": "Crook",
+    "effects": ["littermates"]
+  },
+  {
+    "name": "Cross",
+    "effects": ["quickFoot", "crumbBoss"]
+  },
+  {
+    "name": "Cross Cut",
+    "effects": []
+  },
+  {
+    "name": "Crucible",
+    "effects": []
+  },
+  {
+    "name": "Culverin",
+    "effects": ["eyeSpy", "goalDefence"]
+  },
+  {
+    "name": "Cut",
+    "effects": ["steelToecaps"]
+  },
+  {
+    "name": "Cutlass",
+    "effects": [],
+    "aoeTemplates": ["broadside"]
+  },
+  {
+    "name": "Decimate",
+    "effects": ["secondWind", "thousandCuts"]
+  },
+  {
+    "name": "Devana",
+    "effects": []
+  },
+  {
+    "name": "Digger",
+    "effects": ["closeControlUsed"]
+  },
+  {
+    "name": "Dirge",
+    "effects": ["tagAlongUsed", "singledOut"]
+  },
+  {
+    "name": "Ebb",
+    "effects": ["graspingEarth", "sprungALeak"],
+    "aoeTemplates": ["sprungALeak"]
+  },
+  {
+    "name": "Edge",
+    "effects": ["closeControlUsed"]
+  },
+  {
+    "name": "Egret",
+    "effects": []
+  },
+  {
+    "name": "Esters",
+    "effects": ["resilienceUsed", "tooledUp", "quickFoot"]
+  },
+  {
+    "name": "Fahad",
+    "effects": ["nimble"]
+  },
+  {
+    "name": "Fallow",
+    "effects": ["betweenARockUsed", "rowdy"]
+  },
+  {
+    "name": "Fangtooth",
+    "effects": ["resilienceUsed", "fangtoothUnleashed"]
+  },
+  {
+    "name": "Farris",
+    "effects": ["stagger", "quickFoot", "rideOff"]
+  },
+  {
+    "name": "Fathom",
+    "effects": []
+  },
+  {
+    "name": "Ferrite",
+    "effects": ["disarm", "weakPoint", "tongInCheek"]
+  },
+  {
+    "name": "Festival",
+    "effects": ["ourToolsAreSharp"]
+  },
+  {
+    "name": "Fillet",
+    "effects": ["quickFoot"],
+    "aoeTemplates": ["painCircle"]
+  },
+  {
+    "name": "Fissure",
+    "effects": []
+  },
+  {
+    "name": "Flask",
+    "effects": ["beakerKeeper"],
+    "aoeTemplates": ["smokeBomb"]
+  },
+  {
+    "name": "Flea",
+    "effects": ["animalTreat"]
+  },
+  {
+    "name": "Flint",
+    "effects": ["closeControlUsed"]
+  },
+  {
+    "name": "Frelsi",
+    "effects": ["lovedCreature"]
+  },
+  {
+    "name": "Friday",
+    "effects": ["slicedTendon"]
+  },
+  {
+    "name": "Furnace",
+    "effects": ["searingStrike", "oneAtATimeLads", "tooledUp", "temperedSteel"]
+  },
+  {
+    "name": "Fuse",
+    "effects": []
+  },
+  {
+    "name": "Gaffer",
+    "effects": ["theKnowledge", "carelessWhisper"]
+  },
+  {
+    "name": "Ghast",
+    "effects": ["fearUsed", "risingAngerUsed"]
+  },
+  {
+    "name": "Grace",
+    "effects": ["quickFoot"]
+  },
+  {
+    "name": "Grange",
+    "effects": ["constitution", "helpEmOut", "hugeTractsOfLand", "sturdyUsed"]
+  },
+  {
+    "name": "Granite",
+    "effects": ["betweenARockUsed", "sturdyUsed", "gutString", "brokenEarth"]
+  },
+  {
+    "name": "Graves",
+    "effects": ["dismember", "taintedWounds"]
+  },
+  {
+    "name": "Greede",
+    "effects": ["singledOut"]
+  },
+  {
+    "name": "Greyscales",
+    "effects": ["unpredictableMovementUsed", "decoy"]
+  },
+  {
+    "name": "Gutter",
+    "effects": []
+  },
+  {
+    "name": "Hag",
+    "effects": ["fearUsed", "decoy"]
+  },
+  {
+    "name": "Hammer",
+    "effects": ["impetus", "ironFist", "hammerTimeDmg", "hammerTimeMov"]
+  },
+  {
+    "name": "Harmony",
+    "effects": ["family", "weakPoint"]
+  },
+  {
+    "name": "Harrow",
+    "effects": ["pickOfTheCrop", "maximumEffort"]
+  },
+  {
+    "name": "Harry ‘the Hat’",
+    "effects": ["risingAngerUsed", "singledOut"],
+    "aoeTemplates": ["molotov"]
+  },
+  {
+    "name": "Hearne",
+    "effects": ["singledOut", "blessingOfTheSunFather"],
+    "aoeTemplates": ["forestGrove"]
+  },
+  {
+    "name": "Hearth",
+    "effects": ["sturdyUsed", "instruction", "useThis", "armoury"]
+  },
+  {
+    "name": "Heat",
+    "effects": ["afterglowUsed", "unpredictableMovementUsed"]
+  },
+  {
+    "name": "Hemlocke",
+    "effects": ["blind"],
+    "aoeTemplates": ["noxiousBlast"]
+  },
+  {
+    "name": "Herder",
+    "effects": ["protectTheBall"]
+  },
+  {
+    "name": "Hoist",
+    "effects": ["reanimateUsed", "sturdyUsed"]
+  },
+  {
+    "name": "Honour",
+    "effects": ["poisedUsed", "superiorStrategy", "toppingOutArm", "toppingOutInfluence"]
+  },
+  {
+    "name": "Hook",
+    "effects": ["littermates"]
+  },
+  {
+    "name": "Hooper",
+    "effects": ["smashedShins", "toughSkin", "trueGrit"]
+  },
+  {
+    "name": "Horizon",
+    "effects": []
+  },
+  {
+    "name": "Ikaros",
+    "effects": ["closeControlUsed"],
+    "aoeTemplates": ["harrier"]
+  },
+  {
+    "name": "Iron",
+    "effects": ["closeControlUsed", "impetus"]
+  },
+  {
+    "name": "Itsa",
+    "effects": ["markedForFelling", "reconnaissance"]
+  },
+  {
+    "name": "Jac",
+    "effects": ["goad"]
+  },
+  {
+    "name": "Jackstraw",
+    "effects": ["reanimateUsed"]
+  },
+  {
+    "name": "Jaecar",
+    "effects": ["gutString"]
+  },
+  {
+    "name": "Kami",
+    "effects": []
+  },
+  {
+    "name": "Katalyst",
+    "effects": []
+  },
+  {
+    "name": "Knuckles",
+    "effects": ["lightningReflexesUsed", "resilienceUsed"]
+  },
+  {
+    "name": "Kraken",
+    "effects": []
+  },
+  {
+    "name": "Lamb",
+    "effects": ["weakPoint"]
+  },
+  {
+    "name": "Layne",
+    "effects": ["bleedTheCleats", "closeControlUsed"]
+  },
+  {
+    "name": "Locus",
+    "effects": ["reanimateUsed"]
+  },
+  {
+    "name": "Lucky",
+    "effects": []
+  },
+  {
+    "name": "Mainspring",
+    "effects": []
+  },
+  {
+    "name": "Mallet",
+    "effects": ["singledOut", "smashedShins"]
+  },
+  {
+    "name": "Marbles",
+    "effects": ["counterChargeUsed", "lovedCreature", "goad"]
+  },
+  {
+    "name": "Mash",
+    "effects": ["resilienceUsed"]
+  },
+  {
+    "name": "Mataagi",
+    "effects": [],
+    "aoeTemplates": ["harrier"]
+  },
+  {
+    "name": "Meathook",
+    "effects": ["tooledUp", "sanguinePool"]
+  },
+  {
+    "name": "Memory",
+    "effects": []
+  },
+  {
+    "name": "Mercury",
+    "effects": [],
+    "aoeTemplates": ["fireBlast"]
+  },
+  {
+    "name": "Miasma",
+    "effects": []
+  },
+  {
+    "name": "Midas",
+    "effects": ["unpredictableMovementUsed", "fulmination"]
+  },
+  {
+    "name": "Millstone",
+    "effects": ["takeOneForTheTeamUsed", "goalDefence"]
+  },
+  {
+    "name": "Minerva",
+    "effects": ["eyeSpy"],
+    "aoeTemplates": ["harrier"]
+  },
+  {
+    "name": "Minx",
+    "effects": ["markedTarget"]
+  },
+  {
+    "name": "Mist",
+    "effects": [],
+    "aoeTemplates": ["smokeBomb"]
+  },
+  {
+    "name": "Mother",
+    "effects": []
+  },
+  {
+    "name": "Mourn",
+    "effects": ["poltergeistsUsed", "hauntingGaze", "malice", "empathy"]
+  },
+  {
+    "name": "Mule",
+    "effects": ["reanimateUsed", "lockdown"]
+  },
+  {
+    "name": "Naja",
+    "effects": ["unpredictableMovementUsed", "hypnosis"]
+  },
+  {
+    "name": "Nightlight",
+    "effects": ["lensFlare"]
+  },
+  {
+    "name": "Nomad",
+    "effects": ["unpredictableMovementUsed", "spark", "rouletteMov", "rouletteTac", "rouletteKick"]
+  },
+  {
+    "name": "Oak",
+    "effects": ["betweenARockUsed", "stoicUsed", "lendAHand", "cutEmDown"]
+  },
+  {
+    "name": "Obulus",
+    "effects": ["confidence", "unpredictableMovementUsed"]
+  },
+  {
+    "name": "Ox",
+    "effects": ["theyAintTough", "butchery", "getEmLads"]
+  },
+  {
+    "name": "Peck",
+    "effects": ["painResponseUsed", "cocksure", "protectiveInstinct"]
+  },
+  {
+    "name": "Pelage",
+    "effects": ["singledOut"]
+  },
+  {
+    "name": "Pepper",
+    "effects": []
+  },
+  {
+    "name": "Phosphor",
+    "effects": ["flashPoint", "fulcrum", "poisedUsed"]
+  },
+  {
+    "name": "Pintpot",
+    "effects": ["comeOnThen"]
+  },
+  {
+    "name": "Pin Vice",
+    "effects": [
+      "closeControlUsed",
+      "reanimateUsed",
+      "wellOiledMachineUsed",
+      "alternator",
+      "deletion"
+    ]
+  },
+  {
+    "name": "Piper",
+    "effects": ["payThePiper"]
+  },
+  {
+    "name": "Ploughman",
+    "effects": ["fertileSoilUsed", "brokenEarth"]
+  },
+  {
+    "name": "Pneuma",
+    "effects": ["inferno"]
+  },
+  {
+    "name": "Pride",
+    "effects": ["rushKeeper", "anatomicalPrecision", "predatoryGaze"]
+  },
+  {
+    "name": "Princess",
+    "effects": ["lovedCreature", "rabidAnimal"]
+  },
+  {
+    "name": "Quaff",
+    "effects": ["pickMeUp", "lovedCreature", "secondWind"]
+  },
+  {
+    "name": "Rage",
+    "effects": ["tooledUp"]
+  },
+  {
+    "name": "Ram",
+    "effects": ["haveYouAnyWool", "impetus", "protectiveInstinct"]
+  },
+  {
+    "name": "Ratchet",
+    "effects": ["tooledUp", "overclocked"],
+    "aoeTemplates": ["blastEarth"]
+  },
+  {
+    "name": "Rivet",
+    "effects": ["elbowGrease", "useThis", "protectThoseClose", "sturdyUsed"]
+  },
+  {
+    "name": "Roast",
+    "effects": ["resilienceUsed", "getItWhileItsHot"]
+  },
+  {
+    "name": "Rundaas",
+    "effects": ["dirtyKnives"],
+    "aoeTemplates": ["harrier"]
+  },
+  {
+    "name": "Sakana",
+    "effects": ["poisedUsed"],
+    "aoeTemplates": ["smokeBomb"]
+  },
+  {
+    "name": "Salt",
+    "effects": ["lovedCreature"]
+  },
+  {
+    "name": "Salvo",
+    "effects": ["arrowToTheKnee"]
+  },
+  {
+    "name": "sBrisket",
+    "effects": ["unpredictableMovementUsed", "withAplomb"]
+  },
+  {
+    "name": "Scalpel",
+    "effects": ["secondWind", "vulnerablePrey"]
+  },
+  {
+    "name": "Scourge",
+    "effects": []
+  },
+  {
+    "name": "Scum",
+    "effects": ["unpredictableMovementUsed"]
+  },
+  {
+    "name": "Seenah",
+    "effects": []
+  },
+  {
+    "name": "Shaft",
+    "effects": ["weakPoint"]
+  },
+  {
+    "name": "Shank",
+    "effects": ["thousandCuts"]
+  },
+  {
+    "name": "Shark",
+    "effects": ["quickFoot", "caughtInANet"]
+  },
+  {
+    "name": "Shearer",
+    "effects": ["allAboutTheGame"]
+  },
+  {
+    "name": "Silence",
+    "effects": ["shutout", "tucked"],
+    "aoeTemplates": ["fireBlast"]
+  },
+  {
+    "name": "Siren",
+    "effects": []
+  },
+  {
+    "name": "Skatha",
+    "effects": ["blessingOfTheMoonGoddess", "wintersNight"],
+    "aoeTemplates": ["naturesChill"]
+  },
+  {
+    "name": "Skulk",
+    "effects": [
+      "followUpUsed",
+      "lightningReflexesUsed",
+      "poisedUsed",
+      "horrificOdour",
+      "pestControl"
+    ]
+  },
+  {
+    "name": "Sledge",
+    "effects": ["piledriver"]
+  },
+  {
+    "name": "Smoke",
+    "effects": ["unpredictableMovementUsed"],
+    "aoeTemplates": ["smokeBomb"]
+  },
+  {
+    "name": "Snakeskin",
+    "effects": ["aquaTofana"]
+  },
+  {
+    "name": "Snow",
+    "effects": ["lovedCreature", "anatomicalPrecision"]
+  },
+  {
+    "name": "Soma",
+    "effects": ["gimmeFuelUsed", "inferno"]
+  },
+  {
+    "name": "Soot",
+    "effects": ["eyeSpy"]
+  },
+  {
+    "name": "Spade",
+    "effects": ["closeControlUsed"]
+  },
+  {
+    "name": "Spice",
+    "effects": []
+  },
+  {
+    "name": "Spigot",
+    "effects": ["timesCalled"]
+  },
+  {
+    "name": "Squeak",
+    "effects": ["tagAlongUsed"]
+  },
+  {
+    "name": "sSpigot",
+    "effects": ["closeControlUsed"]
+  },
+  {
+    "name": "Stave",
+    "effects": []
+  },
+  {
+    "name": "Steeljaw",
+    "effects": ["disarm", "weakPoint"]
+  },
+  {
+    "name": "Stoker",
+    "effects": ["searingStrike", "humanBallOfFire"],
+    "aoeTemplates": ["molotov"]
+  },
+  {
+    "name": "Strongbox",
+    "effects": ["confidence", "tagAlongUsed", "tortoisePower"]
+  },
+  {
+    "name": "Sugar",
+    "effects": ["sturdyUsed", "chefsSpecial"],
+    "aoeTemplates": ["chilliCookOut"]
+  },
+  {
+    "name": "Tapper",
+    "effects": ["commandingAura", "markedTarget"]
+  },
+  {
+    "name": "Tater",
+    "effects": ["forkOffUsed"]
+  },
+  {
+    "name": "Tenderiser",
+    "effects": ["furious", "goalDefence"]
+  },
+  {
+    "name": "Tentacles",
+    "effects": ["closeControlUsed", "tagAlongUsed", "blind"]
+  },
+  {
+    "name": "Theron",
+    "effects": ["arrowToTheKnee", "pinned", "sunStrike", "blessingOfTheSunFather"],
+    "aoeTemplates": ["naturesGrowth"]
+  },
+  {
+    "name": "Thresher",
+    "effects": ["poisedUsed", "scythingMarch", "theyAintTough", "lifeDrinker"]
+  },
+  {
+    "name": "Tinder",
+    "effects": []
+  },
+  {
+    "name": "Tower",
+    "effects": ["protectThoseClose", "sturdyUsed", "protectiveInstinct"]
+  },
+  {
+    "name": "Truffles",
+    "effects": ["sturdyUsed"]
+  },
+  {
+    "name": "Ulfr",
+    "effects": ["anatomicalPrecision"]
+  },
+  {
+    "name": "vBoar",
+    "effects": ["bloodLust", "singledOut", "stagger", "chopChop", "furious"]
+  },
+  {
+    "name": "vBrisket",
+    "effects": ["unpredictableMovementUsed"]
+  },
+  {
+    "name": "vCalculus",
+    "effects": ["stickyBomb"],
+    "aoeTemplates": ["stickyBomb"]
+  },
+  {
+    "name": "vChisel",
+    "effects": ["takeOneForTheTeamUsed", "assist"]
+  },
+  {
+    "name": "vCinder",
+    "effects": ["searingStrike"]
+  },
+  {
+    "name": "vDecimate",
+    "effects": ["stagger", "duellistsLunge"]
+  },
+  {
+    "name": "Velocity",
+    "effects": ["closeControlUsed", "reanimateUsed", "nimble"]
+  },
+  {
+    "name": "Venin",
+    "effects": []
+  },
+  {
+    "name": "vFangtooth",
+    "effects": ["potbelliedPassUsed", "resilienceUsed"]
+  },
+  {
+    "name": "vGraves",
+    "effects": ["exhaustion", "theyAintTough"]
+  },
+  {
+    "name": "vGreede",
+    "effects": ["doTheThing", "forwardMinions"]
+  },
+  {
+    "name": "vGutter",
+    "effects": []
+  },
+  {
+    "name": "vHarmony",
+    "effects": ["markedTarget"]
+  },
+  {
+    "name": "vHarriet ‘the Hat’",
+    "effects": ["disarm"]
+  },
+  {
+    "name": "vHearne",
+    "effects": ["lastLight"]
+  },
+  {
+    "name": "vHemlocke",
+    "effects": ["blind"]
+  },
+  {
+    "name": "vHonour",
+    "effects": ["faithfulProtector", "fieldsOfWheatUsed"]
+  },
+  {
+    "name": "Vileswarm",
+    "effects": []
+  },
+  {
+    "name": "Vitriol",
+    "effects": ["clone"]
+  },
+  {
+    "name": "vKatalyst",
+    "effects": []
+  },
+  {
+    "name": "vMinx",
+    "effects": ["markedForDeath", "blessingOfTheSunFather"]
+  },
+  {
+    "name": "vOx",
+    "effects": ["theOldWays"]
+  },
+  {
+    "name": "vRage",
+    "effects": ["risingAngerUsed", "bloodyCoin", "myGang"]
+  },
+  {
+    "name": "vSakana",
+    "effects": ["bagOfCoffers", "raiseTheBlackFlagEnemy", "raiseTheBlackFlagAlly"]
+  },
+  {
+    "name": "vSiren",
+    "effects": ["escapingFateUsed"]
+  },
+  {
+    "name": "vSpigot",
+    "effects": ["closeControlUsed", "goad", "backToHisBest"]
+  },
+  {
+    "name": "vVelocity",
+    "effects": ["reanimateUsed"]
+  },
+  {
+    "name": "Wander",
+    "effects": ["aboutTheirNecks"]
+  },
+  {
+    "name": "Wellington",
+    "effects": ["chefsSpecial", "singledOut", "masterChef"]
+  },
+  {
+    "name": "Wick",
+    "effects": []
+  },
+  {
+    "name": "Windfinder",
+    "effects": ["eyeSpy", "fullSpeedAhead"]
+  },
+  {
+    "name": "Windle",
+    "effects": ["bigBreakfast"]
+  },
+  {
+    "name": "Wrecker",
+    "effects": ["followUpUsed"]
+  },
+  {
+    "name": "Yukai",
+    "effects": ["flying"]
+  },
+  {
+    "name": "Zarola",
+    "effects": ["unpredictableMovementUsed", "catchingTheScentTac", "catchingTheScentMov"]
+  }
+]

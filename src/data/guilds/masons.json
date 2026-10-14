@@ -1,0 +1,31 @@
+{
+  "name": "Masons",
+  "color": "#416abb",
+  "characters": [
+    "Lucky",
+    "Honour",
+    "Hammer",
+    "Corbelli",
+    "Marbles",
+    "Wrecker",
+    "Brick",
+    "Champ",
+    "Chisel",
+    "vChisel",
+    "Flint",
+    "Granite",
+    "Harmony",
+    "vHarmony",
+    "Mallet",
+    "Tower",
+    "Bucker",
+    "Tinder"
+  ],
+  "genericTokens": [
+    {
+      "name": "Log Pile Dodge Used",
+      "maxCopies": 3
+    }
+  ],
+  "conditions": ["knockedDown"]
+}

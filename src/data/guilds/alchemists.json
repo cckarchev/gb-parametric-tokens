@@ -1,0 +1,26 @@
+{
+  "name": "Alchemists",
+  "color": "#4e9339",
+  "characters": [
+    "Midas",
+    "Smoke",
+    "Soma",
+    "Pneuma",
+    "Flask",
+    "Naja",
+    "Calculus",
+    "vCalculus",
+    "Crucible",
+    "Kami",
+    "Katalyst",
+    "vKatalyst",
+    "Mercury",
+    "Venin",
+    "Vitriol",
+    "Compound",
+    "Heat",
+    "Phosphor"
+  ],
+  "genericTokens": [],
+  "conditions": ["knockedDown", "poison", "burning"]
+}

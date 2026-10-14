@@ -1,0 +1,26 @@
+{
+  "name": "Morticians",
+  "color": "#1d2022",
+  "characters": [
+    "Obulus",
+    "Scalpel",
+    "Mourn",
+    "Dirge",
+    "Vileswarm",
+    "Bonesaw",
+    "Brainpan",
+    "Memory",
+    "Casket",
+    "Cosset",
+    "Gaffer",
+    "Ghast",
+    "Graves",
+    "vGraves",
+    "vHemlocke",
+    "Silence",
+    "Pelage",
+    "Skulk"
+  ],
+  "genericTokens": [],
+  "conditions": ["knockedDown", "burning"]
+}

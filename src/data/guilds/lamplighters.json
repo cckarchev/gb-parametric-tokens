@@ -1,0 +1,7 @@
+{
+  "name": "Lamplighters",
+  "color": "#00994a",
+  "characters": ["Crucible", "Mercury", "Nightlight", "Soot", "Beacon", "Wick", "Heat", "Phosphor"],
+  "genericTokens": [],
+  "conditions": ["knockedDown", "poison", "burning"]
+}

@@ -1,0 +1,30 @@
+{
+  "name": "Farmers",
+  "color": "#ea8329",
+  "characters": [
+    "Thresher",
+    "Grange",
+    "Festival",
+    "Peck",
+    "Buckwheat",
+    "Amber",
+    "Bushel",
+    "Fallow",
+    "Harrow",
+    "vHonour",
+    "Jackstraw",
+    "Millstone",
+    "Ploughman",
+    "Tater",
+    "Windle",
+    "Lamb",
+    "Shearer"
+  ],
+  "genericTokens": [
+    {
+      "name": "Harvest Influence",
+      "maxCopies": 5
+    }
+  ],
+  "conditions": ["knockedDown"]
+}

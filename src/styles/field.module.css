@@ -1,0 +1,39 @@
+/* The shared form-field family: every labelled input primitive (text, number, select, color)
+   is built from these, so they stay visually identical without each one restating the rules. */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4xs);
+  font-size: var(--font-size-md);
+}
+
+.label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.labelHidden {
+  position: absolute;
+  width: var(--size-visually-hidden);
+  height: var(--size-visually-hidden);
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+.input {
+  composes: focusRing from "./mixins.module.css";
+  padding: var(--space-2xs) var(--space-sm);
+  border: var(--border-default);
+  border-radius: var(--radius-none);
+  background: var(--color-surface-field);
+  color: var(--color-text-strong);
+  font-size: var(--font-size-md);
+}
+
+.input:disabled {
+  color: var(--color-disabled);
+  border-color: var(--color-border-disabled);
+  cursor: not-allowed;
+}

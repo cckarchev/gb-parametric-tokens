@@ -1,0 +1,5 @@
+.surface {
+  border: var(--border-default);
+  border-radius: var(--radius-none);
+  background: var(--color-surface-panel);
+}

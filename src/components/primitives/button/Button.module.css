@@ -1,0 +1,33 @@
+/* Both variants speak in the brand's title voice: Big Noodle, uppercase, opened up with button
+   tracking. Primary is the orange call to action, secondary a teal outline. Disabled drops to a
+   flat grey edge and text instead of a faded copy of the live color. */
+.base {
+  composes: displayHeading focusRing from "../../../styles/mixins.module.css";
+  padding: var(--space-2xs) var(--space-md);
+  border: var(--border-width-thin) solid transparent;
+  border-radius: var(--radius-none);
+  font-size: var(--font-size-lg);
+  letter-spacing: var(--tracking-button);
+  cursor: pointer;
+}
+
+.base:disabled {
+  border-color: var(--color-border-disabled);
+  background: transparent;
+  color: var(--color-disabled);
+  cursor: not-allowed;
+}
+
+.primary {
+  composes: base;
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+}
+
+.secondary {
+  composes: base;
+  border-color: var(--color-teal);
+  background: transparent;
+  color: var(--color-teal);
+}

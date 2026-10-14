@@ -1,0 +1,23 @@
+{
+  "name": "Lumberjacks",
+  "color": "#416abb",
+  "characters": [
+    "Flint",
+    "Mallet",
+    "Oak",
+    "Chipper",
+    "Bucker",
+    "Cross Cut",
+    "Cross",
+    "Cut",
+    "Itsa",
+    "Tinder"
+  ],
+  "genericTokens": [
+    {
+      "name": "Log Pile Dodge Used",
+      "maxCopies": 6
+    }
+  ],
+  "conditions": ["knockedDown"]
+}

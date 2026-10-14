@@ -1,0 +1,11 @@
+/* A disclosure arrow: two borders of an empty box, rotated. It sets no color, so each consumer
+   sets `color` without fighting this rule (CSS Modules doesn't fix which rule wins). The collapsed
+   rotation lives in each consumer, under its own parent selector. */
+.chevron {
+  width: var(--size-chevron);
+  height: var(--size-chevron);
+  border-right: var(--border-width-thick) solid currentColor;
+  border-bottom: var(--border-width-thick) solid currentColor;
+  transform: rotate(45deg);
+  transition: transform var(--duration-fast) var(--easing-standard);
+}

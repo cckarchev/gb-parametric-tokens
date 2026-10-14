@@ -1,0 +1,25 @@
+{
+  "name": "Hunters",
+  "color": "#39653b",
+  "characters": [
+    "Theron",
+    "Skatha",
+    "Steeljaw",
+    "Fahad",
+    "Snow",
+    "Chaska",
+    "Edge",
+    "Egret",
+    "Hearne",
+    "vHearne",
+    "Jaecar",
+    "vMinx",
+    "Seenah",
+    "Ulfr",
+    "Zarola",
+    "Mataagi",
+    "Minerva"
+  ],
+  "genericTokens": [],
+  "conditions": ["knockedDown", "snared", "bleed", "poison"]
+}

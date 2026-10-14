@@ -1,0 +1,24 @@
+{
+  "name": "Blacksmiths",
+  "color": "#82969f",
+  "iconScale": 1.015,
+  "characters": [
+    "Anvil",
+    "Burnish",
+    "Culverin",
+    "Farris",
+    "Ferrite",
+    "Furnace",
+    "Hearth",
+    "Alloy",
+    "Bolt",
+    "Cast",
+    "Cinder",
+    "vCinder",
+    "Cutlass",
+    "Iron",
+    "Sledge"
+  ],
+  "genericTokens": [],
+  "conditions": ["knockedDown", "burning"]
+}

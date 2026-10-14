@@ -1,0 +1,25 @@
+{
+  "name": "Engineers",
+  "color": "#76151e",
+  "characters": [
+    "Compound",
+    "Ballista",
+    "Pin Vice",
+    "Rivet",
+    "Mainspring",
+    "Mother",
+    "Colossus",
+    "vHarriet \u2018the Hat\u2019",
+    "Hoist",
+    "Locus",
+    "Nomad",
+    "Ratchet",
+    "Salvo",
+    "Velocity",
+    "vVelocity",
+    "Fuse",
+    "Spade"
+  ],
+  "genericTokens": [],
+  "conditions": ["knockedDown"]
+}

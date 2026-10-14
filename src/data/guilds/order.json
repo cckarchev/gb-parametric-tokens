@@ -1,0 +1,17 @@
+{
+  "name": "Order",
+  "color": "#ebed1a",
+  "iconScale": 1.15,
+  "characters": [
+    "sBrisket",
+    "Pride",
+    "Benediction",
+    "vFangtooth",
+    "Grace",
+    "Harry \u2018the Hat\u2019",
+    "Mist",
+    "sSpigot"
+  ],
+  "genericTokens": [],
+  "conditions": ["knockedDown", "burning"]
+}

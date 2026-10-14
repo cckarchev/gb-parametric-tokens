@@ -1,0 +1,47 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: var(--size-app-min-height);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: var(--space-md) var(--space-xl);
+  border-bottom: var(--border-divider);
+}
+
+/* Logo and app name are one link home, so it inherits the title's look instead of a link's. */
+.homeLink {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  color: inherit;
+  text-decoration: none;
+}
+
+.homeLink:hover {
+  color: var(--color-accent);
+}
+
+/* The Guild Ball logo is solid-black artwork, so it is painted through a CSS mask (like the
+   guild tiles) in the link's own text color, which makes it follow the hover too. */
+.logo {
+  flex-shrink: 0;
+  width: var(--size-header-logo);
+  height: var(--size-header-logo);
+  background-color: currentColor;
+  mask: url(/icons/guilds/Generic/logo.svg) center / contain no-repeat;
+  -webkit-mask: url(/icons/guilds/Generic/logo.svg) center / contain no-repeat;
+}
+
+.title {
+  composes: displayHeading from "./styles/mixins.module.css";
+  font-size: var(--font-size-xl);
+  color: var(--color-text-strong);
+}
+
+.main {
+  flex: 1;
+  min-height: 0;
+}

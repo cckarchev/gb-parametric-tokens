@@ -1,0 +1,109 @@
+.panel {
+  composes: surface from "../../../styles/surface.module.css";
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  margin: 0;
+}
+
+.statusIcon {
+  font-weight: var(--font-weight-semibold);
+}
+
+.statusNeutral {
+  color: var(--color-text-muted);
+}
+
+.statusReady {
+  color: var(--color-status-ready);
+}
+
+.statusAttention {
+  color: var(--color-status-attention);
+}
+
+.alert {
+  margin: 0;
+  padding: var(--space-sm);
+  border-radius: var(--radius-none);
+  color: var(--color-text-body);
+}
+
+/* No padding or border, so the summary sits exactly where the plain .status line it replaces
+   did, and nothing shifts when a token turns invalid. */
+.attentionBox {
+  margin: 0;
+}
+
+.attentionSummary {
+  justify-content: space-between;
+  list-style: none;
+  cursor: pointer;
+}
+
+.attentionSummary::-webkit-details-marker {
+  display: none;
+}
+
+.attentionSummaryText {
+  flex: 1;
+}
+
+.attentionChevron {
+  composes: chevron from "../../../styles/chevron.module.css";
+  flex-shrink: 0;
+  color: var(--color-status-attention);
+}
+
+.attentionBox:not([open]) > .attentionSummary .attentionChevron {
+  transform: rotate(-45deg);
+}
+
+.attentionList {
+  margin: var(--space-2xs) 0 0;
+  padding-left: var(--space-md);
+}
+
+.attentionGroup {
+  margin-bottom: var(--space-sm);
+}
+
+.attentionGroup:last-child {
+  margin-bottom: 0;
+}
+
+.attentionLabel {
+  display: block;
+  color: var(--color-text-strong);
+  font-weight: var(--font-weight-semibold);
+}
+
+.attentionSubList {
+  margin: var(--space-4xs) 0 0;
+  padding-left: var(--space-md);
+}
+
+.attentionItem {
+  margin-bottom: var(--space-4xs);
+}
+
+.attentionItem:last-child {
+  margin-bottom: 0;
+}
+
+.attentionTitle {
+  color: var(--color-text-body);
+}
+
+.attentionReason {
+  color: var(--color-text-muted);
+  /* The reason has one failure per line: pre-line breaks at each \n and still wraps long lines. */
+  white-space: pre-line;
+}

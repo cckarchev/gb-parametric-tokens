@@ -1,0 +1,204 @@
+/// <reference lib="webworker" />
+import { describeError } from "@/core/describeError";
+import { buildTokenParts } from "@/core/token/buildTokenParts";
+import { TokenItem } from "@/core/token/catalog/token-items/tokenItem";
+import { buildThreeMfArchive } from "@/core/token/export/three-mf/archive";
+import {
+  buildCombinedThreeMfModelXml,
+  CombinedThreeMfItem,
+} from "@/core/token/export/three-mf/combinedModel";
+import { CENTER_ANGLE_DEG } from "@/core/token/geometry/angleConventions";
+import { computeFootprintMm } from "@/core/token/geometry/computeFootprintMm";
+import { computePlateLayout, PlateLayoutItem } from "@/core/token/geometry/computePlateLayout";
+import { collectGrowOutlineContours, ReliefComponent } from "@/core/token/mesh/reliefComponent";
+import { computeBaseOutlineContours } from "@/core/token/preview/computeBaseOutlineContours";
+import { PRINT_PROFILES } from "@/core/token/printProfiles";
+import { computeReliefComponents } from "@/core/token/relief/computeReliefComponents";
+import { ColorGroupSpec, ShapeSpec, Vec2 } from "@/core/token/types";
+import { describeTokenFailures } from "@/core/token/validation/describeTokenFailures";
+
+import { loadFont } from "./loadFont";
+import { loadIconManifest } from "./loadIconManifest";
+import { createLoadIconSource } from "./loadIconSource";
+
+const PLATE_SPACING_MM = 10;
+
+export type PreviewRequest = { kind: "preview"; requestId: number; items: TokenItem[] };
+export type PreviewItem = Pick<TokenItem, "id" | "label" | "group" | "name" | "copies"> & {
+  shape: ShapeSpec;
+  baseContours: Vec2[][];
+  reliefComponents: ReliefComponent[];
+  warnings: string[];
+  valid: boolean;
+  reason: string;
+};
+export type PreviewResponse = {
+  kind: "preview";
+  requestId: number;
+  results: PreviewItem[];
+};
+
+export type ExportRequest = {
+  kind: "export";
+  requestId: number;
+  items: TokenItem[];
+  colorGroups: ColorGroupSpec[];
+};
+export type ExportFailureItem = Pick<TokenItem, "id" | "label"> & { reason: string };
+export type ExportSuccess = {
+  kind: "export";
+  requestId: number;
+  status: "ok";
+  archive: Uint8Array;
+};
+export type ExportFailure = {
+  kind: "export";
+  requestId: number;
+  status: "failed";
+  failures: ExportFailureItem[];
+};
+export type ExportResponse = ExportSuccess | ExportFailure;
+
+export type WorkerErrorResponse = { kind: "error"; requestId: number; message: string };
+
+export type WorkerRequest = PreviewRequest | ExportRequest;
+export type WorkerResponse = PreviewResponse | ExportResponse | WorkerErrorResponse;
+
+let resourcesPromise: ReturnType<typeof loadResources> | undefined;
+
+const loadResources = async () => {
+  const [font, manifest] = await Promise.all([loadFont(), loadIconManifest()]);
+
+  return { font, loadIconSource: createLoadIconSource(manifest) };
+};
+
+// A failed load is forgotten rather than cached, so a transient network error fails only the
+// request that hit it and the next one tries again, instead of every request until a reload.
+const getResources = () => {
+  if (!resourcesPromise) {
+    resourcesPromise = loadResources().catch((error: unknown) => {
+      resourcesPromise = undefined;
+      throw error;
+    });
+  }
+
+  return resourcesPromise;
+};
+
+export const handlePreview = async (request: PreviewRequest): Promise<PreviewResponse> => {
+  const { font, loadIconSource } = await getResources();
+
+  const results = await Promise.all(
+    request.items.map(async (item) => {
+      const printProfile = PRINT_PROFILES[item.spec.printProfileId];
+      const result = await computeReliefComponents(item.spec, font, printProfile, loadIconSource);
+      // After computeReliefComponents, not alongside it: the outline includes the footprints of
+      // icons with behavior "grow", which exist only once the icons are placed.
+      const growOutlineContours = collectGrowOutlineContours(result.reliefComponents);
+      const baseContours = await computeBaseOutlineContours(
+        item.spec.shape,
+        CENTER_ANGLE_DEG,
+        growOutlineContours,
+      );
+
+      return {
+        id: item.id,
+        label: item.label,
+        group: item.group,
+        name: item.name,
+        shape: item.spec.shape,
+        baseContours,
+        reliefComponents: result.reliefComponents,
+        warnings: result.warnings,
+        copies: item.copies,
+        valid: result.valid,
+        reason: describeTokenFailures(item.name, result.componentFailures),
+      };
+    }),
+  );
+
+  return {
+    kind: "preview",
+    requestId: request.requestId,
+    results,
+  };
+};
+
+export const handleExport = async (request: ExportRequest): Promise<ExportResponse> => {
+  const { font, loadIconSource } = await getResources();
+  const failures: ExportFailureItem[] = [];
+
+  const built = await Promise.all(
+    request.items.map(async (item) => {
+      const printProfile = PRINT_PROFILES[item.spec.printProfileId];
+      const result = await computeReliefComponents(item.spec, font, printProfile, loadIconSource);
+
+      if (result.blocksExport) {
+        failures.push({
+          id: item.id,
+          label: item.label,
+          reason: describeTokenFailures(item.name, result.componentFailures),
+        });
+      }
+
+      const parts = await buildTokenParts(item.spec, result.reliefComponents);
+
+      for (const part of parts) {
+        if (part.manifold.status() !== "NoError") {
+          failures.push({
+            id: item.id,
+            label: item.label,
+            reason: `Invalid mesh (status: ${part.manifold.status()}).`,
+          });
+        }
+      }
+
+      return { item, parts };
+    }),
+  );
+
+  if (failures.length > 0) {
+    return { kind: "export", requestId: request.requestId, status: "failed", failures };
+  }
+
+  const layoutItems: PlateLayoutItem[] = built.map(({ item }) => ({
+    shapeType: item.spec.shape.type,
+    footprintMm: computeFootprintMm(item.spec.shape),
+    copies: item.copies,
+  }));
+  const offsetsByItem = computePlateLayout(layoutItems, PLATE_SPACING_MM);
+
+  const combinedItems: CombinedThreeMfItem[] = built.map(({ parts }, index) => ({
+    parts,
+    offsets: offsetsByItem[index],
+  }));
+
+  const modelXml = buildCombinedThreeMfModelXml(combinedItems, request.colorGroups);
+  const archive = buildThreeMfArchive(modelXml);
+
+  return { kind: "export", requestId: request.requestId, status: "ok", archive };
+};
+
+self.onmessage = async (event: MessageEvent<WorkerRequest>) => {
+  const request = event.data;
+
+  try {
+    const response =
+      request.kind === "preview" ? await handlePreview(request) : await handleExport(request);
+
+    if (response.kind === "export" && response.status === "ok") {
+      self.postMessage(response, [response.archive.buffer]);
+      return;
+    }
+
+    self.postMessage(response);
+  } catch (error) {
+    const errorResponse: WorkerErrorResponse = {
+      kind: "error",
+      requestId: request.requestId,
+      message: describeError(error),
+    };
+
+    self.postMessage(errorResponse);
+  }
+};

@@ -1,0 +1,8 @@
+{
+  "name": "Falconers",
+  "color": "#39653b",
+  "iconScale": 1.45,
+  "characters": ["Egret", "vHearne", "Devana", "Frelsi", "Ikaros", "Mataagi", "Minerva", "Rundaas"],
+  "genericTokens": [],
+  "conditions": ["knockedDown", "snared", "bleed", "poison"]
+}

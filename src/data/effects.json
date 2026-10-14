@@ -1,0 +1,1048 @@
+[
+  {
+    "id": "twoInchMelee",
+    "name": "2″ Melee"
+  },
+  {
+    "id": "aboutTheirNecks",
+    "name": "About Their Necks",
+    "effect": "Enemies -1 TAC"
+  },
+  {
+    "id": "aboveAndBeyond",
+    "name": "Above and Beyond",
+    "effect": "+1/+0 INF",
+    "repeatable": true
+  },
+  {
+    "id": "afterglowUsed",
+    "name": "Afterglow",
+    "effect": "Used"
+  },
+  {
+    "id": "allAboutTheGame",
+    "name": "All About The Game",
+    "effect": "Allies +1/+1\" KICK"
+  },
+  {
+    "id": "alternator",
+    "name": "Alternator",
+    "effect": "+2\"/+2\" MOV",
+    "repeatable": true
+  },
+  {
+    "id": "anatomicalPrecision",
+    "name": "Anatomical Precision",
+    "effect": "Enemy -1 ARM"
+  },
+  {
+    "id": "animalTreat",
+    "name": "Animal Treat",
+    "effect": "+2 TAC"
+  },
+  {
+    "id": "aquaTofana",
+    "name": "Aqua Tofana",
+    "effect": "4\" Aura: Poison -1 TAC"
+  },
+  {
+    "id": "armoury",
+    "name": "Armoury",
+    "effect": "6\" Aura: 3\" Melee"
+  },
+  {
+    "id": "arrowToTheKnee",
+    "name": "Arrow to the Knee",
+    "effect": "-2/-2\" KICK",
+    "repeatable": true
+  },
+  {
+    "id": "assKickingUsed",
+    "name": "Ass Kicking",
+    "effect": "Used"
+  },
+  {
+    "id": "assist",
+    "name": "Assist",
+    "effect": "+1 TAC +1 DMG"
+  },
+  {
+    "id": "backToHisBest",
+    "name": "Back to His Best",
+    "effect": "+2\"/+2\" MOV"
+  },
+  {
+    "id": "bagOfCoffers",
+    "name": "Bag of Coffers",
+    "effect": "Free Bonus Time"
+  },
+  {
+    "id": "beakerKeeper",
+    "name": "Beaker Keeper",
+    "effect": "Free 1-2 cost play"
+  },
+  {
+    "id": "betweenARockUsed",
+    "name": "Between a Rock...",
+    "effect": "Used"
+  },
+  {
+    "id": "bigBreakfast",
+    "name": "Big Breakfast",
+    "effect": "+2\"/+2\" MOV"
+  },
+  {
+    "id": "bleedTheCleats",
+    "name": "Bleed the Cleats",
+    "effect": "+1/+0\" KICK",
+    "repeatable": true
+  },
+  {
+    "id": "blessingOfTheMoonGoddess",
+    "name": "Blessing of the Moon Goddess",
+    "effect": "Adds <<",
+    "repeatable": true
+  },
+  {
+    "id": "blessingOfTheSunFather",
+    "name": "Blessing of the Sun Father",
+    "effect": "Free play"
+  },
+  {
+    "id": "blind",
+    "name": "Blind",
+    "effect": "-2 TAC, -2/-2\" KICK, -2\"/-2\" MOV"
+  },
+  {
+    "id": "bloodLust",
+    "name": "Blood Lust",
+    "effect": "Berserk"
+  },
+  {
+    "id": "bloodyCoin",
+    "name": "Bloody Coin",
+    "effect": "+1 TAC +1 DMG"
+  },
+  {
+    "id": "braced",
+    "name": "Braced",
+    "effect": "+2 ARM"
+  },
+  {
+    "id": "brokenEarth",
+    "name": "Broken Earth",
+    "effect": "4\" Aura: Rough Terrain"
+  },
+  {
+    "id": "catchingTheScentTac",
+    "name": "Catching the Scent",
+    "effect": "+1 TAC"
+  },
+  {
+    "id": "catchingTheScentMov",
+    "name": "Catching the Scent",
+    "effect": "+0\"/+2\" MOV"
+  },
+  {
+    "id": "hammerTimeDmg",
+    "name": "Hammer Time!",
+    "effect": "+1 DMG",
+    "repeatable": true
+  },
+  {
+    "id": "hammerTimeMov",
+    "name": "Hammer Time!",
+    "effect": "+2\"/+2\" MOV",
+    "repeatable": true
+  },
+  {
+    "id": "lendAHand",
+    "name": "Lend a Hand",
+    "effect": "Gang up: +1 TAC"
+  },
+  {
+    "id": "butchery",
+    "name": "Butchery",
+    "effect": "+1 DMG",
+    "repeatable": true
+  },
+  {
+    "id": "carelessWhisper",
+    "name": "Careless Whisper",
+    "effect": "+2 TAC vs it"
+  },
+  {
+    "id": "casketTimeUsed",
+    "name": "Casket Time",
+    "effect": "Used"
+  },
+  {
+    "id": "caughtInANet",
+    "name": "Caught in a Net",
+    "effect": "-4\"/-4\" MOV",
+    "repeatable": true
+  },
+  {
+    "id": "chefsSpecial",
+    "name": "Chef's Special",
+    "effect": "4\" Aura: +1 DMG"
+  },
+  {
+    "id": "chopChop",
+    "name": "Chop Chop!",
+    "effect": "6\" Aura: Furious"
+  },
+  {
+    "id": "clone",
+    "name": "Clone",
+    "effect": "Ignores next hit"
+  },
+  {
+    "id": "closeControlUsed",
+    "name": "Close Control",
+    "effect": "Used"
+  },
+  {
+    "id": "cocksure",
+    "name": "Cocksure",
+    "effect": "Ignores next condition"
+  },
+  {
+    "id": "comeOnThen",
+    "name": "Come On, Then!",
+    "effect": "Ignores next hit"
+  },
+  {
+    "id": "commandingAura",
+    "name": "Commanding Aura",
+    "effect": "4\" Aura: +1 TAC +1 DMG"
+  },
+  {
+    "id": "confidence",
+    "name": "Confidence",
+    "effect": "Rerolls next TN test"
+  },
+  {
+    "id": "constitution",
+    "name": "Constitution",
+    "effect": "4\" Aura: Tough Hide"
+  },
+  {
+    "id": "constrict",
+    "name": "Constrict",
+    "effect": "-4\"/-4\" MOV",
+    "repeatable": true
+  },
+  {
+    "id": "counterChargeUsed",
+    "name": "Counter-Charge",
+    "effect": "Used"
+  },
+  {
+    "id": "coupDeGrace",
+    "name": "Coup de Grâce",
+    "effect": "Used"
+  },
+  {
+    "id": "coveringFire",
+    "name": "Covering Fire",
+    "effect": "6\" Aura: Reinforced Plating"
+  },
+  {
+    "id": "crumbBoss",
+    "name": "Crumb Boss",
+    "effect": "+1\"/+1\" MOV"
+  },
+  {
+    "id": "cutEmDown",
+    "name": "Cut Em Down",
+    "effect": "-1 DEF, -2\"/-2\" MOV"
+  },
+  {
+    "id": "decoy",
+    "name": "Decoy",
+    "effect": "+2 DEF vs next attack"
+  },
+  {
+    "id": "deletion",
+    "name": "Deletion",
+    "effect": "+1 DMG"
+  },
+  {
+    "id": "dirtyKnives",
+    "name": "Dirty Knives",
+    "effect": "-1 DEF",
+    "repeatable": true
+  },
+  {
+    "id": "disarm",
+    "name": "Disarm",
+    "effect": "-2 TAC",
+    "repeatable": true
+  },
+  {
+    "id": "dismember",
+    "name": "Dismember",
+    "effect": "+3 DMG next hit"
+  },
+  {
+    "id": "doTheThing",
+    "name": "Do the Thing!",
+    "effect": "Used"
+  },
+  {
+    "id": "duellistsLunge",
+    "name": "Duellist's Lunge",
+    "effect": "1\" dodge toward target"
+  },
+  {
+    "id": "elbowGrease",
+    "name": "Elbow Grease",
+    "effect": "Momentous DMG",
+    "repeatable": true
+  },
+  {
+    "id": "empathy",
+    "name": "Empathy",
+    "effect": "No Momentous DMG"
+  },
+  {
+    "id": "escapingFateUsed",
+    "name": "Escaping Fate",
+    "effect": "Used"
+  },
+  {
+    "id": "exhaustion",
+    "name": "Exhaustion",
+    "effect": "4\" Aura: +1 MP to Counter"
+  },
+  {
+    "id": "eyeSpy",
+    "name": "Eye Spy",
+    "effect": "+2 TAC"
+  },
+  {
+    "id": "faithfulProtector",
+    "name": "Faithful Protector",
+    "effect": "-1 TAC"
+  },
+  {
+    "id": "family",
+    "name": "Family",
+    "effect": "6 TAC 4/6\" KICK"
+  },
+  {
+    "id": "fangtoothUnleashed",
+    "name": "Fangtooth Unleashed",
+    "effect": "+2\"/+2\" MOV, +1 DMG"
+  },
+  {
+    "id": "fearUsed",
+    "name": "Fear",
+    "effect": "Used"
+  },
+  {
+    "id": "fertileSoilUsed",
+    "name": "Fertile Soil",
+    "effect": "Used"
+  },
+  {
+    "id": "fieldsOfWheatUsed",
+    "name": "Fields of Wheat",
+    "effect": "Used"
+  },
+  {
+    "id": "flashPoint",
+    "name": "Flash Point",
+    "effect": "-1\"/-1\" MOV",
+    "repeatable": true
+  },
+  {
+    "id": "flying",
+    "name": "Flying"
+  },
+  {
+    "id": "followUpUsed",
+    "name": "Follow Up",
+    "effect": "Used"
+  },
+  {
+    "id": "forkOffUsed",
+    "name": "Fork Off!",
+    "effect": "Used"
+  },
+  {
+    "id": "forwardMinions",
+    "name": "Forward, Minions!",
+    "effect": "6\" Aura: +2\"/+2\" MOV"
+  },
+  {
+    "id": "fulcrum",
+    "name": "Fulcrum",
+    "effect": "6\" Aura: Poised"
+  },
+  {
+    "id": "fullSpeedAhead",
+    "name": "Full Speed Ahead",
+    "effect": "+0\"/+2\" MOV"
+  },
+  {
+    "id": "fulmination",
+    "name": "Fulmination",
+    "effect": "Adds <"
+  },
+  {
+    "id": "furious",
+    "name": "Furious",
+    "effect": "Free charges"
+  },
+  {
+    "id": "getEmLads",
+    "name": "Get 'Em Lads!",
+    "effect": "6\" Aura: +1 DMG, -1 ARM"
+  },
+  {
+    "id": "getItWhileItsHot",
+    "name": "Get It While It's Hot",
+    "effect": "2\" Aura: Charge for 1 less"
+  },
+  {
+    "id": "getSetBake",
+    "name": "Get Set, BAKE!",
+    "effect": "2\" Aura: +2\"/+2\" MOV"
+  },
+  {
+    "id": "raiseTheBlackFlagEnemy",
+    "name": "Raise the Black Flag",
+    "effect": "Enemy -2\"/-2\" MOV"
+  },
+  {
+    "id": "raiseTheBlackFlagAlly",
+    "name": "Raise the Black Flag",
+    "effect": "Ally +2\"/+2\" MOV"
+  },
+  {
+    "id": "rouletteMov",
+    "name": "Roulette",
+    "effect": "+1\"/+1\" MOV"
+  },
+  {
+    "id": "rouletteTac",
+    "name": "Roulette",
+    "effect": "+1 TAC"
+  },
+  {
+    "id": "rouletteKick",
+    "name": "Roulette",
+    "effect": "+0/+2\" KICK"
+  },
+  {
+    "id": "rowdy",
+    "name": "Rowdy",
+    "effect": "Ignores crowding out"
+  },
+  {
+    "id": "gimmeFuelUsed",
+    "name": "Gimme Fuel...",
+    "effect": "Used"
+  },
+  {
+    "id": "goad",
+    "name": "Goad"
+  },
+  {
+    "id": "goalDefence",
+    "name": "Goal Defence",
+    "effect": "Shots +1 TN"
+  },
+  {
+    "id": "graspingEarth",
+    "name": "Grasping Earth",
+    "effect": "-2\"/-2\" MOV",
+    "repeatable": true
+  },
+  {
+    "id": "graveWind",
+    "name": "Grave Wind",
+    "effect": "Next >: KD"
+  },
+  {
+    "id": "gutString",
+    "name": "Gut & String",
+    "effect": "-2\"/-2\" MOV, -1 DEF",
+    "repeatable": true
+  },
+  {
+    "id": "hauntingGaze",
+    "name": "Haunting Gaze"
+  },
+  {
+    "id": "haveYouAnyWool",
+    "name": "Have You Any Wool?",
+    "effect": "+2 ARM"
+  },
+  {
+    "id": "heavyBurden",
+    "name": "Heavy Burden",
+    "effect": "-4\"/-4\" MOV, -2 dice for plays"
+  },
+  {
+    "id": "helpEmOut",
+    "name": "Help 'Em Out",
+    "effect": "4\" Aura: Close Ranks"
+  },
+  {
+    "id": "holdTheBall",
+    "name": "Hold the Ball!",
+    "effect": "Close Control"
+  },
+  {
+    "id": "horrificOdour",
+    "name": "Horrific Odour",
+    "effect": "6\" Aura: +1 INF to kick"
+  },
+  {
+    "id": "hugeTractsOfLand",
+    "name": "Huge Tracts of Land",
+    "effect": "6\" Aura: Sturdy"
+  },
+  {
+    "id": "humanBallOfFire",
+    "name": "Human Ball of Fire",
+    "effect": "+1\"/+1\" MOV"
+  },
+  {
+    "id": "hypnosis",
+    "name": "Hypnosis",
+    "effect": "+1 INF cost"
+  },
+  {
+    "id": "impetus",
+    "name": "Impetus",
+    "effect": "+2\"/+2\" MOV"
+  },
+  {
+    "id": "inferno",
+    "name": "Inferno"
+  },
+  {
+    "id": "instruction",
+    "name": "Instruction",
+    "effect": "+2 net hits",
+    "repeatable": true
+  },
+  {
+    "id": "ironFist",
+    "name": "Iron Fist",
+    "effect": "+1 DMG"
+  },
+  {
+    "id": "lastLight",
+    "name": "Last Light",
+    "effect": "Pays CST with MP"
+  },
+  {
+    "id": "leftBoot",
+    "name": "Left Boot",
+    "effect": "+1/+2\" KICK"
+  },
+  {
+    "id": "lensFlare",
+    "name": "Lens Flare",
+    "effect": "Caps TAC/KICK",
+    "repeatable": true
+  },
+  {
+    "id": "lifeDrinker",
+    "name": "Life Drinker",
+    "effect": "Heals 1 HP on DMG"
+  },
+  {
+    "id": "lightningReflexesUsed",
+    "name": "Lightning Reflexes",
+    "effect": "Used"
+  },
+  {
+    "id": "littermates",
+    "name": "Littermates",
+    "effect": "Furious +4 TAC"
+  },
+  {
+    "id": "lockdown",
+    "name": "Lockdown",
+    "effect": "-4\"/-4\" MOV"
+  },
+  {
+    "id": "lovedCreature",
+    "name": "Loved Creature",
+    "effect": "+1 TAC"
+  },
+  {
+    "id": "makingSpace",
+    "name": "Making Space"
+  },
+  {
+    "id": "malice",
+    "name": "Malice",
+    "effect": "+2 TAC",
+    "repeatable": true
+  },
+  {
+    "id": "markedForDeath",
+    "name": "Marked for Death",
+    "effect": "-1 INF, +0\"/+2\" MOV Charges"
+  },
+  {
+    "id": "markedForFelling",
+    "name": "Marked for Felling",
+    "effect": "+0/+2\" MOV Charges",
+    "repeatable": true
+  },
+  {
+    "id": "markedTarget",
+    "name": "Marked Target",
+    "effect": "+0\"/+2\" MOV Charges",
+    "repeatable": true
+  },
+  {
+    "id": "masterChef",
+    "name": "Master Chef",
+    "effect": "6\" Aura: Free plays"
+  },
+  {
+    "id": "maximumEffort",
+    "name": "Maximum Effort",
+    "effect": "Momentous DMG"
+  },
+  {
+    "id": "minefield",
+    "name": "Minefield",
+    "effect": "4\" Aura: 4 DMG on advance"
+  },
+  {
+    "id": "myGang",
+    "name": "My Gang",
+    "effect": "6\" Aura: +1 TAC +1 DMG"
+  },
+  {
+    "id": "nimble",
+    "name": "Nimble",
+    "effect": "+1 DEF"
+  },
+  {
+    "id": "oneAtATimeLads",
+    "name": "One at a Time Lads!",
+    "effect": "2\" Aura: Ignores crowding"
+  },
+  {
+    "id": "oneOfOurOwn",
+    "name": "One of Our Own",
+    "effect": "+2 TAC"
+  },
+  {
+    "id": "ourToolsAreSharp",
+    "name": "Our Tools Are Sharp",
+    "effect": "Condition DMG",
+    "repeatable": true
+  },
+  {
+    "id": "overclocked",
+    "name": "Overclocked",
+    "effect": "Free sprint/charge"
+  },
+  {
+    "id": "painResponseUsed",
+    "name": "Pain Response",
+    "effect": "Used"
+  },
+  {
+    "id": "payThePiper",
+    "name": "Pay the Piper",
+    "effect": "6\" Aura: Steals MP"
+  },
+  {
+    "id": "pestControl",
+    "name": "Pest Control",
+    "effect": "-1/-2\" KICK"
+  },
+  {
+    "id": "pickMeUp",
+    "name": "Pick Me Up",
+    "effect": "+1 TAC"
+  },
+  {
+    "id": "pickOfTheCrop",
+    "name": "Pick of the Crop",
+    "effect": "+0\"/+2\" MOV on charges",
+    "repeatable": true
+  },
+  {
+    "id": "piledriver",
+    "name": "Piledriver",
+    "effect": "+3 net hits",
+    "repeatable": true
+  },
+  {
+    "id": "pinned",
+    "name": "Pinned"
+  },
+  {
+    "id": "playmakerUsed",
+    "name": "Playmaker",
+    "effect": "Used"
+  },
+  {
+    "id": "poisedUsed",
+    "name": "Poised",
+    "effect": "Used"
+  },
+  {
+    "id": "poltergeistsUsed",
+    "name": "Poltergeists",
+    "effect": "Used"
+  },
+  {
+    "id": "potbelliedPassUsed",
+    "name": "Potbellied Pass",
+    "effect": "Used"
+  },
+  {
+    "id": "predatoryGaze",
+    "name": "Predatory Gaze",
+    "effect": "Shots +1 INF"
+  },
+  {
+    "id": "protectTheBall",
+    "name": "Protect the Ball",
+    "effect": "Close Control",
+    "repeatable": true
+  },
+  {
+    "id": "protectThoseClose",
+    "name": "Protect Those Close",
+    "effect": "4\" Aura: Sturdy"
+  },
+  {
+    "id": "protectiveInstinct",
+    "name": "Protective Instinct",
+    "effect": "Can't attack others"
+  },
+  {
+    "id": "putMeBackInCoachUsed",
+    "name": "Put Me Back In, Coach!",
+    "effect": "Used"
+  },
+  {
+    "id": "quickFoot",
+    "name": "Quick Foot",
+    "effect": "+2\"/+2\" MOV",
+    "repeatable": true
+  },
+  {
+    "id": "rabidAnimal",
+    "name": "Rabid Animal",
+    "effect": "-4\"/-4\" MOV",
+    "repeatable": true
+  },
+  {
+    "id": "reanimateUsed",
+    "name": "Reanimate",
+    "effect": "Used"
+  },
+  {
+    "id": "reconnaissance",
+    "name": "Reconnaissance",
+    "effect": "6\" Aura: Ignores cover"
+  },
+  {
+    "id": "reinforcedPlatingUsed",
+    "name": "Reinforced Plating",
+    "effect": "Used"
+  },
+  {
+    "id": "resilienceUsed",
+    "name": "Resilience",
+    "effect": "Used"
+  },
+  {
+    "id": "revelling",
+    "name": "Revelling",
+    "effect": "+2 ARM"
+  },
+  {
+    "id": "rideOff",
+    "name": "Ride Off",
+    "effect": "6\" Aura: +1/+0\" KICK"
+  },
+  {
+    "id": "risingAngerUsed",
+    "name": "Rising Anger",
+    "effect": "Used"
+  },
+  {
+    "id": "rushKeeper",
+    "name": "Rush Keeper",
+    "effect": "Counter-Charge"
+  },
+  {
+    "id": "sanguinePool",
+    "name": "Sanguine Pool",
+    "effect": "-4\"/-4\" MOV",
+    "repeatable": true
+  },
+  {
+    "id": "scythingMarch",
+    "name": "Scything March",
+    "effect": "3\" melee zone"
+  },
+  {
+    "id": "searingStrike",
+    "name": "Searing Strike",
+    "effect": "-1 ARM",
+    "repeatable": true
+  },
+  {
+    "id": "secondWind",
+    "name": "Second Wind",
+    "effect": "4\" dodge"
+  },
+  {
+    "id": "shieldGlare",
+    "name": "Shield Glare",
+    "effect": "-1 TAC, -1 DEF",
+    "repeatable": true
+  },
+  {
+    "id": "shutout",
+    "name": "Shutout",
+    "effect": "Must activate last"
+  },
+  {
+    "id": "singledOut",
+    "name": "Singled Out",
+    "effect": "+2 TAC",
+    "repeatable": true
+  },
+  {
+    "id": "slicedTendon",
+    "name": "Sliced Tendon",
+    "effect": "-2/-2\" KICK"
+  },
+  {
+    "id": "smashedShins",
+    "name": "Smashed Shins",
+    "effect": "-4/-4\" KICK",
+    "repeatable": true
+  },
+  {
+    "id": "spark",
+    "name": "Spark",
+    "effect": "-1 ARM"
+  },
+  {
+    "id": "sprungALeak",
+    "name": "Sprung a Leak",
+    "effect": "-2 ARM"
+  },
+  {
+    "id": "stagger",
+    "name": "Stagger",
+    "effect": "-1 DEF",
+    "repeatable": true
+  },
+  {
+    "id": "standFirm",
+    "name": "Stand Firm",
+    "effect": "Sturdy"
+  },
+  {
+    "id": "steelToecaps",
+    "name": "Steel Toecaps",
+    "effect": "+1 ARM, +0/+2\" KICK"
+  },
+  {
+    "id": "stickyBomb",
+    "name": "Sticky Bomb",
+    "effect": "-2\"/-2\" MOV"
+  },
+  {
+    "id": "stoicUsed",
+    "name": "Stoic",
+    "effect": "Used"
+  },
+  {
+    "id": "strikeFromTheShadowsDef",
+    "name": "Strike from the Shadows",
+    "effect": "+1 DEF",
+    "repeatable": true
+  },
+  {
+    "id": "sturdyUsed",
+    "name": "Sturdy",
+    "effect": "Used"
+  },
+  {
+    "id": "sunStrike",
+    "name": "Sun Strike",
+    "repeatable": true
+  },
+  {
+    "id": "superShot",
+    "name": "Super Shot",
+    "effect": "+1/+2\" KICK"
+  },
+  {
+    "id": "superiorStrategy",
+    "name": "Superior Strategy",
+    "effect": "+1 activation"
+  },
+  {
+    "id": "swerveShot",
+    "name": "Swerve Shot",
+    "effect": "Kick ignores intervening models",
+    "repeatable": true
+  },
+  {
+    "id": "tagAlongUsed",
+    "name": "Tag Along",
+    "effect": "Used"
+  },
+  {
+    "id": "taintedWounds",
+    "name": "Tainted Wounds",
+    "effect": "Enemies can't heal"
+  },
+  {
+    "id": "takeOneForTheTeamUsed",
+    "name": "Take One for the Team",
+    "effect": "Used"
+  },
+  {
+    "id": "temperedSteel",
+    "name": "Tempered Steel",
+    "effect": "6\" Aura: +1 TAC"
+  },
+  {
+    "id": "testedMettle",
+    "name": "Tested Mettle",
+    "effect": "6\" Aura: Stoic and Tough Hide"
+  },
+  {
+    "id": "theKnowledge",
+    "name": "The Knowledge",
+    "effect": "+0/+2\" KICK"
+  },
+  {
+    "id": "theOldWays",
+    "name": "The Old Ways",
+    "effect": "6\" Aura: +1 DMG"
+  },
+  {
+    "id": "theyAintTough",
+    "name": "They Ain't Tough!",
+    "effect": "-1 ARM",
+    "repeatable": true
+  },
+  {
+    "id": "thousandCuts",
+    "name": "Thousand Cuts",
+    "effect": "-2 DEF"
+  },
+  {
+    "id": "timesCalled",
+    "name": "Time's Called",
+    "effect": "4\" Aura: +2\"/+2\" MOV",
+    "repeatable": true
+  },
+  {
+    "id": "tongInCheek",
+    "name": "Tong in Cheek",
+    "effect": "+2\"/+2\" MOV",
+    "repeatable": true
+  },
+  {
+    "id": "tooledUp",
+    "name": "Tooled Up",
+    "effect": "+1 DMG"
+  },
+  {
+    "id": "toppingOutArm",
+    "name": "Topping Out!",
+    "effect": "+1 ARM",
+    "repeatable": true
+  },
+  {
+    "id": "toppingOutInfluence",
+    "name": "Topping Out!",
+    "effect": "+1 INF",
+    "repeatable": true,
+    "layout": "ring"
+  },
+  {
+    "id": "tortoisePower",
+    "name": "Tortoise Power",
+    "effect": "Battering Ram"
+  },
+  {
+    "id": "toughSkin",
+    "name": "Tough Skin",
+    "effect": "+1 ARM"
+  },
+  {
+    "id": "toweringPresence",
+    "name": "Towering Presence",
+    "effect": "4\" Aura: -1 MP Pass/Snap"
+  },
+  {
+    "id": "trueGrit",
+    "name": "True Grit",
+    "effect": "+2 TAC"
+  },
+  {
+    "id": "tucked",
+    "name": "Tucked",
+    "effect": "Must activate next"
+  },
+  {
+    "id": "unpredictableMovementUsed",
+    "name": "Unpredictable Movement",
+    "effect": "Used"
+  },
+  {
+    "id": "useThis",
+    "name": "Use This!",
+    "effect": "2\" melee zone"
+  },
+  {
+    "id": "vulnerablePrey",
+    "name": "Vulnerable Prey",
+    "effect": "+3 DMG"
+  },
+  {
+    "id": "weakPoint",
+    "name": "Weak Point",
+    "effect": "-1 ARM",
+    "repeatable": true
+  },
+  {
+    "id": "wellOiledMachineUsed",
+    "name": "Well Oiled Machine",
+    "effect": "Used"
+  },
+  {
+    "id": "whiskyChaser",
+    "name": "Whisky Chaser",
+    "effect": "Adds KD",
+    "repeatable": true
+  },
+  {
+    "id": "wintersNight",
+    "name": "Winter's Night",
+    "effect": "6\" Aura: Adds <"
+  },
+  {
+    "id": "withAplomb",
+    "name": "With Aplomb",
+    "effect": "Next goal: +1 VP"
+  }
+]

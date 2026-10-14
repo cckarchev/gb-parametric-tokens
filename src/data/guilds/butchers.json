@@ -1,0 +1,25 @@
+{
+  "name": "Butchers",
+  "color": "#ce1f27",
+  "characters": [
+    "Ox",
+    "Fillet",
+    "vBoar",
+    "Princess",
+    "Truffles",
+    "Boar",
+    "Boiler",
+    "Brisket",
+    "vBrisket",
+    "vGutter",
+    "Layne",
+    "Meathook",
+    "vOx",
+    "Shank",
+    "Tenderiser",
+    "Cinnamon",
+    "Roast"
+  ],
+  "genericTokens": [],
+  "conditions": ["knockedDown", "snared", "bleed", "poison", "burning"]
+}

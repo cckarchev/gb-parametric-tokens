@@ -1,0 +1,101 @@
+.panel {
+  composes: surface from "../../../styles/surface.module.css";
+  margin: 0 0 var(--space-md) 0;
+  padding: 0;
+  transition: border-color var(--duration-medium) var(--easing-standard);
+}
+
+/* Collapsed, the fieldset's bottom border runs right under the header bar with no body to wrap,
+   so it is hidden until the panel opens. */
+.panel:has(> .body[hidden]) {
+  border-color: transparent;
+}
+
+/* The fieldset draws its border from the legend's middle down, and lays the legend out inside that
+   border. Widening the legend by the border width on each side lets the header bar sit on top of
+   the border instead of leaving it peeking out beside the bar's lower half. */
+.legend {
+  --panel-border-width: var(--border-width-thin);
+
+  width: calc(100% + 2 * var(--panel-border-width));
+  margin-inline: calc(-1 * var(--panel-border-width));
+  padding: 0;
+}
+
+.legendRow {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  width: 100%;
+  padding: 0 var(--space-md);
+  border-radius: var(--radius-none);
+  background: var(--color-surface-header);
+}
+
+.toggle {
+  composes: displayHeading focusRingInset from "../../../styles/mixins.module.css";
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
+  min-width: 0;
+  padding: var(--space-sm) 0;
+  border: none;
+  background: transparent;
+  color: var(--color-text-strong);
+  font-size: var(--font-size-lg);
+  text-align: left;
+  cursor: pointer;
+}
+
+/* The short orange bar the brand manual puts over every card title, shown while the panel is
+   open. */
+.legendRow:has(> .toggle[aria-expanded="true"])::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: var(--space-md);
+  width: var(--size-accent-bar-width);
+  height: var(--size-accent-bar-height);
+  background: var(--color-accent);
+}
+
+.chevron {
+  composes: chevron from "../../../styles/chevron.module.css";
+  color: var(--color-text-muted);
+}
+
+.toggle[aria-expanded="false"] .chevron {
+  transform: rotate(-45deg);
+}
+
+/* interpolate-size animates height to and from auto, so the open panel fits its content. Browsers
+   without it still open and close, just without the animation. Animating grid fr tracks or
+   `display` instead was tried: the first stutters in Chromium, the second briefly overlaps the
+   content below. */
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  overflow: hidden;
+  interpolate-size: allow-keywords;
+  height: auto;
+  opacity: 1;
+  padding: var(--space-md);
+  transition:
+    height var(--duration-medium) var(--easing-standard),
+    opacity var(--duration-fast) var(--easing-standard),
+    padding var(--duration-medium) var(--easing-standard);
+}
+
+/* The display set on .body overrides the browser's [hidden] { display: none }. It stays flex on
+   purpose, since display can't be animated: the panel collapses through height, padding and
+   opacity instead. Tests and assistive tech still read the hidden attribute itself. */
+.body[hidden] {
+  display: flex;
+  height: 0;
+  opacity: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}

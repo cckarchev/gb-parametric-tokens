@@ -1,0 +1,16 @@
+{
+  "name": "Cooks",
+  "color": "#eb2629",
+  "characters": [
+    "Shank",
+    "Tenderiser",
+    "Wellington",
+    "Pepper",
+    "Cinnamon",
+    "Roast",
+    "Spice",
+    "Sugar"
+  ],
+  "genericTokens": [],
+  "conditions": ["knockedDown", "burning"]
+}
