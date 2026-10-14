@@ -21,16 +21,19 @@ export const buildCharacterTokenSpec = (
     );
   }
 
-  const { crestScale, balanceNameScale, balanceEffectScale } = sharedConfig.characterToken;
+  const { crestScale, balanceNameScale, balanceEffectScale, singleLineNameSizeMm } =
+    sharedConfig.characterToken;
   const iconScale = crestScale * guildIconScale;
   const secondLineText = sharedConfig.showSecondLine ? effect.effect : undefined;
+  const isSingleLine = secondLineText === undefined;
 
-  // balanceTwoLineSizes shrinks the name a touch and grows the effect text, so a two-line
-  // character token reads more evenly instead of the effect text looking like an afterthought.
-  const nameSizeMm =
-    secondLineText !== undefined && sharedConfig.balanceTwoLineSizes
-      ? sharedConfig.nameSizeMm * balanceNameScale
-      : sharedConfig.nameSizeMm;
+  // A lone name gets the whole band, so it prints larger. With two lines, balanceTwoLineSizes
+  // shrinks the name a touch and grows the effect text, so the token reads more evenly instead of
+  // the effect text looking like an afterthought.
+  const twoLineNameSizeMm = sharedConfig.balanceTwoLineSizes
+    ? sharedConfig.nameSizeMm * balanceNameScale
+    : sharedConfig.nameSizeMm;
+  const nameSizeMm = isSingleLine ? singleLineNameSizeMm : twoLineNameSizeMm;
 
   const nameLine = {
     text: effect.name,

@@ -1,7 +1,10 @@
 {
   "name": "Ratcatchers",
   "color": "#1d2022",
-  "characters": ["Bonesaw", "vGraves", "Piper", "Squeak", "Miasma", "Pelage", "Scourge", "Skulk"],
+  "captains": ["Piper"],
+  "mascots": ["Squeak"],
+  "squaddies": ["Miasma", "Pelage", "Scourge", "Skulk"],
+  "guests": ["Bonesaw", "vGraves"],
   "genericTokens": [],
   "conditions": ["knockedDown", "bleed", "poison", "disease"]
 }

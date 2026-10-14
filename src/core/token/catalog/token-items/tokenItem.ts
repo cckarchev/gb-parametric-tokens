@@ -72,6 +72,9 @@ export type CharacterTokenTuning = {
   // Applied only with balanceTwoLineSizes on and a second line shown.
   balanceNameScale: number;
   balanceEffectScale: number;
+  // The name's size when it is the token's only line: with nothing to share the band with, it
+  // can be larger than the two-line nameSizeMm.
+  singleLineNameSizeMm: number;
 };
 
 // Goal Influence and every effect with layout "ring" (see ringTokenSpec.ts).

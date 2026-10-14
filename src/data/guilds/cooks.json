@@ -1,16 +1,10 @@
 {
   "name": "Cooks",
   "color": "#eb2629",
-  "characters": [
-    "Shank",
-    "Tenderiser",
-    "Wellington",
-    "Pepper",
-    "Cinnamon",
-    "Roast",
-    "Spice",
-    "Sugar"
-  ],
+  "captains": ["Wellington"],
+  "mascots": ["Pepper"],
+  "squaddies": ["Cinnamon", "Roast", "Spice", "Sugar"],
+  "guests": ["Shank", "Tenderiser"],
   "genericTokens": [],
   "conditions": ["knockedDown", "burning"]
 }

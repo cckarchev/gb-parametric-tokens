@@ -10,6 +10,7 @@ const GUILD_ICON_ID = "Brewers";
 const GUILD_ICON_SCALE = 1.5;
 const CREST_SCALE = 0.8;
 const NAME_SIZE_MM = 3;
+const SINGLE_LINE_NAME_SIZE_MM = 4;
 const EFFECT_SIZE_MM = 2;
 const BALANCE_NAME_SCALE = 0.5;
 const BALANCE_EFFECT_SCALE = 2;
@@ -24,11 +25,14 @@ const config: SharedConfig = {
     crestScale: CREST_SCALE,
     balanceNameScale: BALANCE_NAME_SCALE,
     balanceEffectScale: BALANCE_EFFECT_SCALE,
+    singleLineNameSizeMm: SINGLE_LINE_NAME_SIZE_MM,
   },
 };
 
 const arcEffect = resolveEffect("commandingAura");
 const ringEffect = resolveEffect("toppingOutInfluence");
+// Goad has no effect text, so it prints a single line even with the second line on.
+const nameOnlyEffect = resolveEffect("goad");
 
 describe("buildCharacterTokenSpec", () => {
   it("builds an arc with the name and effect lines and the crest on both sides", () => {
@@ -47,7 +51,7 @@ describe("buildCharacterTokenSpec", () => {
     expect(spec.icons[0].scale).toBeCloseTo(CREST_SCALE * GUILD_ICON_SCALE);
   });
 
-  it("prints only the name when the second line is off, even with balanced sizes on", () => {
+  it("prints only the name, at the single-line size, when the second line is off", () => {
     const nameOnlyConfig: SharedConfig = {
       ...config,
       showSecondLine: false,
@@ -61,7 +65,15 @@ describe("buildCharacterTokenSpec", () => {
     );
 
     expect(spec.lines.map((line) => [line.text, line.sizeMm])).toEqual([
-      [arcEffect.name, NAME_SIZE_MM],
+      [arcEffect.name, SINGLE_LINE_NAME_SIZE_MM],
+    ]);
+  });
+
+  it("prints an effect with no second line at the single-line size too", () => {
+    const spec = buildCharacterTokenSpec(nameOnlyEffect, GUILD_ICON_ID, GUILD_ICON_SCALE, config);
+
+    expect(spec.lines.map((line) => [line.text, line.sizeMm])).toEqual([
+      [nameOnlyEffect.name, SINGLE_LINE_NAME_SIZE_MM],
     ]);
   });
 

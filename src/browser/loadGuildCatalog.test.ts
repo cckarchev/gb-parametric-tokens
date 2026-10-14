@@ -26,6 +26,14 @@ describe("loadGuildCatalog", () => {
     expect(result.gamePlans).toEqual(gamePlansData);
   });
 
+  it("orders the roster: captains, mascots, own squaddies, then guests from another guild", () => {
+    const names = loadGuildCatalog("butchers").characters.map((character) => character.name);
+
+    expect(names.slice(0, 5)).toEqual(["vBoar", "Fillet", "Ox", "Princess", "Truffles"]);
+    expect(names.slice(5, 9)).toEqual(["Boar", "Boiler", "Brisket", "vBrisket"]);
+    expect(names.slice(-2)).toEqual(["Cinnamon", "Roast"]);
+  });
+
   it("gives every guild an empty game plan list, since the deck lives in the generic catalog", () => {
     expect(loadGuildCatalog("brewers").gamePlans).toEqual([]);
   });

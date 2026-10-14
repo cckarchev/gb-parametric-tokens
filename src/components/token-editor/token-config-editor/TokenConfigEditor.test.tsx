@@ -245,7 +245,7 @@ describe("TokenConfigEditor", () => {
 
     await openAdvancedSettings();
 
-    fireEvent.change(screen.getByLabelText("Name size (mm)"), { target: { value: "9" } });
+    fireEvent.change(screen.getByLabelText("Two-line name size (mm)"), { target: { value: "9" } });
 
     expect(onChange).toHaveBeenCalledWith({ ...sharedConfig, nameSizeMm: 9 });
   });

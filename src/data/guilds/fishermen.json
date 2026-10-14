@@ -1,12 +1,9 @@
 {
   "name": "Fishermen",
   "color": "#50b8c8",
-  "characters": [
-    "Shark",
-    "Corsair",
-    "Yukai",
-    "Salt",
-    "Tentacles",
+  "captains": ["Shark", "Corsair", "Yukai"],
+  "mascots": ["Salt", "Tentacles"],
+  "squaddies": [
     "Angel",
     "Greyscales",
     "Hag",
@@ -16,10 +13,9 @@
     "Sakana",
     "vSakana",
     "Siren",
-    "vSiren",
-    "Fathom",
-    "Horizon"
+    "vSiren"
   ],
+  "guests": ["Fathom", "Horizon"],
   "genericTokens": [],
   "conditions": ["knockedDown"]
 }

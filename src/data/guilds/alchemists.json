@@ -1,13 +1,9 @@
 {
   "name": "Alchemists",
   "color": "#4e9339",
-  "characters": [
-    "Midas",
-    "Smoke",
-    "Soma",
-    "Pneuma",
-    "Flask",
-    "Naja",
+  "captains": ["Midas", "Smoke", "Soma", "Pneuma"],
+  "mascots": ["Flask", "Naja"],
+  "squaddies": [
     "Calculus",
     "vCalculus",
     "Crucible",
@@ -17,10 +13,9 @@
     "Mercury",
     "Venin",
     "Vitriol",
-    "Compound",
-    "Heat",
-    "Phosphor"
+    "Compound"
   ],
+  "guests": ["Heat", "Phosphor"],
   "genericTokens": [],
   "conditions": ["knockedDown", "poison", "burning"]
 }

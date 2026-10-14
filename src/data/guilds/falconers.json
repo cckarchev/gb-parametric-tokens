@@ -2,7 +2,10 @@
   "name": "Falconers",
   "color": "#39653b",
   "iconScale": 1.45,
-  "characters": ["Egret", "vHearne", "Devana", "Frelsi", "Ikaros", "Mataagi", "Minerva", "Rundaas"],
+  "captains": ["Devana"],
+  "mascots": ["Frelsi"],
+  "squaddies": ["Ikaros", "Mataagi", "Minerva", "Rundaas"],
+  "guests": ["Egret", "vHearne"],
   "genericTokens": [],
   "conditions": ["knockedDown", "snared", "bleed", "poison"]
 }

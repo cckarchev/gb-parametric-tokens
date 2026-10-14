@@ -1,18 +1,10 @@
 {
   "name": "Lumberjacks",
   "color": "#416abb",
-  "characters": [
-    "Flint",
-    "Mallet",
-    "Oak",
-    "Chipper",
-    "Bucker",
-    "Cross Cut",
-    "Cross",
-    "Cut",
-    "Itsa",
-    "Tinder"
-  ],
+  "captains": ["Oak"],
+  "mascots": ["Chipper"],
+  "squaddies": ["Bucker", "Cross Cut", "Cross", "Cut", "Itsa", "Tinder"],
+  "guests": ["Flint", "Mallet"],
   "genericTokens": [
     {
       "name": "Log Pile Dodge Used",

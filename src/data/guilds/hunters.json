@@ -1,12 +1,9 @@
 {
   "name": "Hunters",
   "color": "#39653b",
-  "characters": [
-    "Theron",
-    "Skatha",
-    "Steeljaw",
-    "Fahad",
-    "Snow",
+  "captains": ["Theron", "Skatha", "Steeljaw"],
+  "mascots": ["Fahad", "Snow"],
+  "squaddies": [
     "Chaska",
     "Edge",
     "Egret",
@@ -16,10 +13,9 @@
     "vMinx",
     "Seenah",
     "Ulfr",
-    "Zarola",
-    "Mataagi",
-    "Minerva"
+    "Zarola"
   ],
+  "guests": ["Mataagi", "Minerva"],
   "genericTokens": [],
   "conditions": ["knockedDown", "snared", "bleed", "poison"]
 }

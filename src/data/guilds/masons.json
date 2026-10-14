@@ -1,13 +1,9 @@
 {
   "name": "Masons",
   "color": "#416abb",
-  "characters": [
-    "Lucky",
-    "Honour",
-    "Hammer",
-    "Corbelli",
-    "Marbles",
-    "Wrecker",
+  "captains": ["Honour", "Hammer", "Corbelli"],
+  "mascots": ["Marbles", "Wrecker"],
+  "squaddies": [
     "Brick",
     "Champ",
     "Chisel",
@@ -17,10 +13,9 @@
     "Harmony",
     "vHarmony",
     "Mallet",
-    "Tower",
-    "Bucker",
-    "Tinder"
+    "Tower"
   ],
+  "guests": ["Lucky", "Bucker", "Tinder"],
   "genericTokens": [
     {
       "name": "Log Pile Dodge Used",

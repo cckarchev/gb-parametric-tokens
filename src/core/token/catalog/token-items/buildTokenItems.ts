@@ -85,38 +85,8 @@ export const buildTokenItems = (
     });
   }
 
-  for (const generic of catalog.genericTokens) {
-    const counter = selection.genericTokens[generic.name];
-
-    if (!counter?.enabled) {
-      continue;
-    }
-
-    items.push({
-      id: generic.name,
-      label: generic.name,
-      name: generic.name,
-      spec: buildGenericTokenSpec(generic, guildIconId, guildIconScale, sharedConfig),
-      copies: counter.copies,
-    });
-  }
-
-  for (const condition of catalog.conditions) {
-    const counter = selection.conditions[condition.id];
-
-    if (!counter?.enabled) {
-      continue;
-    }
-
-    items.push({
-      id: conditionTokenId(condition.id),
-      label: condition.name,
-      name: condition.name,
-      spec: buildConditionTokenSpec(condition, sharedConfig),
-      copies: counter.copies,
-    });
-  }
-
+  // Same order as the editor's panels: the roster (or, in the generic catalog, the Game Plans in
+  // its spot), the guild tokens, then the conditions.
   for (const gamePlan of catalog.gamePlans) {
     const counter = selection.gamePlans[gamePlan.id];
 
@@ -162,6 +132,38 @@ export const buildTokenItems = (
       name: "Goal Influence",
       spec: buildGoalInfluenceTokenSpec(guildIconId, guildIconScale, sharedConfig),
       copies: selection.goalInfluence.copies,
+    });
+  }
+
+  for (const generic of catalog.genericTokens) {
+    const counter = selection.genericTokens[generic.name];
+
+    if (!counter?.enabled) {
+      continue;
+    }
+
+    items.push({
+      id: generic.name,
+      label: generic.name,
+      name: generic.name,
+      spec: buildGenericTokenSpec(generic, guildIconId, guildIconScale, sharedConfig),
+      copies: counter.copies,
+    });
+  }
+
+  for (const condition of catalog.conditions) {
+    const counter = selection.conditions[condition.id];
+
+    if (!counter?.enabled) {
+      continue;
+    }
+
+    items.push({
+      id: conditionTokenId(condition.id),
+      label: condition.name,
+      name: condition.name,
+      spec: buildConditionTokenSpec(condition, sharedConfig),
+      copies: counter.copies,
     });
   }
 

@@ -1,12 +1,9 @@
 {
   "name": "Farmers",
   "color": "#ea8329",
-  "characters": [
-    "Thresher",
-    "Grange",
-    "Festival",
-    "Peck",
-    "Buckwheat",
+  "captains": ["Thresher", "Grange", "Festival"],
+  "mascots": ["Peck", "Buckwheat"],
+  "squaddies": [
     "Amber",
     "Bushel",
     "Fallow",
@@ -16,10 +13,9 @@
     "Millstone",
     "Ploughman",
     "Tater",
-    "Windle",
-    "Lamb",
-    "Shearer"
+    "Windle"
   ],
+  "guests": ["Lamb", "Shearer"],
   "genericTokens": [
     {
       "name": "Harvest Influence",

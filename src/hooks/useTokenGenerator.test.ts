@@ -607,7 +607,7 @@ describe("useTokenGenerator", () => {
         studFilletEnabled: DEFAULT_ARC_SHAPE.studFilletEnabled,
         studFilletRadiusMm: DEFAULT_ARC_SHAPE.studFilletRadiusMm,
       },
-      iconOverflowBehavior: "none",
+      iconOverflowBehavior: "grow",
       aoeTemplateVariant: "ring",
     });
     expect(result.current.importSettingsError).toBeUndefined();

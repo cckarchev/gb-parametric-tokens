@@ -28,10 +28,18 @@ export const ArcTokensSection = ({ sharedConfig, onChange }: SectionProps) => {
       />
 
       <NumberField
-        label="Name size (mm)"
+        label="Two-line name size (mm)"
         value={sharedConfig.nameSizeMm}
         {...TEXT_SIZE_BOUNDS}
         onChange={(nameSizeMm) => onChange({ ...sharedConfig, nameSizeMm })}
+      />
+      <NumberField
+        label="Single-line name size (mm)"
+        value={characterToken.singleLineNameSizeMm}
+        {...TEXT_SIZE_BOUNDS}
+        onChange={(singleLineNameSizeMm) =>
+          onChange({ ...sharedConfig, characterToken: { ...characterToken, singleLineNameSizeMm } })
+        }
       />
       <NumberField
         label="Effect size (mm)"

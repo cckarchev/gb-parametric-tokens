@@ -55,7 +55,7 @@ describe("parseSettingsFile", () => {
     expect(config.discShape).toEqual({ type: "disc", diameterMm: 30 });
     expect(config.colorGroups).toEqual(LEGACY_FILE.colorGroups);
     expect(config.aoe).toEqual(DEFAULT_SHARED_CONFIG.aoe);
-    expect(config.iconOverflowBehavior).toBe("none");
+    expect(config.iconOverflowBehavior).toBe("grow");
     expect(config.aoeTemplateVariant).toBe("ring");
   });
 

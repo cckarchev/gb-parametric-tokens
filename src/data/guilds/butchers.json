@@ -1,12 +1,9 @@
 {
   "name": "Butchers",
   "color": "#ce1f27",
-  "characters": [
-    "Ox",
-    "Fillet",
-    "vBoar",
-    "Princess",
-    "Truffles",
+  "captains": ["Ox", "Fillet", "vBoar"],
+  "mascots": ["Princess", "Truffles"],
+  "squaddies": [
     "Boar",
     "Boiler",
     "Brisket",
@@ -16,10 +13,9 @@
     "Meathook",
     "vOx",
     "Shank",
-    "Tenderiser",
-    "Cinnamon",
-    "Roast"
+    "Tenderiser"
   ],
+  "guests": ["Cinnamon", "Roast"],
   "genericTokens": [],
   "conditions": ["knockedDown", "snared", "bleed", "poison", "burning"]
 }

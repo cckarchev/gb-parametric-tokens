@@ -240,6 +240,7 @@ describe("buildAoeTemplateSpec, compact disc variant", () => {
         side: "center",
         scale: COMPACT_ICON_SCALE * GUILD_ICON_SCALE,
         colorGroup: "text",
+        overflowBehavior: compactConfig.iconOverflowBehavior,
       },
     ]);
   });

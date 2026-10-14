@@ -37,7 +37,12 @@ describe("token builders read their tuning group", () => {
     const config: SharedConfig = {
       ...DEFAULT_SHARED_CONFIG,
       balanceTwoLineSizes: true,
-      characterToken: { crestScale: 0.6, balanceNameScale: 0.5, balanceEffectScale: 2 },
+      characterToken: {
+        ...DEFAULT_SHARED_CONFIG.characterToken,
+        crestScale: 0.6,
+        balanceNameScale: 0.5,
+        balanceEffectScale: 2,
+      },
     };
     const spec = buildCharacterTokenSpec(effect, GUILD_ICON_ID, GUILD_ICON_SCALE, config);
 
