@@ -1,5 +1,5 @@
 // @vitest-environment happy-dom
-import { renderHook } from "@testing-library/react";
+import { act, renderHook } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { GuildCatalog } from "@/core/token/catalog/catalogTypes";
@@ -136,6 +136,22 @@ describe("usePreview debounce", () => {
     expect(result.current.isPreviewing).toBe(true);
 
     rerender({ selection: baseSelection });
+    expect(result.current.isPreviewing).toBe(false);
+  });
+
+  it("clears isPreviewing when the worker itself fails instead of leaving it stuck", () => {
+    const { result, rerender } = renderHook(
+      ({ selection }) => usePreview(catalog, selection, sharedConfig),
+      { initialProps: { selection: baseSelection } },
+    );
+
+    rerender({ selection: selectionWith(["Tapper-0"]) });
+    expect(result.current.isPreviewing).toBe(true);
+
+    act(() => {
+      FakeWorker.instances[0].fail("Failed to fetch the worker script");
+    });
+
     expect(result.current.isPreviewing).toBe(false);
   });
 });

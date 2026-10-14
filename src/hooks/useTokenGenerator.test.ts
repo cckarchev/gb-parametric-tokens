@@ -409,6 +409,69 @@ describe("useTokenGenerator", () => {
     expect(result.current.exportFailures).toEqual([]);
   });
 
+  it("reports an export error instead of hanging when the worker itself fails", async () => {
+    const { result } = renderHook(() => useTokenGenerator());
+
+    await act(async () => {
+      result.current.selectGuild("brewers");
+    });
+
+    await vi.waitFor(() => {
+      expect(result.current.catalogStatus).toBe("ready");
+    });
+
+    act(() => {
+      result.current.setSelection({ ...result.current.selection, characterTokenIds: ["Tapper-0"] });
+    });
+
+    const exportPromise = act(async () => {
+      await result.current.exportThreeMf();
+    });
+
+    await vi.waitFor(() => {
+      const calls = FakeWorker.instances[0].postMessage.mock.calls;
+
+      expect(calls.some((call) => (call[0] as WorkerRequest).kind === "export")).toBe(true);
+    });
+
+    FakeWorker.instances[0].fail("Failed to fetch the worker script");
+
+    await exportPromise;
+
+    expect(result.current.exportError).toBe("Failed to fetch the worker script");
+    expect(result.current.isExporting).toBe(false);
+    expect(downloadBlob).not.toHaveBeenCalled();
+  });
+
+  it("settles a pending export when the hook unmounts instead of leaving it waiting forever", async () => {
+    const { result, unmount } = renderHook(() => useTokenGenerator());
+
+    await act(async () => {
+      result.current.selectGuild("brewers");
+    });
+
+    await vi.waitFor(() => {
+      expect(result.current.catalogStatus).toBe("ready");
+    });
+
+    act(() => {
+      result.current.setSelection({ ...result.current.selection, characterTokenIds: ["Tapper-0"] });
+    });
+
+    let isExportSettled = false;
+
+    void result.current.exportThreeMf().then(() => {
+      isExportSettled = true;
+    });
+
+    unmount();
+
+    await vi.waitFor(() => {
+      expect(isExportSettled).toBe(true);
+    });
+    expect(downloadBlob).not.toHaveBeenCalled();
+  });
+
   it("records failures instead of downloading when the export fails validation", async () => {
     const { result } = renderHook(() => useTokenGenerator());
 

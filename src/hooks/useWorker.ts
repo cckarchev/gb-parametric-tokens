@@ -8,6 +8,11 @@ export type PendingExport = {
   reject: (error: Error) => void;
 };
 
+// What a pending export is told when the worker goes away under it, so useExport stops waiting.
+const WORKER_TERMINATED_MESSAGE = "The export was cancelled because the page closed its worker.";
+// ErrorEvent.message can come back empty, e.g. for a worker script that failed to load.
+const WORKER_FAILED_MESSAGE = "The token worker stopped unexpectedly.";
+
 type UseWorkerOptions = {
   setPreviewItems: (items: PreviewItem[]) => void;
   setIsPreviewing: (isPreviewing: boolean) => void;
@@ -23,6 +28,11 @@ export const useWorker = ({ setPreviewItems, setIsPreviewing }: UseWorkerOptions
   const workerRef = useRef<Worker | undefined>(undefined);
   const requestIdRef = useRef(0);
   const pendingExportRef = useRef<PendingExport | undefined>(undefined);
+
+  const rejectPendingExport = (message: string) => {
+    pendingExportRef.current?.reject(new Error(message));
+    pendingExportRef.current = undefined;
+  };
 
   useEffect(() => {
     const worker = new Worker(new URL("../browser/tokenWorker.ts", import.meta.url), {
@@ -44,8 +54,7 @@ export const useWorker = ({ setPreviewItems, setIsPreviewing }: UseWorkerOptions
 
       if (response.kind === "error") {
         if (pendingExportRef.current && pendingExportRef.current.requestId === response.requestId) {
-          pendingExportRef.current.reject(new Error(response.message));
-          pendingExportRef.current = undefined;
+          rejectPendingExport(response.message);
           return;
         }
 
@@ -61,10 +70,18 @@ export const useWorker = ({ setPreviewItems, setIsPreviewing }: UseWorkerOptions
       }
     };
 
+    // The worker script itself failed (it never loaded, or threw outside a request), so no
+    // response is ever coming: settle whatever was waiting on one instead of spinning forever.
+    worker.onerror = (event: ErrorEvent) => {
+      rejectPendingExport(event.message || WORKER_FAILED_MESSAGE);
+      setIsPreviewing(false);
+    };
+
     workerRef.current = worker;
 
     return () => {
       worker.terminate();
+      rejectPendingExport(WORKER_TERMINATED_MESSAGE);
     };
   }, [setPreviewItems, setIsPreviewing]);
 
