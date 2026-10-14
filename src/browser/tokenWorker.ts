@@ -48,8 +48,6 @@ export type PreviewResponse = {
   kind: "preview";
   requestId: number;
   results: PreviewItem[];
-  validCount: number;
-  invalidCount: number;
 };
 
 export type ExportRequest = {
@@ -172,8 +170,6 @@ export const handlePreview = async (request: PreviewRequest): Promise<PreviewRes
     kind: "preview",
     requestId: request.requestId,
     results,
-    validCount: results.filter((result) => result.valid).length,
-    invalidCount: results.filter((result) => !result.valid).length,
   };
 };
 

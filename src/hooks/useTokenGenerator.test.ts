@@ -128,8 +128,6 @@ describe("useTokenGenerator", () => {
         kind: "preview",
         requestId: request.requestId,
         results: [],
-        validCount: 0,
-        invalidCount: request.items.length,
       });
     });
 
@@ -277,8 +275,6 @@ describe("useTokenGenerator", () => {
             reason: "",
           },
         ],
-        validCount: 1,
-        invalidCount: 0,
       });
     });
 
@@ -345,11 +341,11 @@ describe("useTokenGenerator", () => {
             reason: "1 of 3 details (text or icon) too thin to print at this size.",
           },
         ],
-        validCount: 1,
-        invalidCount: 1,
       });
     });
 
+    expect(result.current.validCount).toBe(1);
+    expect(result.current.invalidCount).toBe(1);
     expect(result.current.invalidPreviewItems).toEqual([
       {
         id: "Tapper-1",

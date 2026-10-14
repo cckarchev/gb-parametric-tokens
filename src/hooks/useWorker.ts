@@ -12,8 +12,6 @@ export type PendingExport = {
 
 type UseWorkerOptions = {
   setPreviewItems: (items: PreviewItem[]) => void;
-  setValidCount: (count: number) => void;
-  setInvalidCount: (count: number) => void;
   setIsPreviewing: (isPreviewing: boolean) => void;
 };
 
@@ -23,12 +21,7 @@ type UseWorkerOptions = {
 // export request) has been issued since. Export responses are routed by matching
 // pendingExportRef instead, since exportThreeMf needs to await a specific response rather than just
 // watch the latest one.
-export const useWorker = ({
-  setPreviewItems,
-  setValidCount,
-  setInvalidCount,
-  setIsPreviewing,
-}: UseWorkerOptions) => {
+export const useWorker = ({ setPreviewItems, setIsPreviewing }: UseWorkerOptions) => {
   const workerRef = useRef<Worker | undefined>(undefined);
   const requestIdRef = useRef(0);
   const pendingExportRef = useRef<PendingExport | undefined>(undefined);
@@ -47,8 +40,6 @@ export const useWorker = ({
         }
 
         setPreviewItems(response.results);
-        setValidCount(response.validCount);
-        setInvalidCount(response.invalidCount);
         setIsPreviewing(false);
         return;
       }
@@ -77,7 +68,7 @@ export const useWorker = ({
     return () => {
       worker.terminate();
     };
-  }, [setPreviewItems, setValidCount, setInvalidCount, setIsPreviewing]);
+  }, [setPreviewItems, setIsPreviewing]);
 
   return { workerRef, requestIdRef, pendingExportRef };
 };

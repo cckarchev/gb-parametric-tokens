@@ -118,8 +118,6 @@ describe("handlePreview", () => {
     const response = await handlePreview(request);
 
     expect(response.requestId).toBe(7);
-    expect(response.validCount).toBe(1);
-    expect(response.invalidCount).toBe(1);
     expect(response.results).toEqual([
       {
         id: "a",

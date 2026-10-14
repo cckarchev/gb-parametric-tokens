@@ -15,13 +15,9 @@ export const usePreview = (
 ) => {
   const [isPreviewing, setIsPreviewing] = useState(false);
   const [previewItems, setPreviewItems] = useState<PreviewItem[]>([]);
-  const [validCount, setValidCount] = useState(0);
-  const [invalidCount, setInvalidCount] = useState(0);
 
   const { workerRef, requestIdRef, pendingExportRef } = useWorker({
     setPreviewItems,
-    setValidCount,
-    setInvalidCount,
     setIsPreviewing,
   });
 
@@ -41,8 +37,6 @@ export const usePreview = (
   useEffect(() => {
     if (!workerRef.current || tokenItems.length === 0) {
       setPreviewItems([]);
-      setValidCount(0);
-      setInvalidCount(0);
       setIsPreviewing(false);
       return;
     }
@@ -81,6 +75,12 @@ export const usePreview = (
       clearTimeout(timeoutId);
     };
   }, [tokenItems]);
+
+  const validCount = useMemo(
+    () => previewItems.filter((item) => item.valid).length,
+    [previewItems],
+  );
+  const invalidCount = previewItems.length - validCount;
 
   return {
     tokenItems,
