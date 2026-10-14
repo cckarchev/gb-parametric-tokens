@@ -1,6 +1,7 @@
 import type { Font } from "opentype.js";
 
 import { CENTER_ANGLE_DEG, RADIAL_TO_UPRIGHT_OFFSET_DEG } from "../geometry/angleConventions";
+import { computeCrestFreeSweepDeg } from "../geometry/crestFreeSweep";
 import {
   computeEffectiveStudDiameterMm,
   computeInnerRadiusMm,
@@ -16,6 +17,9 @@ import { PrintProfile, TokenSpec } from "../types";
 import { buildIconComponent, LoadIconSource } from "./computeReliefComponentsShared";
 
 const STUD_TEXT_CLEARANCE_DEG = 6;
+// Gap kept between a line of text and the crest beside it, so a long name shrinks before it
+// touches one.
+const CREST_TEXT_CLEARANCE_MM = 0.3;
 
 // A fixed gap, not proportional to the band width, tuned for the default arc shape. Remeasure if
 // the default band width changes.
@@ -89,19 +93,36 @@ export const computeArcReliefComponents = async (
       }),
   );
 
-  const nominalFits = spec.lines.map((line, lineIndex) =>
-    autoFitLine(
+  const crestContours = iconComponents.flatMap((component) => component.contours);
+
+  // The stud clearance alone doesn't know how big the crest is: a big crest, or a big line, can
+  // still reach into it. So each line is also held to the arc the crests leave free at its own
+  // height. A shrunk line re-centers inside its nominal height, so measuring there is enough.
+  const nominalFits = spec.lines.map((line, lineIndex) => {
+    const lineRadiusMm = line.radiusMm ?? nominalLineRadiiMm[lineIndex];
+    const lineTopRadiusMm = lineRadiusMm + estimateAscentMm(line.sizeMm);
+    const crestFreeSweepDeg = computeCrestFreeSweepDeg(
+      crestContours,
+      CENTER_ANGLE_DEG,
+      lineRadiusMm,
+      lineTopRadiusMm,
+      CREST_TEXT_CLEARANCE_MM,
+    );
+    const lineSweepDeg = Math.min(availableSweepDeg, crestFreeSweepDeg ?? availableSweepDeg);
+
+    return autoFitLine(
       font,
       {
         text: line.text,
         sizeMm: line.sizeMm,
-        radiusMm: line.radiusMm ?? nominalLineRadiiMm[lineIndex],
-        availableSweepDeg,
+        fallbackSizeMm: line.fallbackSizeMm,
+        radiusMm: lineRadiusMm,
+        availableSweepDeg: lineSweepDeg,
       },
       spec.fitPolicy,
       printProfile,
-    ),
-  );
+    );
+  });
 
   // autoFitLine may shrink a line, and a shrunk line centered for its nominal size drifts toward
   // the inner edge. Re-center from the sizes actually rendered. Lines with an explicit radiusMm,

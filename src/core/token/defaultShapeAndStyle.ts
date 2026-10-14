@@ -22,8 +22,10 @@ export const DEFAULT_STYLE: StyleSpec = {
   baseThicknessMm: 3,
 };
 
+// No negative tracking: the -0.3mm per gap that suited the old, wide font glues the letters of
+// a condensed one together, so text that doesn't fit is shrunk instead (down to minScale).
 export const DEFAULT_FIT_POLICY: FitPolicy = {
-  minTracking: -0.3,
+  minTracking: 0,
   maxTracking: 0,
   minScale: 0.7,
   allowTwoLines: true,

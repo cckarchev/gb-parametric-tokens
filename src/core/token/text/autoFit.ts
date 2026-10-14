@@ -15,6 +15,8 @@ const TRUNCATION_MARKER = "…";
 type AutoFitLineInput = {
   text: string;
   sizeMm: number;
+  // Tried on one line, at its own scale floor, before the text is split (see LineSpec).
+  fallbackSizeMm?: number;
   radiusMm: number;
   availableSweepDeg: number;
 };
@@ -123,29 +125,56 @@ const splitAtMiddleWhitespace = (text: string): [string, string] | undefined => 
   return [text.slice(0, bestSpaceIndex), text.slice(bestSpaceIndex + 1)];
 };
 
+const buildFitContext = (
+  font: Font,
+  sizeMm: number,
+  availableSweepDeg: number,
+  fitPolicy: FitPolicy,
+  printProfile: PrintProfile,
+): FitContext => {
+  const profileMinSizeMm = printProfile.minStrokeWidthMm / DEFAULT_FONT_STEM_WIDTH_MM_PER_SIZE_MM;
+  const effectiveMinScale = Math.max(fitPolicy.minScale, profileMinSizeMm / sizeMm);
+
+  return { font, sizeMm, availableSweepDeg, fitPolicy, effectiveMinScale };
+};
+
 export const autoFitLine = (
   font: Font,
   input: AutoFitLineInput,
   fitPolicy: FitPolicy,
   printProfile: PrintProfile,
 ): AutoFitResult => {
-  const profileMinSizeMm = printProfile.minStrokeWidthMm / DEFAULT_FONT_STEM_WIDTH_MM_PER_SIZE_MM;
-  const effectiveMinScale = Math.max(fitPolicy.minScale, profileMinSizeMm / input.sizeMm);
-  const context: FitContext = {
+  const context = buildFitContext(
     font,
-    sizeMm: input.sizeMm,
-    availableSweepDeg: input.availableSweepDeg,
+    input.sizeMm,
+    input.availableSweepDeg,
     fitPolicy,
-    effectiveMinScale,
-  };
+    printProfile,
+  );
+  const fallbackContext =
+    input.fallbackSizeMm === undefined
+      ? undefined
+      : buildFitContext(
+          font,
+          input.fallbackSizeMm,
+          input.availableSweepDeg,
+          fitPolicy,
+          printProfile,
+        );
 
-  const wholeLineFit = fitSingleLine(context, input.text, input.radiusMm);
+  // The preferred size first, then the fallback, both on one line: a split moves the halves far
+  // off the line's radius, so any whole-line fit beats it.
+  const wholeLineContexts = fallbackContext ? [context, fallbackContext] : [context];
 
-  if (wholeLineFit.fits) {
-    return {
-      lines: [toOutputLine(context, input.text, wholeLineFit, input.radiusMm)],
-      truncated: false,
-    };
+  for (const wholeLineContext of wholeLineContexts) {
+    const wholeLineFit = fitSingleLine(wholeLineContext, input.text, input.radiusMm);
+
+    if (wholeLineFit.fits) {
+      return {
+        lines: [toOutputLine(wholeLineContext, input.text, wholeLineFit, input.radiusMm)],
+        truncated: false,
+      };
+    }
   }
 
   const split = fitPolicy.allowTwoLines ? splitAtMiddleWhitespace(input.text) : undefined;

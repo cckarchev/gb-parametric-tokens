@@ -19,9 +19,8 @@ const DEFAULT_GOAL_INFLUENCE_SHAPE: DiscShapeSpec = {
 // "-2/-2 MOV" without truncating or overlapping the ribbon edges.
 const DEFAULT_NAME_SIZE_MM = 3;
 const DEFAULT_EFFECT_SIZE_MM = 1.9;
-// Measured the same way over every arc token name in the catalog: up to here only the longest
-// names, the ones autoFit already shrinks or splits, start touching the crest (4 more than at
-// nameSizeMm). At 4mm it is 18 more.
+// A lone name only grows as far as the crests allow: a long one is shrunk to fit between them
+// (see computeArcReliefComponents.ts), so this mostly enlarges short and medium names.
 const DEFAULT_SINGLE_LINE_NAME_SIZE_MM = 3.5;
 
 // Why each value is what it is lives next to where its builder uses it (for example why the AOE

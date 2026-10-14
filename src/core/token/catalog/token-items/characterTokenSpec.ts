@@ -35,9 +35,12 @@ export const buildCharacterTokenSpec = (
     : sharedConfig.nameSizeMm;
   const nameSizeMm = isSingleLine ? singleLineNameSizeMm : twoLineNameSizeMm;
 
+  // A long lone name that won't fit on one line at the larger size drops back to the regular
+  // size, where it fit before, instead of splitting in two.
   const nameLine = {
     text: effect.name,
     sizeMm: nameSizeMm,
+    fallbackSizeMm: isSingleLine ? sharedConfig.nameSizeMm : undefined,
     colorGroup: TEXT_COLOR_GROUP_ID,
   };
 

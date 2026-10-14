@@ -44,3 +44,10 @@ describe("DEFAULT_SHARED_CONFIG", () => {
     expect(DEFAULT_SHARED_CONFIG.aoeTemplateVariant).toBe("ring");
   });
 });
+
+describe("DEFAULT_SHARED_CONFIG.fitPolicy", () => {
+  it("shrinks text that doesn't fit instead of squeezing its letters together", () => {
+    expect(DEFAULT_SHARED_CONFIG.fitPolicy.minTracking).toBe(0);
+    expect(DEFAULT_SHARED_CONFIG.fitPolicy.maxTracking).toBe(0);
+  });
+});

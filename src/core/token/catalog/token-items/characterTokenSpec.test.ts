@@ -69,6 +69,18 @@ describe("buildCharacterTokenSpec", () => {
     ]);
   });
 
+  it("falls back to the regular name size when the single-line name doesn't fit", () => {
+    const spec = buildCharacterTokenSpec(nameOnlyEffect, GUILD_ICON_ID, GUILD_ICON_SCALE, config);
+
+    expect(spec.lines[0].fallbackSizeMm).toBe(NAME_SIZE_MM);
+  });
+
+  it("gives a two-line name no fallback size", () => {
+    const spec = buildCharacterTokenSpec(arcEffect, GUILD_ICON_ID, GUILD_ICON_SCALE, config);
+
+    expect(spec.lines.map((line) => line.fallbackSizeMm)).toEqual([undefined, undefined]);
+  });
+
   it("prints an effect with no second line at the single-line size too", () => {
     const spec = buildCharacterTokenSpec(nameOnlyEffect, GUILD_ICON_ID, GUILD_ICON_SCALE, config);
 

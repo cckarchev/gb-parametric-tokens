@@ -121,6 +121,7 @@ describe("buildTokenItems", () => {
       {
         text: "Goad",
         sizeMm: sharedConfig.characterToken.singleLineNameSizeMm,
+        fallbackSizeMm: sharedConfig.nameSizeMm,
         colorGroup: "text",
       },
     ]);
@@ -139,6 +140,7 @@ describe("buildTokenItems", () => {
       {
         text: "Commanding Aura",
         sizeMm: sharedConfig.characterToken.singleLineNameSizeMm,
+        fallbackSizeMm: sharedConfig.nameSizeMm,
         colorGroup: "text",
       },
     ]);
@@ -172,6 +174,7 @@ describe("buildTokenItems", () => {
       {
         text: "Goad",
         sizeMm: sharedConfig.characterToken.singleLineNameSizeMm,
+        fallbackSizeMm: sharedConfig.nameSizeMm,
         colorGroup: "text",
       },
     ]);

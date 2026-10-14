@@ -67,6 +67,46 @@ describe("autoFitLine", () => {
     expect(result.lines[0].radiusMm).not.toBe(result.lines[1].radiusMm);
   });
 
+  it("tries the fallback size on one line before splitting", () => {
+    const font = loadTestFont();
+    const fallbackSizeMm = 4;
+    // Resin, because fdm-04's thickest-stroke floor (~3.5mm text) is the same for both sizes and
+    // would hide the fallback.
+    const resinProfile = PRINT_PROFILES.resin;
+
+    // Same text and sweep as the split case above, which only splits because 6mm is too big.
+    const result = autoFitLine(
+      font,
+      {
+        text: "Superior Strategy Additional",
+        sizeMm: 6,
+        fallbackSizeMm,
+        radiusMm: 37.5,
+        availableSweepDeg: 54,
+      },
+      fitPolicy,
+      resinProfile,
+    );
+
+    expect(result.truncated).toBe(false);
+    expect(result.lines.length).toBe(1);
+    expect(result.lines[0].text).toBe("Superior Strategy Additional");
+    expect(result.lines[0].sizeMm).toBeLessThanOrEqual(fallbackSizeMm);
+  });
+
+  it("ignores the fallback size when the line already fits at its own size", () => {
+    const font = loadTestFont();
+
+    const result = autoFitLine(
+      font,
+      { text: "Impetus", sizeMm: 5, fallbackSizeMm: 3, radiusMm: 40, availableSweepDeg: 108 },
+      fitPolicy,
+      printProfile,
+    );
+
+    expect(result.lines.map((line) => line.sizeMm)).toEqual([5]);
+  });
+
   it("truncates and flags it when nothing else fits", () => {
     const font = loadTestFont();
     const veryTightPolicy: FitPolicy = { ...fitPolicy, allowTwoLines: false };
