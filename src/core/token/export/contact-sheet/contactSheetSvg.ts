@@ -1,10 +1,10 @@
-import { buildGridOverlaySvg, RenderedSvg, SvgBounds } from "../preview/svgGrid";
-import { ColorGroupSpec } from "../types";
-import { flipItem } from "./contactSheetSvgFlip";
-import { roundUpToGridStep } from "./contactSheetSvgGeometry";
-import { layoutPreparedSection } from "./contactSheetSvgLayout";
-import { groupDiscItemsByDiameter, prepareSection } from "./contactSheetSvgPrepare";
-import { ContactSheetItem, FlippedContactSheetItem } from "./contactSheetSvgTypes";
+import { buildGridOverlaySvg, RenderedSvg, SvgBounds } from "../../preview/svgGrid";
+import { ColorGroupSpec } from "../../types";
+import { flipItem } from "./flip";
+import { roundUpToGridStep } from "./geometry";
+import { layoutPreparedSection } from "./layout";
+import { groupDiscItemsByDiameter, prepareSection } from "./prepare";
+import { ContactSheetItem, FlippedContactSheetItem } from "./types";
 
 // No padding at all around an arc cell's content (it used to be 5mm). prepareSection rounds
 // cellPaddingMm plus the arc margin up to the next GRID_STEP_MM line, so any padding that isn't

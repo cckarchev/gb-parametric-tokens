@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
 
-import { getManifoldModule } from "../mesh/manifoldModule";
-import { TokenPart } from "../mesh/tokenPart";
-import { ColorGroupSpec, Vec2 } from "../types";
-import { buildCombinedThreeMfModelXml, CombinedThreeMfItem } from "./combinedThreeMfModel";
+import { getManifoldModule } from "../../mesh/manifoldModule";
+import { TokenPart } from "../../mesh/tokenPart";
+import { ColorGroupSpec, Vec2 } from "../../types";
+import { buildCombinedThreeMfModelXml, CombinedThreeMfItem } from "./combinedModel";
 
 const buildBoxPart = async (colorGroupId: string): Promise<TokenPart> => {
   const wasm = await getManifoldModule();

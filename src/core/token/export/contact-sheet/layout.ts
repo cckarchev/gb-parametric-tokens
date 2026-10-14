@@ -1,13 +1,13 @@
-import { translateContours } from "../geometry/contourTransforms";
+import { buildTokenPathsSvg } from "../../buildTokenPathsSvg";
+import { translateContours } from "../../geometry/contourTransforms";
 import {
   buildBaseReferenceCircleSvg,
   CIRCLE_ANCHOR_X_SVG,
   CIRCLE_ANCHOR_Y_SVG,
-} from "../preview/svgBaseReference";
-import { ColorGroupSpec, Vec2 } from "../types";
-import { buildAttentionMarkerSvg } from "./contactSheetSvgAttention";
-import { PreparedSection, SectionLayout } from "./contactSheetSvgTypes";
-import { buildTokenPathsSvg } from "./svgDocument";
+} from "../../preview/svgBaseReference";
+import { ColorGroupSpec, Vec2 } from "../../types";
+import { buildAttentionMarkerSvg } from "./attention";
+import { PreparedSection, SectionLayout } from "./types";
 
 const FALLBACK_ITEM_LABEL = "This token";
 // Only reachable if an invalid item somehow carries no reason (never happens via the real

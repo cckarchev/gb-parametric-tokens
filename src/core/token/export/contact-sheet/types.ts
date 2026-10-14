@@ -1,6 +1,6 @@
-import { Bounds } from "../geometry/computeBounds";
-import { ReliefComponent } from "../mesh/reliefComponent";
-import { ShapeSpec, Vec2 } from "../types";
+import { Bounds } from "../../geometry/computeBounds";
+import { ReliefComponent } from "../../mesh/reliefComponent";
+import { ShapeSpec, Vec2 } from "../../types";
 
 export type ContactSheetItem = {
   shape: ShapeSpec;

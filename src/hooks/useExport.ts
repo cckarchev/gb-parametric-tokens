@@ -3,7 +3,7 @@ import { RefObject, useCallback, useState } from "react";
 import { downloadBlob } from "@/browser/downloadBlob";
 import type { ExportFailureItem, ExportResponse, WorkerRequest } from "@/browser/tokenWorker";
 import { describeError } from "@/core/describeError";
-import { SharedConfig, TokenItem } from "@/core/token/catalog/tokenItems/tokenItem";
+import { SharedConfig, TokenItem } from "@/core/token/catalog/token-items/tokenItem";
 
 import { PendingExport } from "./useWorker";
 

@@ -1,4 +1,4 @@
-import { SharedConfig } from "@/core/token/catalog/tokenItems/tokenItem";
+import { SharedConfig } from "@/core/token/catalog/token-items/tokenItem";
 
 import { AdvancedSettingsPanel } from "./advanced-settings-panel/AdvancedSettingsPanel";
 import { PrintOptionsPanel } from "./print-options-panel/PrintOptionsPanel";

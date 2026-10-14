@@ -3,7 +3,7 @@ import { DEGREES_PER_RADIAN } from "./angleConventions";
 
 // The three rigid transforms every stage of the pipeline applies to raw contours. Each of these
 // used to exist as a private copy per module (a `flipY` in iconPlacement.ts, another in
-// buildPreviewSvg.ts, a third in contactSheetSvgFlip.ts; a `shift` here, an `offsetContour`
+// buildPreviewSvg.ts, a third in contact-sheet/flip.ts; a `shift` here, an `offsetContour`
 // there), so this is one home for all of them rather than a new abstraction.
 
 // Mirrors contours across the x axis. Used at every boundary between this app's two coordinate

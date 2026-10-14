@@ -12,10 +12,10 @@ vi.mock("@/core/token/buildTokenParts", () => ({ buildTokenParts: vi.fn() }));
 vi.mock("@/core/token/geometry/computePlateLayout", () => ({
   computePlateLayout: vi.fn(),
 }));
-vi.mock("@/core/token/export/combinedThreeMfModel", () => ({
+vi.mock("@/core/token/export/three-mf/combinedModel", () => ({
   buildCombinedThreeMfModelXml: vi.fn(),
 }));
-vi.mock("@/core/token/export/threeMfArchive", () => ({ buildThreeMfArchive: vi.fn() }));
+vi.mock("@/core/token/export/three-mf/archive", () => ({ buildThreeMfArchive: vi.fn() }));
 
 vi.stubGlobal("self", { postMessage: vi.fn() });
 
@@ -26,10 +26,10 @@ const { computeBaseOutlineContours } = await import(
 );
 const { buildTokenParts } = await import("@/core/token/buildTokenParts");
 const { computePlateLayout } = await import("@/core/token/geometry/computePlateLayout");
-const { buildCombinedThreeMfModelXml } = await import("@/core/token/export/combinedThreeMfModel");
-const { buildThreeMfArchive } = await import("@/core/token/export/threeMfArchive");
+const { buildCombinedThreeMfModelXml } = await import("@/core/token/export/three-mf/combinedModel");
+const { buildThreeMfArchive } = await import("@/core/token/export/three-mf/archive");
 
-import type { TokenItem } from "@/core/token/catalog/tokenItems/tokenItem";
+import type { TokenItem } from "@/core/token/catalog/token-items/tokenItem";
 import type { TokenPart } from "@/core/token/mesh/tokenPart";
 import { arcSpec, discSpec } from "@/core/token/testSpecs";
 import type { ColorGroupSpec } from "@/core/token/types";

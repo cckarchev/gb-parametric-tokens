@@ -1,10 +1,10 @@
 import { MM_PER_INCH } from "../../../units";
 import { CENTER_ANGLE_DEG } from "../../geometry/angleConventions";
+import { TEXT_COLOR_GROUP_ID } from "../../mesh/colorGroups";
 import { estimateAscentMm } from "../../text/glyphMetrics";
 import { resolveRingLineOrientation } from "../../text/ringLineOrientation";
 import { CrowfootSpec, DiscShapeSpec, LineSpec, TokenSpec } from "../../types";
 import { CatalogAoeTemplate } from "../catalogTypes";
-import { TEXT_COLOR_GROUP_ID } from "../deriveReliefColor";
 import { computeRingTextRadii } from "./ringTextRadii";
 import { AoeTuning, CrowfootTuning, SharedConfig } from "./tokenItem";
 import { buildIconSpec, sharedTokenFields } from "./tokenSpecParts";

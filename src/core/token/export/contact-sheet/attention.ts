@@ -1,4 +1,4 @@
-import { escapeXmlAttribute } from "./threeMfXml";
+import { escapeXmlAttribute } from "../three-mf/xml";
 
 const STROKE_COLOR = "#ff6b6b";
 const STROKE_WIDTH_MM = 0.6;

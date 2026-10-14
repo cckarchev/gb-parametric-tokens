@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { layoutPreparedSection } from "./contactSheetSvgLayout";
-import { FlippedContactSheetItem, PreparedSection } from "./contactSheetSvgTypes";
+import { layoutPreparedSection } from "./layout";
+import { FlippedContactSheetItem, PreparedSection } from "./types";
 
 const CELL_SIZE_MM = 20;
 const CELL_PADDING_MM = 2;

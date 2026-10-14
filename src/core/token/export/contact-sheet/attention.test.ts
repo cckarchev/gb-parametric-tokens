@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { buildAttentionMarkerSvg } from "./contactSheetSvgAttention";
+import { buildAttentionMarkerSvg } from "./attention";
 
 describe("buildAttentionMarkerSvg", () => {
   it("draws a dashed outline at the given cell position and size", () => {

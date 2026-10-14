@@ -1,10 +1,10 @@
-import { Bounds } from "../geometry/computeBounds";
-import { translateContours } from "../geometry/contourTransforms";
-import { MODEL_BASE_DIAMETER_MM } from "../geometry/studPlacement";
-import { CIRCLE_ANCHOR_X_SVG, CIRCLE_ANCHOR_Y_SVG } from "../preview/svgBaseReference";
-import { GRID_STEP_MM } from "../preview/svgGrid";
-import { Vec2 } from "../types";
-import { FlippedContactSheetItem } from "./contactSheetSvgTypes";
+import { Bounds } from "../../geometry/computeBounds";
+import { translateContours } from "../../geometry/contourTransforms";
+import { MODEL_BASE_DIAMETER_MM } from "../../geometry/studPlacement";
+import { CIRCLE_ANCHOR_X_SVG, CIRCLE_ANCHOR_Y_SVG } from "../../preview/svgBaseReference";
+import { GRID_STEP_MM } from "../../preview/svgGrid";
+import { Vec2 } from "../../types";
+import { FlippedContactSheetItem } from "./types";
 
 export const allContoursOf = (item: FlippedContactSheetItem): Vec2[][] => {
   return [item.baseContours, ...item.reliefContoursByColorGroup.values()].flat();

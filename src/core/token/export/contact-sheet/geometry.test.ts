@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { CIRCLE_ANCHOR_X_SVG, CIRCLE_ANCHOR_Y_SVG } from "../preview/svgBaseReference";
-import { GRID_STEP_MM } from "../preview/svgGrid";
+import { CIRCLE_ANCHOR_X_SVG, CIRCLE_ANCHOR_Y_SVG } from "../../preview/svgBaseReference";
+import { GRID_STEP_MM } from "../../preview/svgGrid";
 import {
   allContoursOf,
   computeOverflowMarginMm,
@@ -9,8 +9,8 @@ import {
   roundUpToGridVertexStep,
   shiftForArcAnchor,
   unionBounds,
-} from "./contactSheetSvgGeometry";
-import { FlippedContactSheetItem } from "./contactSheetSvgTypes";
+} from "./geometry";
+import { FlippedContactSheetItem } from "./types";
 
 const GRID_VERTEX_STEP_MM = GRID_STEP_MM * 2;
 

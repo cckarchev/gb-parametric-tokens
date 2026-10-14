@@ -1,6 +1,5 @@
 import { ColorField } from "@/components/primitives/color-field/ColorField";
-import { TEXT_COLOR_GROUP_ID } from "@/core/token/catalog/deriveReliefColor";
-import { BASE_COLOR_GROUP_ID } from "@/core/token/mesh/colorGroups";
+import { BASE_COLOR_GROUP_ID, TEXT_COLOR_GROUP_ID } from "@/core/token/mesh/colorGroups";
 import { ColorGroupSpec } from "@/core/token/types";
 
 import styles from "./GuildColorsEditor.module.css";

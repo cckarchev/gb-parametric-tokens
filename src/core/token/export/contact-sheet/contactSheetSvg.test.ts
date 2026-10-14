@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 
-import { ReliefComponent } from "../mesh/reliefComponent";
-import { GRID_STEP_MM } from "../preview/svgGrid";
-import { ColorGroupSpec, ShapeSpec, Vec2 } from "../types";
+import { ReliefComponent } from "../../mesh/reliefComponent";
+import { GRID_STEP_MM } from "../../preview/svgGrid";
+import { ColorGroupSpec, ShapeSpec, Vec2 } from "../../types";
 import { buildContactSheetSvg } from "./contactSheetSvg";
 
 const discShape: ShapeSpec = { type: "disc", diameterMm: 10 };

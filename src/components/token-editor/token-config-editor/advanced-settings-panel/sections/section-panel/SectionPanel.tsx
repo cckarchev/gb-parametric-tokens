@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 
 import { Button } from "@/components/primitives/button/Button";
 import { Panel } from "@/components/primitives/panel/Panel";
-import { SharedConfig } from "@/core/token/catalog/tokenItems/tokenItem";
+import { SharedConfig } from "@/core/token/catalog/token-items/tokenItem";
 
 import styles from "./SectionPanel.module.css";
 

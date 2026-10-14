@@ -1,7 +1,7 @@
 import { unzipSync } from "fflate";
 import { describe, expect, it } from "vitest";
 
-import { buildThreeMfArchive } from "./threeMfArchive";
+import { buildThreeMfArchive } from "./archive";
 
 describe("buildThreeMfArchive", () => {
   it("packages the model XML alongside the required 3MF package parts", () => {

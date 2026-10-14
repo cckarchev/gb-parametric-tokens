@@ -1,5 +1,5 @@
-import { BASE_COLOR_GROUP_ID, resolveColorGroupDisplay } from "../mesh/colorGroups";
-import { ColorGroupSpec, Vec2 } from "../types";
+import { BASE_COLOR_GROUP_ID, resolveColorGroupDisplay } from "./mesh/colorGroups";
+import { ColorGroupSpec, Vec2 } from "./types";
 
 const contourToPathSegment = (contour: Vec2[]): string => {
   const [first, ...rest] = contour;

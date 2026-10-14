@@ -2,7 +2,7 @@ import effectsData from "@/data/effects.json";
 
 import { CatalogEffect } from "./catalogTypes";
 import { buildLookup, resolveById } from "./resolveById";
-import { CHARACTER_TOKEN_MAX_COPIES, MIN_COPIES } from "./tokenItems/tokenItem";
+import { CHARACTER_TOKEN_MAX_COPIES, MIN_COPIES } from "./token-items/tokenItem";
 
 // A JSON import widens `layout` to plain string and `repeatable` to boolean; effects.test.ts
 // checks every value in the file against CatalogEffect's own types, so the narrowing here is

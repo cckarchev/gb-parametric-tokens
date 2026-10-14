@@ -7,7 +7,7 @@ import { GuildCatalog } from "@/core/token/catalog/catalogTypes";
 import {
   characterAoeTemplateId,
   characterTokenId,
-} from "@/core/token/catalog/tokenItems/tokenItem";
+} from "@/core/token/catalog/token-items/tokenItem";
 
 import { CharacterTokenList } from "./CharacterTokenList";
 

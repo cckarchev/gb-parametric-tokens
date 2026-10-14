@@ -1,7 +1,7 @@
 import { GuildCatalog } from "./catalogTypes";
 import { characterSelectableIds } from "./characterSelectableIds";
 import { GENERIC_CATALOG_ID } from "./genericCatalog";
-import { CounterSelection, MIN_COPIES, TokenSelection } from "./tokenItems/tokenItem";
+import { CounterSelection, MIN_COPIES, TokenSelection } from "./token-items/tokenItem";
 
 // A typical Guild Ball game's own real quantities, not just each counter's bare minimum, so a
 // first visit to a guild starts from a usable token set instead of an empty one.

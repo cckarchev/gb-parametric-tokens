@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 
-import { ShapeSpec, Vec2 } from "../types";
-import { groupDiscItemsByDiameter, prepareSection } from "./contactSheetSvgPrepare";
-import { FlippedContactSheetItem } from "./contactSheetSvgTypes";
+import { ShapeSpec, Vec2 } from "../../types";
+import { groupDiscItemsByDiameter, prepareSection } from "./prepare";
+import { FlippedContactSheetItem } from "./types";
 
 const CELL_PADDING_MM = 2;
 const ARC_SHAPE: ShapeSpec = {

@@ -1,5 +1,5 @@
 import { Panel } from "@/components/primitives/panel/Panel";
-import { SharedConfig } from "@/core/token/catalog/tokenItems/tokenItem";
+import { SharedConfig } from "@/core/token/catalog/token-items/tokenItem";
 
 import { ArcTokensSection } from "./sections/ArcTokensSection";
 import { AoeTemplatesSection } from "./sections/aoe-templates-section/AoeTemplatesSection";

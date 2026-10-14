@@ -1,8 +1,3 @@
-// The fixed second color-group role every generated line and icon is tagged with, so it
-// resolves to the guild-derived relief color instead of silently falling back to "base" (see
-// mesh/colorGroups.ts's BASE_COLOR_GROUP_ID for the body's own, always-implicit id).
-export const TEXT_COLOR_GROUP_ID = "text";
-
 // SPEC.md §9: guild color goes on the base, never the relief. Relief color is derived from the
 // base's relative luminance so it always contrasts against it, instead of a fixed color that
 // disappears against dark guilds (Morticians, Ratcatchers) or washes out against bright ones

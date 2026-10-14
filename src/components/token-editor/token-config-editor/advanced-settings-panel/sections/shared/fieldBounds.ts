@@ -1,4 +1,4 @@
-import { MIN_SPOKE_COUNT } from "@/core/token/catalog/tokenItems/aoeTemplateSpec";
+import { MIN_SPOKE_COUNT } from "@/core/token/catalog/token-items/aoeTemplateSpec";
 
 // The fixed range of every editable number in the advanced settings. Wide enough for real
 // experimentation, narrow enough to keep obvious nonsense out; combinations that still break a

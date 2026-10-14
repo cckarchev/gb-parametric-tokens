@@ -1,4 +1,4 @@
-import { CounterSelection } from "@/core/token/catalog/tokenItems/tokenItem";
+import { CounterSelection } from "@/core/token/catalog/token-items/tokenItem";
 
 import { CounterRow } from "./counter-panel/CounterPanel";
 

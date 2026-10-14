@@ -1,6 +1,6 @@
 import { PreviewItem } from "@/browser/tokenWorker";
 import { SvgLoupe } from "@/components/primitives/svg-loupe/SvgLoupe";
-import { buildContactSheetSvg } from "@/core/token/export/contactSheetSvg";
+import { buildContactSheetSvg } from "@/core/token/export/contact-sheet/contactSheetSvg";
 import { ColorGroupSpec } from "@/core/token/types";
 
 import styles from "./TokenPreview.module.css";

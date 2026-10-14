@@ -1,5 +1,5 @@
 import { CatalogCharacter } from "./catalogTypes";
-import { characterAoeTemplateId, characterTokenId } from "./tokenItems/tokenItem";
+import { characterAoeTemplateId, characterTokenId } from "./token-items/tokenItem";
 
 // Everything a character's own checkbox selects: its tokens, then its AOE templates.
 export const characterSelectableIds = (character: CatalogCharacter): string[] => {

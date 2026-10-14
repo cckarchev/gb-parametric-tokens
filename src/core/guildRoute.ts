@@ -1,4 +1,4 @@
-import { GENERIC_CATALOG_ID } from "../token/catalog/genericCatalog";
+import { GENERIC_CATALOG_ID } from "./token/catalog/genericCatalog";
 
 const GUILD_ROUTE_SEGMENT = "guild";
 

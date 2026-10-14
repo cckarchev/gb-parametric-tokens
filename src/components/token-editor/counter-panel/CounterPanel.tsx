@@ -1,6 +1,6 @@
 import { Panel } from "@/components/primitives/panel/Panel";
 import { SelectAllCheckbox } from "@/components/primitives/SelectAllCheckbox";
-import { CounterSelection, MIN_COPIES } from "@/core/token/catalog/tokenItems/tokenItem";
+import { CounterSelection, MIN_COPIES } from "@/core/token/catalog/token-items/tokenItem";
 
 import { CountField } from "./CountField";
 

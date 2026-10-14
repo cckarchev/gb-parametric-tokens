@@ -1,4 +1,4 @@
-import { CounterSelection, DISABLED_COUNTER } from "@/core/token/catalog/tokenItems/tokenItem";
+import { CounterSelection, DISABLED_COUNTER } from "@/core/token/catalog/token-items/tokenItem";
 
 import { CounterPanel, CounterRow } from "./counter-panel/CounterPanel";
 import { setRowsEnabled } from "./setRowsEnabled";

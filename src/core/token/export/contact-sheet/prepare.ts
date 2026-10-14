@@ -1,4 +1,4 @@
-import { Bounds, computeBounds } from "../geometry/computeBounds";
+import { Bounds, computeBounds } from "../../geometry/computeBounds";
 import {
   allContoursOf,
   CIRCLE_FOOTPRINT_BOUNDS,
@@ -7,8 +7,8 @@ import {
   roundUpToGridVertexStep,
   shiftForArcAnchor,
   unionBounds,
-} from "./contactSheetSvgGeometry";
-import { FlippedContactSheetItem, PreparedSection } from "./contactSheetSvgTypes";
+} from "./geometry";
+import { FlippedContactSheetItem, PreparedSection } from "./types";
 
 // A small disc (e.g. a 15mm Beer Token) sharing one cell size with a much larger one (e.g. a
 // 20mm Goal Influence) sits in a cell padded out to the larger item's size, wasting space around

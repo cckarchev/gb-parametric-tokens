@@ -1,6 +1,6 @@
-import { resolveColorGroupDisplay } from "../mesh/colorGroups";
-import { TokenPart } from "../mesh/tokenPart";
-import { ColorGroupSpec, Vec2 } from "../types";
+import { resolveColorGroupDisplay } from "../../mesh/colorGroups";
+import { TokenPart } from "../../mesh/tokenPart";
+import { ColorGroupSpec, Vec2 } from "../../types";
 import {
   buildItemXml,
   buildObjectXml,
@@ -8,7 +8,7 @@ import {
   escapeXmlAttribute,
   FIRST_OBJECT_ID,
   wrapThreeMfModelXml,
-} from "./threeMfXml";
+} from "./xml";
 
 export type CombinedThreeMfItem = { parts: TokenPart[]; offsets: Vec2[] };
 

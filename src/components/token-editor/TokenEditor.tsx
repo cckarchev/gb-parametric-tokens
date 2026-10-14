@@ -1,4 +1,4 @@
-import { TokenSelection } from "@/core/token/catalog/tokenItems/tokenItem";
+import { TokenSelection } from "@/core/token/catalog/token-items/tokenItem";
 import { useTokenGenerator } from "@/hooks/useTokenGenerator";
 
 import { CounterRecordList } from "./CounterRecordList";

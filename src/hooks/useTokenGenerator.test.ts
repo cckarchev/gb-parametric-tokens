@@ -13,7 +13,7 @@ const { useTokenGenerator } = await import("./useTokenGenerator");
 
 import type { WorkerRequest } from "@/browser/tokenWorker";
 import type { GuildCatalog } from "@/core/token/catalog/catalogTypes";
-import { DEFAULT_TOKEN_TUNING } from "@/core/token/catalog/tokenItems/defaultSharedConfig";
+import { DEFAULT_TOKEN_TUNING } from "@/core/token/catalog/token-items/defaultSharedConfig";
 import { DEFAULT_ARC_SHAPE } from "@/core/token/defaultShapeAndStyle";
 
 import { FakeWorker, installFakeWorker, lastPostedRequest } from "./fakeWorker";

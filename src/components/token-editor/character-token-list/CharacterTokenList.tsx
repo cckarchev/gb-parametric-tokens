@@ -7,12 +7,12 @@ import { CatalogCharacter, GuildCatalog } from "@/core/token/catalog/catalogType
 import { characterSelectableIds } from "@/core/token/catalog/characterSelectableIds";
 import { buildEffectLabels } from "@/core/token/catalog/effectLabels";
 import { effectMaxCopies, resolveEffect } from "@/core/token/catalog/effects";
-import { resolveTokenCopies } from "@/core/token/catalog/tokenItems/resolveTokenCopies";
+import { resolveTokenCopies } from "@/core/token/catalog/token-items/resolveTokenCopies";
 import {
   characterAoeTemplateId,
   characterTokenId,
   MIN_COPIES,
-} from "@/core/token/catalog/tokenItems/tokenItem";
+} from "@/core/token/catalog/token-items/tokenItem";
 
 import { CharacterRow } from "./CharacterRow";
 import styles from "./CharacterTokenList.module.css";

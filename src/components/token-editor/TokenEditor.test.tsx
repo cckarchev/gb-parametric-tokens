@@ -2,8 +2,8 @@
 import { fireEvent, render, screen, within } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import { DEFAULT_SHARED_CONFIG } from "@/core/token/catalog/tokenItems/defaultSharedConfig";
-import { TokenSelection } from "@/core/token/catalog/tokenItems/tokenItem";
+import { DEFAULT_SHARED_CONFIG } from "@/core/token/catalog/token-items/defaultSharedConfig";
+import { TokenSelection } from "@/core/token/catalog/token-items/tokenItem";
 
 vi.mock("@/hooks/useTokenGenerator", () => ({ useTokenGenerator: vi.fn() }));
 

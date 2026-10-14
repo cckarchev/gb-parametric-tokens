@@ -9,7 +9,7 @@ const GLYPH_ASCENT_RATIO = 0.69;
 
 // How tall a line of this app's all-caps text actually stands above its baseline. Shared by the
 // ribbon arc's two-line centering (computeArcReliefComponents.ts) and the ring layout's
-// outward/inward radius balancing (catalog/tokenItems/ringTokenSpec.ts), since both are
+// outward/inward radius balancing (catalog/token-items/ringTokenSpec.ts), since both are
 // the same "how much ink is there above the baseline" question.
 export const estimateAscentMm = (sizeMm: number): number => {
   return sizeMm * GLYPH_ASCENT_RATIO;

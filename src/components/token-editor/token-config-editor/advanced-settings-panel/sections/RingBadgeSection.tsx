@@ -1,6 +1,6 @@
 import { NumberField } from "@/components/primitives/number-field/NumberField";
 import { PercentField } from "@/components/primitives/PercentField";
-import { DEFAULT_SHARED_CONFIG } from "@/core/token/catalog/tokenItems/defaultSharedConfig";
+import { DEFAULT_SHARED_CONFIG } from "@/core/token/catalog/token-items/defaultSharedConfig";
 
 import { SectionPanel, SectionProps } from "./section-panel/SectionPanel";
 import { CREST_SCALE_BOUNDS, INSET_BOUNDS, TEXT_SIZE_BOUNDS } from "./shared/fieldBounds";

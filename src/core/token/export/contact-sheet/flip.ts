@@ -1,6 +1,6 @@
-import { flipContoursY } from "../geometry/contourTransforms";
-import { groupReliefComponentsByColorGroup } from "../mesh/groupReliefComponents";
-import { ContactSheetItem, FlippedContactSheetItem } from "./contactSheetSvgTypes";
+import { flipContoursY } from "../../geometry/contourTransforms";
+import { groupReliefComponentsByColorGroup } from "../../mesh/groupReliefComponents";
+import { ContactSheetItem, FlippedContactSheetItem } from "./types";
 
 // Contours arrive in the core pipeline's mathYUp world convention (same as the 3D mesh and
 // buildPreviewSvg.ts). SVG's y axis points down, so rendering those coordinates unmodified

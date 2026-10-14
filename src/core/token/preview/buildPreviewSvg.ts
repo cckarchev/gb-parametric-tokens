@@ -1,4 +1,4 @@
-import { buildTokenPathsSvg } from "../export/svgDocument";
+import { buildTokenPathsSvg } from "../buildTokenPathsSvg";
 import { computeBounds } from "../geometry/computeBounds";
 import { flipContoursY, translateContours } from "../geometry/contourTransforms";
 import { groupReliefComponentsByColorGroup } from "../mesh/groupReliefComponents";

@@ -1,6 +1,6 @@
 import { SelectField } from "@/components/primitives/select-field/SelectField";
-import { DEFAULT_SHARED_CONFIG } from "@/core/token/catalog/tokenItems/defaultSharedConfig";
-import { AoeTuning } from "@/core/token/catalog/tokenItems/tokenItem";
+import { DEFAULT_SHARED_CONFIG } from "@/core/token/catalog/token-items/defaultSharedConfig";
+import { AoeTuning } from "@/core/token/catalog/token-items/tokenItem";
 
 import { SectionPanel, SectionProps } from "../section-panel/SectionPanel";
 import { CompactDiscFields } from "./CompactDiscFields";

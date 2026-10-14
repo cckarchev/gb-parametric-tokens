@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { AvailableGuild, listAvailableGuilds } from "@/browser/listAvailableGuilds";
 import { loadGuildCatalog } from "@/browser/loadGuildCatalog";
 import { describeError } from "@/core/describeError";
-import { guildIdFromPathname, guildPathname } from "@/core/routing/guildRoute";
+import { guildIdFromPathname, guildPathname } from "@/core/guildRoute";
 import { GuildCatalog } from "@/core/token/catalog/catalogTypes";
 
 // No "loading": every guild's catalog is inlined in the bundle, so selecting one either resolves

@@ -1,13 +1,13 @@
 import { describe, expect, it } from "vitest";
 
-import { TokenPart } from "../mesh/tokenPart";
+import { TokenPart } from "../../mesh/tokenPart";
 import {
   buildItemXml,
   buildObjectXml,
   colorToDisplayColor,
   escapeXmlAttribute,
   wrapThreeMfModelXml,
-} from "./threeMfXml";
+} from "./xml";
 
 // One triangle, stored the way manifold-3d lays out a mesh: numProp floats per vertex, of which
 // only the first three (x, y, z) belong in the 3MF file.

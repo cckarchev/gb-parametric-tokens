@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { GENERIC_CATALOG_ID } from "../token/catalog/genericCatalog";
 import { guildIdFromPathname, guildPathname } from "./guildRoute";
+import { GENERIC_CATALOG_ID } from "./token/catalog/genericCatalog";
 
 describe("guildPathname", () => {
   it("builds the guild route from a guild id", () => {

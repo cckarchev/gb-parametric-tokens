@@ -1,6 +1,6 @@
+import { TEXT_COLOR_GROUP_ID } from "../../mesh/colorGroups";
 import { TokenSpec } from "../../types";
 import { CatalogEffect } from "../catalogTypes";
-import { TEXT_COLOR_GROUP_ID } from "../deriveReliefColor";
 import { buildRingTokenSpec } from "./ringTokenSpec";
 import { SharedConfig } from "./tokenItem";
 import { buildIconSpec, sharedTokenFields } from "./tokenSpecParts";

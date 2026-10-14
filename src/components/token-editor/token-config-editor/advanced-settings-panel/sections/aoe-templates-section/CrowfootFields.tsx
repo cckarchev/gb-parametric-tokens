@@ -1,6 +1,6 @@
 import { CheckboxField } from "@/components/primitives/checkbox-field/CheckboxField";
 import { NumberField } from "@/components/primitives/number-field/NumberField";
-import { CrowfootTuning } from "@/core/token/catalog/tokenItems/tokenItem";
+import { CrowfootTuning } from "@/core/token/catalog/token-items/tokenItem";
 
 import {
   ARC_SWEEP_BOUNDS,

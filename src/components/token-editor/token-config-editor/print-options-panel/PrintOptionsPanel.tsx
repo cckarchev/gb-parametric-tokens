@@ -1,7 +1,7 @@
 import { CheckboxField } from "@/components/primitives/checkbox-field/CheckboxField";
 import { Panel } from "@/components/primitives/panel/Panel";
 import { SelectField } from "@/components/primitives/select-field/SelectField";
-import { SharedConfig } from "@/core/token/catalog/tokenItems/tokenItem";
+import { SharedConfig } from "@/core/token/catalog/token-items/tokenItem";
 
 import { GuildColorsEditor } from "./guild-colors-editor/GuildColorsEditor";
 import { ICON_OVERFLOW_BEHAVIOR_OPTIONS } from "./iconOverflowBehaviorOptions";

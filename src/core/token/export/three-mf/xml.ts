@@ -1,7 +1,7 @@
 import type { Manifold } from "manifold-3d";
 
-import { TokenPart } from "../mesh/tokenPart";
-import { Vec2 } from "../types";
+import { TokenPart } from "../../mesh/tokenPart";
+import { Vec2 } from "../../types";
 
 const THREE_MF_MODEL_NAMESPACE = "http://schemas.microsoft.com/3dmanufacturing/core/2015/02";
 const MATERIALS_RESOURCE_ID = 1;

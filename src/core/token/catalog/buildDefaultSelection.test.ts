@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { buildDefaultSelection } from "./buildDefaultSelection";
 import { GuildCatalog } from "./catalogTypes";
 import { GENERIC_CATALOG_ID } from "./genericCatalog";
-import { characterAoeTemplateId } from "./tokenItems/tokenItem";
+import { characterAoeTemplateId } from "./token-items/tokenItem";
 
 const catalog: GuildCatalog = {
   guildId: "brewers",

@@ -1,5 +1,5 @@
 import { NumberField } from "@/components/primitives/number-field/NumberField";
-import { DEFAULT_SHARED_CONFIG } from "@/core/token/catalog/tokenItems/defaultSharedConfig";
+import { DEFAULT_SHARED_CONFIG } from "@/core/token/catalog/token-items/defaultSharedConfig";
 
 import { SectionPanel, SectionProps } from "./section-panel/SectionPanel";
 import { INSET_BOUNDS, MOMENTUM_TEXT_SIZE_BOUNDS, RING_WIDTH_BOUNDS } from "./shared/fieldBounds";

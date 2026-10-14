@@ -1,5 +1,5 @@
+import { TEXT_COLOR_GROUP_ID } from "../../mesh/colorGroups";
 import { LineSpec, TokenSpec } from "../../types";
-import { TEXT_COLOR_GROUP_ID } from "../deriveReliefColor";
 import { computeRingTextRadii } from "./ringTextRadii";
 import { SharedConfig } from "./tokenItem";
 import { buildIconSpec, sharedTokenFields } from "./tokenSpecParts";

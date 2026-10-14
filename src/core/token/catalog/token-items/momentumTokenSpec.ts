@@ -1,5 +1,5 @@
+import { TEXT_COLOR_GROUP_ID } from "../../mesh/colorGroups";
 import { DiscShapeSpec, FitPolicy, TokenSpec } from "../../types";
-import { TEXT_COLOR_GROUP_ID } from "../deriveReliefColor";
 import { MomentumTuning, SharedConfig } from "./tokenItem";
 import { sharedTokenFields } from "./tokenSpecParts";
 

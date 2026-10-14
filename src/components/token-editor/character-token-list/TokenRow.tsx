@@ -1,6 +1,6 @@
 import { CheckboxField } from "@/components/primitives/checkbox-field/CheckboxField";
 import { NumberField } from "@/components/primitives/number-field/NumberField";
-import { MIN_COPIES } from "@/core/token/catalog/tokenItems/tokenItem";
+import { MIN_COPIES } from "@/core/token/catalog/token-items/tokenItem";
 
 import styles from "./CharacterTokenList.module.css";
 

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { flipItem } from "./contactSheetSvgFlip";
-import { ContactSheetItem } from "./contactSheetSvgTypes";
+import { flipItem } from "./flip";
+import { ContactSheetItem } from "./types";
 
 describe("flipItem", () => {
   const item: ContactSheetItem = {

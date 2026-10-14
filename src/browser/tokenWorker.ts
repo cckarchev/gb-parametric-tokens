@@ -1,12 +1,12 @@
 /// <reference lib="webworker" />
 import { describeError } from "@/core/describeError";
 import { buildTokenParts } from "@/core/token/buildTokenParts";
-import { TokenItem } from "@/core/token/catalog/tokenItems/tokenItem";
+import { TokenItem } from "@/core/token/catalog/token-items/tokenItem";
+import { buildThreeMfArchive } from "@/core/token/export/three-mf/archive";
 import {
   buildCombinedThreeMfModelXml,
   CombinedThreeMfItem,
-} from "@/core/token/export/combinedThreeMfModel";
-import { buildThreeMfArchive } from "@/core/token/export/threeMfArchive";
+} from "@/core/token/export/three-mf/combinedModel";
 import { CENTER_ANGLE_DEG } from "@/core/token/geometry/angleConventions";
 import { computeFootprintMm } from "@/core/token/geometry/computeFootprintMm";
 import { computePlateLayout, PlateLayoutItem } from "@/core/token/geometry/computePlateLayout";

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { ColorGroupSpec, Vec2 } from "../types";
-import { buildTokenPathsSvg } from "./svgDocument";
+import { buildTokenPathsSvg } from "./buildTokenPathsSvg";
+import { ColorGroupSpec, Vec2 } from "./types";
 
 const BASE_COLOR = "#2B2B2B";
 const TEXT_COLOR = "#FFFFFF";

@@ -16,7 +16,7 @@ export type CatalogEffect = {
   layout?: "ring";
 };
 
-// A fixed-size 3″ AOE template (see catalog/tokenItems/aoeTemplateSpec.ts), not a reminder
+// A fixed-size 3″ AOE template (see catalog/token-items/aoeTemplateSpec.ts), not a reminder
 // token: its own catalog, referenced from a character by id just like effects.
 export type CatalogAoeTemplate = {
   id: string;

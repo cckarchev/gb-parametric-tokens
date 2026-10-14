@@ -1,5 +1,5 @@
+import { TEXT_COLOR_GROUP_ID } from "../../mesh/colorGroups";
 import { FitPolicy, IconSpec, TokenSpec } from "../../types";
-import { TEXT_COLOR_GROUP_ID } from "../deriveReliefColor";
 import { SharedConfig } from "./tokenItem";
 
 // Every icon a guild token wears goes through here, so iconOverflowBehavior only needs to be
