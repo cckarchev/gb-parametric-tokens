@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { DEFAULT_BODY_FONT_ID, DEFAULT_DISPLAY_FONT_ID } from "../../text/fontCatalog";
 import { DEFAULT_SHARED_CONFIG } from "./defaultSharedConfig";
 import { mergeWithDefaults, parseSettingsFile } from "./parseSettingsFile";
 
@@ -97,6 +98,32 @@ describe("parseSettingsFile", () => {
     expect(config.printProfileId).toBe("fdm-04");
     expect(config.iconOverflowBehavior).toBe("trim");
     expect(config.aoeTemplateVariant).toBe("crowfoot");
+  });
+
+  it("falls back to each group's default font for a font this app does not have", () => {
+    const config = parseSettingsFile({
+      ...LEGACY_FILE,
+      characterToken: { fontId: "comic-sans" },
+      ringBadge: { fontId: "comic-sans" },
+      momentum: { fontId: "comic-sans" },
+      aoe: { fontId: "comic-sans" },
+    });
+
+    expect(config.characterToken.fontId).toBe(DEFAULT_SHARED_CONFIG.characterToken.fontId);
+    expect(config.ringBadge.fontId).toBe(DEFAULT_SHARED_CONFIG.ringBadge.fontId);
+    expect(config.momentum.fontId).toBe(DEFAULT_SHARED_CONFIG.momentum.fontId);
+    expect(config.aoe.fontId).toBe(DEFAULT_SHARED_CONFIG.aoe.fontId);
+  });
+
+  it("keeps a font this app has", () => {
+    const config = parseSettingsFile({
+      ...LEGACY_FILE,
+      characterToken: { fontId: DEFAULT_DISPLAY_FONT_ID },
+      momentum: { fontId: DEFAULT_BODY_FONT_ID },
+    });
+
+    expect(config.characterToken.fontId).toBe(DEFAULT_DISPLAY_FONT_ID);
+    expect(config.momentum.fontId).toBe(DEFAULT_BODY_FONT_ID);
   });
 
   it("rejects something that is not a settings file at all", () => {

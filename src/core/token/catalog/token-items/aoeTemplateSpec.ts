@@ -88,18 +88,18 @@ const buildLines = (
 // so its ink grows back toward center (see ringTokenSpec.ts). Offsetting each by half an ascent
 // centers both lines' ink on the band.
 const computeBandTextRadii = (
-  bandWidthMm: number,
+  aoe: AoeTuning,
   sizeMm: number,
 ): { topMm: number; bottomMm: number } => {
-  const bandMidRadiusMm = AOE_OUTER_RADIUS_MM - bandWidthMm / 2;
-  const halfAscentMm = estimateAscentMm(sizeMm) / 2;
+  const bandMidRadiusMm = AOE_OUTER_RADIUS_MM - aoe.bandWidthMm / 2;
+  const halfAscentMm = estimateAscentMm(sizeMm, aoe.fontId) / 2;
 
   return { topMm: bandMidRadiusMm - halfAscentMm, bottomMm: bandMidRadiusMm + halfAscentMm };
 };
 
 const buildRingLines = (template: CatalogAoeTemplate, aoe: AoeTuning): LineSpec[] => {
   const sizeMm = aoe.ring.textSizeMm;
-  const radii = computeBandTextRadii(aoe.bandWidthMm, sizeMm);
+  const radii = computeBandTextRadii(aoe, sizeMm);
 
   return buildLines(template, sizeMm, radii.topMm, radii.bottomMm);
 };
@@ -120,7 +120,7 @@ const computeSpokeTextRadiusMm = (aoe: AoeTuning): number => {
 // spoke repeats the same text, so whichever side a player stands on has one to read.
 const buildCrowfootLines = (template: CatalogAoeTemplate, aoe: AoeTuning): LineSpec[] => {
   const sizeMm = aoe.crowfoot.textSizeMm;
-  const radii = computeBandTextRadii(aoe.bandWidthMm, sizeMm);
+  const radii = computeBandTextRadii(aoe, sizeMm);
   const spokeAnglesDeg = computeSpokeAnglesDeg(resolveSpokeCount(aoe.crowfoot.spokeCount));
   const spokeTextRadiusMm = computeSpokeTextRadiusMm(aoe);
 
@@ -152,11 +152,14 @@ const buildCrowfootLines = (template: CatalogAoeTemplate, aoe: AoeTuning): LineS
 };
 
 // Ring text around the guild crest, laid out like Goal Influence (see ringTokenSpec.ts).
-const buildCompactLines = (
-  template: CatalogAoeTemplate,
-  tuning: AoeTuning["compactDisc"],
-): LineSpec[] => {
-  const radii = computeRingTextRadii(COMPACT_DIAMETER_MM, tuning.textInsetMm, tuning.textSizeMm);
+const buildCompactLines = (template: CatalogAoeTemplate, aoe: AoeTuning): LineSpec[] => {
+  const tuning = aoe.compactDisc;
+  const radii = computeRingTextRadii(
+    COMPACT_DIAMETER_MM,
+    tuning.textInsetMm,
+    tuning.textSizeMm,
+    aoe.fontId,
+  );
 
   return buildLines(template, tuning.textSizeMm, radii.topMm, radii.bottomMm);
 };
@@ -173,6 +176,7 @@ export const buildAoeTemplateSpec = (
     textLayout: "ring" as const,
     decorations: [],
     ...sharedTokenFields(sharedConfig),
+    fontId: aoe.fontId,
   };
 
   if (sharedConfig.aoeTemplateVariant === "compactDisc") {
@@ -184,7 +188,7 @@ export const buildAoeTemplateSpec = (
     return {
       ...sharedFields,
       shape: COMPACT_SHAPE,
-      lines: buildCompactLines(template, compactTuning),
+      lines: buildCompactLines(template, aoe),
       icons: [buildIconSpec(guildIconId, "center", compactIconScale, sharedConfig)],
     };
   }

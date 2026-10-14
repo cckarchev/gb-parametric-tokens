@@ -21,7 +21,7 @@ export const buildCharacterTokenSpec = (
     );
   }
 
-  const { crestScale, balanceNameScale, balanceEffectScale, singleLineNameSizeMm } =
+  const { crestScale, balanceNameScale, balanceEffectScale, singleLineNameSizeMm, fontId } =
     sharedConfig.characterToken;
   const iconScale = crestScale * guildIconScale;
   const secondLineText = sharedConfig.showSecondLine ? effect.effect : undefined;
@@ -69,5 +69,6 @@ export const buildCharacterTokenSpec = (
     ],
     decorations: [],
     ...sharedTokenFields(sharedConfig),
+    fontId,
   };
 };

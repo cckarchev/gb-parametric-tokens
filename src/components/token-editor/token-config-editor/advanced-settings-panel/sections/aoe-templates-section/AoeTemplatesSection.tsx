@@ -3,6 +3,7 @@ import { DEFAULT_SHARED_CONFIG } from "@/core/token/catalog/token-items/defaultS
 import { AoeTuning } from "@/core/token/catalog/token-items/tokenItem";
 
 import { SectionPanel, SectionProps } from "../section-panel/SectionPanel";
+import { FontField } from "../shared/FontField";
 import { CompactDiscFields } from "./CompactDiscFields";
 import { CrowfootFields } from "./CrowfootFields";
 import { RingFields } from "./RingFields";
@@ -30,6 +31,8 @@ export const AoeTemplatesSection = ({ sharedConfig, onChange }: SectionProps) =>
         options={AOE_TEMPLATE_VARIANT_OPTIONS}
         onChange={(variant) => onChange({ ...sharedConfig, aoeTemplateVariant: variant })}
       />
+
+      <FontField fontId={aoe.fontId} onChange={(fontId) => updateAoe({ ...aoe, fontId })} />
 
       {aoeTemplateVariant === "ring" && <RingFields aoe={aoe} onChange={updateAoe} />}
       {aoeTemplateVariant === "compactDisc" && <CompactDiscFields aoe={aoe} onChange={updateAoe} />}

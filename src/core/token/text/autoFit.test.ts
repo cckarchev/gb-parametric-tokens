@@ -1,9 +1,11 @@
+import path from "path";
 import { describe, expect, it } from "vitest";
 
 import { PRINT_PROFILES } from "../printProfiles";
 import { FitPolicy } from "../types";
 import { autoFitLine } from "./autoFit";
-import { loadTestFont } from "./testFont";
+import { DEFAULT_DISPLAY_FONT_ID, findFontEntry, fontFilePath } from "./fontCatalog";
+import { loadFontFile, loadTestFont } from "./testFont";
 
 const fitPolicy: FitPolicy = {
   minTracking: 0,
@@ -14,6 +16,31 @@ const fitPolicy: FitPolicy = {
 const printProfile = PRINT_PROFILES["fdm-04"];
 
 describe("autoFitLine", () => {
+  it("floors the shrink at the size where the font's own stroke still prints", () => {
+    const displayEntry = findFontEntry(DEFAULT_DISPLAY_FONT_ID);
+    const displayFont = loadFontFile(
+      path.join(process.cwd(), "public", fontFilePath(displayEntry.file)),
+    );
+    const noFloorPolicy: FitPolicy = { ...fitPolicy, minScale: 0, allowTwoLines: false };
+
+    // Far too long for the sweep, so it shrinks all the way to the floor and is then truncated.
+    const result = autoFitLine(
+      displayFont,
+      { text: "Superior Strategy Additional", sizeMm: 5, radiusMm: 30, availableSweepDeg: 10 },
+      noFloorPolicy,
+      printProfile,
+    );
+
+    const floorSizeMm = printProfile.minStrokeWidthMm / displayEntry.metrics.stemWidthRatio;
+    const bodyFloorSizeMm =
+      printProfile.minStrokeWidthMm / findFontEntry(undefined).metrics.stemWidthRatio;
+
+    // The truncated text lands at or a little above this font's floor, well under the floor of
+    // the body font's thinner stroke.
+    expect(result.lines[0].sizeMm).toBeGreaterThanOrEqual(floorSizeMm);
+    expect(result.lines[0].sizeMm).toBeLessThan(bodyFloorSizeMm);
+  });
+
   it("leaves short text unchanged when it already fits comfortably", () => {
     const font = loadTestFont();
 

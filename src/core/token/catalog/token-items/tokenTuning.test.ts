@@ -67,7 +67,12 @@ describe("token builders read their tuning group", () => {
   it("sizes Momentum's text and ring by the Momentum settings, the ring inset from the rim", () => {
     const config: SharedConfig = {
       ...DEFAULT_SHARED_CONFIG,
-      momentum: { textSizeMm: 4, ringInsetMm: 1, ringWidthMm: 1 },
+      momentum: {
+        ...DEFAULT_SHARED_CONFIG.momentum,
+        textSizeMm: 4,
+        ringInsetMm: 1,
+        ringWidthMm: 1,
+      },
     };
     const spec = buildMomentumTokenSpec(config);
     const discRadiusMm = config.discShape.diameterMm / 2;

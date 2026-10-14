@@ -75,6 +75,8 @@ export type CharacterTokenTuning = {
   // The name's size when it is the token's only line: with nothing to share the band with, it
   // can be larger than the two-line nameSizeMm.
   singleLineNameSizeMm: number;
+  // A FONT_CATALOG id, as are the other tunings' fontId.
+  fontId: string;
 };
 
 // Goal Influence and every effect with layout "ring" (see ringTokenSpec.ts).
@@ -83,10 +85,12 @@ export type RingBadgeTuning = {
   // From the rim to the outer edge of the text's ink (see ringTextRadii.ts).
   textInsetMm: number;
   crestScale: number;
+  fontId: string;
 };
 
 export type MomentumTuning = {
   textSizeMm: number;
+  fontId: string;
   // From the rim to the ring decoration's outer edge.
   ringInsetMm: number;
   ringWidthMm: number;
@@ -113,6 +117,8 @@ export type CrowfootTuning = {
 export type AoeTuning = {
   // Shared by the full ring and the crow's foot's arcs.
   bandWidthMm: number;
+  // Shared by all three variants.
+  fontId: string;
   ring: { textSizeMm: number };
   compactDisc: { textSizeMm: number; textInsetMm: number; crestScale: number };
   crowfoot: CrowfootTuning;

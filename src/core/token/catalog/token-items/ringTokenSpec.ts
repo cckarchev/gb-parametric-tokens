@@ -13,12 +13,13 @@ export const buildRingTokenSpec = (
   guildIconScale: number,
   sharedConfig: SharedConfig,
 ): TokenSpec => {
-  const { textSizeMm, textInsetMm, crestScale } = sharedConfig.ringBadge;
+  const { textSizeMm, textInsetMm, crestScale, fontId } = sharedConfig.ringBadge;
   // The text's ink sits textInsetMm in from the rim.
   const radii = computeRingTextRadii(
     sharedConfig.goalInfluenceShape.diameterMm,
     textInsetMm,
     textSizeMm,
+    fontId,
   );
 
   const topLine: LineSpec = {
@@ -52,5 +53,6 @@ export const buildRingTokenSpec = (
     // second circle.
     decorations: [],
     ...sharedTokenFields(sharedConfig),
+    fontId,
   };
 };

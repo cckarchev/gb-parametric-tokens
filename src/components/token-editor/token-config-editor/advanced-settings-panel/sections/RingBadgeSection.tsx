@@ -3,6 +3,7 @@ import { PercentField } from "@/components/primitives/PercentField";
 import { DEFAULT_SHARED_CONFIG } from "@/core/token/catalog/token-items/defaultSharedConfig";
 
 import { SectionPanel, SectionProps } from "./section-panel/SectionPanel";
+import { FontField } from "./shared/FontField";
 import { CREST_SCALE_BOUNDS, INSET_BOUNDS, TEXT_SIZE_BOUNDS } from "./shared/fieldBounds";
 import { ShapeEditor } from "./shared/ShapeEditor";
 
@@ -22,6 +23,10 @@ export const RingBadgeSection = ({ sharedConfig, onChange }: SectionProps) => {
       <ShapeEditor
         shape={sharedConfig.goalInfluenceShape}
         onChange={(goalInfluenceShape) => onChange({ ...sharedConfig, goalInfluenceShape })}
+      />
+      <FontField
+        fontId={ringBadge.fontId}
+        onChange={(fontId) => onChange({ ...sharedConfig, ringBadge: { ...ringBadge, fontId } })}
       />
       <NumberField
         label="Text size (mm)"

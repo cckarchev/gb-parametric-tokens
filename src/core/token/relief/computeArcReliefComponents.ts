@@ -33,16 +33,17 @@ const computeLineRadiiMm = (
   innerRadiusMm: number,
   outerRadiusMm: number,
   lines: { sizeMm: number }[],
+  fontId: string | undefined,
 ): number[] => {
   const midRadiusMm = (innerRadiusMm + outerRadiusMm) / 2;
 
   if (lines.length !== 2) {
-    return lines.map(({ sizeMm }) => midRadiusMm - estimateAscentMm(sizeMm) / 2);
+    return lines.map(({ sizeMm }) => midRadiusMm - estimateAscentMm(sizeMm, fontId) / 2);
   }
 
   const [nameLine, effectLine] = lines;
-  const nameAscentMm = estimateAscentMm(nameLine.sizeMm);
-  const effectAscentMm = estimateAscentMm(effectLine.sizeMm);
+  const nameAscentMm = estimateAscentMm(nameLine.sizeMm, fontId);
+  const effectAscentMm = estimateAscentMm(effectLine.sizeMm, fontId);
   const bandWidthMm = outerRadiusMm - innerRadiusMm;
   const marginMm = (bandWidthMm - nameAscentMm - effectAscentMm - TWO_LINE_GAP_MM) / 2;
 
@@ -69,7 +70,12 @@ export const computeArcReliefComponents = async (
   const availableSweepDeg = computeSweepDeg(shape) - 2 * STUD_TEXT_CLEARANCE_DEG;
   const ribbonInnerRadiusMm = computeInnerRadiusMm();
   const outerRadiusMm = computeOuterRadiusMm(shape);
-  const nominalLineRadiiMm = computeLineRadiiMm(ribbonInnerRadiusMm, outerRadiusMm, spec.lines);
+  const nominalLineRadiiMm = computeLineRadiiMm(
+    ribbonInnerRadiusMm,
+    outerRadiusMm,
+    spec.lines,
+    spec.fontId,
+  );
 
   const iconComponents = await Promise.all(
     spec.icons
@@ -100,7 +106,7 @@ export const computeArcReliefComponents = async (
   // height. A shrunk line re-centers inside its nominal height, so measuring there is enough.
   const nominalFits = spec.lines.map((line, lineIndex) => {
     const lineRadiusMm = line.radiusMm ?? nominalLineRadiiMm[lineIndex];
-    const lineTopRadiusMm = lineRadiusMm + estimateAscentMm(line.sizeMm);
+    const lineTopRadiusMm = lineRadiusMm + estimateAscentMm(line.sizeMm, spec.fontId);
     const crestFreeSweepDeg = computeCrestFreeSweepDeg(
       crestContours,
       CENTER_ANGLE_DEG,
@@ -131,6 +137,7 @@ export const computeArcReliefComponents = async (
     ribbonInnerRadiusMm,
     outerRadiusMm,
     nominalFits.map((fit) => ({ sizeMm: Math.max(...fit.lines.map((l) => l.sizeMm)) })),
+    spec.fontId,
   );
 
   const lineComponents: ReliefComponent[] = spec.lines.map((line, lineIndex) => {

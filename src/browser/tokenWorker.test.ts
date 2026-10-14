@@ -1,9 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("./loadFont", () => ({
-  loadFonts: vi
-    .fn()
-    .mockResolvedValue({ body: { typeface: "body" }, display: { typeface: "display" } }),
+  loadCatalogFont: vi.fn(async (fontId: string | undefined) => ({ loadedFontId: fontId })),
 }));
 vi.mock("./loadIconManifest", () => ({ loadIconManifest: vi.fn().mockResolvedValue([]) }));
 vi.mock("@/core/token/relief/computeReliefComponents", () => ({
@@ -36,6 +34,7 @@ const { buildThreeMfArchive } = await import("@/core/token/export/three-mf/archi
 import type { TokenItem } from "@/core/token/catalog/token-items/tokenItem";
 import type { TokenPart } from "@/core/token/mesh/tokenPart";
 import { arcSpec, discSpec } from "@/core/token/testSpecs";
+import { DEFAULT_DISPLAY_FONT_ID } from "@/core/token/text/fontCatalog";
 import type { ColorGroupSpec } from "@/core/token/types";
 
 import type { ExportRequest, PreviewRequest } from "./tokenWorker";
@@ -58,15 +57,15 @@ beforeEach(() => {
 });
 
 describe("resource loading", () => {
-  it("tries loading the font again after a failed attempt instead of failing every later request", async () => {
+  it("tries loading the icon manifest again after a failed attempt instead of failing every later request", async () => {
     // A fresh module, so the resources the other tests already loaded aren't cached here.
     vi.resetModules();
 
     const freshWorker = await import("./tokenWorker");
-    const { loadFonts } = await import("./loadFont");
+    const { loadIconManifest } = await import("./loadIconManifest");
     const emptyRequest: PreviewRequest = { kind: "preview", requestId: 1, items: [] };
 
-    vi.mocked(loadFonts).mockRejectedValueOnce(new Error("Failed to load font: Not Found"));
+    vi.mocked(loadIconManifest).mockRejectedValueOnce(new Error("Failed to load: Not Found"));
 
     await expect(freshWorker.handlePreview(emptyRequest)).rejects.toThrow("Not Found");
     await expect(freshWorker.handlePreview(emptyRequest)).resolves.toMatchObject({
@@ -76,9 +75,7 @@ describe("resource loading", () => {
 });
 
 describe("handlePreview", () => {
-  it("lays out each token in the font of its own typeface", async () => {
-    const { loadFonts } = await import("./loadFont");
-    const fonts = await loadFonts();
+  it("lays out each token in its own font", async () => {
     const reliefResult = {
       reliefComponents: [],
       warnings: [],
@@ -90,12 +87,12 @@ describe("handlePreview", () => {
     vi.mocked(computeBaseOutlineContours).mockResolvedValue([]);
 
     const items: TokenItem[] = [
-      { id: "body", label: "Body", name: "Body", spec: discSpec, copies: 1 },
+      { id: "default", label: "Default", name: "Default", spec: discSpec, copies: 1 },
       {
         id: "display",
         label: "Display",
         name: "Display",
-        spec: { ...discSpec, typeface: "display" },
+        spec: { ...discSpec, fontId: DEFAULT_DISPLAY_FONT_ID },
         copies: 1,
       },
     ];
@@ -104,7 +101,10 @@ describe("handlePreview", () => {
 
     const fontsUsed = vi.mocked(computeReliefComponents).mock.calls.map((call) => call[1]);
 
-    expect(fontsUsed).toEqual([fonts.body, fonts.display]);
+    expect(fontsUsed).toEqual([
+      { loadedFontId: undefined },
+      { loadedFontId: DEFAULT_DISPLAY_FONT_ID },
+    ]);
   });
 
   it("returns one result per item, with its outline, relief, warnings and failure reason", async () => {

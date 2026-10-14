@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { DEFAULT_BODY_FONT_ID, DEFAULT_DISPLAY_FONT_ID } from "../../text/fontCatalog";
 import { resolveEffect } from "../effects";
 import { buildCharacterTokenSpec } from "./characterTokenSpec";
 import { DEFAULT_SHARED_CONFIG } from "./defaultSharedConfig";
@@ -26,6 +27,7 @@ const config: SharedConfig = {
     balanceNameScale: BALANCE_NAME_SCALE,
     balanceEffectScale: BALANCE_EFFECT_SCALE,
     singleLineNameSizeMm: SINGLE_LINE_NAME_SIZE_MM,
+    fontId: DEFAULT_BODY_FONT_ID,
   },
 };
 
@@ -35,6 +37,33 @@ const ringEffect = resolveEffect("toppingOutInfluence");
 const nameOnlyEffect = resolveEffect("goad");
 
 describe("buildCharacterTokenSpec", () => {
+  it("sets an arc token's text in the arc tokens' font", () => {
+    const displayConfig: SharedConfig = {
+      ...config,
+      characterToken: { ...config.characterToken, fontId: DEFAULT_DISPLAY_FONT_ID },
+    };
+
+    const spec = buildCharacterTokenSpec(arcEffect, GUILD_ICON_ID, GUILD_ICON_SCALE, displayConfig);
+
+    expect(spec.fontId).toBe(DEFAULT_DISPLAY_FONT_ID);
+  });
+
+  it("sets a ring-layout effect in the ring badges' font, like the rest of its sizing", () => {
+    const displayConfig: SharedConfig = {
+      ...config,
+      ringBadge: { ...config.ringBadge, fontId: DEFAULT_DISPLAY_FONT_ID },
+    };
+
+    const spec = buildCharacterTokenSpec(
+      ringEffect,
+      GUILD_ICON_ID,
+      GUILD_ICON_SCALE,
+      displayConfig,
+    );
+
+    expect(spec.fontId).toBe(DEFAULT_DISPLAY_FONT_ID);
+  });
+
   it("builds an arc with the name and effect lines and the crest on both sides", () => {
     const spec = buildCharacterTokenSpec(arcEffect, GUILD_ICON_ID, GUILD_ICON_SCALE, config);
 

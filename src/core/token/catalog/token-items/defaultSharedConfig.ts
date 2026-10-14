@@ -7,6 +7,7 @@ import {
 } from "../../defaultShapeAndStyle";
 import { FALLBACK_ICON_ID } from "../../icons/iconManifest";
 import { DEFAULT_PRINT_PROFILE_ID } from "../../printProfiles";
+import { DEFAULT_BODY_FONT_ID, DEFAULT_DISPLAY_FONT_ID } from "../../text/fontCatalog";
 import { DiscShapeSpec } from "../../types";
 import { SharedConfig, TokenTuning } from "./tokenItem";
 
@@ -32,12 +33,21 @@ export const DEFAULT_TOKEN_TUNING: TokenTuning = {
     balanceNameScale: 0.9,
     balanceEffectScale: 1.2,
     singleLineNameSizeMm: DEFAULT_SINGLE_LINE_NAME_SIZE_MM,
+    fontId: DEFAULT_BODY_FONT_ID,
   },
-  ringBadge: { textSizeMm: 2.2, textInsetMm: 1, crestScale: 0.65 },
-  momentum: { textSizeMm: 6, ringInsetMm: 0.8, ringWidthMm: 0.6 },
+  ringBadge: { textSizeMm: 2.2, textInsetMm: 1, crestScale: 0.65, fontId: DEFAULT_BODY_FONT_ID },
+  // Two fixed letters never need fitting, so they can wear a rounder, wider face than the
+  // condensed one the rest of the text needs.
+  momentum: {
+    textSizeMm: 6,
+    fontId: DEFAULT_DISPLAY_FONT_ID,
+    ringInsetMm: 0.8,
+    ringWidthMm: 0.6,
+  },
   condition: { iconScale: 0.72 },
   aoe: {
     bandWidthMm: 6,
+    fontId: DEFAULT_BODY_FONT_ID,
     ring: { textSizeMm: 3.5 },
     compactDisc: { textSizeMm: 2.6, textInsetMm: 1.4, crestScale: 0.55 },
     crowfoot: {

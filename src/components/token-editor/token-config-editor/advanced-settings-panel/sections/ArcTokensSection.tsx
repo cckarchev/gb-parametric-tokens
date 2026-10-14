@@ -3,6 +3,7 @@ import { PercentField } from "@/components/primitives/PercentField";
 import { DEFAULT_SHARED_CONFIG } from "@/core/token/catalog/token-items/defaultSharedConfig";
 
 import { SectionPanel, SectionProps } from "./section-panel/SectionPanel";
+import { FontField } from "./shared/FontField";
 import { BALANCE_SCALE_BOUNDS, CREST_SCALE_BOUNDS, TEXT_SIZE_BOUNDS } from "./shared/fieldBounds";
 import { ShapeEditor } from "./shared/ShapeEditor";
 
@@ -27,6 +28,12 @@ export const ArcTokensSection = ({ sharedConfig, onChange }: SectionProps) => {
         onChange={(arcShape) => onChange({ ...sharedConfig, arcShape })}
       />
 
+      <FontField
+        fontId={characterToken.fontId}
+        onChange={(fontId) =>
+          onChange({ ...sharedConfig, characterToken: { ...characterToken, fontId } })
+        }
+      />
       <NumberField
         label="Two-line name size (mm)"
         value={sharedConfig.nameSizeMm}

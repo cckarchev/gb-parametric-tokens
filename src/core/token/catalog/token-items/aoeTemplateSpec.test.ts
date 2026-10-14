@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 
+import { DEFAULT_DISPLAY_FONT_ID } from "../../text/fontCatalog";
+import { estimateAscentMm } from "../../text/glyphMetrics";
 import { CatalogAoeTemplate } from "../catalogTypes";
 import { buildAoeTemplateSpec } from "./aoeTemplateSpec";
 import { DEFAULT_SHARED_CONFIG } from "./defaultSharedConfig";
@@ -44,6 +46,21 @@ describe("buildAoeTemplateSpec", () => {
     expect(topLine.radiusMm).toBeLessThan(BAND_MID_RADIUS_MM);
     expect(bottomLine.radiusMm).toBeGreaterThan(BAND_MID_RADIUS_MM);
     expect(radiusSum).toBeCloseTo(BAND_MID_RADIUS_MM * 2);
+  });
+
+  it("sets its text in the AOE font, centering the ink by that font's own height", () => {
+    const displayConfig: SharedConfig = {
+      ...sharedConfig,
+      aoe: { ...sharedConfig.aoe, fontId: DEFAULT_DISPLAY_FONT_ID },
+    };
+
+    const spec = buildAoeTemplateSpec(template, GUILD_ICON_ID, GUILD_ICON_SCALE, displayConfig);
+    const [topLine, bottomLine] = spec.lines;
+    const radiusGapMm = (bottomLine.radiusMm ?? 0) - (topLine.radiusMm ?? 0);
+    const sizeMm = displayConfig.aoe.ring.textSizeMm;
+
+    expect(spec.fontId).toBe(DEFAULT_DISPLAY_FONT_ID);
+    expect(radiusGapMm).toBeCloseTo(estimateAscentMm(sizeMm, DEFAULT_DISPLAY_FONT_ID));
   });
 
   it("carries no icons, only its text", () => {
@@ -205,7 +222,7 @@ describe("buildAoeTemplateSpec, compact disc variant", () => {
       },
     };
     const spec = buildAoeTemplateSpec(template, GUILD_ICON_ID, GUILD_ICON_SCALE, config);
-    const radii = computeRingTextRadii(25.4, 2, 2);
+    const radii = computeRingTextRadii(25.4, 2, 2, config.aoe.fontId);
 
     expect(spec.lines.map((line) => line.radiusMm)).toEqual([radii.topMm, radii.bottomMm]);
     expect(spec.lines.map((line) => line.sizeMm)).toEqual([2, 2]);

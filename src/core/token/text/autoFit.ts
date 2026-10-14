@@ -3,10 +3,9 @@ import type { Font } from "opentype.js";
 import { DEGREES_PER_RADIAN } from "../geometry/angleConventions";
 import { FitPolicy, PrintProfile } from "../types";
 import { computeSingleLineFit, SingleLineFitResult } from "./fitCascade";
+import { measureFontMetrics } from "./fontMetrics";
 import { measureAdvances } from "./measureAdvances";
 
-// Width of an "l" in the bundled font at sizeMm = 1. Remeasure if the font changes.
-const DEFAULT_FONT_STEM_WIDTH_MM_PER_SIZE_MM = 0.129;
 // How far each half of a split line moves off the line's radius, one outward and one inward.
 // Tuned by eye for ~5mm text; retune if the default size moves far from that.
 const TWO_LINE_RADIUS_OFFSET_MM = 3.5;
@@ -132,7 +131,9 @@ const buildFitContext = (
   fitPolicy: FitPolicy,
   printProfile: PrintProfile,
 ): FitContext => {
-  const profileMinSizeMm = printProfile.minStrokeWidthMm / DEFAULT_FONT_STEM_WIDTH_MM_PER_SIZE_MM;
+  // Measured off the font itself, so the floor follows whichever font the token uses.
+  const { stemWidthRatio } = measureFontMetrics(font);
+  const profileMinSizeMm = printProfile.minStrokeWidthMm / stemWidthRatio;
   const effectiveMinScale = Math.max(fitPolicy.minScale, profileMinSizeMm / sizeMm);
 
   return { font, sizeMm, availableSweepDeg, fitPolicy, effectiveMinScale };

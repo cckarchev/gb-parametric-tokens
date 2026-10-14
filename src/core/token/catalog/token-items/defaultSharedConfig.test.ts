@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { DEFAULT_BODY_FONT_ID, DEFAULT_DISPLAY_FONT_ID } from "../../text/fontCatalog";
 import { DEFAULT_SHARED_CONFIG, DEFAULT_TOKEN_TUNING } from "./defaultSharedConfig";
 
 describe("DEFAULT_TOKEN_TUNING", () => {
@@ -17,6 +18,13 @@ describe("DEFAULT_TOKEN_TUNING", () => {
     expect(DEFAULT_TOKEN_TUNING.aoe.ring.textSizeMm).toBe(3.5);
     expect(DEFAULT_TOKEN_TUNING.aoe.compactDisc.textSizeMm).toBe(2.6);
     expect(DEFAULT_TOKEN_TUNING.aoe.crowfoot.textSizeMm).toBe(4);
+  });
+
+  it("sets every token's text in the body font except Momentum's MP", () => {
+    expect(DEFAULT_TOKEN_TUNING.characterToken.fontId).toBe(DEFAULT_BODY_FONT_ID);
+    expect(DEFAULT_TOKEN_TUNING.ringBadge.fontId).toBe(DEFAULT_BODY_FONT_ID);
+    expect(DEFAULT_TOKEN_TUNING.aoe.fontId).toBe(DEFAULT_BODY_FONT_ID);
+    expect(DEFAULT_TOKEN_TUNING.momentum.fontId).toBe(DEFAULT_DISPLAY_FONT_ID);
   });
 
   it("keeps the crow's foot geometry, fillet on, sized to print on a 0.4mm nozzle", () => {

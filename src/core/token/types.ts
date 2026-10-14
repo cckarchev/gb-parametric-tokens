@@ -101,10 +101,6 @@ export type FitPolicy = {
   allowTwoLines: boolean;
 };
 
-// Which of the app's fonts a token's text is set in: "body" for everything that has to fit a lot
-// of text, "display" for the Momentum token's fixed "MP".
-export type Typeface = "body" | "display";
-
 export type TokenSpec = {
   version: 1;
   shape: ShapeSpec;
@@ -116,8 +112,8 @@ export type TokenSpec = {
   colorGroups: ColorGroupSpec[];
   printProfileId: string;
   fitPolicy: FitPolicy;
-  // Omitted means "body".
-  typeface?: Typeface;
+  // The id of a FONT_CATALOG entry (see fontCatalog.ts). Omitted means the body font.
+  fontId?: string;
 };
 
 export type PrintProfile = {

@@ -1,9 +1,9 @@
-// How high a capital letter's top sits above the baseline, as a fraction of sizeMm, measured on
-// the bundled font through layoutArcText. Not the font's `ascender`, which leaves room for
-// accents this text never uses. Remeasure if the font changes.
-const GLYPH_ASCENT_RATIO = 0.69;
+import { findFontEntry } from "./fontCatalog";
 
-// How tall a line of all-caps text stands above its baseline.
-export const estimateAscentMm = (sizeMm: number): number => {
-  return sizeMm * GLYPH_ASCENT_RATIO;
+// How tall a line of all-caps text stands above its baseline, in the font named by fontId
+// (undefined is the body font).
+export const estimateAscentMm = (sizeMm: number, fontId: string | undefined): number => {
+  const { ascentRatio } = findFontEntry(fontId).metrics;
+
+  return sizeMm * ascentRatio;
 };

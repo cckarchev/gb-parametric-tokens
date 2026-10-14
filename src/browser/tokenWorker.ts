@@ -14,11 +14,10 @@ import { collectGrowOutlineContours, ReliefComponent } from "@/core/token/mesh/r
 import { computeBaseOutlineContours } from "@/core/token/preview/computeBaseOutlineContours";
 import { PRINT_PROFILES } from "@/core/token/printProfiles";
 import { computeReliefComponents } from "@/core/token/relief/computeReliefComponents";
-import { selectTypefaceFont } from "@/core/token/text/selectTypefaceFont";
 import { ColorGroupSpec, ShapeSpec, Vec2 } from "@/core/token/types";
 import { describeTokenFailures } from "@/core/token/validation/describeTokenFailures";
 
-import { loadFonts } from "./loadFont";
+import { loadCatalogFont } from "./loadFont";
 import { loadIconManifest } from "./loadIconManifest";
 import { createLoadIconSource } from "./loadIconSource";
 
@@ -67,10 +66,11 @@ export type WorkerResponse = PreviewResponse | ExportResponse | WorkerErrorRespo
 
 let resourcesPromise: ReturnType<typeof loadResources> | undefined;
 
+// Fonts aren't here: each token loads only its own (see loadCatalogFont).
 const loadResources = async () => {
-  const [fonts, manifest] = await Promise.all([loadFonts(), loadIconManifest()]);
+  const manifest = await loadIconManifest();
 
-  return { fonts, loadIconSource: createLoadIconSource(manifest) };
+  return { loadIconSource: createLoadIconSource(manifest) };
 };
 
 // A failed load is forgotten rather than cached, so a transient network error fails only the
@@ -87,12 +87,12 @@ const getResources = () => {
 };
 
 export const handlePreview = async (request: PreviewRequest): Promise<PreviewResponse> => {
-  const { fonts, loadIconSource } = await getResources();
+  const { loadIconSource } = await getResources();
 
   const results = await Promise.all(
     request.items.map(async (item) => {
       const printProfile = PRINT_PROFILES[item.spec.printProfileId];
-      const font = selectTypefaceFont(item.spec, fonts);
+      const font = await loadCatalogFont(item.spec.fontId);
       const result = await computeReliefComponents(item.spec, font, printProfile, loadIconSource);
       // After computeReliefComponents, not alongside it: the outline includes the footprints of
       // icons with behavior "grow", which exist only once the icons are placed.
@@ -127,13 +127,13 @@ export const handlePreview = async (request: PreviewRequest): Promise<PreviewRes
 };
 
 export const handleExport = async (request: ExportRequest): Promise<ExportResponse> => {
-  const { fonts, loadIconSource } = await getResources();
+  const { loadIconSource } = await getResources();
   const failures: ExportFailureItem[] = [];
 
   const built = await Promise.all(
     request.items.map(async (item) => {
       const printProfile = PRINT_PROFILES[item.spec.printProfileId];
-      const font = selectTypefaceFont(item.spec, fonts);
+      const font = await loadCatalogFont(item.spec.fontId);
       const result = await computeReliefComponents(item.spec, font, printProfile, loadIconSource);
 
       if (result.blocksExport) {
