@@ -9,6 +9,7 @@ import {
 import { computeBaseOutlineContours } from "../preview/computeBaseOutlineContours";
 import { StyleSpec, Vec2 } from "../types";
 import { buildArcTokenMesh } from "./buildArcTokenMesh";
+import { ReliefComponent } from "./reliefComponent";
 
 const shape = { type: "arc" as const, ribbonWidthMm: 15, ribbonLengthMm: 20, studDiameterMm: 24 };
 const centerAngleDeg = 90;
@@ -27,16 +28,18 @@ const smallSquareAt = (center: Vec2): Vec2[][] => [
   ],
 ];
 
+const baseReliefComponents: ReliefComponent[] = [
+  { source: { kind: "decoration" }, contours: smallSquareAt(studPlacements.left.position) },
+  { source: { kind: "decoration" }, contours: smallSquareAt(studPlacements.right.position) },
+  { source: { kind: "decoration" }, contours: smallSquareAt([0, bandMidRadiusMm] as Vec2) },
+];
+
 const baseInput = (style: StyleSpec) => ({
   shape,
   centerAngleDeg,
   style,
   studPositions: { left: studPlacements.left.position, right: studPlacements.right.position },
-  reliefComponents: [
-    { contours: smallSquareAt(studPlacements.left.position) },
-    { contours: smallSquareAt(studPlacements.right.position) },
-    { contours: smallSquareAt([0, bandMidRadiusMm] as Vec2) },
-  ],
+  reliefComponents: baseReliefComponents,
 });
 
 describe("buildArcTokenMesh", () => {
@@ -110,12 +113,15 @@ describe("buildArcTokenMesh", () => {
 
     const parts = await buildArcTokenMesh({
       ...baseInput(style),
-      reliefComponents: [{ contours: smallSquareAt([0, bandMidRadiusMm] as Vec2) }],
+      reliefComponents: [
+        { source: { kind: "decoration" }, contours: smallSquareAt([0, bandMidRadiusMm] as Vec2) },
+      ],
     });
     const partsWithGrow = await buildArcTokenMesh({
       ...baseInput(style),
       reliefComponents: [
         {
+          source: { kind: "decoration" },
           contours: smallSquareAt([0, bandMidRadiusMm] as Vec2),
           growOutline: growSquareAtLeftStud,
         },
@@ -171,9 +177,21 @@ describe("buildArcTokenMesh", () => {
     const parts = await buildArcTokenMesh({
       ...baseInput(style),
       reliefComponents: [
-        { contours: smallSquareAt(studPlacements.left.position), colorGroup: "accent" },
-        { contours: smallSquareAt(studPlacements.right.position), colorGroup: "accent" },
-        { contours: smallSquareAt([0, bandMidRadiusMm] as Vec2), colorGroup: "accent" },
+        {
+          source: { kind: "decoration" },
+          contours: smallSquareAt(studPlacements.left.position),
+          colorGroup: "accent",
+        },
+        {
+          source: { kind: "decoration" },
+          contours: smallSquareAt(studPlacements.right.position),
+          colorGroup: "accent",
+        },
+        {
+          source: { kind: "decoration" },
+          contours: smallSquareAt([0, bandMidRadiusMm] as Vec2),
+          colorGroup: "accent",
+        },
       ],
     });
 

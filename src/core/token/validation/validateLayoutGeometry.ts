@@ -7,7 +7,6 @@ import { Vec2 } from "../types";
 // Below anything printable, above the polygon noise of flattened curves and circle segments.
 const AREA_EPSILON_MM2 = 0.05;
 const WHOLE_FOOTPRINT_PIECE_COUNT = 1;
-const UNKNOWN_SOURCE: ReliefComponentSource = { kind: "unknown" };
 
 export type LayoutGeometryFailure =
   | { kind: "outside-footprint"; source: ReliefComponentSource }
@@ -22,13 +21,13 @@ type ComponentSection = {
 // Icons have their own, finer check against their target circle (see iconPlacement.ts), so only
 // text and decorations are measured against the footprint here.
 const isPastEdgeCandidate = (component: ReliefComponent): boolean => {
-  const kind = component.source?.kind;
+  const kind = component.source.kind;
 
   return kind === "text" || kind === "decoration";
 };
 
 const hasSourceKind = (entry: ComponentSection, kind: ReliefComponentSource["kind"]): boolean => {
-  return entry.component.source?.kind === kind;
+  return entry.component.source.kind === kind;
 };
 
 // CrossSection#decompose() returns one empty section for an empty input rather than an empty
@@ -55,7 +54,7 @@ const findPastEdgeFailures = (
     const pastEdgeAreaMm2 = section.subtract(footprint).area();
 
     if (pastEdgeAreaMm2 > AREA_EPSILON_MM2) {
-      failures.push({ kind: "outside-footprint", source: component.source ?? UNKNOWN_SOURCE });
+      failures.push({ kind: "outside-footprint", source: component.source });
     }
   }
 
@@ -74,8 +73,8 @@ const findCrestOverTextFailures = (sections: ComponentSection[]): LayoutGeometry
       if (overlapAreaMm2 > AREA_EPSILON_MM2) {
         failures.push({
           kind: "crest-over-text",
-          source: iconEntry.component.source ?? UNKNOWN_SOURCE,
-          textSource: textEntry.component.source ?? UNKNOWN_SOURCE,
+          source: iconEntry.component.source,
+          textSource: textEntry.component.source,
         });
       }
     }

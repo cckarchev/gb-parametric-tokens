@@ -14,7 +14,7 @@ import { collectGrowOutlineContours, ReliefComponent } from "@/core/token/mesh/r
 import { computeBaseOutlineContours } from "@/core/token/preview/computeBaseOutlineContours";
 import { PRINT_PROFILES } from "@/core/token/printProfiles";
 import { computeReliefComponents } from "@/core/token/relief/computeReliefComponents";
-import { ColorGroupSpec, ShapeSpec } from "@/core/token/types";
+import { ColorGroupSpec, ShapeSpec, Vec2 } from "@/core/token/types";
 import { describeTokenFailures } from "@/core/token/validation/describeTokenFailures";
 
 import { loadFont } from "./loadFont";
@@ -24,16 +24,11 @@ import { createLoadIconSource } from "./loadIconSource";
 const PLATE_SPACING_MM = 10;
 
 export type PreviewRequest = { kind: "preview"; requestId: number; items: TokenItem[] };
-export type PreviewItem = {
-  id: string;
-  label: string;
-  group?: string;
-  name: string;
+export type PreviewItem = Pick<TokenItem, "id" | "label" | "group" | "name" | "copies"> & {
   shape: ShapeSpec;
-  baseContours: [number, number][][];
+  baseContours: Vec2[][];
   reliefComponents: ReliefComponent[];
   warnings: string[];
-  copies: number;
   valid: boolean;
   reason: string;
 };
@@ -49,7 +44,7 @@ export type ExportRequest = {
   items: TokenItem[];
   colorGroups: ColorGroupSpec[];
 };
-export type ExportFailureItem = { id: string; label: string; reason: string };
+export type ExportFailureItem = Pick<TokenItem, "id" | "label"> & { reason: string };
 export type ExportSuccess = {
   kind: "export";
   requestId: number;

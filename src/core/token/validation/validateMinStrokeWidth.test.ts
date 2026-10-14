@@ -137,17 +137,6 @@ describe("describeComponentFailure", () => {
     expect(message).toBe("Decoration: 1 of 1 detail too thin to print at this size.");
   });
 
-  it("falls back to a generic label for a component with no known source", () => {
-    const message = describeComponentFailure({
-      kind: "stroke-width",
-      source: { kind: "unknown" },
-      vanishedFeatureCount: 1,
-      featureCount: 2,
-    });
-
-    expect(message).toBe("This detail: 1 of 2 details too thin to print at this size.");
-  });
-
   it("uses the singular for a single detail", () => {
     const message = describeComponentFailure({
       kind: "stroke-width",

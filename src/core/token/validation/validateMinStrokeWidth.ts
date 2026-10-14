@@ -79,8 +79,6 @@ const describeReliefComponentSource = (source: ReliefComponentSource): string =>
       return `Icon "${source.iconId}"`;
     case "decoration":
       return "Decoration";
-    case "unknown":
-      return "This detail";
   }
 };
 

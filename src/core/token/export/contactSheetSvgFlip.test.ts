@@ -8,9 +8,9 @@ describe("flipItem", () => {
     shape: { type: "disc", diameterMm: 10 },
     baseContours: [[[1, 2]]],
     reliefComponents: [
-      { contours: [[[3, 4]]] },
-      { contours: [[[5, 6]]], colorGroup: "text" },
-      { contours: [[[7, 8]]], colorGroup: "text" },
+      { source: { kind: "decoration" }, contours: [[[3, 4]]] },
+      { source: { kind: "decoration" }, contours: [[[5, 6]]], colorGroup: "text" },
+      { source: { kind: "decoration" }, contours: [[[7, 8]]], colorGroup: "text" },
     ],
     copies: 2,
     label: "Tapper: Commanding Aura",

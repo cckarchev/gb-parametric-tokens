@@ -52,7 +52,7 @@ describe("buildContactSheetSvg", () => {
 
   it("emits an extra path per relief component, filled with its resolved color group color", () => {
     const reliefComponents: ReliefComponent[] = [
-      { contours: squareContour(4), colorGroup: "text" },
+      { source: { kind: "decoration" }, contours: squareContour(4), colorGroup: "text" },
     ];
     const items = [
       { shape: discShape, baseContours: squareContour(10), reliefComponents, copies: 1 },

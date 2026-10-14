@@ -7,7 +7,7 @@ import {
   computeOuterRadiusMm,
   computeSweepDeg,
 } from "../geometry/studPlacement";
-import { ArcShapeSpec } from "../types";
+import { ArcShapeSpec, Vec2 } from "../types";
 import { getManifoldModule } from "./manifoldModule";
 
 const WEDGE_STEPS = 64;
@@ -33,7 +33,7 @@ export const buildArcRibbonOutline2D = (
   const endAngleDeg = centerAngleDeg + sweepDeg / 2;
   const wedgeRadiusMm = outerRadiusMm + WEDGE_RADIUS_PADDING_MM;
 
-  const wedgePoints: [number, number][] = [[0, 0]];
+  const wedgePoints: Vec2[] = [[0, 0]];
 
   for (let step = 0; step <= WEDGE_STEPS; step++) {
     const angleDeg = startAngleDeg + ((endAngleDeg - startAngleDeg) * step) / WEDGE_STEPS;

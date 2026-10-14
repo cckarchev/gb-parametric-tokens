@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { RefObject, useCallback, useState } from "react";
 
 import { downloadBlob } from "@/browser/downloadBlob";
 import type { ExportFailureItem, ExportResponse, WorkerRequest } from "@/browser/tokenWorker";
@@ -12,9 +12,9 @@ const THREE_MF_MIME_TYPE = "model/3mf";
 const FALLBACK_ARCHIVE_NAME = "tokens";
 
 export const useExport = (
-  workerRef: { current: Worker | undefined },
-  requestIdRef: { current: number },
-  pendingExportRef: { current: PendingExport | undefined },
+  workerRef: RefObject<Worker | undefined>,
+  requestIdRef: RefObject<number>,
+  pendingExportRef: RefObject<PendingExport | undefined>,
   tokenItems: TokenItem[],
   guildName: string | undefined,
   sharedConfig: SharedConfig,

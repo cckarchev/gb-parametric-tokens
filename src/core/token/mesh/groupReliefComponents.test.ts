@@ -14,7 +14,9 @@ const square = (x: number): Vec2[][] => [
 
 describe("groupReliefComponentsByColorGroup", () => {
   it("puts untagged components under the reserved base id", () => {
-    const grouped = groupReliefComponentsByColorGroup([{ contours: square(0) }]);
+    const grouped = groupReliefComponentsByColorGroup([
+      { source: { kind: "decoration" }, contours: square(0) },
+    ]);
 
     expect([...grouped.keys()]).toEqual(["base"]);
     expect(grouped.get("base")).toEqual(square(0));
@@ -22,9 +24,9 @@ describe("groupReliefComponentsByColorGroup", () => {
 
   it("keeps distinct colorGroups separate and concatenates same-group contours", () => {
     const grouped = groupReliefComponentsByColorGroup([
-      { contours: square(0), colorGroup: "accent" },
-      { contours: square(2) },
-      { contours: square(4), colorGroup: "accent" },
+      { source: { kind: "decoration" }, contours: square(0), colorGroup: "accent" },
+      { source: { kind: "decoration" }, contours: square(2) },
+      { source: { kind: "decoration" }, contours: square(4), colorGroup: "accent" },
     ]);
 
     expect([...grouped.keys()]).toEqual(["accent", "base"]);

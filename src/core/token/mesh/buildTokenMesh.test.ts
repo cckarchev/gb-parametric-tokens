@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { TokenSpec, Vec2 } from "../types";
 import { buildTokenMesh } from "./buildTokenMesh";
+import { ReliefComponent } from "./reliefComponent";
 
 const baseSpec = (overrides: Partial<TokenSpec["style"]> = {}): TokenSpec => ({
   version: 1,
@@ -29,7 +30,7 @@ describe("buildTokenMesh", () => {
   it("produces one base part whose top is raised above the base thickness for relief: raised", async () => {
     const parts = await buildTokenMesh({
       spec: baseSpec({ relief: "raised" }),
-      reliefComponents: [{ contours: squareIcon }],
+      reliefComponents: [{ source: { kind: "decoration" }, contours: squareIcon }],
     });
 
     expect(parts).toHaveLength(1);
@@ -41,7 +42,7 @@ describe("buildTokenMesh", () => {
   it("keeps the manifold within the base thickness for relief: engraved", async () => {
     const parts = await buildTokenMesh({
       spec: baseSpec({ relief: "engraved" }),
-      reliefComponents: [{ contours: squareIcon }],
+      reliefComponents: [{ source: { kind: "decoration" }, contours: squareIcon }],
     });
 
     expect(parts).toHaveLength(1);
@@ -56,14 +57,19 @@ describe("buildTokenMesh", () => {
     };
 
     await expect(
-      buildTokenMesh({ spec, reliefComponents: [{ contours: squareIcon }] }),
+      buildTokenMesh({
+        spec,
+        reliefComponents: [{ source: { kind: "decoration" }, contours: squareIcon }],
+      }),
     ).rejects.toThrow(/only supports a "disc" shape/);
   });
 
   it("keeps a distinctly colorGrouped icon as its own separate part for relief: raised", async () => {
     const parts = await buildTokenMesh({
       spec: baseSpec({ relief: "raised" }),
-      reliefComponents: [{ contours: squareIcon, colorGroup: "accent" }],
+      reliefComponents: [
+        { source: { kind: "decoration" }, contours: squareIcon, colorGroup: "accent" },
+      ],
     });
 
     expect(parts).toHaveLength(2);
@@ -90,7 +96,9 @@ describe("buildTokenMesh", () => {
 
     const parts = await buildTokenMesh({
       spec: baseSpec({ relief: "raised" }),
-      reliefComponents: [{ contours: squareIcon, growOutline: growSquare }],
+      reliefComponents: [
+        { source: { kind: "decoration" }, contours: squareIcon, growOutline: growSquare },
+      ],
     });
 
     expect(parts).toHaveLength(1);
@@ -101,7 +109,9 @@ describe("buildTokenMesh", () => {
   it("fuses an icon explicitly tagged with the base colorGroup into a single part", async () => {
     const parts = await buildTokenMesh({
       spec: baseSpec({ relief: "raised" }),
-      reliefComponents: [{ contours: squareIcon, colorGroup: "base" }],
+      reliefComponents: [
+        { source: { kind: "decoration" }, contours: squareIcon, colorGroup: "base" },
+      ],
     });
 
     expect(parts).toHaveLength(1);
@@ -111,7 +121,9 @@ describe("buildTokenMesh", () => {
   it("leaves no material at the center of a disc with an inner diameter", async () => {
     const holeDiameterMm = 15;
     // A separately colorGrouped relief stays its own part, so the base part is the bare body.
-    const reliefComponents = [{ contours: squareIcon, colorGroup: "accent" }];
+    const reliefComponents: ReliefComponent[] = [
+      { source: { kind: "decoration" }, contours: squareIcon, colorGroup: "accent" },
+    ];
     const hollowSpec: TokenSpec = {
       ...baseSpec(),
       shape: { type: "disc", diameterMm: 25, innerDiameterMm: holeDiameterMm },

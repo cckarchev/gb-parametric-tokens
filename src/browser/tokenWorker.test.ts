@@ -57,14 +57,14 @@ describe("handlePreview", () => {
   it("returns one result per item, with its outline, relief, warnings and failure reason", async () => {
     vi.mocked(computeReliefComponents)
       .mockResolvedValueOnce({
-        reliefComponents: [{ contours: [[[0, 0]]] }],
+        reliefComponents: [{ source: { kind: "decoration" }, contours: [[[0, 0]]] }],
         warnings: ["warn-a"],
         valid: true,
         blocksExport: false,
         componentFailures: [],
       })
       .mockResolvedValueOnce({
-        reliefComponents: [{ contours: [[[1, 1]]] }],
+        reliefComponents: [{ source: { kind: "decoration" }, contours: [[[1, 1]]] }],
         warnings: [],
         valid: false,
         blocksExport: true,
@@ -105,7 +105,7 @@ describe("handlePreview", () => {
         name: "Token A",
         shape: discSpec.shape,
         baseContours: [[[-1, -1]]],
-        reliefComponents: [{ contours: [[[0, 0]]] }],
+        reliefComponents: [{ source: { kind: "decoration" }, contours: [[[0, 0]]] }],
         warnings: ["warn-a"],
         copies: 13,
         valid: true,
@@ -118,7 +118,7 @@ describe("handlePreview", () => {
         name: "Token B",
         shape: discSpec.shape,
         baseContours: [[[-2, -2]]],
-        reliefComponents: [{ contours: [[[1, 1]]] }],
+        reliefComponents: [{ source: { kind: "decoration" }, contours: [[[1, 1]]] }],
         warnings: [],
         copies: 1,
         valid: false,

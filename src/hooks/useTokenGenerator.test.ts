@@ -460,7 +460,7 @@ describe("useTokenGenerator", () => {
     ]);
   });
 
-  it("downloads the shared config as a settings JSON file", async () => {
+  it("downloads the shared config as a settings JSON file", () => {
     const { result } = renderHook(() => useTokenGenerator());
 
     act(() => {

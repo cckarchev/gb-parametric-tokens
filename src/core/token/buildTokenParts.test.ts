@@ -16,7 +16,9 @@ const squareAt = (center: Vec2): Vec2[][] => [
 
 describe("buildTokenParts", () => {
   it("dispatches to buildTokenMesh for a disc shape", async () => {
-    const parts = await buildTokenParts(discSpec, [{ contours: squareAt([0, 0]) }]);
+    const parts = await buildTokenParts(discSpec, [
+      { source: { kind: "decoration" }, contours: squareAt([0, 0]) },
+    ]);
 
     expect(parts).toHaveLength(1);
     expect(parts[0].colorGroupId).toBe("base");
@@ -28,8 +30,8 @@ describe("buildTokenParts", () => {
     const studPlacements = computeStudPlacements(shape, 90);
 
     const parts = await buildTokenParts(arcSpec, [
-      { contours: squareAt(studPlacements.left.position) },
-      { contours: squareAt(studPlacements.right.position) },
+      { source: { kind: "decoration" }, contours: squareAt(studPlacements.left.position) },
+      { source: { kind: "decoration" }, contours: squareAt(studPlacements.right.position) },
     ]);
 
     expect(parts).toHaveLength(1);
@@ -42,7 +44,11 @@ describe("buildTokenParts", () => {
     const studPlacements = computeStudPlacements(shape, 90);
 
     const parts = await buildTokenParts(arcSpec, [
-      { contours: squareAt(studPlacements.left.position), colorGroup: "accent" },
+      {
+        source: { kind: "decoration" },
+        contours: squareAt(studPlacements.left.position),
+        colorGroup: "accent",
+      },
     ]);
 
     expect(parts.map((part) => part.colorGroupId).sort()).toEqual(["accent", "base"]);

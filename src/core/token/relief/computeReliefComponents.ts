@@ -17,8 +17,6 @@ import { computeRingReliefComponents } from "./computeRingReliefComponents";
 
 export type { LoadIconSource, LoadIconSourceResult };
 
-const UNKNOWN_SOURCE: ReliefComponentSource = { kind: "unknown" };
-
 export type ComputeReliefComponentsResult = {
   reliefComponents: ReliefComponent[];
   // False whenever anything needs attention, layout warnings included: drives the preview's
@@ -87,7 +85,7 @@ export const computeReliefComponents = async (
     .filter(({ validation }) => !validation.valid)
     .map(({ component, validation }) => ({
       kind: "stroke-width" as const,
-      source: component.source ?? UNKNOWN_SOURCE,
+      source: component.source,
       vanishedFeatureCount: validation.vanishedFeatureCount,
       featureCount: validation.featureCount,
     }));
@@ -99,7 +97,7 @@ export const computeReliefComponents = async (
   const iconOverflowFailures: ComponentFailure[] = reliefComponents
     .filter(
       (component): component is typeof component & { source: { kind: "icon"; iconId: string } } =>
-        component.overflowsCircle === true && component.source?.kind === "icon",
+        component.overflowsCircle === true && component.source.kind === "icon",
     )
     .map((component) => ({ kind: "icon-overflow" as const, source: component.source }));
 

@@ -186,7 +186,7 @@ describe("CharacterTokenList", () => {
     expect(onSelectedTokenIdsChange).toHaveBeenCalledWith([characterTokenId("Spigot", 0)]);
   });
 
-  it("updates the copies count without touching the selection", async () => {
+  it("updates the copies count without touching the selection", () => {
     const { onTokenCopiesChange, onSelectedTokenIdsChange } = renderList({
       selectedTokenIds: [characterTokenId("Spigot", 0)],
     });

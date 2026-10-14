@@ -29,8 +29,8 @@ describe("buildPreviewSvg", () => {
 
   it("fills each relief component with its own resolved color group color, grouping same-color components into one path", () => {
     const reliefComponents: ReliefComponent[] = [
-      { contours: [square(6)], colorGroup: "text" },
-      { contours: [square(4)], colorGroup: "text" },
+      { source: { kind: "decoration" }, contours: [square(6)], colorGroup: "text" },
+      { source: { kind: "decoration" }, contours: [square(4)], colorGroup: "text" },
     ];
 
     const { svg } = buildPreviewSvg([square(20)], reliefComponents, colorGroups);
@@ -42,7 +42,9 @@ describe("buildPreviewSvg", () => {
   });
 
   it("resolves an untagged relief component to the base color group", () => {
-    const reliefComponents: ReliefComponent[] = [{ contours: [square(6)] }];
+    const reliefComponents: ReliefComponent[] = [
+      { source: { kind: "decoration" }, contours: [square(6)] },
+    ];
 
     const { svg } = buildPreviewSvg([square(20)], reliefComponents, colorGroups);
 
@@ -51,7 +53,9 @@ describe("buildPreviewSvg", () => {
   });
 
   it("falls back to the default gray when a relief component references an unknown color group", () => {
-    const reliefComponents: ReliefComponent[] = [{ contours: [square(6)], colorGroup: "missing" }];
+    const reliefComponents: ReliefComponent[] = [
+      { source: { kind: "decoration" }, contours: [square(6)], colorGroup: "missing" },
+    ];
 
     const { svg } = buildPreviewSvg([square(20)], reliefComponents, colorGroups);
 
@@ -78,6 +82,7 @@ describe("buildPreviewSvg", () => {
     const baseContours = [square(20)];
     const reliefComponents: ReliefComponent[] = [
       {
+        source: { kind: "decoration" },
         contours: [
           [
             [25, 25],

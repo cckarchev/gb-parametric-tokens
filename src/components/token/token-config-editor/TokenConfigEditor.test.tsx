@@ -250,7 +250,7 @@ describe("TokenConfigEditor", () => {
     expect(onChange).toHaveBeenCalledWith({ ...sharedConfig, nameSizeMm: 9 });
   });
 
-  it("reports a body color change while preserving the text color group", async () => {
+  it("reports a body color change while preserving the text color group", () => {
     const onChange = vi.fn();
 
     renderEditor({ onChange });
