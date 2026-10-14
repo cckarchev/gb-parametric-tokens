@@ -1,0 +1,15 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "gb-tokens",
+  "compatibility_date": "2026-10-01",
+  // Static assets only, no Worker script: the whole app runs in the browser.
+  "assets": {
+    "directory": "./dist",
+    // Client-side routes (/guild/<id>, /generic) get index.html instead of a 404.
+    "not_found_handling": "single-page-application"
+  },
+  "routes": [{ "pattern": "gb-tokens.cckarchev.ar", "custom_domain": true }],
+  // Only the custom domain serves the app, not a *.workers.dev address.
+  "workers_dev": false,
+  "preview_urls": false
+}
