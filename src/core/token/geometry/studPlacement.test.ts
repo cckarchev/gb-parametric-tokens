@@ -85,7 +85,7 @@ describe("computeStudPlacements", () => {
     expect(placements.left.angleDeg).toBeCloseTo(90 + halfSweepDeg, 9);
     expect(placements.right.angleDeg).toBeCloseTo(90 - halfSweepDeg, 9);
 
-    // The stud's center sits further out along the same ray, at innerRadiusMm + studRadiusMm --
+    // The stud's center sits further out along the same ray, at innerRadiusMm + studRadiusMm:
     // so the vertex point (innerRadiusMm, that same angle) is exactly studRadiusMm away from
     // the stud's center, i.e. exactly on its circumference.
     const vertexToCenterDistance = (angleDeg: number, position: [number, number]): number => {
@@ -118,7 +118,7 @@ describe("computeStudPlacements", () => {
     const bigPlacements = computeStudPlacements(biggerStudShape, 90);
 
     // Angle is unaffected by stud diameter (ribbonLengthMm/ribbonWidthMm are unchanged), so the
-    // vertex point itself (innerRadiusMm at that angle) is identical in both cases -- only the
+    // vertex point itself (innerRadiusMm at that angle) is identical in both cases: only the
     // stud's own center should move further out, never the vertex it touches.
     expect(smallPlacements.left.angleDeg).toBeCloseTo(bigPlacements.left.angleDeg, 9);
     const smallDistance = Math.hypot(...smallPlacements.left.position);

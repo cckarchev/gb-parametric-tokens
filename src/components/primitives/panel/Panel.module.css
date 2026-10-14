@@ -95,7 +95,7 @@
 /* Author CSS always wins over the browser's built-in [hidden] { display: none }, regardless of
    selector specificity, so setting display above silently defeats the hidden attribute unless
    this rule re-asserts it with higher specificity than .body alone. Kept as `flex` (not `none`)
-   here on purpose -- `display` can't be transitioned, so the collapse has to happen entirely via
+   here on purpose: `display` can't be transitioned, so the collapse has to happen entirely via
    height/padding/opacity instead while display stays constant. jest-dom's toBeVisible() (and
    real assistive tech) still treats the [hidden] attribute itself as authoritative regardless of
    the computed display, so this stays test- and a11y-correct. */

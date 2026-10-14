@@ -16,7 +16,7 @@ import {
 } from "./computeReliefComponentsShared";
 
 // The ring layout's two text bands: top (outward-reading, same convention as the ribbon arc)
-// and bottom (inward-reading, so it stays upright for a viewer who never rotates the token --
+// and bottom (inward-reading, so it stays upright for a viewer who never rotates the token,
 // see arcPlacement.ts's ArcOrientation doc comment).
 const RING_TOP_CENTER_ANGLE_DEG = 90;
 const RING_BOTTOM_CENTER_ANGLE_DEG = 270;
@@ -98,7 +98,7 @@ const buildRingLineComponent = (
 };
 
 // A full disc with curved text bands (by default the first on top reading outward and the second
-// on the bottom reading inward -- see the RING_*_CENTER_ANGLE_DEG constants above; any line can
+// on the bottom reading inward: see the RING_*_CENTER_ANGLE_DEG constants above; any line can
 // name its own centerAngleDeg instead, or run straight along a spoke with placement "radial"), a
 // center icon, and ring/border decorations.
 // Unlike the ribbon arc's lines, ring lines have no dynamic auto-centering: the disc has no

@@ -33,7 +33,7 @@ describe("buildArcRibbon", () => {
     expect(Math.abs(bounds.max[1])).toBeLessThanOrEqual(outerRadiusMm + 0.5);
   });
 
-  it("does not enclose the origin -- it's a ring segment centered at the top, not a full disc", async () => {
+  it("does not enclose the origin: it's a ring segment centered at the top, not a full disc", async () => {
     const manifold = await buildArcRibbon(shape, 90, 3);
     const bounds = manifold.boundingBox();
     const innerRadiusMm = computeInnerRadiusMm();

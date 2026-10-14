@@ -11,7 +11,7 @@ import { buildTokenPathsSvg } from "./svgDocument";
 
 const FALLBACK_ITEM_LABEL = "This token";
 // Only reachable if an invalid item somehow carries no reason (never happens via the real
-// pipeline, which always sets one alongside `valid: false` -- see tokenWorker.ts); kept so the
+// pipeline, which always sets one alongside `valid: false`, see tokenWorker.ts); kept so the
 // marker still says something useful instead of "undefined".
 const FALLBACK_ATTENTION_REASON = "This detail is thinner than the minimum printable stroke width.";
 
@@ -65,7 +65,7 @@ export const layoutPreparedSection = (
       // Arc items: a fixed offset, the same for every arc cell, never derived from this
       // item's own bounds (unaffected by alignToGridVertex, per the LOCKED base-reference
       // circle geometry in svgBaseReference.ts). Disc items: centered within the cell when
-      // alignToGridVertex is set, so the item's own center -- not merely its padded corner --
+      // alignToGridVertex is set, so the item's own center, not merely its padded corner,
       // sits at the cell's center, which is itself a grid vertex.
       const axisOffsetMm = (
         axis: 0 | 1,
@@ -115,7 +115,7 @@ export const layoutPreparedSection = (
         const reason = item.reason || FALLBACK_ATTENTION_REASON;
 
         // Fit to the item's own rendered content (bounds, shifted by this same offset every
-        // path above already draws with), not the whole padded/grid-aligned cell -- the cell is
+        // path above already draws with), not the whole padded/grid-aligned cell: the cell is
         // sized to fit the biggest item in the section plus grid-snap rounding, so it's usually
         // noticeably bigger than any one item's own footprint (user feedback: the marker doesn't
         // need to follow the grid, just the token).

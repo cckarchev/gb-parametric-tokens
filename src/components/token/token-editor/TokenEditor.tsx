@@ -20,7 +20,7 @@ export const TokenEditor = () => {
   // `{ ...generator.selection, [field]: value }`): GuildTokenList's own "Select all" fires
   // several of these setters synchronously in one click handler, and each one needs to build on
   // the previous call's result, not on the single `generator.selection` snapshot this render
-  // closed over -- otherwise only the last call would actually stick (a real, user-caught bug:
+  // closed over: otherwise only the last call would actually stick (a real, user-caught bug:
   // the checkbox looked like it did nothing).
   const updateSelectionField =
     <Field extends keyof TokenSelection>(field: Field) =>

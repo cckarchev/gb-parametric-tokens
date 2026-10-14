@@ -18,7 +18,7 @@ const crestCounter = (copies: number, isEnabled: boolean): CounterSelection => (
   copies,
 });
 
-// A guild's first-ever selection: everything the catalog offers, tildado by default, so the
+// A guild's first-ever selection: everything the catalog offers, checked by default, so the
 // user opts out of what they don't want rather than opting into everything from scratch. Once a
 // guild has been visited, its selection is remembered instead of being rebuilt from here again.
 export const buildDefaultSelection = (catalog: GuildCatalog): TokenSelection => {

@@ -13,7 +13,7 @@ type BuildTokenMeshInput = {
 export const buildTokenMesh = async (input: BuildTokenMeshInput): Promise<TokenPart[]> => {
   if (input.spec.shape.type !== "disc") {
     throw new Error(
-      `buildTokenMesh only supports a "disc" shape, got "${input.spec.shape.type}" -- an arc shape goes through buildArcTokenMesh instead (see buildTokenParts.ts)`,
+      `buildTokenMesh only supports a "disc" shape, got "${input.spec.shape.type}": an arc shape goes through buildArcTokenMesh instead (see buildTokenParts.ts)`,
     );
   }
 

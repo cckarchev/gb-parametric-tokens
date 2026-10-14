@@ -21,7 +21,7 @@ export type LoadIconSource = (iconId: string) => Promise<LoadIconSourceResult>;
 // one), it's just a deliberately generous multiple of the bare minimum.
 const GROW_MARGIN_MULTIPLIER = 4;
 
-// Both disc-shaped layouts (flat and ring) are only ever reached for a disc spec -- see
+// Both disc-shaped layouts (flat and ring) are only ever reached for a disc spec: see
 // computeReliefComponents.ts, which dispatches on shape.type before calling either. TypeScript
 // can't see that across the call, so each one needs its own narrowing guard; this makes that one
 // guard instead of two identical throws, and hands back the narrowed shape so the caller doesn't
@@ -67,9 +67,9 @@ export const buildIconComponent = async (
   // CrossSection to empty.
   const normalized = normalizeWinding(placed);
   // Trimming needs correctly wound contours (so a hole stays a hole under the intersection),
-  // hence after normalizeWinding -- and still in the icon's own local space, centered on the
+  // hence after normalizeWinding, and still in the icon's own local space, centered on the
   // origin, hence before rotate/translate below.
-  // The real stud/disc radius, not scaled by icon.scale -- trim only cuts what actually pokes
+  // The real stud/disc radius, not scaled by icon.scale: trim only cuts what actually pokes
   // past the physical circle, same reference placeIcon's own circle-fit check uses (see its
   // comment on circleFitScaleFactor), not the icon's smaller nominal-size target.
   const trimmed =
@@ -83,7 +83,7 @@ export const buildIconComponent = async (
   const rotated = rotateContours(trimmed, rotationDeg);
   const contours = translateContours(rotated, center);
 
-  // "grow" never touches the icon's own contours (unlike "shrink"/"trim" above) -- it grows the
+  // "grow" never touches the icon's own contours (unlike "shrink"/"trim" above): it grows the
   // stud/disc's own body around them instead, so the dilated footprint is computed from the
   // icon's final absolute position, matching the space the base builders place the stud/disc in.
   const growOutline =
@@ -95,7 +95,7 @@ export const buildIconComponent = async (
     contours,
     colorGroup: icon.colorGroup,
     source: { kind: "icon", iconId: icon.iconId },
-    // Only "none" leaves the overflow uncorrected, so only "none" needs the attention flag --
+    // Only "none" leaves the overflow uncorrected, so only "none" needs the attention flag:
     // "shrink", "trim", and "grow" already handled it (see IconOverflowBehavior in types.ts).
     overflowsCircle: overflowBehavior === "none" && overflowsCircle,
     growOutline,

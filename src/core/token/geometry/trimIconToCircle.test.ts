@@ -40,7 +40,7 @@ describe("trimIconToCircle", () => {
 
   it("cuts off the part of a shape that pokes past the circle's radius", async () => {
     // A square centered on the origin, corners at radius 5*sqrt(2) ~= 7.07mm, clipped to a
-    // circle of radius 5mm -- its corners must be cut, its area must shrink, but its untouched
+    // circle of radius 5mm: its corners must be cut, its area must shrink, but its untouched
     // sides (well within the circle) stay exactly where they were.
     const bigSquare: Vec2[][] = [
       [

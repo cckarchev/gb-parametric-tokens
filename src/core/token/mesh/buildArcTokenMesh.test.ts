@@ -14,7 +14,7 @@ const shape = { type: "arc" as const, ribbonWidthMm: 15, ribbonLengthMm: 20, stu
 const centerAngleDeg = 90;
 const studPlacements = computeStudPlacements(shape, centerAngleDeg);
 // Sits at the band's own midpoint radius so this relief component actually overlaps the
-// ribbon, the same way a real centered text line would -- required for the "unions into a
+// ribbon, the same way a real centered text line would: required for the "unions into a
 // single connected solid" test below to mean anything.
 const bandMidRadiusMm = (computeInnerRadiusMm() + computeOuterRadiusMm(shape)) / 2;
 
@@ -187,8 +187,8 @@ describe("buildArcTokenMesh", () => {
   // A ribbon wider than its nominal stud is exactly what computeEffectiveStudDiameterMm exists
   // for (see geometry/studPlacement.ts): the stud grows to match the ribbon's width so its curve
   // still encloses the ribbon's straight end edge instead of leaving a visible notch. Every other
-  // consumer -- stud placement, the icon target size, the worker's bounds, and the 2D preview
-  // outline -- goes through that helper, so the mesh's own footprint has to agree with the
+  // consumer (stud placement, the icon target size, the worker's bounds, and the 2D preview
+  // outline) goes through that helper, so the mesh's own footprint has to agree with the
   // preview's, or the print carries a notch the user never saw on screen.
   it("gives a ribbon wider than its stud the same footprint the 2D preview draws", async () => {
     const wideRibbonShape = {

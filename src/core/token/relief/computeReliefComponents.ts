@@ -75,7 +75,7 @@ export const computeReliefComponents = async (
 
   // Validated one component at a time (not the old single union over every contour combined) so
   // a failure can be traced back to the specific text line or icon it came from, instead of just
-  // a token-wide count -- see validateMinStrokeWidth.ts's describeComponentFailure.
+  // a token-wide count: see validateMinStrokeWidth.ts's describeComponentFailure.
   const componentValidations = await Promise.all(
     reliefComponents.map((component) =>
       validateMinStrokeWidth(component.contours, printProfile.minStrokeWidthMm),

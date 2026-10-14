@@ -70,7 +70,7 @@ export const computeBaseOutlineContours = async (
   const withStuds = sector.add(leftStud).add(rightStud);
 
   // Matches buildArcTokenMesh.ts's own fillet call exactly (same shape, same radius, same point
-  // in the pipeline -- before the grow union) so the preview never diverges from the real print.
+  // in the pipeline, before the grow union) so the preview never diverges from the real print.
   const outline =
     shape.studFilletEnabled && shape.studFilletRadiusMm
       ? filletOutline(withStuds, shape.studFilletRadiusMm)

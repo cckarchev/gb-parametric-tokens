@@ -10,8 +10,8 @@ export const allContoursOf = (item: FlippedContactSheetItem): Vec2[][] => {
   return [item.baseContours, ...item.reliefContoursByColorGroup.values()].flat();
 };
 
-// For an arc item, the token's own local origin -- and therefore the base-reference circle,
-// always drawn CIRCLE_ANCHOR_X_SVG/CIRCLE_ANCHOR_Y_SVG away from it -- is fixed relative to
+// For an arc item, the token's own local origin, and therefore the base-reference circle,
+// always drawn CIRCLE_ANCHOR_X_SVG/CIRCLE_ANCHOR_Y_SVG away from it, is fixed relative to
 // the item's own contours (see svgBaseReference.ts). Shifting a token's contours by this fixed
 // amount places its origin at (CIRCLE_ANCHOR_X_SVG, CIRCLE_ANCHOR_Y_SVG) in a local frame
 // shared by every arc cell, so changing any shape parameter never moves the circle relative to
@@ -22,7 +22,7 @@ export const shiftForArcAnchor = (contours: Vec2[][]): Vec2[][] => {
 };
 
 // The circle is always drawn at this fixed local footprint (see shiftForArcAnchor above), no
-// matter how small an item's own contours are -- a cell must be big enough for the circle
+// matter how small an item's own contours are: a cell must be big enough for the circle
 // itself, not just whatever content happens to be smaller than it.
 export const CIRCLE_FOOTPRINT_BOUNDS: Bounds = {
   min: [0, 0],
@@ -39,7 +39,7 @@ export const unionBounds = (a: Bounds, b: Bounds): Bounds => {
 // The fixed anchor above still leaves an arc item free to have real content (e.g. a wide
 // sweep's studs) to the left of, or above, the circle's own local footprint (which always runs
 // from local (0, 0) to (MODEL_BASE_DIAMETER_MM, MODEL_BASE_DIAMETER_MM)). Rather than compute a
-// per-item margin for that -- the exact pattern that caused the original bug -- one shared
+// per-item margin for that, the exact pattern that caused the original bug, one shared
 // margin covers the worst case across every arc item in the sheet, the same "Math.max over all
 // items" shape cellWidthMm/cellHeightMm already use below. A margin computed this way still
 // can't let one item's own parameter change move it relative to its own circle: it can only

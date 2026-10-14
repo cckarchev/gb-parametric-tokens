@@ -2,7 +2,7 @@ import type { CrossSection } from "manifold-3d";
 
 import { OFFSET_ARC_SEGMENTS, OFFSET_MITER_LIMIT } from "./circleResolution";
 
-// Morphological "closing" -- dilate by filletRadiusMm, then erode back by the same amount, both
+// Morphological "closing": dilate by filletRadiusMm, then erode back by the same amount, both
 // with round joins. Closing only ever adds material, and it does so exactly where a disk of
 // filletRadiusMm can't reach into a concave notch (e.g. where an arc token's ribbon meets its
 // stud), while an isolated convex boundary (the stud's own circle, the ribbon's outer curve) comes

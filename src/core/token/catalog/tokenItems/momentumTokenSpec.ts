@@ -29,7 +29,7 @@ const buildRingDecoration = (discShape: DiscShapeSpec, tuning: MomentumTuning) =
   };
 };
 
-// Fixed text "MP" (Momentum Points) plus a thin border ring, no icon -- a physical chip you
+// Fixed text "MP" (Momentum Points) plus a thin border ring, no icon: a physical chip you
 // stack to count Momentum, not a token that reads its own numeric value.
 export const buildMomentumTokenSpec = (sharedConfig: SharedConfig): TokenSpec => {
   return {

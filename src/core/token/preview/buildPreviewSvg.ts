@@ -42,7 +42,7 @@ export const buildPreviewSvg = (
   const flippedBaseContours = flipContoursY(baseContours);
   const flippedReliefComponents = flipComponents(reliefComponents);
 
-  // The reference circle's position is a fixed, constant anchor (see svgBaseReference.ts) --
+  // The reference circle's position is a fixed, constant anchor (see svgBaseReference.ts):
   // the arc token's own local origin is drawn there directly, never computed from the token's
   // rendered content, so changing any shape parameter never moves the circle relative to the
   // token.

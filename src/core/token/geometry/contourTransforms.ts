@@ -9,7 +9,7 @@ import { DEGREES_PER_RADIAN } from "./angleConventions";
 // Mirrors contours across the x axis. Used at every boundary between this app's two coordinate
 // conventions: the core pipeline works in mathYUp (y grows upward, same as the 3D mesh), SVG and
 // opentype.js both work y-down. A y-flip reverses contour winding, so svg/normalizeWinding.ts has
-// to run AFTER this, never before -- the ordering trap documented at each call site.
+// to run AFTER this, never before: the ordering trap documented at each call site.
 export const flipContoursY = (contours: Vec2[][]): Vec2[][] => {
   return contours.map((contour) => contour.map(([x, y]): Vec2 => [x, -y]));
 };

@@ -70,7 +70,7 @@ export type CatalogGenericToken = {
 
 export type GuildCatalog = {
   // Derived from the guild's own JSON file name at load time (see guildCatalogs.ts), not stored
-  // in the file itself -- the file name was already the source of truth, so keeping a second copy
+  // in the file itself: the file name was already the source of truth, so keeping a second copy
   // inside the file could only ever drift out of sync with it.
   guildId: string;
   name: string;

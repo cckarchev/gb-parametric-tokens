@@ -64,7 +64,7 @@ export const GuildTokenList = ({
 
   const rows = [...fixedRows, ...genericRows];
 
-  // Only ever flips `enabled` -- every counter's own copies count (default or already chosen)
+  // Only ever flips `enabled`: every counter's own copies count (default or already chosen)
   // is left exactly as it was, on or off, so toggling this twice in a row is a no-op on the
   // numbers themselves.
   //

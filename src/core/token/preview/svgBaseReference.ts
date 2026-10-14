@@ -9,7 +9,7 @@ const FILL_OPACITY = 0.35;
 // geometry (stud placement, sweep angle) is built around. So the reference circle no longer
 // needs computing at all: it's always drawn at a fixed local offset from that origin, chosen
 // once so the circle's own footprint runs from local (0, 0) to (MODEL_BASE_DIAMETER_MM,
-// MODEL_BASE_DIAMETER_MM) -- both already on 10mm grid lines. This replaces the old
+// MODEL_BASE_DIAMETER_MM): both already on 10mm grid lines. This replaces the old
 // tangent-to-crest + grid-snap computation entirely: see
 // docs/superpowers/specs/2026-09-02-arc-parametrization-design.md for why that's now exact by
 // construction instead of approximated.

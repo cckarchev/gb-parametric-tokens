@@ -8,7 +8,7 @@ export type ShapeSpec =
       studDiameterMm: number;
       // Smooths the concave corner where the ribbon meets a stud (see geometry/filletOutline.ts).
       // Both optional, undefined behaving as "off", so existing shape literals and imported
-      // settings without them keep working unchanged -- same convention as
+      // settings without them keep working unchanged: same convention as
       // IconSpec.overflowBehavior in this file.
       studFilletEnabled?: boolean;
       studFilletRadiusMm?: number;
@@ -59,12 +59,12 @@ export type LineSpec = {
 
 // What to do when an icon's own artwork pokes past its target stud/disc circle:
 // - "none" (the default): render it as-is, and flag the token for attention.
-// - "shrink": scale the whole icon down further so it fits inside the circle -- see
+// - "shrink": scale the whole icon down further so it fits inside the circle: see
 //   geometry/iconPlacement.ts's placeIcon. No attention flag, since it's already handled.
-// - "trim": cut off whatever pokes past the circle instead of shrinking the icon -- see
+// - "trim": cut off whatever pokes past the circle instead of shrinking the icon: see
 //   geometry/trimIconToCircle.ts. No attention flag either.
 // - "grow": leave the icon itself untouched, and instead grow the stud/disc's own body to hug
-//   it -- see geometry/growIconOutline.ts. No attention flag either.
+//   it (see geometry/growIconOutline.ts). No attention flag either.
 export type IconOverflowBehavior = "none" | "shrink" | "trim" | "grow";
 
 export type IconSpec = {

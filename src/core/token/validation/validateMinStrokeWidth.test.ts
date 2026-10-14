@@ -166,7 +166,7 @@ describe("describeComponentFailure", () => {
     });
 
     expect(message).toBe(
-      'Icon "cooks": extends past its circle and nothing corrects it -- see "Icons that overflow their circle".',
+      'Icon "cooks": extends past its circle and nothing corrects it. See "Icons that overflow their circle".',
     );
   });
 });
@@ -201,7 +201,7 @@ describe("describeComponentFailure, layout failures", () => {
 });
 
 describe("describeVanishedDetailCount", () => {
-  it("gives just the count, with no source label -- for when the caller already names the source", () => {
+  it("gives just the count, with no source label: for when the caller already names the source", () => {
     const message = describeVanishedDetailCount({ vanishedFeatureCount: 2, featureCount: 5 });
 
     expect(message).toBe("2 of 5 details too thin to print at this size.");

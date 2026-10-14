@@ -12,8 +12,8 @@ import { FlippedContactSheetItem, PreparedSection } from "./contactSheetSvgTypes
 
 // A small disc (e.g. a 15mm Beer Token) sharing one cell size with a much larger one (e.g. a
 // 20mm Goal Influence) sits in a cell padded out to the larger item's size, wasting space around
-// every smaller item. Grouping by diameter -- the only thing that varies a disc's own footprint
-// in this app -- lets each size form its own tightly-fitted sub-grid instead, stacked below one
+// every smaller item. Grouping by diameter, the only thing that varies a disc's own footprint
+// in this app, lets each size form its own tightly-fitted sub-grid instead, stacked below one
 // another (see buildContactSheetSvg). Insertion order is preserved (a Map remembers first-seen
 // key order) so groups render in the same order their items were selected in, not sorted by size.
 export const groupDiscItemsByDiameter = (
@@ -54,7 +54,7 @@ export const prepareSection = (
   // circle's local footprint (0,0)-(MODEL_BASE_DIAMETER_MM,MODEL_BASE_DIAMETER_MM), already a
   // clean 3-grid-square size, only lands on the sheet's actual 10mm grid lines if
   // cellPaddingMm + this margin comes out to an exact multiple of GRID_STEP_MM. Rounding the
-  // combined amount up (not the margin alone) guarantees that -- even when there's no real
+  // combined amount up (not the margin alone) guarantees that, even when there's no real
   // content overflow (raw margin 0), since cellPaddingMm on its own usually isn't already a
   // clean multiple of the grid step.
   const arcLeftMarginMm = alignToGridVertex

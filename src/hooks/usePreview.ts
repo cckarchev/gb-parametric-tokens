@@ -64,8 +64,8 @@ export const usePreview = (
 
     const elapsedSinceLastRequestMs = Date.now() - lastRequestSentAtRef.current;
 
-    // Leading edge: nothing else fired recently, so there's no burst to protect the worker from
-    // -- run this (possibly large) recompute right away instead of padding it with an artificial
+    // Leading edge: nothing else fired recently, so there's no burst to protect the worker from,
+    // so run this (possibly large) recompute right away instead of padding it with an artificial
     // wait. Trailing edge: something fired within the debounce window already, so this change
     // waits out the remainder of that window, coalescing the burst into one recompute instead of
     // one per event.

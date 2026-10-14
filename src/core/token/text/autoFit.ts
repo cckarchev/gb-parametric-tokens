@@ -10,7 +10,7 @@ import { measureAdvances } from "./measureAdvances";
 const DEFAULT_FONT_STEM_WIDTH_MM_PER_SIZE_MM = 0.129;
 // How far each half of a mid-word split moves off the line's own radius: the first half outward
 // by this much, the second half inward by the same, so the pair straddles where the single line
-// would have sat. Not physically calibrated -- carried over from the original OpenSCAD pipeline,
+// would have sat. Not physically calibrated: carried over from the original OpenSCAD pipeline,
 // where it was `size / 2 + 1` at the ~5mm text size that pipeline used. Tune by feel against a
 // real render if the default text size moves far from there.
 const TWO_LINE_RADIUS_OFFSET_MM = 3.5;

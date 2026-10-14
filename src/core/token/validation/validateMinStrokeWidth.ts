@@ -46,7 +46,7 @@ export const validateMinStrokeWidth = async (
 
 // One relief component (a text line, an icon, a decoration) that failed the min-stroke-width
 // check, computed by running validateMinStrokeWidth per component instead of once over every
-// contour combined -- see computeReliefComponents.ts.
+// contour combined: see computeReliefComponents.ts.
 type StrokeWidthFailure = {
   kind: "stroke-width";
   source: ReliefComponentSource;
@@ -58,7 +58,7 @@ type StrokeWidthFailure = {
 // (see geometry/iconPlacement.ts's placeIcon) AND that nothing corrected: this failure is only
 // ever raised for IconOverflowBehavior "none" (see computeReliefComponentsShared.ts, which clears
 // the flag for "shrink", "trim" and "grow" because each of those already handled it). So the icon
-// really does print past the circle -- and a raised relief icon is unioned onto the base with no
+// really does print past the circle, and a raised relief icon is unioned onto the base with no
 // clip against the stud/disc's own circle (applyReliefToBase.ts), leaving that excess as an
 // unsupported overhang.
 type IconOverflowFailure = {
@@ -66,7 +66,7 @@ type IconOverflowFailure = {
   source: Extract<ReliefComponentSource, { kind: "icon" }>;
 };
 
-// Every reason a token can land in the "needs attention" list -- computeReliefComponents.ts
+// Every reason a token can land in the "needs attention" list. computeReliefComponents.ts
 // combines every kind into one list, tokenWorker.ts turns it into one reason string per token.
 export type ComponentFailure = StrokeWidthFailure | IconOverflowFailure | LayoutGeometryFailure;
 
@@ -83,7 +83,7 @@ const describeReliefComponentSource = (source: ReliefComponentSource): string =>
   }
 };
 
-// The bare count, with no source label -- for a caller that already names the source some other
+// The bare count, with no source label: for a caller that already names the source some other
 // way (tokenWorker.ts drops the redundant "Text "..."" prefix when a token's only failing
 // component is its own title, since the surrounding UI already names that token by title).
 export const describeVanishedDetailCount = (
@@ -96,7 +96,7 @@ export const describeVanishedDetailCount = (
 };
 
 const ICON_OVERFLOW_MESSAGE =
-  'extends past its circle and nothing corrects it -- see "Icons that overflow their circle".';
+  'extends past its circle and nothing corrects it. See "Icons that overflow their circle".';
 const OUTSIDE_FOOTPRINT_MESSAGE = "runs past the token's edge.";
 const BROKEN_FOOTPRINT_MESSAGE =
   "The token's outline came out empty or in separate pieces: check its shape settings.";

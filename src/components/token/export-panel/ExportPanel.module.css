@@ -37,7 +37,7 @@
 }
 
 /* No padding/border: the collapsed summary must sit at the exact same position as the plain
-   .status paragraph it replaces (see describeStatus's "ready"/"neutral" tones) -- any box
+   .status paragraph it replaces (see describeStatus's "ready"/"neutral" tones): any box
    padding here shifted the icon and text sideways the moment a token count went invalid
    (user feedback). */
 .attentionBox {
@@ -107,7 +107,7 @@
 .attentionReason {
   color: var(--color-text-muted);
   /* One failing component per line (tokenWorker.ts joins them with \n) instead of a run-on
-     paragraph -- several "Icon ...: Text ...:" clauses back to back read as illegible (user
+     paragraph: several "Icon ...: Text ...:" clauses back to back read as illegible (user
      feedback). white-space:pre-line renders each \n as a real line break while still wrapping
      an overlong single line normally. */
   white-space: pre-line;

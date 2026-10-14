@@ -24,7 +24,7 @@ const JSON_MIME_TYPE = "application/json";
 const SETTINGS_JSON_INDENT = 2;
 
 // Rendered only before any guild has been selected (TokenEditor gates every consumer of
-// `selection` behind `generator.catalog &&`), so its actual values are never seen -- it exists
+// `selection` behind `generator.catalog &&`), so its actual values are never seen: it exists
 // purely so `selection` can stay a plain TokenSelection instead of TokenSelection | undefined.
 const NO_GUILD_SELECTED: TokenSelection = {
   characterTokenIds: [],
@@ -46,7 +46,7 @@ export const useTokenGenerator = () => {
   // Selections live per guild, keyed by guildId, so switching guilds never loses what the user
   // chose for the one they're leaving. A guild with no entry yet (first visit) falls back to
   // defaultSelection below, so the map only needs to gain an entry once the user actually
-  // changes something -- an untouched guild reproduces the same default either way.
+  // changes something: an untouched guild reproduces the same default either way.
   const [selectionsByGuild, setSelectionsByGuild] = useState<Record<string, TokenSelection>>({});
 
   // Memoized on `catalog` (not recomputed on every render): usePreview's own tokenItems memo

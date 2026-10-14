@@ -23,7 +23,7 @@ describe("computeArcGlyphPlacements", () => {
     expect(placements[0].angleDeg).toBeCloseTo(expectedAngleDeg0, 9);
     expect(placements[1].angleDeg).toBeCloseTo(expectedAngleDeg1, 9);
 
-    // the two glyphs are NOT evenly split around the center angle -- that's the bug being fixed.
+    // the two glyphs are NOT evenly split around the center angle: that's the bug being fixed.
     const spacing0 = 90 - placements[0].angleDeg;
     const spacing1 = placements[1].angleDeg - 90;
     expect(spacing0).not.toBeCloseTo(spacing1, 3);
@@ -77,10 +77,10 @@ describe("computeArcGlyphPlacements", () => {
 
   // "inward" is for a band of text on the far side of a circle from "outward" (e.g. the bottom
   // half of a full-disc ring, see computeReliefComponents.ts's ring text layout) that still
-  // needs to read left-to-right, upright, for a viewer who never rotates the token -- unlike
+  // needs to read left-to-right, upright, for a viewer who never rotates the token: unlike
   // "outward", which always points a glyph's ascender away from the circle's center and reads
   // correctly only where that also happens to point "up" on screen (e.g. the top of a circle).
-  it("with orientation inward, increases the angle as pen position increases -- the opposite of outward's decrease", () => {
+  it("with orientation inward, increases the angle as pen position increases: the opposite of outward's decrease", () => {
     const placements = computeArcGlyphPlacements({
       advancesMm: [5, 5, 5],
       kerningsMm: [0, 0],

@@ -29,7 +29,7 @@ describe("placeIcon", () => {
         [-10, -10],
       ],
     ]);
-    // Still detected and reported even though the option didn't act on it -- see
+    // Still detected and reported even though the option didn't act on it: see
     // computeReliefComponentsShared.ts, where this drives the "needs attention" flag
     // regardless of whether shrinking is turned on.
     expect(overflowsCircle).toBe(true);
@@ -88,7 +88,7 @@ describe("placeIcon", () => {
   });
 
   it("checks overflow against the real target circle, not one shrunk by the icon's own scale", () => {
-    // Same solid square that overflows at scale 1 (see above) -- but at scale 0.5 its nominal
+    // Same solid square that overflows at scale 1 (see above), but at scale 0.5 its nominal
     // box-fit size is already small enough to sit well within the real, full-size target circle,
     // so there's nothing to flag or correct. The overflow check must reference targetDiameterMm
     // itself, not targetDiameterMm * scale, or this would still (wrongly) flag it.

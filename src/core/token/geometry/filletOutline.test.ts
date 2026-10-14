@@ -20,7 +20,7 @@ describe("filletOutline", () => {
     const filleted = filletOutline(peanut, 3);
 
     // The two circles' boundaries cross at x=3.5, y=+-sqrt(5^2 - 3.5^2) ~= 3.57. Just beyond
-    // that crossing, along the perpendicular bisector, sits the concave notch itself -- outside
+    // that crossing, along the perpendicular bisector, sits the concave notch itself: outside
     // the original union but inside the filleted one once the notch is smoothed over.
     const notchProbe = CrossSection.circle(0.05, 16).translate(3.5, 3.9);
 

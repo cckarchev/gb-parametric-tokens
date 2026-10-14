@@ -9,7 +9,7 @@ type ArcGlyphPlacement = {
   // Distance, in the glyph's own local coordinates, from its pen-start origin (x=0) to the
   // point that gets rotated in place and placed on the arc. Pivoting on the pen-start edge
   // instead of the glyph's own horizontal center swings a wide glyph's far side away from the
-  // true curve, which reads as "leaning"/faceted text -- worse the wider the glyph, so it
+  // true curve, which reads as "leaning"/faceted text: worse the wider the glyph, so it
   // barely showed with a narrow font but is obvious with a bold, wide one.
   pivotOffsetMm: number;
 };
@@ -19,7 +19,7 @@ type ArcGlyphPlacement = {
 // a ring, or the ribbon token's own arc). "inward" points the ascender toward the center
 // instead, for a band on the opposite side of the same circle (e.g. the bottom of a full-disc
 // ring) that still needs to read left-to-right, upright, for a viewer who never rotates the
-// token -- the classic "challenge coin" bottom-band convention.
+// token: the classic "challenge coin" bottom-band convention.
 export type ArcOrientation = "outward" | "inward";
 
 type ArcGlyphPlacementInput = {
@@ -38,7 +38,7 @@ export const computeArcGlyphPlacements = (input: ArcGlyphPlacementInput): ArcGly
   const orientation = input.orientation ?? "outward";
   // outward: increasing arc-length-from-center decreases the angle (existing convention).
   // inward: reversed, so reading left-to-right sweeps the same rotational direction an
-  // upright viewer expects on the far side of the circle -- see ArcOrientation's doc comment.
+  // upright viewer expects on the far side of the circle: see ArcOrientation's doc comment.
   const orientationSignMultiplier = orientation === "outward" ? -1 : 1;
 
   return penPositions.map((penPosition, index): ArcGlyphPlacement => {
@@ -52,16 +52,16 @@ export const computeArcGlyphPlacements = (input: ArcGlyphPlacementInput): ArcGly
 
     // svgYDown: glyph outlines from opentype.js render upright with no flip, so writing
     // this directly into SVG (y-down) space needs the y negated and rotation mirrored to
-    // compensate -- this is the exact fix from M2's postmortem, left unchanged here.
+    // compensate: this is the exact fix from M2's postmortem, left unchanged here.
     // mathYUp: manifold-3d's 3D world is plain math convention (y-up), so no compensation
-    // is needed -- this is the convention M3's mesh-building tasks use.
+    // is needed: this is the convention M3's mesh-building tasks use.
     const position: Vec2 =
       input.coordinateConvention === "svgYDown"
         ? [input.radiusMm * Math.cos(angleRad), -input.radiusMm * Math.sin(angleRad)]
         : [input.radiusMm * Math.cos(angleRad), input.radiusMm * Math.sin(angleRad)];
 
     // outward points the glyph's ascender away from the center, inward points it toward the
-    // center instead -- a quarter turn either side of the point's own polar angle (see
+    // center instead: a quarter turn either side of the point's own polar angle (see
     // RADIAL_TO_UPRIGHT_OFFSET_DEG). svgYDown always mirrors whatever mathYUp computes, same
     // relationship as before orientation existed.
     const mathYUpRotationDeg =

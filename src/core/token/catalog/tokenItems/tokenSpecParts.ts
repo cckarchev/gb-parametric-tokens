@@ -24,7 +24,7 @@ export const buildIconSpec = (
 // whatever its own shape, text, icons, and decorations look like.
 //
 // fitPolicyOverride exists for a token whose text is fixed by this app rather than typed by the
-// user, and so never needs fitting at all (Momentum's "MP" -- see momentumTokenSpec.ts). It's a
+// user, and so never needs fitting at all (Momentum's "MP", see momentumTokenSpec.ts). It's a
 // parameter rather than a field the caller re-assigns after the spread, so the override is
 // visible at the call site instead of depending on which key happens to be written last.
 export const sharedTokenFields = (

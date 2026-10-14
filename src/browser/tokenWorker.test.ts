@@ -246,7 +246,7 @@ describe("handlePreview", () => {
     const response = await handlePreview(request);
 
     expect(response.results[0].reason).toBe(
-      'Icon "Cooks": extends past its circle and nothing corrects it -- see "Icons that overflow their circle".',
+      'Icon "Cooks": extends past its circle and nothing corrects it. See "Icons that overflow their circle".',
     );
   });
 });

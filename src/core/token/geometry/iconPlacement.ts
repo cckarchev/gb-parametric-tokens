@@ -7,7 +7,7 @@ type IconPlacementOptions = {
   scale: number;
   // Off by default (see IconSpec.overflowBehavior's "shrink" value): when true, an icon whose own
   // farthest point would poke past the target circle under a plain bounding-box fit is shrunk
-  // further, to the circle-fit scale, instead. `overflowsCircle` below is reported either way --
+  // further, to the circle-fit scale, instead. `overflowsCircle` below is reported either way:
   // turning this off only skips the correction, never the detection.
   constrainToCircle: boolean;
 };
@@ -18,7 +18,7 @@ type PlaceIconResult = {
   // under a plain bounding-box fit, regardless of whether constrainToCircle actually corrected
   // it. A raised relief icon is unioned onto the base with no clip against the stud/disc's own
   // circle (see applyReliefToBase.ts), so any point past that circle would print as an
-  // unsupported overhang -- this is what lets a caller flag that token for attention.
+  // unsupported overhang: this is what lets a caller flag that token for attention.
   overflowsCircle: boolean;
 };
 

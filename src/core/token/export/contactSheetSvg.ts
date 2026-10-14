@@ -8,7 +8,7 @@ import { ContactSheetItem, FlippedContactSheetItem } from "./contactSheetSvgType
 
 // No padding at all around an arc cell's content (it used to be 5mm). prepareSection rounds
 // cellPaddingMm plus the arc margin up to the next GRID_STEP_MM line, so any padding that isn't
-// already a whole multiple of the grid step gets rounded up to one anyway -- 5mm bought a full
+// already a whole multiple of the grid step gets rounded up to one anyway: 5mm bought a full
 // extra 10mm of gap rather than 5. Zero lets arc cells sit as tight as the grid allows (user
 // feedback: cells read as "too separated" once alignment made the gaps obvious).
 const CELL_PADDING_MM = 0;
@@ -56,11 +56,11 @@ export const buildContactSheetSvg = (
     prepareSection(group, DISC_CELL_PADDING_MM, true),
   );
 
-  // The sheet's overall width is set once, by whichever section has the widest natural cell --
+  // The sheet's overall width is set once, by whichever section has the widest natural cell:
   // normally the arc section, since an arc token plus its fixed base-reference circle is the
   // biggest thing on the sheet. Every other section/group then wraps at however many of ITS OWN
   // (usually smaller) cells fit inside that same width, instead of every group sharing one fixed
-  // column count -- which stranded small items in a narrow column with empty width to their
+  // column count, which stranded small items in a narrow column with empty width to their
   // right, and let a fast-growing group (e.g. more Goal Influence tokens) just get wider than
   // the rest of the sheet instead of wrapping into more rows (user feedback).
   const referenceCellWidthMm =
@@ -82,7 +82,7 @@ export const buildContactSheetSvg = (
   // Rounded up to a grid line even though the arc section itself isn't grid-snapped (its own
   // content-driven height rarely lands on one): each disc sub-grid's row centers only land on
   // grid vertices (see prepareSection's alignToGridVertex) if the sub-grid starts at a multiple
-  // of GRID_STEP_MM. No extra gap is added beyond that rounding -- an explicit gap on top of
+  // of GRID_STEP_MM. No extra gap is added beyond that rounding: an explicit gap on top of
   // every section's own padding read as wasted space (user feedback: bring the sections closer).
   const discSectionStartYMm = roundUpToGridStep(arcSection?.heightMm ?? 0);
 

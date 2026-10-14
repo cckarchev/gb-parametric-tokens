@@ -78,7 +78,7 @@ describe("buildTokenMesh", () => {
   });
 
   it("unions a growOutline contour into the base, past the plain disc's own radius", async () => {
-    // The disc is 25mm diameter (radius 12.5mm) -- this square reaches well past that.
+    // The disc is 25mm diameter (radius 12.5mm): this square reaches well past that.
     const growSquare: Vec2[][] = [
       [
         [-20, -20],

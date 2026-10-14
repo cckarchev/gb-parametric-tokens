@@ -7,7 +7,7 @@
 .grid {
   display: grid;
   /* Full-width strip now (moved out of the narrow form column), so a fixed column count no
-     longer fits every window width well -- reflow to however many tiles of this minimum size fit
+     longer fits every window width well: reflow to however many tiles of this minimum size fit
      per row. Sized up from an original 64px (user feedback: there's room for bigger,
      easier-to-read guild icons here). */
   grid-template-columns: repeat(auto-fill, minmax(var(--size-guild-tile-min), 1fr));
@@ -70,7 +70,7 @@
      regardless of the app's own dark theme. */
   background: var(--color-paper);
   /* Any icon whose ink reaches its own box's corners (not just wide ones) would otherwise paint
-     straight past this circle onto the tile background -- keep this no matter what future icon
+     straight past this circle onto the tile background: keep this no matter what future icon
      or size change happens here. */
   overflow: hidden;
 }
@@ -80,7 +80,7 @@
      preprocessing step, not a runtime computation), so a shared base percentage with
      mask-size: contain already renders every guild's own artwork at a consistent size with no
      per-guild tuning needed in the common case. A wide/short crest (Falconers' wingspan) just
-     letterboxes inside this square box instead of overflowing it -- it is never scaled past what
+     letterboxes inside this square box instead of overflowing it: it is never scaled past what
      its own bounding box says it needs. Sized independently of .badge (see .badgeStack above),
      not as a percentage of it. The base size itself is set inline (LOGO_BASE_SIZE_PERCENT in
      GuildSelector.tsx, multiplied by a guild's optional iconScale) rather than here, so the one

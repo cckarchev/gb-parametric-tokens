@@ -135,7 +135,7 @@ describe("computeReliefComponents", () => {
     // apex exactly on the local +y axis, so an unrotated icon would point it straight "north"
     // of the stud center no matter where the stud sits on the arc. Once rotated the same
     // "outward" way arc text is, the apex should instead point directly away from the arc's
-    // own center -- landing on the same ray as the stud itself.
+    // own center: landing on the same ray as the stud itself.
     const apexUpTriangleSvg = '<svg><path d="M0 20L20 20L10 0Z"/></svg>';
     const loadTriangleIcon: LoadIconSource = async (iconId) => ({
       svgSource: apexUpTriangleSvg,
@@ -368,7 +368,7 @@ describe("computeReliefComponents", () => {
 
   // A solid square: its own corners are its farthest points from center, past the circle
   // inscribed in its bounding box, whenever its nominal scale renders it big enough relative to
-  // the target circle -- see iconPlacement.test.ts's "checks overflow against the real target
+  // the target circle: see iconPlacement.test.ts's "checks overflow against the real target
   // circle" for exactly where that threshold sits. 0.9 is comfortably past it.
   const squareIconSvg = '<svg><path d="M0 0L10 0L10 10L0 10Z"/></svg>';
   const loadSquareIcon: LoadIconSource = async (iconId) => ({
@@ -411,7 +411,7 @@ describe("computeReliefComponents", () => {
 
     const [icon] = result.reliefComponents;
     const maxRadius = Math.max(...icon.contours.flat().map(([x, y]) => Math.hypot(x, y)));
-    // discSpec's diameter is 25mm -- the real target circle's radius, regardless of icon.scale.
+    // discSpec's diameter is 25mm: the real target circle's radius, regardless of icon.scale.
     expect(maxRadius).toBeLessThanOrEqual(25 / 2 + 1e-6);
   });
 
@@ -454,7 +454,7 @@ describe("computeReliefComponents", () => {
 
     const [icon] = result.reliefComponents;
     const maxRadius = Math.max(...icon.contours.flat().map(([x, y]) => Math.hypot(x, y)));
-    // Unlike 'shrink' and 'trim', 'grow' never touches the icon's own footprint -- it stays
+    // Unlike 'shrink' and 'trim', 'grow' never touches the icon's own footprint: it stays
     // past the target circle's radius (discSpec's diameter is 25mm).
     expect(maxRadius).toBeGreaterThan(25 / 2);
     expect(icon.growOutline).toBeDefined();

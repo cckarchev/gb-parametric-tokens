@@ -155,7 +155,7 @@ describe("TokenEditor", () => {
     // click. If any of those handlers builds its next selection from the `generator.selection`
     // snapshot this render closed over (`{ ...generator.selection, field }`) instead of from
     // whatever the previous call in the same click just produced, only the last of the four
-    // calls actually took effect -- the checkbox looked like it did nothing for the other three
+    // calls actually took effect: the checkbox looked like it did nothing for the other three
     // fields. Each call here is captured and replayed in order to prove they compose.
     const setSelection = vi.fn();
 

@@ -14,7 +14,7 @@ export const BODY_CIRCLE_SEGMENTS = 128;
 // than the stud it was cut to, so both use this one value.
 export const STUD_CIRCLE_SEGMENTS = 48;
 
-// Round joins on a CrossSection.offset() -- the fillet's dilate/erode pair, the "grow" icon
+// Round joins on a CrossSection.offset(): the fillet's dilate/erode pair, the "grow" icon
 // dilation, and the min-stroke-width erosion. An offset only ever rounds off a corner, never
 // forms a whole visible circle, so it needs far fewer segments than a body outline does.
 export const OFFSET_ARC_SEGMENTS = 32;

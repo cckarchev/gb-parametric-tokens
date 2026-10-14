@@ -179,7 +179,7 @@ export const buildAoeTemplateSpec = (
   };
 
   if (sharedConfig.aoeTemplateVariant === "compactDisc") {
-    const compactTuning = sharedConfig.aoe.compactDisc;
+    const compactTuning = aoe.compactDisc;
     // The compact crest's default (0.55) is down from Goal Influence's 0.65, by the user's call
     // after seeing it on the disc: at that size the crest read a bit too big.
     const compactIconScale = compactTuning.crestScale * guildIconScale;
