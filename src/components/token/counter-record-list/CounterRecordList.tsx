@@ -1,4 +1,4 @@
-import { CounterSelection, MIN_COPIES } from "@/core/token/catalog/tokenItems/tokenItem";
+import { CounterSelection, DISABLED_COUNTER } from "@/core/token/catalog/tokenItems/tokenItem";
 
 import { CounterPanel, CounterRow } from "../counter-panel/CounterPanel";
 
@@ -18,8 +18,6 @@ type CounterRecordListProps = {
   onSelectionChange: (selection: Record<string, CounterSelection>) => void;
 };
 
-const DEFAULT_COUNTER: CounterSelection = { enabled: false, copies: MIN_COPIES };
-
 // A counter panel over a selection record keyed by entry id (conditions, game plans).
 export const CounterRecordList = ({
   title,
@@ -31,7 +29,7 @@ export const CounterRecordList = ({
   const rows: CounterRow[] = entries.map((entry) => ({
     key: entry.id,
     label: entry.name,
-    selection: selection[entry.id] ?? DEFAULT_COUNTER,
+    selection: selection[entry.id] ?? DISABLED_COUNTER,
     onChange: (rowSelection) => onSelectionChange({ ...selection, [entry.id]: rowSelection }),
     maxCopies: entry.maxCopies ?? maxCopies,
   }));

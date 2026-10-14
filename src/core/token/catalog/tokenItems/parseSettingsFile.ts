@@ -7,7 +7,7 @@ const RELIEF_STYLES: ReliefStyle[] = ["raised", "engraved"];
 const ICON_OVERFLOW_BEHAVIORS: IconOverflowBehavior[] = ["none", "shrink", "trim", "grow"];
 const AOE_TEMPLATE_VARIANTS: AoeTemplateVariant[] = ["ring", "compactDisc", "crowfoot"];
 
-export const INVALID_SETTINGS_FILE_MESSAGE = "This file is not a valid settings file.";
+const INVALID_SETTINGS_FILE_MESSAGE = "This file is not a valid settings file.";
 
 type PlainObject = Record<string, unknown>;
 

@@ -33,6 +33,9 @@ export type CounterSelection = { enabled: boolean; copies: number };
 // expressed by unchecking it rather than by counting down to nothing.
 export const MIN_COPIES = 1;
 
+// A counter the user hasn't opted into yet: unchecked, at the minimum count.
+export const DISABLED_COUNTER: CounterSelection = { enabled: false, copies: MIN_COPIES };
+
 // The cap for a repeatable character token (see CatalogEffect.repeatable): rather than deriving a
 // per-play limit from cost and influence, whoever prints a set picks what their list really needs.
 export const CHARACTER_TOKEN_MAX_COPIES = 6;

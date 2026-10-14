@@ -6,7 +6,11 @@ import { buildDefaultSelection } from "@/core/token/catalog/buildDefaultSelectio
 import { deriveReliefColor, TEXT_COLOR_GROUP_ID } from "@/core/token/catalog/deriveReliefColor";
 import { DEFAULT_SHARED_CONFIG } from "@/core/token/catalog/tokenItems/defaultSharedConfig";
 import { parseSettingsFile } from "@/core/token/catalog/tokenItems/parseSettingsFile";
-import { SharedConfig, TokenSelection } from "@/core/token/catalog/tokenItems/tokenItem";
+import {
+  DISABLED_COUNTER,
+  SharedConfig,
+  TokenSelection,
+} from "@/core/token/catalog/tokenItems/tokenItem";
 import { BASE_COLOR_GROUP_ID } from "@/core/token/mesh/colorGroups";
 
 import { useExport } from "./useExport";
@@ -17,6 +21,7 @@ export type { PreviewItem } from "./useWorker";
 
 const SETTINGS_FILE_NAME = "token-settings.json";
 const JSON_MIME_TYPE = "application/json";
+const SETTINGS_JSON_INDENT = 2;
 
 // Rendered only before any guild has been selected (TokenEditor gates every consumer of
 // `selection` behind `generator.catalog &&`), so its actual values are never seen -- it exists
@@ -25,9 +30,9 @@ const NO_GUILD_SELECTED: TokenSelection = {
   characterTokenIds: [],
   characterTokenCopies: {},
   genericTokens: {},
-  influence: { enabled: false, copies: 1 },
-  momentum: { enabled: false, copies: 1 },
-  goalInfluence: { enabled: false, copies: 1 },
+  influence: DISABLED_COUNTER,
+  momentum: DISABLED_COUNTER,
+  goalInfluence: DISABLED_COUNTER,
   conditions: {},
   gamePlans: {},
 };
@@ -136,7 +141,7 @@ export const useTokenGenerator = () => {
   );
 
   const exportSettingsJson = useCallback(() => {
-    const json = JSON.stringify(sharedConfig, null, 2);
+    const json = JSON.stringify(sharedConfig, null, SETTINGS_JSON_INDENT);
 
     downloadBlob(json, SETTINGS_FILE_NAME, JSON_MIME_TYPE);
   }, [sharedConfig]);

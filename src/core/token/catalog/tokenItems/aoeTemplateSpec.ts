@@ -1,3 +1,4 @@
+import { MM_PER_INCH } from "../../../units";
 import { CENTER_ANGLE_DEG } from "../../geometry/angleConventions";
 import { estimateAscentMm } from "../../text/glyphMetrics";
 import { resolveRingLineOrientation } from "../../text/ringLineOrientation";
@@ -8,7 +9,6 @@ import { computeRingTextRadii } from "./ringTextRadii";
 import { AoeTuning, CrowfootTuning, SharedConfig } from "./tokenItem";
 import { buildIconSpec, sharedTokenFields } from "./tokenSpecParts";
 
-const MM_PER_INCH = 25.4;
 const AOE_DIAMETER_INCHES = 3;
 const AOE_OUTER_DIAMETER_MM = AOE_DIAMETER_INCHES * MM_PER_INCH;
 const AOE_OUTER_RADIUS_MM = AOE_OUTER_DIAMETER_MM / 2;

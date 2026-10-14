@@ -1,5 +1,6 @@
+import { MM_PER_INCH } from "@/core/units";
+
 const CSS_DPI = 96;
-const MM_PER_INCH = 25.4;
 
 // The browser's standard "CSS pixel" convention (1in = 96px). It's the only way a web page
 // can express "true physical size" at all, since it has no access to the display's real DPI.

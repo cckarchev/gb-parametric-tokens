@@ -1,5 +1,5 @@
 import { GuildCatalog } from "@/core/token/catalog/catalogTypes";
-import { CounterSelection, MIN_COPIES } from "@/core/token/catalog/tokenItems/tokenItem";
+import { CounterSelection, DISABLED_COUNTER } from "@/core/token/catalog/tokenItems/tokenItem";
 
 import { CounterPanel, CounterRow } from "../counter-panel/CounterPanel";
 
@@ -17,7 +17,6 @@ type GuildTokenListProps = {
 
 const MAX_COPIES = 20;
 const MAX_GOAL_INFLUENCE_COPIES = 2;
-const DEFAULT_GENERIC_COUNTER: CounterSelection = { enabled: false, copies: MIN_COPIES };
 
 export const GuildTokenList = ({
   catalog,
@@ -57,7 +56,7 @@ export const GuildTokenList = ({
   const genericRows: CounterRow[] = catalog.genericTokens.map((generic) => ({
     key: generic.name,
     label: generic.name,
-    selection: genericTokens[generic.name] ?? DEFAULT_GENERIC_COUNTER,
+    selection: genericTokens[generic.name] ?? DISABLED_COUNTER,
     onChange: (selection) => onGenericTokensChange({ ...genericTokens, [generic.name]: selection }),
     maxCopies: generic.maxCopies ?? MAX_COPIES,
   }));

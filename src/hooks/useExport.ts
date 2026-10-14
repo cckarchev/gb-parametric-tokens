@@ -8,6 +8,8 @@ import { SharedConfig, TokenItem } from "@/core/token/catalog/tokenItems/tokenIt
 import { PendingExport } from "./useWorker";
 
 const THREE_MF_MIME_TYPE = "model/3mf";
+// The archive's name while no guild is loaded, which the UI never lets an export reach.
+const FALLBACK_ARCHIVE_NAME = "tokens";
 
 export const useExport = (
   workerRef: { current: Worker | undefined },
@@ -51,7 +53,11 @@ export const useExport = (
         return;
       }
 
-      downloadBlob(response.archive, `${guildName ?? "tokens"}.3mf`, THREE_MF_MIME_TYPE);
+      downloadBlob(
+        response.archive,
+        `${guildName ?? FALLBACK_ARCHIVE_NAME}.3mf`,
+        THREE_MF_MIME_TYPE,
+      );
     } catch (error) {
       setExportError(describeError(error));
     } finally {

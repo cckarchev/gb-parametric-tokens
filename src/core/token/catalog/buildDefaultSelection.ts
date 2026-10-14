@@ -1,9 +1,7 @@
 import { GuildCatalog } from "./catalogTypes";
 import { characterSelectableIds } from "./characterSelectableIds";
 import { GENERIC_CATALOG_ID } from "./genericCatalog";
-import { CounterSelection, TokenSelection } from "./tokenItems/tokenItem";
-
-const MIN_GENERIC_COPIES = 1;
+import { CounterSelection, MIN_COPIES, TokenSelection } from "./tokenItems/tokenItem";
 
 // A typical Guild Ball game's own real quantities, not just each counter's bare minimum, so a
 // first visit to a guild starts from a usable token set instead of an empty one.
@@ -29,7 +27,7 @@ export const buildDefaultSelection = (catalog: GuildCatalog): TokenSelection => 
   const genericTokens: Record<string, CounterSelection> = {};
 
   for (const generic of catalog.genericTokens) {
-    genericTokens[generic.name] = enabledCounter(MIN_GENERIC_COPIES);
+    genericTokens[generic.name] = enabledCounter(MIN_COPIES);
   }
 
   const conditions: Record<string, CounterSelection> = {};
