@@ -16,12 +16,9 @@ const MAX_GAME_PLAN_COPIES = 1;
 export const TokenEditor = () => {
   const generator = useTokenGenerator();
 
-  // Every list below owns exactly one field of the selection. Functional updates (not
-  // `{ ...generator.selection, [field]: value }`): GuildTokenList's own "Select all" fires
-  // several of these setters synchronously in one click handler, and each one needs to build on
-  // the previous call's result, not on the single `generator.selection` snapshot this render
-  // closed over: otherwise only the last call would actually stick (a real, user-caught bug:
-  // the checkbox looked like it did nothing).
+  // Each list below owns one field of the selection. The update is functional because "Select
+  // all" sets several fields in one click: built from this render's snapshot, only the last one
+  // would stick.
   const updateSelectionField =
     <Field extends keyof TokenSelection>(field: Field) =>
     (value: TokenSelection[Field]) => {

@@ -7,9 +7,7 @@ export type ContactSheetItem = {
   baseContours: Vec2[][];
   reliefComponents: ReliefComponent[];
   copies: number;
-  // All optional: geometry-only tests (contactSheetSvg.test.ts) build items with no identity of
-  // their own, and only the real token pipeline (TokenPreview.tsx) supplies these. A missing
-  // `valid` renders as unmarked, the same as `valid: true`.
+  // Optional because geometry tests build items without them. A missing `valid` counts as valid.
   label?: string;
   valid?: boolean;
   reason?: string;
@@ -26,16 +24,11 @@ export type FlippedContactSheetItem = {
 
 export type SectionLayout = { cellsXml: string; widthMm: number; heightMm: number };
 
-// Cell sizing only (no column layout yet): computed once per section/group so
-// buildContactSheetSvg can decide how many columns of THIS cell size fit in the sheet's shared
-// target width before any item actually gets placed: see buildContactSheetSvg's
-// columnsToFillTargetWidth. Arc-specific logic (the circle footprint, its overflow margin) only
-// ever fires for an all-arc section; a disc group skips it entirely.
+// A section's cell size, worked out before any item is placed so the sheet can decide how many
+// columns fit. The arc margins stay 0 for a disc group.
 //
-// alignToGridVertex additionally rounds the cell size up to GRID_VERTEX_STEP_MM instead of
-// GRID_STEP_MM, and tells layoutPreparedSection below to center each item in its cell rather
-// than left/top-align it from the cell's padding: together these guarantee each item's own
-// geometric center lands exactly on a grid intersection, regardless of that item's own size.
+// alignToGridVertex rounds the cell to twice the grid step and centers each item in it, which
+// puts every item's center on a grid intersection.
 export type PreparedSection = {
   flippedItems: FlippedContactSheetItem[];
   boundsByItem: Bounds[];

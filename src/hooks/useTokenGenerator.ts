@@ -41,17 +41,12 @@ export const useTokenGenerator = () => {
   const { guilds, selectedGuildId, selectGuild, catalog, catalogStatus, catalogError } =
     useGuildCatalog();
 
-  // Selections live per guild, keyed by guildId, so switching guilds never loses what the user
-  // chose for the one they're leaving. A guild with no entry yet (first visit) falls back to
-  // defaultSelection below, so the map only needs to gain an entry once the user actually
-  // changes something: an untouched guild reproduces the same default either way.
+  // One selection per guild, so switching guilds keeps what was chosen. A guild gets an entry
+  // only once something changes; until then it uses defaultSelection below.
   const [selectionsByGuild, setSelectionsByGuild] = useState<Record<string, TokenSelection>>({});
 
-  // Memoized on `catalog` (not recomputed on every render): usePreview's own tokenItems memo
-  // depends on `selection`'s identity, so an untouched guild's fallback has to stay
-  // referentially stable across renders. A fresh object here on every render used to look like a
-  // brand new selection on every render, which kept re-triggering the preview worker forever the
-  // moment anything else caused a re-render (e.g. the worker's own response coming back).
+  // Memoized because usePreview watches the selection's identity: a new object on every render
+  // would read as a change and request a preview again on every response.
   const defaultSelection = useMemo(
     () => (catalog ? buildDefaultSelection(catalog) : NO_GUILD_SELECTED),
     [catalog],

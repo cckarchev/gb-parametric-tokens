@@ -70,13 +70,10 @@
   transform: rotate(-45deg);
 }
 
-/* Animates height between 0 and auto through interpolate-size, so the open panel is exactly as tall
-   as its content. A fixed max-height cap (the previous approach) clipped long content such as a big
-   guild's character list. Browsers without interpolate-size still open and close correctly, just
-   without the height animation. Not grid-template-rows/fr units, and not the display transition +
-   @starting-style route: both were tried and produced real visual bugs (fr-unit grid track
-   transitions don't animate reliably in Chromium, and animating `display` itself left the content
-   briefly overlapping the layout below it). */
+/* interpolate-size animates height to and from auto, so the open panel fits its content. Browsers
+   without it still open and close, just without the animation. Animating grid fr tracks or
+   `display` instead was tried: the first stutters in Chromium, the second briefly overlaps the
+   content below. */
 .body {
   display: flex;
   flex-direction: column;
@@ -92,13 +89,9 @@
     padding var(--duration-medium) var(--easing-standard);
 }
 
-/* Author CSS always wins over the browser's built-in [hidden] { display: none }, regardless of
-   selector specificity, so setting display above silently defeats the hidden attribute unless
-   this rule re-asserts it with higher specificity than .body alone. Kept as `flex` (not `none`)
-   here on purpose: `display` can't be transitioned, so the collapse has to happen entirely via
-   height/padding/opacity instead while display stays constant. jest-dom's toBeVisible() (and
-   real assistive tech) still treats the [hidden] attribute itself as authoritative regardless of
-   the computed display, so this stays test- and a11y-correct. */
+/* The display set on .body overrides the browser's [hidden] { display: none }. It stays flex on
+   purpose, since display can't be animated: the panel collapses through height, padding and
+   opacity instead. Tests and assistive tech still read the hidden attribute itself. */
 .body[hidden] {
   display: flex;
   height: 0;

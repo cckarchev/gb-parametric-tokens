@@ -400,9 +400,7 @@ describe("buildTokenItems", () => {
     expect(items[0].spec.icons).toEqual([
       { iconId: "Brewers", side: "center", scale: expect.any(Number), colorGroup: "text" },
     ]);
-    // No ring decoration: that border was designed around the old, circular Guild Ball logo
-    // Goal Influence used to wear. A guild's own crest isn't circular, so pairing it with a
-    // ring read as a redundant "double circle" instead of a clean badge.
+    // No ring border: around a crest that isn't round it reads as a second circle.
     expect(items[0].spec.decorations).toEqual([]);
   });
 

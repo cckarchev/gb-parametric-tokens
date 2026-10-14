@@ -35,13 +35,9 @@ export const computeSweepDeg = (shape: ArcShapeSpec): number => {
   return (shape.ribbonLengthMm / computeInnerRadiusMm()) * DEGREES_PER_RADIAN;
 };
 
-// If the ribbon is wider than the nominal stud, the ribbon's straight end edge would poke out
-// past the stud's curve (a visible notch), because the stud's own circle only reaches
-// studDiameterMm past the ribbon's inner-edge vertex. Growing the effective diameter to match
-// the ribbon's width (never shrinking a stud the user actually asked to be bigger) keeps the
-// stud's curve enclosing the whole end edge. Every geometry/icon/placement call site that needs
-// the stud's real, rendered size uses this: shape.studDiameterMm itself stays the user's
-// nominal, as-typed value.
+// The stud's real size. A stud narrower than the ribbon would leave the ribbon's straight end
+// sticking out as a notch, so it grows to the ribbon's width. shape.studDiameterMm stays the
+// value the user typed.
 export const computeEffectiveStudDiameterMm = (shape: ArcShapeSpec): number => {
   return Math.max(shape.studDiameterMm, shape.ribbonWidthMm);
 };
@@ -55,12 +51,8 @@ export const computeStudPlacements = (
   const innerRadiusMm = computeInnerRadiusMm();
   const studRadiusMm = computeEffectiveStudDiameterMm(shape) / 2;
 
-  // The stud's center sits further out along the same ray as the ribbon's own inner-edge
-  // vertex (innerRadiusMm, at the sweep's end angle), at exactly studRadiusMm beyond it: so
-  // that vertex point always lands exactly on the stud's circumference. Growing studDiameterMm
-  // only pushes the center further out; it never moves the vertex, the ribbon, or (since the
-  // base-reference circle is now concentric with this same origin, see svgBaseReference.ts)
-  // the circle.
+  // One stud radius beyond the ribbon's inner corner, on the same ray, so the corner sits on
+  // the stud's edge. A bigger stud only moves its own center outward.
   const studCenterRadiusMm = innerRadiusMm + studRadiusMm;
 
   const leftAngleDeg = centerAngleDeg + halfSweepDeg;

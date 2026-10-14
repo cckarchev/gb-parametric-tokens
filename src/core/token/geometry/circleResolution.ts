@@ -1,8 +1,5 @@
-// How finely every curve in this app gets tessellated into straight segments. These used to live
-// as a private constant per module, each one carrying a comment saying it had to stay in sync with
-// another module's copy ("Matches buildArcTokenMesh.ts's STUD_CIRCULAR_SEGMENTS", "Matches
-// validateMinStrokeWidth.ts's own erosion offset call"). That sync contract is what this module
-// makes real: change a value here and every surface built at that resolution follows.
+// How finely each kind of curve is split into straight segments. Every module that builds the
+// same kind of curve reads it from here, so they can't drift apart.
 
 // Smooth body outlines: a disc token's own circle, the ribbon's inner and outer curves, a
 // decoration ring, and the preview's rendering of all of those. High enough that a token's edge

@@ -148,13 +148,8 @@ describe("TokenEditor", () => {
   });
 
   it("composes every field update from Guild tokens' own Select all instead of only the last one sticking (regression)", () => {
-    // Real bug, caught by the user: GuildTokenList's "Select all" fires onInfluenceChange,
-    // onMomentumChange, onGoalInfluenceChange, and onGenericTokensChange synchronously in one
-    // click. If any of those handlers builds its next selection from the `generator.selection`
-    // snapshot this render closed over (`{ ...generator.selection, field }`) instead of from
-    // whatever the previous call in the same click just produced, only the last of the four
-    // calls actually took effect: the checkbox looked like it did nothing for the other three
-    // fields. Each call here is captured and replayed in order to prove they compose.
+    // "Select all" fires four field updates in one click. Replaying the captured updates in
+    // order proves each builds on the previous one rather than on this render's snapshot.
     const setSelection = vi.fn();
 
     vi.mocked(useTokenGenerator).mockReturnValue({

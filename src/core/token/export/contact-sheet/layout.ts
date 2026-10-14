@@ -10,9 +10,7 @@ import { buildAttentionMarkerSvg } from "./attention";
 import { PreparedSection, SectionLayout } from "./types";
 
 const FALLBACK_ITEM_LABEL = "This token";
-// Only reachable if an invalid item somehow carries no reason (never happens via the real
-// pipeline, which always sets one alongside `valid: false`, see tokenWorker.ts); kept so the
-// marker still says something useful instead of "undefined".
+// For an invalid item with no reason. The worker always sends one, but the type allows it.
 const FALLBACK_ATTENTION_REASON = "This detail is thinner than the minimum printable stroke width.";
 
 // buildTokenPathsSvg paints contours where they already are, so a cell's own offset has to reach
@@ -30,9 +28,7 @@ const positionContoursByColorGroup = (
   return positioned;
 };
 
-// Renders one homogeneous grid (every item the same shape.type, cell size already decided by
-// prepareSection) of cells at the given column count, offset vertically by originYMm so multiple
-// sections/groups can stack in the same sheet.
+// Draws one section's grid at the given column count, starting at originYMm so sections stack.
 export const layoutPreparedSection = (
   prepared: PreparedSection,
   columns: number,
@@ -59,14 +55,9 @@ export const layoutPreparedSection = (
       const cellOriginY = originYMm + row * cellHeightMm;
       const isArc = item.shape.type === "arc";
 
-      // Written once and applied per axis, so the horizontal and vertical placement can never
-      // drift apart.
-      //
-      // Arc items: a fixed offset, the same for every arc cell, never derived from this
-      // item's own bounds (unaffected by alignToGridVertex, per the LOCKED base-reference
-      // circle geometry in svgBaseReference.ts). Disc items: centered within the cell when
-      // alignToGridVertex is set, so the item's own center, not merely its padded corner,
-      // sits at the cell's center, which is itself a grid vertex.
+      // Shared by both axes so they can't drift apart. An arc token sits at the same fixed
+      // offset in every cell, so its circle stays put. A disc token is centered when
+      // alignToGridVertex is set, otherwise placed from the padded corner.
       const axisOffsetMm = (
         axis: 0 | 1,
         cellOriginMm: number,
@@ -114,11 +105,8 @@ export const layoutPreparedSection = (
         // `||`, not `??`: an empty reason string is as useless to a reader as a missing one.
         const reason = item.reason || FALLBACK_ATTENTION_REASON;
 
-        // Fit to the item's own rendered content (bounds, shifted by this same offset every
-        // path above already draws with), not the whole padded/grid-aligned cell: the cell is
-        // sized to fit the biggest item in the section plus grid-snap rounding, so it's usually
-        // noticeably bigger than any one item's own footprint (user feedback: the marker doesn't
-        // need to follow the grid, just the token).
+        // The marker frames the token itself, not its cell, which is sized for the section's
+        // biggest token.
         paths.push(
           buildAttentionMarkerSvg(
             bounds.min[0] + offsetX,

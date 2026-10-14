@@ -6,10 +6,7 @@
 
 .grid {
   display: grid;
-  /* Full-width strip now (moved out of the narrow form column), so a fixed column count no
-     longer fits every window width well: reflow to however many tiles of this minimum size fit
-     per row. Sized up from an original 64px (user feedback: there's room for bigger,
-     easier-to-read guild icons here). */
+  /* The grid spans the full width, so it fits as many tiles per row as the window allows. */
   grid-template-columns: repeat(auto-fill, minmax(var(--size-guild-tile-min), 1fr));
   gap: var(--space-sm);
 }
@@ -22,9 +19,7 @@
   aspect-ratio: 1;
   border: var(--border-default);
   border-radius: var(--radius-none);
-  /* Was --color-bg-panel: identical to the panel body's own background, so tiles disappeared
-     into the panel (user feedback: "se mimetizan mucho"). --color-bg-input is the darkest tone
-     in the palette, giving a clearly recessed, distinct button surface instead. */
+  /* Darker than the panel behind it, so each tile reads as a recessed button. */
   background: var(--color-surface-field);
   cursor: pointer;
 }
@@ -43,10 +38,8 @@
 }
 
 .badgeStack {
-  /* .badge (the white circle) and .logo (the icon) are stacked in the same single grid cell
-     instead of one nesting the other, so each can be sized as its own independent percentage of
-     this shared box. Nesting them (an earlier version of this file did) ties their sizes
-     together: shrinking a wrapping .badge necessarily shrinks a .logo sized as 100% of it. */
+  /* .badge (the white circle) and .logo (the crest) share one grid cell instead of nesting, so
+     each is sized as its own percentage of this box: shrinking the circle leaves the crest alone. */
   display: grid;
   width: 100%;
   height: 100%;
@@ -76,16 +69,8 @@
 }
 
 .logo {
-  /* Every /icons/*.svg's viewBox is cropped to that guild's own ink bounding box (a one-time
-     preprocessing step, not a runtime computation), so a shared base percentage with
-     mask-size: contain already renders every guild's own artwork at a consistent size with no
-     per-guild tuning needed in the common case. A wide/short crest (Falconers' wingspan) just
-     letterboxes inside this square box instead of overflowing it: it is never scaled past what
-     its own bounding box says it needs. Sized independently of .badge (see .badgeStack above),
-     not as a percentage of it. The base size itself is set inline (LOGO_BASE_SIZE_PERCENT in
-     GuildSelector.tsx, multiplied by a guild's optional iconScale) rather than here, so the one
-     shared number and its rare per-guild override live next to each other. */
-  /* Fill color (the mask's visible paint) is set inline per guild; see GuildSelector.tsx. */
+  /* The crest is a mask over the guild's color, both set inline in GuildTile.tsx along with its
+     size. mask-size: contain letterboxes a wide crest inside the square instead of cropping it. */
   mask-repeat: no-repeat;
   mask-position: center;
   mask-size: contain;

@@ -4,17 +4,12 @@ import {
   describeVanishedDetailCount,
 } from "./validateMinStrokeWidth";
 
-// One reason string for a whole token, from every component that failed on it.
+// One reason string for a whole token, one failing component per line (ExportPanel and the
+// contact sheet's tooltip both render \n as a line break).
 //
-// Most invalid tokens have exactly one line of text and no effect text, so their only failing
-// component's text is identical to the token's own name. The UI already names the token by that
-// name (see ExportPanel.tsx), so repeating it as `Text "The Owner": ...` right next to it read as
-// pure noise (user feedback, caught live in the browser). Naming the source still earns its keep
-// whenever it's NOT just restating the name: an icon, or a second line whose own text differs
-// from the name.
-// One failure per line (not joined with a space): a run-on paragraph of several "Icon ...:
-// Text ...:" clauses back to back read as illegible (user feedback). ExportPanel.tsx and the
-// contact-sheet marker's tooltip both render \n as a real line break.
+// A component is named only when the name adds something: an icon, or a second line whose text
+// differs from the token's name. Most tokens fail on their only line, whose text is the token's
+// name, and the UI already shows that name next to the reason.
 export const describeTokenFailures = (
   name: string,
   componentFailures: ComponentFailure[],
@@ -27,10 +22,7 @@ export const describeTokenFailures = (
       : describeComponentFailure(failure),
   );
 
-  // A left and right stud icon are frequently the very same icon at the same scale, so they fail
-  // the same way (same counts): nothing is lost by only saying it once. Dedupes on the final
-  // worded message, not the raw source, so it still keeps two icons apart the moment either
-  // their id or their counts genuinely differ (user feedback: "si son los mismos no tiene
-  // sentido duplicarlos").
+  // Both studs often carry the same icon and fail the same way, so identical messages collapse
+  // into one. Two icons whose id or counts differ still word differently and both stay.
   return [...new Set(messages)].join("\n");
 };

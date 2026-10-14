@@ -16,10 +16,8 @@ const WEDGE_STEPS = 64;
 // Extends the wedge past the ribbon's outer radius so float error never clips the ring it cuts.
 const WEDGE_RADIUS_PADDING_MM = 10;
 
-// IconOverflowBehavior "grow"'s dilated icon footprints (see mesh/reliefComponent.ts's
-// growOutline, already flattened across every icon by the caller): unioned into the outline
-// here too, so the 2D preview matches the real mesh's own grown stud/disc body (buildArcTokenMesh.ts,
-// buildTokenMesh.ts) instead of showing a plain circle the print itself no longer has.
+// growOutlineContours are the footprints of icons with overflow behavior "grow". They join the
+// outline here as they do in the mesh, so the preview shows the grown body that gets printed.
 export const computeBaseOutlineContours = async (
   shape: ShapeSpec,
   centerAngleDeg: number,

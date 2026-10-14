@@ -6,23 +6,12 @@ import { layoutPreparedSection } from "./layout";
 import { groupDiscItemsByDiameter, prepareSection } from "./prepare";
 import { ContactSheetItem, FlippedContactSheetItem } from "./types";
 
-// No padding at all around an arc cell's content (it used to be 5mm). prepareSection rounds
-// cellPaddingMm plus the arc margin up to the next GRID_STEP_MM line, so any padding that isn't
-// already a whole multiple of the grid step gets rounded up to one anyway: 5mm bought a full
-// extra 10mm of gap rather than 5. Zero lets arc cells sit as tight as the grid allows (user
-// feedback: cells read as "too separated" once alignment made the gaps obvious).
+// Arc cells get no padding: prepareSection rounds padding plus margin up to the next grid line
+// anyway, so any padding would grow each gap by a whole grid step.
 const CELL_PADDING_MM = 0;
-// Disc items (guild generics, influence/momentum/goal-influence/MP counters) carry no
-// base-reference circle overhead and, once split into their own section below the arc items
-// (see buildContactSheetSvg), no longer need to share a cell size with anything bigger. They
-// pack tighter than arc cells, and their cell size is rounded up to the next 10mm grid line
-// (see svgGrid.ts's GRID_STEP_MM) instead of hugging content exactly, so a viewer can read a
-// token's real diameter straight off the reference grid.
+// Disc cells round up to the grid too, so a token's diameter can be read off the grid.
 const DISC_CELL_PADDING_MM = 2;
-// A hard ceiling on how wide the sheet's shared reference width (see buildContactSheetSvg's
-// columnsToFillTargetWidth) is allowed to grow: without it, a large `columns` value combined
-// with a wide reference cell (the arc section, usually) could flow a group arbitrarily far to
-// the right instead of ever wrapping down (user feedback).
+// Caps the width every section wraps at, so a large `columns` can't stretch a row off the sheet.
 const MAX_SHEET_WIDTH_MM = 240;
 
 export const buildContactSheetSvg = (
@@ -39,9 +28,8 @@ export const buildContactSheetSvg = (
     };
   }
 
-  // One cell per physical copy, not one cell per distinct design: the sheet is meant to show
-  // exactly what gets printed, so an item with copies: N is flipped once (its own geometry never
-  // changes between copies) and that same flipped result is repeated N times in the cell grid.
+  // One cell per printed copy, so the sheet shows exactly what gets printed. Each item is flipped
+  // once and repeated.
   const flippedItems = items.flatMap((item) => {
     const flipped = flipItem(item);
 
@@ -56,13 +44,9 @@ export const buildContactSheetSvg = (
     prepareSection(group, DISC_CELL_PADDING_MM, true),
   );
 
-  // The sheet's overall width is set once, by whichever section has the widest natural cell:
-  // normally the arc section, since an arc token plus its fixed base-reference circle is the
-  // biggest thing on the sheet. Every other section/group then wraps at however many of ITS OWN
-  // (usually smaller) cells fit inside that same width, instead of every group sharing one fixed
-  // column count, which stranded small items in a narrow column with empty width to their
-  // right, and let a fast-growing group (e.g. more Goal Influence tokens) just get wider than
-  // the rest of the sheet instead of wrapping into more rows (user feedback).
+  // The widest cell (usually the arc's) sets the sheet's width. Every group then fits as many of
+  // its own cells per row as that width allows, so small tokens pack densely and a big group
+  // wraps into more rows instead of growing wider than the sheet.
   const referenceCellWidthMm =
     arcPrepared?.cellWidthMm ??
     Math.max(0, ...discPreparedGroups.map((prepared) => prepared.cellWidthMm));
@@ -79,11 +63,8 @@ export const buildContactSheetSvg = (
       )
     : undefined;
 
-  // Rounded up to a grid line even though the arc section itself isn't grid-snapped (its own
-  // content-driven height rarely lands on one): each disc sub-grid's row centers only land on
-  // grid vertices (see prepareSection's alignToGridVertex) if the sub-grid starts at a multiple
-  // of GRID_STEP_MM. No extra gap is added beyond that rounding: an explicit gap on top of
-  // every section's own padding read as wasted space (user feedback: bring the sections closer).
+  // The disc groups have to start on a grid line for their token centers to land on grid
+  // intersections, and the arc section's height rarely ends on one.
   const discSectionStartYMm = roundUpToGridStep(arcSection?.heightMm ?? 0);
 
   let nextDiscGroupOriginYMm = discSectionStartYMm;

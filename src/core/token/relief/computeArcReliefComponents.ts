@@ -17,19 +17,14 @@ import { buildIconComponent, LoadIconSource } from "./computeReliefComponentsSha
 
 const STUD_TEXT_CLEARANCE_DEG = 6;
 
-// An absolute mm gap, not proportional to the ribbon band width, so it only makes sense
-// relative to the app's own default arc shape (see defaultShapeAndStyle.ts's DEFAULT_ARC_SHAPE /
-// Frozen Forge measurements). Remeasure via the real pipeline if the default shape's band width
-// changes significantly again.
+// A fixed gap, not proportional to the band width, tuned for the default arc shape. Remeasure if
+// the default band width changes.
 const TWO_LINE_GAP_MM = 0.5;
 
-// The arc's line position is fixed by line count, not user-editable (spec.lines is capped at
-// 2 by the UI). Arc text has no descender in this all-caps use case, so a line's rendered
-// extent runs from its baseline radius outward by its own ascent only, never inward. A single
-// line is centered so its ascent splits evenly above and below the mid radius; two lines are
-// stacked with a fixed gap between them and the two leftover margins (inner edge to the
-// second line, first line to the outer edge) split evenly, so neither margin reads as
-// lopsided against the ribbon edges.
+// Baseline radius of each line on the ribbon (one or two lines). The text is all caps, so a line
+// takes up its ascent outward from the baseline and nothing inward.
+// - One line: centered on the band.
+// - Two lines: TWO_LINE_GAP_MM apart, with equal margins to the inner and outer edges.
 const computeLineRadiiMm = (
   innerRadiusMm: number,
   outerRadiusMm: number,
@@ -108,13 +103,9 @@ export const computeArcReliefComponents = async (
     ),
   );
 
-  // autoFitLine can shrink a line's rendered size below its spec.lines[i].sizeMm to make it
-  // fit the available arc length. nominalLineRadiiMm above centered every line assuming it
-  // would render at its full nominal size, so a shrunk line's real ascent no longer matches
-  // what it was centered for and drifts toward the inner edge. Recompute the vertical
-  // centering from each line's actual rendered size and re-center it, unless the spec pinned
-  // an explicit radiusMm (respect that override) or the line split into multiple rows via
-  // autoFitLine's own mid-word wrap (those already carry their own, independent radii).
+  // autoFitLine may shrink a line, and a shrunk line centered for its nominal size drifts toward
+  // the inner edge. Re-center from the sizes actually rendered. Lines with an explicit radiusMm,
+  // or that autoFitLine split in two, keep their own radii.
   const actualLineRadiiMm = computeLineRadiiMm(
     ribbonInnerRadiusMm,
     outerRadiusMm,

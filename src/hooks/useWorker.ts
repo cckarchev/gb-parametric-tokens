@@ -18,12 +18,9 @@ type UseWorkerOptions = {
   setIsPreviewing: (isPreviewing: boolean) => void;
 };
 
-// Owns the one worker instance shared by both the preview flow and the export flow: every
-// request, whichever flow issues it, draws from the same incrementing requestId (requestIdRef),
-// so a preview response only gets applied if nothing newer (another preview request or an
-// export request) has been issued since. Export responses are routed by matching
-// pendingExportRef instead, since exportThreeMf needs to await a specific response rather than just
-// watch the latest one.
+// The one worker shared by preview and export. Both draw request ids from the same counter, so a
+// preview response is applied only if no newer request went out since. An export response goes
+// to the pending export with its id, which is awaiting that exact response.
 export const useWorker = ({ setPreviewItems, setIsPreviewing }: UseWorkerOptions) => {
   const workerRef = useRef<Worker | undefined>(undefined);
   const requestIdRef = useRef(0);

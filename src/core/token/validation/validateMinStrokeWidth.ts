@@ -26,14 +26,11 @@ export const validateMinStrokeWidth = async (
 
   const relief = new CrossSection(reliefContours, "Positive");
 
-  // Asking only whether the eroded union is non-empty is useless on a composed token: the
-  // icons are far thicker than minStrokeWidthMm, always survive, and mask any hairline glyph
-  // that disappeared. Counting pieces before against after does not work either, because
-  // erosion routinely SPLITS a glyph into several pieces, so the total can rise while a
-  // separate feature is lost. Eroding each connected feature on its own is what actually
-  // answers the question "did any feature vanish".
-  // CrossSection#decompose() returns one empty section for an empty input rather than an
-  // empty list, hence the isEmpty guard before decomposing.
+  // Each connected feature is eroded on its own. Eroding the whole relief at once can't tell:
+  // a thick icon always survives and hides a vanished glyph, and erosion can split a glyph, so
+  // counting pieces before and after doesn't work either.
+  //
+  // decompose() of an empty section returns one empty section, not an empty list.
   const features = relief.isEmpty() ? [] : relief.decompose().filter((one) => !one.isEmpty());
   const vanishedFeatureCount = features.filter((feature) => erode(feature).isEmpty()).length;
 
@@ -44,9 +41,7 @@ export const validateMinStrokeWidth = async (
   };
 };
 
-// One relief component (a text line, an icon, a decoration) that failed the min-stroke-width
-// check, computed by running validateMinStrokeWidth per component instead of once over every
-// contour combined: see computeReliefComponents.ts.
+// One relief component (a text line, an icon, a decoration) with details too thin to print.
 type StrokeWidthFailure = {
   kind: "stroke-width";
   source: ReliefComponentSource;
@@ -54,13 +49,9 @@ type StrokeWidthFailure = {
   featureCount: number;
 };
 
-// An icon whose own farthest point poked past its target circle under a plain bounding-box fit
-// (see geometry/iconPlacement.ts's placeIcon) AND that nothing corrected: this failure is only
-// ever raised for IconOverflowBehavior "none" (see computeReliefComponentsShared.ts, which clears
-// the flag for "shrink", "trim" and "grow" because each of those already handled it). So the icon
-// really does print past the circle, and a raised relief icon is unioned onto the base with no
-// clip against the stud/disc's own circle (applyReliefToBase.ts), leaving that excess as an
-// unsupported overhang.
+// An icon that reaches past its stud or disc, with overflow behavior "none" (the other
+// behaviors fix it). Relief isn't clipped to the base, so the excess prints as an unsupported
+// overhang.
 type IconOverflowFailure = {
   kind: "icon-overflow";
   source: Extract<ReliefComponentSource, { kind: "icon" }>;

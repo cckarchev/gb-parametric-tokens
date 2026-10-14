@@ -6,20 +6,14 @@ type ArcGlyphPlacement = {
   angleDeg: number;
   position: Vec2;
   rotationDeg: number;
-  // Distance, in the glyph's own local coordinates, from its pen-start origin (x=0) to the
-  // point that gets rotated in place and placed on the arc. Pivoting on the pen-start edge
-  // instead of the glyph's own horizontal center swings a wide glyph's far side away from the
-  // true curve, which reads as "leaning"/faceted text: worse the wider the glyph, so it
-  // barely showed with a narrow font but is obvious with a bold, wide one.
+  // From the glyph's pen start (x = 0) to the point it pivots on when placed on the arc: its
+  // horizontal center. Pivoting on the pen start makes wide glyphs lean off the curve.
   pivotOffsetMm: number;
 };
 
-// "outward" always points a glyph's ascender away from the circle's center, reading correctly
-// wherever "away from center" also happens to mean "up" on screen (e.g. text along the top of
-// a ring, or the ribbon token's own arc). "inward" points the ascender toward the center
-// instead, for a band on the opposite side of the same circle (e.g. the bottom of a full-disc
-// ring) that still needs to read left-to-right, upright, for a viewer who never rotates the
-// token: the classic "challenge coin" bottom-band convention.
+// Which way the tops of the letters point. "outward" (away from the center) suits text along the
+// top of a circle. "inward" suits the bottom, so it still reads upright, left to right, like the
+// bottom band of a coin.
 export type ArcOrientation = "outward" | "inward";
 
 type ArcGlyphPlacementInput = {

@@ -20,10 +20,8 @@ const DEFAULT_GOAL_INFLUENCE_SHAPE: DiscShapeSpec = {
 const DEFAULT_NAME_SIZE_MM = 3;
 const DEFAULT_EFFECT_SIZE_MM = 1.9;
 
-// Every value here was a constant in its builder before it became a setting; the comments that
-// explain each one (why the crest is 0.55 on the compact disc, why the band is 6mm) still live
-// next to where the builder uses it. The insets are the old 0.75 text radius ratio re-expressed as
-// a distance from the rim, rounded to 0.1mm.
+// Why each value is what it is lives next to where its builder uses it (for example why the AOE
+// band is 6mm).
 export const DEFAULT_TOKEN_TUNING: TokenTuning = {
   discToken: { crestScale: 0.85 },
   characterToken: { crestScale: 0.85, balanceNameScale: 0.9, balanceEffectScale: 1.2 },

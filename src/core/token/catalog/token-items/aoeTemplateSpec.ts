@@ -21,14 +21,11 @@ export const MIN_SPOKE_COUNT = 2;
 const COMPACT_DIAMETER_INCHES = 1;
 const COMPACT_DIAMETER_MM = COMPACT_DIAMETER_INCHES * MM_PER_INCH;
 
-// A 3″ AOE is a game object of fixed size: its outer diameter and the compact disc's are rules,
-// not settings. Everything else (band width, text sizes, the crow's foot's geometry) comes from
-// SharedConfig's aoe group. The default band (6mm) is wide enough to carry readable curved text,
-// narrow enough that models stand on the table inside the ring instead of tilting on top of it.
-// The full ring wears no guild crest: one fitted to the band came out around 5mm, too small to
-// print its detail (user's call to drop it rather than widen the band or bulge it). The compact
-// disc has room for one at its center, and the crow's foot none (its arcs are as narrow as the
-// ring's band).
+// The 3″ outer diameter is a game rule, not a setting. Band width and the rest come from
+// SharedConfig's aoe group.
+//
+// Only the compact disc wears a crest. On the ring or the crow's foot it would have to fit the
+// band and come out around 5mm, too small to print.
 const buildAoeShape = (bandWidthMm: number): DiscShapeSpec => {
   const innerDiameterMm = AOE_OUTER_DIAMETER_MM - bandWidthMm * 2;
 
@@ -42,7 +39,7 @@ const resolveSpokeCount = (spokeCount: number): number => {
 };
 
 // The crow's foot: short arcs of the 3″ band, each at the end of a spoke from the center, the
-// first spoke pointing up. Defaults: spokes 5mm wide so the template stays firm (user's call),
+// first spoke pointing up. Defaults: spokes 5mm wide so the template stays firm,
 // inside corners filleted for durability, arc ends rounded. The text defaults to 4mm on 40° arcs:
 // at 3mm a 0.4mm nozzle (fdm-04) lost strokes on every template, and at 4mm the longest names
 // (Ghostly Visage, Nature's Growth...) need 40° of arc to fit.
@@ -180,8 +177,8 @@ export const buildAoeTemplateSpec = (
 
   if (sharedConfig.aoeTemplateVariant === "compactDisc") {
     const compactTuning = aoe.compactDisc;
-    // The compact crest's default (0.55) is down from Goal Influence's 0.65, by the user's call
-    // after seeing it on the disc: at that size the crest read a bit too big.
+    // Its default crest scale is a bit below Goal Influence's: at the same scale it reads too big
+    // on this disc.
     const compactIconScale = compactTuning.crestScale * guildIconScale;
 
     return {

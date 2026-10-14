@@ -20,12 +20,9 @@ export type TokenItem = {
   copies: number;
 };
 
-// Shared by every guild-level counter (Influence, Momentum, Goal Influence, and each generic
-// token): whether it's included in the run at all, plus how many copies to print once it is.
-// Kept as one object (not a separate enabled-map alongside a copies-map) so a single field can't
-// drift out of sync with its own counter. `copies` is left untouched while `enabled` is false, so
-// re-checking a counter restores its last count instead of resetting to the field's minimum:
-// the same behavior characterTokenCopies already has for character tokens (see below).
+// Whether a guild-level counter (Influence, Momentum, Goal Influence, a generic token) is
+// printed, and how many copies. `copies` survives unchecking, so checking it again restores the
+// last count, as character tokens already do.
 export type CounterSelection = { enabled: boolean; copies: number };
 
 // The floor for any copies count the user can edit, whether it belongs to a counter or to a
@@ -63,8 +60,8 @@ export type TokenSelection = {
 // 3″ edge on spokes from the center: the edge itself is marked, with far less plastic to place.
 export type AoeTemplateVariant = "ring" | "compactDisc" | "crowfoot";
 
-// The tuning groups below hold what used to be module constants in each catalog builder, so the
-// Advanced settings panel can edit them. Scales are fractions (0.55 shows as 55 %), lengths are mm.
+// Tuning the Advanced settings panel edits. Scales are fractions (0.55 shows as 55 %), lengths
+// are mm.
 export type DiscTokenTuning = {
   // Generics and Influence; Momentum has no crest.
   crestScale: number;

@@ -19,13 +19,11 @@ const contoursToPathSvg = (contours: Vec2[][], color: string): string => {
   return `<path d="${pathData}" fill="${color}" fill-rule="${FILL_RULE}" />`;
 };
 
-// How a token is painted: the base first, then one path per color group over it. Shared by the
-// live preview and the contact sheet, which draw the same token in two different surroundings and
-// used to each decide this for themselves.
+// How a token is painted, for both the preview and the contact sheet: the base first, then one
+// path per color group over it.
 //
-// Contours must already sit where they are meant to be drawn. Positioning stays the caller's job
-// because the two callers place a token very differently: the preview shifts the whole token once,
-// the contact sheet shifts each item into its own cell.
+// Contours must already be in place. Each caller positions them its own way: the preview shifts
+// the whole token once, the contact sheet shifts each item into its cell.
 export const buildTokenPathsSvg = (
   baseContours: Vec2[][],
   reliefContoursByColorGroup: Map<string, Vec2[][]>,

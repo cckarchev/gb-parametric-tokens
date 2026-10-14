@@ -13,20 +13,12 @@ import { DiscShapeSpec, IconSpec, PrintProfile, TokenSpec, Vec2 } from "../types
 export type LoadIconSourceResult = { svgSource: string; resolvedId: string; substituted: boolean };
 export type LoadIconSource = (iconId: string) => Promise<LoadIconSourceResult>;
 
-// How far the "grow" IconOverflowBehavior (see types.ts) dilates the stud/disc's own body past
-// the icon it's hugging, as a multiple of the print profile's own minStrokeWidthMm. A bare
-// minStrokeWidthMm rim (1x) is technically printable but reads as a hairline next to the icon
-// it's supposed to visibly embrace (user feedback: "creo que deberia ser mas grueso"); this
-// still scales with the print profile (a fine resin nozzle gets a thinner rim than a coarse FDM
-// one), it's just a deliberately generous multiple of the bare minimum.
+// How far "grow" extends the body past the icon, in multiples of minStrokeWidthMm. One multiple
+// prints but reads as a hairline.
 const GROW_MARGIN_MULTIPLIER = 4;
 
-// Both disc-shaped layouts (flat and ring) are only ever reached for a disc spec: see
-// computeReliefComponents.ts, which dispatches on shape.type before calling either. TypeScript
-// can't see that across the call, so each one needs its own narrowing guard; this makes that one
-// guard instead of two identical throws, and hands back the narrowed shape so the caller doesn't
-// re-read spec.shape afterwards. callerName goes in the message because the two layouts are
-// otherwise indistinguishable in a stack trace.
+// The flat and ring layouts only ever get a disc spec, but TypeScript can't see the dispatch
+// that guarantees it, so both narrow through this guard.
 export const requireDiscShape = (spec: TokenSpec, callerName: string): DiscShapeSpec => {
   if (spec.shape.type !== "disc") {
     throw new Error(`${callerName} requires a disc shape, got "${spec.shape.type}"`);
@@ -66,12 +58,9 @@ export const buildIconComponent = async (
   // normalizeWinding must run after it. Run it before and manifold silently collapses the icon
   // CrossSection to empty.
   const normalized = normalizeWinding(placed);
-  // Trimming needs correctly wound contours (so a hole stays a hole under the intersection),
-  // hence after normalizeWinding, and still in the icon's own local space, centered on the
-  // origin, hence before rotate/translate below.
-  // The real stud/disc radius, not scaled by icon.scale: trim only cuts what actually pokes
-  // past the physical circle, same reference placeIcon's own circle-fit check uses (see its
-  // comment on circleFitScaleFactor), not the icon's smaller nominal-size target.
+  // Trimmed after normalizeWinding, so holes stay holes, and before moving the icon, while it's
+  // still centered on the origin. Cut at the full stud or disc radius, not the icon's scaled
+  // target.
   const trimmed =
     overflowBehavior === "trim" && overflowsCircle
       ? await trimIconToCircle(normalized, targetDiameterMm / 2)

@@ -131,9 +131,8 @@ describe("useTokenGenerator", () => {
       });
     });
 
-    // Regression: `selection` for an untouched guild used to be rebuilt from scratch on every
-    // render instead of staying referentially stable, so the response above, which re-renders
-    // the hook, looked like a brand new selection change and re-triggered the preview forever.
+    // The response re-renders the hook. An untouched selection has to keep its identity, or the
+    // re-render reads as a change and the preview loops forever.
     expect(result.current.isPreviewing).toBe(false);
 
     await act(async () => {

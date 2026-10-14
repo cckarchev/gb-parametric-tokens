@@ -37,9 +37,8 @@ export const buildArcTokenMesh = async (input: BuildArcTokenMeshInput): Promise<
     input.studPositions.right[1],
   );
 
-  // Filleting has to happen in 2D, before extrusion (filletOutline.ts's offset math has no 3D
-  // equivalent), which is why the ribbon and studs are unioned as flat CrossSections here instead
-  // of each being extruded and unioned as solids the way this used to work.
+  // Ribbon and studs are joined in 2D because filleting only works on a flat outline, before
+  // extrusion.
   const withStuds = ribbon.add(leftStud).add(rightStud);
   const outline2D =
     input.shape.studFilletEnabled && input.shape.studFilletRadiusMm

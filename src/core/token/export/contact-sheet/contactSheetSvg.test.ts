@@ -107,10 +107,8 @@ describe("buildContactSheetSvg", () => {
       colorGroups,
     );
 
-    // Flipped bounds span x = 0..10, y = -5..0. raw cell = 10 + 2*2 padding = 14 (width) and
-    // 5 + 2*2 = 9 (height), each rounded up to the 20mm grid-vertex step. The item is then
-    // centered in that cell: offsetX = 10 (cellWidth/2) - 5 (content center x) = 5, offsetY = 10
-    // (cellHeight/2) - (-2.5) (content center y) = 12.5.
+    // Flipped bounds: x 0..10, y -5..0. Cell: 10 + 2 * 2 = 14 by 5 + 2 * 2 = 9, rounded to 20 by 20.
+    // Centered: offsetX = 10 - 5 = 5, offsetY = 10 - (-2.5) = 12.5.
     expect(svg).toContain("M5,12.5 L15,12.5 L5,7.5 Z");
   });
 
@@ -139,12 +137,8 @@ describe("buildContactSheetSvg", () => {
     const { svg } = buildContactSheetSvg(items, 2, colorGroups);
 
     expect(countOccurrences(svg, 'data-role="base-reference-circle"')).toBe(2);
-    // squareContour(10) never reaches left of/above the circle's own local footprint
-    // (0,0)-(30,30), so there's no real overflow (raw margin 0). CELL_PADDING_MM is 0 (a multiple
-    // of GRID_STEP_MM), so the left/top margin needs no rounding-up bump on top of it either:
-    // cellWidthMm = 30 (circle's own span) + 2*0 padding + 0 margin = 30, already grid-aligned.
-    // offsetX = 0 + 0 (padding) + 0 (margin) = 0, contoursOffsetX = 0 + 15 (CIRCLE_ANCHOR_X_SVG)
-    // = 15 for the first cell.
+    // The square stays inside the circle's footprint, so no margin. Cell = 30 (the circle).
+    // First cell: circle center = 0 + 15 (CIRCLE_ANCHOR_X_SVG) = 15.
     expect(svg).toContain('cx="15" cy="15"');
     // Second cell (column 1): cellOriginX = 30, offsetX = 30, contoursOffsetX = 45.
     expect(svg).toContain('cx="45" cy="15"');
@@ -154,13 +148,9 @@ describe("buildContactSheetSvg", () => {
   });
 
   it("draws the circle exactly at the token's own local origin, wherever that origin ends up in the sheet", () => {
-    // This is the direct regression test for the original bug (changing studDiameterMm visibly
-    // shifted a token relative to its circle): the token's own local origin (0,0) and the
-    // circle's center must always render at the exact same point, whatever that point is,
-    // not merely close, not "usually", because the render loop applies the identical
-    // (contoursOffsetX, contoursOffsetY) translation to both. Including (0,0) as the first
-    // vertex of the base contour reveals exactly where the origin lands, via the path's own
-    // leading M command.
+    // Token and circle share one offset, so the token's origin and the circle's center render
+    // at the same point. The contour starts at (0, 0), so the path's leading M shows where the
+    // origin landed.
     const arcShape: ShapeSpec = {
       type: "arc",
       ribbonWidthMm: 6,
@@ -210,13 +200,9 @@ describe("buildContactSheetSvg", () => {
 
     const { svg, viewBox } = buildContactSheetSvg(items, 2, colorGroups);
 
-    // Arc section: circle footprint (30), no padding needed on top (see the dedicated
-    // base-reference-circle test above) = 30 tall, at y=0.
-    // Disc section starts immediately below the arc section (at y=30, already a multiple of
-    // GRID_STEP_MM, so no extra gap is added on top of that), unaffected by the circle: raw
-    // content 10 + 2*2 padding = 14, rounded up to the 20mm grid-vertex step = 20. The item is
-    // centered in that cell: offsetX = 10 (cellWidth/2) - 5 (content center x) = 5; offsetY = 30
-    // + 10 (cellHeight/2) - (-5) (content center y) = 45.
+    // Arc section: 30 tall (the circle), at y = 0.
+    // Disc section from y = 30. Cell: 10 + 2 * 2 = 14, rounded to 20.
+    // Centered: offsetX = 10 - 5 = 5, offsetY = 30 + 10 - (-5) = 45.
     expect(svg).toContain("M5,45 L15,45 L15,35 L5,35 Z");
     expect(viewBox).toEqual({ x: 0, y: 0, width: 30, height: 50 });
   });
@@ -229,7 +215,7 @@ describe("buildContactSheetSvg", () => {
 
     const { svg, viewBox } = buildContactSheetSvg(items, 2, colorGroups);
 
-    // raw cell = 16 (largest item) + 2*2 padding = 20, already a 20mm grid-vertex step.
+    // Cell: 16 (largest item) + 2 * 2 = 20, already a whole vertex step.
     expect(viewBox).toEqual({ x: 0, y: 0, width: 40, height: 20 });
 
     const basePaths = [
@@ -263,7 +249,7 @@ describe("buildContactSheetSvg", () => {
 
     const { svg, viewBox } = buildContactSheetSvg(items, 5, colorGroups);
 
-    // 3 copies of item 1 + 2 copies of item 2 = 5 cells total, filling one row of 5 columns.
+    // 3 + 2 copies = 5 cells, one row of 5.
     expect(countOccurrences(svg, 'fill="#2B2B2B"')).toBe(5);
     expect(viewBox).toEqual({ x: 0, y: 0, width: 100, height: 20 });
   });
@@ -278,14 +264,9 @@ describe("buildContactSheetSvg", () => {
 
     const { viewBox } = buildContactSheetSvg(items, 5, colorGroups);
 
-    // Small group: raw cell = 10 + 2*2 padding = 14, rounded up to the 20mm grid-vertex step =
-    // 20. Reference width comes from the widest group (the big one, 40mm) -> target width =
-    // 5*40 = 200mm, so the small group could use up to 10 columns; with only 3 items it still
-    // fits one row -> 20mm tall, 60mm wide (item count, not the column cap, decides the width).
-    // Big group: raw cell = 20 + 2*2 padding = 24, rounded up to 40; 1 item -> 40mm tall, 40mm
-    // wide. Stacked directly below the small group (no extra gap beyond each group's own
-    // padding): total height = 20 + 40 = 60. If both sizes shared one cell (the pre-fix
-    // behavior), every disc would sit in one 40mm-tall row instead of two separate grids.
+    // Small group: cell 10 + 2 * 2 = 14, rounded to 20. 3 items in one row: 60 wide, 20 tall.
+    // Big group: cell 20 + 2 * 2 = 24, rounded to 40. 1 item: 40 wide, 40 tall.
+    // Sheet: width max(60, 40) = 60, height 20 + 40 = 60.
     expect(viewBox).toEqual({ x: 0, y: 0, width: 60, height: 60 });
   });
 
@@ -302,16 +283,12 @@ describe("buildContactSheetSvg", () => {
       { shape: smallDisc, baseContours: squareContour(10), reliefComponents: [], copies: 8 },
     ];
 
-    // columns: 2, deliberately small, so the difference between "everyone shares this fixed
-    // column count" and "each group fills the reference width" is unmistakable.
+    // Fewer columns than the disc group fits, so sharing the column count would show.
     const { viewBox } = buildContactSheetSvg(items, 2, colorGroups);
 
-    // Arc cell = circle footprint (30), no padding needed on top (matches the dedicated
-    // base-reference-circle test above). Reference width = columns(2) * 30 = 60mm.
-    // Small disc cell = 10 + 2*2 padding = 14, rounded up to the 20mm grid-vertex step = 20.
-    // columnsToFillTargetWidth = floor(60/20) = 3, not the fixed columns=2 passed in: with 8
-    // items that's 3 rows of up to 3 (60mm wide, 60mm tall for the disc group), stacked below the
-    // 30mm-tall arc section, for 90mm total height.
+    // Arc cell 30, so the sheet is 2 * 30 = 60 wide.
+    // Disc cell 20: floor(60 / 20) = 3 columns. 8 items in 3 rows: 60 wide, 60 tall.
+    // Height: 30 (arc) + 60 = 90.
     expect(viewBox).toEqual({ x: 0, y: 0, width: 60, height: 90 });
   });
 
@@ -328,16 +305,12 @@ describe("buildContactSheetSvg", () => {
       { shape: bigDisc, baseContours: squareContour(90), reliefComponents: [], copies: 5 },
     ];
 
-    // columns: 5, the fixed count a "Goal Influence" style group used to wrap at regardless of
-    // how much wider that made its own row than the rest of the sheet.
+    // 5 columns of the big disc would be far wider than the sheet.
     const { viewBox } = buildContactSheetSvg(items, 5, colorGroups);
 
-    // Arc cell = 30mm (as above). Reference width = columns(5) * 30 = 150mm.
-    // Big disc cell = 90 + 2*2 padding = 94, rounded up to the 20mm grid-vertex step = 100.
-    // columnsToFillTargetWidth = floor(150/100) = 1, not the fixed columns=5: with 5 items
-    // that's 5 rows of 1 (100mm wide, 500mm tall for the disc group alone), not 1 row of 5
-    // (500mm wide) the way a fixed column count would have laid it out. Arc section itself: 1
-    // item, still a single 30mm-wide, 30mm-tall row. Total height = 30 (arc) + 500 (disc) = 530.
+    // Arc cell 30, so the sheet is 5 * 30 = 150 wide.
+    // Disc cell: 90 + 2 * 2 = 94, rounded to 100. floor(150 / 100) = 1 column: 5 rows, 500 tall.
+    // Height: 30 (arc) + 500 = 530.
     expect(viewBox).toEqual({ x: 0, y: 0, width: 100, height: 530 });
   });
 
@@ -354,17 +327,12 @@ describe("buildContactSheetSvg", () => {
       { shape: smallDisc, baseContours: squareContour(10), reliefComponents: [], copies: 30 },
     ];
 
-    // columns: 100, large enough that columns * the arc's own 50mm cell (5000mm) would blow
-    // past any reasonable sheet width if nothing capped it.
+    // 100 columns of the 30mm arc cell would be 3000mm wide.
     const { viewBox } = buildContactSheetSvg(items, 100, colorGroups);
 
-    // Arc cell = 30mm. Uncapped reference width would be 100*30 = 3000mm; capped at
-    // MAX_SHEET_WIDTH_MM = 240mm instead. Arc itself: columnsToFillTargetWidth(30) = floor(240/
-    // 30) = 8, but only 1 item -> still a single 30mm-wide, 30mm-tall row, unaffected.
-    // Small disc cell = 20mm: columnsToFillTargetWidth(20) = floor(240/20) = 12 (not 200, and
-    // nowhere near the fixed columns=100 passed in). 30 items over 12 columns = 3 rows of up to
-    // 12 -> 240mm wide, 60mm tall. Disc section starts at y=30 (arc height, already a multiple
-    // of GRID_STEP_MM). Total: width = max(30, 240) = 240; height = 30 + 60 = 90.
+    // Sheet width capped at MAX_SHEET_WIDTH_MM = 240.
+    // Disc cell 20: floor(240 / 20) = 12 columns. 30 items in 3 rows: 240 wide, 60 tall.
+    // Height: 30 (arc) + 60 = 90.
     expect(viewBox).toEqual({ x: 0, y: 0, width: 240, height: 90 });
   });
 
@@ -375,10 +343,8 @@ describe("buildContactSheetSvg", () => {
       ribbonLengthMm: 20,
       studDiameterMm: 12,
     };
-    // Overflows past the circle's own (0,0)-(30,30) local footprint on the left and top by 7mm
-    // (after the +15 shift to the circle's anchor), an amount that doesn't already line up with
-    // the grid, so only an explicit grid-snap on the cell's own margin would land the circle's
-    // edges on a 10mm line.
+    // After the +15 shift to the circle's anchor, this reaches 7mm left of and above the
+    // circle's footprint: not a whole grid step, so the margin has to be rounded.
     const overflowingContour: Vec2[][] = [
       [
         [-22, -8],

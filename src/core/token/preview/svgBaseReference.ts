@@ -4,22 +4,15 @@ const MODEL_RADIUS_MM = MODEL_BASE_DIAMETER_MM / 2;
 const FILL_COLOR = "#808080";
 const FILL_OPACITY = 0.35;
 
-// The ribbon's inner radius is now exactly MODEL_RADIUS_MM + BASE_CLEARANCE_MM / 2 (see
-// studPlacement.ts's computeInnerRadiusMm), concentric with the same origin the arc's own polar
-// geometry (stud placement, sweep angle) is built around. So the reference circle no longer
-// needs computing at all: it's always drawn at a fixed local offset from that origin, chosen
-// once so the circle's own footprint runs from local (0, 0) to (MODEL_BASE_DIAMETER_MM,
-// MODEL_BASE_DIAMETER_MM): both already on 10mm grid lines. This replaces the old
-// tangent-to-crest + grid-snap computation entirely: see
-// docs/superpowers/specs/2026-09-02-arc-parametrization-design.md for why that's now exact by
-// construction instead of approximated.
+// The arc token is built around the base's center (see computeInnerRadiusMm in
+// studPlacement.ts), so the reference circle sits at a fixed offset from the token's origin.
+// This offset puts the circle's footprint at (0, 0) to (MODEL_BASE_DIAMETER_MM,
+// MODEL_BASE_DIAMETER_MM), both on grid lines.
 export const CIRCLE_ANCHOR_X_SVG = MODEL_RADIUS_MM;
 export const CIRCLE_ANCHOR_Y_SVG = MODEL_RADIUS_MM;
 
-// Purely a visual scale reference, never fed into any print/export contour, like the grid
-// overlay it sits alongside. Solid but translucent, and always emitted before the token's own
-// paths (see buildPreviewSvg.ts / contactSheetSvg.ts's paint order), so the token renders on
-// top of it, not the other way around.
+// A visual scale reference only, never part of the printed model. Callers emit it before the
+// token's paths, so the token is drawn on top.
 export const buildBaseReferenceCircleSvg = (centerXSvg: number, centerYSvg: number): string => {
   return [
     '<g data-role="base-reference-circle">',

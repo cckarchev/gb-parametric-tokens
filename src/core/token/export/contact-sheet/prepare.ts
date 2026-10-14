@@ -10,12 +10,9 @@ import {
 } from "./geometry";
 import { FlippedContactSheetItem, PreparedSection } from "./types";
 
-// A small disc (e.g. a 15mm Beer Token) sharing one cell size with a much larger one (e.g. a
-// 20mm Goal Influence) sits in a cell padded out to the larger item's size, wasting space around
-// every smaller item. Grouping by diameter, the only thing that varies a disc's own footprint
-// in this app, lets each size form its own tightly-fitted sub-grid instead, stacked below one
-// another (see buildContactSheetSvg). Insertion order is preserved (a Map remembers first-seen
-// key order) so groups render in the same order their items were selected in, not sorted by size.
+// One group per disc diameter, so each size gets its own tightly fitted grid instead of every
+// disc sitting in a cell sized for the biggest. Groups keep the order their first item was
+// selected in.
 export const groupDiscItemsByDiameter = (
   discItems: FlippedContactSheetItem[],
 ): FlippedContactSheetItem[][] => {
@@ -49,14 +46,9 @@ export const prepareSection = (
   const rawArcLeftMarginMm = computeOverflowMarginMm(arcCombinedBounds, 0);
   const rawArcTopMarginMm = computeOverflowMarginMm(arcCombinedBounds, 1);
 
-  // Arc cells aren't centered (see the offsetX/offsetY comment in layoutPreparedSection), so
-  // their own grid alignment lives entirely in this left/top margin: the base-reference
-  // circle's local footprint (0,0)-(MODEL_BASE_DIAMETER_MM,MODEL_BASE_DIAMETER_MM), already a
-  // clean 3-grid-square size, only lands on the sheet's actual 10mm grid lines if
-  // cellPaddingMm + this margin comes out to an exact multiple of GRID_STEP_MM. Rounding the
-  // combined amount up (not the margin alone) guarantees that, even when there's no real
-  // content overflow (raw margin 0), since cellPaddingMm on its own usually isn't already a
-  // clean multiple of the grid step.
+  // Arc tokens aren't centered in their cell, so the circle lands on the grid only if padding
+  // plus margin is a whole number of grid steps. The sum is rounded up, not the margin alone,
+  // because the padding usually isn't a whole step on its own.
   const arcLeftMarginMm = alignToGridVertex
     ? rawArcLeftMarginMm
     : roundUpToGridStep(cellPaddingMm + rawArcLeftMarginMm) - cellPaddingMm;
@@ -73,9 +65,9 @@ export const prepareSection = (
     cellPaddingMm * 2 +
     arcTopMarginMm;
 
-  // Disc cells round up to a 20mm grid-VERTEX step (so a centered item's own middle still lands
-  // on a vertex); arc cells only need every column/row origin to land on a plain 10mm grid line
-  // (the margin above already handles the anchor point itself), so a 10mm step is enough.
+  // Disc cells round to two grid steps so a centered token's middle lands on an intersection.
+  // Arc cells only need to start on a grid line, since the margin above already places the
+  // circle.
   const cellWidthMm = alignToGridVertex
     ? roundUpToGridVertexStep(rawCellWidthMm)
     : roundUpToGridStep(rawCellWidthMm);

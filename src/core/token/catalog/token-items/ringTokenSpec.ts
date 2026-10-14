@@ -47,13 +47,10 @@ export const buildRingTokenSpec = (
     shape: sharedConfig.goalInfluenceShape,
     textLayout: "ring",
     lines,
-    // ringBadge's default crest scale (0.65) went up from 0.35 by user feedback: a crest that
-    // small was hard to print cleanly. At guildIconScale 1 it still clears the text.
+    // At guildIconScale 1 the default crest scale still clears the text.
     icons: [buildIconSpec(guildIconId, "center", crestScale * guildIconScale, sharedConfig)],
-    // No ring border here (unlike Momentum, see momentumTokenSpec.ts): that border was designed
-    // around the old, circular Guild Ball logo Goal Influence used to wear at its center. A
-    // guild's own crest isn't circular, so the ring next to it read as a redundant "double
-    // circle" instead of one clean badge.
+    // No ring border, unlike Momentum: around a guild crest, which isn't round, it reads as a
+    // second circle.
     decorations: [],
     ...sharedTokenFields(sharedConfig),
   };
