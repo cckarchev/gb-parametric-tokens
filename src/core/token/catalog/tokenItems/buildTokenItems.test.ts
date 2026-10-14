@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { GuildCatalog } from "../catalogTypes";
 import { resolveEffect } from "../effects";
 import { buildTokenItems } from "./buildTokenItems";
-import { DEFAULT_TOKEN_TUNING } from "./defaultSharedConfig";
+import { DEFAULT_SHARED_CONFIG } from "./defaultSharedConfig";
 import { DEFAULT_TOKEN_COPIES } from "./resolveTokenCopies";
 import {
   characterAoeTemplateId,
@@ -30,21 +30,14 @@ const catalog: GuildCatalog = {
 };
 
 const sharedConfig: SharedConfig = {
+  ...DEFAULT_SHARED_CONFIG,
   arcShape: { type: "arc", ribbonWidthMm: 15, ribbonLengthMm: 20, studDiameterMm: 24 },
   discShape: { type: "disc", diameterMm: 25 },
-  goalInfluenceShape: { type: "disc", diameterMm: 20 },
-  style: { relief: "raised", reliefHeightMm: 0.6, baseThicknessMm: 3 },
   fitPolicy: { minTracking: 0, maxTracking: 0.3, minScale: 0.7, allowTwoLines: true },
   printProfileId: "fdm-04",
-  colorGroups: [{ id: "base", name: "Base", color: "#2B2B2B" }],
   influenceIconId: "Brewers",
   nameSizeMm: 6,
   effectSizeMm: 4,
-  showSecondLine: true,
-  balanceTwoLineSizes: false,
-  iconOverflowBehavior: "none",
-  aoeTemplateVariant: "ring",
-  ...DEFAULT_TOKEN_TUNING,
 };
 
 const emptySelection: TokenSelection = {

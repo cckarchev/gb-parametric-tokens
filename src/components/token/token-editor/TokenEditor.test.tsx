@@ -2,7 +2,7 @@
 import { fireEvent, render, screen, within } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import { DEFAULT_TOKEN_TUNING } from "@/core/token/catalog/tokenItems/defaultSharedConfig";
+import { DEFAULT_SHARED_CONFIG } from "@/core/token/catalog/tokenItems/defaultSharedConfig";
 import { TokenSelection } from "@/core/token/catalog/tokenItems/tokenItem";
 
 vi.mock("@/hooks/useTokenGenerator", () => ({ useTokenGenerator: vi.fn() }));
@@ -29,14 +29,12 @@ const baseGenerator = {
   },
   setSelection: vi.fn(),
   sharedConfig: {
+    ...DEFAULT_SHARED_CONFIG,
     printProfileId: "fdm-04",
     arcShape: { type: "arc", ribbonWidthMm: 15, ribbonLengthMm: 20, studDiameterMm: 24 },
     discShape: { type: "disc", diameterMm: 25 },
-    goalInfluenceShape: { type: "disc", diameterMm: 20 },
-    style: { relief: "raised", reliefHeightMm: 0.6, baseThicknessMm: 3 },
     fitPolicy: { minTracking: 0, maxTracking: 0.3, minScale: 0.7, allowTwoLines: true },
     colorGroups: [],
-    ...DEFAULT_TOKEN_TUNING,
   },
   setSharedConfig: vi.fn(),
   previewItems: [],

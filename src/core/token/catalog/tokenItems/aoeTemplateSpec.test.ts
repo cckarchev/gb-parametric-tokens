@@ -2,26 +2,19 @@ import { describe, expect, it } from "vitest";
 
 import { CatalogAoeTemplate } from "../catalogTypes";
 import { buildAoeTemplateSpec } from "./aoeTemplateSpec";
-import { DEFAULT_TOKEN_TUNING } from "./defaultSharedConfig";
+import { DEFAULT_SHARED_CONFIG } from "./defaultSharedConfig";
 import { computeRingTextRadii } from "./ringTextRadii";
 import { SharedConfig } from "./tokenItem";
 
 const sharedConfig: SharedConfig = {
+  ...DEFAULT_SHARED_CONFIG,
   arcShape: { type: "arc", ribbonWidthMm: 15, ribbonLengthMm: 20, studDiameterMm: 24 },
   discShape: { type: "disc", diameterMm: 25 },
-  goalInfluenceShape: { type: "disc", diameterMm: 20 },
-  style: { relief: "raised", reliefHeightMm: 0.6, baseThicknessMm: 3 },
   fitPolicy: { minTracking: 0, maxTracking: 0.3, minScale: 0.7, allowTwoLines: true },
   printProfileId: "fdm-04",
-  colorGroups: [{ id: "base", name: "Base", color: "#2B2B2B" }],
   influenceIconId: "Alchemists",
   nameSizeMm: 6,
   effectSizeMm: 4,
-  showSecondLine: true,
-  balanceTwoLineSizes: false,
-  iconOverflowBehavior: "none",
-  aoeTemplateVariant: "ring",
-  ...DEFAULT_TOKEN_TUNING,
 };
 
 const template: CatalogAoeTemplate = { id: "smokeBomb", name: "Smoke Bomb", effect: "Cover" };
