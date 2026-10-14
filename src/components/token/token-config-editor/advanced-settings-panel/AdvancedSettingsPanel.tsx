@@ -5,7 +5,7 @@ import { ArcTokensSection } from "./sections/ArcTokensSection";
 import { AoeTemplatesSection } from "./sections/aoe-templates-section/AoeTemplatesSection";
 import { ConditionsSection } from "./sections/ConditionsSection";
 import { DiscTokensSection } from "./sections/DiscTokensSection";
-import { GeneralSection } from "./sections/GeneralSection";
+import { GeneralSection } from "./sections/general-section/GeneralSection";
 import { MomentumSection } from "./sections/MomentumSection";
 import { RingBadgeSection } from "./sections/RingBadgeSection";
 

@@ -19,10 +19,7 @@ vi.mock("@/core/token/export/threeMfArchive", () => ({ buildThreeMfArchive: vi.f
 
 vi.stubGlobal("self", { postMessage: vi.fn() });
 
-const { computeFootprintMm, handleExport, handlePreview } = await import("./tokenWorker");
-const { computeEffectiveStudDiameterMm, computeOuterRadiusMm } = await import(
-  "@/core/token/geometry/studPlacement"
-);
+const { handleExport, handlePreview } = await import("./tokenWorker");
 const { computeReliefComponents } = await import("@/core/token/relief/computeReliefComponents");
 const { computeBaseOutlineContours } = await import(
   "@/core/token/preview/computeBaseOutlineContours"
@@ -56,26 +53,8 @@ beforeEach(() => {
   vi.mocked(buildThreeMfArchive).mockReset();
 });
 
-describe("computeFootprintMm", () => {
-  it("uses the diameter for a disc shape", () => {
-    const footprint = computeFootprintMm(discSpec.shape);
-
-    expect(footprint).toEqual({ width: 25, height: 25 });
-  });
-
-  it("uses a conservative square bounding box for an arc shape", () => {
-    const shape = arcSpec.shape as Extract<typeof arcSpec.shape, { type: "arc" }>;
-    const expectedSpanMm =
-      (computeOuterRadiusMm(shape) + computeEffectiveStudDiameterMm(shape) / 2) * 2;
-
-    const footprint = computeFootprintMm(arcSpec.shape);
-
-    expect(footprint).toEqual({ width: expectedSpanMm, height: expectedSpanMm });
-  });
-});
-
 describe("handlePreview", () => {
-  it("aggregates valid and invalid counts, dropping the redundant source label when the only failing text matches the token's own title", async () => {
+  it("returns one result per item, with its outline, relief, warnings and failure reason", async () => {
     vi.mocked(computeReliefComponents)
       .mockResolvedValueOnce({
         reliefComponents: [{ contours: [[[0, 0]]] }],
@@ -146,106 +125,6 @@ describe("handlePreview", () => {
         reason: "1 of 1 detail too thin to print at this size.",
       },
     ]);
-  });
-
-  it("keeps the source label when the failing component isn't the token's own name (an icon, or a second line worded differently)", async () => {
-    vi.mocked(computeReliefComponents).mockResolvedValueOnce({
-      reliefComponents: [],
-      warnings: [],
-      valid: false,
-      blocksExport: true,
-      componentFailures: [
-        {
-          kind: "stroke-width",
-          source: { kind: "icon", iconId: "axe" },
-          vanishedFeatureCount: 1,
-          featureCount: 2,
-        },
-        {
-          kind: "stroke-width",
-          source: { kind: "text", text: "A second line" },
-          vanishedFeatureCount: 3,
-          featureCount: 4,
-        },
-      ],
-    });
-    vi.mocked(computeBaseOutlineContours).mockResolvedValueOnce([[[-1, -1]]]);
-
-    const items: TokenItem[] = [
-      { id: "a", label: "Token A", name: "Token A", spec: discSpec, copies: 1 },
-    ];
-    const request: PreviewRequest = { kind: "preview", requestId: 8, items };
-
-    const response = await handlePreview(request);
-
-    expect(response.results[0].reason).toBe(
-      'Icon "axe": 1 of 2 details too thin to print at this size.\n' +
-        'Text "A second line": 3 of 4 details too thin to print at this size.',
-    );
-  });
-
-  it("collapses two identically-worded failures into one line, e.g. a left and right stud icon that are the same icon and fail the same way", async () => {
-    vi.mocked(computeReliefComponents).mockResolvedValueOnce({
-      reliefComponents: [],
-      warnings: [],
-      valid: false,
-      blocksExport: true,
-      componentFailures: [
-        {
-          kind: "stroke-width",
-          source: { kind: "icon", iconId: "Cooks" },
-          vanishedFeatureCount: 3,
-          featureCount: 11,
-        },
-        {
-          kind: "stroke-width",
-          source: { kind: "icon", iconId: "Cooks" },
-          vanishedFeatureCount: 3,
-          featureCount: 11,
-        },
-        {
-          kind: "stroke-width",
-          source: { kind: "text", text: "Singled Out" },
-          vanishedFeatureCount: 9,
-          featureCount: 11,
-        },
-      ],
-    });
-    vi.mocked(computeBaseOutlineContours).mockResolvedValueOnce([[[-1, -1]]]);
-
-    const items: TokenItem[] = [
-      { id: "a", label: "Singled Out", name: "Singled Out", spec: discSpec, copies: 1 },
-    ];
-    const request: PreviewRequest = { kind: "preview", requestId: 9, items };
-
-    const response = await handlePreview(request);
-
-    expect(response.results[0].reason).toBe(
-      'Icon "Cooks": 3 of 11 details too thin to print at this size.\n' +
-        "9 of 11 details too thin to print at this size.",
-    );
-  });
-
-  it("names the overflowing icon when it extends past its target circle", async () => {
-    vi.mocked(computeReliefComponents).mockResolvedValueOnce({
-      reliefComponents: [],
-      warnings: [],
-      valid: false,
-      blocksExport: true,
-      componentFailures: [{ kind: "icon-overflow", source: { kind: "icon", iconId: "Cooks" } }],
-    });
-    vi.mocked(computeBaseOutlineContours).mockResolvedValueOnce([[[-1, -1]]]);
-
-    const items: TokenItem[] = [
-      { id: "a", label: "Token A", name: "Token A", spec: discSpec, copies: 1 },
-    ];
-    const request: PreviewRequest = { kind: "preview", requestId: 10, items };
-
-    const response = await handlePreview(request);
-
-    expect(response.results[0].reason).toBe(
-      'Icon "Cooks": extends past its circle and nothing corrects it. See "Icons that overflow their circle".',
-    );
   });
 });
 

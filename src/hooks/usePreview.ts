@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 
-import type { WorkerRequest } from "@/browser/tokenWorker";
+import type { PreviewItem, WorkerRequest } from "@/browser/tokenWorker";
 import { GuildCatalog } from "@/core/token/catalog/catalogTypes";
 import { buildTokenItems } from "@/core/token/catalog/tokenItems/buildTokenItems";
 import { SharedConfig, TokenSelection } from "@/core/token/catalog/tokenItems/tokenItem";
 
 import { LIVE_PREVIEW_DEBOUNCE_MS } from "./livePreviewDebounce";
-import { PreviewItem, useWorker } from "./useWorker";
+import { useWorker } from "./useWorker";
 
 export const usePreview = (
   catalog: GuildCatalog | undefined,

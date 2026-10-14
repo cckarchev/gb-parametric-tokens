@@ -9,7 +9,7 @@ import {
   RIBBON_LENGTH_BOUNDS,
   RIBBON_WIDTH_BOUNDS,
   STUD_DIAMETER_BOUNDS,
-} from "../fieldBounds";
+} from "./fieldBounds";
 
 // Generic over the shape it edits, so a caller that owns an arc gets an arc back and one that
 // owns a disc gets a disc. A shape's type is fixed by whichever slot of the config it belongs to

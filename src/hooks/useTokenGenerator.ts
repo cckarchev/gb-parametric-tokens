@@ -17,8 +17,6 @@ import { useExport } from "./useExport";
 import { useGuildCatalog } from "./useGuildCatalog";
 import { usePreview } from "./usePreview";
 
-export type { PreviewItem } from "./useWorker";
-
 const SETTINGS_FILE_NAME = "token-settings.json";
 const JSON_MIME_TYPE = "application/json";
 const SETTINGS_JSON_INDENT = 2;

@@ -1,4 +1,4 @@
-import { NumberField } from "../number-field/NumberField";
+import { NumberField } from "./number-field/NumberField";
 
 const PERCENT_PER_UNIT = 100;
 

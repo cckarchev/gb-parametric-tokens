@@ -1,4 +1,4 @@
-import { CheckboxField } from "../checkbox-field/CheckboxField";
+import { CheckboxField } from "./checkbox-field/CheckboxField";
 
 type SelectAllCheckboxProps = {
   checked: boolean;

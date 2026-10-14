@@ -1,14 +1,10 @@
-import {
-  BALANCE_SCALE_BOUNDS,
-  CREST_SCALE_BOUNDS,
-  TEXT_SIZE_BOUNDS,
-} from "@/components/editor/fieldBounds";
-import { ShapeEditor } from "@/components/editor/shape-editor/ShapeEditor";
 import { NumberField } from "@/components/primitives/number-field/NumberField";
-import { PercentField } from "@/components/primitives/percent-field/PercentField";
+import { PercentField } from "@/components/primitives/PercentField";
 import { DEFAULT_SHARED_CONFIG } from "@/core/token/catalog/tokenItems/defaultSharedConfig";
 
 import { SectionPanel, SectionProps } from "./section-panel/SectionPanel";
+import { BALANCE_SCALE_BOUNDS, CREST_SCALE_BOUNDS, TEXT_SIZE_BOUNDS } from "./shared/fieldBounds";
+import { ShapeEditor } from "./shared/ShapeEditor";
 
 export const ArcTokensSection = ({ sharedConfig, onChange }: SectionProps) => {
   const { characterToken } = sharedConfig;

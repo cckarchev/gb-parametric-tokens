@@ -1,6 +1,6 @@
-import { TEXT_SIZE_BOUNDS } from "@/components/editor/fieldBounds";
 import { NumberField } from "@/components/primitives/number-field/NumberField";
 
+import { TEXT_SIZE_BOUNDS } from "../shared/fieldBounds";
 import { AoeFieldsProps } from "./aoeFieldsProps";
 import { BandWidthField } from "./BandWidthField";
 

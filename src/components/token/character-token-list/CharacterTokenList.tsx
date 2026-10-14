@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 
 import { Panel } from "@/components/primitives/panel/Panel";
-import { SelectAllCheckbox } from "@/components/primitives/select-all-checkbox/SelectAllCheckbox";
+import { SelectAllCheckbox } from "@/components/primitives/SelectAllCheckbox";
 import { resolveAoeTemplate } from "@/core/token/catalog/aoeTemplates";
 import { CatalogCharacter, GuildCatalog } from "@/core/token/catalog/catalogTypes";
 import { characterSelectableIds } from "@/core/token/catalog/characterSelectableIds";

@@ -1,5 +1,5 @@
 import { Button } from "@/components/primitives/button/Button";
-import { FileField } from "@/components/primitives/file-field/FileField";
+import { FileField } from "@/components/primitives/FileField";
 import { SettingsGroup } from "@/components/primitives/settings-group/SettingsGroup";
 
 import styles from "./SettingsFileGroup.module.css";

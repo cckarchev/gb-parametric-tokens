@@ -1,6 +1,6 @@
-import { BAND_WIDTH_BOUNDS } from "@/components/editor/fieldBounds";
 import { NumberField } from "@/components/primitives/number-field/NumberField";
 
+import { BAND_WIDTH_BOUNDS } from "../shared/fieldBounds";
 import { AoeFieldsProps } from "./aoeFieldsProps";
 
 export const BandWidthField = ({ aoe, onChange }: AoeFieldsProps) => {

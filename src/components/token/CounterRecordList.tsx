@@ -1,7 +1,7 @@
 import { CounterSelection, DISABLED_COUNTER } from "@/core/token/catalog/tokenItems/tokenItem";
 
-import { CounterPanel, CounterRow } from "../counter-panel/CounterPanel";
-import { setRowsEnabled } from "../counter-panel/setRowsEnabled";
+import { CounterPanel, CounterRow } from "./counter-panel/CounterPanel";
+import { setRowsEnabled } from "./counter-panel/setRowsEnabled";
 
 // The part of a catalog entry this list needs: conditions and game plans both fit it.
 export type CounterRecordEntry = {

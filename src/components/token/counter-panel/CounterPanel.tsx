@@ -1,8 +1,8 @@
 import { Panel } from "@/components/primitives/panel/Panel";
-import { SelectAllCheckbox } from "@/components/primitives/select-all-checkbox/SelectAllCheckbox";
+import { SelectAllCheckbox } from "@/components/primitives/SelectAllCheckbox";
 import { CounterSelection, MIN_COPIES } from "@/core/token/catalog/tokenItems/tokenItem";
 
-import { CounterCountField } from "../counter-count-field/CounterCountField";
+import { CounterCountField } from "./CounterCountField";
 
 // One checkbox-plus-copies row, whatever selection field it is backed by.
 export type CounterRow = {

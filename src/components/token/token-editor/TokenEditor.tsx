@@ -1,11 +1,11 @@
 import { TokenSelection } from "@/core/token/catalog/tokenItems/tokenItem";
 import { useTokenGenerator } from "@/hooks/useTokenGenerator";
 
+import { CounterRecordList } from "../CounterRecordList";
 import { CharacterTokenList } from "../character-token-list/CharacterTokenList";
-import { CounterRecordList } from "../counter-record-list/CounterRecordList";
 import { ExportPanel } from "../export-panel/ExportPanel";
+import { GuildTokenList } from "../GuildTokenList";
 import { GuildSelector } from "../guild-selector/GuildSelector";
-import { GuildTokenList } from "../guild-token-list/GuildTokenList";
 import { TokenConfigEditor } from "../token-config-editor/TokenConfigEditor";
 import { TokenPreview } from "../token-preview/TokenPreview";
 import styles from "./TokenEditor.module.css";

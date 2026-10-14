@@ -67,7 +67,8 @@ type IconOverflowFailure = {
 };
 
 // Every reason a token can land in the "needs attention" list. computeReliefComponents.ts
-// combines every kind into one list, tokenWorker.ts turns it into one reason string per token.
+// combines every kind into one list, describeTokenFailures.ts turns it into one reason string
+// per token.
 export type ComponentFailure = StrokeWidthFailure | IconOverflowFailure | LayoutGeometryFailure;
 
 const describeReliefComponentSource = (source: ReliefComponentSource): string => {
@@ -84,7 +85,7 @@ const describeReliefComponentSource = (source: ReliefComponentSource): string =>
 };
 
 // The bare count, with no source label: for a caller that already names the source some other
-// way (tokenWorker.ts drops the redundant "Text "..."" prefix when a token's only failing
+// way (describeTokenFailures.ts drops the redundant "Text "..."" prefix when a token's only failing
 // component is its own title, since the surrounding UI already names that token by title).
 export const describeVanishedDetailCount = (
   failure: Pick<StrokeWidthFailure, "vanishedFeatureCount" | "featureCount">,

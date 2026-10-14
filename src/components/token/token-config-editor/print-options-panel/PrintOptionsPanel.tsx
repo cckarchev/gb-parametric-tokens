@@ -1,13 +1,13 @@
-import { ICON_OVERFLOW_BEHAVIOR_OPTIONS } from "@/components/editor/iconOverflowBehaviorOptions";
-import { PrintProfileSelector } from "@/components/editor/print-profile-selector/PrintProfileSelector";
-import { RELIEF_OPTIONS } from "@/components/editor/reliefOptions";
 import { CheckboxField } from "@/components/primitives/checkbox-field/CheckboxField";
 import { Panel } from "@/components/primitives/panel/Panel";
 import { SelectField } from "@/components/primitives/select-field/SelectField";
 import { SharedConfig } from "@/core/token/catalog/tokenItems/tokenItem";
 
 import { GuildColorsEditor } from "../../guild-colors-editor/GuildColorsEditor";
+import { ICON_OVERFLOW_BEHAVIOR_OPTIONS } from "./iconOverflowBehaviorOptions";
 import styles from "./PrintOptionsPanel.module.css";
+import { PrintProfileSelector } from "./PrintProfileSelector";
+import { RELIEF_OPTIONS } from "./reliefOptions";
 
 type PrintOptionsPanelProps = {
   sharedConfig: SharedConfig;

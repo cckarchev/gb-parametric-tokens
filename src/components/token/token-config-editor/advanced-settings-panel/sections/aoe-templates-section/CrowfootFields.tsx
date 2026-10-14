@@ -1,3 +1,7 @@
+import { CheckboxField } from "@/components/primitives/checkbox-field/CheckboxField";
+import { NumberField } from "@/components/primitives/number-field/NumberField";
+import { CrowfootTuning } from "@/core/token/catalog/tokenItems/tokenItem";
+
 import {
   ARC_SWEEP_BOUNDS,
   CORNER_RADIUS_BOUNDS,
@@ -7,11 +11,7 @@ import {
   SPOKE_TEXT_MARGIN_BOUNDS,
   SPOKE_WIDTH_BOUNDS,
   TEXT_SIZE_BOUNDS,
-} from "@/components/editor/fieldBounds";
-import { CheckboxField } from "@/components/primitives/checkbox-field/CheckboxField";
-import { NumberField } from "@/components/primitives/number-field/NumberField";
-import { CrowfootTuning } from "@/core/token/catalog/tokenItems/tokenItem";
-
+} from "../shared/fieldBounds";
 import { AoeFieldsProps } from "./aoeFieldsProps";
 import { BandWidthField } from "./BandWidthField";
 

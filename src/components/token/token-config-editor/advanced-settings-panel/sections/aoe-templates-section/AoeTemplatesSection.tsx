@@ -1,9 +1,9 @@
-import { AOE_TEMPLATE_VARIANT_OPTIONS } from "@/components/editor/aoeTemplateVariantOptions";
 import { SelectField } from "@/components/primitives/select-field/SelectField";
 import { DEFAULT_SHARED_CONFIG } from "@/core/token/catalog/tokenItems/defaultSharedConfig";
 import { AoeTuning } from "@/core/token/catalog/tokenItems/tokenItem";
 
 import { SectionPanel, SectionProps } from "../section-panel/SectionPanel";
+import { AOE_TEMPLATE_VARIANT_OPTIONS } from "./aoeTemplateVariantOptions";
 import { CompactDiscFields } from "./CompactDiscFields";
 import { CrowfootFields } from "./CrowfootFields";
 import { RingFields } from "./RingFields";

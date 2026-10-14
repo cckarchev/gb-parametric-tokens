@@ -106,8 +106,8 @@
 
 .attentionReason {
   color: var(--color-text-muted);
-  /* One failing component per line (tokenWorker.ts joins them with \n) instead of a run-on
-     paragraph: several "Icon ...: Text ...:" clauses back to back read as illegible (user
+  /* One failing component per line (describeTokenFailures.ts joins them with \n) instead of a
+     run-on paragraph: several "Icon ...: Text ...:" clauses back to back read as illegible (user
      feedback). white-space:pre-line renders each \n as a real line break while still wrapping
      an overlong single line normally. */
   white-space: pre-line;
