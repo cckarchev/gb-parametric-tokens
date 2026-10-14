@@ -11,16 +11,13 @@ export type StudPlacements = {
   right: StudPlacement;
 };
 
-// The diameter of a standard miniature base (30mm) the ribbon's inner edge wraps around.
-// Shared, not per-shape, until a future base-size selector makes it one (see the design doc).
+// The standard miniature base (30mm) the ribbon's inner edge wraps around.
 export const MODEL_BASE_DIAMETER_MM = 30;
 // Total radial clearance between the base and the ribbon's inner edge, so the ribbon never
 // binds against a real base of exactly MODEL_BASE_DIAMETER_MM.
 export const BASE_CLEARANCE_MM = 0.5;
 
-// The ribbon's inner radius is fixed, not a free parameter: it's always exactly half the base
-// diameter plus half the clearance. Written as a function (not a constant) so a future
-// per-shape base diameter is a one-line change at the call site, not a new function.
+// The ribbon's inner radius: half the base diameter plus half the clearance.
 export const computeInnerRadiusMm = (): number => {
   return (MODEL_BASE_DIAMETER_MM + BASE_CLEARANCE_MM) / 2;
 };

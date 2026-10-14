@@ -69,17 +69,12 @@ export type CatalogGenericToken = {
 };
 
 export type GuildCatalog = {
-  // Derived from the guild's own JSON file name at load time (see guildCatalogs.ts), not stored
-  // in the file itself: the file name was already the source of truth, so keeping a second copy
-  // inside the file could only ever drift out of sync with it.
+  // The guild file's name (see guildCatalogs.ts).
   guildId: string;
   name: string;
   color: string;
-  // Multiplies the guild's own crest icon's scale wherever it's printed on a physical token
-  // (character tokens, generic tokens, Goal Influence), so the stud art matches the same guild
-  // crest sizing already applied to its badge in the guild picker (see GuildSelector.tsx's
-  // iconScale). Never applied to a token's own custom iconId, only to the shared guild crest.
-  // Optional; defaults to 1 (no change) when omitted.
+  // Scales this guild's crest, for one that reads small or large next to the others. Applies to
+  // the guild picker's tile and to every printed token that wears the crest. Defaults to 1.
   iconScale?: number;
   characters: CatalogCharacter[];
   genericTokens: CatalogGenericToken[];

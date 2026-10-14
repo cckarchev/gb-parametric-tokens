@@ -72,9 +72,8 @@ export const buildIconComponent = async (
   const rotated = rotateContours(trimmed, rotationDeg);
   const contours = translateContours(rotated, center);
 
-  // "grow" never touches the icon's own contours (unlike "shrink"/"trim" above): it grows the
-  // stud/disc's own body around them instead, so the dilated footprint is computed from the
-  // icon's final absolute position, matching the space the base builders place the stud/disc in.
+  // "grow" leaves the icon alone and grows the body instead, so the footprint is taken from the
+  // icon's final position.
   const growOutline =
     overflowBehavior === "grow" && overflowsCircle
       ? await growIconOutline(contours, printProfile.minStrokeWidthMm * GROW_MARGIN_MULTIPLIER)
@@ -84,15 +83,13 @@ export const buildIconComponent = async (
     contours,
     colorGroup: icon.colorGroup,
     source: { kind: "icon", iconId: icon.iconId },
-    // Only "none" leaves the overflow uncorrected, so only "none" needs the attention flag:
-    // "shrink", "trim", and "grow" already handled it (see IconOverflowBehavior in types.ts).
+    // Only "none" leaves the overflow uncorrected.
     overflowsCircle: overflowBehavior === "none" && overflowsCircle,
     growOutline,
   };
 };
 
-// Shared by every disc-shaped layout (flat and ring alike): both center their icons at the
-// disc's own center, distinguished only by which side("center") icons are present.
+// The center icons of a disc, for both the flat and ring layouts.
 export const buildCenterIconComponents = (
   icons: IconSpec[],
   targetDiameterMm: number,
@@ -109,9 +106,7 @@ export const buildCenterIconComponents = (
   );
 };
 
-// Shared by every disc-shaped layout (flat and ring alike): a decoration is a standalone
-// relief feature, not tied to text or icon placement, so it never depends on which layout
-// produced the rest of the token's contours.
+// A disc's decorations, the same in the flat and ring layouts.
 export const buildDecorationComponents = (
   decorations: TokenSpec["decorations"],
 ): ReliefComponent[] => {

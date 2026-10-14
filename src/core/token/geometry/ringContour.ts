@@ -10,10 +10,7 @@ const buildCirclePolygon = (radiusMm: number): Vec2[] => {
   });
 };
 
-// A flat annulus centered on radiusMm, widthMm wide: an outer circle contour and an inner
-// circle contour, wound so a "Positive" fill rule (Manifold's CrossSection, used for the 3D
-// mesh) treats the inner circle as a hole rather than filling it in, same as any other relief
-// contour with a counter (see svg/normalizeWinding.ts).
+// A flat ring widthMm wide, centered on radiusMm. The inner circle is wound as a hole.
 export const computeRingContour = (radiusMm: number, widthMm: number): Vec2[][] => {
   const outer = buildCirclePolygon(radiusMm + widthMm / 2);
   const inner = buildCirclePolygon(radiusMm - widthMm / 2);

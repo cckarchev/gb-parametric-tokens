@@ -73,8 +73,7 @@ describe("buildContactSheetSvg", () => {
 
     const { svg, viewBox } = buildContactSheetSvg(items, 2, colorGroups);
 
-    // Disc section: raw cellWidth = 10 + 2*2 padding = 14, rounded up to the next 10mm grid
-    // line = 20; same for cellHeight (disc items carry no circle, so no extra margin).
+    // Cell: 10 + 2 * 2 = 14, rounded to 20 on both axes.
     expect(svg).toContain('viewBox="0 0 40 40"');
     expect(viewBox).toEqual({ x: 0, y: 0, width: 40, height: 40 });
   });
@@ -86,9 +85,8 @@ describe("buildContactSheetSvg", () => {
 
     const { viewBox } = buildContactSheetSvg(items, 1, colorGroups);
 
-    // raw cell = 22 + 2*2 padding = 26, rounded up to the next 20mm grid-vertex step = 40 (not
-    // just the next 10mm grid line: a 20mm-stepped cell is what guarantees the item's own
-    // center, at exactly half the cell, still lands on a grid vertex).
+    // Cell: 22 + 2 * 2 = 26, rounded to two grid steps: 40, so the centered item's middle lands
+    // on an intersection.
     expect(viewBox).toEqual({ x: 0, y: 0, width: 40, height: 40 });
   });
 
@@ -367,9 +365,7 @@ describe("buildContactSheetSvg", () => {
     expect(circleCenters).toHaveLength(4);
 
     for (const [cx, cy] of circleCenters) {
-      // The circle's own local footprint is exactly 30mm (already a clean 3-grid-square size),
-      // so its edges (cx +/- 15, cy +/- 15) land on the grid whenever cx and cy themselves sit
-      // 15mm off a grid line.
+      // The circle is 30mm across, so its edges are on the grid when its center is 15mm off it.
       expect((cx - 15) % GRID_STEP_MM).toBeCloseTo(0);
       expect((cy - 15) % GRID_STEP_MM).toBeCloseTo(0);
     }
@@ -431,9 +427,8 @@ describe("buildContactSheetSvg", () => {
 
     const { svg } = buildContactSheetSvg(items, 1, colorGroups);
 
-    // Cell: 10mm content + 2*2mm padding = 14mm, rounded up to the 20mm grid-vertex step, so the
-    // full cell is 20x20: a marker sized to that would be twice the item's own 10x10 content.
-    // Centered in that cell, the content's own tight box sits at (5,5)-(15,15).
+    // Cell 20 by 20 for a 10 by 10 token, centered at (5, 5)-(15, 15). The marker frames the
+    // token, not the cell.
     expect(svg).toContain(
       '<rect x="5" y="5" width="10" height="10" fill="none" stroke="#ff6b6b" stroke-width="0.6" stroke-dasharray="2 1" />',
     );

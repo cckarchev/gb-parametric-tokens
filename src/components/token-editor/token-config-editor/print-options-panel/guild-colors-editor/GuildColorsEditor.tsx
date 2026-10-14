@@ -9,10 +9,7 @@ type GuildColorsEditorProps = {
   onChange: (colorGroups: ColorGroupSpec[]) => void;
 };
 
-// The token flow always seeds exactly two colors from the selected guild (useTokenGenerator.ts):
-// the body (base color group) and the text/symbols (derived relief color). Unlike
-// ColorGroupsEditor, there is no add/remove here, matching the product rule that these two
-// roles are fixed.
+// Always the guild's two colors, body and text, so nothing to add or remove.
 export const GuildColorsEditor = ({ colorGroups, onChange }: GuildColorsEditorProps) => {
   const updateColor = (id: string, color: string) => {
     onChange(colorGroups.map((group) => (group.id === id ? { ...group, color } : group)));

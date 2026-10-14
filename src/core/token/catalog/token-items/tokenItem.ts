@@ -137,8 +137,7 @@ export type SharedConfig = TokenTuning & {
   effectSizeMm: number;
   showSecondLine: boolean;
   balanceTwoLineSizes: boolean;
-  // "none" by default: applied to every guild icon this catalog builds (see buildIconSpec in
-  // tokenSpecParts.ts): see IconOverflowBehavior in types.ts for what each value does.
+  // Applied to every guild icon (see IconOverflowBehavior in types.ts).
   iconOverflowBehavior: IconOverflowBehavior;
   aoeTemplateVariant: AoeTemplateVariant;
 };

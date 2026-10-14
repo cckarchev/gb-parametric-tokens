@@ -14,11 +14,7 @@ import { buildGridOverlaySvg, RenderedSvg, SvgBounds } from "./svgGrid";
 
 const DEFAULT_PADDING_MM = 5;
 
-// Preview contours arrive in the core pipeline's mathYUp world convention (same as the 3D
-// mesh, see arcPlacement.ts). SVG's y axis points down, so rendering those coordinates
-// unmodified mirrors the token top-to-bottom. Negate y at this exact boundary, the same
-// place text/glyphOutline.ts's flipGlyphContoursToYUp and arcPlacement.ts's "svgYDown" branch
-// do it.
+// The pipeline is y-up and SVG is y-down, so the preview flips every contour on the way in.
 const flipComponents = (components: ReliefComponent[]): ReliefComponent[] => {
   return components.map((component) => ({
     ...component,
@@ -42,10 +38,7 @@ export const buildPreviewSvg = (
   const flippedBaseContours = flipContoursY(baseContours);
   const flippedReliefComponents = flipComponents(reliefComponents);
 
-  // The reference circle's position is a fixed, constant anchor (see svgBaseReference.ts):
-  // the arc token's own local origin is drawn there directly, never computed from the token's
-  // rendered content, so changing any shape parameter never moves the circle relative to the
-  // token.
+  // The arc token's origin goes on the circle's fixed anchor (see svgBaseReference.ts).
   const tokenShiftSvg: Vec2 =
     shape?.type === "arc" ? [CIRCLE_ANCHOR_X_SVG, CIRCLE_ANCHOR_Y_SVG] : [0, 0];
 

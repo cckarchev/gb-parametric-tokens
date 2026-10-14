@@ -2,9 +2,7 @@ import { TEXT_COLOR_GROUP_ID } from "../../mesh/colorGroups";
 import { FitPolicy, IconSpec, TokenSpec } from "../../types";
 import { SharedConfig } from "./tokenItem";
 
-// Every icon a guild token wears goes through here, so iconOverflowBehavior only needs to be
-// threaded once: when it's "none" (the default), the built IconSpec looks exactly as it always
-// has, so no overflow correction ever runs even though it's still flagged for attention.
+// Every icon a guild token wears is built here, so iconOverflowBehavior is applied in one place.
 export const buildIconSpec = (
   iconId: string,
   side: IconSpec["side"],
@@ -20,13 +18,10 @@ export const buildIconSpec = (
     : {}),
 });
 
-// Every token spec carries the same trailing style/printing fields from the shared config,
-// whatever its own shape, text, icons, and decorations look like.
+// The style and printing fields every token spec takes from the shared config.
 //
-// fitPolicyOverride exists for a token whose text is fixed by this app rather than typed by the
-// user, and so never needs fitting at all (Momentum's "MP", see momentumTokenSpec.ts). It's a
-// parameter rather than a field the caller re-assigns after the spread, so the override is
-// visible at the call site instead of depending on which key happens to be written last.
+// fitPolicyOverride is for fixed text that never needs fitting (Momentum's "MP"). A parameter,
+// rather than a key written after the spread, keeps the override visible at the call site.
 export const sharedTokenFields = (
   sharedConfig: SharedConfig,
   fitPolicyOverride?: FitPolicy,

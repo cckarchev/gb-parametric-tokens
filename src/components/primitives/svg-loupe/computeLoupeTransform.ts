@@ -17,11 +17,9 @@ type LoupeTransform = {
   offsetYPx: number;
 };
 
-// The lens shows a second copy of the same SVG, scaled so 1mm of token = CSS_PX_PER_MM
-// screen pixels (true size) times zoomFactor, translated so the point under the cursor
-// lands at the lens center. The on-screen preview may be shrunk to fit its container, so
-// the cursor's fractional position within the displayed container is what maps to a point
-// in the scaled copy, not the cursor's raw pixel offset.
+// The lens draws a second copy of the SVG at true size times zoomFactor, with the point under the
+// cursor at its center. The cursor is read as a fraction of the container, since the preview
+// itself may be shrunk to fit.
 export const computeLoupeTransform = (
   viewBox: ViewBoxSize,
   containerSizePx: SizePx,

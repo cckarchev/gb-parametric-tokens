@@ -2,9 +2,8 @@ import { ColorGroupSpec } from "../types";
 
 export const BASE_COLOR_GROUP_ID = "base";
 
-// The fixed second color-group role every generated line and icon is tagged with, so it
-// resolves to the guild-derived relief color (see catalog/deriveReliefColor.ts) instead of
-// silently falling back to the body's own, always-implicit BASE_COLOR_GROUP_ID above.
+// The group every line and icon is tagged with, so it takes the relief color (see
+// catalog/deriveReliefColor.ts) instead of the body's.
 export const TEXT_COLOR_GROUP_ID = "text";
 
 const FALLBACK_DISPLAY_COLOR = "#CCCCCC";

@@ -113,10 +113,8 @@ describe("layoutArcText", () => {
     expect(computeAngularSpanDeg(tracked)).toBeGreaterThan(computeAngularSpanDeg(tight));
   });
 
-  // Regression for M3's mirrored-text bug: getGlyphContours hands back y-down outlines, so
-  // the mathYUp path has to flip them before applyArcPlacement rotates them. Without the
-  // flip an ascender's ink grew toward the arc's center instead of away from it. Measured,
-  // not eyeballed: "L" at radius 37.5 must reach out past 37.5, not in toward the origin.
+  // Glyph outlines come y-down, so mathYUp has to flip them before placing them. Without the flip,
+  // an "L" at radius 37.5 grows inward instead of reaching past 37.5.
   const RADIUS_MM = 37.5;
   const SIZE_MM = 6;
   const MIN_ASCENDER_REACH_MM = 3; // Saira Condensed Bold's cap height at 6mm (~4.1mm) is comfortably above this

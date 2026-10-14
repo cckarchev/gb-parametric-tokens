@@ -51,12 +51,10 @@ const emptySelection: TokenSelection = {
   gamePlans: {},
 };
 
-// Derived rather than restated: the two tests that use this are about the size on each line, so
-// pinning the effect's own wording there would fail them for an edit to the catalog data that has
-// nothing to do with what they cover. The first test below keeps the literal on purpose, as the
-// one anchor proving the real text is what reaches the line.
-// Cutlass really has no effects in characters.json, only Broadside, which positions two AOEs and
-// so is the template the copies case goes through.
+// Read from the data, so a wording edit doesn't break tests about line sizes. The first test
+// keeps the literal, as proof the real text reaches the line.
+//
+// Cutlass has no effects of its own; Broadside places two AOEs, so it carries the copies case.
 const blacksmithsCatalog: GuildCatalog = {
   guildId: "blacksmiths",
   name: "Blacksmiths",
@@ -413,10 +411,8 @@ describe("buildTokenItems", () => {
 
     const [topLine, bottomLine] = items[0].spec.lines;
 
-    // Top ("Goal") reads outward, so its ink grows past its own radius; bottom ("Influence")
-    // reads inward, so its ink grows back toward its own radius from further out. Giving them
-    // the same radiusMm leaves "Influence" reading closer to the icon than "Goal" reads to the
-    // rim, so the bottom line needs a larger radius to make their ink line up.
+    // The top line's ink grows outward from its baseline and the bottom line's inward, so the
+    // bottom baseline sits farther out for both lines' ink to line up (see computeRingTextRadii).
     expect(bottomLine.radiusMm).toBeGreaterThan(topLine.radiusMm ?? 0);
   });
 

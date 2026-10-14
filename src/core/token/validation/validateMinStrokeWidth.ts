@@ -73,9 +73,7 @@ const describeReliefComponentSource = (source: ReliefComponentSource): string =>
   }
 };
 
-// The bare count, with no source label: for a caller that already names the source some other
-// way (describeTokenFailures.ts drops the redundant "Text "..."" prefix when a token's only failing
-// component is its own title, since the surrounding UI already names that token by title).
+// The count alone, for a caller that already names the source.
 export const describeVanishedDetailCount = (
   failure: Pick<StrokeWidthFailure, "vanishedFeatureCount" | "featureCount">,
 ): string => {

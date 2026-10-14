@@ -58,11 +58,8 @@ export const usePreview = (
 
     const elapsedSinceLastRequestMs = Date.now() - lastRequestSentAtRef.current;
 
-    // Leading edge: nothing else fired recently, so there's no burst to protect the worker from,
-    // so run this (possibly large) recompute right away instead of padding it with an artificial
-    // wait. Trailing edge: something fired within the debounce window already, so this change
-    // waits out the remainder of that window, coalescing the burst into one recompute instead of
-    // one per event.
+    // The first change after a quiet spell runs at once. Changes inside the debounce window wait
+    // for it to end, so a burst runs once.
     if (elapsedSinceLastRequestMs >= LIVE_PREVIEW_DEBOUNCE_MS) {
       postPreviewRequest();
       return;

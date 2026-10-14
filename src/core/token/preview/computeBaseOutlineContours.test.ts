@@ -65,11 +65,8 @@ describe("computeBaseOutlineContours", () => {
     const studRadiusMm = computeEffectiveStudDiameterMm(shape) / 2;
     const outerRadiusMm = computeOuterRadiusMm(shape);
 
-    // Each stud's center sits studRadiusMm past the ribbon's own inner-edge vertex (see
-    // studPlacement.ts), further out than outerRadiusMm, so its farthest point from the origin,
-    // radially outward, lands past outerRadiusMm + studRadiusMm's own straight-line distance. A
-    // plain ring without studs would only reach outerRadiusMm, so this proves the studs are
-    // actually unioned into the outline.
+    // The ribbon alone reaches outerRadiusMm. Anything farther is a stud, so the studs are in the
+    // outline.
     expect(farthest).toBeGreaterThan(outerRadiusMm);
     expect(farthest).toBeLessThanOrEqual(outerRadiusMm + studRadiusMm + 0.5);
 

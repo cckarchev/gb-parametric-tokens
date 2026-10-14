@@ -86,10 +86,8 @@ const buildCrowfoot = (
   return shrunk.offset(crowfoot.cornerRadiusMm, "Round", OFFSET_MITER_LIMIT, OFFSET_ARC_SEGMENTS);
 };
 
-// The disc's flat outline before any extrusion or grow union: a plain circle, a ring when
-// innerDiameterMm is set, or a crow's foot cut from that ring. Shared by the real mesh
-// (mesh/buildTokenMesh.ts) and the 2D preview (preview/computeBaseOutlineContours.ts) so the two
-// can never disagree about the outline.
+// The disc's flat outline: a circle, a ring when innerDiameterMm is set, or a crow's foot. The
+// mesh and the preview both use it, so they can't disagree.
 export const buildDiscFootprint = (
   CrossSection: CrossSectionClass,
   shape: DiscShapeSpec,

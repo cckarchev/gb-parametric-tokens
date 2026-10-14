@@ -12,10 +12,8 @@ type CountFieldProps = {
   max: number;
 };
 
-// A checkbox (is this counter included in the run at all) plus a -/+ stepper for how many
-// copies, the same pattern CharacterTokenList uses for a per-token copies count. The stepper
-// stays disabled, but keeps showing its last value, while unchecked, so re-checking restores
-// it instead of resetting to the field's minimum.
+// A checkbox to include the counter and a stepper for its copies. Unchecked, the stepper is
+// disabled but keeps its value.
 export const CountField = ({
   label,
   enabled,

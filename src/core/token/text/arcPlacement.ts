@@ -30,9 +30,7 @@ export const computeArcGlyphPlacements = (input: ArcGlyphPlacementInput): ArcGly
   const lastIndex = input.advancesMm.length - 1;
   const totalWidthMm = penPositions[lastIndex] + input.advancesMm[lastIndex];
   const orientation = input.orientation ?? "outward";
-  // outward: increasing arc-length-from-center decreases the angle (existing convention).
-  // inward: reversed, so reading left-to-right sweeps the same rotational direction an
-  // upright viewer expects on the far side of the circle: see ArcOrientation's doc comment.
+  // Outward, the angle falls as the text advances; inward it rises, so both read left to right.
   const orientationSignMultiplier = orientation === "outward" ? -1 : 1;
 
   return penPositions.map((penPosition, index): ArcGlyphPlacement => {
@@ -44,20 +42,14 @@ export const computeArcGlyphPlacements = (input: ArcGlyphPlacementInput): ArcGly
       orientationSignMultiplier * (arcLengthFromCenterMm / input.radiusMm) * DEGREES_PER_RADIAN;
     const angleRad = angleDeg / DEGREES_PER_RADIAN;
 
-    // svgYDown: glyph outlines from opentype.js render upright with no flip, so writing
-    // this directly into SVG (y-down) space needs the y negated and rotation mirrored to
-    // compensate: this is the exact fix from M2's postmortem, left unchanged here.
-    // mathYUp: manifold-3d's 3D world is plain math convention (y-up), so no compensation
-    // is needed: this is the convention M3's mesh-building tasks use.
+    // svgYDown writes straight into SVG space, so y and the rotation are mirrored. mathYUp is
+    // the mesh's y-up world and needs no compensation.
     const position: Vec2 =
       input.coordinateConvention === "svgYDown"
         ? [input.radiusMm * Math.cos(angleRad), -input.radiusMm * Math.sin(angleRad)]
         : [input.radiusMm * Math.cos(angleRad), input.radiusMm * Math.sin(angleRad)];
 
-    // outward points the glyph's ascender away from the center, inward points it toward the
-    // center instead: a quarter turn either side of the point's own polar angle (see
-    // RADIAL_TO_UPRIGHT_OFFSET_DEG). svgYDown always mirrors whatever mathYUp computes, same
-    // relationship as before orientation existed.
+    // A quarter turn either side of the point's polar angle (see RADIAL_TO_UPRIGHT_OFFSET_DEG).
     const mathYUpRotationDeg =
       orientation === "outward"
         ? angleDeg - RADIAL_TO_UPRIGHT_OFFSET_DEG

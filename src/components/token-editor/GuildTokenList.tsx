@@ -64,11 +64,8 @@ export const GuildTokenList = ({
 
   const rows = [...fixedRows, ...genericRows];
 
-  // Only ever flips `enabled`: every counter's own copies count (default or already chosen)
-  // is left exactly as it was, on or off, so toggling this twice in a row is a no-op on the
-  // numbers themselves.
-  //
-  // The generics all live in the one `genericTokens` record, so they go through setRowsEnabled.
+  // Only flips `enabled`; every copies count stays. The generics share one record, so they go
+  // through setRowsEnabled.
   const toggleAll = (enabled: boolean) => {
     for (const row of fixedRows) {
       row.onChange({ ...row.selection, enabled });

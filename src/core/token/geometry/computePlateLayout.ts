@@ -6,11 +6,8 @@ export type PlateLayoutItem = {
   copies: number;
 };
 
-// Arc tokens (wide ribbons) and disc tokens (small squares) have very different footprints,
-// so mixing them into one uniform grid wastes space or overlaps. The same holds between discs of
-// different sizes: one 76.2mm AOE template in a block of 15mm counters would widen every cell to
-// its own size. So each shape type and footprint size gets its own block, a grid sized to its own
-// items, stacked vertically: arc blocks first, then disc blocks, smallest footprint first.
+// Each shape type and footprint size gets its own grid, so one big AOE doesn't widen every cell.
+// Blocks stack vertically: arcs first, then discs, smallest first.
 const SHAPE_TYPE_ORDER: PlateLayoutItem["shapeType"][] = ["arc", "disc"];
 
 type BlockEntry = { item: PlateLayoutItem; index: number };

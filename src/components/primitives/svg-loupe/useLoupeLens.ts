@@ -56,10 +56,8 @@ const computeLensState = (
   };
 };
 
-// All the loupe's interactive state and wiring, kept apart from SvgLoupe's render so that file
-// stays props-in/markup-out. Mirrors props/state that the native wheel listener below needs to
-// read at event time without forcing the listener to be torn down and re-added on every render
-// or zoom tick.
+// The loupe's state and event wiring. Values the wheel listener reads are mirrored in refs, so the
+// listener isn't re-attached on every render or zoom step.
 export const useLoupeLens = (viewBox: ViewBoxSize): LoupeLens => {
   const trackAreaRef = useRef<HTMLDivElement>(null);
   const viewBoxRef = useRef(viewBox);
@@ -69,10 +67,7 @@ export const useLoupeLens = (viewBox: ViewBoxSize): LoupeLens => {
 
   viewBoxRef.current = viewBox;
 
-  // The lens only helps when the preview is currently drawn smaller than the token's true
-  // physical size (e.g. a full contact sheet shrunk to fit the panel); once it's already
-  // shown at or above true size (e.g. a single big token), magnifying it further adds
-  // nothing, so the whole hover/zoom affordance is skipped rather than shown for no reason.
+  // The lens only helps when the preview is drawn below true size.
   const trueSizeWidthPx = viewBox.width * CSS_PX_PER_MM;
   const isMagnificationUseful =
     containerWidthPx !== undefined && containerWidthPx < trueSizeWidthPx;
@@ -113,11 +108,8 @@ export const useLoupeLens = (viewBox: ViewBoxSize): LoupeLens => {
     setLens(undefined);
   };
 
-  // A React onWheel prop is attached passively (matching the browser's own scroll-perf
-  // default for wheel listeners), so preventDefault() through it cannot stop the rest of
-  // the page from scrolling underneath the lens. A native, explicitly non-passive listener
-  // is what lets this handler own the wheel gesture, but only while Ctrl is held: a plain
-  // wheel must fall through untouched so the page can still scroll past the preview.
+  // React's onWheel is passive, so its preventDefault() can't stop the page from scrolling.
+  // A native non-passive listener can. It only takes Ctrl+wheel; a plain wheel still scrolls.
   useEffect(() => {
     const trackArea = trackAreaRef.current;
 

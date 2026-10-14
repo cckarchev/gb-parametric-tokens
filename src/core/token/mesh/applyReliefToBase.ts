@@ -18,8 +18,7 @@ export const applyReliefToBase = (
   const reliefHeightMm = style.reliefHeightMm;
 
   if (style.relief === "engraved") {
-    // A cut is not a volume, so there is nothing to keep separate: every relief contour
-    // subtracts from the base regardless of its colorGroup (see M4 plan's Scoping decisions).
+    // A cut has no volume to color, so every relief contour subtracts whatever its colorGroup.
     const allContours = reliefComponents.flatMap((component) => component.contours);
     const cutHeight = reliefHeightMm + RELIEF_OVERLAP_MM * 2;
     const cutTool = new CrossSection(allContours, "Positive")

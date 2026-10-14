@@ -11,23 +11,15 @@ export type ReliefComponent = {
   contours: Vec2[][];
   colorGroup?: string;
   source: ReliefComponentSource;
-  // Set only by an icon component (see computeReliefComponentsShared.ts's buildIconComponent):
-  // true when the icon's own artwork pokes past its target circle AND nothing corrected it
-  // (IconSpec.overflowBehavior is "none", the default): "shrink", "trim", and "grow" all clear
-  // this once they've handled it, so it drives the "needs attention" list without
-  // double-reporting an already-handled icon.
+  // An icon that reaches past its circle with overflow behavior "none". The other behaviors fix
+  // the overflow and leave this unset.
   overflowsCircle?: boolean;
-  // Set only by an icon component whose overflowBehavior is "grow" and that actually overflowed:
-  // the icon's own footprint, dilated outward (see geometry/growIconOutline.ts), in the same
-  // absolute mm space as `contours`. The base builders (buildArcTokenMesh.ts, buildTokenMesh.ts)
-  // and the 2D preview outline (preview/computeBaseOutlineContours.ts) union this into the
-  // stud/disc's own body instead of leaving it a plain circle.
+  // An overflowing icon with behavior "grow": its footprint plus a margin, in the same space as
+  // `contours`. The mesh and the preview add it to the stud or disc body.
   growOutline?: Vec2[][];
 };
 
-// Every grown icon footprint in one flat contour list, ready to union into a token body. All
-// three consumers named on growOutline above need exactly this, and an empty result means no
-// icon asked to grow, so each of them can skip the union entirely.
+// Every grown icon footprint as one contour list, empty when no icon grew.
 export const collectGrowOutlineContours = (components: ReliefComponent[]): Vec2[][] => {
   return components.flatMap((component) => component.growOutline ?? []);
 };

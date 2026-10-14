@@ -202,12 +202,8 @@ describe("buildArcTokenMesh", () => {
     expect(basePart?.manifold.decompose().length).toBe(1); // ribbon+studs still fused on their own
   });
 
-  // A ribbon wider than its nominal stud is exactly what computeEffectiveStudDiameterMm exists
-  // for (see geometry/studPlacement.ts): the stud grows to match the ribbon's width so its curve
-  // still encloses the ribbon's straight end edge instead of leaving a visible notch. Every other
-  // consumer (stud placement, the icon target size, the worker's bounds, and the 2D preview
-  // outline) goes through that helper, so the mesh's own footprint has to agree with the
-  // preview's, or the print carries a notch the user never saw on screen.
+  // A stud narrower than the ribbon grows to its width (computeEffectiveStudDiameterMm). The mesh
+  // has to grow it like the preview does, or the print carries a notch the screen never showed.
   it("gives a ribbon wider than its stud the same footprint the 2D preview draws", async () => {
     const wideRibbonShape = {
       type: "arc" as const,

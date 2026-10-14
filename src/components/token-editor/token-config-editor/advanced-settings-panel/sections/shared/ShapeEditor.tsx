@@ -11,10 +11,8 @@ import {
   STUD_DIAMETER_BOUNDS,
 } from "./fieldBounds";
 
-// Generic over the shape it edits, so a caller that owns an arc gets an arc back and one that
-// owns a disc gets a disc. A shape's type is fixed by whichever slot of the config it belongs to
-// and is not something this editor can change: it just renders the fields of the arm it was
-// handed, inside whatever section its caller puts it in.
+// Generic over the shape, so an arc comes back as an arc and a disc as a disc. The type is fixed
+// by the config slot; this only edits its fields.
 type ShapeEditorProps<T extends ShapeSpec> = {
   shape: T;
   onChange: (shape: T) => void;

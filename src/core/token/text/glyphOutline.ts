@@ -49,11 +49,8 @@ export const getGlyphContours = (
   return normalizeWinding(rawContours);
 };
 
-// getGlyphContours above returns outlines in opentype.js' native y-down space. Every consumer
-// that places glyphs in this app's own mathYUp world (both text layouts, and through them the
-// mesh and the preview) needs them flipped first, so that flip lives here rather than being
-// re-derived per layout. Winding is reversed by a y-flip, so normalizeWinding must run AFTER it,
-// never before: the same ordering trap geometry/iconPlacement.ts's placeIcon documents.
+// Glyph outlines in the pipeline's y-up space. Run normalizeWinding after this, never before
+// (see flipContoursY).
 export const flipGlyphContoursToYUp = (contours: Vec2[][]): Vec2[][] => {
   return normalizeWinding(flipContoursY(contours));
 };

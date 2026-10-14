@@ -88,10 +88,8 @@ describe("placeIcon", () => {
   });
 
   it("checks overflow against the real target circle, not one shrunk by the icon's own scale", () => {
-    // Same solid square that overflows at scale 1 (see above), but at scale 0.5 its nominal
-    // box-fit size is already small enough to sit well within the real, full-size target circle,
-    // so there's nothing to flag or correct. The overflow check must reference targetDiameterMm
-    // itself, not targetDiameterMm * scale, or this would still (wrongly) flag it.
+    // At scale 0.5 the square sits well inside the full circle. Checked against
+    // targetDiameterMm * scale instead, it would still be flagged.
     const { overflowsCircle } = placeIcon(SOLID_SQUARE, {
       targetDiameterMm: 20,
       scale: 0.5,

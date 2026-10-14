@@ -16,8 +16,6 @@ export const STUD_CIRCLE_SEGMENTS = 48;
 // forms a whole visible circle, so it needs far fewer segments than a body outline does.
 export const OFFSET_ARC_SEGMENTS = 32;
 
-// The miterLimit argument every CrossSection.offset() call has to pass positionally to reach the
-// circularSegments argument after it. Per manifold-3d's own docs it only applies when the join
-// type is "Miter", and every offset in this app uses "Round" instead, so it never actually bites:
-// 2 is simply Clipper2's default and its minimum allowed value, not a tuned number.
+// Passed only to reach offset()'s next argument. Every offset here uses round joins, so it has no
+// effect; 2 is Clipper2's default.
 export const OFFSET_MITER_LIMIT = 2;

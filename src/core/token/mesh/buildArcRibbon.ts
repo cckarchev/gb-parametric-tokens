@@ -14,10 +14,7 @@ const WEDGE_STEPS = 64;
 // Extends the wedge past the ribbon's outer radius so float error never clips the ring it cuts.
 const WEDGE_RADIUS_PADDING_MM = 10;
 
-// The ribbon's flat 2D sector (outer radius minus inner radius, cut down to the sweep angle),
-// with no height yet: exported so buildArcTokenMesh.ts can union studs onto it in 2D (required
-// for filletOutline.ts's offset math, which only works before extrusion) instead of building this
-// same ring/wedge shape a second time.
+// The ribbon's flat outline, before extrusion, so the studs can be joined and filleted in 2D.
 export const buildArcRibbonOutline2D = (
   CrossSectionCtor: ManifoldToplevel["CrossSection"],
   shape: ArcShapeSpec,

@@ -92,10 +92,8 @@ export const handlePreview = async (request: PreviewRequest): Promise<PreviewRes
     request.items.map(async (item) => {
       const printProfile = PRINT_PROFILES[item.spec.printProfileId];
       const result = await computeReliefComponents(item.spec, font, printProfile, loadIconSource);
-      // IconOverflowBehavior "grow" (see types.ts): the base outline itself hugs any icon that
-      // grew, so this preview matches the real mesh (buildArcTokenMesh.ts, buildTokenMesh.ts)
-      // instead of showing a plain circle. Only known once the icons above are placed, hence
-      // sequential rather than a Promise.all with computeReliefComponents.
+      // After computeReliefComponents, not alongside it: the outline includes the footprints of
+      // icons with behavior "grow", which exist only once the icons are placed.
       const growOutlineContours = collectGrowOutlineContours(result.reliefComponents);
       const baseContours = await computeBaseOutlineContours(
         item.spec.shape,

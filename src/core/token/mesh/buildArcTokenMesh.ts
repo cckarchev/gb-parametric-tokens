@@ -21,10 +21,7 @@ export const buildArcTokenMesh = async (input: BuildArcTokenMeshInput): Promise<
   const { CrossSection } = wasm;
 
   const ribbon = buildArcRibbonOutline2D(CrossSection, input.shape, input.centerAngleDeg);
-  // The effective diameter, never the raw studDiameterMm: computeStudPlacements already puts the
-  // stud's center where a stud of THIS size touches the ribbon's inner-edge vertex, so building
-  // the circle at the nominal size instead would draw a too-small stud around a center placed for
-  // a bigger one: leaving the ribbon's straight end edge poking out (see studPlacement.ts).
+  // The effective size, which computeStudPlacements placed the centers for.
   const studRadiusMm = computeEffectiveStudDiameterMm(input.shape) / 2;
 
   const leftStud = CrossSection.circle(studRadiusMm, STUD_CIRCLE_SEGMENTS).translate(
@@ -45,11 +42,8 @@ export const buildArcTokenMesh = async (input: BuildArcTokenMeshInput): Promise<
       ? filletOutline(withStuds, input.shape.studFilletRadiusMm)
       : withStuds;
 
-  // IconOverflowBehavior "grow" (see types.ts): a stud icon that overflowed its plain circle
-  // carries its own dilated footprint here (computeReliefComponentsShared.ts), already in the
-  // same absolute mm space as the stud positions above, so unioning it in makes the stud's own
-  // body hug the icon instead of leaving it a plain circle. Added after the fillet, not before,
-  // so the fillet radius only ever smooths the stud/ribbon junction it was tuned for.
+  // Stud icons with behavior "grow" add their footprint. After the fillet, which is tuned for
+  // the stud and ribbon corner only.
   const growContours = collectGrowOutlineContours(input.reliefComponents);
   const outlineWithGrow =
     growContours.length > 0 ? outline2D.add(new CrossSection(growContours, "Positive")) : outline2D;

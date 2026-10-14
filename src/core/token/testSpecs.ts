@@ -1,11 +1,7 @@
 import { TokenSpec } from "./types";
 
-// Minimal valid specs, one per shape arm, for tests whose subject is the dispatch or the plumbing
-// around a spec rather than anything inside it: no lines, no icons, no decorations, so nothing in
-// the geometry pipeline runs beyond building the bare base.
-//
-// Tests that do care about what a spec contains build their own instead, since spelling the
-// interesting fields out at the call site is what makes those tests readable.
+// The smallest valid spec per shape, for tests about the plumbing around a spec: no lines, icons
+// or decorations. Tests about a spec's contents build their own, so the fields that matter show.
 export const discSpec: TokenSpec = {
   version: 1,
   shape: { type: "disc", diameterMm: 25 },

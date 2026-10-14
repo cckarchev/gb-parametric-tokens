@@ -75,11 +75,7 @@ describe("computeArcGlyphPlacements", () => {
     expect(placements[1].angleDeg).toBeGreaterThan(placements[2].angleDeg);
   });
 
-  // "inward" is for a band of text on the far side of a circle from "outward" (e.g. the bottom
-  // half of a full-disc ring, see computeReliefComponents.ts's ring text layout) that still
-  // needs to read left-to-right, upright, for a viewer who never rotates the token: unlike
-  // "outward", which always points a glyph's ascender away from the circle's center and reads
-  // correctly only where that also happens to point "up" on screen (e.g. the top of a circle).
+  // "inward" is for text along the bottom of a circle, still read left to right.
   it("with orientation inward, increases the angle as pen position increases: the opposite of outward's decrease", () => {
     const placements = computeArcGlyphPlacements({
       advancesMm: [5, 5, 5],

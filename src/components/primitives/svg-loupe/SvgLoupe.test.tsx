@@ -20,11 +20,8 @@ const mockContainerWidth = (widthPx: number) => {
     ({ left: 0, top: 0, width: widthPx, height: widthPx }) as DOMRect;
 };
 
-// happy-dom's WheelEvent extends UIEvent rather than MouseEvent, so its constructor ignores
-// a `ctrlKey` init field entirely; the property has to be patched onto the instance by hand
-// to simulate a Ctrl+wheel gesture in tests. Real browsers honor `ctrlKey` in the init dict.
-// Dispatching through testing-library's `fireEvent` (rather than a raw `dispatchEvent`) keeps
-// the resulting state update wrapped in `act()`, so it's already flushed by the time we assert.
+// happy-dom's WheelEvent ignores `ctrlKey` in its init, so it's set on the instance. fireEvent
+// wraps the dispatch in act(), so state is flushed before the assertions.
 const dispatchWheel = (
   target: Element,
   init: { deltaY: number; clientX: number; clientY: number; ctrlKey: boolean },

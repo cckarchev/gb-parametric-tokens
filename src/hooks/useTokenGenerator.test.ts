@@ -107,11 +107,8 @@ describe("useTokenGenerator", () => {
 
     const worker = FakeWorker.instances[0];
 
-    // Selecting a guild triggers two legitimate, one-time recomputes in quick succession: the
-    // default selection's own preview (fired immediately, leading edge), then a second one once
-    // the guild's own colors land in sharedConfig a moment later (which the debounce coalesces
-    // into a single trailing call). Settle both before probing for a loop, so this test isn't
-    // confused by that expected, non-looping double-fire.
+    // Opening a guild previews twice: once at once, once more when its colors arrive. Settle both
+    // before looking for a loop.
     await act(async () => {
       await vi.advanceTimersByTimeAsync(LIVE_PREVIEW_DEBOUNCE_MS);
     });

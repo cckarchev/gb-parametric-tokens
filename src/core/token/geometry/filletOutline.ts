@@ -2,11 +2,8 @@ import type { CrossSection } from "manifold-3d";
 
 import { OFFSET_ARC_SEGMENTS, OFFSET_MITER_LIMIT } from "./circleResolution";
 
-// Morphological "closing": dilate by filletRadiusMm, then erode back by the same amount, both
-// with round joins. Closing only ever adds material, and it does so exactly where a disk of
-// filletRadiusMm can't reach into a concave notch (e.g. where an arc token's ribbon meets its
-// stud), while an isolated convex boundary (the stud's own circle, the ribbon's outer curve) comes
-// back to itself once eroded, since there's no notch there for the disk to get stuck on.
+// Rounds inside corners by growing the outline by filletRadiusMm and shrinking it back. Only
+// concave corners gain material; convex edges come back unchanged.
 export const filletOutline = (section: CrossSection, filletRadiusMm: number): CrossSection => {
   return section
     .offset(filletRadiusMm, "Round", OFFSET_MITER_LIMIT, OFFSET_ARC_SEGMENTS)

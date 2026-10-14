@@ -27,10 +27,7 @@ const isSameKind = (defaultValue: unknown, value: unknown): boolean => {
   return typeof value === typeof defaultValue;
 };
 
-// The fine-tuning settings (shapes, style, fit policy, colors...) live separately from the
-// per-run token selection, so they can be shared/reused across runs independently of which
-// tokens a given download happens to include. These are the fields every export has carried since
-// the first one: a file without them is not a settings file at all.
+// Fields every settings file has. Without them the file isn't a settings file.
 const hasCoreSettingsFields = (value: unknown): boolean => {
   if (!isPlainObject(value)) {
     return false;

@@ -5,14 +5,10 @@ import { FitPolicy, PrintProfile } from "../types";
 import { computeSingleLineFit, SingleLineFitResult } from "./fitCascade";
 import { measureAdvances } from "./measureAdvances";
 
-// "l" glyph bbox width in Saira Condensed Bold at sizeMm = 1, measured live against the real
-// font file; not font-agnostic, remeasure if the default font ever changes again.
+// Width of an "l" in the bundled font at sizeMm = 1. Remeasure if the font changes.
 const DEFAULT_FONT_STEM_WIDTH_MM_PER_SIZE_MM = 0.129;
-// How far each half of a mid-word split moves off the line's own radius: the first half outward
-// by this much, the second half inward by the same, so the pair straddles where the single line
-// would have sat. Not physically calibrated: carried over from the original OpenSCAD pipeline,
-// where it was `size / 2 + 1` at the ~5mm text size that pipeline used. Tune by feel against a
-// real render if the default text size moves far from there.
+// How far each half of a split line moves off the line's radius, one outward and one inward.
+// Tuned by eye for ~5mm text; retune if the default size moves far from that.
 const TWO_LINE_RADIUS_OFFSET_MM = 3.5;
 const TRUNCATION_MARKER = "…";
 

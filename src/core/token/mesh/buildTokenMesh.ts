@@ -25,10 +25,7 @@ export const buildTokenMesh = async (input: BuildTokenMeshInput): Promise<TokenP
   const footprint = buildDiscFootprint(CrossSection, input.spec.shape);
   const disc = footprint.extrude(baseThicknessMm);
 
-  // IconOverflowBehavior "grow" (see types.ts): a center icon that overflowed the disc's plain
-  // circle carries its own dilated footprint here (computeReliefComponentsShared.ts), already
-  // centered the same way the disc is, so unioning it in makes the disc's own body hug the icon
-  // instead of leaving it a plain circle.
+  // A center icon with behavior "grow" adds its footprint to the disc.
   const growContours = collectGrowOutlineContours(input.reliefComponents);
   const base =
     growContours.length > 0

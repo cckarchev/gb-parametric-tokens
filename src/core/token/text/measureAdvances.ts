@@ -21,10 +21,8 @@ export const measureAdvances = (font: Font, text: string, sizeMm: number): LineA
   return { advancesMm, kerningsMm };
 };
 
-// Where each glyph's pen starts, measured along the baseline from the first glyph's origin: the
-// running sum of the advances and kernings above. Flat text uses these as x coordinates directly,
-// arc text converts them into angles (see arcPlacement.ts), but the accumulation is the same, so
-// tracking is folded into kerningsMm by the caller rather than handled twice here.
+// Where each glyph's pen starts along the baseline: the running sum of advances and kernings.
+// Callers fold tracking into kerningsMm.
 export const computePenPositions = (advancesMm: number[], kerningsMm: number[]): number[] => {
   const penPositionsMm: number[] = [0];
 

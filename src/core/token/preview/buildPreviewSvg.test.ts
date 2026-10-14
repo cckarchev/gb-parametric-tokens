@@ -63,10 +63,8 @@ describe("buildPreviewSvg", () => {
   });
 
   it("negates y so the model's math-convention (y-up) coordinates render upright in SVG's y-down space", () => {
-    // A right triangle with its tall side along +y in model space: in the intended view
-    // (looking down the +z axis the same way the 3D mesh is built) that tall side points
-    // up. SVG's y axis points down, so the same points must land at negative y or the
-    // preview renders mirrored top-to-bottom, which is the bug this test guards against.
+    // Tall side along +y, so it points up in the model. In SVG (y-down) it must land at negative
+    // y, or the preview is upside down.
     const triangle: Vec2[] = [
       [0, 0],
       [10, 0],
@@ -135,10 +133,8 @@ describe("buildPreviewSvg", () => {
     expect(svg).toContain('cx="15"');
     expect(svg).toContain('cy="15"');
     expect(svg).toContain('r="15"');
-    // the circle is filled but must be painted before the token's own base path, or its solid
-    // fill would sit visually on top of and hide the token instead of underneath it. The
-    // grid overlay's own <path> paints even earlier, so look for the token's base fill
-    // specifically, not just any <path>.
+    // The filled circle has to come before the token's base, or it covers the token. Matched on
+    // the base fill, since the grid's <path> comes even earlier.
     expect(svg.indexOf('data-role="base-reference-circle"')).toBeLessThan(
       svg.indexOf('fill="#2B2B2B"'),
     );

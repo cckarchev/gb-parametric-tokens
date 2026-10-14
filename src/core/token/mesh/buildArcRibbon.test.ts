@@ -41,8 +41,7 @@ describe("buildArcRibbon", () => {
     const halfSweepDeg = computeSweepDeg(shape) / 2;
     const startAngleDeg = 90 - halfSweepDeg;
 
-    // The ribbon's own inner radius is fixed (no more stud-tangent clamp), so the lowest y in
-    // the sweep is simply innerRadiusMm * sin(startAngleDeg).
+    // The inner radius is fixed, so the lowest y is innerRadiusMm * sin(startAngleDeg).
     const expectedMinY = innerRadiusMm * Math.sin((startAngleDeg * Math.PI) / 180);
 
     expect(bounds.min[1]).toBeCloseTo(expectedMinY, 1);

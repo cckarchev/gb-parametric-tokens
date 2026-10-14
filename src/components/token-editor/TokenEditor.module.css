@@ -7,8 +7,7 @@
 
 .layout {
   display: grid;
-  /* Right column is a capped-width sidebar now, not a growing 1fr: the preview takes the
-     remaining (and now larger) space instead. */
+  /* The settings column has a capped width; the preview takes the rest. */
   grid-template-columns: 1fr minmax(var(--size-sidebar-min), var(--size-sidebar-max));
   gap: var(--space-xl);
   align-items: start;

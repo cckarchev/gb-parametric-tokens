@@ -1,8 +1,6 @@
-/* A disclosure arrow drawn as two borders of an empty box, rotated. Deliberately sets no color of
-   its own: the borders take currentColor, so a consumer picks the arrow's color with a plain
-   `color` declaration instead of overriding a property this class already set (CSS Modules does
-   not guarantee which of the two rules wins). The collapsed-state rotation stays with each
-   consumer too, since it hangs off that component's own parent selector. */
+/* A disclosure arrow: two borders of an empty box, rotated. It sets no color, so each consumer
+   sets `color` without fighting this rule (CSS Modules doesn't fix which rule wins). The collapsed
+   rotation lives in each consumer, under its own parent selector. */
 .chevron {
   width: var(--size-chevron);
   height: var(--size-chevron);

@@ -42,8 +42,7 @@ const discSpec = (overrides: Partial<TokenSpec> = {}): TokenSpec => ({
 
 const arcSpec = (overrides: Partial<TokenSpec> = {}): TokenSpec => ({
   version: 1,
-  // ribbonLengthMm = 120deg's worth of arc, measured on the fixed inner radius (matches the
-  // old sweepDeg: 120 default's proportions).
+  // 120 degrees of arc, measured on the fixed inner radius.
   shape: { type: "arc", ribbonWidthMm: 15, ribbonLengthMm: 32, studDiameterMm: 24 },
   textLayout: "arc",
   lines: [{ text: "Momentum", sizeMm: 6 }],
@@ -131,11 +130,8 @@ describe("computeReliefComponents", () => {
 
   it("rotates a stud icon so it turns with the arc the same way the letters beside it do", async () => {
     const font = loadTestFont();
-    // Apex-up triangle: placeIcon's flip+center+scale (see iconPlacement.ts) always lands its
-    // apex exactly on the local +y axis, so an unrotated icon would point it straight "north"
-    // of the stud center no matter where the stud sits on the arc. Once rotated the same
-    // "outward" way arc text is, the apex should instead point directly away from the arc's
-    // own center: landing on the same ray as the stud itself.
+    // Placed, the triangle's apex points along +y. Rotated outward like arc text, it should point
+    // away from the arc's center, on the same ray as its stud.
     const apexUpTriangleSvg = '<svg><path d="M0 20L20 20L10 0Z"/></svg>';
     const loadTriangleIcon: LoadIconSource = async (iconId) => ({
       svgSource: apexUpTriangleSvg,
@@ -198,9 +194,7 @@ describe("computeReliefComponents", () => {
     const radialMin = (contours: [number, number][][]) =>
       Math.min(...contours.flat().map(([x, y]) => Math.hypot(x, y)));
 
-    // The first line's baseline radius sits further out than the second's; the visible gap
-    // between them (approved by the user in the browser) comes from computeLineRadiiMm's
-    // fixed TWO_LINE_GAP_MM, not from a strict non-overlap guarantee on every glyph's bbox.
+    // The gap comes from TWO_LINE_GAP_MM, not from checking every glyph's box for overlap.
     expect(radialMin(firstLine.contours)).toBeGreaterThan(radialMin(secondLine.contours));
   });
 
@@ -366,10 +360,7 @@ describe("computeReliefComponents", () => {
     }
   });
 
-  // A solid square: its own corners are its farthest points from center, past the circle
-  // inscribed in its bounding box, whenever its nominal scale renders it big enough relative to
-  // the target circle: see iconPlacement.test.ts's "checks overflow against the real target
-  // circle" for exactly where that threshold sits. 0.9 is comfortably past it.
+  // A square's corners reach past its inscribed circle, so at scale 0.9 it overflows.
   const squareIconSvg = '<svg><path d="M0 0L10 0L10 10L0 10Z"/></svg>';
   const loadSquareIcon: LoadIconSource = async (iconId) => ({
     svgSource: squareIconSvg,

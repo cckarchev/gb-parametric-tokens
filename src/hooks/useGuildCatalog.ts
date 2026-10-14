@@ -20,10 +20,8 @@ const ROOT_PATHNAME = "/";
 
 const NO_CATALOG_STATE: CatalogState = { catalogStatus: "idle" };
 
-// Derived on every render from the selected id rather than kept in state: the lookup returns the
-// same module-level object each time, so its identity stays stable, while an edit to a guild or
-// condition JSON (which hot-reloads that module) shows up at once instead of only after picking
-// the guild again or reloading the page.
+// Looked up on every render instead of kept in state. The lookup returns the same object, so
+// identity holds, and a hot-reloaded JSON edit shows up at once.
 const catalogStateFor = (guildId: string | undefined): CatalogState => {
   if (guildId === undefined) {
     return NO_CATALOG_STATE;

@@ -2,10 +2,8 @@ import { vi } from "vitest";
 
 import type { ExportResponse, PreviewResponse, WorkerRequest } from "@/browser/tokenWorker";
 
-// Stands in for the real Worker global that useWorker constructs. The hooks under test only ever
-// touch postMessage, onmessage, onerror and terminate, so the double covers exactly those, and records
-// every instance it hands out because a test's only way to reach the worker a hook created is to
-// look up the one that was constructed for it.
+// Stands in for Worker, covering only what useWorker uses. It records every instance, since that's
+// how a test reaches the worker a hook created.
 export class FakeWorker {
   static instances: FakeWorker[] = [];
   onmessage: ((event: MessageEvent) => void) | null = null;
