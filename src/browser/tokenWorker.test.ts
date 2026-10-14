@@ -15,7 +15,7 @@ vi.mock("@/core/token/geometry/computePlateLayout", () => ({
   computePlateLayout: vi.fn(),
 }));
 vi.mock("@/core/token/export/three-mf/combinedModel", () => ({
-  buildCombinedThreeMfModelXml: vi.fn(),
+  buildCombinedThreeMfModel: vi.fn(),
 }));
 vi.mock("@/core/token/export/three-mf/archive", () => ({ buildThreeMfArchive: vi.fn() }));
 
@@ -28,7 +28,7 @@ const { computeBaseOutlineContours } = await import(
 );
 const { buildTokenParts } = await import("@/core/token/buildTokenParts");
 const { computePlateLayout } = await import("@/core/token/geometry/computePlateLayout");
-const { buildCombinedThreeMfModelXml } = await import("@/core/token/export/three-mf/combinedModel");
+const { buildCombinedThreeMfModel } = await import("@/core/token/export/three-mf/combinedModel");
 const { buildThreeMfArchive } = await import("@/core/token/export/three-mf/archive");
 
 import type { TokenItem } from "@/core/token/catalog/token-items/tokenItem";
@@ -40,6 +40,8 @@ import type { ColorGroupSpec } from "@/core/token/types";
 import type { ExportRequest, PreviewRequest } from "./tokenWorker";
 
 const colorGroups: ColorGroupSpec[] = [{ id: "base", name: "Base", color: "#2B2B2B" }];
+
+const FAKE_MODEL = { modelXml: "<model/>", prusaModelConfigXml: "<config/>" };
 
 const FAKE_PART_BOX = { min: [-12.5, -12.5, 0], max: [12.5, 12.5, 3] };
 
@@ -54,7 +56,7 @@ beforeEach(() => {
   vi.mocked(computeBaseOutlineContours).mockReset();
   vi.mocked(buildTokenParts).mockReset();
   vi.mocked(computePlateLayout).mockReset();
-  vi.mocked(buildCombinedThreeMfModelXml).mockReset();
+  vi.mocked(buildCombinedThreeMfModel).mockReset();
   vi.mocked(buildThreeMfArchive).mockReset();
 });
 
@@ -233,7 +235,7 @@ describe("handleExport", () => {
     });
     vi.mocked(buildTokenParts).mockResolvedValue([fakePart("NoError")]);
     vi.mocked(computePlateLayout).mockReturnValue([[[0, 0]]]);
-    vi.mocked(buildCombinedThreeMfModelXml).mockReturnValue("<model/>");
+    vi.mocked(buildCombinedThreeMfModel).mockReturnValue(FAKE_MODEL);
     vi.mocked(buildThreeMfArchive).mockReturnValue(new Uint8Array([1]));
 
     const items: TokenItem[] = [
@@ -292,7 +294,7 @@ describe("handleExport", () => {
     ] as [number, number][];
 
     vi.mocked(computePlateLayout).mockReturnValue([discOffsets, arcOffsets]);
-    vi.mocked(buildCombinedThreeMfModelXml).mockReturnValue("<model/>");
+    vi.mocked(buildCombinedThreeMfModel).mockReturnValue(FAKE_MODEL);
 
     const archive = new Uint8Array([1, 2, 3]);
 
@@ -313,14 +315,14 @@ describe("handleExport", () => {
       ],
       10,
     );
-    expect(buildCombinedThreeMfModelXml).toHaveBeenCalledWith(
+    expect(buildCombinedThreeMfModel).toHaveBeenCalledWith(
       [
         { name: "Disc A", parts: [discPart], offsets: discOffsets },
         { name: "Arc A", parts: [arcPart], offsets: arcOffsets },
       ],
       colorGroups,
     );
-    expect(buildThreeMfArchive).toHaveBeenCalledWith("<model/>");
+    expect(buildThreeMfArchive).toHaveBeenCalledWith("<model/>", "<config/>");
     expect(response).toEqual({ kind: "export", requestId: 9, status: "ok", archive });
   });
 });

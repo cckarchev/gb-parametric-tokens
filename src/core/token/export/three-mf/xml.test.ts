@@ -2,9 +2,9 @@ import { describe, expect, it } from "vitest";
 
 import { TokenPart } from "../../mesh/tokenPart";
 import {
-  buildComponentsObjectXml,
   buildItemXml,
-  buildObjectXml,
+  buildMeshObjectXml,
+  buildMultiVolumeMeshXml,
   colorToDisplayColor,
   escapeXmlAttribute,
   wrapThreeMfModelXml,
@@ -42,45 +42,91 @@ describe("colorToDisplayColor", () => {
   });
 });
 
-describe("buildObjectXml", () => {
+describe("buildMultiVolumeMeshXml", () => {
   it("writes only the position of each vertex and the corners of each triangle", () => {
-    const xml = buildObjectXml(fakeTrianglePart(), 2, 0, "Tapper");
+    const { meshXml } = buildMultiVolumeMeshXml(
+      [{ part: fakeTrianglePart(), materialIndex: 0, name: "Body" }],
+      [0, 0],
+    );
 
-    expect(xml).toBe(
-      `<object id="2" name="Tapper" pid="1" pindex="0" type="model">` +
-        `<mesh><vertices>` +
+    expect(meshXml).toBe(
+      `<mesh><vertices>` +
         `<vertex x="0" y="0" z="0"/><vertex x="1" y="0" z="0"/><vertex x="0" y="1" z="2"/>` +
-        `</vertices><triangles><triangle v1="0" v2="1" v3="2"/></triangles></mesh>` +
-        `</object>`,
+        `</vertices><triangles><triangle v1="0" v2="1" v3="2"/></triangles></mesh>`,
     );
   });
 
-  it("escapes the display name", () => {
-    const xml = buildObjectXml(fakeTrianglePart(), 2, 0, `A & "B"`);
+  it("merges every volume into one mesh, shifting each volume onto its own vertices", () => {
+    const { meshXml } = buildMultiVolumeMeshXml(
+      [
+        { part: fakeTrianglePart(), materialIndex: 0, name: "Body" },
+        { part: fakeTrianglePart(), materialIndex: 0, name: "Details" },
+      ],
+      [0, 0],
+    );
 
-    expect(xml).toContain('name="A &amp; &quot;B&quot;"');
+    expect(meshXml.split("<vertex ").length - 1).toBe(6);
+    expect(meshXml).toContain('<triangle v1="3" v2="4" v3="5"/>');
+  });
+
+  it("takes the first volume's material as the object's and tags the triangles of any other", () => {
+    const { meshXml, objectMaterialIndex } = buildMultiVolumeMeshXml(
+      [
+        { part: fakeTrianglePart(), materialIndex: 2, name: "Body" },
+        { part: fakeTrianglePart(), materialIndex: 1, name: "Details" },
+      ],
+      [0, 0],
+    );
+
+    expect(objectMaterialIndex).toBe(2);
+    expect(meshXml).toContain('<triangle v1="0" v2="1" v3="2"/>');
+    expect(meshXml).toContain('<triangle v1="3" v2="4" v3="5" pid="1" p1="1"/>');
+  });
+
+  it("reports the triangle range each volume occupies in the merged mesh", () => {
+    const { volumeRanges } = buildMultiVolumeMeshXml(
+      [
+        { part: fakeTrianglePart(), materialIndex: 0, name: "Body" },
+        { part: fakeTrianglePart(), materialIndex: 1, name: "Details" },
+      ],
+      [0, 0],
+    );
+
+    expect(volumeRanges).toEqual([
+      { name: "Body", firstTriangleId: 0, lastTriangleId: 0 },
+      { name: "Details", firstTriangleId: 1, lastTriangleId: 1 },
+    ]);
+  });
+
+  it("bakes the copy's plate offset into every vertex", () => {
+    const { meshXml } = buildMultiVolumeMeshXml(
+      [{ part: fakeTrianglePart(), materialIndex: 0, name: "Body" }],
+      [10, 20],
+    );
+
+    expect(meshXml).toContain(
+      '<vertex x="10" y="20" z="0"/><vertex x="11" y="20" z="0"/><vertex x="10" y="21" z="2"/>',
+    );
   });
 });
 
-describe("buildComponentsObjectXml", () => {
-  it("groups mesh objects into one named object, one component per mesh", () => {
-    expect(buildComponentsObjectXml(7, [2, 3], "Casket: Poltergeists 1")).toBe(
-      `<object id="7" name="Casket: Poltergeists 1" type="model">` +
-        `<components><component objectid="2"/><component objectid="3"/></components>` +
-        `</object>`,
+describe("buildMeshObjectXml", () => {
+  it("wraps a mesh in a named object with its default material", () => {
+    expect(buildMeshObjectXml(2, "Tapper", 0, "<mesh/>")).toBe(
+      '<object id="2" name="Tapper" pid="1" pindex="0" type="model"><mesh/></object>',
     );
   });
 
   it("escapes the name", () => {
-    expect(buildComponentsObjectXml(7, [2], `A & "B"`)).toContain('name="A &amp; &quot;B&quot;"');
+    expect(buildMeshObjectXml(2, `A & "B"`, 0, "<mesh/>")).toContain(
+      'name="A &amp; &quot;B&quot;"',
+    );
   });
 });
 
 describe("buildItemXml", () => {
-  it("places the object with a translation-only transform", () => {
-    expect(buildItemXml(3, [10, 20])).toBe(
-      `<item objectid="3" transform="1 0 0 0 1 0 0 0 1 10 20 0"/>`,
-    );
+  it("places the object without a transform, since its vertices are already in place", () => {
+    expect(buildItemXml(3)).toBe('<item objectid="3"/>');
   });
 });
 

@@ -4,7 +4,7 @@ import { buildTokenParts } from "@/core/token/buildTokenParts";
 import { TokenItem } from "@/core/token/catalog/token-items/tokenItem";
 import { buildThreeMfArchive } from "@/core/token/export/three-mf/archive";
 import {
-  buildCombinedThreeMfModelXml,
+  buildCombinedThreeMfModel,
   CombinedThreeMfItem,
 } from "@/core/token/export/three-mf/combinedModel";
 import { CENTER_ANGLE_DEG } from "@/core/token/geometry/angleConventions";
@@ -177,8 +177,11 @@ export const handleExport = async (request: ExportRequest): Promise<ExportRespon
     offsets: offsetsByItem[index],
   }));
 
-  const modelXml = buildCombinedThreeMfModelXml(combinedItems, request.colorGroups);
-  const archive = buildThreeMfArchive(modelXml);
+  const { modelXml, prusaModelConfigXml } = buildCombinedThreeMfModel(
+    combinedItems,
+    request.colorGroups,
+  );
+  const archive = buildThreeMfArchive(modelXml, prusaModelConfigXml);
 
   return { kind: "export", requestId: request.requestId, status: "ok", archive };
 };
