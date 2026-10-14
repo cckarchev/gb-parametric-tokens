@@ -1,7 +1,10 @@
 {
   "name": "Shepherds",
   "color": "#ea8329",
-  "characters": ["Bushel", "vHonour", "Herder", "Babe", "Crook", "Hook", "Lamb", "Ram", "Shearer"],
+  "captains": ["Herder"],
+  "mascots": ["Babe"],
+  "squaddies": ["Crook", "Hook", "Lamb", "Ram", "Shearer"],
+  "guests": ["Bushel", "vHonour"],
   "genericTokens": [
     {
       "name": "Harvest Influence",

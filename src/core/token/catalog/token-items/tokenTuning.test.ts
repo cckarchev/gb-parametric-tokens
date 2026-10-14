@@ -37,7 +37,12 @@ describe("token builders read their tuning group", () => {
     const config: SharedConfig = {
       ...DEFAULT_SHARED_CONFIG,
       balanceTwoLineSizes: true,
-      characterToken: { crestScale: 0.6, balanceNameScale: 0.5, balanceEffectScale: 2 },
+      characterToken: {
+        ...DEFAULT_SHARED_CONFIG.characterToken,
+        crestScale: 0.6,
+        balanceNameScale: 0.5,
+        balanceEffectScale: 2,
+      },
     };
     const spec = buildCharacterTokenSpec(effect, GUILD_ICON_ID, GUILD_ICON_SCALE, config);
 
@@ -62,7 +67,12 @@ describe("token builders read their tuning group", () => {
   it("sizes Momentum's text and ring by the Momentum settings, the ring inset from the rim", () => {
     const config: SharedConfig = {
       ...DEFAULT_SHARED_CONFIG,
-      momentum: { textSizeMm: 4, ringInsetMm: 1, ringWidthMm: 1 },
+      momentum: {
+        ...DEFAULT_SHARED_CONFIG.momentum,
+        textSizeMm: 4,
+        ringInsetMm: 1,
+        ringWidthMm: 1,
+      },
     };
     const spec = buildMomentumTokenSpec(config);
     const discRadiusMm = config.discShape.diameterMm / 2;

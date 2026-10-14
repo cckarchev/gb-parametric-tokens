@@ -1,8 +1,9 @@
 // @vitest-environment happy-dom
-import { render } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
-import { ColorGroupSpec } from "@/core/token/types";
+import { PreviewItem } from "@/browser/tokenWorker";
+import { ColorGroupSpec, ShapeSpec } from "@/core/token/types";
 
 import { TokenPreview } from "./TokenPreview";
 
@@ -23,5 +24,38 @@ describe("TokenPreview", () => {
     );
 
     expect(container.querySelector('[class*="svgContainerLoading"]')).toBeNull();
+  });
+
+  it("hides the 30mm base circle when its checkbox is cleared", () => {
+    const arcShape: ShapeSpec = {
+      type: "arc",
+      ribbonWidthMm: 6,
+      ribbonLengthMm: 20,
+      studDiameterMm: 12,
+    };
+    const arcItem: PreviewItem = {
+      id: "arc",
+      label: "Arc",
+      name: "Arc",
+      copies: 1,
+      shape: arcShape,
+      baseContours: [],
+      reliefComponents: [],
+      warnings: [],
+      valid: true,
+      reason: "",
+    };
+
+    const { container } = render(
+      <TokenPreview items={[arcItem]} isPreviewing={false} colorGroups={colorGroups} />,
+    );
+
+    const circleSelector = '[data-role="base-reference-circle"]';
+
+    expect(container.querySelector(circleSelector)).not.toBeNull();
+
+    fireEvent.click(screen.getByLabelText("Show 30mm base"));
+
+    expect(container.querySelector(circleSelector)).toBeNull();
   });
 });

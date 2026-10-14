@@ -50,6 +50,76 @@ describe("buildTokenMesh", () => {
     expect(parts[0].manifold.boundingBox().max[2]).toBe(3);
   });
 
+  it("fills a pocket in the base with a flush relief part for relief: inlay", async () => {
+    const parts = await buildTokenMesh({
+      spec: baseSpec({ relief: "inlay" }),
+      reliefComponents: [
+        { source: { kind: "decoration" }, contours: squareIcon, colorGroup: "text" },
+      ],
+    });
+    const plainDisc = await buildTokenMesh({ spec: baseSpec(), reliefComponents: [] });
+
+    const basePart = parts.find((part) => part.colorGroupId === "base");
+    const textPart = parts.find((part) => part.colorGroupId === "text");
+
+    expect(parts).toHaveLength(2);
+    expect(basePart?.manifold.status()).toBe("NoError");
+    expect(textPart?.manifold.status()).toBe("NoError");
+
+    // Both parts end flush at the base thickness: a flat token.
+    expect(basePart?.manifold.boundingBox().max[2]).toBe(3);
+    expect(textPart?.manifold.boundingBox().max[2]).toBeCloseTo(3);
+    expect(textPart?.manifold.boundingBox().min[2]).toBeCloseTo(3 - 0.6);
+
+    // The pocket is exactly the inlay: together they add up to the plain disc, no gap, no overlap.
+    const combinedVolume = (basePart?.manifold.volume() ?? 0) + (textPart?.manifold.volume() ?? 0);
+
+    expect(combinedVolume).toBeCloseTo(plainDisc[0].manifold.volume(), 3);
+  });
+
+  it("never engraves through the base: a cut deeper than the base stops at a minimum floor", async () => {
+    const thinBase = { reliefHeightMm: 3, baseThicknessMm: 1 };
+    const parts = await buildTokenMesh({
+      spec: baseSpec({ relief: "engraved", ...thinBase }),
+      reliefComponents: [{ source: { kind: "decoration" }, contours: squareIcon }],
+    });
+    const plainDisc = await buildTokenMesh({ spec: baseSpec(thinBase), reliefComponents: [] });
+
+    // The 6x6 square is cut 1 - 0.4 deep, leaving a 0.4mm floor under it.
+    const squareAreaMm2 = 36;
+    const clampedDepthMm = 0.6;
+
+    expect(parts[0].manifold.volume()).toBeCloseTo(
+      plainDisc[0].manifold.volume() - squareAreaMm2 * clampedDepthMm,
+      3,
+    );
+  });
+
+  it("never inlays below the bed: a pocket deeper than the base stops at a minimum floor", async () => {
+    const parts = await buildTokenMesh({
+      spec: baseSpec({ relief: "inlay", reliefHeightMm: 3, baseThicknessMm: 1 }),
+      reliefComponents: [
+        { source: { kind: "decoration" }, contours: squareIcon, colorGroup: "text" },
+      ],
+    });
+
+    const textPart = parts.find((part) => part.colorGroupId === "text");
+
+    expect(textPart?.manifold.boundingBox().min[2]).toBeCloseTo(0.4);
+    expect(textPart?.manifold.boundingBox().max[2]).toBeCloseTo(1);
+  });
+
+  it("leaves a base-colored relief flat, with no pocket and no extra part, for relief: inlay", async () => {
+    const parts = await buildTokenMesh({
+      spec: baseSpec({ relief: "inlay" }),
+      reliefComponents: [{ source: { kind: "decoration" }, contours: squareIcon }],
+    });
+    const plainDisc = await buildTokenMesh({ spec: baseSpec(), reliefComponents: [] });
+
+    expect(parts).toHaveLength(1);
+    expect(parts[0].manifold.volume()).toBeCloseTo(plainDisc[0].manifold.volume(), 3);
+  });
+
   it("rejects non-disc shapes", async () => {
     const spec = {
       ...baseSpec(),

@@ -1,4 +1,7 @@
+import { useState } from "react";
+
 import { PreviewItem } from "@/browser/tokenWorker";
+import { CheckboxField } from "@/components/primitives/checkbox-field/CheckboxField";
 import { SvgLoupe } from "@/components/primitives/svg-loupe/SvgLoupe";
 import { buildContactSheetSvg } from "@/core/token/export/contact-sheet/contactSheetSvg";
 import { ColorGroupSpec } from "@/core/token/types";
@@ -14,18 +17,30 @@ type TokenPreviewProps = {
 const CONTACT_SHEET_COLUMNS = 5;
 
 export const TokenPreview = ({ items, isPreviewing, colorGroups }: TokenPreviewProps) => {
-  const contactSheet = buildContactSheetSvg(items, CONTACT_SHEET_COLUMNS, colorGroups);
+  const [showBaseReference, setShowBaseReference] = useState(true);
+
+  const contactSheet = buildContactSheetSvg(items, CONTACT_SHEET_COLUMNS, colorGroups, {
+    showBaseReference,
+  });
 
   const svgContainerClassName = isPreviewing
     ? `${styles.svgContainer} ${styles.svgContainerLoading}`
     : styles.svgContainer;
 
   return (
-    <SvgLoupe
-      svg={contactSheet.svg}
-      viewBox={contactSheet.viewBox}
-      ariaLabel="Token contact sheet preview"
-      className={svgContainerClassName}
-    />
+    <div className={styles.preview}>
+      <SvgLoupe
+        svg={contactSheet.svg}
+        viewBox={contactSheet.viewBox}
+        ariaLabel="Token contact sheet preview"
+        className={svgContainerClassName}
+      />
+
+      <CheckboxField
+        label="Show 30mm base"
+        checked={showBaseReference}
+        onChange={setShowBaseReference}
+      />
+    </div>
   );
 };

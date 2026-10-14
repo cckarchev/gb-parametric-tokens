@@ -2,16 +2,10 @@
   "name": "Order",
   "color": "#ebed1a",
   "iconScale": 1.15,
-  "characters": [
-    "sBrisket",
-    "Pride",
-    "Benediction",
-    "vFangtooth",
-    "Grace",
-    "Harry \u2018the Hat\u2019",
-    "Mist",
-    "sSpigot"
-  ],
+  "captains": ["sBrisket"],
+  "mascots": ["Pride"],
+  "squaddies": ["Benediction", "vFangtooth", "Grace", "Harry ‘the Hat’", "Mist", "sSpigot"],
+  "guests": [],
   "genericTokens": [],
   "conditions": ["knockedDown", "burning"]
 }

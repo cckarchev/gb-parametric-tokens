@@ -1,6 +1,8 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-vi.mock("./loadFont", () => ({ loadFont: vi.fn().mockResolvedValue({}) }));
+vi.mock("./loadFont", () => ({
+  loadCatalogFont: vi.fn(async (fontId: string | undefined) => ({ loadedFontId: fontId })),
+}));
 vi.mock("./loadIconManifest", () => ({ loadIconManifest: vi.fn().mockResolvedValue([]) }));
 vi.mock("@/core/token/relief/computeReliefComponents", () => ({
   computeReliefComponents: vi.fn(),
@@ -13,7 +15,7 @@ vi.mock("@/core/token/geometry/computePlateLayout", () => ({
   computePlateLayout: vi.fn(),
 }));
 vi.mock("@/core/token/export/three-mf/combinedModel", () => ({
-  buildCombinedThreeMfModelXml: vi.fn(),
+  buildCombinedThreeMfModel: vi.fn(),
 }));
 vi.mock("@/core/token/export/three-mf/archive", () => ({ buildThreeMfArchive: vi.fn() }));
 
@@ -26,22 +28,27 @@ const { computeBaseOutlineContours } = await import(
 );
 const { buildTokenParts } = await import("@/core/token/buildTokenParts");
 const { computePlateLayout } = await import("@/core/token/geometry/computePlateLayout");
-const { buildCombinedThreeMfModelXml } = await import("@/core/token/export/three-mf/combinedModel");
+const { buildCombinedThreeMfModel } = await import("@/core/token/export/three-mf/combinedModel");
 const { buildThreeMfArchive } = await import("@/core/token/export/three-mf/archive");
 
 import type { TokenItem } from "@/core/token/catalog/token-items/tokenItem";
 import type { TokenPart } from "@/core/token/mesh/tokenPart";
 import { arcSpec, discSpec } from "@/core/token/testSpecs";
+import { DEFAULT_DISPLAY_FONT_ID } from "@/core/token/text/fontCatalog";
 import type { ColorGroupSpec } from "@/core/token/types";
 
 import type { ExportRequest, PreviewRequest } from "./tokenWorker";
 
 const colorGroups: ColorGroupSpec[] = [{ id: "base", name: "Base", color: "#2B2B2B" }];
 
+const FAKE_MODEL = { modelXml: "<model/>", prusaModelConfigXml: "<config/>" };
+
+const FAKE_PART_BOX = { min: [-12.5, -12.5, 0], max: [12.5, 12.5, 3] };
+
 const fakePart = (status: string): TokenPart =>
   ({
     colorGroupId: "base",
-    manifold: { status: () => status },
+    manifold: { status: () => status, boundingBox: () => FAKE_PART_BOX },
   }) as unknown as TokenPart;
 
 beforeEach(() => {
@@ -49,20 +56,20 @@ beforeEach(() => {
   vi.mocked(computeBaseOutlineContours).mockReset();
   vi.mocked(buildTokenParts).mockReset();
   vi.mocked(computePlateLayout).mockReset();
-  vi.mocked(buildCombinedThreeMfModelXml).mockReset();
+  vi.mocked(buildCombinedThreeMfModel).mockReset();
   vi.mocked(buildThreeMfArchive).mockReset();
 });
 
 describe("resource loading", () => {
-  it("tries loading the font again after a failed attempt instead of failing every later request", async () => {
+  it("tries loading the icon manifest again after a failed attempt instead of failing every later request", async () => {
     // A fresh module, so the resources the other tests already loaded aren't cached here.
     vi.resetModules();
 
     const freshWorker = await import("./tokenWorker");
-    const { loadFont } = await import("./loadFont");
+    const { loadIconManifest } = await import("./loadIconManifest");
     const emptyRequest: PreviewRequest = { kind: "preview", requestId: 1, items: [] };
 
-    vi.mocked(loadFont).mockRejectedValueOnce(new Error("Failed to load font: Not Found"));
+    vi.mocked(loadIconManifest).mockRejectedValueOnce(new Error("Failed to load: Not Found"));
 
     await expect(freshWorker.handlePreview(emptyRequest)).rejects.toThrow("Not Found");
     await expect(freshWorker.handlePreview(emptyRequest)).resolves.toMatchObject({
@@ -72,6 +79,38 @@ describe("resource loading", () => {
 });
 
 describe("handlePreview", () => {
+  it("lays out each token in its own font", async () => {
+    const reliefResult = {
+      reliefComponents: [],
+      warnings: [],
+      valid: true,
+      blocksExport: false,
+      componentFailures: [],
+    };
+    vi.mocked(computeReliefComponents).mockResolvedValue(reliefResult);
+    vi.mocked(computeBaseOutlineContours).mockResolvedValue([]);
+
+    const items: TokenItem[] = [
+      { id: "default", label: "Default", name: "Default", spec: discSpec, copies: 1 },
+      {
+        id: "display",
+        label: "Display",
+        name: "Display",
+        spec: { ...discSpec, fontId: DEFAULT_DISPLAY_FONT_ID },
+        copies: 1,
+      },
+    ];
+
+    await handlePreview({ kind: "preview", requestId: 1, items });
+
+    const fontsUsed = vi.mocked(computeReliefComponents).mock.calls.map((call) => call[1]);
+
+    expect(fontsUsed).toEqual([
+      { loadedFontId: undefined },
+      { loadedFontId: DEFAULT_DISPLAY_FONT_ID },
+    ]);
+  });
+
   it("returns one result per item, with its outline, relief, warnings and failure reason", async () => {
     vi.mocked(computeReliefComponents)
       .mockResolvedValueOnce({
@@ -196,7 +235,7 @@ describe("handleExport", () => {
     });
     vi.mocked(buildTokenParts).mockResolvedValue([fakePart("NoError")]);
     vi.mocked(computePlateLayout).mockReturnValue([[[0, 0]]]);
-    vi.mocked(buildCombinedThreeMfModelXml).mockReturnValue("<model/>");
+    vi.mocked(buildCombinedThreeMfModel).mockReturnValue(FAKE_MODEL);
     vi.mocked(buildThreeMfArchive).mockReturnValue(new Uint8Array([1]));
 
     const items: TokenItem[] = [
@@ -255,7 +294,7 @@ describe("handleExport", () => {
     ] as [number, number][];
 
     vi.mocked(computePlateLayout).mockReturnValue([discOffsets, arcOffsets]);
-    vi.mocked(buildCombinedThreeMfModelXml).mockReturnValue("<model/>");
+    vi.mocked(buildCombinedThreeMfModel).mockReturnValue(FAKE_MODEL);
 
     const archive = new Uint8Array([1, 2, 3]);
 
@@ -271,19 +310,19 @@ describe("handleExport", () => {
 
     expect(computePlateLayout).toHaveBeenCalledWith(
       [
-        { shapeType: "disc", footprintMm: { width: 25, height: 25 }, copies: 1 },
-        { shapeType: "arc", footprintMm: { width: 84.5, height: 84.5 }, copies: 2 },
+        { shapeType: "disc", boundsMm: { min: [-12.5, -12.5], max: [12.5, 12.5] }, copies: 1 },
+        { shapeType: "arc", boundsMm: { min: [-12.5, -12.5], max: [12.5, 12.5] }, copies: 2 },
       ],
       10,
     );
-    expect(buildCombinedThreeMfModelXml).toHaveBeenCalledWith(
+    expect(buildCombinedThreeMfModel).toHaveBeenCalledWith(
       [
-        { parts: [discPart], offsets: discOffsets },
-        { parts: [arcPart], offsets: arcOffsets },
+        { name: "Disc A", parts: [discPart], offsets: discOffsets },
+        { name: "Arc A", parts: [arcPart], offsets: arcOffsets },
       ],
       colorGroups,
     );
-    expect(buildThreeMfArchive).toHaveBeenCalledWith("<model/>");
+    expect(buildThreeMfArchive).toHaveBeenCalledWith("<model/>", "<config/>");
     expect(response).toEqual({ kind: "export", requestId: 9, status: "ok", archive });
   });
 });

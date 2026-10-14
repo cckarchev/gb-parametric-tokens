@@ -3,14 +3,21 @@ import { resolveCharacter } from "@/core/token/catalog/characters";
 import { allConditions, conditionsForGuild } from "@/core/token/catalog/conditions";
 import { gamePlans } from "@/core/token/catalog/gamePlans";
 import { GENERIC_CATALOG_ID } from "@/core/token/catalog/genericCatalog";
+import { sortRosterNames } from "@/core/token/catalog/sortRosterNames";
 import genericData from "@/data/generic.json";
 
-// A guild file as stored: its characters by name only, resolved below from characters.ts.
+// A guild file as stored: its characters by name only, resolved below from characters.ts, and
+// split by role so the picker can list them the way a roster reads.
 type RawGuildCatalog = {
   name: string;
   color: string;
   iconScale?: number;
-  characters: string[];
+  captains: string[];
+  mascots: string[];
+  // Squaddies whose own guild is this one, including those that also play for another guild.
+  squaddies: string[];
+  // Squaddies from another guild that also play for this one.
+  guests: string[];
   genericTokens: CatalogGenericToken[];
   conditions: string[];
 };
@@ -29,6 +36,14 @@ const guildIdFromPath = (path: string): string => {
   return fileName.replace(/\.json$/, "");
 };
 
+// Each role group in a fixed order, alphabetical inside it, so the file's own order doesn't
+// matter.
+const orderedRosterNames = (raw: RawGuildCatalog): string[] => {
+  const roleGroups = [raw.captains, raw.mascots, raw.squaddies, raw.guests];
+
+  return roleGroups.flatMap(sortRosterNames);
+};
+
 export const guildCatalogs: GuildCatalog[] = Object.entries(modules).map(([path, module]) => {
   const raw = module.default;
   const guildId = guildIdFromPath(path);
@@ -38,7 +53,7 @@ export const guildCatalogs: GuildCatalog[] = Object.entries(modules).map(([path,
     name: raw.name,
     color: raw.color,
     iconScale: raw.iconScale,
-    characters: raw.characters.map(resolveCharacter),
+    characters: orderedRosterNames(raw).map(resolveCharacter),
     genericTokens: raw.genericTokens,
     conditions: conditionsForGuild(guildId),
     appliedConditionIds: raw.conditions,

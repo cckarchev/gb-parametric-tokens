@@ -45,6 +45,9 @@ type TextLayout = "arc" | "flat" | "ring";
 export type LineSpec = {
   text: string;
   sizeMm: number;
+  // Arc layout only: a smaller size to try on one line before splitting the text in two, for a
+  // line whose preferred sizeMm only suits short text.
+  fallbackSizeMm?: number;
   radiusMm?: number;
   // Ring layout only: where along the circle the line is centered. Optional for the first two
   // lines, which default to top and bottom (see relief/computeRingReliefComponents.ts).
@@ -56,10 +59,10 @@ export type LineSpec = {
 };
 
 // What to do when an icon reaches past its stud or disc:
-// - "none" (the default): print it as is and flag the token for attention.
+// - "none": print it as is and flag the token for attention.
 // - "shrink": scale the icon down until it fits.
 // - "trim": cut off what reaches past the circle.
-// - "grow": grow the stud or disc around the icon.
+// - "grow" (the default): grow the stud or disc around the icon.
 export type IconOverflowBehavior = "none" | "shrink" | "trim" | "grow";
 
 export type IconSpec = {
@@ -70,7 +73,9 @@ export type IconSpec = {
   overflowBehavior?: IconOverflowBehavior;
 };
 
-export type ReliefStyle = "raised" | "engraved";
+// "inlay" is flat: each relief color is its own part filling a pocket cut flush into the base, so a
+// multicolor printer prints it in another filament without raising it.
+export type ReliefStyle = "raised" | "engraved" | "inlay";
 
 export type StyleSpec = {
   relief: ReliefStyle;
@@ -109,6 +114,8 @@ export type TokenSpec = {
   colorGroups: ColorGroupSpec[];
   printProfileId: string;
   fitPolicy: FitPolicy;
+  // The id of a FONT_CATALOG entry (see fontCatalog.ts). Omitted means the body font.
+  fontId?: string;
 };
 
 export type PrintProfile = {

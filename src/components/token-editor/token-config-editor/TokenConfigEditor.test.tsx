@@ -5,6 +5,7 @@ import { describe, expect, it, vi } from "vitest";
 
 import { DEFAULT_SHARED_CONFIG } from "@/core/token/catalog/token-items/defaultSharedConfig";
 import type { SharedConfig } from "@/core/token/catalog/token-items/tokenItem";
+import { DEFAULT_BODY_FONT_ID, DEFAULT_DISPLAY_FONT_ID } from "@/core/token/text/fontCatalog";
 
 import { TokenConfigEditor } from "./TokenConfigEditor";
 
@@ -83,7 +84,14 @@ const RESET_CASES: ResetCase[] = [
   },
   {
     title: "Goal Influence and ring badges",
-    edited: { ringBadge: { textSizeMm: 4, textInsetMm: 2, crestScale: 0.3 } },
+    edited: {
+      ringBadge: {
+        textSizeMm: 4,
+        textInsetMm: 2,
+        crestScale: 0.3,
+        fontId: DEFAULT_DISPLAY_FONT_ID,
+      },
+    },
     restored: {
       goalInfluenceShape: DEFAULT_SHARED_CONFIG.goalInfluenceShape,
       ringBadge: DEFAULT_SHARED_CONFIG.ringBadge,
@@ -91,7 +99,9 @@ const RESET_CASES: ResetCase[] = [
   },
   {
     title: "Momentum",
-    edited: { momentum: { textSizeMm: 9, ringInsetMm: 2, ringWidthMm: 1 } },
+    edited: {
+      momentum: { textSizeMm: 9, fontId: DEFAULT_BODY_FONT_ID, ringInsetMm: 2, ringWidthMm: 1 },
+    },
     restored: { momentum: DEFAULT_SHARED_CONFIG.momentum },
   },
   {
@@ -238,6 +248,35 @@ describe("TokenConfigEditor", () => {
     expect(screen.queryByLabelText("Shape type")).not.toBeInTheDocument();
   });
 
+  it("offers a font for every section whose tokens carry text, and only those", async () => {
+    renderEditor();
+
+    await openAdvancedSettings();
+
+    // Arc tokens, ring badges, Momentum and AOE templates; disc tokens and conditions have none.
+    expect(screen.getAllByLabelText("Font")).toHaveLength(4);
+  });
+
+  it("changes only Momentum's font from the Momentum section", async () => {
+    const onChange = vi.fn();
+
+    renderEditor({ onChange });
+
+    await openSection("Momentum");
+
+    // The reset button's row sits beside the section's fields, so its parent holds them all.
+    const resetButton = screen.getByRole("button", { name: "Reset Momentum to defaults" });
+    const momentumFields = resetButton.parentElement?.parentElement as HTMLElement;
+    const fontSelect = within(momentumFields).getByLabelText("Font");
+
+    fireEvent.change(fontSelect, { target: { value: DEFAULT_BODY_FONT_ID } });
+
+    expect(onChange).toHaveBeenCalledWith({
+      ...sharedConfig,
+      momentum: { ...sharedConfig.momentum, fontId: DEFAULT_BODY_FONT_ID },
+    });
+  });
+
   it("updates the name and effect text sizes independently from advanced settings", async () => {
     const onChange = vi.fn();
 
@@ -245,7 +284,7 @@ describe("TokenConfigEditor", () => {
 
     await openAdvancedSettings();
 
-    fireEvent.change(screen.getByLabelText("Name size (mm)"), { target: { value: "9" } });
+    fireEvent.change(screen.getByLabelText("Two-line name size (mm)"), { target: { value: "9" } });
 
     expect(onChange).toHaveBeenCalledWith({ ...sharedConfig, nameSizeMm: 9 });
   });

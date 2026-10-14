@@ -1,25 +1,20 @@
 {
   "name": "Engineers",
   "color": "#76151e",
-  "characters": [
-    "Compound",
-    "Ballista",
-    "Pin Vice",
-    "Rivet",
-    "Mainspring",
-    "Mother",
+  "captains": ["Ballista", "Pin Vice", "Rivet"],
+  "mascots": ["Mainspring", "Mother"],
+  "squaddies": [
     "Colossus",
-    "vHarriet \u2018the Hat\u2019",
+    "vHarriet ‘the Hat’",
     "Hoist",
     "Locus",
     "Nomad",
     "Ratchet",
     "Salvo",
     "Velocity",
-    "vVelocity",
-    "Fuse",
-    "Spade"
+    "vVelocity"
   ],
+  "guests": ["Compound", "Fuse", "Spade"],
   "genericTokens": [],
   "conditions": ["knockedDown"]
 }

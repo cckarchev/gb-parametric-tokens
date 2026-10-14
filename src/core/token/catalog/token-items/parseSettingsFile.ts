@@ -1,9 +1,10 @@
 import { PRINT_PROFILES } from "../../printProfiles";
+import { FONT_CATALOG } from "../../text/fontCatalog";
 import { IconOverflowBehavior, ReliefStyle } from "../../types";
 import { DEFAULT_SHARED_CONFIG } from "./defaultSharedConfig";
 import { AoeTemplateVariant, SharedConfig } from "./tokenItem";
 
-const RELIEF_STYLES: ReliefStyle[] = ["raised", "engraved"];
+const RELIEF_STYLES: ReliefStyle[] = ["raised", "engraved", "inlay"];
 const ICON_OVERFLOW_BEHAVIORS: IconOverflowBehavior[] = ["none", "shrink", "trim", "grow"];
 const AOE_TEMPLATE_VARIANTS: AoeTemplateVariant[] = ["ring", "compactDisc", "crowfoot"];
 
@@ -82,6 +83,12 @@ const pickKnown = <T extends string>(value: T, knownValues: readonly T[], fallba
 const replaceUnknownOptions = (config: SharedConfig): SharedConfig => {
   const defaults = DEFAULT_SHARED_CONFIG;
   const knownPrintProfileIds = Object.keys(PRINT_PROFILES);
+  const knownFontIds = FONT_CATALOG.map((entry) => entry.id);
+
+  // Each group falls back to its own default: Momentum's is not the others'.
+  const pickKnownFont = (fontId: string, defaultFontId: string): string => {
+    return pickKnown(fontId, knownFontIds, defaultFontId);
+  };
 
   return {
     ...config,
@@ -100,6 +107,22 @@ const replaceUnknownOptions = (config: SharedConfig): SharedConfig => {
       AOE_TEMPLATE_VARIANTS,
       defaults.aoeTemplateVariant,
     ),
+    characterToken: {
+      ...config.characterToken,
+      fontId: pickKnownFont(config.characterToken.fontId, defaults.characterToken.fontId),
+    },
+    ringBadge: {
+      ...config.ringBadge,
+      fontId: pickKnownFont(config.ringBadge.fontId, defaults.ringBadge.fontId),
+    },
+    momentum: {
+      ...config.momentum,
+      fontId: pickKnownFont(config.momentum.fontId, defaults.momentum.fontId),
+    },
+    aoe: {
+      ...config.aoe,
+      fontId: pickKnownFont(config.aoe.fontId, defaults.aoe.fontId),
+    },
   };
 };
 

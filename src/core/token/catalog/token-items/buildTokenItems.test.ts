@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { GuildCatalog } from "../catalogTypes";
+import { conditionsForGuild } from "../conditions";
 import { resolveEffect } from "../effects";
 import { buildTokenItems } from "./buildTokenItems";
 import { DEFAULT_SHARED_CONFIG } from "./defaultSharedConfig";
@@ -8,6 +9,7 @@ import { DEFAULT_TOKEN_COPIES } from "./resolveTokenCopies";
 import {
   characterAoeTemplateId,
   characterTokenId,
+  conditionTokenId,
   gamePlanTokenId,
   SharedConfig,
   TokenSelection,
@@ -38,6 +40,9 @@ const sharedConfig: SharedConfig = {
   influenceIconId: "Brewers",
   nameSizeMm: 6,
   effectSizeMm: 4,
+  // Keeps the icon assertions below free of an overflowBehavior field; the overflow tests set
+  // their own.
+  iconOverflowBehavior: "none",
 };
 
 const emptySelection: TokenSelection = {
@@ -112,7 +117,14 @@ describe("buildTokenItems", () => {
 
     const items = buildTokenItems(catalog, selection, sharedConfig);
 
-    expect(items[0].spec.lines).toEqual([{ text: "Goad", sizeMm: 6, colorGroup: "text" }]);
+    expect(items[0].spec.lines).toEqual([
+      {
+        text: "Goad",
+        sizeMm: sharedConfig.characterToken.singleLineNameSizeMm,
+        fallbackSizeMm: sharedConfig.nameSizeMm,
+        colorGroup: "text",
+      },
+    ]);
   });
 
   it("omits the second line entirely when showSecondLine is off, even if the token has effect text", () => {
@@ -125,7 +137,12 @@ describe("buildTokenItems", () => {
     const items = buildTokenItems(catalog, selection, customConfig);
 
     expect(items[0].spec.lines).toEqual([
-      { text: "Commanding Aura", sizeMm: 6, colorGroup: "text" },
+      {
+        text: "Commanding Aura",
+        sizeMm: sharedConfig.characterToken.singleLineNameSizeMm,
+        fallbackSizeMm: sharedConfig.nameSizeMm,
+        colorGroup: "text",
+      },
     ]);
   });
 
@@ -144,7 +161,7 @@ describe("buildTokenItems", () => {
     ]);
   });
 
-  it("leaves a single-line character token's name size untouched by balanceTwoLineSizes", () => {
+  it("gives a single-line character token the single-line size, untouched by balanceTwoLineSizes", () => {
     const selection: TokenSelection = {
       ...emptySelection,
       characterTokenIds: [characterTokenId("Tapper", 1)],
@@ -153,7 +170,14 @@ describe("buildTokenItems", () => {
 
     const items = buildTokenItems(catalog, selection, customConfig);
 
-    expect(items[0].spec.lines).toEqual([{ text: "Goad", sizeMm: 6, colorGroup: "text" }]);
+    expect(items[0].spec.lines).toEqual([
+      {
+        text: "Goad",
+        sizeMm: sharedConfig.characterToken.singleLineNameSizeMm,
+        fallbackSizeMm: sharedConfig.nameSizeMm,
+        colorGroup: "text",
+      },
+    ]);
   });
 
   it("defaults a character token's icon to the guild's own icon id, tagged with the text color group", () => {
@@ -170,7 +194,11 @@ describe("buildTokenItems", () => {
     ]);
   });
 
-  it("leaves overflowBehavior unset on every icon when iconOverflowBehavior is 'none' (the default)", () => {
+  it("defaults iconOverflowBehavior to 'grow'", () => {
+    expect(DEFAULT_SHARED_CONFIG.iconOverflowBehavior).toBe("grow");
+  });
+
+  it("leaves overflowBehavior unset on every icon when iconOverflowBehavior is 'none'", () => {
     const selection: TokenSelection = {
       ...emptySelection,
       characterTokenIds: [characterTokenId("Tapper", 1)],
@@ -183,7 +211,7 @@ describe("buildTokenItems", () => {
     }
   });
 
-  it.each(["shrink", "trim"] as const)(
+  it.each(["shrink", "trim", "grow"] as const)(
     "marks every icon overflowBehavior '%s' when iconOverflowBehavior is '%s'",
     (behavior) => {
       const selection: TokenSelection = {
@@ -643,6 +671,38 @@ describe("buildTokenItems", () => {
     expect(item.spec.textLayout).toBe("arc");
     expect(item.spec.lines.map((line) => line.text)).toEqual(["Extra Shot", "+1 TAC, free Sprint"]);
     expect(item.spec.icons.map((icon) => icon.iconId)).toEqual(["Brewers", "Brewers"]);
+  });
+
+  it("orders items like the panels: characters, game plans, guild tokens, then conditions", () => {
+    const [condition] = conditionsForGuild("brewers");
+    const fullCatalog: GuildCatalog = {
+      ...catalog,
+      conditions: [condition],
+      gamePlans: [{ id: "nowhereToHide", name: "Nowhere to Hide", effect: "No cover" }],
+    };
+    const enabledCounter = { enabled: true, copies: 1 };
+    const selection: TokenSelection = {
+      ...emptySelection,
+      characterTokenIds: [characterTokenId("Tapper", 0)],
+      genericTokens: { "Beer Token": enabledCounter },
+      influence: enabledCounter,
+      momentum: enabledCounter,
+      goalInfluence: enabledCounter,
+      conditions: { [condition.id]: enabledCounter },
+      gamePlans: { nowhereToHide: enabledCounter },
+    };
+
+    const items = buildTokenItems(fullCatalog, selection, sharedConfig);
+
+    expect(items.map((item) => item.id)).toEqual([
+      characterTokenId("Tapper", 0),
+      gamePlanTokenId("nowhereToHide"),
+      "influence",
+      "momentum",
+      "goal-influence",
+      "Beer Token",
+      conditionTokenId(condition.id),
+    ]);
   });
 
   it("skips a game plan the selection has no entry for", () => {

@@ -1,31 +1,38 @@
 import { resolveColorGroupDisplay } from "../../mesh/colorGroups";
 import { TokenPart } from "../../mesh/tokenPart";
 import { ColorGroupSpec, Vec2 } from "../../types";
+import { buildPrusaModelConfigXml, PrusaObjectConfig } from "./prusaModelConfig";
 import {
   buildItemXml,
-  buildObjectXml,
+  buildMeshObjectXml,
+  buildMultiVolumeMeshXml,
   colorToDisplayColor,
   escapeXmlAttribute,
   FIRST_OBJECT_ID,
+  ObjectVolume,
   wrapThreeMfModelXml,
 } from "./xml";
 
-export type CombinedThreeMfItem = { parts: TokenPart[]; offsets: Vec2[] };
+export type CombinedThreeMfItem = { name: string; parts: TokenPart[]; offsets: Vec2[] };
 
-export const buildCombinedThreeMfModelXml = (
-  items: CombinedThreeMfItem[],
-  colorGroups: ColorGroupSpec[],
-): string => {
-  const allParts = items.flatMap((item) => item.parts);
+type Material = { index: number; name: string };
 
-  if (allParts.length === 0) {
-    throw new Error("buildCombinedThreeMfModelXml needs at least one TokenPart");
+// A lone copy keeps the token's name; several get numbered so the slicer's object list tells
+// them apart.
+const copyName = (itemName: string, copyIndex: number, copyCount: number): string => {
+  if (copyCount === 1) {
+    return itemName;
   }
 
-  // One <base> material per distinct colorGroupId, in first-seen order, with its index kept
-  // alongside its display name: the object loop below needs both, and every part is guaranteed
-  // an entry here because this loop walks that exact same set of parts.
-  const materialByColorGroupId = new Map<string, { index: number; name: string }>();
+  const copyNumber = copyIndex + 1;
+
+  return `${itemName} ${copyNumber}`;
+};
+
+// One <base> material per distinct colorGroupId, in first-seen order, with its index kept
+// alongside its display name.
+const collectMaterials = (allParts: TokenPart[], colorGroups: ColorGroupSpec[]) => {
+  const materialByColorGroupId = new Map<string, Material>();
   const basesXmlParts: string[] = [];
 
   for (const part of allParts) {
@@ -44,24 +51,57 @@ export const buildCombinedThreeMfModelXml = (
     );
   }
 
+  return { materialByColorGroupId, basesXml: basesXmlParts.join("") };
+};
+
+// Every copy of a token is its own object, whose single mesh holds all of the token's color parts.
+// Slicers list each copy by name, move its base and relief together, and keep each part's own
+// material. Copies are separate objects rather than instances of one: PrusaSlicer only applies a
+// multi-part object's part ranges to its first instance and fuses the others into one part.
+export const buildCombinedThreeMfModel = (
+  items: CombinedThreeMfItem[],
+  colorGroups: ColorGroupSpec[],
+): { modelXml: string; prusaModelConfigXml: string } => {
+  const allParts = items.flatMap((item) => item.parts);
+
+  if (allParts.length === 0) {
+    throw new Error("buildCombinedThreeMfModel needs at least one TokenPart");
+  }
+
+  const { materialByColorGroupId, basesXml } = collectMaterials(allParts, colorGroups);
+
   let objectsXml = "";
   let itemsXml = "";
+  const prusaObjects: PrusaObjectConfig[] = [];
   let nextObjectId = FIRST_OBJECT_ID;
 
   for (const item of items) {
-    for (const part of item.parts) {
+    const volumes: ObjectVolume[] = item.parts.map((part) => {
       const material = materialByColorGroupId.get(part.colorGroupId);
 
       if (!material) {
         throw new Error(`No 3MF material registered for color group "${part.colorGroupId}"`);
       }
 
-      const objectId = nextObjectId++;
+      return { part, materialIndex: material.index, name: material.name };
+    });
 
-      objectsXml += buildObjectXml(part, objectId, material.index, material.name);
-      itemsXml += item.offsets.map((offset) => buildItemXml(objectId, offset)).join("");
-    }
+    item.offsets.forEach((offset, copyIndex) => {
+      const objectId = nextObjectId++;
+      const name = copyName(item.name, copyIndex, item.offsets.length);
+      const { meshXml, objectMaterialIndex, volumeRanges } = buildMultiVolumeMeshXml(
+        volumes,
+        offset,
+      );
+
+      objectsXml += buildMeshObjectXml(objectId, name, objectMaterialIndex, meshXml);
+      itemsXml += buildItemXml(objectId);
+      prusaObjects.push({ objectId, name, volumeRanges });
+    });
   }
 
-  return wrapThreeMfModelXml(basesXmlParts.join(""), objectsXml, itemsXml);
+  return {
+    modelXml: wrapThreeMfModelXml(basesXml, objectsXml, itemsXml),
+    prusaModelConfigXml: buildPrusaModelConfigXml(prusaObjects),
+  };
 };

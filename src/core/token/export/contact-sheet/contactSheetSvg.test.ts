@@ -145,6 +145,29 @@ describe("buildContactSheetSvg", () => {
     );
   });
 
+  it("leaves the base-reference circle out when asked to, and packs the arc cells tightly", () => {
+    const arcShape: ShapeSpec = {
+      type: "arc",
+      ribbonWidthMm: 6,
+      ribbonLengthMm: 20,
+      studDiameterMm: 12,
+    };
+    const items = [
+      { shape: arcShape, baseContours: squareContour(10), reliefComponents: [], copies: 1 },
+    ];
+
+    const withCircle = buildContactSheetSvg(items, 1, colorGroups);
+    const withoutCircle = buildContactSheetSvg(items, 1, colorGroups, {
+      showBaseReference: false,
+    });
+
+    expect(withoutCircle.svg).not.toContain('data-role="base-reference-circle"');
+    expect(withoutCircle.viewBox.height).toBeLessThan(withCircle.viewBox.height);
+    // The 10mm square no longer waits for the 30mm circle: its top sits on the cell's padding,
+    // and its origin (the token's axis) stays on the first vertical grid line.
+    expect(withoutCircle.svg).toContain('d="M10,12 ');
+  });
+
   it("draws the circle exactly at the token's own local origin, wherever that origin ends up in the sheet", () => {
     // Token and circle share one offset, so the token's origin and the circle's center render
     // at the same point. The contour starts at (0, 0), so the path's leading M shows where the

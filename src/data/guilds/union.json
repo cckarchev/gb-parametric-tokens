@@ -1,12 +1,9 @@
 {
   "name": "Union",
   "color": "#5b257f",
-  "characters": [
-    "Blackheart",
-    "vRage",
-    "vGreede",
-    "Coin",
-    "Strongbox",
+  "captains": ["Blackheart", "vRage", "vGreede"],
+  "mascots": ["Coin", "Strongbox"],
+  "squaddies": [
     "Avarisse",
     "Greede",
     "Decimate",
@@ -15,12 +12,9 @@
     "Hemlocke",
     "Minx",
     "Rage",
-    "Snakeskin",
-    "Benediction",
-    "Grace",
-    "Harry \u2018the Hat\u2019",
-    "Mist"
+    "Snakeskin"
   ],
+  "guests": ["Benediction", "Grace", "Harry ‘the Hat’", "Mist"],
   "genericTokens": [],
   "conditions": ["knockedDown", "snared", "bleed", "poison", "burning"]
 }

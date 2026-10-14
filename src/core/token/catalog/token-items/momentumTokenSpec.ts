@@ -46,5 +46,6 @@ export const buildMomentumTokenSpec = (sharedConfig: SharedConfig): TokenSpec =>
     icons: [],
     decorations: [buildRingDecoration(sharedConfig.discShape, sharedConfig.momentum)],
     ...sharedTokenFields(sharedConfig, MOMENTUM_FIT_POLICY),
+    fontId: sharedConfig.momentum.fontId,
   };
 };

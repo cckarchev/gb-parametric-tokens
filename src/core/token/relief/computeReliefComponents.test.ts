@@ -1,5 +1,8 @@
+import { readFileSync } from "fs";
 import { describe, expect, it } from "vitest";
 
+import { buildCharacterTokenSpec } from "../catalog/token-items/characterTokenSpec";
+import { DEFAULT_SHARED_CONFIG } from "../catalog/token-items/defaultSharedConfig";
 import { CENTER_ANGLE_DEG } from "../geometry/angleConventions";
 import {
   computeInnerRadiusMm,
@@ -709,5 +712,31 @@ describe("computeReliefComponents, layout checks", () => {
     );
 
     expect(layoutFailures).toEqual([]);
+  });
+});
+
+describe("computeReliefComponents, arc text against a real crest", () => {
+  // The real Brewers crest and the default settings, where these long names used to run into
+  // the crest on one line.
+  const crestSvg = readFileSync("public/icons/guilds/Brewers/logo.svg", "utf8");
+  const loadCrest: LoadIconSource = async (iconId) => ({
+    svgSource: crestSvg,
+    resolvedId: iconId,
+    substituted: false,
+  });
+  const defaultProfile = PRINT_PROFILES[DEFAULT_SHARED_CONFIG.printProfileId];
+
+  it.each([
+    "Unpredictable Movement",
+    "Take One for the Team",
+    "Fangtooth Unleashed",
+    "Blessing of the Moon Goddess",
+  ])("shrinks %s to fit between the crests", async (name) => {
+    const spec = buildCharacterTokenSpec({ id: "x", name }, "Brewers", 1, DEFAULT_SHARED_CONFIG);
+
+    const result = await computeReliefComponents(spec, loadTestFont(), defaultProfile, loadCrest);
+    const failureKinds = result.componentFailures.map((failure) => failure.kind);
+
+    expect(failureKinds).not.toContain("crest-over-text");
   });
 });

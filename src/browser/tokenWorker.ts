@@ -4,12 +4,12 @@ import { buildTokenParts } from "@/core/token/buildTokenParts";
 import { TokenItem } from "@/core/token/catalog/token-items/tokenItem";
 import { buildThreeMfArchive } from "@/core/token/export/three-mf/archive";
 import {
-  buildCombinedThreeMfModelXml,
+  buildCombinedThreeMfModel,
   CombinedThreeMfItem,
 } from "@/core/token/export/three-mf/combinedModel";
 import { CENTER_ANGLE_DEG } from "@/core/token/geometry/angleConventions";
-import { computeFootprintMm } from "@/core/token/geometry/computeFootprintMm";
 import { computePlateLayout, PlateLayoutItem } from "@/core/token/geometry/computePlateLayout";
+import { computePartsBounds } from "@/core/token/mesh/computePartsBounds";
 import { collectGrowOutlineContours, ReliefComponent } from "@/core/token/mesh/reliefComponent";
 import { computeBaseOutlineContours } from "@/core/token/preview/computeBaseOutlineContours";
 import { PRINT_PROFILES } from "@/core/token/printProfiles";
@@ -17,7 +17,7 @@ import { computeReliefComponents } from "@/core/token/relief/computeReliefCompon
 import { ColorGroupSpec, ShapeSpec, Vec2 } from "@/core/token/types";
 import { describeTokenFailures } from "@/core/token/validation/describeTokenFailures";
 
-import { loadFont } from "./loadFont";
+import { loadCatalogFont } from "./loadFont";
 import { loadIconManifest } from "./loadIconManifest";
 import { createLoadIconSource } from "./loadIconSource";
 
@@ -66,10 +66,11 @@ export type WorkerResponse = PreviewResponse | ExportResponse | WorkerErrorRespo
 
 let resourcesPromise: ReturnType<typeof loadResources> | undefined;
 
+// Fonts aren't here: each token loads only its own (see loadCatalogFont).
 const loadResources = async () => {
-  const [font, manifest] = await Promise.all([loadFont(), loadIconManifest()]);
+  const manifest = await loadIconManifest();
 
-  return { font, loadIconSource: createLoadIconSource(manifest) };
+  return { loadIconSource: createLoadIconSource(manifest) };
 };
 
 // A failed load is forgotten rather than cached, so a transient network error fails only the
@@ -86,11 +87,12 @@ const getResources = () => {
 };
 
 export const handlePreview = async (request: PreviewRequest): Promise<PreviewResponse> => {
-  const { font, loadIconSource } = await getResources();
+  const { loadIconSource } = await getResources();
 
   const results = await Promise.all(
     request.items.map(async (item) => {
       const printProfile = PRINT_PROFILES[item.spec.printProfileId];
+      const font = await loadCatalogFont(item.spec.fontId);
       const result = await computeReliefComponents(item.spec, font, printProfile, loadIconSource);
       // After computeReliefComponents, not alongside it: the outline includes the footprints of
       // icons with behavior "grow", which exist only once the icons are placed.
@@ -125,12 +127,13 @@ export const handlePreview = async (request: PreviewRequest): Promise<PreviewRes
 };
 
 export const handleExport = async (request: ExportRequest): Promise<ExportResponse> => {
-  const { font, loadIconSource } = await getResources();
+  const { loadIconSource } = await getResources();
   const failures: ExportFailureItem[] = [];
 
   const built = await Promise.all(
     request.items.map(async (item) => {
       const printProfile = PRINT_PROFILES[item.spec.printProfileId];
+      const font = await loadCatalogFont(item.spec.fontId);
       const result = await computeReliefComponents(item.spec, font, printProfile, loadIconSource);
 
       if (result.blocksExport) {
@@ -161,20 +164,24 @@ export const handleExport = async (request: ExportRequest): Promise<ExportRespon
     return { kind: "export", requestId: request.requestId, status: "failed", failures };
   }
 
-  const layoutItems: PlateLayoutItem[] = built.map(({ item }) => ({
+  const layoutItems: PlateLayoutItem[] = built.map(({ item, parts }) => ({
     shapeType: item.spec.shape.type,
-    footprintMm: computeFootprintMm(item.spec.shape),
+    boundsMm: computePartsBounds(parts),
     copies: item.copies,
   }));
   const offsetsByItem = computePlateLayout(layoutItems, PLATE_SPACING_MM);
 
-  const combinedItems: CombinedThreeMfItem[] = built.map(({ parts }, index) => ({
+  const combinedItems: CombinedThreeMfItem[] = built.map(({ item, parts }, index) => ({
+    name: item.label,
     parts,
     offsets: offsetsByItem[index],
   }));
 
-  const modelXml = buildCombinedThreeMfModelXml(combinedItems, request.colorGroups);
-  const archive = buildThreeMfArchive(modelXml);
+  const { modelXml, prusaModelConfigXml } = buildCombinedThreeMfModel(
+    combinedItems,
+    request.colorGroups,
+  );
+  const archive = buildThreeMfArchive(modelXml, prusaModelConfigXml);
 
   return { kind: "export", requestId: request.requestId, status: "ok", archive };
 };

@@ -12,7 +12,12 @@ const RING_WIDTH_MM = 0.6;
 const config: SharedConfig = {
   ...DEFAULT_SHARED_CONFIG,
   discShape: { ...DEFAULT_SHARED_CONFIG.discShape, diameterMm: DISC_DIAMETER_MM },
-  momentum: { textSizeMm: TEXT_SIZE_MM, ringInsetMm: RING_INSET_MM, ringWidthMm: RING_WIDTH_MM },
+  momentum: {
+    textSizeMm: TEXT_SIZE_MM,
+    fontId: DEFAULT_SHARED_CONFIG.momentum.fontId,
+    ringInsetMm: RING_INSET_MM,
+    ringWidthMm: RING_WIDTH_MM,
+  },
 };
 
 describe("buildMomentumTokenSpec", () => {
@@ -23,6 +28,12 @@ describe("buildMomentumTokenSpec", () => {
     expect(spec.textLayout).toBe("flat");
     expect(spec.lines.map((line) => [line.text, line.sizeMm])).toEqual([["MP", TEXT_SIZE_MM]]);
     expect(spec.icons).toEqual([]);
+  });
+
+  it("prints MP in the Momentum font", () => {
+    const spec = buildMomentumTokenSpec(config);
+
+    expect(spec.fontId).toBe(config.momentum.fontId);
   });
 
   it("places the ring centerline so its outer edge sits the inset in from the rim", () => {

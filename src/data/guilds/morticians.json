@@ -1,12 +1,9 @@
 {
   "name": "Morticians",
   "color": "#1d2022",
-  "characters": [
-    "Obulus",
-    "Scalpel",
-    "Mourn",
-    "Dirge",
-    "Vileswarm",
+  "captains": ["Obulus", "Scalpel", "Mourn"],
+  "mascots": ["Dirge", "Vileswarm"],
+  "squaddies": [
     "Bonesaw",
     "Brainpan",
     "Memory",
@@ -17,10 +14,9 @@
     "Graves",
     "vGraves",
     "vHemlocke",
-    "Silence",
-    "Pelage",
-    "Skulk"
+    "Silence"
   ],
+  "guests": ["Pelage", "Skulk"],
   "genericTokens": [],
   "conditions": ["knockedDown", "burning"]
 }

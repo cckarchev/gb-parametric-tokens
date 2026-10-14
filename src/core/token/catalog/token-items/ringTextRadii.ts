@@ -9,10 +9,11 @@ export const computeRingTextRadii = (
   discDiameterMm: number,
   textInsetMm: number,
   textSizeMm: number,
+  fontId: string | undefined,
 ): { topMm: number; bottomMm: number } => {
   const discRadiusMm = discDiameterMm / 2;
   const bottomMm = discRadiusMm - textInsetMm;
-  const topMm = bottomMm - estimateAscentMm(textSizeMm);
+  const topMm = bottomMm - estimateAscentMm(textSizeMm, fontId);
 
   return { topMm, bottomMm };
 };

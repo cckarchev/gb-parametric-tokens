@@ -1,7 +1,10 @@
 {
   "name": "Miners",
   "color": "#76151e",
-  "characters": ["Colossus", "Salvo", "Shaft", "Digger", "Fissure", "Fuse", "Mule", "Spade"],
+  "captains": ["Shaft"],
+  "mascots": ["Digger"],
+  "squaddies": ["Fissure", "Fuse", "Mule", "Spade"],
+  "guests": ["Colossus", "Salvo"],
   "genericTokens": [],
   "conditions": ["knockedDown"]
 }

@@ -9,15 +9,27 @@ import { ContactSheetItem, FlippedContactSheetItem } from "./types";
 // Arc cells get no padding: prepareSection rounds padding plus margin up to the next grid line
 // anyway, so any padding would grow each gap by a whole grid step.
 const CELL_PADDING_MM = 0;
+// With the circle hidden an arc cell isn't rounded up vertically, so this padding alone keeps
+// rows apart: twice this between two rows of arc tokens.
+const TIGHT_ARC_CELL_PADDING_MM = 2;
 // Disc cells round up to the grid too, so a token's diameter can be read off the grid.
 const DISC_CELL_PADDING_MM = 2;
 // Caps the width every section wraps at, so a large `columns` can't stretch a row off the sheet.
 const MAX_SHEET_WIDTH_MM = 240;
 
+export type ContactSheetOptions = {
+  // The 30mm base circle behind each arc token. Hidden, the arc cells shrink to the tokens
+  // themselves, so the sheet packs them much closer together.
+  showBaseReference: boolean;
+};
+
+const DEFAULT_CONTACT_SHEET_OPTIONS: ContactSheetOptions = { showBaseReference: true };
+
 export const buildContactSheetSvg = (
   items: ContactSheetItem[],
   columns: number,
   colorGroups: ColorGroupSpec[],
+  options: ContactSheetOptions = DEFAULT_CONTACT_SHEET_OPTIONS,
 ): RenderedSvg => {
   if (items.length === 0) {
     const emptyViewBox: SvgBounds = { x: 0, y: 0, width: 0, height: 0 };
@@ -38,8 +50,11 @@ export const buildContactSheetSvg = (
   const arcItems = flippedItems.filter((item) => item.shape.type === "arc");
   const discItems = flippedItems.filter((item) => item.shape.type === "disc");
 
+  const arcCellPaddingMm = options.showBaseReference ? CELL_PADDING_MM : TIGHT_ARC_CELL_PADDING_MM;
   const arcPrepared =
-    arcItems.length > 0 ? prepareSection(arcItems, CELL_PADDING_MM, false) : undefined;
+    arcItems.length > 0
+      ? prepareSection(arcItems, arcCellPaddingMm, false, options.showBaseReference)
+      : undefined;
   const discPreparedGroups = groupDiscItemsByDiameter(discItems).map((group) =>
     prepareSection(group, DISC_CELL_PADDING_MM, true),
   );
@@ -60,6 +75,7 @@ export const buildContactSheetSvg = (
         columnsToFillTargetWidth(arcPrepared.cellWidthMm),
         0,
         colorGroups,
+        options.showBaseReference,
       )
     : undefined;
 
@@ -74,6 +90,7 @@ export const buildContactSheetSvg = (
       columnsToFillTargetWidth(prepared.cellWidthMm),
       nextDiscGroupOriginYMm,
       colorGroups,
+      options.showBaseReference,
     );
 
     nextDiscGroupOriginYMm += layout.heightMm;

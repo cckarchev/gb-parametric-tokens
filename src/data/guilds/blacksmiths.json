@@ -2,23 +2,10 @@
   "name": "Blacksmiths",
   "color": "#82969f",
   "iconScale": 1.015,
-  "characters": [
-    "Anvil",
-    "Burnish",
-    "Culverin",
-    "Farris",
-    "Ferrite",
-    "Furnace",
-    "Hearth",
-    "Alloy",
-    "Bolt",
-    "Cast",
-    "Cinder",
-    "vCinder",
-    "Cutlass",
-    "Iron",
-    "Sledge"
-  ],
+  "captains": ["Anvil", "Burnish", "Culverin", "Farris", "Ferrite", "Furnace", "Hearth"],
+  "mascots": [],
+  "squaddies": ["Alloy", "Bolt", "Cast", "Cinder", "vCinder", "Cutlass", "Iron", "Sledge"],
+  "guests": [],
   "genericTokens": [],
   "conditions": ["knockedDown", "burning"]
 }

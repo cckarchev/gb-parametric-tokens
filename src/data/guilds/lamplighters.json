@@ -1,7 +1,10 @@
 {
   "name": "Lamplighters",
   "color": "#00994a",
-  "characters": ["Crucible", "Mercury", "Nightlight", "Soot", "Beacon", "Wick", "Heat", "Phosphor"],
+  "captains": ["Nightlight"],
+  "mascots": ["Soot"],
+  "squaddies": ["Beacon", "Wick", "Heat", "Phosphor"],
+  "guests": ["Crucible", "Mercury"],
   "genericTokens": [],
   "conditions": ["knockedDown", "poison", "burning"]
 }

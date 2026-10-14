@@ -1,12 +1,9 @@
 {
   "name": "Brewers",
   "color": "#cdb320",
-  "characters": [
-    "Tapper",
-    "Esters",
-    "Corker",
-    "Scum",
-    "Quaff",
+  "captains": ["Tapper", "Esters", "Corker"],
+  "mascots": ["Scum", "Quaff"],
+  "squaddies": [
     "vDecimate",
     "Flea",
     "Friday",
@@ -19,6 +16,7 @@
     "Stoker",
     "Lucky"
   ],
+  "guests": [],
   "genericTokens": [
     {
       "name": "Beer Token",
