@@ -56,6 +56,24 @@ export const buildObjectXml = (
   );
 };
 
+// An object made only of references to mesh objects. A slicer loads it as one object with one
+// part per mesh, so a token's base and relief move together but keep their own colors.
+export const buildComponentsObjectXml = (
+  objectId: number,
+  meshObjectIds: number[],
+  name: string,
+): string => {
+  const componentsXml = meshObjectIds
+    .map((meshObjectId) => `<component objectid="${meshObjectId}"/>`)
+    .join("");
+
+  return (
+    `<object id="${objectId}" name="${escapeXmlAttribute(name)}" type="model">` +
+    `<components>${componentsXml}</components>` +
+    `</object>`
+  );
+};
+
 export const buildItemXml = (objectId: number, offset: Vec2): string => {
   const transform = `1 0 0 0 1 0 0 0 1 ${offset[0]} ${offset[1]} 0`;
 

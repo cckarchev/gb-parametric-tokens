@@ -24,23 +24,35 @@ const countOccurrences = (haystack: string, needle: string): number => {
   return haystack.split(needle).length - 1;
 };
 
+const baseGroups: ColorGroupSpec[] = [{ id: "base", name: "Base", color: "#2B2B2B" }];
+
 describe("buildCombinedThreeMfModelXml", () => {
-  it("emits one object and one item for a single item with one part and one copy", async () => {
+  it("wraps a token's parts in one named object placed by one build item", async () => {
     const items: CombinedThreeMfItem[] = [
-      { parts: [await buildBoxPart("base")], offsets: [[0, 0]] },
+      {
+        name: "Momentum",
+        parts: [await buildBoxPart("base"), await buildBoxPart("text")],
+        offsets: [[0, 0]],
+      },
     ];
-    const colorGroups: ColorGroupSpec[] = [{ id: "base", name: "Base", color: "#2B2B2B" }];
+    const colorGroups: ColorGroupSpec[] = [
+      ...baseGroups,
+      { id: "text", name: "Text", color: "#FFFFFF" },
+    ];
 
     const xml = buildCombinedThreeMfModelXml(items, colorGroups);
 
-    expect(countOccurrences(xml, "<object ")).toBe(1);
-    expect(countOccurrences(xml, "<base ")).toBe(1);
+    expect(countOccurrences(xml, "<mesh>")).toBe(2);
+    expect(countOccurrences(xml, "<component ")).toBe(2);
+    expect(xml).toContain('<object id="4" name="Momentum" type="model">');
     expect(countOccurrences(xml, "<item ")).toBe(1);
+    expect(xml).toContain('<item objectid="4" ');
   });
 
-  it("emits one item per offset for an item with multiple copies, referencing the same object", async () => {
+  it("numbers each copy as its own object, all sharing the same meshes", async () => {
     const items: CombinedThreeMfItem[] = [
       {
+        name: "Knocked Down",
         parts: [await buildBoxPart("base")],
         offsets: [
           [0, 0],
@@ -49,37 +61,47 @@ describe("buildCombinedThreeMfModelXml", () => {
         ],
       },
     ];
-    const colorGroups: ColorGroupSpec[] = [{ id: "base", name: "Base", color: "#2B2B2B" }];
 
-    const xml = buildCombinedThreeMfModelXml(items, colorGroups);
+    const xml = buildCombinedThreeMfModelXml(items, baseGroups);
 
-    expect(countOccurrences(xml, "<object ")).toBe(1);
+    expect(countOccurrences(xml, "<mesh>")).toBe(1);
+    expect(xml).toContain('name="Knocked Down 1"');
+    expect(xml).toContain('name="Knocked Down 2"');
+    expect(xml).toContain('name="Knocked Down 3"');
     expect(countOccurrences(xml, "<item ")).toBe(3);
     expect(xml).toContain('transform="1 0 0 0 1 0 0 0 1 30 0 0"');
   });
 
-  it("emits a distinct object per distinct token item, even when they share a colorGroupId", async () => {
+  it("names each mesh after its token and color group", async () => {
     const items: CombinedThreeMfItem[] = [
-      { parts: [await buildBoxPart("base")], offsets: [[0, 0]] },
-      { parts: [await buildBoxPart("base")], offsets: [[30, 0]] },
+      { name: "Momentum", parts: [await buildBoxPart("base")], offsets: [[0, 0]] },
     ];
-    const colorGroups: ColorGroupSpec[] = [{ id: "base", name: "Base", color: "#2B2B2B" }];
 
-    const xml = buildCombinedThreeMfModelXml(items, colorGroups);
+    const xml = buildCombinedThreeMfModelXml(items, baseGroups);
 
-    expect(countOccurrences(xml, "<object ")).toBe(2);
-    expect(countOccurrences(xml, "<base ")).toBe(1); // deduplicated: one material for both objects
-    expect(xml).toContain('pid="1" pindex="0"');
+    expect(xml).toContain('name="Momentum (Base)" pid="1" pindex="0"');
+  });
+
+  it("deduplicates materials across tokens that share a colorGroupId", async () => {
+    const items: CombinedThreeMfItem[] = [
+      { name: "A", parts: [await buildBoxPart("base")], offsets: [[0, 0]] },
+      { name: "B", parts: [await buildBoxPart("base")], offsets: [[30, 0]] },
+    ];
+
+    const xml = buildCombinedThreeMfModelXml(items, baseGroups);
+
+    expect(countOccurrences(xml, "<mesh>")).toBe(2);
+    expect(countOccurrences(xml, "<base ")).toBe(1);
     expect(xml).not.toContain('pindex="1"');
   });
 
   it("keeps colorGroups with different ids as separate materials", async () => {
     const items: CombinedThreeMfItem[] = [
-      { parts: [await buildBoxPart("base")], offsets: [[0, 0]] },
-      { parts: [await buildBoxPart("accent")], offsets: [[30, 0]] },
+      { name: "A", parts: [await buildBoxPart("base")], offsets: [[0, 0]] },
+      { name: "B", parts: [await buildBoxPart("accent")], offsets: [[30, 0]] },
     ];
     const colorGroups: ColorGroupSpec[] = [
-      { id: "base", name: "Base", color: "#2B2B2B" },
+      ...baseGroups,
       { id: "accent", name: "Accent", color: "#C9A13B" },
     ];
 

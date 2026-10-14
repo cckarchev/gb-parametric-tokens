@@ -41,10 +41,12 @@ import type { ExportRequest, PreviewRequest } from "./tokenWorker";
 
 const colorGroups: ColorGroupSpec[] = [{ id: "base", name: "Base", color: "#2B2B2B" }];
 
+const FAKE_PART_BOX = { min: [-12.5, -12.5, 0], max: [12.5, 12.5, 3] };
+
 const fakePart = (status: string): TokenPart =>
   ({
     colorGroupId: "base",
-    manifold: { status: () => status },
+    manifold: { status: () => status, boundingBox: () => FAKE_PART_BOX },
   }) as unknown as TokenPart;
 
 beforeEach(() => {
@@ -306,15 +308,15 @@ describe("handleExport", () => {
 
     expect(computePlateLayout).toHaveBeenCalledWith(
       [
-        { shapeType: "disc", footprintMm: { width: 25, height: 25 }, copies: 1 },
-        { shapeType: "arc", footprintMm: { width: 84.5, height: 84.5 }, copies: 2 },
+        { shapeType: "disc", boundsMm: { min: [-12.5, -12.5], max: [12.5, 12.5] }, copies: 1 },
+        { shapeType: "arc", boundsMm: { min: [-12.5, -12.5], max: [12.5, 12.5] }, copies: 2 },
       ],
       10,
     );
     expect(buildCombinedThreeMfModelXml).toHaveBeenCalledWith(
       [
-        { parts: [discPart], offsets: discOffsets },
-        { parts: [arcPart], offsets: arcOffsets },
+        { name: "Disc A", parts: [discPart], offsets: discOffsets },
+        { name: "Arc A", parts: [arcPart], offsets: arcOffsets },
       ],
       colorGroups,
     );

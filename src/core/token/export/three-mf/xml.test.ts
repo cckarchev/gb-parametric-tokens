@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { TokenPart } from "../../mesh/tokenPart";
 import {
+  buildComponentsObjectXml,
   buildItemXml,
   buildObjectXml,
   colorToDisplayColor,
@@ -58,6 +59,20 @@ describe("buildObjectXml", () => {
     const xml = buildObjectXml(fakeTrianglePart(), 2, 0, `A & "B"`);
 
     expect(xml).toContain('name="A &amp; &quot;B&quot;"');
+  });
+});
+
+describe("buildComponentsObjectXml", () => {
+  it("groups mesh objects into one named object, one component per mesh", () => {
+    expect(buildComponentsObjectXml(7, [2, 3], "Casket: Poltergeists 1")).toBe(
+      `<object id="7" name="Casket: Poltergeists 1" type="model">` +
+        `<components><component objectid="2"/><component objectid="3"/></components>` +
+        `</object>`,
+    );
+  });
+
+  it("escapes the name", () => {
+    expect(buildComponentsObjectXml(7, [2], `A & "B"`)).toContain('name="A &amp; &quot;B&quot;"');
   });
 });
 

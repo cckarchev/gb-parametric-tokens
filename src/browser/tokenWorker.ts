@@ -8,8 +8,8 @@ import {
   CombinedThreeMfItem,
 } from "@/core/token/export/three-mf/combinedModel";
 import { CENTER_ANGLE_DEG } from "@/core/token/geometry/angleConventions";
-import { computeFootprintMm } from "@/core/token/geometry/computeFootprintMm";
 import { computePlateLayout, PlateLayoutItem } from "@/core/token/geometry/computePlateLayout";
+import { computePartsBounds } from "@/core/token/mesh/computePartsBounds";
 import { collectGrowOutlineContours, ReliefComponent } from "@/core/token/mesh/reliefComponent";
 import { computeBaseOutlineContours } from "@/core/token/preview/computeBaseOutlineContours";
 import { PRINT_PROFILES } from "@/core/token/printProfiles";
@@ -164,14 +164,15 @@ export const handleExport = async (request: ExportRequest): Promise<ExportRespon
     return { kind: "export", requestId: request.requestId, status: "failed", failures };
   }
 
-  const layoutItems: PlateLayoutItem[] = built.map(({ item }) => ({
+  const layoutItems: PlateLayoutItem[] = built.map(({ item, parts }) => ({
     shapeType: item.spec.shape.type,
-    footprintMm: computeFootprintMm(item.spec.shape),
+    boundsMm: computePartsBounds(parts),
     copies: item.copies,
   }));
   const offsetsByItem = computePlateLayout(layoutItems, PLATE_SPACING_MM);
 
-  const combinedItems: CombinedThreeMfItem[] = built.map(({ parts }, index) => ({
+  const combinedItems: CombinedThreeMfItem[] = built.map(({ item, parts }, index) => ({
+    name: item.label,
     parts,
     offsets: offsetsByItem[index],
   }));
