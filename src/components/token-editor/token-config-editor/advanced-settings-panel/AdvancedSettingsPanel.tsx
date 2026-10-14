@@ -17,7 +17,9 @@ type AdvancedSettingsPanelProps = {
   importSettingsError: string | undefined;
 };
 
-// One collapsible section per token kind, each owning its own fields and its own reset.
+// One collapsible section per token kind, each owning its own fields and its own reset, in the
+// order the preview shows those tokens: arc tokens, then the roster's AOE templates, then the
+// guild tokens (Influence, Momentum, Goal Influence) and the conditions.
 export const AdvancedSettingsPanel = ({
   sharedConfig,
   onChange,
@@ -35,11 +37,11 @@ export const AdvancedSettingsPanel = ({
         importSettingsError={importSettingsError}
       />
       <ArcTokensSection sharedConfig={sharedConfig} onChange={onChange} />
-      <DiscTokensSection sharedConfig={sharedConfig} onChange={onChange} />
-      <RingBadgeSection sharedConfig={sharedConfig} onChange={onChange} />
-      <MomentumSection sharedConfig={sharedConfig} onChange={onChange} />
-      <ConditionsSection sharedConfig={sharedConfig} onChange={onChange} />
       <AoeTemplatesSection sharedConfig={sharedConfig} onChange={onChange} />
+      <DiscTokensSection sharedConfig={sharedConfig} onChange={onChange} />
+      <MomentumSection sharedConfig={sharedConfig} onChange={onChange} />
+      <RingBadgeSection sharedConfig={sharedConfig} onChange={onChange} />
+      <ConditionsSection sharedConfig={sharedConfig} onChange={onChange} />
     </Panel>
   );
 };
