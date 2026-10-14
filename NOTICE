@@ -1,12 +1,24 @@
 gb-parametric-tokens
 ====================
 
+Credit
+------
+The character, effect and guild data started from GBPlaybook
+(https://github.com/cleech/GBPlaybook), the Guild Ball play assist app, and the
+guild crests come from its icon font. Thanks to its author and contributors for
+the card data and the icons this generator is built on.
+
+The condition icons in public/icons/conditions/ were drawn for this project.
+
 Fonts
 -----
 The token fonts in public/fonts/ are licensed under the SIL Open Font License
 1.1 (https://openfontlicense.org), with each license file next to its font:
 Saira Condensed, Fira Sans Condensed, Atkinson Hyperlegible, Lilita One,
 Germania One and Fraunces.
+
+The interface display font, Big Noodle Titling in public/fonts/ui/, is by
+James Arboghast (Sentinel Type) and is shared with the club site.
 
 Disclaimer
 ----------

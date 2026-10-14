@@ -95,7 +95,11 @@ The UI follows the club's design system, whose source of truth is [cckarchev-web
 
 ## Fonts
 
-The token fonts in `public/fonts/` are licensed under the SIL Open Font License, with each license file next to its font: Saira Condensed (default), Fira Sans Condensed, Atkinson Hyperlegible, Lilita One, Germania One and Fraunces.
+The token fonts in `public/fonts/` are licensed under the SIL Open Font License, with each license file next to its font: Saira Condensed (default), Fira Sans Condensed, Atkinson Hyperlegible, Lilita One, Germania One and Fraunces. The interface display font is Big Noodle Titling by James Arboghast (Sentinel Type), shared with the club site.
+
+## Credits
+
+The character, effect and guild data started from [GBPlaybook](https://github.com/cleech/GBPlaybook), the Guild Ball play assist app, and the guild crests come from its icon font. Thanks to its author and contributors for the card data and the icons this generator is built on.
 
 ## Disclaimer
 
