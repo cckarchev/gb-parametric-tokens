@@ -50,6 +50,44 @@ describe("buildTokenMesh", () => {
     expect(parts[0].manifold.boundingBox().max[2]).toBe(3);
   });
 
+  it("fills a pocket in the base with a flush relief part for relief: inlay", async () => {
+    const parts = await buildTokenMesh({
+      spec: baseSpec({ relief: "inlay" }),
+      reliefComponents: [
+        { source: { kind: "decoration" }, contours: squareIcon, colorGroup: "text" },
+      ],
+    });
+    const plainDisc = await buildTokenMesh({ spec: baseSpec(), reliefComponents: [] });
+
+    const basePart = parts.find((part) => part.colorGroupId === "base");
+    const textPart = parts.find((part) => part.colorGroupId === "text");
+
+    expect(parts).toHaveLength(2);
+    expect(basePart?.manifold.status()).toBe("NoError");
+    expect(textPart?.manifold.status()).toBe("NoError");
+
+    // Both parts end flush at the base thickness: a flat token.
+    expect(basePart?.manifold.boundingBox().max[2]).toBe(3);
+    expect(textPart?.manifold.boundingBox().max[2]).toBeCloseTo(3);
+    expect(textPart?.manifold.boundingBox().min[2]).toBeCloseTo(3 - 0.6);
+
+    // The pocket is exactly the inlay: together they add up to the plain disc, no gap, no overlap.
+    const combinedVolume = (basePart?.manifold.volume() ?? 0) + (textPart?.manifold.volume() ?? 0);
+
+    expect(combinedVolume).toBeCloseTo(plainDisc[0].manifold.volume(), 3);
+  });
+
+  it("leaves a base-colored relief flat, with no pocket and no extra part, for relief: inlay", async () => {
+    const parts = await buildTokenMesh({
+      spec: baseSpec({ relief: "inlay" }),
+      reliefComponents: [{ source: { kind: "decoration" }, contours: squareIcon }],
+    });
+    const plainDisc = await buildTokenMesh({ spec: baseSpec(), reliefComponents: [] });
+
+    expect(parts).toHaveLength(1);
+    expect(parts[0].manifold.volume()).toBeCloseTo(plainDisc[0].manifold.volume(), 3);
+  });
+
   it("rejects non-disc shapes", async () => {
     const spec = {
       ...baseSpec(),

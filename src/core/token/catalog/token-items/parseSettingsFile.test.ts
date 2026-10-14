@@ -87,6 +87,15 @@ describe("parseSettingsFile", () => {
     expect(config.aoeTemplateVariant).toBe(DEFAULT_SHARED_CONFIG.aoeTemplateVariant);
   });
 
+  it("keeps the inlay relief style", () => {
+    const config = parseSettingsFile({
+      ...LEGACY_FILE,
+      style: { ...LEGACY_FILE.style, relief: "inlay" },
+    });
+
+    expect(config.style.relief).toBe("inlay");
+  });
+
   it("keeps every option value this app knows", () => {
     const config = parseSettingsFile({
       ...LEGACY_FILE,

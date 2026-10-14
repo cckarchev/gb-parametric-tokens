@@ -73,7 +73,9 @@ export type IconSpec = {
   overflowBehavior?: IconOverflowBehavior;
 };
 
-export type ReliefStyle = "raised" | "engraved";
+// "inlay" is flat: each relief color is its own part filling a pocket cut flush into the base, so a
+// multicolor printer prints it in another filament without raising it.
+export type ReliefStyle = "raised" | "engraved" | "inlay";
 
 export type StyleSpec = {
   relief: ReliefStyle;
