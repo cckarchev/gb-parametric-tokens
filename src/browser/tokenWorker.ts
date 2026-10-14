@@ -72,9 +72,14 @@ const loadResources = async () => {
   return { font, loadIconSource: createLoadIconSource(manifest) };
 };
 
+// A failed load is forgotten rather than cached, so a transient network error fails only the
+// request that hit it and the next one tries again, instead of every request until a reload.
 const getResources = () => {
   if (!resourcesPromise) {
-    resourcesPromise = loadResources();
+    resourcesPromise = loadResources().catch((error: unknown) => {
+      resourcesPromise = undefined;
+      throw error;
+    });
   }
 
   return resourcesPromise;

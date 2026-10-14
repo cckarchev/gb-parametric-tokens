@@ -53,6 +53,24 @@ beforeEach(() => {
   vi.mocked(buildThreeMfArchive).mockReset();
 });
 
+describe("resource loading", () => {
+  it("tries loading the font again after a failed attempt instead of failing every later request", async () => {
+    // A fresh module, so the resources the other tests already loaded aren't cached here.
+    vi.resetModules();
+
+    const freshWorker = await import("./tokenWorker");
+    const { loadFont } = await import("./loadFont");
+    const emptyRequest: PreviewRequest = { kind: "preview", requestId: 1, items: [] };
+
+    vi.mocked(loadFont).mockRejectedValueOnce(new Error("Failed to load font: Not Found"));
+
+    await expect(freshWorker.handlePreview(emptyRequest)).rejects.toThrow("Not Found");
+    await expect(freshWorker.handlePreview(emptyRequest)).resolves.toMatchObject({
+      results: [],
+    });
+  });
+});
+
 describe("handlePreview", () => {
   it("returns one result per item, with its outline, relief, warnings and failure reason", async () => {
     vi.mocked(computeReliefComponents)
