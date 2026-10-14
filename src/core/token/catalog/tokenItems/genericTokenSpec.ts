@@ -1,7 +1,7 @@
 import { TokenSpec } from "../../types";
 import { CatalogGenericToken } from "../catalogTypes";
+import { buildCrestDiscTokenSpec } from "./crestDiscTokenSpec";
 import { SharedConfig } from "./tokenItem";
-import { buildIconSpec, guildCrestScale, sharedTokenFields } from "./tokenSpecParts";
 
 export const buildGenericTokenSpec = (
   generic: CatalogGenericToken,
@@ -10,16 +10,6 @@ export const buildGenericTokenSpec = (
   sharedConfig: SharedConfig,
 ): TokenSpec => {
   const iconId = generic.iconId ?? guildIconId;
-  const iconScale =
-    sharedConfig.discToken.crestScale * guildCrestScale(iconId, guildIconId, guildIconScale);
 
-  return {
-    version: 1,
-    shape: sharedConfig.discShape,
-    textLayout: "flat",
-    lines: [],
-    icons: [buildIconSpec(iconId, "center", iconScale, sharedConfig)],
-    decorations: [],
-    ...sharedTokenFields(sharedConfig),
-  };
+  return buildCrestDiscTokenSpec(iconId, guildIconId, guildIconScale, sharedConfig);
 };

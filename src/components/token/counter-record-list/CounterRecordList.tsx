@@ -1,6 +1,7 @@
 import { CounterSelection, DISABLED_COUNTER } from "@/core/token/catalog/tokenItems/tokenItem";
 
 import { CounterPanel, CounterRow } from "../counter-panel/CounterPanel";
+import { setRowsEnabled } from "../counter-panel/setRowsEnabled";
 
 // The part of a catalog entry this list needs: conditions and game plans both fit it.
 export type CounterRecordEntry = {
@@ -34,16 +35,8 @@ export const CounterRecordList = ({
     maxCopies: entry.maxCopies ?? maxCopies,
   }));
 
-  // Every row targets the same record, so they are written in one call: calling each row's own
-  // onChange in a loop would build every one on this render's stale snapshot.
   const toggleAll = (enabled: boolean) => {
-    const nextSelection = { ...selection };
-
-    for (const row of rows) {
-      nextSelection[row.key] = { ...row.selection, enabled };
-    }
-
-    onSelectionChange(nextSelection);
+    onSelectionChange(setRowsEnabled(selection, rows, enabled));
   };
 
   return <CounterPanel title={title} rows={rows} onToggleAll={toggleAll} />;

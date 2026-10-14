@@ -2,6 +2,7 @@ import { GuildCatalog } from "@/core/token/catalog/catalogTypes";
 import { CounterSelection, DISABLED_COUNTER } from "@/core/token/catalog/tokenItems/tokenItem";
 
 import { CounterPanel, CounterRow } from "../counter-panel/CounterPanel";
+import { setRowsEnabled } from "../counter-panel/setRowsEnabled";
 
 type GuildTokenListProps = {
   catalog: GuildCatalog;
@@ -67,21 +68,13 @@ export const GuildTokenList = ({
   // is left exactly as it was, on or off, so toggling this twice in a row is a no-op on the
   // numbers themselves.
   //
-  // The generics are written in one batched call rather than through their own per-row onChange:
-  // those all target the same `genericTokens` record, so calling them in a loop would have each
-  // one build on this render's stale snapshot and only the last would survive.
+  // The generics all live in the one `genericTokens` record, so they go through setRowsEnabled.
   const toggleAll = (enabled: boolean) => {
     for (const row of fixedRows) {
       row.onChange({ ...row.selection, enabled });
     }
 
-    const nextGenericTokens = { ...genericTokens };
-
-    for (const row of genericRows) {
-      nextGenericTokens[row.key] = { ...row.selection, enabled };
-    }
-
-    onGenericTokensChange(nextGenericTokens);
+    onGenericTokensChange(setRowsEnabled(genericTokens, genericRows, enabled));
   };
 
   return <CounterPanel title="Guild tokens" rows={rows} onToggleAll={toggleAll} />;

@@ -1,6 +1,6 @@
 import { TokenSpec } from "../../types";
+import { buildCrestDiscTokenSpec } from "./crestDiscTokenSpec";
 import { SharedConfig } from "./tokenItem";
-import { buildIconSpec, guildCrestScale, sharedTokenFields } from "./tokenSpecParts";
 
 // A single, identical, unnumbered token: Influence and Momentum are physical chips you stack to
 // count, so the selection's copies count is the quantity to print rather than a range of distinct
@@ -13,17 +13,10 @@ export const buildInfluenceTokenSpec = (
   guildIconScale: number,
   sharedConfig: SharedConfig,
 ): TokenSpec => {
-  const iconScale =
-    sharedConfig.discToken.crestScale *
-    guildCrestScale(sharedConfig.influenceIconId, guildIconId, guildIconScale);
-
-  return {
-    version: 1,
-    shape: sharedConfig.discShape,
-    textLayout: "flat",
-    lines: [],
-    icons: [buildIconSpec(sharedConfig.influenceIconId, "center", iconScale, sharedConfig)],
-    decorations: [],
-    ...sharedTokenFields(sharedConfig),
-  };
+  return buildCrestDiscTokenSpec(
+    sharedConfig.influenceIconId,
+    guildIconId,
+    guildIconScale,
+    sharedConfig,
+  );
 };
