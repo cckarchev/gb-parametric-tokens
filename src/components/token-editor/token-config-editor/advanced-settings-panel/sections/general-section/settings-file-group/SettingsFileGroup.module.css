@@ -7,6 +7,6 @@
 }
 
 .error {
-  composes: errorText from "../../../../styles/errorText.module.css";
+  composes: errorText from "../../../../../../../styles/errorText.module.css";
   margin: 0;
 }

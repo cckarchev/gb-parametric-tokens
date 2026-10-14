@@ -2,7 +2,7 @@ import { Panel } from "@/components/primitives/panel/Panel";
 import { SelectAllCheckbox } from "@/components/primitives/SelectAllCheckbox";
 import { CounterSelection, MIN_COPIES } from "@/core/token/catalog/tokenItems/tokenItem";
 
-import { CounterCountField } from "./CounterCountField";
+import { CountField } from "./CountField";
 
 // One checkbox-plus-copies row, whatever selection field it is backed by.
 export type CounterRow = {
@@ -29,7 +29,7 @@ export const CounterPanel = ({ title, rows, onToggleAll }: CounterPanelProps) =>
       title={title}
       headerAccessory={<SelectAllCheckbox checked={allEnabled} onChange={onToggleAll} />}>
       {rows.map((row) => (
-        <CounterCountField
+        <CountField
           key={row.key}
           label={row.label}
           enabled={row.selection.enabled}

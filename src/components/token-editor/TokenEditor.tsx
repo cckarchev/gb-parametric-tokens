@@ -1,14 +1,14 @@
 import { TokenSelection } from "@/core/token/catalog/tokenItems/tokenItem";
 import { useTokenGenerator } from "@/hooks/useTokenGenerator";
 
-import { CounterRecordList } from "../CounterRecordList";
-import { CharacterTokenList } from "../character-token-list/CharacterTokenList";
-import { ExportPanel } from "../export-panel/ExportPanel";
-import { GuildTokenList } from "../GuildTokenList";
-import { GuildSelector } from "../guild-selector/GuildSelector";
-import { TokenConfigEditor } from "../token-config-editor/TokenConfigEditor";
-import { TokenPreview } from "../token-preview/TokenPreview";
+import { CounterRecordList } from "./CounterRecordList";
+import { CharacterTokenList } from "./character-token-list/CharacterTokenList";
+import { ExportPanel } from "./export-panel/ExportPanel";
+import { GuildTokenList } from "./GuildTokenList";
+import { GuildSelector } from "./guild-selector/GuildSelector";
 import styles from "./TokenEditor.module.css";
+import { TokenConfigEditor } from "./token-config-editor/TokenConfigEditor";
+import { TokenPreview } from "./token-preview/TokenPreview";
 
 const MAX_CONDITION_COPIES = 12;
 const MAX_GAME_PLAN_COPIES = 1;

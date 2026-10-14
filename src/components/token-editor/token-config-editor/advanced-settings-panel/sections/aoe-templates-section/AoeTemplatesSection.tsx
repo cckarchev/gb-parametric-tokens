@@ -3,10 +3,10 @@ import { DEFAULT_SHARED_CONFIG } from "@/core/token/catalog/tokenItems/defaultSh
 import { AoeTuning } from "@/core/token/catalog/tokenItems/tokenItem";
 
 import { SectionPanel, SectionProps } from "../section-panel/SectionPanel";
-import { AOE_TEMPLATE_VARIANT_OPTIONS } from "./aoeTemplateVariantOptions";
 import { CompactDiscFields } from "./CompactDiscFields";
 import { CrowfootFields } from "./CrowfootFields";
 import { RingFields } from "./RingFields";
+import { AOE_TEMPLATE_VARIANT_OPTIONS } from "./variantOptions";
 
 // The variant selector, then only the selected variant's fields. The 3″ and 1″ diameters are
 // game rules, not settings, so they never appear here.

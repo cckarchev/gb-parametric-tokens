@@ -2,11 +2,11 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import { CounterCountField } from "./CounterCountField";
+import { CountField } from "./CountField";
 
-const renderField = (overrides: Partial<Parameters<typeof CounterCountField>[0]> = {}) => {
+const renderField = (overrides: Partial<Parameters<typeof CountField>[0]> = {}) => {
   return render(
-    <CounterCountField
+    <CountField
       label="Influence tokens"
       enabled={false}
       onEnabledChange={vi.fn()}
@@ -19,7 +19,7 @@ const renderField = (overrides: Partial<Parameters<typeof CounterCountField>[0]>
   );
 };
 
-describe("CounterCountField", () => {
+describe("CountField", () => {
   it("reflects the checkbox and copies state", () => {
     renderField({ enabled: true, copies: 5 });
 

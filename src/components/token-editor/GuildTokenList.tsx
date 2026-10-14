@@ -2,7 +2,7 @@ import { GuildCatalog } from "@/core/token/catalog/catalogTypes";
 import { CounterSelection, DISABLED_COUNTER } from "@/core/token/catalog/tokenItems/tokenItem";
 
 import { CounterPanel, CounterRow } from "./counter-panel/CounterPanel";
-import { setRowsEnabled } from "./counter-panel/setRowsEnabled";
+import { setRowsEnabled } from "./setRowsEnabled";
 
 type GuildTokenListProps = {
   catalog: GuildCatalog;

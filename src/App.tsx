@@ -1,7 +1,7 @@
 import { MouseEvent } from "react";
 
 import { navigateTo } from "@/browser/navigateTo";
-import { TokenEditor } from "@/components/token/token-editor/TokenEditor";
+import { TokenEditor } from "@/components/token-editor/TokenEditor";
 
 import styles from "./App.module.css";
 

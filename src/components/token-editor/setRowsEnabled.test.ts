@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { CounterRow } from "./CounterPanel";
+import { CounterRow } from "./counter-panel/CounterPanel";
 import { setRowsEnabled } from "./setRowsEnabled";
 
 const MAX_COPIES = 6;

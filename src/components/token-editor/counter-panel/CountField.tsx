@@ -2,7 +2,7 @@ import { CheckboxField } from "@/components/primitives/checkbox-field/CheckboxFi
 import { NumberField } from "@/components/primitives/number-field/NumberField";
 import styles from "@/styles/listRow.module.css";
 
-type CounterCountFieldProps = {
+type CountFieldProps = {
   label: string;
   enabled: boolean;
   onEnabledChange: (enabled: boolean) => void;
@@ -16,7 +16,7 @@ type CounterCountFieldProps = {
 // copies, the same pattern CharacterTokenList uses for a per-token copies count. The stepper
 // stays disabled, but keeps showing its last value, while unchecked, so re-checking restores
 // it instead of resetting to the field's minimum.
-export const CounterCountField = ({
+export const CountField = ({
   label,
   enabled,
   onEnabledChange,
@@ -24,7 +24,7 @@ export const CounterCountField = ({
   onCopiesChange,
   min,
   max,
-}: CounterCountFieldProps) => {
+}: CountFieldProps) => {
   return (
     <div className={styles.listRow}>
       <CheckboxField label={label} checked={enabled} onChange={onEnabledChange} />
