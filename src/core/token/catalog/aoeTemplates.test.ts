@@ -4,7 +4,7 @@ import aoeTemplatesData from "@/data/aoeTemplates.json";
 import charactersData from "@/data/characters.json";
 
 import { resolveAoeTemplate } from "./aoeTemplates";
-import { CatalogCharacter } from "./catalogTypes";
+import type { CatalogCharacter } from "./catalogTypes";
 
 // Biome's useNamingConvention default for identifiers: lower camelCase, ASCII letters and digits.
 const CAMEL_CASE_ID = /^[a-z][a-zA-Z0-9]*$/;
@@ -46,14 +46,18 @@ describe("aoeTemplates.json", () => {
   it("only lets characters reference template ids that exist", () => {
     const knownIds = new Set(aoeTemplatesData.map((template) => template.id));
     const unknownReferences = characters.flatMap((character) =>
-      (character.aoeTemplates ?? []).filter((templateId) => !knownIds.has(templateId)),
+      (character.aoeTemplates ?? []).filter(
+        (templateId) => !knownIds.has(templateId),
+      ),
     );
 
     expect(unknownReferences).toEqual([]);
   });
 
   it("gives every template at least one owner", () => {
-    const referencedIds = new Set(characters.flatMap((character) => character.aoeTemplates ?? []));
+    const referencedIds = new Set(
+      characters.flatMap((character) => character.aoeTemplates ?? []),
+    );
     const orphanIds = aoeTemplatesData
       .map((template) => template.id)
       .filter((id) => !referencedIds.has(id));

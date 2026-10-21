@@ -1,4 +1,4 @@
-import { ColorGroupSpec } from "../types";
+import type { ColorGroupSpec } from "../types";
 
 export const BASE_COLOR_GROUP_ID = "base";
 
@@ -10,9 +10,8 @@ const FALLBACK_DISPLAY_COLOR = "#CCCCCC";
 
 type ColorGroupDisplay = { name: string; color: string };
 
-export const resolveColorGroupId = (colorGroup?: string): string => {
-  return colorGroup ?? BASE_COLOR_GROUP_ID;
-};
+export const resolveColorGroupId = (colorGroup?: string): string =>
+  colorGroup ?? BASE_COLOR_GROUP_ID;
 
 export const resolveColorGroupDisplay = (
   colorGroupId: string,

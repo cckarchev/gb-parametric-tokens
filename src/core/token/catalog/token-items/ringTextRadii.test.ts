@@ -9,7 +9,9 @@ describe("computeRingTextRadii", () => {
     const radii = computeRingTextRadii(20, 1, 2.2, DEFAULT_DISPLAY_FONT_ID);
 
     expect(radii.bottomMm).toBeCloseTo(9);
-    expect(radii.topMm).toBeCloseTo(9 - estimateAscentMm(2.2, DEFAULT_DISPLAY_FONT_ID));
+    expect(radii.topMm).toBeCloseTo(
+      9 - estimateAscentMm(2.2, DEFAULT_DISPLAY_FONT_ID),
+    );
   });
 
   it("keeps the text's distance from the rim when the disc grows", () => {

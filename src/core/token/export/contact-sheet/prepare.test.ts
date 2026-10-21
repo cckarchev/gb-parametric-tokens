@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 
-import { ShapeSpec, Vec2 } from "../../types";
+import type { ShapeSpec, Vec2 } from "../../types";
 import { groupDiscItemsByDiameter, prepareSection } from "./prepare";
-import { FlippedContactSheetItem } from "./types";
+import type { FlippedContactSheetItem } from "./types";
 
 const CELL_PADDING_MM = 2;
 const ARC_SHAPE: ShapeSpec = {
@@ -12,22 +12,24 @@ const ARC_SHAPE: ShapeSpec = {
   studDiameterMm: 12,
 };
 
-const squareContour = (minMm: number, maxMm: number): Vec2[] => {
-  return [
-    [minMm, minMm],
-    [maxMm, minMm],
-    [maxMm, maxMm],
-    [minMm, maxMm],
-  ];
-};
+const squareContour = (minMm: number, maxMm: number): Vec2[] => [
+  [minMm, minMm],
+  [maxMm, minMm],
+  [maxMm, maxMm],
+  [minMm, maxMm],
+];
 
-const buildItem = (shape: ShapeSpec, baseContours: Vec2[][]): FlippedContactSheetItem => {
-  return { shape, baseContours, reliefContoursByColorGroup: new Map() };
-};
+const buildItem = (
+  shape: ShapeSpec,
+  baseContours: Vec2[][],
+): FlippedContactSheetItem => ({
+  shape,
+  baseContours,
+  reliefContoursByColorGroup: new Map(),
+});
 
-const disc = (diameterMm: number): FlippedContactSheetItem => {
-  return buildItem({ type: "disc", diameterMm }, [squareContour(0, diameterMm)]);
-};
+const disc = (diameterMm: number): FlippedContactSheetItem =>
+  buildItem({ type: "disc", diameterMm }, [squareContour(0, diameterMm)]);
 
 describe("groupDiscItemsByDiameter", () => {
   it("groups discs by diameter, in the order each diameter first appears", () => {
@@ -44,7 +46,11 @@ describe("groupDiscItemsByDiameter", () => {
 describe("prepareSection", () => {
   it("sizes a grid-vertex disc cell to the biggest item plus padding, rounded up to 20mm", () => {
     // Widest item 12mm + 2 * 2mm padding = 16mm, rounded up to the 20mm vertex step.
-    const prepared = prepareSection([disc(10), disc(12)], CELL_PADDING_MM, true);
+    const prepared = prepareSection(
+      [disc(10), disc(12)],
+      CELL_PADDING_MM,
+      true,
+    );
 
     expect(prepared.cellWidthMm).toBe(20);
     expect(prepared.cellHeightMm).toBe(20);
@@ -108,7 +114,12 @@ describe("prepareSection", () => {
     const left = buildItem(ARC_SHAPE, [squareContour(-5, 5)]);
     const right = buildItem(ARC_SHAPE, [squareContour(0, 15)]);
 
-    const prepared = prepareSection([left, right], CELL_PADDING_MM, false, false);
+    const prepared = prepareSection(
+      [left, right],
+      CELL_PADDING_MM,
+      false,
+      false,
+    );
 
     expect(prepared.cellWidthMm).toBe(30);
     expect(prepared.arcLeftMarginMm).toBe(-7);

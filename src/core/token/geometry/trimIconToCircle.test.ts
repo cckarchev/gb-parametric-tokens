@@ -1,14 +1,13 @@
 import { describe, expect, it } from "vitest";
 
-import { Vec2 } from "../types";
+import type { Vec2 } from "../types";
 import { trimIconToCircle } from "./trimIconToCircle";
 
-const maxRadius = (contours: Vec2[][]): number => {
-  return Math.max(...contours.flat().map(([x, y]) => Math.hypot(x, y)));
-};
+const maxRadius = (contours: Vec2[][]): number =>
+  Math.max(...contours.flat().map(([x, y]) => Math.hypot(x, y)));
 
-const totalArea = (contours: Vec2[][]): number => {
-  return contours.reduce((sum, contour) => {
+const totalArea = (contours: Vec2[][]): number =>
+  contours.reduce((sum, contour) => {
     let area = 0;
 
     for (let i = 0; i < contour.length; i++) {
@@ -20,7 +19,6 @@ const totalArea = (contours: Vec2[][]): number => {
 
     return sum + Math.abs(area) / 2;
   }, 0);
-};
 
 describe("trimIconToCircle", () => {
   it("leaves a shape that already sits within the circle untouched", async () => {

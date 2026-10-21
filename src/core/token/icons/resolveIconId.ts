@@ -1,4 +1,4 @@
-import { ManifestEntry } from "./iconManifest";
+import type { ManifestEntry } from "./iconManifest";
 
 type ResolveIconIdResult = { resolvedId: string; substituted: boolean };
 

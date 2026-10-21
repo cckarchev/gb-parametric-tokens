@@ -4,11 +4,15 @@ import { describeError } from "./describeError";
 
 describe("describeError", () => {
   it("uses the message of a real Error", () => {
-    expect(describeError(new Error("Font failed to load"))).toBe("Font failed to load");
+    expect(describeError(new Error("Font failed to load"))).toBe(
+      "Font failed to load",
+    );
   });
 
   it("uses the message of an Error subclass", () => {
-    expect(describeError(new TypeError("not a function"))).toBe("not a function");
+    expect(describeError(new TypeError("not a function"))).toBe(
+      "not a function",
+    );
   });
 
   it("stringifies a thrown value that is not an Error", () => {

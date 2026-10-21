@@ -1,6 +1,6 @@
-import { Bounds } from "../../geometry/computeBounds";
-import { ReliefComponent } from "../../mesh/reliefComponent";
-import { ShapeSpec, Vec2 } from "../../types";
+import type { Bounds } from "../../geometry/computeBounds";
+import type { ReliefComponent } from "../../mesh/reliefComponent";
+import type { ShapeSpec, Vec2 } from "../../types";
 
 export type ContactSheetItem = {
   shape: ShapeSpec;
@@ -22,7 +22,11 @@ export type FlippedContactSheetItem = {
   reason?: string;
 };
 
-export type SectionLayout = { cellsXml: string; widthMm: number; heightMm: number };
+export type SectionLayout = {
+  cellsXml: string;
+  widthMm: number;
+  heightMm: number;
+};
 
 // A section's cell size, worked out before any item is placed so the sheet can decide how many
 // columns fit. The arc margins stay 0 for a disc group.

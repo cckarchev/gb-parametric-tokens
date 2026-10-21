@@ -13,16 +13,18 @@ export const CIRCLE_ANCHOR_Y_SVG = MODEL_RADIUS_MM;
 
 // A visual scale reference only, never part of the printed model. Callers emit it before the
 // token's paths, so the token is drawn on top.
-export const buildBaseReferenceCircleSvg = (centerXSvg: number, centerYSvg: number): string => {
-  return [
+export const buildBaseReferenceCircleSvg = (
+  centerXSvg: number,
+  centerYSvg: number,
+): string =>
+  [
     '<g data-role="base-reference-circle">',
     `<circle cx="${centerXSvg}" cy="${centerYSvg}" r="${MODEL_RADIUS_MM}" fill="${FILL_COLOR}" fill-opacity="${FILL_OPACITY}" />`,
     "</g>",
   ].join("");
-};
 
 // Callers use this to grow their viewBox/cell height so the circle never gets clipped or
 // forces the token upward to make room, instead of guessing at extra padding.
-export const computeBaseReferenceCircleBottomYSvg = (centerYSvg: number): number => {
-  return centerYSvg + MODEL_RADIUS_MM;
-};
+export const computeBaseReferenceCircleBottomYSvg = (
+  centerYSvg: number,
+): number => centerYSvg + MODEL_RADIUS_MM;

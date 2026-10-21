@@ -31,13 +31,15 @@ const decodeGuildId = (encodedGuildId: string): string | undefined => {
 export const guildIdFromPathname = (pathname: string): string | undefined => {
   const segments = pathname.split("/").filter((segment) => segment.length > 0);
   const [routeSegment, encodedGuildId] = segments;
-  const isGenericRoute = segments.length === 1 && routeSegment === GENERIC_CATALOG_ID;
+  const isGenericRoute =
+    segments.length === 1 && routeSegment === GENERIC_CATALOG_ID;
 
   if (isGenericRoute) {
     return GENERIC_CATALOG_ID;
   }
 
-  const isGuildRoute = segments.length === 2 && routeSegment === GUILD_ROUTE_SEGMENT;
+  const isGuildRoute =
+    segments.length === 2 && routeSegment === GUILD_ROUTE_SEGMENT;
 
   if (!isGuildRoute) {
     return undefined;

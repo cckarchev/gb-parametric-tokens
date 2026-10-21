@@ -3,7 +3,7 @@ import { fireEvent, render, screen, within } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
 import { DEFAULT_SHARED_CONFIG } from "@/core/token/catalog/token-items/defaultSharedConfig";
-import { TokenSelection } from "@/core/token/catalog/token-items/tokenItem";
+import type { TokenSelection } from "@/core/token/catalog/token-items/tokenItem";
 
 vi.mock("@/hooks/useTokenGenerator", () => ({ useTokenGenerator: vi.fn() }));
 
@@ -31,9 +31,19 @@ const baseGenerator = {
   sharedConfig: {
     ...DEFAULT_SHARED_CONFIG,
     printProfileId: "fdm-04",
-    arcShape: { type: "arc", ribbonWidthMm: 15, ribbonLengthMm: 20, studDiameterMm: 24 },
+    arcShape: {
+      type: "arc",
+      ribbonWidthMm: 15,
+      ribbonLengthMm: 20,
+      studDiameterMm: 24,
+    },
     discShape: { type: "disc", diameterMm: 25 },
-    fitPolicy: { minTracking: 0, maxTracking: 0.3, minScale: 0.7, allowTwoLines: true },
+    fitPolicy: {
+      minTracking: 0,
+      maxTracking: 0.3,
+      minScale: 0.7,
+      allowTwoLines: true,
+    },
     colorGroups: [],
   },
   setSharedConfig: vi.fn(),
@@ -80,7 +90,9 @@ describe("TokenEditor", () => {
 
     render(<TokenEditor />);
 
-    expect(screen.queryByRole("group", { name: "Guilds" })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("group", { name: "Guilds" }),
+    ).not.toBeInTheDocument();
     expect(screen.getByLabelText("Influence tokens")).toBeInTheDocument();
   });
 
@@ -94,7 +106,9 @@ describe("TokenEditor", () => {
 
     render(<TokenEditor />);
 
-    expect(screen.getByText("Failed to load catalog: Not Found")).toBeInTheDocument();
+    expect(
+      screen.getByText("Failed to load catalog: Not Found"),
+    ).toBeInTheDocument();
   });
 
   it("renders the catalog-dependent sections once a catalog is loaded", () => {
@@ -136,7 +150,13 @@ describe("TokenEditor", () => {
         genericTokens: [],
         conditions: [],
         appliedConditionIds: [],
-        gamePlans: [{ id: "extraShot", name: "Extra Shot", effect: "+1 TAC, free Sprint" }],
+        gamePlans: [
+          {
+            id: "extraShot",
+            name: "Extra Shot",
+            effect: "+1 TAC, free Sprint",
+          },
+        ],
       },
     });
 
@@ -171,17 +191,28 @@ describe("TokenEditor", () => {
 
     render(<TokenEditor />);
 
-    const guildTokensPanel = screen.getByText("Guild tokens").closest("fieldset");
+    const guildTokensPanel = screen
+      .getByText("Guild tokens")
+      .closest("fieldset");
 
-    fireEvent.click(within(guildTokensPanel!).getByLabelText("Select all"));
+    if (!guildTokensPanel) {
+      throw new Error("expected the guild tokens panel");
+    }
+
+    fireEvent.click(within(guildTokensPanel).getByLabelText("Select all"));
 
     expect(setSelection).toHaveBeenCalledTimes(4);
 
-    const finalSelection = setSelection.mock.calls.reduce((selection: TokenSelection, call) => {
-      const update = call[0] as TokenSelection | ((current: TokenSelection) => TokenSelection);
+    const finalSelection = setSelection.mock.calls.reduce(
+      (selection: TokenSelection, call) => {
+        const update = call[0] as
+          | TokenSelection
+          | ((current: TokenSelection) => TokenSelection);
 
-      return typeof update === "function" ? update(selection) : update;
-    }, baseGenerator.selection);
+        return typeof update === "function" ? update(selection) : update;
+      },
+      baseGenerator.selection,
+    );
 
     expect(finalSelection.influence.enabled).toBe(true);
     expect(finalSelection.momentum.enabled).toBe(true);

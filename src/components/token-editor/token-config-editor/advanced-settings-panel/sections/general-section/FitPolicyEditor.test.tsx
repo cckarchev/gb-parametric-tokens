@@ -29,7 +29,9 @@ describe("FitPolicyEditor", () => {
 
     render(<FitPolicyEditor fitPolicy={baseFitPolicy} onChange={onChange} />);
 
-    fireEvent.change(screen.getByLabelText("Min scale"), { target: { value: "0.5" } });
+    fireEvent.change(screen.getByLabelText("Min scale"), {
+      target: { value: "0.5" },
+    });
 
     expect(onChange).toHaveBeenCalledWith({ ...baseFitPolicy, minScale: 0.5 });
   });
@@ -41,6 +43,9 @@ describe("FitPolicyEditor", () => {
 
     await userEvent.click(screen.getByLabelText("Allow two lines"));
 
-    expect(onChange).toHaveBeenCalledWith({ ...baseFitPolicy, allowTwoLines: false });
+    expect(onChange).toHaveBeenCalledWith({
+      ...baseFitPolicy,
+      allowTwoLines: false,
+    });
   });
 });

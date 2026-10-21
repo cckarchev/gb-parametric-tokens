@@ -1,5 +1,8 @@
-import { Vec2 } from "../types";
+import type { Vec2 } from "../types";
 import { DEGREES_PER_RADIAN } from "./angleConventions";
+
+const FULL_TURN_DEG = 360;
+const HALF_TURN_DEG = 180;
 
 // Edges are walked in steps this long, so a long straight crest edge that crosses the band with
 // no corner inside it still counts.
@@ -13,25 +16,32 @@ const sampleEdge = (from: Vec2, to: Vec2): Vec2[] => {
   for (let step = 0; step < stepCount; step++) {
     const t = step / stepCount;
 
-    samples.push([from[0] + (to[0] - from[0]) * t, from[1] + (to[1] - from[1]) * t]);
+    samples.push([
+      from[0] + (to[0] - from[0]) * t,
+      from[1] + (to[1] - from[1]) * t,
+    ]);
   }
 
   return samples;
 };
 
-const sampleContour = (contour: Vec2[]): Vec2[] => {
-  return contour.flatMap((point, index) => {
+const sampleContour = (contour: Vec2[]): Vec2[] =>
+  contour.flatMap((point, index) => {
     const next = contour[(index + 1) % contour.length];
 
     return sampleEdge(point, next);
   });
-};
 
 // Angle between two directions, folded into 0..180 so either side of the center reads the same.
-const angularDistanceDeg = (angleDeg: number, centerAngleDeg: number): number => {
-  const differenceDeg = Math.abs(angleDeg - centerAngleDeg) % 360;
+const angularDistanceDeg = (
+  angleDeg: number,
+  centerAngleDeg: number,
+): number => {
+  const differenceDeg = Math.abs(angleDeg - centerAngleDeg) % FULL_TURN_DEG;
 
-  return differenceDeg > 180 ? 360 - differenceDeg : differenceDeg;
+  return differenceDeg > HALF_TURN_DEG
+    ? FULL_TURN_DEG - differenceDeg
+    : differenceDeg;
 };
 
 // The sweep, centered on centerAngleDeg, that a line of text between minRadiusMm and maxRadiusMm

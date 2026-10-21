@@ -1,4 +1,4 @@
-import { AoeTuning } from "@/core/token/catalog/token-items/tokenItem";
+import type { AoeTuning } from "@/core/token/catalog/token-items/tokenItem";
 
 export type AoeFieldsProps = {
   aoe: AoeTuning;

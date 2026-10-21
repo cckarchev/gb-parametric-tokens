@@ -1,10 +1,13 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-import { AvailableGuild, listAvailableGuilds } from "@/browser/listAvailableGuilds";
+import {
+  type AvailableGuild,
+  listAvailableGuilds,
+} from "@/browser/listAvailableGuilds";
 import { loadGuildCatalog } from "@/browser/loadGuildCatalog";
 import { describeError } from "@/core/describeError";
 import { guildIdFromPathname, guildPathname } from "@/core/guildRoute";
-import { GuildCatalog } from "@/core/token/catalog/catalogTypes";
+import type { GuildCatalog } from "@/core/token/catalog/catalogTypes";
 
 // No "loading": every guild's catalog is inlined in the bundle, so selecting one either resolves
 // on the spot or throws on the spot: there is no in-between state to render.
@@ -61,8 +64,8 @@ export const useGuildCatalog = () => {
 
   // Lazy initializer, so a deep link to /guild/<id> renders that guild on the very first paint
   // instead of flashing the empty picker first.
-  const [selectedGuildId, setSelectedGuildId] = useState<string | undefined>(() =>
-    guildIdFromLocation(guilds),
+  const [selectedGuildId, setSelectedGuildId] = useState<string | undefined>(
+    () => guildIdFromLocation(guilds),
   );
 
   // Back/forward only changes the URL; this brings the open guild back in line with it.
@@ -88,7 +91,15 @@ export const useGuildCatalog = () => {
     setSelectedGuildId(guildId);
   }, []);
 
-  const { catalog, catalogStatus, catalogError } = catalogStateFor(selectedGuildId);
+  const { catalog, catalogStatus, catalogError } =
+    catalogStateFor(selectedGuildId);
 
-  return { guilds, selectedGuildId, selectGuild, catalog, catalogStatus, catalogError };
+  return {
+    guilds,
+    selectedGuildId,
+    selectGuild,
+    catalog,
+    catalogStatus,
+    catalogError,
+  };
 };

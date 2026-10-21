@@ -9,21 +9,33 @@ type LineAdvances = {
   kerningsMm: number[];
 };
 
-export const measureAdvances = (font: Font, text: string, sizeMm: number): LineAdvances => {
+export const measureAdvances = (
+  font: Font,
+  text: string,
+  sizeMm: number,
+): LineAdvances => {
   const scaleFactor = sizeMm / font.unitsPerEm;
   const glyphs = [...text].map((character) => font.charToGlyph(character));
 
-  const advancesMm = glyphs.map((glyph) => (glyph.advanceWidth ?? 0) * scaleFactor);
+  const advancesMm = glyphs.map(
+    (glyph) => (glyph.advanceWidth ?? 0) * scaleFactor,
+  );
   const kerningsMm = glyphs
     .slice(1)
-    .map((glyph, index) => font.getKerningValue(glyphs[index], glyph) * scaleFactor);
+    .map(
+      (glyph, index) =>
+        font.getKerningValue(glyphs[index], glyph) * scaleFactor,
+    );
 
   return { advancesMm, kerningsMm };
 };
 
 // Where each glyph's pen starts along the baseline: the running sum of advances and kernings.
 // Callers fold tracking into kerningsMm.
-export const computePenPositions = (advancesMm: number[], kerningsMm: number[]): number[] => {
+export const computePenPositions = (
+  advancesMm: number[],
+  kerningsMm: number[],
+): number[] => {
   const penPositionsMm: number[] = [0];
 
   for (let index = 1; index < advancesMm.length; index++) {

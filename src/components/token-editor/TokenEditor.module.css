@@ -8,7 +8,10 @@
 .layout {
   display: grid;
   /* The settings column has a capped width; the preview takes the rest. */
-  grid-template-columns: 1fr minmax(var(--size-sidebar-min), var(--size-sidebar-max));
+  grid-template-columns: 1fr minmax(
+      var(--size-sidebar-min),
+      var(--size-sidebar-max)
+    );
   gap: var(--space-xl);
   align-items: start;
 }

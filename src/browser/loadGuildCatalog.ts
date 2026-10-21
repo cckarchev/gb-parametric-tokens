@@ -1,4 +1,4 @@
-import { GuildCatalog } from "@/core/token/catalog/catalogTypes";
+import type { GuildCatalog } from "@/core/token/catalog/catalogTypes";
 
 import { selectableCatalogs } from "./guildCatalogs";
 

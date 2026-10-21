@@ -40,7 +40,9 @@ describe("ExportPanel", () => {
 
     renderPanel({ onExport });
 
-    await userEvent.click(screen.getByRole("button", { name: "Download tokens (.3mf)" }));
+    await userEvent.click(
+      screen.getByRole("button", { name: "Download tokens (.3mf)" }),
+    );
 
     expect(onExport).toHaveBeenCalledOnce();
   });
@@ -60,7 +62,11 @@ describe("ExportPanel", () => {
   it("lists each export failure by label and reason", () => {
     renderPanel({
       exportFailures: [
-        { id: "a", label: "Token A", reason: "Fails the minimum stroke width check." },
+        {
+          id: "a",
+          label: "Token A",
+          reason: "Fails the minimum stroke width check.",
+        },
         { id: "b", label: "Token B", reason: "Invalid mesh (status: Error)." },
       ],
     });
@@ -68,7 +74,9 @@ describe("ExportPanel", () => {
     expect(screen.getByRole("alert")).toHaveTextContent(
       "Token A: Fails the minimum stroke width check.",
     );
-    expect(screen.getByRole("alert")).toHaveTextContent("Token B: Invalid mesh (status: Error).");
+    expect(screen.getByRole("alert")).toHaveTextContent(
+      "Token B: Invalid mesh (status: Error).",
+    );
   });
 
   it("shows a neutral checking message while the preview is in flight", () => {
@@ -101,14 +109,30 @@ describe("ExportPanel", () => {
       validCount: 74,
       invalidCount: 3,
       invalidItems: [
-        { id: "a", name: "Beer Token", reason: "1 of 2 details too thin to print." },
-        { id: "b", name: "Marked Target", reason: "1 of 1 detail too thin to print." },
-        { id: "c", name: "Commanding Aura", reason: "3 of 4 details too thin to print." },
+        {
+          id: "a",
+          name: "Beer Token",
+          reason: "1 of 2 details too thin to print.",
+        },
+        {
+          id: "b",
+          name: "Marked Target",
+          reason: "1 of 1 detail too thin to print.",
+        },
+        {
+          id: "c",
+          name: "Commanding Aura",
+          reason: "3 of 4 details too thin to print.",
+        },
       ],
     });
 
-    expect(screen.getByText("3 of 77 tokens need attention.")).toBeInTheDocument();
-    expect(container.querySelector('[class*="statusAttention"]')).not.toBeNull();
+    expect(
+      screen.getByText("3 of 77 tokens need attention."),
+    ).toBeInTheDocument();
+    expect(
+      container.querySelector('[class*="statusAttention"]'),
+    ).not.toBeNull();
   });
 
   it("starts the attention list collapsed", () => {
@@ -116,12 +140,22 @@ describe("ExportPanel", () => {
       validCount: 12,
       invalidCount: 2,
       invalidItems: [
-        { id: "a", name: "Beer Token", reason: "1 of 2 details too thin to print." },
-        { id: "b", name: "Marked Target", reason: "1 of 1 detail too thin to print." },
+        {
+          id: "a",
+          name: "Beer Token",
+          reason: "1 of 2 details too thin to print.",
+        },
+        {
+          id: "b",
+          name: "Marked Target",
+          reason: "1 of 1 detail too thin to print.",
+        },
       ],
     });
 
-    expect(screen.getByText("2 of 14 tokens need attention.")).toBeInTheDocument();
+    expect(
+      screen.getByText("2 of 14 tokens need attention."),
+    ).toBeInTheDocument();
     expect(container.querySelector("details")).not.toHaveAttribute("open");
   });
 
@@ -130,8 +164,16 @@ describe("ExportPanel", () => {
       validCount: 12,
       invalidCount: 2,
       invalidItems: [
-        { id: "a", name: "Beer Token", reason: "1 of 2 details too thin to print." },
-        { id: "b", name: "Marked Target", reason: "1 of 1 detail too thin to print." },
+        {
+          id: "a",
+          name: "Beer Token",
+          reason: "1 of 2 details too thin to print.",
+        },
+        {
+          id: "b",
+          name: "Marked Target",
+          reason: "1 of 1 detail too thin to print.",
+        },
       ],
     });
 
@@ -139,15 +181,25 @@ describe("ExportPanel", () => {
 
     const list = screen.getByRole("list", { name: "Tokens needing attention" });
 
-    expect(list).toHaveTextContent("Beer Token1 of 2 details too thin to print.");
-    expect(list).toHaveTextContent("Marked Target1 of 1 detail too thin to print.");
+    expect(list).toHaveTextContent(
+      "Beer Token1 of 2 details too thin to print.",
+    );
+    expect(list).toHaveTextContent(
+      "Marked Target1 of 1 detail too thin to print.",
+    );
   });
 
   it("sets an ungrouped token's own name apart from its reason with its own element", async () => {
     renderPanel({
       validCount: 12,
       invalidCount: 1,
-      invalidItems: [{ id: "a", name: "Beer Token", reason: "1 of 2 details too thin to print." }],
+      invalidItems: [
+        {
+          id: "a",
+          name: "Beer Token",
+          reason: "1 of 2 details too thin to print.",
+        },
+      ],
     });
 
     await userEvent.click(screen.getByText("1 of 13 tokens need attention."));
@@ -182,13 +234,19 @@ describe("ExportPanel", () => {
 
     const list = screen.getByRole("list", { name: "Tokens needing attention" });
 
-    expect(list).toHaveTextContent("Chef's Special: 18 of 36 details too thin to print.");
-    expect(list).toHaveTextContent("Chilli Cook Out: 19 of 37 details too thin to print.");
+    expect(list).toHaveTextContent(
+      "Chef's Special: 18 of 36 details too thin to print.",
+    );
+    expect(list).toHaveTextContent(
+      "Chilli Cook Out: 19 of 37 details too thin to print.",
+    );
   });
 
   it("shows no attention list once nothing is invalid", () => {
     renderPanel({ validCount: 12 });
 
-    expect(screen.queryByRole("list", { name: "Tokens needing attention" })).toBeNull();
+    expect(
+      screen.queryByRole("list", { name: "Tokens needing attention" }),
+    ).toBeNull();
   });
 });

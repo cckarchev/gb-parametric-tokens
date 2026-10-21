@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { TokenPart } from "../../mesh/tokenPart";
+import type { TokenPart } from "../../mesh/tokenPart";
 import {
   buildItemXml,
   buildMeshObjectXml,
@@ -80,7 +80,9 @@ describe("buildMultiVolumeMeshXml", () => {
 
     expect(objectMaterialIndex).toBe(2);
     expect(meshXml).toContain('<triangle v1="0" v2="1" v3="2"/>');
-    expect(meshXml).toContain('<triangle v1="3" v2="4" v3="5" pid="1" p1="1"/>');
+    expect(meshXml).toContain(
+      '<triangle v1="3" v2="4" v3="5" pid="1" p1="1"/>',
+    );
   });
 
   it("reports the triangle range each volume occupies in the merged mesh", () => {

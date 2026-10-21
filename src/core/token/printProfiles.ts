@@ -1,4 +1,4 @@
-import { PrintProfile } from "./types";
+import type { PrintProfile } from "./types";
 
 export const PRINT_PROFILES: Record<string, PrintProfile> = {
   resin: {

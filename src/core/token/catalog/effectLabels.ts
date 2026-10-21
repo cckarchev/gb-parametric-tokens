@@ -1,4 +1,4 @@
-import { CatalogEffect } from "./catalogTypes";
+import type { CatalogEffect } from "./catalogTypes";
 
 // One ability can offer several outcomes, each its own effect sharing the ability's printed name
 // (see CatalogEffect), so a character's list would show the same label twice. Only those

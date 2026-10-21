@@ -1,9 +1,12 @@
 import type { CrossSection } from "manifold-3d";
 
-import { OFFSET_ARC_SEGMENTS, OFFSET_MITER_LIMIT } from "../geometry/circleResolution";
+import {
+  OFFSET_ARC_SEGMENTS,
+  OFFSET_MITER_LIMIT,
+} from "../geometry/circleResolution";
 import { getManifoldModule } from "../mesh/manifoldModule";
-import { ReliefComponentSource } from "../mesh/reliefComponent";
-import { Vec2 } from "../types";
+import type { ReliefComponentSource } from "../mesh/reliefComponent";
+import type { Vec2 } from "../types";
 import type { LayoutGeometryFailure } from "./validateLayoutGeometry";
 
 type MinStrokeWidthValidation = {
@@ -20,9 +23,13 @@ export const validateMinStrokeWidth = async (
   const { CrossSection } = wasm;
 
   const erosionRadiusMm = -minStrokeWidthMm / 2;
-  const erode = (section: CrossSection): CrossSection => {
-    return section.offset(erosionRadiusMm, "Round", OFFSET_MITER_LIMIT, OFFSET_ARC_SEGMENTS);
-  };
+  const erode = (section: CrossSection): CrossSection =>
+    section.offset(
+      erosionRadiusMm,
+      "Round",
+      OFFSET_MITER_LIMIT,
+      OFFSET_ARC_SEGMENTS,
+    );
 
   const relief = new CrossSection(reliefContours, "Positive");
 
@@ -31,8 +38,12 @@ export const validateMinStrokeWidth = async (
   // counting pieces before and after doesn't work either.
   //
   // decompose() of an empty section returns one empty section, not an empty list.
-  const features = relief.isEmpty() ? [] : relief.decompose().filter((one) => !one.isEmpty());
-  const vanishedFeatureCount = features.filter((feature) => erode(feature).isEmpty()).length;
+  const features = relief.isEmpty()
+    ? []
+    : relief.decompose().filter((one) => !one.isEmpty());
+  const vanishedFeatureCount = features.filter((feature) =>
+    erode(feature).isEmpty(),
+  ).length;
 
   return {
     valid: vanishedFeatureCount === 0,
@@ -60,9 +71,14 @@ type IconOverflowFailure = {
 // Every reason a token can land in the "needs attention" list. computeReliefComponents.ts
 // combines every kind into one list, describeTokenFailures.ts turns it into one reason string
 // per token.
-export type ComponentFailure = StrokeWidthFailure | IconOverflowFailure | LayoutGeometryFailure;
+export type ComponentFailure =
+  | StrokeWidthFailure
+  | IconOverflowFailure
+  | LayoutGeometryFailure;
 
-const describeReliefComponentSource = (source: ReliefComponentSource): string => {
+const describeReliefComponentSource = (
+  source: ReliefComponentSource,
+): string => {
   switch (source.kind) {
     case "text":
       return `Text "${source.text}"`;

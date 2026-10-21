@@ -1,10 +1,10 @@
 import type { Manifold, ManifoldToplevel } from "manifold-3d";
 
-import { StyleSpec } from "../types";
+import type { StyleSpec } from "../types";
 import { BASE_COLOR_GROUP_ID } from "./colorGroups";
 import { groupReliefComponentsByColorGroup } from "./groupReliefComponents";
-import { ReliefComponent } from "./reliefComponent";
-import { TokenPart } from "./tokenPart";
+import type { ReliefComponent } from "./reliefComponent";
+import type { TokenPart } from "./tokenPart";
 
 // Sinks the relief slightly into the base to avoid a coplanar boolean op.
 const RELIEF_OVERLAP_MM = 0.05;
@@ -41,14 +41,19 @@ const inlayReliefIntoBase = (
     }
 
     const footprint = new CrossSection(contours, "Positive");
-    const cutTool = footprint.extrude(cutHeightMm).translate(0, 0, inlayBottomZ);
+    const cutTool = footprint
+      .extrude(cutHeightMm)
+      .translate(0, 0, inlayBottomZ);
     const inlay = footprint.extrude(inlayDepthMm).translate(0, 0, inlayBottomZ);
 
     baseManifold = baseManifold.subtract(cutTool);
     inlayParts.push({ colorGroupId, manifold: inlay });
   }
 
-  return [{ colorGroupId: BASE_COLOR_GROUP_ID, manifold: baseManifold }, ...inlayParts];
+  return [
+    { colorGroupId: BASE_COLOR_GROUP_ID, manifold: baseManifold },
+    ...inlayParts,
+  ];
 };
 
 export const applyReliefToBase = (
@@ -63,14 +68,18 @@ export const applyReliefToBase = (
     // A cut has no volume to color, so every relief contour subtracts whatever its colorGroup.
     // Like an inlay pocket, the cut reaches past the top face only, so its floor sits exactly
     // engraveDepthMm down.
-    const allContours = reliefComponents.flatMap((component) => component.contours);
+    const allContours = reliefComponents.flatMap(
+      (component) => component.contours,
+    );
     const engraveDepthMm = computePocketDepthMm(style);
     const cutHeight = engraveDepthMm + RELIEF_OVERLAP_MM;
     const cutTool = new CrossSection(allContours, "Positive")
       .extrude(cutHeight)
       .translate(0, 0, style.baseThicknessMm - engraveDepthMm);
 
-    return [{ colorGroupId: BASE_COLOR_GROUP_ID, manifold: base.subtract(cutTool) }];
+    return [
+      { colorGroupId: BASE_COLOR_GROUP_ID, manifold: base.subtract(cutTool) },
+    ];
   }
 
   if (style.relief === "inlay") {
@@ -93,5 +102,8 @@ export const applyReliefToBase = (
     }
   }
 
-  return [{ colorGroupId: BASE_COLOR_GROUP_ID, manifold: baseManifold }, ...extraParts];
+  return [
+    { colorGroupId: BASE_COLOR_GROUP_ID, manifold: baseManifold },
+    ...extraParts,
+  ];
 };

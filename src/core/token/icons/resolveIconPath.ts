@@ -1,4 +1,4 @@
-import { ManifestEntry } from "./iconManifest";
+import type { ManifestEntry } from "./iconManifest";
 
 // Where an icon's file actually lives under /icons/, derived from its manifest kind rather than
 // stored per entry: guild crests are nested per guild (room for that guild's own alternates

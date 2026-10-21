@@ -1,10 +1,19 @@
-import { buildGridOverlaySvg, RenderedSvg, SvgBounds } from "../../preview/svgGrid";
-import { ColorGroupSpec } from "../../types";
+import {
+  buildGridOverlaySvg,
+  type RenderedSvg,
+  type SvgBounds,
+} from "../../preview/svgGrid";
+import type { ColorGroupSpec } from "../../types";
 import { flipItem } from "./flip";
 import { roundUpToGridStep } from "./geometry";
 import { layoutPreparedSection } from "./layout";
 import { groupDiscItemsByDiameter, prepareSection } from "./prepare";
-import { ContactSheetItem, FlippedContactSheetItem } from "./types";
+import type {
+  ContactSheetItem,
+  FlippedContactSheetItem,
+  PreparedSection,
+  SectionLayout,
+} from "./types";
 
 // Arc cells get no padding: prepareSection rounds padding plus margin up to the next grid line
 // anyway, so any padding would grow each gap by a whole grid step.
@@ -23,7 +32,88 @@ export type ContactSheetOptions = {
   showBaseReference: boolean;
 };
 
-const DEFAULT_CONTACT_SHEET_OPTIONS: ContactSheetOptions = { showBaseReference: true };
+const DEFAULT_CONTACT_SHEET_OPTIONS: ContactSheetOptions = {
+  showBaseReference: true,
+};
+
+const EMPTY_SHEET: RenderedSvg = {
+  svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 0 0"></svg>',
+  viewBox: { x: 0, y: 0, width: 0, height: 0 },
+};
+
+// One cell per printed copy, so the sheet shows exactly what gets printed. Each item is flipped
+// once and repeated.
+const printedCopies = (items: ContactSheetItem[]): FlippedContactSheetItem[] =>
+  items.flatMap((item) => {
+    const flipped = flipItem(item);
+
+    return new Array<FlippedContactSheetItem>(item.copies).fill(flipped);
+  });
+
+// The disc groups stacked one under the other from startYMm down.
+const layoutDiscGroups = (
+  preparedGroups: PreparedSection[],
+  startYMm: number,
+  columnsFor: (cellWidthMm: number) => number,
+  colorGroups: ColorGroupSpec[],
+  showBaseReference: boolean,
+): SectionLayout[] => {
+  let nextOriginYMm = startYMm;
+
+  return preparedGroups.map((prepared) => {
+    const layout = layoutPreparedSection(
+      prepared,
+      columnsFor(prepared.cellWidthMm),
+      nextOriginYMm,
+      colorGroups,
+      showBaseReference,
+    );
+
+    nextOriginYMm += layout.heightMm;
+
+    return layout;
+  });
+};
+
+// The arc section on top and the disc groups below it, under one grid overlay.
+const assembleSheet = (
+  arcSection: SectionLayout | undefined,
+  discGroupLayouts: SectionLayout[],
+  discSectionStartYMm: number,
+): RenderedSvg => {
+  const discSectionWidthMm = Math.max(
+    0,
+    ...discGroupLayouts.map((layout) => layout.widthMm),
+  );
+  const discSectionHeightMm = discGroupLayouts.reduce(
+    (sum, layout) => sum + layout.heightMm,
+    0,
+  );
+
+  const totalWidthMm = Math.max(arcSection?.widthMm ?? 0, discSectionWidthMm);
+  const totalHeightMm = discSectionStartYMm + discSectionHeightMm;
+  const viewBox: SvgBounds = {
+    x: 0,
+    y: 0,
+    width: totalWidthMm,
+    height: totalHeightMm,
+  };
+  const cellsXml = [
+    arcSection?.cellsXml,
+    ...discGroupLayouts.map((layout) => layout.cellsXml),
+  ]
+    .filter(Boolean)
+    .join("");
+
+  const svg = [
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${totalWidthMm} ${totalHeightMm}">`,
+    buildGridOverlaySvg(viewBox),
+    cellsXml,
+    "</svg>",
+  ].join("\n");
+
+  return { svg, viewBox };
+};
 
 export const buildContactSheetSvg = (
   items: ContactSheetItem[],
@@ -32,28 +122,24 @@ export const buildContactSheetSvg = (
   options: ContactSheetOptions = DEFAULT_CONTACT_SHEET_OPTIONS,
 ): RenderedSvg => {
   if (items.length === 0) {
-    const emptyViewBox: SvgBounds = { x: 0, y: 0, width: 0, height: 0 };
-
-    return {
-      svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 0 0"></svg>',
-      viewBox: emptyViewBox,
-    };
+    return EMPTY_SHEET;
   }
 
-  // One cell per printed copy, so the sheet shows exactly what gets printed. Each item is flipped
-  // once and repeated.
-  const flippedItems = items.flatMap((item) => {
-    const flipped = flipItem(item);
-
-    return new Array<FlippedContactSheetItem>(item.copies).fill(flipped);
-  });
+  const flippedItems = printedCopies(items);
   const arcItems = flippedItems.filter((item) => item.shape.type === "arc");
   const discItems = flippedItems.filter((item) => item.shape.type === "disc");
 
-  const arcCellPaddingMm = options.showBaseReference ? CELL_PADDING_MM : TIGHT_ARC_CELL_PADDING_MM;
+  const arcCellPaddingMm = options.showBaseReference
+    ? CELL_PADDING_MM
+    : TIGHT_ARC_CELL_PADDING_MM;
   const arcPrepared =
     arcItems.length > 0
-      ? prepareSection(arcItems, arcCellPaddingMm, false, options.showBaseReference)
+      ? prepareSection(
+          arcItems,
+          arcCellPaddingMm,
+          false,
+          options.showBaseReference,
+        )
       : undefined;
   const discPreparedGroups = groupDiscItemsByDiameter(discItems).map((group) =>
     prepareSection(group, DISC_CELL_PADDING_MM, true),
@@ -65,9 +151,14 @@ export const buildContactSheetSvg = (
   const referenceCellWidthMm =
     arcPrepared?.cellWidthMm ??
     Math.max(0, ...discPreparedGroups.map((prepared) => prepared.cellWidthMm));
-  const targetWidthMm = Math.min(columns * referenceCellWidthMm, MAX_SHEET_WIDTH_MM);
+  const targetWidthMm = Math.min(
+    columns * referenceCellWidthMm,
+    MAX_SHEET_WIDTH_MM,
+  );
   const columnsToFillTargetWidth = (cellWidthMm: number): number =>
-    cellWidthMm > 0 ? Math.max(1, Math.floor(targetWidthMm / cellWidthMm)) : columns;
+    cellWidthMm > 0
+      ? Math.max(1, Math.floor(targetWidthMm / cellWidthMm))
+      : columns;
 
   const arcSection = arcPrepared
     ? layoutPreparedSection(
@@ -83,37 +174,13 @@ export const buildContactSheetSvg = (
   // intersections, and the arc section's height rarely ends on one.
   const discSectionStartYMm = roundUpToGridStep(arcSection?.heightMm ?? 0);
 
-  let nextDiscGroupOriginYMm = discSectionStartYMm;
-  const discGroupLayouts = discPreparedGroups.map((prepared) => {
-    const layout = layoutPreparedSection(
-      prepared,
-      columnsToFillTargetWidth(prepared.cellWidthMm),
-      nextDiscGroupOriginYMm,
-      colorGroups,
-      options.showBaseReference,
-    );
+  const discGroupLayouts = layoutDiscGroups(
+    discPreparedGroups,
+    discSectionStartYMm,
+    columnsToFillTargetWidth,
+    colorGroups,
+    options.showBaseReference,
+  );
 
-    nextDiscGroupOriginYMm += layout.heightMm;
-
-    return layout;
-  });
-
-  const discSectionWidthMm = Math.max(0, ...discGroupLayouts.map((layout) => layout.widthMm));
-  const discSectionHeightMm = discGroupLayouts.reduce((sum, layout) => sum + layout.heightMm, 0);
-
-  const totalWidthMm = Math.max(arcSection?.widthMm ?? 0, discSectionWidthMm);
-  const totalHeightMm = discSectionStartYMm + discSectionHeightMm;
-  const viewBox: SvgBounds = { x: 0, y: 0, width: totalWidthMm, height: totalHeightMm };
-  const cellsXml = [arcSection?.cellsXml, ...discGroupLayouts.map((layout) => layout.cellsXml)]
-    .filter(Boolean)
-    .join("");
-
-  const svg = [
-    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${totalWidthMm} ${totalHeightMm}">`,
-    buildGridOverlaySvg(viewBox),
-    cellsXml,
-    "</svg>",
-  ].join("\n");
-
-  return { svg, viewBox };
+  return assembleSheet(arcSection, discGroupLayouts, discSectionStartYMm);
 };

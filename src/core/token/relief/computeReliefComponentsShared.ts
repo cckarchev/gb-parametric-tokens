@@ -1,16 +1,29 @@
-import { rotateContours, translateContours } from "../geometry/contourTransforms";
+import {
+  rotateContours,
+  translateContours,
+} from "../geometry/contourTransforms";
 import { growIconOutline } from "../geometry/growIconOutline";
 import { placeIcon } from "../geometry/iconPlacement";
 import { computeRingContour } from "../geometry/ringContour";
 import { trimIconToCircle } from "../geometry/trimIconToCircle";
-import { ReliefComponent } from "../mesh/reliefComponent";
+import type { ReliefComponent } from "../mesh/reliefComponent";
 import { extractPathData } from "../svg/extractPathData";
 import { flattenPath } from "../svg/flattenPath";
 import { normalizeWinding } from "../svg/normalizeWinding";
 import { parsePathData } from "../svg/parsePathData";
-import { DiscShapeSpec, IconSpec, PrintProfile, TokenSpec, Vec2 } from "../types";
+import type {
+  DiscShapeSpec,
+  IconSpec,
+  PrintProfile,
+  TokenSpec,
+  Vec2,
+} from "../types";
 
-export type LoadIconSourceResult = { svgSource: string; resolvedId: string; substituted: boolean };
+export type LoadIconSourceResult = {
+  svgSource: string;
+  resolvedId: string;
+  substituted: boolean;
+};
 export type LoadIconSource = (iconId: string) => Promise<LoadIconSourceResult>;
 
 // How far "grow" extends the body past the icon, in multiples of minStrokeWidthMm. One multiple
@@ -19,9 +32,14 @@ const GROW_MARGIN_MULTIPLIER = 4;
 
 // The flat and ring layouts only ever get a disc spec, but TypeScript can't see the dispatch
 // that guarantees it, so both narrow through this guard.
-export const requireDiscShape = (spec: TokenSpec, callerName: string): DiscShapeSpec => {
+export const requireDiscShape = (
+  spec: TokenSpec,
+  callerName: string,
+): DiscShapeSpec => {
   if (spec.shape.type !== "disc") {
-    throw new Error(`${callerName} requires a disc shape, got "${spec.shape.type}"`);
+    throw new Error(
+      `${callerName} requires a disc shape, got "${spec.shape.type}"`,
+    );
   }
 
   return spec.shape;
@@ -36,10 +54,14 @@ export const buildIconComponent = async (
   warnings: string[],
   rotationDeg = 0,
 ): Promise<ReliefComponent> => {
-  const { svgSource, resolvedId, substituted } = await loadIconSource(icon.iconId);
+  const { svgSource, resolvedId, substituted } = await loadIconSource(
+    icon.iconId,
+  );
 
   if (substituted) {
-    warnings.push(`Icon "${icon.iconId}" not found, using fallback "${resolvedId}".`);
+    warnings.push(
+      `Icon "${icon.iconId}" not found, using fallback "${resolvedId}".`,
+    );
   }
 
   const overflowBehavior = icon.overflowBehavior ?? "none";
@@ -76,7 +98,10 @@ export const buildIconComponent = async (
   // icon's final position.
   const growOutline =
     overflowBehavior === "grow" && overflowsCircle
-      ? await growIconOutline(contours, printProfile.minStrokeWidthMm * GROW_MARGIN_MULTIPLIER)
+      ? await growIconOutline(
+          contours,
+          printProfile.minStrokeWidthMm * GROW_MARGIN_MULTIPLIER,
+        )
       : undefined;
 
   return {
@@ -101,7 +126,14 @@ export const buildCenterIconComponents = (
 
   return Promise.all(
     centerIcons.map((icon) =>
-      buildIconComponent(icon, targetDiameterMm, [0, 0], printProfile, loadIconSource, warnings),
+      buildIconComponent(
+        icon,
+        targetDiameterMm,
+        [0, 0],
+        printProfile,
+        loadIconSource,
+        warnings,
+      ),
     ),
   );
 };
@@ -109,12 +141,11 @@ export const buildCenterIconComponents = (
 // A disc's decorations, the same in the flat and ring layouts.
 export const buildDecorationComponents = (
   decorations: TokenSpec["decorations"],
-): ReliefComponent[] => {
-  return decorations
+): ReliefComponent[] =>
+  decorations
     .filter((decoration) => decoration.type === "ring")
     .map((decoration) => ({
       contours: computeRingContour(decoration.radiusMm, decoration.widthMm),
       colorGroup: decoration.colorGroup,
       source: { kind: "decoration" as const },
     }));
-};

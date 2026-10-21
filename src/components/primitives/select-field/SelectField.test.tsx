@@ -12,7 +12,14 @@ describe("SelectField", () => {
   ];
 
   it("renders every option and reflects the current value", () => {
-    render(<SelectField label="Shape" value="disc" options={options} onChange={vi.fn()} />);
+    render(
+      <SelectField
+        label="Shape"
+        value="disc"
+        options={options}
+        onChange={vi.fn()}
+      />,
+    );
 
     expect(screen.getByLabelText("Shape")).toHaveValue("disc");
     expect(screen.getByRole("option", { name: "Disc" })).toBeInTheDocument();
@@ -22,7 +29,14 @@ describe("SelectField", () => {
   it("reports the selected value when changed", async () => {
     const onChange = vi.fn();
 
-    render(<SelectField label="Shape" value="disc" options={options} onChange={onChange} />);
+    render(
+      <SelectField
+        label="Shape"
+        value="disc"
+        options={options}
+        onChange={onChange}
+      />,
+    );
 
     await userEvent.selectOptions(screen.getByLabelText("Shape"), "Arc");
 

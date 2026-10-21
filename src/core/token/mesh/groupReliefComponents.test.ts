@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { Vec2 } from "../types";
+import type { Vec2 } from "../types";
 import { groupReliefComponentsByColorGroup } from "./groupReliefComponents";
 
 const square = (x: number): Vec2[][] => [
@@ -24,9 +24,17 @@ describe("groupReliefComponentsByColorGroup", () => {
 
   it("keeps distinct colorGroups separate and concatenates same-group contours", () => {
     const grouped = groupReliefComponentsByColorGroup([
-      { source: { kind: "decoration" }, contours: square(0), colorGroup: "accent" },
+      {
+        source: { kind: "decoration" },
+        contours: square(0),
+        colorGroup: "accent",
+      },
       { source: { kind: "decoration" }, contours: square(2) },
-      { source: { kind: "decoration" }, contours: square(4), colorGroup: "accent" },
+      {
+        source: { kind: "decoration" },
+        contours: square(4),
+        colorGroup: "accent",
+      },
     ]);
 
     expect([...grouped.keys()]).toEqual(["accent", "base"]);

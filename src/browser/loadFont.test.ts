@@ -1,14 +1,17 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { DEFAULT_BODY_FONT_ID, findFontEntry, fontFilePath } from "@/core/token/text/fontCatalog";
+import {
+  DEFAULT_BODY_FONT_ID,
+  findFontEntry,
+  fontFilePath,
+} from "@/core/token/text/fontCatalog";
 
 vi.mock("opentype.js", () => ({
   default: { parse: vi.fn((buffer: ArrayBuffer) => ({ parsedFrom: buffer })) },
 }));
 
-const okResponse = (): Response => {
-  return new Response(new ArrayBuffer(8), { status: 200 });
-};
+const okResponse = (): Response =>
+  new Response(new ArrayBuffer(8), { status: 200 });
 
 const fetchMock = vi.fn<typeof fetch>();
 
@@ -48,10 +51,14 @@ describe("loadCatalogFont", () => {
     const { loadCatalogFont } = await import("./loadFont");
 
     fetchMock
-      .mockResolvedValueOnce(new Response(null, { status: 404, statusText: "Not Found" }))
+      .mockResolvedValueOnce(
+        new Response(null, { status: 404, statusText: "Not Found" }),
+      )
       .mockResolvedValueOnce(okResponse());
 
-    await expect(loadCatalogFont(DEFAULT_BODY_FONT_ID)).rejects.toThrow("Not Found");
+    await expect(loadCatalogFont(DEFAULT_BODY_FONT_ID)).rejects.toThrow(
+      "Not Found",
+    );
     await expect(loadCatalogFont(DEFAULT_BODY_FONT_ID)).resolves.toBeDefined();
   });
 });

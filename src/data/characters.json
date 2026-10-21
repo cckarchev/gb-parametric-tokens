@@ -69,7 +69,12 @@
   },
   {
     "name": "Brisket",
-    "effects": ["aboveAndBeyond", "unpredictableMovementUsed", "superShot", "dirtyKnives"]
+    "effects": [
+      "aboveAndBeyond",
+      "unpredictableMovementUsed",
+      "superShot",
+      "dirtyKnives"
+    ]
   },
   {
     "name": "Bucker",
@@ -367,7 +372,12 @@
   },
   {
     "name": "Honour",
-    "effects": ["poisedUsed", "superiorStrategy", "toppingOutArm", "toppingOutInfluence"]
+    "effects": [
+      "poisedUsed",
+      "superiorStrategy",
+      "toppingOutArm",
+      "toppingOutInfluence"
+    ]
   },
   {
     "name": "Hook",
@@ -520,7 +530,13 @@
   },
   {
     "name": "Nomad",
-    "effects": ["unpredictableMovementUsed", "spark", "rouletteMov", "rouletteTac", "rouletteKick"]
+    "effects": [
+      "unpredictableMovementUsed",
+      "spark",
+      "rouletteMov",
+      "rouletteTac",
+      "rouletteKick"
+    ]
   },
   {
     "name": "Oak",
@@ -772,7 +788,12 @@
   },
   {
     "name": "Theron",
-    "effects": ["arrowToTheKnee", "pinned", "sunStrike", "blessingOfTheSunFather"],
+    "effects": [
+      "arrowToTheKnee",
+      "pinned",
+      "sunStrike",
+      "blessingOfTheSunFather"
+    ],
     "aoeTemplates": ["naturesGrowth"]
   },
   {
@@ -890,7 +911,11 @@
   },
   {
     "name": "vSakana",
-    "effects": ["bagOfCoffers", "raiseTheBlackFlagEnemy", "raiseTheBlackFlagAlly"]
+    "effects": [
+      "bagOfCoffers",
+      "raiseTheBlackFlagEnemy",
+      "raiseTheBlackFlagAlly"
+    ]
   },
   {
     "name": "vSiren",
@@ -934,6 +959,10 @@
   },
   {
     "name": "Zarola",
-    "effects": ["unpredictableMovementUsed", "catchingTheScentTac", "catchingTheScentMov"]
+    "effects": [
+      "unpredictableMovementUsed",
+      "catchingTheScentTac",
+      "catchingTheScentMov"
+    ]
   }
 ]

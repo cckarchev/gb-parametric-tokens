@@ -1,7 +1,12 @@
 [
   { "id": "bleed", "name": "Bleed", "iconId": "bleeding" },
   { "id": "burning", "name": "Burning", "iconId": "burning" },
-  { "id": "disease", "name": "Disease", "iconId": "disease", "guilds": ["ratcatchers"] },
+  {
+    "id": "disease",
+    "name": "Disease",
+    "iconId": "disease",
+    "guilds": ["ratcatchers"]
+  },
   { "id": "knockedDown", "name": "Knocked Down", "iconId": "knock-down" },
   { "id": "poison", "name": "Poison", "iconId": "poison" },
   { "id": "snared", "name": "Snared", "iconId": "snared", "iconScale": 1.2 }

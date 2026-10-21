@@ -74,7 +74,9 @@ describe("layoutArcText", () => {
     const font = loadTestFont();
 
     const computeAngularSpanDeg = (contours: [number, number][][]): number => {
-      const angles = contours.flat().map(([x, y]) => Math.atan2(y, x) * (180 / Math.PI));
+      const angles = contours
+        .flat()
+        .map(([x, y]) => Math.atan2(y, x) * (180 / Math.PI));
       return Math.max(...angles) - Math.min(...angles);
     };
 
@@ -91,18 +93,27 @@ describe("layoutArcText", () => {
       "svgYDown",
     );
 
-    expect(computeAngularSpanDeg(withSpace)).toBeGreaterThan(computeAngularSpanDeg(withoutSpace));
+    expect(computeAngularSpanDeg(withSpace)).toBeGreaterThan(
+      computeAngularSpanDeg(withoutSpace),
+    );
   });
 
   it("adds trackingMm as extra spacing between every adjacent pair of glyphs", () => {
     const font = loadTestFont();
 
     const computeAngularSpanDeg = (contours: [number, number][][]): number => {
-      const angles = contours.flat().map(([x, y]) => Math.atan2(y, x) * (180 / Math.PI));
+      const angles = contours
+        .flat()
+        .map(([x, y]) => Math.atan2(y, x) * (180 / Math.PI));
       return Math.max(...angles) - Math.min(...angles);
     };
 
-    const tight = layoutArcText(font, { text: "aaa", sizeMm: 5, radiusMm: 20 }, 0.05, "svgYDown");
+    const tight = layoutArcText(
+      font,
+      { text: "aaa", sizeMm: 5, radiusMm: 20 },
+      0.05,
+      "svgYDown",
+    );
     const tracked = layoutArcText(
       font,
       { text: "aaa", sizeMm: 5, radiusMm: 20, trackingMm: 2 },
@@ -110,7 +121,9 @@ describe("layoutArcText", () => {
       "svgYDown",
     );
 
-    expect(computeAngularSpanDeg(tracked)).toBeGreaterThan(computeAngularSpanDeg(tight));
+    expect(computeAngularSpanDeg(tracked)).toBeGreaterThan(
+      computeAngularSpanDeg(tight),
+    );
   });
 
   // Glyph outlines come y-down, so mathYUp has to flip them before placing them. Without the flip,

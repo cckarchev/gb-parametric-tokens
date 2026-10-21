@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 
-import { ReliefComponent } from "../../mesh/reliefComponent";
+import type { ReliefComponent } from "../../mesh/reliefComponent";
 import { GRID_STEP_MM } from "../../preview/svgGrid";
-import { ColorGroupSpec, ShapeSpec, Vec2 } from "../../types";
+import type { ColorGroupSpec, ShapeSpec, Vec2 } from "../../types";
 import { buildContactSheetSvg } from "./contactSheetSvg";
 
 const discShape: ShapeSpec = { type: "disc", diameterMm: 10 };
@@ -16,8 +16,18 @@ const squareContour = (size: number): Vec2[][] => [
   ],
 ];
 
-const countOccurrences = (haystack: string, needle: string): number => {
-  return haystack.split(needle).length - 1;
+const countOccurrences = (haystack: string, needle: string): number =>
+  haystack.split(needle).length - 1;
+
+// The two numbers a pattern's two capture groups read from the svg.
+const capturedPair = (svg: string, pattern: RegExp): number[] => {
+  const match = svg.match(pattern);
+
+  if (!match) {
+    throw new Error(`expected the svg to match ${pattern}`);
+  }
+
+  return match.slice(1).map(Number);
 };
 
 const colorGroups: ColorGroupSpec[] = [
@@ -39,8 +49,18 @@ describe("buildContactSheetSvg", () => {
 
   it("emits one base path per item, filled with the base color group's color, and no text labels", () => {
     const items = [
-      { shape: discShape, baseContours: squareContour(10), reliefComponents: [], copies: 1 },
-      { shape: discShape, baseContours: squareContour(10), reliefComponents: [], copies: 1 },
+      {
+        shape: discShape,
+        baseContours: squareContour(10),
+        reliefComponents: [],
+        copies: 1,
+      },
+      {
+        shape: discShape,
+        baseContours: squareContour(10),
+        reliefComponents: [],
+        copies: 1,
+      },
     ];
 
     const { svg } = buildContactSheetSvg(items, 2, colorGroups);
@@ -52,10 +72,19 @@ describe("buildContactSheetSvg", () => {
 
   it("emits an extra path per relief component, filled with its resolved color group color", () => {
     const reliefComponents: ReliefComponent[] = [
-      { source: { kind: "decoration" }, contours: squareContour(4), colorGroup: "text" },
+      {
+        source: { kind: "decoration" },
+        contours: squareContour(4),
+        colorGroup: "text",
+      },
     ];
     const items = [
-      { shape: discShape, baseContours: squareContour(10), reliefComponents, copies: 1 },
+      {
+        shape: discShape,
+        baseContours: squareContour(10),
+        reliefComponents,
+        copies: 1,
+      },
     ];
 
     const { svg } = buildContactSheetSvg(items, 1, colorGroups);
@@ -66,9 +95,24 @@ describe("buildContactSheetSvg", () => {
 
   it("sizes the viewBox from the grid of cells, wrapping to a new row per the columns count, and returns it as numbers", () => {
     const items = [
-      { shape: discShape, baseContours: squareContour(10), reliefComponents: [], copies: 1 },
-      { shape: discShape, baseContours: squareContour(10), reliefComponents: [], copies: 1 },
-      { shape: discShape, baseContours: squareContour(10), reliefComponents: [], copies: 1 },
+      {
+        shape: discShape,
+        baseContours: squareContour(10),
+        reliefComponents: [],
+        copies: 1,
+      },
+      {
+        shape: discShape,
+        baseContours: squareContour(10),
+        reliefComponents: [],
+        copies: 1,
+      },
+      {
+        shape: discShape,
+        baseContours: squareContour(10),
+        reliefComponents: [],
+        copies: 1,
+      },
     ];
 
     const { svg, viewBox } = buildContactSheetSvg(items, 2, colorGroups);
@@ -80,7 +124,12 @@ describe("buildContactSheetSvg", () => {
 
   it("rounds the disc section's cell size up to the next 20mm grid-vertex step", () => {
     const items = [
-      { shape: discShape, baseContours: squareContour(22), reliefComponents: [], copies: 1 },
+      {
+        shape: discShape,
+        baseContours: squareContour(22),
+        reliefComponents: [],
+        copies: 1,
+      },
     ];
 
     const { viewBox } = buildContactSheetSvg(items, 1, colorGroups);
@@ -100,7 +149,14 @@ describe("buildContactSheetSvg", () => {
     ];
 
     const { svg } = buildContactSheetSvg(
-      [{ shape: discShape, baseContours: triangle, reliefComponents: [], copies: 1 }],
+      [
+        {
+          shape: discShape,
+          baseContours: triangle,
+          reliefComponents: [],
+          copies: 1,
+        },
+      ],
       1,
       colorGroups,
     );
@@ -112,7 +168,12 @@ describe("buildContactSheetSvg", () => {
 
   it("includes a non-printing grid overlay layer", () => {
     const items = [
-      { shape: discShape, baseContours: squareContour(10), reliefComponents: [], copies: 1 },
+      {
+        shape: discShape,
+        baseContours: squareContour(10),
+        reliefComponents: [],
+        copies: 1,
+      },
     ];
 
     const { svg } = buildContactSheetSvg(items, 1, colorGroups);
@@ -128,8 +189,18 @@ describe("buildContactSheetSvg", () => {
       studDiameterMm: 12,
     };
     const items = [
-      { shape: arcShape, baseContours: squareContour(10), reliefComponents: [], copies: 1 },
-      { shape: arcShape, baseContours: squareContour(10), reliefComponents: [], copies: 1 },
+      {
+        shape: arcShape,
+        baseContours: squareContour(10),
+        reliefComponents: [],
+        copies: 1,
+      },
+      {
+        shape: arcShape,
+        baseContours: squareContour(10),
+        reliefComponents: [],
+        copies: 1,
+      },
     ];
 
     const { svg } = buildContactSheetSvg(items, 2, colorGroups);
@@ -153,7 +224,12 @@ describe("buildContactSheetSvg", () => {
       studDiameterMm: 12,
     };
     const items = [
-      { shape: arcShape, baseContours: squareContour(10), reliefComponents: [], copies: 1 },
+      {
+        shape: arcShape,
+        baseContours: squareContour(10),
+        reliefComponents: [],
+        copies: 1,
+      },
     ];
 
     const withCircle = buildContactSheetSvg(items, 1, colorGroups);
@@ -161,8 +237,12 @@ describe("buildContactSheetSvg", () => {
       showBaseReference: false,
     });
 
-    expect(withoutCircle.svg).not.toContain('data-role="base-reference-circle"');
-    expect(withoutCircle.viewBox.height).toBeLessThan(withCircle.viewBox.height);
+    expect(withoutCircle.svg).not.toContain(
+      'data-role="base-reference-circle"',
+    );
+    expect(withoutCircle.viewBox.height).toBeLessThan(
+      withCircle.viewBox.height,
+    );
     // The 10mm square no longer waits for the 30mm circle: its top sits on the cell's padding,
     // and its origin (the token's axis) stays on the first vertical grid line.
     expect(withoutCircle.svg).toContain('d="M10,12 ');
@@ -187,21 +267,26 @@ describe("buildContactSheetSvg", () => {
       ],
     ];
     const items = [
-      { shape: arcShape, baseContours: contoursIncludingOrigin, reliefComponents: [], copies: 1 },
+      {
+        shape: arcShape,
+        baseContours: contoursIncludingOrigin,
+        reliefComponents: [],
+        copies: 1,
+      },
     ];
 
     const { svg } = buildContactSheetSvg(items, 1, colorGroups);
 
-    const [circleX, circleY] = svg
-      .match(/cx="(-?[\d.]+)" cy="(-?[\d.]+)"/)!
-      .slice(1)
-      .map(Number);
+    const [circleX, circleY] = capturedPair(
+      svg,
+      /cx="(-?[\d.]+)" cy="(-?[\d.]+)"/,
+    );
     // Anchored specifically to the base fill path (not the grid overlay's own <path>, which
     // also starts with an M command) so this reads the token's own rendered origin.
-    const [originX, originY] = svg
-      .match(/<path d="M(-?[\d.]+),(-?[\d.]+)[^"]*" fill="#2B2B2B"/)!
-      .slice(1)
-      .map(Number);
+    const [originX, originY] = capturedPair(
+      svg,
+      /<path d="M(-?[\d.]+),(-?[\d.]+)[^"]*" fill="#2B2B2B"/,
+    );
 
     expect(circleX).toBeCloseTo(originX, 9);
     expect(circleY).toBeCloseTo(originY, 9);
@@ -215,8 +300,18 @@ describe("buildContactSheetSvg", () => {
       studDiameterMm: 12,
     };
     const items = [
-      { shape: arcShape, baseContours: squareContour(10), reliefComponents: [], copies: 1 },
-      { shape: discShape, baseContours: squareContour(10), reliefComponents: [], copies: 1 },
+      {
+        shape: arcShape,
+        baseContours: squareContour(10),
+        reliefComponents: [],
+        copies: 1,
+      },
+      {
+        shape: discShape,
+        baseContours: squareContour(10),
+        reliefComponents: [],
+        copies: 1,
+      },
     ];
 
     const { svg, viewBox } = buildContactSheetSvg(items, 2, colorGroups);
@@ -230,8 +325,18 @@ describe("buildContactSheetSvg", () => {
 
   it("centers each disc item in its cell so its own center lands on a grid vertex, whatever its size", () => {
     const items = [
-      { shape: discShape, baseContours: squareContour(10), reliefComponents: [], copies: 1 },
-      { shape: discShape, baseContours: squareContour(16), reliefComponents: [], copies: 1 },
+      {
+        shape: discShape,
+        baseContours: squareContour(10),
+        reliefComponents: [],
+        copies: 1,
+      },
+      {
+        shape: discShape,
+        baseContours: squareContour(16),
+        reliefComponents: [],
+        copies: 1,
+      },
     ];
 
     const { svg, viewBox } = buildContactSheetSvg(items, 2, colorGroups);
@@ -247,11 +352,12 @@ describe("buildContactSheetSvg", () => {
 
     expect(basePaths).toHaveLength(2);
 
-    for (const pathAttr of svg.match(/<path d="[^"]*" fill="#2B2B2B"[^>]*\/>/g) ?? []) {
-      const coordinates = [...pathAttr.matchAll(/(-?[\d.]+),(-?[\d.]+)/g)].map(([, x, y]) => [
-        Number(x),
-        Number(y),
-      ]);
+    for (const pathAttr of svg.match(
+      /<path d="[^"]*" fill="#2B2B2B"[^>]*\/>/g,
+    ) ?? []) {
+      const coordinates = [...pathAttr.matchAll(/(-?[\d.]+),(-?[\d.]+)/g)].map(
+        ([, x, y]) => [Number(x), Number(y)],
+      );
       const xs = coordinates.map(([x]) => x);
       const ys = coordinates.map(([, y]) => y);
       const centerX = (Math.min(...xs) + Math.max(...xs)) / 2;
@@ -264,8 +370,18 @@ describe("buildContactSheetSvg", () => {
 
   it("renders one cell per physical copy, not one cell per distinct item: the sheet must show what actually gets printed", () => {
     const items = [
-      { shape: discShape, baseContours: squareContour(10), reliefComponents: [], copies: 3 },
-      { shape: discShape, baseContours: squareContour(10), reliefComponents: [], copies: 2 },
+      {
+        shape: discShape,
+        baseContours: squareContour(10),
+        reliefComponents: [],
+        copies: 3,
+      },
+      {
+        shape: discShape,
+        baseContours: squareContour(10),
+        reliefComponents: [],
+        copies: 2,
+      },
     ];
 
     const { svg, viewBox } = buildContactSheetSvg(items, 5, colorGroups);
@@ -279,8 +395,18 @@ describe("buildContactSheetSvg", () => {
     const smallDisc: ShapeSpec = { type: "disc", diameterMm: 10 };
     const bigDisc: ShapeSpec = { type: "disc", diameterMm: 20 };
     const items = [
-      { shape: smallDisc, baseContours: squareContour(10), reliefComponents: [], copies: 3 },
-      { shape: bigDisc, baseContours: squareContour(20), reliefComponents: [], copies: 1 },
+      {
+        shape: smallDisc,
+        baseContours: squareContour(10),
+        reliefComponents: [],
+        copies: 3,
+      },
+      {
+        shape: bigDisc,
+        baseContours: squareContour(20),
+        reliefComponents: [],
+        copies: 1,
+      },
     ];
 
     const { viewBox } = buildContactSheetSvg(items, 5, colorGroups);
@@ -300,8 +426,18 @@ describe("buildContactSheetSvg", () => {
     };
     const smallDisc: ShapeSpec = { type: "disc", diameterMm: 10 };
     const items = [
-      { shape: arcShape, baseContours: squareContour(10), reliefComponents: [], copies: 1 },
-      { shape: smallDisc, baseContours: squareContour(10), reliefComponents: [], copies: 8 },
+      {
+        shape: arcShape,
+        baseContours: squareContour(10),
+        reliefComponents: [],
+        copies: 1,
+      },
+      {
+        shape: smallDisc,
+        baseContours: squareContour(10),
+        reliefComponents: [],
+        copies: 8,
+      },
     ];
 
     // Fewer columns than the disc group fits, so sharing the column count would show.
@@ -322,8 +458,18 @@ describe("buildContactSheetSvg", () => {
     };
     const bigDisc: ShapeSpec = { type: "disc", diameterMm: 90 };
     const items = [
-      { shape: arcShape, baseContours: squareContour(10), reliefComponents: [], copies: 1 },
-      { shape: bigDisc, baseContours: squareContour(90), reliefComponents: [], copies: 5 },
+      {
+        shape: arcShape,
+        baseContours: squareContour(10),
+        reliefComponents: [],
+        copies: 1,
+      },
+      {
+        shape: bigDisc,
+        baseContours: squareContour(90),
+        reliefComponents: [],
+        copies: 5,
+      },
     ];
 
     // 5 columns of the big disc would be far wider than the sheet.
@@ -344,8 +490,18 @@ describe("buildContactSheetSvg", () => {
     };
     const smallDisc: ShapeSpec = { type: "disc", diameterMm: 10 };
     const items = [
-      { shape: arcShape, baseContours: squareContour(10), reliefComponents: [], copies: 1 },
-      { shape: smallDisc, baseContours: squareContour(10), reliefComponents: [], copies: 30 },
+      {
+        shape: arcShape,
+        baseContours: squareContour(10),
+        reliefComponents: [],
+        copies: 1,
+      },
+      {
+        shape: smallDisc,
+        baseContours: squareContour(10),
+        reliefComponents: [],
+        copies: 30,
+      },
     ];
 
     // 100 columns of the 30mm arc cell would be 3000mm wide.
@@ -375,15 +531,19 @@ describe("buildContactSheetSvg", () => {
       ],
     ];
     const items = [
-      { shape: arcShape, baseContours: overflowingContour, reliefComponents: [], copies: 4 },
+      {
+        shape: arcShape,
+        baseContours: overflowingContour,
+        reliefComponents: [],
+        copies: 4,
+      },
     ];
 
     const { svg } = buildContactSheetSvg(items, 2, colorGroups);
 
-    const circleCenters = [...svg.matchAll(/cx="(-?[\d.]+)" cy="(-?[\d.]+)"/g)].map(([, x, y]) => [
-      Number(x),
-      Number(y),
-    ]);
+    const circleCenters = [
+      ...svg.matchAll(/cx="(-?[\d.]+)" cy="(-?[\d.]+)"/g),
+    ].map(([, x, y]) => [Number(x), Number(y)]);
 
     expect(circleCenters).toHaveLength(4);
 
@@ -396,7 +556,12 @@ describe("buildContactSheetSvg", () => {
 
   it("omits the base-reference circle for disc-shaped items", () => {
     const items = [
-      { shape: discShape, baseContours: squareContour(10), reliefComponents: [], copies: 1 },
+      {
+        shape: discShape,
+        baseContours: squareContour(10),
+        reliefComponents: [],
+        copies: 1,
+      },
     ];
 
     const { svg } = buildContactSheetSvg(items, 1, colorGroups);
@@ -459,7 +624,12 @@ describe("buildContactSheetSvg", () => {
 
   it("leaves an item with no valid flag unmarked", () => {
     const items = [
-      { shape: discShape, baseContours: squareContour(10), reliefComponents: [], copies: 1 },
+      {
+        shape: discShape,
+        baseContours: squareContour(10),
+        reliefComponents: [],
+        copies: 1,
+      },
     ];
 
     const { svg } = buildContactSheetSvg(items, 1, colorGroups);

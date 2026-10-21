@@ -1,5 +1,5 @@
-import { Vec2 } from "../types";
-import { Bounds } from "./computeBounds";
+import type { Vec2 } from "../types";
+import type { Bounds } from "./computeBounds";
 
 export type PlateLayoutItem = {
   shapeType: "arc" | "disc";
@@ -17,7 +17,8 @@ type BlockEntry = { item: PlateLayoutItem; index: number };
 
 const boundsWidthMm = (bounds: Bounds): number => bounds.max[0] - bounds.min[0];
 
-const boundsHeightMm = (bounds: Bounds): number => bounds.max[1] - bounds.min[1];
+const boundsHeightMm = (bounds: Bounds): number =>
+  bounds.max[1] - bounds.min[1];
 
 // Bounds are measured off the mesh, so two tokens of the same nominal size can differ by float
 // noise; the key compares them at this many decimals.
@@ -47,7 +48,8 @@ const groupBlocksBySize = (shapeEntries: BlockEntry[]): BlockEntry[][] => {
 
   return blocks.sort(
     (first, second) =>
-      boundsWidthMm(first[0].item.boundsMm) - boundsWidthMm(second[0].item.boundsMm),
+      boundsWidthMm(first[0].item.boundsMm) -
+      boundsWidthMm(second[0].item.boundsMm),
   );
 };
 
@@ -64,9 +66,11 @@ const layoutBlock = (
   }
 
   const cellWidthMm =
-    Math.max(...blockItems.map((item) => boundsWidthMm(item.boundsMm))) + spacingMm;
+    Math.max(...blockItems.map((item) => boundsWidthMm(item.boundsMm))) +
+    spacingMm;
   const cellHeightMm =
-    Math.max(...blockItems.map((item) => boundsHeightMm(item.boundsMm))) + spacingMm;
+    Math.max(...blockItems.map((item) => boundsHeightMm(item.boundsMm))) +
+    spacingMm;
   const totalCopies = blockItems.reduce((sum, item) => sum + item.copies, 0);
   const columns = Math.max(1, Math.ceil(Math.sqrt(totalCopies)));
 
@@ -99,14 +103,19 @@ const layoutBlock = (
   return { offsetsByItem, blockHeightMm };
 };
 
-export const computePlateLayout = (items: PlateLayoutItem[], spacingMm: number): Vec2[][] => {
+export const computePlateLayout = (
+  items: PlateLayoutItem[],
+  spacingMm: number,
+): Vec2[][] => {
   const result: Vec2[][] = new Array(items.length);
   let topY = 0;
 
   const entries: BlockEntry[] = items.map((item, index) => ({ item, index }));
 
   for (const shapeType of SHAPE_TYPE_ORDER) {
-    const shapeEntries = entries.filter(({ item }) => item.shapeType === shapeType);
+    const shapeEntries = entries.filter(
+      ({ item }) => item.shapeType === shapeType,
+    );
 
     for (const blockEntries of groupBlocksBySize(shapeEntries)) {
       const { offsetsByItem, blockHeightMm } = layoutBlock(
@@ -133,6 +142,8 @@ export const computePlateLayout = (items: PlateLayoutItem[], spacingMm: number):
   }
 
   return result.map((offsets) =>
-    offsets.map(([offsetX, offsetY]): Vec2 => [offsetX, offsetY - lowestTokenEdgeY]),
+    offsets.map(
+      ([offsetX, offsetY]): Vec2 => [offsetX, offsetY - lowestTokenEdgeY],
+    ),
   );
 };

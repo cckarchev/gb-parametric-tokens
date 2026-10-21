@@ -12,7 +12,11 @@ describe("SettingsGroup", () => {
       </SettingsGroup>,
     );
 
-    expect(screen.getByRole("heading", { name: "Settings file" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Export settings (.json)" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Settings file" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Export settings (.json)" }),
+    ).toBeInTheDocument();
   });
 });

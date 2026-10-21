@@ -1,14 +1,13 @@
 import { describe, expect, it } from "vitest";
 
-import { Vec2 } from "../types";
+import type { Vec2 } from "../types";
 import { growIconOutline } from "./growIconOutline";
 
-const maxDistanceFromOrigin = (contours: Vec2[][]): number => {
-  return Math.max(...contours.flat().map(([x, y]) => Math.hypot(x, y)));
-};
+const maxDistanceFromOrigin = (contours: Vec2[][]): number =>
+  Math.max(...contours.flat().map(([x, y]) => Math.hypot(x, y)));
 
-const totalArea = (contours: Vec2[][]): number => {
-  return contours.reduce((sum, contour) => {
+const totalArea = (contours: Vec2[][]): number =>
+  contours.reduce((sum, contour) => {
     let area = 0;
 
     for (let i = 0; i < contour.length; i++) {
@@ -20,7 +19,6 @@ const totalArea = (contours: Vec2[][]): number => {
 
     return sum + Math.abs(area) / 2;
   }, 0);
-};
 
 describe("growIconOutline", () => {
   it("dilates a shape's footprint outward by the given margin", async () => {
@@ -39,7 +37,9 @@ describe("growIconOutline", () => {
     // area strictly bigger than the original, and every original corner still lies within
     // the grown footprint's own reach from the origin.
     expect(totalArea(grown)).toBeGreaterThan(totalArea(square));
-    expect(maxDistanceFromOrigin(grown)).toBeGreaterThan(maxDistanceFromOrigin(square));
+    expect(maxDistanceFromOrigin(grown)).toBeGreaterThan(
+      maxDistanceFromOrigin(square),
+    );
   });
 
   it("leaves the footprint unchanged for a zero margin", async () => {

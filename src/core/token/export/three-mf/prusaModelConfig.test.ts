@@ -32,7 +32,9 @@ describe("buildPrusaModelConfigXml", () => {
       {
         objectId: 2,
         name: `A & "B"`,
-        volumeRanges: [{ name: "<Body>", firstTriangleId: 0, lastTriangleId: 0 }],
+        volumeRanges: [
+          { name: "<Body>", firstTriangleId: 0, lastTriangleId: 0 },
+        ],
       },
     ]);
 

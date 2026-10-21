@@ -1,4 +1,4 @@
-import { ArcShapeSpec, Vec2 } from "../types";
+import type { ArcShapeSpec, Vec2 } from "../types";
 import { DEGREES_PER_RADIAN } from "./angleConventions";
 
 export type StudPlacement = {
@@ -18,26 +18,22 @@ export const MODEL_BASE_DIAMETER_MM = 30;
 export const BASE_CLEARANCE_MM = 0.5;
 
 // The ribbon's inner radius: half the base diameter plus half the clearance.
-export const computeInnerRadiusMm = (): number => {
-  return (MODEL_BASE_DIAMETER_MM + BASE_CLEARANCE_MM) / 2;
-};
+export const computeInnerRadiusMm = (): number =>
+  (MODEL_BASE_DIAMETER_MM + BASE_CLEARANCE_MM) / 2;
 
-export const computeOuterRadiusMm = (shape: ArcShapeSpec): number => {
-  return computeInnerRadiusMm() + shape.ribbonWidthMm;
-};
+export const computeOuterRadiusMm = (shape: ArcShapeSpec): number =>
+  computeInnerRadiusMm() + shape.ribbonWidthMm;
 
 // ribbonLengthMm is an arc length in mm, measured on the fixed inner radius: the same
 // radius the stud's touching vertex sits on (see computeStudPlacements below).
-export const computeSweepDeg = (shape: ArcShapeSpec): number => {
-  return (shape.ribbonLengthMm / computeInnerRadiusMm()) * DEGREES_PER_RADIAN;
-};
+export const computeSweepDeg = (shape: ArcShapeSpec): number =>
+  (shape.ribbonLengthMm / computeInnerRadiusMm()) * DEGREES_PER_RADIAN;
 
 // The stud's real size. A stud narrower than the ribbon would leave the ribbon's straight end
 // sticking out as a notch, so it grows to the ribbon's width. shape.studDiameterMm stays the
 // value the user typed.
-export const computeEffectiveStudDiameterMm = (shape: ArcShapeSpec): number => {
-  return Math.max(shape.studDiameterMm, shape.ribbonWidthMm);
-};
+export const computeEffectiveStudDiameterMm = (shape: ArcShapeSpec): number =>
+  Math.max(shape.studDiameterMm, shape.ribbonWidthMm);
 
 export const computeStudPlacements = (
   shape: ArcShapeSpec,
@@ -58,11 +54,17 @@ export const computeStudPlacements = (
   const positionAtAngle = (angleDeg: number): Vec2 => {
     const angleRad = angleDeg / DEGREES_PER_RADIAN;
 
-    return [studCenterRadiusMm * Math.cos(angleRad), studCenterRadiusMm * Math.sin(angleRad)];
+    return [
+      studCenterRadiusMm * Math.cos(angleRad),
+      studCenterRadiusMm * Math.sin(angleRad),
+    ];
   };
 
   return {
     left: { position: positionAtAngle(leftAngleDeg), angleDeg: leftAngleDeg },
-    right: { position: positionAtAngle(rightAngleDeg), angleDeg: rightAngleDeg },
+    right: {
+      position: positionAtAngle(rightAngleDeg),
+      angleDeg: rightAngleDeg,
+    },
   };
 };

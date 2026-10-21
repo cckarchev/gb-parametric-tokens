@@ -1,5 +1,8 @@
-import { DEGREES_PER_RADIAN, RADIAL_TO_UPRIGHT_OFFSET_DEG } from "../geometry/angleConventions";
-import { Vec2 } from "../types";
+import {
+  DEGREES_PER_RADIAN,
+  RADIAL_TO_UPRIGHT_OFFSET_DEG,
+} from "../geometry/angleConventions";
+import type { Vec2 } from "../types";
 import { computePenPositions } from "./measureAdvances";
 
 type ArcGlyphPlacement = {
@@ -25,7 +28,9 @@ type ArcGlyphPlacementInput = {
   orientation?: ArcOrientation;
 };
 
-export const computeArcGlyphPlacements = (input: ArcGlyphPlacementInput): ArcGlyphPlacement[] => {
+export const computeArcGlyphPlacements = (
+  input: ArcGlyphPlacementInput,
+): ArcGlyphPlacement[] => {
   const penPositions = computePenPositions(input.advancesMm, input.kerningsMm);
   const lastIndex = input.advancesMm.length - 1;
   const totalWidthMm = penPositions[lastIndex] + input.advancesMm[lastIndex];
@@ -39,15 +44,23 @@ export const computeArcGlyphPlacements = (input: ArcGlyphPlacementInput): ArcGly
     const arcLengthFromCenterMm = glyphCenterMm - totalWidthMm / 2;
     const angleDeg =
       input.centerAngleDeg +
-      orientationSignMultiplier * (arcLengthFromCenterMm / input.radiusMm) * DEGREES_PER_RADIAN;
+      orientationSignMultiplier *
+        (arcLengthFromCenterMm / input.radiusMm) *
+        DEGREES_PER_RADIAN;
     const angleRad = angleDeg / DEGREES_PER_RADIAN;
 
     // svgYDown writes straight into SVG space, so y and the rotation are mirrored. mathYUp is
     // the mesh's y-up world and needs no compensation.
     const position: Vec2 =
       input.coordinateConvention === "svgYDown"
-        ? [input.radiusMm * Math.cos(angleRad), -input.radiusMm * Math.sin(angleRad)]
-        : [input.radiusMm * Math.cos(angleRad), input.radiusMm * Math.sin(angleRad)];
+        ? [
+            input.radiusMm * Math.cos(angleRad),
+            -input.radiusMm * Math.sin(angleRad),
+          ]
+        : [
+            input.radiusMm * Math.cos(angleRad),
+            input.radiusMm * Math.sin(angleRad),
+          ];
 
     // A quarter turn either side of the point's polar angle (see RADIAL_TO_UPRIGHT_OFFSET_DEG).
     const mathYUpRotationDeg =
@@ -55,13 +68,18 @@ export const computeArcGlyphPlacements = (input: ArcGlyphPlacementInput): ArcGly
         ? angleDeg - RADIAL_TO_UPRIGHT_OFFSET_DEG
         : angleDeg + RADIAL_TO_UPRIGHT_OFFSET_DEG;
     const rotationDeg =
-      input.coordinateConvention === "svgYDown" ? -mathYUpRotationDeg : mathYUpRotationDeg;
+      input.coordinateConvention === "svgYDown"
+        ? -mathYUpRotationDeg
+        : mathYUpRotationDeg;
 
     return { angleDeg, position, rotationDeg, pivotOffsetMm };
   });
 };
 
-export const applyArcPlacement = (contours: Vec2[][], placement: ArcGlyphPlacement): Vec2[][] => {
+export const applyArcPlacement = (
+  contours: Vec2[][],
+  placement: ArcGlyphPlacement,
+): Vec2[][] => {
   const rotationRad = placement.rotationDeg / DEGREES_PER_RADIAN;
   const cosRotation = Math.cos(rotationRad);
   const sinRotation = Math.sin(rotationRad);
@@ -72,7 +90,10 @@ export const applyArcPlacement = (contours: Vec2[][], placement: ArcGlyphPlaceme
       const rotatedX = pivotedX * cosRotation - y * sinRotation;
       const rotatedY = pivotedX * sinRotation + y * cosRotation;
 
-      return [rotatedX + placement.position[0], rotatedY + placement.position[1]];
+      return [
+        rotatedX + placement.position[0],
+        rotatedY + placement.position[1],
+      ];
     }),
   );
 };

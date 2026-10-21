@@ -5,14 +5,19 @@ import { describe, expect, it, vi } from "vitest";
 
 import { FileField } from "./FileField";
 
-const settingsFile = () => {
-  return new File(['{"printProfileId":"fdm-04"}'], "settings.json", { type: "application/json" });
-};
+const settingsFile = () =>
+  new File(['{"printProfileId":"fdm-04"}'], "settings.json", {
+    type: "application/json",
+  });
 
 describe("FileField", () => {
   it("renders the label and the accepted types", () => {
     render(
-      <FileField label="Import settings (.json)" accept="application/json" onSelect={vi.fn()} />,
+      <FileField
+        label="Import settings (.json)"
+        accept="application/json"
+        onSelect={vi.fn()}
+      />,
     );
 
     expect(screen.getByLabelText("Import settings (.json)")).toHaveAttribute(
@@ -26,10 +31,17 @@ describe("FileField", () => {
     const file = settingsFile();
 
     render(
-      <FileField label="Import settings (.json)" accept="application/json" onSelect={onSelect} />,
+      <FileField
+        label="Import settings (.json)"
+        accept="application/json"
+        onSelect={onSelect}
+      />,
     );
 
-    await userEvent.upload(screen.getByLabelText("Import settings (.json)"), file);
+    await userEvent.upload(
+      screen.getByLabelText("Import settings (.json)"),
+      file,
+    );
 
     expect(onSelect).toHaveBeenCalledWith(file);
   });
@@ -38,10 +50,16 @@ describe("FileField", () => {
     const onSelect = vi.fn();
 
     render(
-      <FileField label="Import settings (.json)" accept="application/json" onSelect={onSelect} />,
+      <FileField
+        label="Import settings (.json)"
+        accept="application/json"
+        onSelect={onSelect}
+      />,
     );
 
-    const input = screen.getByLabelText("Import settings (.json)") as HTMLInputElement;
+    const input = screen.getByLabelText(
+      "Import settings (.json)",
+    ) as HTMLInputElement;
 
     await userEvent.upload(input, settingsFile());
     await userEvent.upload(input, settingsFile());

@@ -3,10 +3,15 @@ import { CENTER_ANGLE_DEG } from "../../geometry/angleConventions";
 import { TEXT_COLOR_GROUP_ID } from "../../mesh/colorGroups";
 import { estimateAscentMm } from "../../text/glyphMetrics";
 import { resolveRingLineOrientation } from "../../text/ringLineOrientation";
-import { CrowfootSpec, DiscShapeSpec, LineSpec, TokenSpec } from "../../types";
-import { CatalogAoeTemplate } from "../catalogTypes";
+import type {
+  CrowfootSpec,
+  DiscShapeSpec,
+  LineSpec,
+  TokenSpec,
+} from "../../types";
+import type { CatalogAoeTemplate } from "../catalogTypes";
 import { computeRingTextRadii } from "./ringTextRadii";
-import { AoeTuning, CrowfootTuning, SharedConfig } from "./tokenItem";
+import type { AoeTuning, CrowfootTuning, SharedConfig } from "./tokenItem";
 import { buildIconSpec, sharedTokenFields } from "./tokenSpecParts";
 
 const AOE_DIAMETER_INCHES = 3;
@@ -34,9 +39,8 @@ const buildAoeShape = (bandWidthMm: number): DiscShapeSpec => {
 
 // A whole number, so the outline (discFootprint.ts loops while index < spokeCount) and the texts
 // (one per spoke) always count the same spokes, even for a value typed as 2.6.
-const resolveSpokeCount = (spokeCount: number): number => {
-  return Math.max(MIN_SPOKE_COUNT, Math.round(spokeCount));
-};
+const resolveSpokeCount = (spokeCount: number): number =>
+  Math.max(MIN_SPOKE_COUNT, Math.round(spokeCount));
 
 // The crow's foot: short arcs of the 3″ band, each at the end of a spoke from the center, the
 // first spoke pointing up. Defaults: spokes 5mm wide so the template stays firm,
@@ -59,7 +63,10 @@ const toCrowfootSpec = (tuning: CrowfootTuning): CrowfootSpec => {
 const computeSpokeAnglesDeg = (spokeCount: number): number[] => {
   const stepDeg = FULL_TURN_DEG / spokeCount;
 
-  return Array.from({ length: spokeCount }, (_, index) => CENTER_ANGLE_DEG + stepDeg * index);
+  return Array.from(
+    { length: spokeCount },
+    (_, index) => CENTER_ANGLE_DEG + stepDeg * index,
+  );
 };
 
 const COMPACT_SHAPE: DiscShapeSpec = {
@@ -72,17 +79,20 @@ const buildLines = (
   sizeMm: number,
   topTextRadiusMm: number,
   bottomTextRadiusMm: number,
-): LineSpec[] => {
-  return [
-    { text: template.name, sizeMm, radiusMm: topTextRadiusMm, colorGroup: TEXT_COLOR_GROUP_ID },
-    {
-      text: template.effect,
-      sizeMm,
-      radiusMm: bottomTextRadiusMm,
-      colorGroup: TEXT_COLOR_GROUP_ID,
-    },
-  ];
-};
+): LineSpec[] => [
+  {
+    text: template.name,
+    sizeMm,
+    radiusMm: topTextRadiusMm,
+    colorGroup: TEXT_COLOR_GROUP_ID,
+  },
+  {
+    text: template.effect,
+    sizeMm,
+    radiusMm: bottomTextRadiusMm,
+    colorGroup: TEXT_COLOR_GROUP_ID,
+  },
+];
 
 // The top line reads outward, so its ink grows past its radius; the bottom line reads inward,
 // so its ink grows back toward center (see ringTokenSpec.ts). Offsetting each by half an ascent
@@ -94,10 +104,16 @@ const computeBandTextRadii = (
   const bandMidRadiusMm = AOE_OUTER_RADIUS_MM - aoe.bandWidthMm / 2;
   const halfAscentMm = estimateAscentMm(sizeMm, aoe.fontId) / 2;
 
-  return { topMm: bandMidRadiusMm - halfAscentMm, bottomMm: bandMidRadiusMm + halfAscentMm };
+  return {
+    topMm: bandMidRadiusMm - halfAscentMm,
+    bottomMm: bandMidRadiusMm + halfAscentMm,
+  };
 };
 
-const buildRingLines = (template: CatalogAoeTemplate, aoe: AoeTuning): LineSpec[] => {
+const buildRingLines = (
+  template: CatalogAoeTemplate,
+  aoe: AoeTuning,
+): LineSpec[] => {
   const sizeMm = aoe.ring.textSizeMm;
   const radii = computeBandTextRadii(aoe, sizeMm);
 
@@ -118,10 +134,15 @@ const computeSpokeTextRadiusMm = (aoe: AoeTuning): number => {
 // The name on every arc (upper ones reading outward, lower ones inward, so all read upright) and
 // the effect straight along every spoke, centered on the spoke's free stretch. Every arc and
 // spoke repeats the same text, so whichever side a player stands on has one to read.
-const buildCrowfootLines = (template: CatalogAoeTemplate, aoe: AoeTuning): LineSpec[] => {
+const buildCrowfootLines = (
+  template: CatalogAoeTemplate,
+  aoe: AoeTuning,
+): LineSpec[] => {
   const sizeMm = aoe.crowfoot.textSizeMm;
   const radii = computeBandTextRadii(aoe, sizeMm);
-  const spokeAnglesDeg = computeSpokeAnglesDeg(resolveSpokeCount(aoe.crowfoot.spokeCount));
+  const spokeAnglesDeg = computeSpokeAnglesDeg(
+    resolveSpokeCount(aoe.crowfoot.spokeCount),
+  );
   const spokeTextRadiusMm = computeSpokeTextRadiusMm(aoe);
 
   const nameLines = spokeAnglesDeg.map((centerAngleDeg): LineSpec => {
@@ -137,22 +158,25 @@ const buildCrowfootLines = (template: CatalogAoeTemplate, aoe: AoeTuning): LineS
     };
   });
 
-  const effectLines = spokeAnglesDeg.map((centerAngleDeg): LineSpec => {
-    return {
+  const effectLines = spokeAnglesDeg.map(
+    (centerAngleDeg): LineSpec => ({
       text: template.effect,
       sizeMm,
       radiusMm: spokeTextRadiusMm,
       centerAngleDeg,
       placement: "radial",
       colorGroup: TEXT_COLOR_GROUP_ID,
-    };
-  });
+    }),
+  );
 
   return [...nameLines, ...effectLines];
 };
 
 // Ring text around the guild crest, laid out like Goal Influence (see ringTokenSpec.ts).
-const buildCompactLines = (template: CatalogAoeTemplate, aoe: AoeTuning): LineSpec[] => {
+const buildCompactLines = (
+  template: CatalogAoeTemplate,
+  aoe: AoeTuning,
+): LineSpec[] => {
   const tuning = aoe.compactDisc;
   const radii = computeRingTextRadii(
     COMPACT_DIAMETER_MM,
@@ -189,14 +213,19 @@ export const buildAoeTemplateSpec = (
       ...sharedFields,
       shape: COMPACT_SHAPE,
       lines: buildCompactLines(template, aoe),
-      icons: [buildIconSpec(guildIconId, "center", compactIconScale, sharedConfig)],
+      icons: [
+        buildIconSpec(guildIconId, "center", compactIconScale, sharedConfig),
+      ],
     };
   }
 
   if (sharedConfig.aoeTemplateVariant === "crowfoot") {
     return {
       ...sharedFields,
-      shape: { ...buildAoeShape(aoe.bandWidthMm), crowfoot: toCrowfootSpec(aoe.crowfoot) },
+      shape: {
+        ...buildAoeShape(aoe.bandWidthMm),
+        crowfoot: toCrowfootSpec(aoe.crowfoot),
+      },
       lines: buildCrowfootLines(template, aoe),
       icons: [],
     };

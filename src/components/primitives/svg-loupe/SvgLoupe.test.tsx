@@ -40,7 +40,9 @@ const dispatchWheel = (
 
 describe("SvgLoupe", () => {
   it("renders the svg content under the given aria label", () => {
-    render(<SvgLoupe svg={svg} viewBox={shrunkViewBox} ariaLabel="Token preview" />);
+    render(
+      <SvgLoupe svg={svg} viewBox={shrunkViewBox} ariaLabel="Token preview" />,
+    );
 
     const container = screen.getByRole("img", { name: "Token preview" });
 
@@ -49,17 +51,22 @@ describe("SvgLoupe", () => {
 
   it("shows no lens before the mouse ever moves over it", () => {
     mockContainerWidth(200);
-    render(<SvgLoupe svg={svg} viewBox={shrunkViewBox} ariaLabel="Token preview" />);
-
-    expect(screen.getByRole("img", { name: "Token preview" }).parentElement?.children).toHaveLength(
-      2,
+    render(
+      <SvgLoupe svg={svg} viewBox={shrunkViewBox} ariaLabel="Token preview" />,
     );
+
+    expect(
+      screen.getByRole("img", { name: "Token preview" }).parentElement
+        ?.children,
+    ).toHaveLength(2);
   });
 
   it("shows a magnified lens copy of the svg while hovering, and hides it again on mouse leave", () => {
     mockContainerWidth(200);
 
-    render(<SvgLoupe svg={svg} viewBox={shrunkViewBox} ariaLabel="Token preview" />);
+    render(
+      <SvgLoupe svg={svg} viewBox={shrunkViewBox} ariaLabel="Token preview" />,
+    );
 
     const trackArea = screen.getByRole("img", { name: "Token preview" });
 
@@ -76,16 +83,24 @@ describe("SvgLoupe", () => {
   it("zooms the lens in when scrolling up with Ctrl held while hovering", () => {
     mockContainerWidth(200);
 
-    render(<SvgLoupe svg={svg} viewBox={shrunkViewBox} ariaLabel="Token preview" />);
+    render(
+      <SvgLoupe svg={svg} viewBox={shrunkViewBox} ariaLabel="Token preview" />,
+    );
 
     const trackArea = screen.getByRole("img", { name: "Token preview" });
 
     fireEvent.mouseMove(trackArea, { clientX: 100, clientY: 100 });
-    const lensContentBefore = trackArea.parentElement?.querySelectorAll("svg")[1]
-      .parentElement as HTMLElement;
+    const lensContentBefore = trackArea.parentElement?.querySelectorAll(
+      "svg",
+    )[1].parentElement as HTMLElement;
     const widthBefore = Number(lensContentBefore.style.width.replace("px", ""));
 
-    dispatchWheel(trackArea, { deltaY: -100, clientX: 100, clientY: 100, ctrlKey: true });
+    dispatchWheel(trackArea, {
+      deltaY: -100,
+      clientX: 100,
+      clientY: 100,
+      ctrlKey: true,
+    });
     const lensContentAfter = trackArea.parentElement?.querySelectorAll("svg")[1]
       .parentElement as HTMLElement;
     const widthAfter = Number(lensContentAfter.style.width.replace("px", ""));
@@ -96,11 +111,18 @@ describe("SvgLoupe", () => {
   it("zooms in on a Ctrl+scroll even without a prior mousemove, at the scrolled-over point", () => {
     mockContainerWidth(200);
 
-    render(<SvgLoupe svg={svg} viewBox={shrunkViewBox} ariaLabel="Token preview" />);
+    render(
+      <SvgLoupe svg={svg} viewBox={shrunkViewBox} ariaLabel="Token preview" />,
+    );
 
     const trackArea = screen.getByRole("img", { name: "Token preview" });
 
-    dispatchWheel(trackArea, { deltaY: -100, clientX: 100, clientY: 100, ctrlKey: true });
+    dispatchWheel(trackArea, {
+      deltaY: -100,
+      clientX: 100,
+      clientY: 100,
+      ctrlKey: true,
+    });
 
     expect(trackArea.parentElement?.querySelectorAll("svg").length).toBe(2);
   });
@@ -108,7 +130,9 @@ describe("SvgLoupe", () => {
   it("prevents the wheel event's default action when Ctrl is held, so the page doesn't zoom instead", () => {
     mockContainerWidth(200);
 
-    render(<SvgLoupe svg={svg} viewBox={shrunkViewBox} ariaLabel="Token preview" />);
+    render(
+      <SvgLoupe svg={svg} viewBox={shrunkViewBox} ariaLabel="Token preview" />,
+    );
 
     const trackArea = screen.getByRole("img", { name: "Token preview" });
     const wheelEvent = dispatchWheel(trackArea, {
@@ -124,7 +148,9 @@ describe("SvgLoupe", () => {
   it("leaves a plain scroll (no Ctrl) alone, so the rest of the page keeps scrolling", () => {
     mockContainerWidth(200);
 
-    render(<SvgLoupe svg={svg} viewBox={shrunkViewBox} ariaLabel="Token preview" />);
+    render(
+      <SvgLoupe svg={svg} viewBox={shrunkViewBox} ariaLabel="Token preview" />,
+    );
 
     const trackArea = screen.getByRole("img", { name: "Token preview" });
     const wheelEvent = dispatchWheel(trackArea, {
@@ -141,7 +167,9 @@ describe("SvgLoupe", () => {
   it("shows a hint that Ctrl+Scroll zooms while magnification is useful", () => {
     mockContainerWidth(200);
 
-    render(<SvgLoupe svg={svg} viewBox={shrunkViewBox} ariaLabel="Token preview" />);
+    render(
+      <SvgLoupe svg={svg} viewBox={shrunkViewBox} ariaLabel="Token preview" />,
+    );
 
     expect(screen.getByText("Ctrl+Scroll to zoom")).not.toBeNull();
   });
@@ -149,7 +177,13 @@ describe("SvgLoupe", () => {
   it("skips the whole magnification affordance when the preview is already shown at or above true size", () => {
     mockContainerWidth(200);
 
-    render(<SvgLoupe svg={svg} viewBox={alreadyBigViewBox} ariaLabel="Token preview" />);
+    render(
+      <SvgLoupe
+        svg={svg}
+        viewBox={alreadyBigViewBox}
+        ariaLabel="Token preview"
+      />,
+    );
 
     const trackArea = screen.getByRole("img", { name: "Token preview" });
 

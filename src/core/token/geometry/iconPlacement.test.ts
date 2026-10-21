@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { Vec2 } from "../types";
+import type { Vec2 } from "../types";
 import { placeIcon } from "./iconPlacement";
 
 const SOLID_SQUARE: Vec2[][] = [
@@ -81,7 +81,9 @@ describe("placeIcon", () => {
       scale: 1,
       constrainToCircle: true,
     });
-    const maxRadius = Math.max(...contours.flat().map(([x, y]) => Math.hypot(x, y)));
+    const maxRadius = Math.max(
+      ...contours.flat().map(([x, y]) => Math.hypot(x, y)),
+    );
 
     expect(overflowsCircle).toBe(true);
     expect(maxRadius).toBeCloseTo(10);

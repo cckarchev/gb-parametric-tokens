@@ -1,4 +1,4 @@
-import path from "path";
+import path from "node:path";
 import { describe, expect, it, vi } from "vitest";
 
 import { findFontEntry, fontFilePath } from "./fontCatalog";
@@ -8,7 +8,9 @@ import { loadFontFile, loadTestFont } from "./testFont";
 const loadCatalogFontFile = (fontId: string) => {
   const entry = findFontEntry(fontId);
 
-  return loadFontFile(path.join(process.cwd(), "public", fontFilePath(entry.file)));
+  return loadFontFile(
+    path.join(process.cwd(), "public", fontFilePath(entry.file)),
+  );
 };
 
 const METRIC_PRECISION_DIGITS = 3;

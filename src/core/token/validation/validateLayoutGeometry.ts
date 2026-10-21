@@ -1,8 +1,11 @@
 import type { CrossSection } from "manifold-3d";
 
 import { getManifoldModule } from "../mesh/manifoldModule";
-import { ReliefComponent, ReliefComponentSource } from "../mesh/reliefComponent";
-import { Vec2 } from "../types";
+import type {
+  ReliefComponent,
+  ReliefComponentSource,
+} from "../mesh/reliefComponent";
+import type { Vec2 } from "../types";
 
 // Below anything printable, above the polygon noise of flattened curves and circle segments.
 const AREA_EPSILON_MM2 = 0.05;
@@ -10,7 +13,11 @@ const WHOLE_FOOTPRINT_PIECE_COUNT = 1;
 
 export type LayoutGeometryFailure =
   | { kind: "outside-footprint"; source: ReliefComponentSource }
-  | { kind: "crest-over-text"; source: ReliefComponentSource; textSource: ReliefComponentSource }
+  | {
+      kind: "crest-over-text";
+      source: ReliefComponentSource;
+      textSource: ReliefComponentSource;
+    }
   | { kind: "broken-footprint"; pieceCount: number };
 
 type ComponentSection = {
@@ -26,9 +33,10 @@ const isPastEdgeCandidate = (component: ReliefComponent): boolean => {
   return kind === "text" || kind === "decoration";
 };
 
-const hasSourceKind = (entry: ComponentSection, kind: ReliefComponentSource["kind"]): boolean => {
-  return entry.component.source.kind === kind;
-};
+const hasSourceKind = (
+  entry: ComponentSection,
+  kind: ReliefComponentSource["kind"],
+): boolean => entry.component.source.kind === kind;
 
 // CrossSection#decompose() returns one empty section for an empty input rather than an empty
 // list, hence the isEmpty guard.
@@ -61,14 +69,18 @@ const findPastEdgeFailures = (
   return failures;
 };
 
-const findCrestOverTextFailures = (sections: ComponentSection[]): LayoutGeometryFailure[] => {
+const findCrestOverTextFailures = (
+  sections: ComponentSection[],
+): LayoutGeometryFailure[] => {
   const icons = sections.filter((entry) => hasSourceKind(entry, "icon"));
   const texts = sections.filter((entry) => hasSourceKind(entry, "text"));
   const failures: LayoutGeometryFailure[] = [];
 
   for (const iconEntry of icons) {
     for (const textEntry of texts) {
-      const overlapAreaMm2 = iconEntry.section.intersect(textEntry.section).area();
+      const overlapAreaMm2 = iconEntry.section
+        .intersect(textEntry.section)
+        .area();
 
       if (overlapAreaMm2 > AREA_EPSILON_MM2) {
         failures.push({
@@ -101,7 +113,9 @@ export const validateLayoutGeometry = async (
   const pieceCount = countPieces(footprint);
 
   const footprintFailures: LayoutGeometryFailure[] =
-    pieceCount === WHOLE_FOOTPRINT_PIECE_COUNT ? [] : [{ kind: "broken-footprint", pieceCount }];
+    pieceCount === WHOLE_FOOTPRINT_PIECE_COUNT
+      ? []
+      : [{ kind: "broken-footprint", pieceCount }];
 
   const sections = components.map((component) => ({
     component,

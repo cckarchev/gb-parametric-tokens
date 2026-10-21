@@ -18,7 +18,9 @@ describe("resolveEffect", () => {
   });
 
   it("throws for an unknown effect id", () => {
-    expect(() => resolveEffect("notARealEffect")).toThrow('Unknown effect "notARealEffect"');
+    expect(() => resolveEffect("notARealEffect")).toThrow(
+      'Unknown effect "notARealEffect"',
+    );
   });
 });
 

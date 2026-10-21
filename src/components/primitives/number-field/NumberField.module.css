@@ -12,6 +12,7 @@
 
 .input {
   composes: input from "../../../styles/field.module.css";
+  /* biome-ignore lint/suspicious/noDuplicateProperties: CSS modules compose from each file in its own declaration */
   composes: monoFigure from "../../../styles/mixins.module.css";
 }
 

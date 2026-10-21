@@ -1,5 +1,5 @@
 import { Panel } from "@/components/primitives/panel/Panel";
-import { SharedConfig } from "@/core/token/catalog/token-items/tokenItem";
+import type { SharedConfig } from "@/core/token/catalog/token-items/tokenItem";
 
 import { ArcTokensSection } from "./sections/ArcTokensSection";
 import { AoeTemplatesSection } from "./sections/aoe-templates-section/AoeTemplatesSection";
@@ -26,22 +26,20 @@ export const AdvancedSettingsPanel = ({
   onExportSettings,
   onImportSettings,
   importSettingsError,
-}: AdvancedSettingsPanelProps) => {
-  return (
-    <Panel title="Advanced settings">
-      <GeneralSection
-        sharedConfig={sharedConfig}
-        onChange={onChange}
-        onExportSettings={onExportSettings}
-        onImportSettings={onImportSettings}
-        importSettingsError={importSettingsError}
-      />
-      <ArcTokensSection sharedConfig={sharedConfig} onChange={onChange} />
-      <AoeTemplatesSection sharedConfig={sharedConfig} onChange={onChange} />
-      <DiscTokensSection sharedConfig={sharedConfig} onChange={onChange} />
-      <MomentumSection sharedConfig={sharedConfig} onChange={onChange} />
-      <RingBadgeSection sharedConfig={sharedConfig} onChange={onChange} />
-      <ConditionsSection sharedConfig={sharedConfig} onChange={onChange} />
-    </Panel>
-  );
-};
+}: AdvancedSettingsPanelProps) => (
+  <Panel title="Advanced settings">
+    <GeneralSection
+      sharedConfig={sharedConfig}
+      onChange={onChange}
+      onExportSettings={onExportSettings}
+      onImportSettings={onImportSettings}
+      importSettingsError={importSettingsError}
+    />
+    <ArcTokensSection sharedConfig={sharedConfig} onChange={onChange} />
+    <AoeTemplatesSection sharedConfig={sharedConfig} onChange={onChange} />
+    <DiscTokensSection sharedConfig={sharedConfig} onChange={onChange} />
+    <MomentumSection sharedConfig={sharedConfig} onChange={onChange} />
+    <RingBadgeSection sharedConfig={sharedConfig} onChange={onChange} />
+    <ConditionsSection sharedConfig={sharedConfig} onChange={onChange} />
+  </Panel>
+);

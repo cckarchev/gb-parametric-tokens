@@ -9,9 +9,11 @@ const UPSIDE_DOWN_LIMIT_DEG = 270;
 // that spoke, turned half around when reading outward would put it upside down. So a line on a
 // lower left spoke reads toward the center, and one on a lower right spoke reads away from it.
 export const computeRadialTextRotationDeg = (spokeAngleDeg: number): number => {
-  const normalizedAngleDeg = ((spokeAngleDeg % FULL_TURN_DEG) + FULL_TURN_DEG) % FULL_TURN_DEG;
+  const normalizedAngleDeg =
+    ((spokeAngleDeg % FULL_TURN_DEG) + FULL_TURN_DEG) % FULL_TURN_DEG;
   const readsUpsideDown =
-    normalizedAngleDeg > UPRIGHT_LIMIT_DEG && normalizedAngleDeg <= UPSIDE_DOWN_LIMIT_DEG;
+    normalizedAngleDeg > UPRIGHT_LIMIT_DEG &&
+    normalizedAngleDeg <= UPSIDE_DOWN_LIMIT_DEG;
 
   if (readsUpsideDown) {
     return normalizedAngleDeg - HALF_TURN_DEG;

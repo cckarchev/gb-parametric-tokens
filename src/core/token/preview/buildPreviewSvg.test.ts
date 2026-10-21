@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { ReliefComponent } from "../mesh/reliefComponent";
-import { ColorGroupSpec, ShapeSpec, Vec2 } from "../types";
+import type { ReliefComponent } from "../mesh/reliefComponent";
+import type { ColorGroupSpec, ShapeSpec, Vec2 } from "../types";
 import { buildPreviewSvg } from "./buildPreviewSvg";
 
 const square = (size: number): Vec2[] => [
@@ -29,11 +29,23 @@ describe("buildPreviewSvg", () => {
 
   it("fills each relief component with its own resolved color group color, grouping same-color components into one path", () => {
     const reliefComponents: ReliefComponent[] = [
-      { source: { kind: "decoration" }, contours: [square(6)], colorGroup: "text" },
-      { source: { kind: "decoration" }, contours: [square(4)], colorGroup: "text" },
+      {
+        source: { kind: "decoration" },
+        contours: [square(6)],
+        colorGroup: "text",
+      },
+      {
+        source: { kind: "decoration" },
+        contours: [square(4)],
+        colorGroup: "text",
+      },
     ];
 
-    const { svg } = buildPreviewSvg([square(20)], reliefComponents, colorGroups);
+    const { svg } = buildPreviewSvg(
+      [square(20)],
+      reliefComponents,
+      colorGroups,
+    );
 
     expect(svg.match(/<path/g)?.length).toBe(2 + GRID_PATH_COUNT);
     expect(svg).toContain('fill="#F5F0E1"');
@@ -46,7 +58,11 @@ describe("buildPreviewSvg", () => {
       { source: { kind: "decoration" }, contours: [square(6)] },
     ];
 
-    const { svg } = buildPreviewSvg([square(20)], reliefComponents, colorGroups);
+    const { svg } = buildPreviewSvg(
+      [square(20)],
+      reliefComponents,
+      colorGroups,
+    );
 
     const fillMatches = svg.match(/fill="#2B2B2B"/g);
     expect(fillMatches?.length).toBe(2);
@@ -54,10 +70,18 @@ describe("buildPreviewSvg", () => {
 
   it("falls back to the default gray when a relief component references an unknown color group", () => {
     const reliefComponents: ReliefComponent[] = [
-      { source: { kind: "decoration" }, contours: [square(6)], colorGroup: "missing" },
+      {
+        source: { kind: "decoration" },
+        contours: [square(6)],
+        colorGroup: "missing",
+      },
     ];
 
-    const { svg } = buildPreviewSvg([square(20)], reliefComponents, colorGroups);
+    const { svg } = buildPreviewSvg(
+      [square(20)],
+      reliefComponents,
+      colorGroups,
+    );
 
     expect(svg).toContain('fill="#CCCCCC"');
   });
@@ -93,9 +117,15 @@ describe("buildPreviewSvg", () => {
       },
     ];
 
-    const { svg, viewBox } = buildPreviewSvg(baseContours, reliefComponents, colorGroups);
+    const { svg, viewBox } = buildPreviewSvg(
+      baseContours,
+      reliefComponents,
+      colorGroups,
+    );
 
-    expect(svg).toContain(`viewBox="${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}"`);
+    expect(svg).toContain(
+      `viewBox="${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}"`,
+    );
 
     // x is untouched by the y-flip: base spans 0..20, relief spans 25..30.
     expect(viewBox.x).toBeLessThanOrEqual(0);
@@ -149,7 +179,12 @@ describe("buildPreviewSvg", () => {
     };
     const bigStud: ShapeSpec = { ...smallStud, studDiameterMm: 24 };
 
-    const smallSvg = buildPreviewSvg([square(20)], [], colorGroups, smallStud).svg;
+    const smallSvg = buildPreviewSvg(
+      [square(20)],
+      [],
+      colorGroups,
+      smallStud,
+    ).svg;
     const bigSvg = buildPreviewSvg([square(20)], [], colorGroups, bigStud).svg;
 
     expect(smallSvg).toContain('cx="15" cy="15"');
@@ -179,7 +214,12 @@ describe("buildPreviewSvg", () => {
       studDiameterMm: 12,
     };
 
-    const { viewBox } = buildPreviewSvg([square(20)], [], colorGroups, arcShape);
+    const { viewBox } = buildPreviewSvg(
+      [square(20)],
+      [],
+      colorGroups,
+      arcShape,
+    );
 
     // Circle center is fixed at cy=15, so its bottom edge is 15 + 15 (radius) = 30, plus the
     // usual 5mm padding below that = 35.

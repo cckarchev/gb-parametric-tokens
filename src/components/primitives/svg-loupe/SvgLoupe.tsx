@@ -1,4 +1,4 @@
-import { ViewBoxSize } from "./computeLoupeTransform";
+import type { ViewBoxSize } from "./computeLoupeTransform";
 import styles from "./SvgLoupe.module.css";
 import { LENS_SIZE_PX, useLoupeLens } from "./useLoupeLens";
 
@@ -9,9 +9,19 @@ type SvgLoupeProps = {
   className?: string;
 };
 
-export const SvgLoupe = ({ svg, viewBox, ariaLabel, className }: SvgLoupeProps) => {
-  const { trackAreaRef, lens, isMagnificationUseful, handleMouseMove, handleMouseLeave } =
-    useLoupeLens(viewBox);
+export const SvgLoupe = ({
+  svg,
+  viewBox,
+  ariaLabel,
+  className,
+}: SvgLoupeProps) => {
+  const {
+    trackAreaRef,
+    lens,
+    isMagnificationUseful,
+    handleMouseMove,
+    handleMouseLeave,
+  } = useLoupeLens(viewBox);
 
   return (
     <div className={className}>
@@ -27,11 +37,13 @@ export const SvgLoupe = ({ svg, viewBox, ariaLabel, className }: SvgLoupeProps) 
           role="img"
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
-          // Trusted markup generated locally from numeric geometry, not user input.
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: trusted markup generated locally from numeric geometry, not user input
           dangerouslySetInnerHTML={{ __html: svg }}
         />
 
-        {isMagnificationUseful && <span className={styles.zoomHint}>Ctrl+Scroll to zoom</span>}
+        {isMagnificationUseful && (
+          <span className={styles.zoomHint}>Ctrl+Scroll to zoom</span>
+        )}
 
         {lens && (
           <div
@@ -41,7 +53,8 @@ export const SvgLoupe = ({ svg, viewBox, ariaLabel, className }: SvgLoupeProps) 
               top: lens.cursorYPx - LENS_SIZE_PX / 2,
               width: LENS_SIZE_PX,
               height: LENS_SIZE_PX,
-            }}>
+            }}
+          >
             <div
               className={styles.lensContent}
               style={{
@@ -49,7 +62,7 @@ export const SvgLoupe = ({ svg, viewBox, ariaLabel, className }: SvgLoupeProps) 
                 height: lens.contentHeightPx,
                 transform: `translate(${lens.offsetXPx}px, ${lens.offsetYPx}px)`,
               }}
-              // Trusted markup generated locally from numeric geometry, not user input.
+              // biome-ignore lint/security/noDangerouslySetInnerHtml: trusted markup generated locally from numeric geometry, not user input
               dangerouslySetInnerHTML={{ __html: svg }}
             />
           </div>

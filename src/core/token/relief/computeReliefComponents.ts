@@ -3,16 +3,21 @@ import type { Font } from "opentype.js";
 import { CENTER_ANGLE_DEG } from "../geometry/angleConventions";
 import {
   collectGrowOutlineContours,
-  ReliefComponent,
-  ReliefComponentSource,
+  type ReliefComponent,
 } from "../mesh/reliefComponent";
 import { computeBaseOutlineContours } from "../preview/computeBaseOutlineContours";
-import { PrintProfile, TokenSpec } from "../types";
+import type { PrintProfile, TokenSpec } from "../types";
 import { validateLayoutGeometry } from "../validation/validateLayoutGeometry";
-import { ComponentFailure, validateMinStrokeWidth } from "../validation/validateMinStrokeWidth";
+import {
+  type ComponentFailure,
+  validateMinStrokeWidth,
+} from "../validation/validateMinStrokeWidth";
 import { computeArcReliefComponents } from "./computeArcReliefComponents";
 import { computeDiscReliefComponents } from "./computeDiscReliefComponents";
-import { LoadIconSource, LoadIconSourceResult } from "./computeReliefComponentsShared";
+import type {
+  LoadIconSource,
+  LoadIconSourceResult,
+} from "./computeReliefComponentsShared";
 import { computeRingReliefComponents } from "./computeRingReliefComponents";
 
 export type { LoadIconSource, LoadIconSourceResult };
@@ -54,6 +59,49 @@ const selectLayoutComputation = (spec: TokenSpec): ComputeLayoutComponents => {
   return computeDiscReliefComponents;
 };
 
+// One component at a time, so a failure names the text line or icon it came from.
+const strokeWidthFailures = async (
+  reliefComponents: ReliefComponent[],
+  printProfile: PrintProfile,
+): Promise<ComponentFailure[]> => {
+  const componentValidations = await Promise.all(
+    reliefComponents.map((component) =>
+      validateMinStrokeWidth(component.contours, printProfile.minStrokeWidthMm),
+    ),
+  );
+
+  return reliefComponents
+    .map((component, index) => ({
+      component,
+      validation: componentValidations[index],
+    }))
+    .filter(({ validation }) => !validation.valid)
+    .map(({ component, validation }) => ({
+      kind: "stroke-width" as const,
+      source: component.source,
+      vanishedFeatureCount: validation.vanishedFeatureCount,
+      featureCount: validation.featureCount,
+    }));
+};
+
+// overflowsCircle is only set when nothing corrected the overflow.
+const iconOverflowFailures = (
+  reliefComponents: ReliefComponent[],
+): ComponentFailure[] =>
+  reliefComponents
+    .filter(
+      (
+        component,
+      ): component is typeof component & {
+        source: { kind: "icon"; iconId: string };
+      } =>
+        component.overflowsCircle === true && component.source.kind === "icon",
+    )
+    .map((component) => ({
+      kind: "icon-overflow" as const,
+      source: component.source,
+    }));
+
 export const computeReliefComponents = async (
   spec: TokenSpec,
   font: Font,
@@ -71,30 +119,11 @@ export const computeReliefComponents = async (
     warnings,
   );
 
-  // One component at a time, so a failure names the text line or icon it came from.
-  const componentValidations = await Promise.all(
-    reliefComponents.map((component) =>
-      validateMinStrokeWidth(component.contours, printProfile.minStrokeWidthMm),
-    ),
+  const strokeFailures = await strokeWidthFailures(
+    reliefComponents,
+    printProfile,
   );
-
-  const strokeWidthFailures: ComponentFailure[] = reliefComponents
-    .map((component, index) => ({ component, validation: componentValidations[index] }))
-    .filter(({ validation }) => !validation.valid)
-    .map(({ component, validation }) => ({
-      kind: "stroke-width" as const,
-      source: component.source,
-      vanishedFeatureCount: validation.vanishedFeatureCount,
-      featureCount: validation.featureCount,
-    }));
-
-  // overflowsCircle is only set when nothing corrected the overflow.
-  const iconOverflowFailures: ComponentFailure[] = reliefComponents
-    .filter(
-      (component): component is typeof component & { source: { kind: "icon"; iconId: string } } =>
-        component.overflowsCircle === true && component.source.kind === "icon",
-    )
-    .map((component) => ({ kind: "icon-overflow" as const, source: component.source }));
+  const overflowFailures = iconOverflowFailures(reliefComponents);
 
   // Checked against the same outline the preview draws (grown icons included), so a flagged
   // token and the picture of it always agree.
@@ -103,9 +132,12 @@ export const computeReliefComponents = async (
     CENTER_ANGLE_DEG,
     collectGrowOutlineContours(reliefComponents),
   );
-  const layoutFailures = await validateLayoutGeometry(reliefComponents, footprintContours);
+  const layoutFailures = await validateLayoutGeometry(
+    reliefComponents,
+    footprintContours,
+  );
 
-  const blockingFailures = [...strokeWidthFailures, ...iconOverflowFailures];
+  const blockingFailures = [...strokeFailures, ...overflowFailures];
   const componentFailures = [...blockingFailures, ...layoutFailures];
 
   return {

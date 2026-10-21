@@ -1,4 +1,4 @@
-import { Vec2 } from "../types";
+import type { Vec2 } from "../types";
 
 // Which piece of the token a relief component came from, so a failed min-stroke-width check
 // (see validation/validateMinStrokeWidth.ts) can name it instead of just counting details.
@@ -20,6 +20,6 @@ export type ReliefComponent = {
 };
 
 // Every grown icon footprint as one contour list, empty when no icon grew.
-export const collectGrowOutlineContours = (components: ReliefComponent[]): Vec2[][] => {
-  return components.flatMap((component) => component.growOutline ?? []);
-};
+export const collectGrowOutlineContours = (
+  components: ReliefComponent[],
+): Vec2[][] => components.flatMap((component) => component.growOutline ?? []);

@@ -1,9 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import type { PreviewItem, WorkerRequest } from "@/browser/tokenWorker";
-import { GuildCatalog } from "@/core/token/catalog/catalogTypes";
+import type { GuildCatalog } from "@/core/token/catalog/catalogTypes";
 import { buildTokenItems } from "@/core/token/catalog/token-items/buildTokenItems";
-import { SharedConfig, TokenSelection } from "@/core/token/catalog/token-items/tokenItem";
+import type {
+  SharedConfig,
+  TokenSelection,
+} from "@/core/token/catalog/token-items/tokenItem";
 
 import { LIVE_PREVIEW_DEBOUNCE_MS } from "./livePreviewDebounce";
 import { useWorker } from "./useWorker";
@@ -65,13 +68,14 @@ export const usePreview = (
       return;
     }
 
-    const remainingWaitMs = LIVE_PREVIEW_DEBOUNCE_MS - elapsedSinceLastRequestMs;
+    const remainingWaitMs =
+      LIVE_PREVIEW_DEBOUNCE_MS - elapsedSinceLastRequestMs;
     const timeoutId = setTimeout(postPreviewRequest, remainingWaitMs);
 
     return () => {
       clearTimeout(timeoutId);
     };
-  }, [tokenItems]);
+  }, [tokenItems, workerRef, requestIdRef]);
 
   const validCount = useMemo(
     () => previewItems.filter((item) => item.valid).length,

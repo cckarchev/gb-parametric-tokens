@@ -1,7 +1,7 @@
 import { CheckboxField } from "@/components/primitives/checkbox-field/CheckboxField";
 import { NumberField } from "@/components/primitives/number-field/NumberField";
 import { DEFAULT_ARC_SHAPE } from "@/core/token/defaultShapeAndStyle";
-import { ShapeSpec } from "@/core/token/types";
+import type { ShapeSpec } from "@/core/token/types";
 
 import {
   DISC_DIAMETER_BOUNDS,
@@ -18,7 +18,10 @@ type ShapeEditorProps<T extends ShapeSpec> = {
   onChange: (shape: T) => void;
 };
 
-export const ShapeEditor = <T extends ShapeSpec>({ shape, onChange }: ShapeEditorProps<T>) => {
+export const ShapeEditor = <T extends ShapeSpec>({
+  shape,
+  onChange,
+}: ShapeEditorProps<T>) => {
   if (shape.type === "disc") {
     return (
       <NumberField
@@ -53,14 +56,20 @@ export const ShapeEditor = <T extends ShapeSpec>({ shape, onChange }: ShapeEdito
       <CheckboxField
         label="Fillet between stud and arc"
         checked={shape.studFilletEnabled ?? false}
-        onChange={(studFilletEnabled) => onChange({ ...shape, studFilletEnabled })}
+        onChange={(studFilletEnabled) =>
+          onChange({ ...shape, studFilletEnabled })
+        }
       />
       <NumberField
         label="Stud fillet radius (mm)"
-        value={shape.studFilletRadiusMm ?? DEFAULT_ARC_SHAPE.studFilletRadiusMm ?? 0}
+        value={
+          shape.studFilletRadiusMm ?? DEFAULT_ARC_SHAPE.studFilletRadiusMm ?? 0
+        }
         {...FILLET_RADIUS_BOUNDS}
         disabled={!shape.studFilletEnabled}
-        onChange={(studFilletRadiusMm) => onChange({ ...shape, studFilletRadiusMm })}
+        onChange={(studFilletRadiusMm) =>
+          onChange({ ...shape, studFilletRadiusMm })
+        }
       />
     </>
   );

@@ -1,7 +1,11 @@
 import { describe, expect, it } from "vitest";
 
-import { Vec2 } from "../types";
-import { flipContoursY, rotateContours, translateContours } from "./contourTransforms";
+import type { Vec2 } from "../types";
+import {
+  flipContoursY,
+  rotateContours,
+  translateContours,
+} from "./contourTransforms";
 
 describe("flipContoursY", () => {
   it("negates every y and leaves every x alone", () => {

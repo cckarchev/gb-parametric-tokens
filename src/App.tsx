@@ -1,4 +1,4 @@
-import { MouseEvent } from "react";
+import type { MouseEvent } from "react";
 
 import { navigateTo } from "@/browser/navigateTo";
 import { TokenEditor } from "@/components/token-editor/TokenEditor";

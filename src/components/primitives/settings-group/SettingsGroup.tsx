@@ -7,11 +7,9 @@ type SettingsGroupProps = {
   children: ReactNode;
 };
 
-export const SettingsGroup = ({ title, children }: SettingsGroupProps) => {
-  return (
-    <div className={styles.group}>
-      <h3 className={styles.title}>{title}</h3>
-      {children}
-    </div>
-  );
-};
+export const SettingsGroup = ({ title, children }: SettingsGroupProps) => (
+  <div className={styles.group}>
+    <h3 className={styles.title}>{title}</h3>
+    {children}
+  </div>
+);

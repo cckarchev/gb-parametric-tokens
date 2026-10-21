@@ -10,12 +10,16 @@ describe("characterSelectableIds", () => {
       aoeTemplates: ["smokeBomb"],
     };
 
-    expect(characterSelectableIds(character)).toEqual(["Smoke-0", "Smoke-1", "Smoke-aoe-0"]);
+    expect(characterSelectableIds(character)).toEqual([
+      "Smoke-0",
+      "Smoke-1",
+      "Smoke-aoe-0",
+    ]);
   });
 
   it("lists only token ids for a character without templates", () => {
-    expect(characterSelectableIds({ name: "Tapper", effects: ["commandingAura"] })).toEqual([
-      "Tapper-0",
-    ]);
+    expect(
+      characterSelectableIds({ name: "Tapper", effects: ["commandingAura"] }),
+    ).toEqual(["Tapper-0"]);
   });
 });

@@ -11,11 +11,10 @@ export const buildAttentionMarkerSvg = (
   widthMm: number,
   heightMm: number,
   message: string,
-): string => {
-  return [
+): string =>
+  [
     '<g data-role="attention-marker">',
     `<title>${escapeXmlAttribute(message)}</title>`,
     `<rect x="${x}" y="${y}" width="${widthMm}" height="${heightMm}" fill="none" stroke="${STROKE_COLOR}" stroke-width="${STROKE_WIDTH_MM}" stroke-dasharray="${DASH_PATTERN_MM}" />`,
     "</g>",
   ].join("");
-};

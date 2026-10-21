@@ -20,7 +20,9 @@
    display font swaps in. */
 @font-face {
   font-family: "Big Noodle Titling Fallback";
-  src: local("Arial"), local("Liberation Sans"), local("Helvetica Neue"), local("Helvetica");
+  src:
+    local("Arial"), local("Liberation Sans"), local("Helvetica Neue"),
+    local("Helvetica");
   font-weight: 300 700;
   font-style: normal;
   size-adjust: 54.87%;
@@ -84,7 +86,8 @@
   --color-surface-scrim: rgb(var(--rgb-black) / var(--alpha-60));
 
   /* Type. Display is the manual's title face, body its reading face, mono the figures. */
-  --font-display: "Big Noodle Titling", "Big Noodle Titling Fallback", system-ui, sans-serif;
+  --font-display:
+    "Big Noodle Titling", "Big Noodle Titling Fallback", system-ui, sans-serif;
   --font-body: "Barlow", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 

@@ -1,7 +1,7 @@
-import { ExportFailureItem } from "@/browser/tokenWorker";
+import type { ExportFailureItem } from "@/browser/tokenWorker";
 import { Button } from "@/components/primitives/button/Button";
 
-import { AttentionList, InvalidPreviewItem } from "./AttentionList";
+import { AttentionList, type InvalidPreviewItem } from "./AttentionList";
 import styles from "./ExportPanel.module.css";
 
 type ExportPanelProps = {
@@ -39,7 +39,10 @@ const describeStatus = (
   }
 
   if (invalidCount > 0) {
-    return { tone: "attention", text: `${invalidCount} of ${totalCount} tokens need attention.` };
+    return {
+      tone: "attention",
+      text: `${invalidCount} of ${totalCount} tokens need attention.`,
+    };
   }
 
   const tokenWord = validCount === 1 ? "token" : "tokens";

@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { DEFAULT_SHARED_CONFIG } from "./defaultSharedConfig";
 import { buildMomentumTokenSpec } from "./momentumTokenSpec";
-import { SharedConfig } from "./tokenItem";
+import type { SharedConfig } from "./tokenItem";
 
 const DISC_DIAMETER_MM = 20;
 const TEXT_SIZE_MM = 6;
@@ -11,7 +11,10 @@ const RING_WIDTH_MM = 0.6;
 
 const config: SharedConfig = {
   ...DEFAULT_SHARED_CONFIG,
-  discShape: { ...DEFAULT_SHARED_CONFIG.discShape, diameterMm: DISC_DIAMETER_MM },
+  discShape: {
+    ...DEFAULT_SHARED_CONFIG.discShape,
+    diameterMm: DISC_DIAMETER_MM,
+  },
   momentum: {
     textSizeMm: TEXT_SIZE_MM,
     fontId: DEFAULT_SHARED_CONFIG.momentum.fontId,
@@ -26,7 +29,9 @@ describe("buildMomentumTokenSpec", () => {
 
     expect(spec.shape).toBe(config.discShape);
     expect(spec.textLayout).toBe("flat");
-    expect(spec.lines.map((line) => [line.text, line.sizeMm])).toEqual([["MP", TEXT_SIZE_MM]]);
+    expect(spec.lines.map((line) => [line.text, line.sizeMm])).toEqual([
+      ["MP", TEXT_SIZE_MM],
+    ]);
     expect(spec.icons).toEqual([]);
   });
 

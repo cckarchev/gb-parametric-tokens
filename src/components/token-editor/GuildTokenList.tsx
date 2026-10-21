@@ -1,13 +1,18 @@
-import { GuildCatalog } from "@/core/token/catalog/catalogTypes";
-import { CounterSelection, DISABLED_COUNTER } from "@/core/token/catalog/token-items/tokenItem";
+import type { GuildCatalog } from "@/core/token/catalog/catalogTypes";
+import {
+  type CounterSelection,
+  DISABLED_COUNTER,
+} from "@/core/token/catalog/token-items/tokenItem";
 
-import { CounterPanel, CounterRow } from "./counter-panel/CounterPanel";
+import { CounterPanel, type CounterRow } from "./counter-panel/CounterPanel";
 import { setRowsEnabled } from "./setRowsEnabled";
 
 type GuildTokenListProps = {
   catalog: GuildCatalog;
   genericTokens: Record<string, CounterSelection>;
-  onGenericTokensChange: (genericTokens: Record<string, CounterSelection>) => void;
+  onGenericTokensChange: (
+    genericTokens: Record<string, CounterSelection>,
+  ) => void;
   influence: CounterSelection;
   onInfluenceChange: (influence: CounterSelection) => void;
   momentum: CounterSelection;
@@ -58,7 +63,8 @@ export const GuildTokenList = ({
     key: generic.name,
     label: generic.name,
     selection: genericTokens[generic.name] ?? DISABLED_COUNTER,
-    onChange: (selection) => onGenericTokensChange({ ...genericTokens, [generic.name]: selection }),
+    onChange: (selection) =>
+      onGenericTokensChange({ ...genericTokens, [generic.name]: selection }),
     maxCopies: generic.maxCopies ?? MAX_COPIES,
   }));
 
@@ -74,5 +80,7 @@ export const GuildTokenList = ({
     onGenericTokensChange(setRowsEnabled(genericTokens, genericRows, enabled));
   };
 
-  return <CounterPanel title="Guild tokens" rows={rows} onToggleAll={toggleAll} />;
+  return (
+    <CounterPanel title="Guild tokens" rows={rows} onToggleAll={toggleAll} />
+  );
 };

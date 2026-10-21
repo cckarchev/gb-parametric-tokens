@@ -7,7 +7,12 @@ import {
 } from "../geometry/studPlacement";
 import { buildArcRibbon } from "./buildArcRibbon";
 
-const shape = { type: "arc" as const, ribbonWidthMm: 15, ribbonLengthMm: 20, studDiameterMm: 24 };
+const shape = {
+  type: "arc" as const,
+  ribbonWidthMm: 15,
+  ribbonLengthMm: 20,
+  studDiameterMm: 24,
+};
 
 describe("buildArcRibbon", () => {
   it("extrudes a ring sector resting on the XY plane, up to heightMm", async () => {
@@ -42,7 +47,8 @@ describe("buildArcRibbon", () => {
     const startAngleDeg = 90 - halfSweepDeg;
 
     // The inner radius is fixed, so the lowest y is innerRadiusMm * sin(startAngleDeg).
-    const expectedMinY = innerRadiusMm * Math.sin((startAngleDeg * Math.PI) / 180);
+    const expectedMinY =
+      innerRadiusMm * Math.sin((startAngleDeg * Math.PI) / 180);
 
     expect(bounds.min[1]).toBeCloseTo(expectedMinY, 1);
     // the highest y is at the center (90deg), y = outerRadiusMm * sin(90deg) = outerRadiusMm

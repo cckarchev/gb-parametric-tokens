@@ -16,12 +16,17 @@ describe("resolveById", () => {
       byId,
     );
 
-    expect(resolveById(lookup, "b", "item")).toEqual({ id: "b", label: "Beta" });
+    expect(resolveById(lookup, "b", "item")).toEqual({
+      id: "b",
+      label: "Beta",
+    });
   });
 
   it("throws a message naming the missing id and the kind of item", () => {
     const lookup = buildLookup<Item>([{ id: "a", label: "Alpha" }], byId);
 
-    expect(() => resolveById(lookup, "missing", "item")).toThrow('Unknown item "missing"');
+    expect(() => resolveById(lookup, "missing", "item")).toThrow(
+      'Unknown item "missing"',
+    );
   });
 });

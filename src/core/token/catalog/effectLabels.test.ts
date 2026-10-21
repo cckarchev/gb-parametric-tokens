@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { CatalogEffect } from "./catalogTypes";
+import type { CatalogEffect } from "./catalogTypes";
 import { buildEffectLabels } from "./effectLabels";
 
 describe("buildEffectLabels", () => {

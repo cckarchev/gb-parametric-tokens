@@ -1,4 +1,4 @@
-import { ManifestEntry } from "@/core/token/icons/iconManifest";
+import type { ManifestEntry } from "@/core/token/icons/iconManifest";
 
 const MANIFEST_URL = "/icons/manifest.json";
 

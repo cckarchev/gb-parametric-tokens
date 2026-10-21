@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { buildTokenParts } from "./buildTokenParts";
 import { computeStudPlacements } from "./geometry/studPlacement";
 import { arcSpec, discSpec } from "./testSpecs";
-import { TokenSpec, Vec2 } from "./types";
+import type { TokenSpec, Vec2 } from "./types";
 
 const squareAt = (center: Vec2): Vec2[][] => [
   [
@@ -30,8 +30,14 @@ describe("buildTokenParts", () => {
     const studPlacements = computeStudPlacements(shape, 90);
 
     const parts = await buildTokenParts(arcSpec, [
-      { source: { kind: "decoration" }, contours: squareAt(studPlacements.left.position) },
-      { source: { kind: "decoration" }, contours: squareAt(studPlacements.right.position) },
+      {
+        source: { kind: "decoration" },
+        contours: squareAt(studPlacements.left.position),
+      },
+      {
+        source: { kind: "decoration" },
+        contours: squareAt(studPlacements.right.position),
+      },
     ]);
 
     expect(parts).toHaveLength(1);
@@ -51,6 +57,9 @@ describe("buildTokenParts", () => {
       },
     ]);
 
-    expect(parts.map((part) => part.colorGroupId).sort()).toEqual(["accent", "base"]);
+    expect(parts.map((part) => part.colorGroupId).sort()).toEqual([
+      "accent",
+      "base",
+    ]);
   });
 });

@@ -28,7 +28,9 @@ describe("computeCrestFreeSweepDeg", () => {
   it("sets no limit when no crest reaches the band", () => {
     const below = patch(5, 10, 30, 50);
 
-    expect(computeCrestFreeSweepDeg([below], CENTER_ANGLE_DEG, 18, 20, 0)).toBeUndefined();
+    expect(
+      computeCrestFreeSweepDeg([below], CENTER_ANGLE_DEG, 18, 20, 0),
+    ).toBeUndefined();
   });
 
   it("frees the sweep up to the crest edge nearest the center, on both sides", () => {
@@ -36,7 +38,13 @@ describe("computeCrestFreeSweepDeg", () => {
     const left = patch(17, 21, 125, 150);
 
     // The right crest reaches 40° from the center, the left one 35°: the nearer one wins.
-    const sweepDeg = computeCrestFreeSweepDeg([right, left], CENTER_ANGLE_DEG, 18, 20, 0);
+    const sweepDeg = computeCrestFreeSweepDeg(
+      [right, left],
+      CENTER_ANGLE_DEG,
+      18,
+      20,
+      0,
+    );
 
     expect(sweepDeg).toBeCloseTo(2 * 35, 1);
   });
@@ -44,7 +52,13 @@ describe("computeCrestFreeSweepDeg", () => {
   it("finds a crest edge that crosses the band with no corner inside it", () => {
     const spoke = [polar(10, 60), polar(30, 60), polar(30, 55), polar(10, 55)];
 
-    const sweepDeg = computeCrestFreeSweepDeg([spoke], CENTER_ANGLE_DEG, 18, 20, 0);
+    const sweepDeg = computeCrestFreeSweepDeg(
+      [spoke],
+      CENTER_ANGLE_DEG,
+      18,
+      20,
+      0,
+    );
 
     expect(sweepDeg).toBeCloseTo(2 * 30, 1);
   });

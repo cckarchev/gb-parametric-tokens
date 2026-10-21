@@ -21,16 +21,31 @@ describe("loadGuildCatalog", () => {
     expect(result.name).toBe("Generic");
     expect(result.characters).toEqual([]);
     expect(result.genericTokens).toEqual([]);
-    expect(result.conditions.map((condition) => condition.id)).toEqual(conditionIds);
+    expect(result.conditions.map((condition) => condition.id)).toEqual(
+      conditionIds,
+    );
     expect(result.appliedConditionIds).toEqual(conditionIds);
     expect(result.gamePlans).toEqual(gamePlansData);
   });
 
   it("orders the roster: captains, mascots, own squaddies, then guests from another guild", () => {
-    const names = loadGuildCatalog("butchers").characters.map((character) => character.name);
+    const names = loadGuildCatalog("butchers").characters.map(
+      (character) => character.name,
+    );
 
-    expect(names.slice(0, 5)).toEqual(["vBoar", "Fillet", "Ox", "Princess", "Truffles"]);
-    expect(names.slice(5, 9)).toEqual(["Boar", "Boiler", "Brisket", "vBrisket"]);
+    expect(names.slice(0, 5)).toEqual([
+      "vBoar",
+      "Fillet",
+      "Ox",
+      "Princess",
+      "Truffles",
+    ]);
+    expect(names.slice(5, 9)).toEqual([
+      "Boar",
+      "Boiler",
+      "Brisket",
+      "vBrisket",
+    ]);
     expect(names.slice(-2)).toEqual(["Cinnamon", "Roast"]);
   });
 

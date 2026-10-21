@@ -1,6 +1,6 @@
 import { TEXT_COLOR_GROUP_ID } from "../../mesh/colorGroups";
-import { DiscShapeSpec, FitPolicy, TokenSpec } from "../../types";
-import { MomentumTuning, SharedConfig } from "./tokenItem";
+import type { DiscShapeSpec, FitPolicy, TokenSpec } from "../../types";
+import type { MomentumTuning, SharedConfig } from "./tokenItem";
 import { sharedTokenFields } from "./tokenSpecParts";
 
 // "MP" (Momentum Points) is the text printed on the Momentum token itself, not a separate token
@@ -17,7 +17,10 @@ const MOMENTUM_FIT_POLICY: FitPolicy = {
 
 // A thin border ring whose outer edge sits ringInsetMm in from the rim. The ring decoration's
 // radiusMm is its centerline, hence the half width.
-const buildRingDecoration = (discShape: DiscShapeSpec, tuning: MomentumTuning) => {
+const buildRingDecoration = (
+  discShape: DiscShapeSpec,
+  tuning: MomentumTuning,
+) => {
   const discRadiusMm = discShape.diameterMm / 2;
   const radiusMm = discRadiusMm - tuning.ringInsetMm - tuning.ringWidthMm / 2;
 
@@ -31,21 +34,23 @@ const buildRingDecoration = (discShape: DiscShapeSpec, tuning: MomentumTuning) =
 
 // Fixed text "MP" (Momentum Points) plus a thin border ring, no icon: a physical chip you
 // stack to count Momentum, not a token that reads its own numeric value.
-export const buildMomentumTokenSpec = (sharedConfig: SharedConfig): TokenSpec => {
-  return {
-    version: 1,
-    shape: sharedConfig.discShape,
-    textLayout: "flat",
-    lines: [
-      {
-        text: MOMENTUM_TEXT,
-        sizeMm: sharedConfig.momentum.textSizeMm,
-        colorGroup: TEXT_COLOR_GROUP_ID,
-      },
-    ],
-    icons: [],
-    decorations: [buildRingDecoration(sharedConfig.discShape, sharedConfig.momentum)],
-    ...sharedTokenFields(sharedConfig, MOMENTUM_FIT_POLICY),
-    fontId: sharedConfig.momentum.fontId,
-  };
-};
+export const buildMomentumTokenSpec = (
+  sharedConfig: SharedConfig,
+): TokenSpec => ({
+  version: 1,
+  shape: sharedConfig.discShape,
+  textLayout: "flat",
+  lines: [
+    {
+      text: MOMENTUM_TEXT,
+      sizeMm: sharedConfig.momentum.textSizeMm,
+      colorGroup: TEXT_COLOR_GROUP_ID,
+    },
+  ],
+  icons: [],
+  decorations: [
+    buildRingDecoration(sharedConfig.discShape, sharedConfig.momentum),
+  ],
+  ...sharedTokenFields(sharedConfig, MOMENTUM_FIT_POLICY),
+  fontId: sharedConfig.momentum.fontId,
+});

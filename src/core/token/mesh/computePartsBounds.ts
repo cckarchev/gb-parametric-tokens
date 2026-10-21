@@ -1,5 +1,5 @@
-import { Bounds } from "../geometry/computeBounds";
-import { TokenPart } from "./tokenPart";
+import type { Bounds } from "../geometry/computeBounds";
+import type { TokenPart } from "./tokenPart";
 
 // The flat (x, y) extent a token covers on the plate, across all of its color parts.
 export const computePartsBounds = (parts: TokenPart[]): Bounds => {

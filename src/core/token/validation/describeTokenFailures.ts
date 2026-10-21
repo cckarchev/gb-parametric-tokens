@@ -1,5 +1,5 @@
 import {
-  ComponentFailure,
+  type ComponentFailure,
   describeComponentFailure,
   describeVanishedDetailCount,
 } from "./validateMinStrokeWidth";

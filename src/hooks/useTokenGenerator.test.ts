@@ -1,8 +1,10 @@
 // @vitest-environment happy-dom
-import { act, renderHook, waitFor } from "@testing-library/react";
+import { act, renderHook } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-vi.mock("@/browser/listAvailableGuilds", () => ({ listAvailableGuilds: vi.fn() }));
+vi.mock("@/browser/listAvailableGuilds", () => ({
+  listAvailableGuilds: vi.fn(),
+}));
 vi.mock("@/browser/loadGuildCatalog", () => ({ loadGuildCatalog: vi.fn() }));
 vi.mock("@/browser/downloadBlob", () => ({ downloadBlob: vi.fn() }));
 
@@ -55,7 +57,9 @@ describe("useTokenGenerator", () => {
     const { result } = renderHook(() => useTokenGenerator());
 
     await vi.waitFor(() => {
-      expect(result.current.guilds).toEqual([{ id: "brewers", name: "Brewers", color: "#cdb320" }]);
+      expect(result.current.guilds).toEqual([
+        { id: "brewers", name: "Brewers", color: "#cdb320" },
+      ]);
     });
   });
 
@@ -63,7 +67,9 @@ describe("useTokenGenerator", () => {
     const { result } = renderHook(() => useTokenGenerator());
 
     await vi.waitFor(() => {
-      expect(result.current.guilds).toEqual([{ id: "brewers", name: "Brewers", color: "#cdb320" }]);
+      expect(result.current.guilds).toEqual([
+        { id: "brewers", name: "Brewers", color: "#cdb320" },
+      ]);
     });
 
     expect(result.current.selectedGuildId).toBeUndefined();
@@ -83,14 +89,26 @@ describe("useTokenGenerator", () => {
 
     expect(loadGuildCatalog).toHaveBeenCalledWith("brewers");
     expect(result.current.catalog).toEqual(catalog);
-    expect(result.current.selection.characterTokenIds).toEqual(["Tapper-0", "Tapper-1"]);
+    expect(result.current.selection.characterTokenIds).toEqual([
+      "Tapper-0",
+      "Tapper-1",
+    ]);
     expect(result.current.selection.characterTokenCopies).toEqual({});
     expect(result.current.selection.genericTokens).toEqual({
       "Beer Token": { enabled: true, copies: 1 },
     });
-    expect(result.current.selection.influence).toEqual({ enabled: true, copies: 13 });
-    expect(result.current.selection.momentum).toEqual({ enabled: true, copies: 15 });
-    expect(result.current.selection.goalInfluence).toEqual({ enabled: true, copies: 2 });
+    expect(result.current.selection.influence).toEqual({
+      enabled: true,
+      copies: 13,
+    });
+    expect(result.current.selection.momentum).toEqual({
+      enabled: true,
+      copies: 15,
+    });
+    expect(result.current.selection.goalInfluence).toEqual({
+      enabled: true,
+      copies: 2,
+    });
     expect(result.current.sharedConfig.influenceIconId).toBe("Brewers");
   });
 
@@ -158,9 +176,9 @@ describe("useTokenGenerator", () => {
     ]);
 
     // Looked up by id like the real lookup, since the hook resolves the catalog on every render.
-    vi.mocked(loadGuildCatalog).mockImplementation((guildId) => {
-      return guildId === otherCatalog.guildId ? otherCatalog : catalog;
-    });
+    vi.mocked(loadGuildCatalog).mockImplementation((guildId) =>
+      guildId === otherCatalog.guildId ? otherCatalog : catalog,
+    );
 
     const { result } = renderHook(() => useTokenGenerator());
 
@@ -176,7 +194,9 @@ describe("useTokenGenerator", () => {
     act(() => {
       result.current.setSelection((selection) => ({
         ...selection,
-        characterTokenIds: selection.characterTokenIds.filter((id) => id !== "Tapper-1"),
+        characterTokenIds: selection.characterTokenIds.filter(
+          (id) => id !== "Tapper-1",
+        ),
         momentum: { ...selection.momentum, enabled: false },
       }));
     });
@@ -193,7 +213,9 @@ describe("useTokenGenerator", () => {
     });
 
     // Cooks is visited for the first time, so it gets the full default selection.
-    expect(result.current.selection.characterTokenIds).toEqual(["Wellington-0"]);
+    expect(result.current.selection.characterTokenIds).toEqual([
+      "Wellington-0",
+    ]);
     expect(result.current.selection.momentum.enabled).toBe(true);
 
     await act(async () => {
@@ -240,7 +262,10 @@ describe("useTokenGenerator", () => {
     });
 
     act(() => {
-      result.current.setSelection({ ...result.current.selection, characterTokenIds: ["Tapper-0"] });
+      result.current.setSelection({
+        ...result.current.selection,
+        characterTokenIds: ["Tapper-0"],
+      });
     });
 
     await act(async () => {
@@ -291,7 +316,10 @@ describe("useTokenGenerator", () => {
     });
 
     act(() => {
-      result.current.setSelection({ ...result.current.selection, characterTokenIds: ["Tapper-0"] });
+      result.current.setSelection({
+        ...result.current.selection,
+        characterTokenIds: ["Tapper-0"],
+      });
     });
 
     await act(async () => {
@@ -334,7 +362,8 @@ describe("useTokenGenerator", () => {
             warnings: [],
             copies: 1,
             valid: false,
-            reason: "1 of 3 details (text or icon) too thin to print at this size.",
+            reason:
+              "1 of 3 details (text or icon) too thin to print at this size.",
           },
         ],
       });
@@ -364,7 +393,10 @@ describe("useTokenGenerator", () => {
     });
 
     act(() => {
-      result.current.setSelection({ ...result.current.selection, characterTokenIds: ["Tapper-0"] });
+      result.current.setSelection({
+        ...result.current.selection,
+        characterTokenIds: ["Tapper-0"],
+      });
     });
 
     const exportPromise = act(async () => {
@@ -375,7 +407,9 @@ describe("useTokenGenerator", () => {
       const worker = FakeWorker.instances[0];
       const calls = worker.postMessage.mock.calls;
 
-      expect(calls.some((call) => (call[0] as WorkerRequest).kind === "export")).toBe(true);
+      expect(
+        calls.some((call) => (call[0] as WorkerRequest).kind === "export"),
+      ).toBe(true);
     });
 
     const worker = FakeWorker.instances[0];
@@ -417,7 +451,10 @@ describe("useTokenGenerator", () => {
     });
 
     act(() => {
-      result.current.setSelection({ ...result.current.selection, characterTokenIds: ["Tapper-0"] });
+      result.current.setSelection({
+        ...result.current.selection,
+        characterTokenIds: ["Tapper-0"],
+      });
     });
 
     const exportPromise = act(async () => {
@@ -427,14 +464,18 @@ describe("useTokenGenerator", () => {
     await vi.waitFor(() => {
       const calls = FakeWorker.instances[0].postMessage.mock.calls;
 
-      expect(calls.some((call) => (call[0] as WorkerRequest).kind === "export")).toBe(true);
+      expect(
+        calls.some((call) => (call[0] as WorkerRequest).kind === "export"),
+      ).toBe(true);
     });
 
     FakeWorker.instances[0].fail("Failed to fetch the worker script");
 
     await exportPromise;
 
-    expect(result.current.exportError).toBe("Failed to fetch the worker script");
+    expect(result.current.exportError).toBe(
+      "Failed to fetch the worker script",
+    );
     expect(result.current.isExporting).toBe(false);
     expect(downloadBlob).not.toHaveBeenCalled();
   });
@@ -451,7 +492,10 @@ describe("useTokenGenerator", () => {
     });
 
     act(() => {
-      result.current.setSelection({ ...result.current.selection, characterTokenIds: ["Tapper-0"] });
+      result.current.setSelection({
+        ...result.current.selection,
+        characterTokenIds: ["Tapper-0"],
+      });
     });
 
     let isExportSettled = false;
@@ -480,7 +524,10 @@ describe("useTokenGenerator", () => {
     });
 
     act(() => {
-      result.current.setSelection({ ...result.current.selection, characterTokenIds: ["Tapper-0"] });
+      result.current.setSelection({
+        ...result.current.selection,
+        characterTokenIds: ["Tapper-0"],
+      });
     });
 
     const exportPromise = act(async () => {
@@ -491,7 +538,9 @@ describe("useTokenGenerator", () => {
       const worker = FakeWorker.instances[0];
 
       expect(
-        worker.postMessage.mock.calls.some((call) => (call[0] as WorkerRequest).kind === "export"),
+        worker.postMessage.mock.calls.some(
+          (call) => (call[0] as WorkerRequest).kind === "export",
+        ),
       ).toBe(true);
     });
 
@@ -508,14 +557,24 @@ describe("useTokenGenerator", () => {
       kind: "export",
       requestId: exportRequest.requestId,
       status: "failed",
-      failures: [{ id: "Tapper-0", label: "Tapper: Commanding Aura", reason: "Invalid mesh." }],
+      failures: [
+        {
+          id: "Tapper-0",
+          label: "Tapper: Commanding Aura",
+          reason: "Invalid mesh.",
+        },
+      ],
     });
 
     await exportPromise;
 
     expect(downloadBlob).not.toHaveBeenCalled();
     expect(result.current.exportFailures).toEqual([
-      { id: "Tapper-0", label: "Tapper: Commanding Aura", reason: "Invalid mesh." },
+      {
+        id: "Tapper-0",
+        label: "Tapper: Commanding Aura",
+        reason: "Invalid mesh.",
+      },
     ]);
   });
 
@@ -537,11 +596,21 @@ describe("useTokenGenerator", () => {
     const { result } = renderHook(() => useTokenGenerator());
 
     const importedConfig = {
-      arcShape: { type: "arc", ribbonWidthMm: 20, ribbonLengthMm: 25, studDiameterMm: 30 },
+      arcShape: {
+        type: "arc",
+        ribbonWidthMm: 20,
+        ribbonLengthMm: 25,
+        studDiameterMm: 30,
+      },
       discShape: { type: "disc", diameterMm: 30 },
       goalInfluenceShape: { type: "disc", diameterMm: 24 },
       style: { relief: "engraved", reliefHeightMm: 0.8, baseThicknessMm: 4 },
-      fitPolicy: { minTracking: 0, maxTracking: 0.2, minScale: 0.6, allowTwoLines: false },
+      fitPolicy: {
+        minTracking: 0,
+        maxTracking: 0.2,
+        minScale: 0.6,
+        allowTwoLines: false,
+      },
       printProfileId: "fdm-04",
       colorGroups: [{ id: "base", name: "Body", color: "#123456" }],
       influenceIconId: "blank",
@@ -576,11 +645,21 @@ describe("useTokenGenerator", () => {
     const { result } = renderHook(() => useTokenGenerator());
 
     const importedConfig = {
-      arcShape: { type: "arc", ribbonWidthMm: 20, ribbonLengthMm: 25, studDiameterMm: 30 },
+      arcShape: {
+        type: "arc",
+        ribbonWidthMm: 20,
+        ribbonLengthMm: 25,
+        studDiameterMm: 30,
+      },
       discShape: { type: "disc", diameterMm: 30 },
       goalInfluenceShape: { type: "disc", diameterMm: 24 },
       style: { relief: "engraved", reliefHeightMm: 0.8, baseThicknessMm: 4 },
-      fitPolicy: { minTracking: 0, maxTracking: 0.2, minScale: 0.6, allowTwoLines: false },
+      fitPolicy: {
+        minTracking: 0,
+        maxTracking: 0.2,
+        minScale: 0.6,
+        allowTwoLines: false,
+      },
       printProfileId: "fdm-04",
       colorGroups: [{ id: "base", name: "Body", color: "#123456" }],
       influenceIconId: "blank",
@@ -616,13 +695,17 @@ describe("useTokenGenerator", () => {
   it("reports an error and keeps the current config when the imported file is invalid", async () => {
     const { result } = renderHook(() => useTokenGenerator());
     const originalConfig = result.current.sharedConfig;
-    const file = new File(["{}"], "settings.json", { type: "application/json" });
+    const file = new File(["{}"], "settings.json", {
+      type: "application/json",
+    });
 
     await act(async () => {
       await result.current.importSettingsJson(file);
     });
 
-    expect(result.current.importSettingsError).toBe("This file is not a valid settings file.");
+    expect(result.current.importSettingsError).toBe(
+      "This file is not a valid settings file.",
+    );
     expect(result.current.sharedConfig).toEqual(originalConfig);
   });
 });

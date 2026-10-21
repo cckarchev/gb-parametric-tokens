@@ -4,7 +4,10 @@ export const DEFAULT_TOKEN_COPIES = 2;
 
 // How many copies a selected character token or AOE template prints: the count the user picked,
 // or the default while they haven't, never past the token's own cap.
-export const resolveTokenCopies = (storedCopies: number | undefined, maxCopies: number): number => {
+export const resolveTokenCopies = (
+  storedCopies: number | undefined,
+  maxCopies: number,
+): number => {
   const requestedCopies = storedCopies ?? DEFAULT_TOKEN_COPIES;
 
   return Math.min(requestedCopies, maxCopies);

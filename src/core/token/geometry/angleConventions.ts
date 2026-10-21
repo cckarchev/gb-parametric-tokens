@@ -2,7 +2,9 @@
 // rendering, and the token worker so they all agree on which side is "up".
 export const CENTER_ANGLE_DEG = 90;
 
-export const DEGREES_PER_RADIAN = 180 / Math.PI;
+const HALF_TURN_DEG = 180;
+
+export const DEGREES_PER_RADIAN = HALF_TURN_DEG / Math.PI;
 
 // A point's polar angle says which way "away from the center" points there; a glyph or an icon
 // sitting at that point is upright when its own local +y axis points that same way. The two

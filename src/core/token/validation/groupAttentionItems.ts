@@ -24,7 +24,11 @@ export const groupAttentionItems = <Item extends AttentionItem>(
       continue;
     }
 
-    groupsByKey.set(key, { key, heading: item.group ?? item.name, items: [item] });
+    groupsByKey.set(key, {
+      key,
+      heading: item.group ?? item.name,
+      items: [item],
+    });
   }
 
   return [...groupsByKey.values()];

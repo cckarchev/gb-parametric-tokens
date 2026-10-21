@@ -1,6 +1,6 @@
 import { TEXT_COLOR_GROUP_ID } from "../../mesh/colorGroups";
-import { FitPolicy, IconSpec, TokenSpec } from "../../types";
-import { SharedConfig } from "./tokenItem";
+import type { FitPolicy, IconSpec, TokenSpec } from "../../types";
+import type { SharedConfig } from "./tokenItem";
 
 // Every icon a guild token wears is built here, so iconOverflowBehavior is applied in one place.
 export const buildIconSpec = (
@@ -13,9 +13,9 @@ export const buildIconSpec = (
   side,
   scale,
   colorGroup: TEXT_COLOR_GROUP_ID,
-  ...(sharedConfig.iconOverflowBehavior !== "none"
-    ? { overflowBehavior: sharedConfig.iconOverflowBehavior }
-    : {}),
+  ...(sharedConfig.iconOverflowBehavior === "none"
+    ? {}
+    : { overflowBehavior: sharedConfig.iconOverflowBehavior }),
 });
 
 // The style and printing fields every token spec takes from the shared config.
@@ -25,14 +25,15 @@ export const buildIconSpec = (
 export const sharedTokenFields = (
   sharedConfig: SharedConfig,
   fitPolicyOverride?: FitPolicy,
-): Pick<TokenSpec, "style" | "colorGroups" | "printProfileId" | "fitPolicy"> => {
-  return {
-    style: sharedConfig.style,
-    colorGroups: sharedConfig.colorGroups,
-    printProfileId: sharedConfig.printProfileId,
-    fitPolicy: fitPolicyOverride ?? sharedConfig.fitPolicy,
-  };
-};
+): Pick<
+  TokenSpec,
+  "style" | "colorGroups" | "printProfileId" | "fitPolicy"
+> => ({
+  style: sharedConfig.style,
+  colorGroups: sharedConfig.colorGroups,
+  printProfileId: sharedConfig.printProfileId,
+  fitPolicy: fitPolicyOverride ?? sharedConfig.fitPolicy,
+});
 
 // The catalog's iconScale (see GuildCatalog) only makes sense for the guild's own crest, so a
 // token wearing a custom icon of its own is left at the plain default.
@@ -40,6 +41,4 @@ export const guildCrestScale = (
   iconId: string,
   guildIconId: string,
   guildIconScale: number,
-): number => {
-  return iconId === guildIconId ? guildIconScale : 1;
-};
+): number => (iconId === guildIconId ? guildIconScale : 1);

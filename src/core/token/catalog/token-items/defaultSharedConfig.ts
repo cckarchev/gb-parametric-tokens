@@ -7,9 +7,12 @@ import {
 } from "../../defaultShapeAndStyle";
 import { FALLBACK_ICON_ID } from "../../icons/iconManifest";
 import { DEFAULT_PRINT_PROFILE_ID } from "../../printProfiles";
-import { DEFAULT_BODY_FONT_ID, DEFAULT_DISPLAY_FONT_ID } from "../../text/fontCatalog";
-import { DiscShapeSpec } from "../../types";
-import { SharedConfig, TokenTuning } from "./tokenItem";
+import {
+  DEFAULT_BODY_FONT_ID,
+  DEFAULT_DISPLAY_FONT_ID,
+} from "../../text/fontCatalog";
+import type { DiscShapeSpec } from "../../types";
+import type { SharedConfig, TokenTuning } from "./tokenItem";
 
 const DEFAULT_GOAL_INFLUENCE_SHAPE: DiscShapeSpec = {
   type: "disc",
@@ -35,7 +38,12 @@ export const DEFAULT_TOKEN_TUNING: TokenTuning = {
     singleLineNameSizeMm: DEFAULT_SINGLE_LINE_NAME_SIZE_MM,
     fontId: DEFAULT_BODY_FONT_ID,
   },
-  ringBadge: { textSizeMm: 2.2, textInsetMm: 1, crestScale: 0.65, fontId: DEFAULT_BODY_FONT_ID },
+  ringBadge: {
+    textSizeMm: 2.2,
+    textInsetMm: 1,
+    crestScale: 0.65,
+    fontId: DEFAULT_BODY_FONT_ID,
+  },
   // Two fixed letters never need fitting, so they can wear a rounder, wider face than the
   // condensed one the rest of the text needs.
   momentum: {

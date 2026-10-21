@@ -1,7 +1,7 @@
 import { TEXT_COLOR_GROUP_ID } from "../../mesh/colorGroups";
-import { LineSpec, TokenSpec } from "../../types";
+import type { LineSpec, TokenSpec } from "../../types";
 import { computeRingTextRadii } from "./ringTextRadii";
-import { SharedConfig } from "./tokenItem";
+import type { SharedConfig } from "./tokenItem";
 import { buildIconSpec, sharedTokenFields } from "./tokenSpecParts";
 
 // The round badge with a centered crest and two curved lines, as on Goal Influence and any effect
@@ -13,7 +13,8 @@ export const buildRingTokenSpec = (
   guildIconScale: number,
   sharedConfig: SharedConfig,
 ): TokenSpec => {
-  const { textSizeMm, textInsetMm, crestScale, fontId } = sharedConfig.ringBadge;
+  const { textSizeMm, textInsetMm, crestScale, fontId } =
+    sharedConfig.ringBadge;
   // The text's ink sits textInsetMm in from the rim.
   const radii = computeRingTextRadii(
     sharedConfig.goalInfluenceShape.diameterMm,
@@ -30,8 +31,9 @@ export const buildRingTokenSpec = (
   };
 
   const lines =
-    bottomText !== undefined
-      ? [
+    bottomText === undefined
+      ? [topLine]
+      : [
           topLine,
           {
             text: bottomText,
@@ -39,8 +41,7 @@ export const buildRingTokenSpec = (
             radiusMm: radii.bottomMm,
             colorGroup: TEXT_COLOR_GROUP_ID,
           },
-        ]
-      : [topLine];
+        ];
 
   return {
     version: 1,
@@ -48,7 +49,14 @@ export const buildRingTokenSpec = (
     textLayout: "ring",
     lines,
     // At guildIconScale 1 the default crest scale still clears the text.
-    icons: [buildIconSpec(guildIconId, "center", crestScale * guildIconScale, sharedConfig)],
+    icons: [
+      buildIconSpec(
+        guildIconId,
+        "center",
+        crestScale * guildIconScale,
+        sharedConfig,
+      ),
+    ],
     // No ring border, unlike Momentum: around a guild crest, which isn't round, it reads as a
     // second circle.
     decorations: [],

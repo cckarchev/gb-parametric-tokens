@@ -1,5 +1,5 @@
-import { existsSync } from "fs";
-import path from "path";
+import { existsSync } from "node:fs";
+import path from "node:path";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -14,9 +14,8 @@ import { loadFontFile } from "./testFont";
 
 const METRIC_PRECISION_DIGITS = 3;
 
-const publicFilePath = (entryFile: string): string => {
-  return path.join(process.cwd(), "public", fontFilePath(entryFile));
-};
+const publicFilePath = (entryFile: string): string =>
+  path.join(process.cwd(), "public", fontFilePath(entryFile));
 
 describe("FONT_CATALOG", () => {
   it("gives every font a unique id", () => {
@@ -40,9 +39,14 @@ describe("FONT_CATALOG", () => {
   // The spec builders size text before any font is loaded, so they read these stored values.
   // This keeps them honest against the real file.
   it.each(FONT_CATALOG)("stores $name's measured metrics", (entry) => {
-    const measured = measureFontMetrics(loadFontFile(publicFilePath(entry.file)));
+    const measured = measureFontMetrics(
+      loadFontFile(publicFilePath(entry.file)),
+    );
 
-    expect(entry.metrics.ascentRatio).toBeCloseTo(measured.ascentRatio, METRIC_PRECISION_DIGITS);
+    expect(entry.metrics.ascentRatio).toBeCloseTo(
+      measured.ascentRatio,
+      METRIC_PRECISION_DIGITS,
+    );
     expect(entry.metrics.stemWidthRatio).toBeCloseTo(
       measured.stemWidthRatio,
       METRIC_PRECISION_DIGITS,
@@ -52,7 +56,9 @@ describe("FONT_CATALOG", () => {
 
 describe("findFontEntry", () => {
   it("finds a font by its id", () => {
-    expect(findFontEntry(DEFAULT_DISPLAY_FONT_ID).id).toBe(DEFAULT_DISPLAY_FONT_ID);
+    expect(findFontEntry(DEFAULT_DISPLAY_FONT_ID).id).toBe(
+      DEFAULT_DISPLAY_FONT_ID,
+    );
   });
 
   it("falls back to the body font for an id it doesn't know", () => {

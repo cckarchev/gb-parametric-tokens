@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { type ReactNode, useState } from "react";
 
 import styles from "./Panel.module.css";
 
@@ -29,7 +29,12 @@ export const Panel = ({
         <div className={styles.legendRow}>
           {headerAccessory}
 
-          <button type="button" className={styles.toggle} aria-expanded={expanded} onClick={toggle}>
+          <button
+            type="button"
+            className={styles.toggle}
+            aria-expanded={expanded}
+            onClick={toggle}
+          >
             <span>{title}</span>
             <span className={styles.chevron} aria-hidden="true" />
           </button>

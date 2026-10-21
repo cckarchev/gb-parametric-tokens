@@ -2,8 +2,11 @@ import { NumberField } from "@/components/primitives/number-field/NumberField";
 import { SettingsGroup } from "@/components/primitives/settings-group/SettingsGroup";
 import { DEFAULT_SHARED_CONFIG } from "@/core/token/catalog/token-items/defaultSharedConfig";
 
-import { SectionPanel, SectionProps } from "../section-panel/SectionPanel";
-import { BASE_THICKNESS_BOUNDS, RELIEF_HEIGHT_BOUNDS } from "../shared/fieldBounds";
+import { SectionPanel, type SectionProps } from "../section-panel/SectionPanel";
+import {
+  BASE_THICKNESS_BOUNDS,
+  RELIEF_HEIGHT_BOUNDS,
+} from "../shared/fieldBounds";
 import { FitPolicyEditor } from "./FitPolicyEditor";
 import { SettingsFileGroup } from "./settings-file-group/SettingsFileGroup";
 

@@ -1,4 +1,4 @@
-import {
+import type {
   ArcShapeSpec,
   ColorGroupSpec,
   DiscShapeSpec,
@@ -31,7 +31,10 @@ export type CounterSelection = { enabled: boolean; copies: number };
 export const MIN_COPIES = 1;
 
 // A counter the user hasn't opted into yet: unchecked, at the minimum count.
-export const DISABLED_COUNTER: CounterSelection = { enabled: false, copies: MIN_COPIES };
+export const DISABLED_COUNTER: CounterSelection = {
+  enabled: false,
+  copies: MIN_COPIES,
+};
 
 // The cap for a repeatable character token (see CatalogEffect.repeatable): rather than deriving a
 // per-play limit from cost and influence, whoever prints a set picks what their list really needs.
@@ -151,24 +154,24 @@ export type SharedConfig = TokenTuning & {
   aoeTemplateVariant: AoeTemplateVariant;
 };
 
-export const characterTokenId = (characterId: string, tokenIndex: number): string => {
-  return `${characterId}-${tokenIndex}`;
-};
+export const characterTokenId = (
+  characterId: string,
+  tokenIndex: number,
+): string => `${characterId}-${tokenIndex}`;
 
 // Its own "-aoe-" segment so a template's id can never collide with a token's, while still
 // living in the same selection arrays (characterTokenIds/characterTokenCopies) so the stored and
 // exported selection keeps its shape.
-export const characterAoeTemplateId = (characterId: string, templateIndex: number): string => {
-  return `${characterId}-aoe-${templateIndex}`;
-};
+export const characterAoeTemplateId = (
+  characterId: string,
+  templateIndex: number,
+): string => `${characterId}-aoe-${templateIndex}`;
 
 // Prefixed so a condition can never collide with a guild generic token, whose item id is its
 // bare name.
-export const conditionTokenId = (conditionId: string): string => {
-  return `condition-${conditionId}`;
-};
+export const conditionTokenId = (conditionId: string): string =>
+  `condition-${conditionId}`;
 
 // Prefixed for the same reason as conditionTokenId.
-export const gamePlanTokenId = (gamePlanId: string): string => {
-  return `game-plan-${gamePlanId}`;
-};
+export const gamePlanTokenId = (gamePlanId: string): string =>
+  `game-plan-${gamePlanId}`;

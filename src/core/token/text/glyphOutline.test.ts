@@ -8,7 +8,7 @@ describe("getGlyphContours", () => {
     const font = loadTestFont();
     const glyph = font.charToGlyph("l");
 
-    const contours = getGlyphContours(glyph, 10, font.unitsPerEm, 0.05);
+    const contours = getGlyphContours(glyph, 10, 0.05);
 
     expect(contours.length).toBe(1);
   });
@@ -17,7 +17,7 @@ describe("getGlyphContours", () => {
     const font = loadTestFont();
     const glyph = font.charToGlyph("o");
 
-    const contours = getGlyphContours(glyph, 10, font.unitsPerEm, 0.05);
+    const contours = getGlyphContours(glyph, 10, 0.05);
 
     expect(contours.length).toBe(2);
 
@@ -41,13 +41,15 @@ describe("getGlyphContours", () => {
     const font = loadTestFont();
     const glyph = font.charToGlyph("l");
 
-    const smallContours = getGlyphContours(glyph, 5, font.unitsPerEm, 0.05);
-    const bigContours = getGlyphContours(glyph, 10, font.unitsPerEm, 0.05);
+    const smallContours = getGlyphContours(glyph, 5, 0.05);
+    const bigContours = getGlyphContours(glyph, 10, 0.05);
 
     const smallWidth =
-      Math.max(...smallContours[0].map(([x]) => x)) - Math.min(...smallContours[0].map(([x]) => x));
+      Math.max(...smallContours[0].map(([x]) => x)) -
+      Math.min(...smallContours[0].map(([x]) => x));
     const bigWidth =
-      Math.max(...bigContours[0].map(([x]) => x)) - Math.min(...bigContours[0].map(([x]) => x));
+      Math.max(...bigContours[0].map(([x]) => x)) -
+      Math.min(...bigContours[0].map(([x]) => x));
 
     expect(bigWidth / smallWidth).toBeCloseTo(2, 5);
   });

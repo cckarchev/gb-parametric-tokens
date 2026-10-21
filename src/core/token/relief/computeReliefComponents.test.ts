@@ -1,4 +1,4 @@
-import { readFileSync } from "fs";
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
 import { buildCharacterTokenSpec } from "../catalog/token-items/characterTokenSpec";
@@ -11,8 +11,11 @@ import {
 } from "../geometry/studPlacement";
 import { PRINT_PROFILES } from "../printProfiles";
 import { loadTestFont } from "../text/testFont";
-import { TokenSpec } from "../types";
-import { computeReliefComponents, LoadIconSource } from "./computeReliefComponents";
+import type { TokenSpec } from "../types";
+import {
+  computeReliefComponents,
+  type LoadIconSource,
+} from "./computeReliefComponents";
 
 // A diamond whose vertices sit exactly on its own bounding box's inscribed circle (see
 // iconPlacement.test.ts's identical fixture): fits within a circular stud/disc with no shrink, so
@@ -21,10 +24,18 @@ const GENERIC_ICON_SVG = '<svg><path d="M5 0L10 5L5 10L0 5Z"/></svg>';
 
 const stubLoadIconSource: LoadIconSource = async (iconId) => {
   if (iconId === "missing-icon") {
-    return { svgSource: GENERIC_ICON_SVG, resolvedId: "blank", substituted: true };
+    return {
+      svgSource: GENERIC_ICON_SVG,
+      resolvedId: "blank",
+      substituted: true,
+    };
   }
 
-  return { svgSource: GENERIC_ICON_SVG, resolvedId: iconId, substituted: false };
+  return {
+    svgSource: GENERIC_ICON_SVG,
+    resolvedId: iconId,
+    substituted: false,
+  };
 };
 
 const printProfile = PRINT_PROFILES["fdm-04"];
@@ -39,14 +50,24 @@ const discSpec = (overrides: Partial<TokenSpec> = {}): TokenSpec => ({
   style: { relief: "raised", reliefHeightMm: 0.6, baseThicknessMm: 3 },
   colorGroups: [],
   printProfileId: "fdm-04",
-  fitPolicy: { minTracking: 0, maxTracking: 0, minScale: 1, allowTwoLines: false },
+  fitPolicy: {
+    minTracking: 0,
+    maxTracking: 0,
+    minScale: 1,
+    allowTwoLines: false,
+  },
   ...overrides,
 });
 
 const arcSpec = (overrides: Partial<TokenSpec> = {}): TokenSpec => ({
   version: 1,
   // 120 degrees of arc, measured on the fixed inner radius.
-  shape: { type: "arc", ribbonWidthMm: 15, ribbonLengthMm: 32, studDiameterMm: 24 },
+  shape: {
+    type: "arc",
+    ribbonWidthMm: 15,
+    ribbonLengthMm: 32,
+    studDiameterMm: 24,
+  },
   textLayout: "arc",
   lines: [{ text: "Momentum", sizeMm: 6 }],
   icons: [
@@ -57,7 +78,12 @@ const arcSpec = (overrides: Partial<TokenSpec> = {}): TokenSpec => ({
   style: { relief: "raised", reliefHeightMm: 0.6, baseThicknessMm: 3 },
   colorGroups: [],
   printProfileId: "fdm-04",
-  fitPolicy: { minTracking: 0, maxTracking: 0.3, minScale: 0.7, allowTwoLines: true },
+  fitPolicy: {
+    minTracking: 0,
+    maxTracking: 0.3,
+    minScale: 0.7,
+    allowTwoLines: true,
+  },
   ...overrides,
 });
 
@@ -112,20 +138,29 @@ describe("computeReliefComponents", () => {
     const font = loadTestFont();
 
     const result = await computeReliefComponents(
-      discSpec({ icons: [{ iconId: "missing-icon", side: "center", scale: 0.7 }] }),
+      discSpec({
+        icons: [{ iconId: "missing-icon", side: "center", scale: 0.7 }],
+      }),
       font,
       printProfile,
       stubLoadIconSource,
     );
 
     expect(result.reliefComponents).toHaveLength(1);
-    expect(result.warnings).toEqual(['Icon "missing-icon" not found, using fallback "blank".']);
+    expect(result.warnings).toEqual([
+      'Icon "missing-icon" not found, using fallback "blank".',
+    ]);
   });
 
   it("builds relief components for both stud icons and every line on an arc shape", async () => {
     const font = loadTestFont();
 
-    const result = await computeReliefComponents(arcSpec(), font, printProfile, stubLoadIconSource);
+    const result = await computeReliefComponents(
+      arcSpec(),
+      font,
+      printProfile,
+      stubLoadIconSource,
+    );
 
     expect(result.reliefComponents).toHaveLength(3); // 2 stud icons + 1 line (fits on one line here)
     expect(result.warnings).toEqual([]);
@@ -149,7 +184,10 @@ describe("computeReliefComponents", () => {
     };
 
     const result = await computeReliefComponents(
-      arcSpec({ shape, icons: [{ iconId: "triangle", side: "left", scale: 0.7 }] }),
+      arcSpec({
+        shape,
+        icons: [{ iconId: "triangle", side: "left", scale: 0.7 }],
+      }),
       font,
       printProfile,
       loadTriangleIcon,
@@ -163,8 +201,14 @@ describe("computeReliefComponents", () => {
     // rotation preserves regardless of the stud's angle.
     const [studCenterX, studCenterY] = left.position;
     const apex = iconComponent.contours[0].reduce((closest, point) => {
-      const distance = Math.hypot(point[0] - studCenterX, point[1] - studCenterY);
-      const closestDistance = Math.hypot(closest[0] - studCenterX, closest[1] - studCenterY);
+      const distance = Math.hypot(
+        point[0] - studCenterX,
+        point[1] - studCenterY,
+      );
+      const closestDistance = Math.hypot(
+        closest[0] - studCenterX,
+        closest[1] - studCenterY,
+      );
 
       return distance < closestDistance ? point : closest;
     });
@@ -179,7 +223,12 @@ describe("computeReliefComponents", () => {
 
     const result = await computeReliefComponents(
       arcSpec({
-        shape: { type: "arc", ribbonWidthMm: 22, ribbonLengthMm: 40, studDiameterMm: 44 },
+        shape: {
+          type: "arc",
+          ribbonWidthMm: 22,
+          ribbonLengthMm: 40,
+          studDiameterMm: 44,
+        },
         lines: [
           { text: "Commanding Aura", sizeMm: 7 },
           { text: "Aura +1 TAC +1 DMG", sizeMm: 4.5 },
@@ -198,7 +247,9 @@ describe("computeReliefComponents", () => {
       Math.min(...contours.flat().map(([x, y]) => Math.hypot(x, y)));
 
     // The gap comes from TWO_LINE_GAP_MM, not from checking every glyph's box for overlap.
-    expect(radialMin(firstLine.contours)).toBeGreaterThan(radialMin(secondLine.contours));
+    expect(radialMin(firstLine.contours)).toBeGreaterThan(
+      radialMin(secondLine.contours),
+    );
   });
 
   it("balances the margin above the first line and below the second line against the ribbon edges", async () => {
@@ -229,8 +280,10 @@ describe("computeReliefComponents", () => {
       return { min: Math.min(...radii), max: Math.max(...radii) };
     };
 
-    const outerMarginMm = computeOuterRadiusMm(shape) - radialExtent(firstLine.contours).max;
-    const innerMarginMm = radialExtent(secondLine.contours).min - computeInnerRadiusMm();
+    const outerMarginMm =
+      computeOuterRadiusMm(shape) - radialExtent(firstLine.contours).max;
+    const innerMarginMm =
+      radialExtent(secondLine.contours).min - computeInnerRadiusMm();
 
     expect(outerMarginMm).toBeGreaterThan(3);
     expect(innerMarginMm).toBeGreaterThan(3);
@@ -300,14 +353,21 @@ describe("computeReliefComponents", () => {
     const result = await computeReliefComponents(
       arcSpec({
         lines: [{ text: longText, sizeMm: 6 }],
-        fitPolicy: { minTracking: 0, maxTracking: 0, minScale: 1, allowTwoLines: true },
+        fitPolicy: {
+          minTracking: 0,
+          maxTracking: 0,
+          minScale: 1,
+          allowTwoLines: true,
+        },
       }),
       font,
       printProfile,
       stubLoadIconSource,
     );
 
-    expect(result.warnings.some((warning) => warning.includes("truncated"))).toBe(true);
+    expect(
+      result.warnings.some((warning) => warning.includes("truncated")),
+    ).toBe(true);
   });
 
   it("tags each relief component with its own origin (text, icon, or decoration)", async () => {
@@ -320,7 +380,9 @@ describe("computeReliefComponents", () => {
       stubLoadIconSource,
     );
 
-    const sources = result.reliefComponents.map((component) => component.source);
+    const sources = result.reliefComponents.map(
+      (component) => component.source,
+    );
 
     expect(sources).toContainEqual({ kind: "icon", iconId: "ball" });
     expect(sources).toContainEqual({ kind: "text", text: "12" });
@@ -355,7 +417,10 @@ describe("computeReliefComponents", () => {
 
     expect(result.valid).toBe(false);
     expect(result.componentFailures).toHaveLength(1);
-    expect(failure).toMatchObject({ kind: "stroke-width", source: { kind: "text", text: "l" } });
+    expect(failure).toMatchObject({
+      kind: "stroke-width",
+      source: { kind: "text", text: "l" },
+    });
     expect(result.blocksExport).toBe(true);
 
     if (failure.kind === "stroke-width") {
@@ -375,7 +440,10 @@ describe("computeReliefComponents", () => {
     const font = loadTestFont();
 
     const result = await computeReliefComponents(
-      discSpec({ icons: [{ iconId: "cooks", side: "center", scale: 0.9 }], lines: [] }),
+      discSpec({
+        icons: [{ iconId: "cooks", side: "center", scale: 0.9 }],
+        lines: [],
+      }),
       font,
       printProfile,
       loadSquareIcon,
@@ -392,7 +460,14 @@ describe("computeReliefComponents", () => {
 
     const result = await computeReliefComponents(
       discSpec({
-        icons: [{ iconId: "cooks", side: "center", scale: 0.9, overflowBehavior: "shrink" }],
+        icons: [
+          {
+            iconId: "cooks",
+            side: "center",
+            scale: 0.9,
+            overflowBehavior: "shrink",
+          },
+        ],
         lines: [],
       }),
       font,
@@ -404,7 +479,9 @@ describe("computeReliefComponents", () => {
     expect(result.componentFailures).toEqual([]);
 
     const [icon] = result.reliefComponents;
-    const maxRadius = Math.max(...icon.contours.flat().map(([x, y]) => Math.hypot(x, y)));
+    const maxRadius = Math.max(
+      ...icon.contours.flat().map(([x, y]) => Math.hypot(x, y)),
+    );
     // discSpec's diameter is 25mm: the real target circle's radius, regardless of icon.scale.
     expect(maxRadius).toBeLessThanOrEqual(25 / 2 + 1e-6);
   });
@@ -414,7 +491,14 @@ describe("computeReliefComponents", () => {
 
     const result = await computeReliefComponents(
       discSpec({
-        icons: [{ iconId: "cooks", side: "center", scale: 0.9, overflowBehavior: "trim" }],
+        icons: [
+          {
+            iconId: "cooks",
+            side: "center",
+            scale: 0.9,
+            overflowBehavior: "trim",
+          },
+        ],
         lines: [],
       }),
       font,
@@ -426,7 +510,9 @@ describe("computeReliefComponents", () => {
     expect(result.componentFailures).toEqual([]);
 
     const [icon] = result.reliefComponents;
-    const maxRadius = Math.max(...icon.contours.flat().map(([x, y]) => Math.hypot(x, y)));
+    const maxRadius = Math.max(
+      ...icon.contours.flat().map(([x, y]) => Math.hypot(x, y)),
+    );
     expect(maxRadius).toBeLessThanOrEqual(25 / 2 + 1e-6);
   });
 
@@ -435,7 +521,14 @@ describe("computeReliefComponents", () => {
 
     const result = await computeReliefComponents(
       discSpec({
-        icons: [{ iconId: "cooks", side: "center", scale: 0.9, overflowBehavior: "grow" }],
+        icons: [
+          {
+            iconId: "cooks",
+            side: "center",
+            scale: 0.9,
+            overflowBehavior: "grow",
+          },
+        ],
         lines: [],
       }),
       font,
@@ -447,7 +540,9 @@ describe("computeReliefComponents", () => {
     expect(result.componentFailures).toEqual([]);
 
     const [icon] = result.reliefComponents;
-    const maxRadius = Math.max(...icon.contours.flat().map(([x, y]) => Math.hypot(x, y)));
+    const maxRadius = Math.max(
+      ...icon.contours.flat().map(([x, y]) => Math.hypot(x, y)),
+    );
     // Unlike 'shrink' and 'trim', 'grow' never touches the icon's own footprint: it stays
     // past the target circle's radius (discSpec's diameter is 25mm).
     expect(maxRadius).toBeGreaterThan(25 / 2);
@@ -460,7 +555,14 @@ describe("computeReliefComponents", () => {
 
     const result = await computeReliefComponents(
       discSpec({
-        icons: [{ iconId: "ball", side: "center", scale: 0.7, overflowBehavior: "grow" }],
+        icons: [
+          {
+            iconId: "ball",
+            side: "center",
+            scale: 0.7,
+            overflowBehavior: "grow",
+          },
+        ],
         lines: [],
       }),
       font,
@@ -487,7 +589,9 @@ describe("computeReliefComponents", () => {
 
     expect(result.valid).toBe(false);
     expect(result.componentFailures).toHaveLength(1);
-    expect(result.componentFailures[0]).toMatchObject({ source: { kind: "text", text: "l" } });
+    expect(result.componentFailures[0]).toMatchObject({
+      source: { kind: "text", text: "l" },
+    });
   });
 
   const ringSpec = (overrides: Partial<TokenSpec> = {}): TokenSpec => ({
@@ -503,7 +607,12 @@ describe("computeReliefComponents", () => {
     style: { relief: "raised", reliefHeightMm: 0.6, baseThicknessMm: 3 },
     colorGroups: [],
     printProfileId: "fdm-04",
-    fitPolicy: { minTracking: 0, maxTracking: 0, minScale: 1, allowTwoLines: false },
+    fitPolicy: {
+      minTracking: 0,
+      maxTracking: 0,
+      minScale: 1,
+      allowTwoLines: false,
+    },
     ...overrides,
   });
 
@@ -572,7 +681,14 @@ describe("computeReliefComponents", () => {
       ringSpec({
         icons: [],
         decorations: [],
-        lines: [{ text: "LL", sizeMm: 3, radiusMm: 9, centerAngleDeg: lowerRightAngleDeg }],
+        lines: [
+          {
+            text: "LL",
+            sizeMm: 3,
+            radiusMm: 9,
+            centerAngleDeg: lowerRightAngleDeg,
+          },
+        ],
       }),
       font,
       printProfile,
@@ -585,7 +701,9 @@ describe("computeReliefComponents", () => {
     const centroidAngleDeg = (Math.atan2(meanY, meanX) * 180) / Math.PI + 360;
     const distances = points.map(([x, y]) => Math.hypot(x, y));
 
-    expect(Math.abs(centroidAngleDeg - lowerRightAngleDeg)).toBeLessThan(angleToleranceDeg);
+    expect(Math.abs(centroidAngleDeg - lowerRightAngleDeg)).toBeLessThan(
+      angleToleranceDeg,
+    );
     // Inward: its ascender grows below its own 9mm radius.
     expect(Math.min(...distances)).toBeLessThan(9);
   });
@@ -617,7 +735,10 @@ describe("computeReliefComponents", () => {
     const centerToleranceMm = 0.5;
     const placements = [
       { angleDeg: 90, expectedCenter: [0, radiusMm] },
-      { angleDeg: 210, expectedCenter: [-radiusMm * Math.cos(Math.PI / 6), -radiusMm / 2] },
+      {
+        angleDeg: 210,
+        expectedCenter: [-radiusMm * Math.cos(Math.PI / 6), -radiusMm / 2],
+      },
     ];
 
     for (const { angleDeg, expectedCenter } of placements) {
@@ -649,13 +770,21 @@ describe("computeReliefComponents", () => {
         Math.cos((angleDeg * Math.PI) / 180),
         Math.sin((angleDeg * Math.PI) / 180),
       ];
-      const alongSpoke = points.map(([x, y]) => x * spokeDirection[0] + y * spokeDirection[1]);
-      const acrossSpoke = points.map(([x, y]) => -x * spokeDirection[1] + y * spokeDirection[0]);
+      const alongSpoke = points.map(
+        ([x, y]) => x * spokeDirection[0] + y * spokeDirection[1],
+      );
+      const acrossSpoke = points.map(
+        ([x, y]) => -x * spokeDirection[1] + y * spokeDirection[0],
+      );
       const lengthAlong = Math.max(...alongSpoke) - Math.min(...alongSpoke);
       const lengthAcross = Math.max(...acrossSpoke) - Math.min(...acrossSpoke);
 
-      expect(Math.abs(centerX - expectedCenter[0])).toBeLessThan(centerToleranceMm);
-      expect(Math.abs(centerY - expectedCenter[1])).toBeLessThan(centerToleranceMm);
+      expect(Math.abs(centerX - expectedCenter[0])).toBeLessThan(
+        centerToleranceMm,
+      );
+      expect(Math.abs(centerY - expectedCenter[1])).toBeLessThan(
+        centerToleranceMm,
+      );
       expect(lengthAlong).toBeGreaterThan(lengthAcross);
     }
   });
@@ -681,7 +810,11 @@ describe("computeReliefComponents", () => {
 });
 
 describe("computeReliefComponents, layout checks", () => {
-  const LAYOUT_FAILURE_KINDS = ["outside-footprint", "crest-over-text", "broken-footprint"];
+  const LAYOUT_FAILURE_KINDS = [
+    "outside-footprint",
+    "crest-over-text",
+    "broken-footprint",
+  ];
 
   it("flags ring text that runs past the disc's rim", async () => {
     const font = loadTestFont();
@@ -691,11 +824,18 @@ describe("computeReliefComponents, layout checks", () => {
       lines: [{ text: "TOO FAR", sizeMm: 4, radiusMm: 12 }],
     });
 
-    const result = await computeReliefComponents(spec, font, printProfile, stubLoadIconSource);
+    const result = await computeReliefComponents(
+      spec,
+      font,
+      printProfile,
+      stubLoadIconSource,
+    );
 
     expect(result.valid).toBe(false);
     expect(result.blocksExport).toBe(false);
-    expect(result.componentFailures.map((failure) => failure.kind)).toContain("outside-footprint");
+    expect(result.componentFailures.map((failure) => failure.kind)).toContain(
+      "outside-footprint",
+    );
   });
 
   it("adds no layout failure to a token whose text and icon fit", async () => {
@@ -706,7 +846,12 @@ describe("computeReliefComponents, layout checks", () => {
       lines: [{ text: "FITS", sizeMm: 2, radiusMm: 9 }],
     });
 
-    const result = await computeReliefComponents(spec, font, printProfile, stubLoadIconSource);
+    const result = await computeReliefComponents(
+      spec,
+      font,
+      printProfile,
+      stubLoadIconSource,
+    );
     const layoutFailures = result.componentFailures.filter((failure) =>
       LAYOUT_FAILURE_KINDS.includes(failure.kind),
     );
@@ -732,10 +877,22 @@ describe("computeReliefComponents, arc text against a real crest", () => {
     "Fangtooth Unleashed",
     "Blessing of the Moon Goddess",
   ])("shrinks %s to fit between the crests", async (name) => {
-    const spec = buildCharacterTokenSpec({ id: "x", name }, "Brewers", 1, DEFAULT_SHARED_CONFIG);
+    const spec = buildCharacterTokenSpec(
+      { id: "x", name },
+      "Brewers",
+      1,
+      DEFAULT_SHARED_CONFIG,
+    );
 
-    const result = await computeReliefComponents(spec, loadTestFont(), defaultProfile, loadCrest);
-    const failureKinds = result.componentFailures.map((failure) => failure.kind);
+    const result = await computeReliefComponents(
+      spec,
+      loadTestFont(),
+      defaultProfile,
+      loadCrest,
+    );
+    const failureKinds = result.componentFailures.map(
+      (failure) => failure.kind,
+    );
 
     expect(failureKinds).not.toContain("crest-over-text");
   });

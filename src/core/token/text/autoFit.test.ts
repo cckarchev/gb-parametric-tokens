@@ -1,10 +1,14 @@
-import path from "path";
+import path from "node:path";
 import { describe, expect, it } from "vitest";
 
 import { PRINT_PROFILES } from "../printProfiles";
-import { FitPolicy } from "../types";
+import type { FitPolicy } from "../types";
 import { autoFitLine } from "./autoFit";
-import { DEFAULT_DISPLAY_FONT_ID, findFontEntry, fontFilePath } from "./fontCatalog";
+import {
+  DEFAULT_DISPLAY_FONT_ID,
+  findFontEntry,
+  fontFilePath,
+} from "./fontCatalog";
 import { loadFontFile, loadTestFont } from "./testFont";
 
 const fitPolicy: FitPolicy = {
@@ -21,19 +25,30 @@ describe("autoFitLine", () => {
     const displayFont = loadFontFile(
       path.join(process.cwd(), "public", fontFilePath(displayEntry.file)),
     );
-    const noFloorPolicy: FitPolicy = { ...fitPolicy, minScale: 0, allowTwoLines: false };
+    const noFloorPolicy: FitPolicy = {
+      ...fitPolicy,
+      minScale: 0,
+      allowTwoLines: false,
+    };
 
     // Far too long for the sweep, so it shrinks all the way to the floor and is then truncated.
     const result = autoFitLine(
       displayFont,
-      { text: "Superior Strategy Additional", sizeMm: 5, radiusMm: 30, availableSweepDeg: 10 },
+      {
+        text: "Superior Strategy Additional",
+        sizeMm: 5,
+        radiusMm: 30,
+        availableSweepDeg: 10,
+      },
       noFloorPolicy,
       printProfile,
     );
 
-    const floorSizeMm = printProfile.minStrokeWidthMm / displayEntry.metrics.stemWidthRatio;
+    const floorSizeMm =
+      printProfile.minStrokeWidthMm / displayEntry.metrics.stemWidthRatio;
     const bodyFloorSizeMm =
-      printProfile.minStrokeWidthMm / findFontEntry(undefined).metrics.stemWidthRatio;
+      printProfile.minStrokeWidthMm /
+      findFontEntry(undefined).metrics.stemWidthRatio;
 
     // The truncated text lands at or a little above this font's floor, well under the floor of
     // the body font's thinner stroke.
@@ -65,7 +80,12 @@ describe("autoFitLine", () => {
     // Remeasure if the font changes.
     const result = autoFitLine(
       font,
-      { text: "Additional activation", sizeMm: 5, radiusMm: 34, availableSweepDeg: 44 },
+      {
+        text: "Additional activation",
+        sizeMm: 5,
+        radiusMm: 34,
+        availableSweepDeg: 44,
+      },
       fitPolicy,
       printProfile,
     );
@@ -73,7 +93,9 @@ describe("autoFitLine", () => {
     expect(result.truncated).toBe(false);
     expect(result.lines.length).toBe(1);
     expect(result.lines[0].sizeMm).toBeLessThan(5);
-    expect(result.lines[0].sizeMm).toBeGreaterThanOrEqual(5 * fitPolicy.minScale - 1e-9);
+    expect(result.lines[0].sizeMm).toBeGreaterThanOrEqual(
+      5 * fitPolicy.minScale - 1e-9,
+    );
   });
 
   it("splits into two lines when a single line cannot fit even at minScale", () => {
@@ -83,14 +105,21 @@ describe("autoFitLine", () => {
     // but each half fits at its own radius. At 55 it already fits on one line.
     const result = autoFitLine(
       font,
-      { text: "Superior Strategy Additional", sizeMm: 6, radiusMm: 37.5, availableSweepDeg: 54 },
+      {
+        text: "Superior Strategy Additional",
+        sizeMm: 6,
+        radiusMm: 37.5,
+        availableSweepDeg: 54,
+      },
       fitPolicy,
       printProfile,
     );
 
     expect(result.truncated).toBe(false);
     expect(result.lines.length).toBe(2);
-    expect(`${result.lines[0].text} ${result.lines[1].text}`).toBe("Superior Strategy Additional");
+    expect(`${result.lines[0].text} ${result.lines[1].text}`).toBe(
+      "Superior Strategy Additional",
+    );
     expect(result.lines[0].radiusMm).not.toBe(result.lines[1].radiusMm);
   });
 
@@ -126,7 +155,13 @@ describe("autoFitLine", () => {
 
     const result = autoFitLine(
       font,
-      { text: "Impetus", sizeMm: 5, fallbackSizeMm: 3, radiusMm: 40, availableSweepDeg: 108 },
+      {
+        text: "Impetus",
+        sizeMm: 5,
+        fallbackSizeMm: 3,
+        radiusMm: 40,
+        availableSweepDeg: 108,
+      },
       fitPolicy,
       printProfile,
     );
@@ -154,7 +189,8 @@ describe("autoFitLine", () => {
     expect(result.lines.length).toBe(1);
     expect(result.lines[0].text.endsWith("…")).toBe(true);
     expect(result.lines[0].text.length).toBeLessThan(
-      "This sentence is absurdly long for such a small available arc length".length,
+      "This sentence is absurdly long for such a small available arc length"
+        .length,
     );
   });
 });

@@ -1,8 +1,15 @@
-import type { CrossSection as CrossSectionInstance, ManifoldToplevel } from "manifold-3d";
+import type {
+  CrossSection as CrossSectionInstance,
+  ManifoldToplevel,
+} from "manifold-3d";
 
-import { CrowfootSpec, DiscShapeSpec, Vec2 } from "../types";
+import type { CrowfootSpec, DiscShapeSpec, Vec2 } from "../types";
 import { CENTER_ANGLE_DEG, DEGREES_PER_RADIAN } from "./angleConventions";
-import { BODY_CIRCLE_SEGMENTS, OFFSET_ARC_SEGMENTS, OFFSET_MITER_LIMIT } from "./circleResolution";
+import {
+  BODY_CIRCLE_SEGMENTS,
+  OFFSET_ARC_SEGMENTS,
+  OFFSET_MITER_LIMIT,
+} from "./circleResolution";
 import { filletOutline } from "./filletOutline";
 
 const FULL_TURN_DEG = 360;
@@ -38,7 +45,10 @@ const buildSpoke = (
   lengthMm: number,
   widthMm: number,
 ): CrossSectionInstance => {
-  const bar = CrossSection.square([lengthMm, widthMm]).translate([0, -widthMm / 2]);
+  const bar = CrossSection.square([lengthMm, widthMm]).translate([
+    0,
+    -widthMm / 2,
+  ]);
 
   return bar.rotate(angleDeg);
 };
@@ -63,10 +73,17 @@ const buildCrowfoot = (
 
   for (let index = 0; index < crowfoot.spokeCount; index++) {
     const angleDeg = CENTER_ANGLE_DEG + spokeStepDeg * index;
-    const wedge = buildWedge(CrossSection, angleDeg, crowfoot.arcSweepDeg, wedgeRadiusMm);
+    const wedge = buildWedge(
+      CrossSection,
+      angleDeg,
+      crowfoot.arcSweepDeg,
+      wedgeRadiusMm,
+    );
 
     parts.push(band.intersect(wedge));
-    parts.push(buildSpoke(CrossSection, angleDeg, spokeLengthMm, crowfoot.spokeWidthMm));
+    parts.push(
+      buildSpoke(CrossSection, angleDeg, spokeLengthMm, crowfoot.spokeWidthMm),
+    );
   }
 
   // First a fillet (see filletOutline.ts) in every concave corner, where spokes meet arcs and
@@ -83,7 +100,12 @@ const buildCrowfoot = (
     OFFSET_ARC_SEGMENTS,
   );
 
-  return shrunk.offset(crowfoot.cornerRadiusMm, "Round", OFFSET_MITER_LIMIT, OFFSET_ARC_SEGMENTS);
+  return shrunk.offset(
+    crowfoot.cornerRadiusMm,
+    "Round",
+    OFFSET_MITER_LIMIT,
+    OFFSET_ARC_SEGMENTS,
+  );
 };
 
 // The disc's flat outline: a circle, a ring when innerDiameterMm is set, or a crow's foot. The
@@ -94,15 +116,24 @@ export const buildDiscFootprint = (
 ): CrossSectionInstance => {
   const outerRadiusMm = shape.diameterMm / 2;
   const outer = CrossSection.circle(outerRadiusMm, BODY_CIRCLE_SEGMENTS);
-  const innerRadiusMm = shape.innerDiameterMm === undefined ? 0 : shape.innerDiameterMm / 2;
+  const innerRadiusMm =
+    shape.innerDiameterMm === undefined ? 0 : shape.innerDiameterMm / 2;
   const band =
     shape.innerDiameterMm === undefined
       ? outer
-      : outer.subtract(CrossSection.circle(innerRadiusMm, BODY_CIRCLE_SEGMENTS));
+      : outer.subtract(
+          CrossSection.circle(innerRadiusMm, BODY_CIRCLE_SEGMENTS),
+        );
 
   if (shape.crowfoot === undefined) {
     return band;
   }
 
-  return buildCrowfoot(CrossSection, band, shape.crowfoot, outerRadiusMm, innerRadiusMm);
+  return buildCrowfoot(
+    CrossSection,
+    band,
+    shape.crowfoot,
+    outerRadiusMm,
+    innerRadiusMm,
+  );
 };

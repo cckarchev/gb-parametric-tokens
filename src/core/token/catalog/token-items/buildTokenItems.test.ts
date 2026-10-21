@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { GuildCatalog } from "../catalogTypes";
+import type { GuildCatalog } from "../catalogTypes";
 import { conditionsForGuild } from "../conditions";
 import { resolveEffect } from "../effects";
 import { buildTokenItems } from "./buildTokenItems";
@@ -11,8 +11,8 @@ import {
   characterTokenId,
   conditionTokenId,
   gamePlanTokenId,
-  SharedConfig,
-  TokenSelection,
+  type SharedConfig,
+  type TokenSelection,
 } from "./tokenItem";
 
 // A deliberately tiny guild, but every character and effect named here is a real entry in the
@@ -33,9 +33,19 @@ const catalog: GuildCatalog = {
 
 const sharedConfig: SharedConfig = {
   ...DEFAULT_SHARED_CONFIG,
-  arcShape: { type: "arc", ribbonWidthMm: 15, ribbonLengthMm: 20, studDiameterMm: 24 },
+  arcShape: {
+    type: "arc",
+    ribbonWidthMm: 15,
+    ribbonLengthMm: 20,
+    studDiameterMm: 24,
+  },
   discShape: { type: "disc", diameterMm: 25 },
-  fitPolicy: { minTracking: 0, maxTracking: 0.3, minScale: 0.7, allowTwoLines: true },
+  fitPolicy: {
+    minTracking: 0,
+    maxTracking: 0.3,
+    minScale: 0.7,
+    allowTwoLines: true,
+  },
   printProfileId: "fdm-04",
   influenceIconId: "Brewers",
   nameSizeMm: 6,
@@ -99,7 +109,11 @@ describe("buildTokenItems", () => {
       ...emptySelection,
       characterTokenIds: [characterTokenId("Tapper", 0)],
     };
-    const customConfig: SharedConfig = { ...sharedConfig, nameSizeMm: 8.5, effectSizeMm: 5 };
+    const customConfig: SharedConfig = {
+      ...sharedConfig,
+      nameSizeMm: 8.5,
+      effectSizeMm: 5,
+    };
 
     const items = buildTokenItems(catalog, selection, customConfig);
 
@@ -132,7 +146,10 @@ describe("buildTokenItems", () => {
       ...emptySelection,
       characterTokenIds: [characterTokenId("Tapper", 0)],
     };
-    const customConfig: SharedConfig = { ...sharedConfig, showSecondLine: false };
+    const customConfig: SharedConfig = {
+      ...sharedConfig,
+      showSecondLine: false,
+    };
 
     const items = buildTokenItems(catalog, selection, customConfig);
 
@@ -151,7 +168,10 @@ describe("buildTokenItems", () => {
       ...emptySelection,
       characterTokenIds: [characterTokenId("Tapper", 0)],
     };
-    const customConfig: SharedConfig = { ...sharedConfig, balanceTwoLineSizes: true };
+    const customConfig: SharedConfig = {
+      ...sharedConfig,
+      balanceTwoLineSizes: true,
+    };
 
     const items = buildTokenItems(catalog, selection, customConfig);
 
@@ -166,7 +186,10 @@ describe("buildTokenItems", () => {
       ...emptySelection,
       characterTokenIds: [characterTokenId("Tapper", 1)],
     };
-    const customConfig: SharedConfig = { ...sharedConfig, balanceTwoLineSizes: true };
+    const customConfig: SharedConfig = {
+      ...sharedConfig,
+      balanceTwoLineSizes: true,
+    };
 
     const items = buildTokenItems(catalog, selection, customConfig);
 
@@ -218,7 +241,10 @@ describe("buildTokenItems", () => {
         ...emptySelection,
         characterTokenIds: [characterTokenId("Tapper", 1)],
       };
-      const customConfig: SharedConfig = { ...sharedConfig, iconOverflowBehavior: behavior };
+      const customConfig: SharedConfig = {
+        ...sharedConfig,
+        iconOverflowBehavior: behavior,
+      };
 
       const items = buildTokenItems(catalog, selection, customConfig);
 
@@ -304,7 +330,10 @@ describe("buildTokenItems", () => {
   it("excludes a disabled generic token and includes an enabled one with its chosen count", () => {
     const disabled = buildTokenItems(
       catalog,
-      { ...emptySelection, genericTokens: { "Beer Token": { enabled: false, copies: 3 } } },
+      {
+        ...emptySelection,
+        genericTokens: { "Beer Token": { enabled: false, copies: 3 } },
+      },
       sharedConfig,
     );
 
@@ -312,7 +341,10 @@ describe("buildTokenItems", () => {
 
     const enabled = buildTokenItems(
       catalog,
-      { ...emptySelection, genericTokens: { "Beer Token": { enabled: true, copies: 3 } } },
+      {
+        ...emptySelection,
+        genericTokens: { "Beer Token": { enabled: true, copies: 3 } },
+      },
       sharedConfig,
     );
 
@@ -422,9 +454,17 @@ describe("buildTokenItems", () => {
     expect(items[0].copies).toBe(2);
     expect(items[0].spec.shape).toEqual(sharedConfig.goalInfluenceShape);
     expect(items[0].spec.textLayout).toBe("ring");
-    expect(items[0].spec.lines.map((line) => line.text)).toEqual(["Goal", "Influence"]);
+    expect(items[0].spec.lines.map((line) => line.text)).toEqual([
+      "Goal",
+      "Influence",
+    ]);
     expect(items[0].spec.icons).toEqual([
-      { iconId: "Brewers", side: "center", scale: expect.any(Number), colorGroup: "text" },
+      {
+        iconId: "Brewers",
+        side: "center",
+        scale: expect.any(Number),
+        colorGroup: "text",
+      },
     ]);
     // No ring border: around a crest that isn't round it reads as a second circle.
     expect(items[0].spec.decorations).toEqual([]);
@@ -468,9 +508,17 @@ describe("buildTokenItems", () => {
     expect(items[0].copies).toBe(6);
     expect(items[0].spec.shape).toEqual(sharedConfig.goalInfluenceShape);
     expect(items[0].spec.textLayout).toBe("ring");
-    expect(items[0].spec.lines.map((line) => line.text)).toEqual(["Topping Out!", "+1 INF"]);
+    expect(items[0].spec.lines.map((line) => line.text)).toEqual([
+      "Topping Out!",
+      "+1 INF",
+    ]);
     expect(items[0].spec.icons).toEqual([
-      { iconId: "Masons", side: "center", scale: expect.any(Number), colorGroup: "text" },
+      {
+        iconId: "Masons",
+        side: "center",
+        scale: expect.any(Number),
+        colorGroup: "text",
+      },
     ]);
   });
 
@@ -479,7 +527,9 @@ describe("buildTokenItems", () => {
       guildId: "masons",
       name: "Masons",
       color: "#416abb",
-      characters: [{ name: "Hammer", effects: ["hammerTimeDmg", "hammerTimeMov"] }],
+      characters: [
+        { name: "Hammer", effects: ["hammerTimeDmg", "hammerTimeMov"] },
+      ],
       genericTokens: [],
       conditions: [],
       appliedConditionIds: [],
@@ -487,7 +537,10 @@ describe("buildTokenItems", () => {
     };
     const selection: TokenSelection = {
       ...emptySelection,
-      characterTokenIds: [characterTokenId("Hammer", 0), characterTokenId("Hammer", 1)],
+      characterTokenIds: [
+        characterTokenId("Hammer", 0),
+        characterTokenId("Hammer", 1),
+      ],
     };
 
     const items = buildTokenItems(masonsCatalog, selection, sharedConfig);
@@ -520,8 +573,18 @@ describe("buildTokenItems", () => {
     const items = buildTokenItems(scaledCatalog, selection, sharedConfig);
 
     expect(items[0].spec.icons).toEqual([
-      { iconId: "Brewers", side: "left", scale: 0.85 * 1.5, colorGroup: "text" },
-      { iconId: "Brewers", side: "right", scale: 0.85 * 1.5, colorGroup: "text" },
+      {
+        iconId: "Brewers",
+        side: "left",
+        scale: 0.85 * 1.5,
+        colorGroup: "text",
+      },
+      {
+        iconId: "Brewers",
+        side: "right",
+        scale: 0.85 * 1.5,
+        colorGroup: "text",
+      },
     ]);
   });
 
@@ -530,12 +593,20 @@ describe("buildTokenItems", () => {
 
     const items = buildTokenItems(
       scaledCatalog,
-      { ...emptySelection, genericTokens: { "Beer Token": { enabled: true, copies: 1 } } },
+      {
+        ...emptySelection,
+        genericTokens: { "Beer Token": { enabled: true, copies: 1 } },
+      },
       sharedConfig,
     );
 
     expect(items[0].spec.icons).toEqual([
-      { iconId: "Brewers", side: "center", scale: 0.85 * 1.5, colorGroup: "text" },
+      {
+        iconId: "Brewers",
+        side: "center",
+        scale: 0.85 * 1.5,
+        colorGroup: "text",
+      },
     ]);
   });
 
@@ -546,8 +617,16 @@ describe("buildTokenItems", () => {
       goalInfluence: { enabled: true, copies: 1 },
     };
 
-    const unscaledItems = buildTokenItems(catalog, goalInfluenceSelection, sharedConfig);
-    const scaledItems = buildTokenItems(scaledCatalog, goalInfluenceSelection, sharedConfig);
+    const unscaledItems = buildTokenItems(
+      catalog,
+      goalInfluenceSelection,
+      sharedConfig,
+    );
+    const scaledItems = buildTokenItems(
+      scaledCatalog,
+      goalInfluenceSelection,
+      sharedConfig,
+    );
 
     expect(scaledItems[0].spec.icons[0].scale).toBeCloseTo(
       unscaledItems[0].spec.icons[0].scale * 1.5,
@@ -564,7 +643,12 @@ describe("buildTokenItems", () => {
     );
 
     expect(items[0].spec.icons).toEqual([
-      { iconId: "Brewers", side: "center", scale: 0.85 * 1.5, colorGroup: "text" },
+      {
+        iconId: "Brewers",
+        side: "center",
+        scale: 0.85 * 1.5,
+        colorGroup: "text",
+      },
     ]);
   });
 
@@ -598,7 +682,11 @@ describe("buildTokenItems", () => {
   });
 
   it("skips an AOE template that is not selected", () => {
-    const items = buildTokenItems(blacksmithsCatalog, emptySelection, sharedConfig);
+    const items = buildTokenItems(
+      blacksmithsCatalog,
+      emptySelection,
+      sharedConfig,
+    );
 
     expect(items).toEqual([]);
   });
@@ -620,7 +708,11 @@ describe("buildTokenItems", () => {
       },
     };
 
-    const items = buildTokenItems(catalogWithConditions, selection, sharedConfig);
+    const items = buildTokenItems(
+      catalogWithConditions,
+      selection,
+      sharedConfig,
+    );
 
     expect(items).toHaveLength(1);
     expect(items[0].id).toBe("condition-knockedDown");
@@ -637,7 +729,11 @@ describe("buildTokenItems", () => {
       conditions: [{ id: "poison", name: "Poison", iconId: "poison" }],
     };
 
-    const items = buildTokenItems(catalogWithConditions, emptySelection, sharedConfig);
+    const items = buildTokenItems(
+      catalogWithConditions,
+      emptySelection,
+      sharedConfig,
+    );
 
     expect(items).toEqual([]);
   });
@@ -646,7 +742,12 @@ describe("buildTokenItems", () => {
     const catalogWithGamePlans: GuildCatalog = {
       ...catalog,
       gamePlans: [
-        { id: "extraShot", name: "Extra Shot", effect: "+1 TAC, free Sprint", maxCopies: 2 },
+        {
+          id: "extraShot",
+          name: "Extra Shot",
+          effect: "+1 TAC, free Sprint",
+          maxCopies: 2,
+        },
         { id: "nowhereToHide", name: "Nowhere to Hide", effect: "No cover" },
       ],
     };
@@ -659,7 +760,11 @@ describe("buildTokenItems", () => {
       },
     };
 
-    const items = buildTokenItems(catalogWithGamePlans, selection, sharedConfig);
+    const items = buildTokenItems(
+      catalogWithGamePlans,
+      selection,
+      sharedConfig,
+    );
     const [item] = items;
 
     expect(items).toHaveLength(1);
@@ -669,8 +774,14 @@ describe("buildTokenItems", () => {
     expect(item.group).toBeUndefined();
     expect(item.copies).toBe(2);
     expect(item.spec.textLayout).toBe("arc");
-    expect(item.spec.lines.map((line) => line.text)).toEqual(["Extra Shot", "+1 TAC, free Sprint"]);
-    expect(item.spec.icons.map((icon) => icon.iconId)).toEqual(["Brewers", "Brewers"]);
+    expect(item.spec.lines.map((line) => line.text)).toEqual([
+      "Extra Shot",
+      "+1 TAC, free Sprint",
+    ]);
+    expect(item.spec.icons.map((icon) => icon.iconId)).toEqual([
+      "Brewers",
+      "Brewers",
+    ]);
   });
 
   it("orders items like the panels: characters, game plans, guild tokens, then conditions", () => {
@@ -678,7 +789,9 @@ describe("buildTokenItems", () => {
     const fullCatalog: GuildCatalog = {
       ...catalog,
       conditions: [condition],
-      gamePlans: [{ id: "nowhereToHide", name: "Nowhere to Hide", effect: "No cover" }],
+      gamePlans: [
+        { id: "nowhereToHide", name: "Nowhere to Hide", effect: "No cover" },
+      ],
     };
     const enabledCounter = { enabled: true, copies: 1 };
     const selection: TokenSelection = {
@@ -708,10 +821,16 @@ describe("buildTokenItems", () => {
   it("skips a game plan the selection has no entry for", () => {
     const catalogWithGamePlans: GuildCatalog = {
       ...catalog,
-      gamePlans: [{ id: "nowhereToHide", name: "Nowhere to Hide", effect: "No cover" }],
+      gamePlans: [
+        { id: "nowhereToHide", name: "Nowhere to Hide", effect: "No cover" },
+      ],
     };
 
-    const items = buildTokenItems(catalogWithGamePlans, emptySelection, sharedConfig);
+    const items = buildTokenItems(
+      catalogWithGamePlans,
+      emptySelection,
+      sharedConfig,
+    );
 
     expect(items).toEqual([]);
   });

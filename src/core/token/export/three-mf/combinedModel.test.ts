@@ -1,9 +1,12 @@
 import { describe, expect, it } from "vitest";
 
 import { getManifoldModule } from "../../mesh/manifoldModule";
-import { TokenPart } from "../../mesh/tokenPart";
-import { ColorGroupSpec, Vec2 } from "../../types";
-import { buildCombinedThreeMfModel, CombinedThreeMfItem } from "./combinedModel";
+import type { TokenPart } from "../../mesh/tokenPart";
+import type { ColorGroupSpec, Vec2 } from "../../types";
+import {
+  buildCombinedThreeMfModel,
+  type CombinedThreeMfItem,
+} from "./combinedModel";
 
 const buildBoxPart = async (colorGroupId: string): Promise<TokenPart> => {
   const wasm = await getManifoldModule();
@@ -20,11 +23,12 @@ const buildBoxPart = async (colorGroupId: string): Promise<TokenPart> => {
   return { colorGroupId, manifold };
 };
 
-const countOccurrences = (haystack: string, needle: string): number => {
-  return haystack.split(needle).length - 1;
-};
+const countOccurrences = (haystack: string, needle: string): number =>
+  haystack.split(needle).length - 1;
 
-const baseGroups: ColorGroupSpec[] = [{ id: "base", name: "Base", color: "#2B2B2B" }];
+const baseGroups: ColorGroupSpec[] = [
+  { id: "base", name: "Base", color: "#2B2B2B" },
+];
 
 describe("buildCombinedThreeMfModel", () => {
   it("merges a token's parts into one named object placed by one build item", async () => {
@@ -44,7 +48,9 @@ describe("buildCombinedThreeMfModel", () => {
 
     expect(countOccurrences(modelXml, "<object ")).toBe(1);
     expect(countOccurrences(modelXml, "<mesh>")).toBe(1);
-    expect(modelXml).toContain('<object id="2" name="Momentum" pid="1" pindex="0" type="model">');
+    expect(modelXml).toContain(
+      '<object id="2" name="Momentum" pid="1" pindex="0" type="model">',
+    );
     expect(countOccurrences(modelXml, "<item ")).toBe(1);
     expect(modelXml).toContain('<item objectid="2"/>');
   });
@@ -62,9 +68,14 @@ describe("buildCombinedThreeMfModel", () => {
       { id: "text", name: "Details", color: "#FFFFFF" },
     ];
 
-    const { prusaModelConfigXml } = buildCombinedThreeMfModel(items, colorGroups);
+    const { prusaModelConfigXml } = buildCombinedThreeMfModel(
+      items,
+      colorGroups,
+    );
 
-    expect(prusaModelConfigXml).toContain('<object id="2" instances_count="1">');
+    expect(prusaModelConfigXml).toContain(
+      '<object id="2" instances_count="1">',
+    );
     expect(prusaModelConfigXml).toContain('key="name" value="Momentum"');
     expect(countOccurrences(prusaModelConfigXml, "<volume ")).toBe(2);
     expect(prusaModelConfigXml).toContain('value="Base"');
@@ -84,7 +95,10 @@ describe("buildCombinedThreeMfModel", () => {
       },
     ];
 
-    const { modelXml, prusaModelConfigXml } = buildCombinedThreeMfModel(items, baseGroups);
+    const { modelXml, prusaModelConfigXml } = buildCombinedThreeMfModel(
+      items,
+      baseGroups,
+    );
 
     expect(countOccurrences(modelXml, "<object ")).toBe(3);
     expect(modelXml).toContain('name="Knocked Down 1"');
@@ -95,7 +109,9 @@ describe("buildCombinedThreeMfModel", () => {
     expect(modelXml).toContain('<object id="3" name="Knocked Down 2"');
     expect(modelXml).toContain('<vertex x="32" y="2" z="1"/>');
     expect(modelXml).not.toContain("transform=");
-    expect(countOccurrences(prusaModelConfigXml, 'instances_count="1"')).toBe(3);
+    expect(countOccurrences(prusaModelConfigXml, 'instances_count="1"')).toBe(
+      3,
+    );
     expect(prusaModelConfigXml).toContain('value="Knocked Down 3"');
   });
 
@@ -128,6 +144,8 @@ describe("buildCombinedThreeMfModel", () => {
   });
 
   it("throws when there are no parts across any item", () => {
-    expect(() => buildCombinedThreeMfModel([], [])).toThrow(/at least one TokenPart/);
+    expect(() => buildCombinedThreeMfModel([], [])).toThrow(
+      /at least one TokenPart/,
+    );
   });
 });

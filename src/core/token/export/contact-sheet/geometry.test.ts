@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 
-import { CIRCLE_ANCHOR_X_SVG, CIRCLE_ANCHOR_Y_SVG } from "../../preview/svgBaseReference";
+import {
+  CIRCLE_ANCHOR_X_SVG,
+  CIRCLE_ANCHOR_Y_SVG,
+} from "../../preview/svgBaseReference";
 import { GRID_STEP_MM } from "../../preview/svgGrid";
 import {
   allContoursOf,
@@ -10,7 +13,7 @@ import {
   shiftForArcAnchor,
   unionBounds,
 } from "./geometry";
-import { FlippedContactSheetItem } from "./types";
+import type { FlippedContactSheetItem } from "./types";
 
 const GRID_VERTEX_STEP_MM = GRID_STEP_MM * 2;
 
@@ -31,13 +34,18 @@ describe("allContoursOf", () => {
 
 describe("shiftForArcAnchor", () => {
   it("moves the token's origin onto the circle's fixed anchor", () => {
-    expect(shiftForArcAnchor([[[0, 0]]])).toEqual([[[CIRCLE_ANCHOR_X_SVG, CIRCLE_ANCHOR_Y_SVG]]]);
+    expect(shiftForArcAnchor([[[0, 0]]])).toEqual([
+      [[CIRCLE_ANCHOR_X_SVG, CIRCLE_ANCHOR_Y_SVG]],
+    ]);
   });
 });
 
 describe("unionBounds", () => {
   it("covers both boxes", () => {
-    const union = unionBounds({ min: [0, 5], max: [10, 6] }, { min: [-2, 0], max: [3, 8] });
+    const union = unionBounds(
+      { min: [0, 5], max: [10, 6] },
+      { min: [-2, 0], max: [3, 8] },
+    );
 
     expect(union).toEqual({ min: [-2, 0], max: [10, 8] });
   });
@@ -72,7 +80,11 @@ describe("roundUpToGridStep", () => {
 
 describe("roundUpToGridVertexStep", () => {
   it("rounds up to twice the grid step, so half a cell is still a whole grid step", () => {
-    expect(roundUpToGridVertexStep(GRID_STEP_MM + 0.1)).toBe(GRID_VERTEX_STEP_MM);
-    expect(roundUpToGridVertexStep(GRID_VERTEX_STEP_MM + 0.1)).toBe(GRID_VERTEX_STEP_MM * 2);
+    expect(roundUpToGridVertexStep(GRID_STEP_MM + 0.1)).toBe(
+      GRID_VERTEX_STEP_MM,
+    );
+    expect(roundUpToGridVertexStep(GRID_VERTEX_STEP_MM + 0.1)).toBe(
+      GRID_VERTEX_STEP_MM * 2,
+    );
   });
 });

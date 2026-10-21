@@ -23,7 +23,9 @@ describe("App", () => {
     render(<App />);
 
     window.addEventListener("popstate", onPopState);
-    await userEvent.click(screen.getByRole("link", { name: "Guild Ball Parametric Tokens" }));
+    await userEvent.click(
+      screen.getByRole("link", { name: "Guild Ball Parametric Tokens" }),
+    );
     window.removeEventListener("popstate", onPopState);
 
     expect(window.location.pathname).toBe("/");

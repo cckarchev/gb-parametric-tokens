@@ -16,17 +16,15 @@ export const CheckboxField = ({
   onChange,
   disabled,
   hideLabel,
-}: CheckboxFieldProps) => {
-  return (
-    <label className={disabled ? styles.rowDisabled : styles.row}>
-      <input
-        className={styles.checkbox}
-        type="checkbox"
-        checked={checked}
-        disabled={disabled}
-        onChange={(event) => onChange(event.target.checked)}
-      />
-      <span className={hideLabel ? styles.labelHidden : undefined}>{label}</span>
-    </label>
-  );
-};
+}: CheckboxFieldProps) => (
+  <label className={disabled ? styles.rowDisabled : styles.row}>
+    <input
+      className={styles.checkbox}
+      type="checkbox"
+      checked={checked}
+      disabled={disabled}
+      onChange={(event) => onChange(event.target.checked)}
+    />
+    <span className={hideLabel ? styles.labelHidden : undefined}>{label}</span>
+  </label>
+);

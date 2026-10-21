@@ -1,19 +1,21 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
-import { CounterRow } from "./counter-panel/CounterPanel";
+import type { CounterRow } from "./counter-panel/CounterPanel";
 import { setRowsEnabled } from "./setRowsEnabled";
 
 const MAX_COPIES = 6;
 
-const buildRow = (key: string, enabled: boolean, copies: number): CounterRow => {
-  return {
-    key,
-    label: key,
-    selection: { enabled, copies },
-    onChange: () => {},
-    maxCopies: MAX_COPIES,
-  };
-};
+const buildRow = (
+  key: string,
+  enabled: boolean,
+  copies: number,
+): CounterRow => ({
+  key,
+  label: key,
+  selection: { enabled, copies },
+  onChange: vi.fn(),
+  maxCopies: MAX_COPIES,
+});
 
 describe("setRowsEnabled", () => {
   it("flips every row's enabled flag and keeps its copies", () => {
@@ -21,7 +23,10 @@ describe("setRowsEnabled", () => {
 
     const next = setRowsEnabled({}, rows, true);
 
-    expect(next).toEqual({ a: { enabled: true, copies: 3 }, b: { enabled: true, copies: 1 } });
+    expect(next).toEqual({
+      a: { enabled: true, copies: 3 },
+      b: { enabled: true, copies: 1 },
+    });
   });
 
   it("keeps record entries that have no row and leaves the input untouched", () => {
@@ -29,7 +34,10 @@ describe("setRowsEnabled", () => {
 
     const next = setRowsEnabled(record, [buildRow("a", true, 4)], false);
 
-    expect(next).toEqual({ other: { enabled: true, copies: 2 }, a: { enabled: false, copies: 4 } });
+    expect(next).toEqual({
+      other: { enabled: true, copies: 2 },
+      a: { enabled: false, copies: 4 },
+    });
     expect(record).toEqual({ other: { enabled: true, copies: 2 } });
   });
 });

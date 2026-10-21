@@ -1,6 +1,9 @@
 import { Panel } from "@/components/primitives/panel/Panel";
 import { SelectAllCheckbox } from "@/components/primitives/SelectAllCheckbox";
-import { CounterSelection, MIN_COPIES } from "@/core/token/catalog/token-items/tokenItem";
+import {
+  type CounterSelection,
+  MIN_COPIES,
+} from "@/core/token/catalog/token-items/tokenItem";
 
 import { CountField } from "./CountField";
 
@@ -21,21 +24,32 @@ type CounterPanelProps = {
   onToggleAll: (enabled: boolean) => void;
 };
 
-export const CounterPanel = ({ title, rows, onToggleAll }: CounterPanelProps) => {
+export const CounterPanel = ({
+  title,
+  rows,
+  onToggleAll,
+}: CounterPanelProps) => {
   const allEnabled = rows.every((row) => row.selection.enabled);
 
   return (
     <Panel
       title={title}
-      headerAccessory={<SelectAllCheckbox checked={allEnabled} onChange={onToggleAll} />}>
+      headerAccessory={
+        <SelectAllCheckbox checked={allEnabled} onChange={onToggleAll} />
+      }
+    >
       {rows.map((row) => (
         <CountField
           key={row.key}
           label={row.label}
           enabled={row.selection.enabled}
-          onEnabledChange={(enabled) => row.onChange({ ...row.selection, enabled })}
+          onEnabledChange={(enabled) =>
+            row.onChange({ ...row.selection, enabled })
+          }
           copies={row.selection.copies}
-          onCopiesChange={(copies) => row.onChange({ ...row.selection, copies })}
+          onCopiesChange={(copies) =>
+            row.onChange({ ...row.selection, copies })
+          }
           min={MIN_COPIES}
           max={row.maxCopies}
         />

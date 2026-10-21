@@ -15,7 +15,9 @@ describe("GuildSelector", () => {
   it("renders each guild as a tile and reports the selection when clicked", async () => {
     const onSelect = vi.fn();
 
-    render(<GuildSelector guilds={[brewers, morticians]} onSelect={onSelect} />);
+    render(
+      <GuildSelector guilds={[brewers, morticians]} onSelect={onSelect} />,
+    );
 
     await userEvent.click(screen.getByRole("button", { name: "Morticians" }));
 
@@ -25,10 +27,17 @@ describe("GuildSelector", () => {
   it("puts the generic catalog in the guild grid as its last tile", async () => {
     const onSelect = vi.fn();
 
-    render(<GuildSelector guilds={[generic, brewers, morticians]} onSelect={onSelect} />);
+    render(
+      <GuildSelector
+        guilds={[generic, brewers, morticians]}
+        onSelect={onSelect}
+      />,
+    );
 
     const guildGrid = screen.getByRole("group", { name: "Guilds" });
-    const tileNames = Array.from(guildGrid.querySelectorAll("button")).map((tile) => tile.title);
+    const tileNames = Array.from(guildGrid.querySelectorAll("button")).map(
+      (tile) => tile.title,
+    );
 
     expect(tileNames).toEqual(["Brewers", "Morticians", "Generic"]);
 

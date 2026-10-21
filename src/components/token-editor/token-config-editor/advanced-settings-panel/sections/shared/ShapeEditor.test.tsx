@@ -13,7 +13,9 @@ describe("ShapeEditor", () => {
     render(<ShapeEditor shape={discShape} onChange={vi.fn()} />);
 
     expect(screen.getByLabelText("Diameter (mm)")).toHaveValue(12.5);
-    expect(screen.queryByLabelText("Ribbon width (mm)")).not.toBeInTheDocument();
+    expect(
+      screen.queryByLabelText("Ribbon width (mm)"),
+    ).not.toBeInTheDocument();
   });
 
   it("shows the arc fields for an arc shape, with no derived-value fields", () => {
@@ -29,8 +31,12 @@ describe("ShapeEditor", () => {
     expect(screen.getByLabelText("Ribbon width (mm)")).toHaveValue(15);
     expect(screen.getByLabelText("Ribbon length (mm)")).toHaveValue(20);
     expect(screen.getByLabelText("Stud diameter (mm)")).toHaveValue(24);
-    expect(screen.queryByLabelText("Inner radius (mm)")).not.toBeInTheDocument();
-    expect(screen.queryByLabelText("Outer radius (mm)")).not.toBeInTheDocument();
+    expect(
+      screen.queryByLabelText("Inner radius (mm)"),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByLabelText("Outer radius (mm)"),
+    ).not.toBeInTheDocument();
     expect(screen.queryByLabelText("Sweep (degrees)")).not.toBeInTheDocument();
   });
 
@@ -48,7 +54,9 @@ describe("ShapeEditor", () => {
 
     render(<ShapeEditor shape={discShape} onChange={onChange} />);
 
-    fireEvent.change(screen.getByLabelText("Diameter (mm)"), { target: { value: "20" } });
+    fireEvent.change(screen.getByLabelText("Diameter (mm)"), {
+      target: { value: "20" },
+    });
 
     expect(onChange).toHaveBeenCalledWith({ type: "disc", diameterMm: 20 });
   });
@@ -64,7 +72,9 @@ describe("ShapeEditor", () => {
 
     render(<ShapeEditor shape={arcShape} onChange={onChange} />);
 
-    fireEvent.change(screen.getByLabelText("Ribbon length (mm)"), { target: { value: "30" } });
+    fireEvent.change(screen.getByLabelText("Ribbon length (mm)"), {
+      target: { value: "30" },
+    });
 
     expect(onChange).toHaveBeenCalledWith({ ...arcShape, ribbonLengthMm: 30 });
   });
@@ -113,9 +123,14 @@ describe("ShapeEditor", () => {
 
     render(<ShapeEditor shape={arcShape} onChange={onChange} />);
 
-    fireEvent.change(screen.getByLabelText("Stud fillet radius (mm)"), { target: { value: "3" } });
+    fireEvent.change(screen.getByLabelText("Stud fillet radius (mm)"), {
+      target: { value: "3" },
+    });
 
-    expect(onChange).toHaveBeenCalledWith({ ...arcShape, studFilletRadiusMm: 3 });
+    expect(onChange).toHaveBeenCalledWith({
+      ...arcShape,
+      studFilletRadiusMm: 3,
+    });
   });
 
   it("reports the stud fillet toggle while preserving the rest of the arc shape", () => {
@@ -133,6 +148,9 @@ describe("ShapeEditor", () => {
 
     fireEvent.click(screen.getByLabelText("Fillet between stud and arc"));
 
-    expect(onChange).toHaveBeenCalledWith({ ...arcShape, studFilletEnabled: true });
+    expect(onChange).toHaveBeenCalledWith({
+      ...arcShape,
+      studFilletEnabled: true,
+    });
   });
 });

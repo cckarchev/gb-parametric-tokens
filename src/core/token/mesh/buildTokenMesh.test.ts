@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 
-import { TokenSpec, Vec2 } from "../types";
+import type { TokenSpec, Vec2 } from "../types";
 import { buildTokenMesh } from "./buildTokenMesh";
-import { ReliefComponent } from "./reliefComponent";
+import type { ReliefComponent } from "./reliefComponent";
 
 const baseSpec = (overrides: Partial<TokenSpec["style"]> = {}): TokenSpec => ({
   version: 1,
@@ -11,10 +11,20 @@ const baseSpec = (overrides: Partial<TokenSpec["style"]> = {}): TokenSpec => ({
   lines: [],
   icons: [],
   decorations: [],
-  style: { relief: "raised", reliefHeightMm: 0.6, baseThicknessMm: 3, ...overrides },
+  style: {
+    relief: "raised",
+    reliefHeightMm: 0.6,
+    baseThicknessMm: 3,
+    ...overrides,
+  },
   colorGroups: [],
   printProfileId: "fdm-04",
-  fitPolicy: { minTracking: 0, maxTracking: 0, minScale: 1, allowTwoLines: false },
+  fitPolicy: {
+    minTracking: 0,
+    maxTracking: 0,
+    minScale: 1,
+    allowTwoLines: false,
+  },
 });
 
 const squareIcon: Vec2[][] = [
@@ -30,7 +40,9 @@ describe("buildTokenMesh", () => {
   it("produces one base part whose top is raised above the base thickness for relief: raised", async () => {
     const parts = await buildTokenMesh({
       spec: baseSpec({ relief: "raised" }),
-      reliefComponents: [{ source: { kind: "decoration" }, contours: squareIcon }],
+      reliefComponents: [
+        { source: { kind: "decoration" }, contours: squareIcon },
+      ],
     });
 
     expect(parts).toHaveLength(1);
@@ -42,7 +54,9 @@ describe("buildTokenMesh", () => {
   it("keeps the manifold within the base thickness for relief: engraved", async () => {
     const parts = await buildTokenMesh({
       spec: baseSpec({ relief: "engraved" }),
-      reliefComponents: [{ source: { kind: "decoration" }, contours: squareIcon }],
+      reliefComponents: [
+        { source: { kind: "decoration" }, contours: squareIcon },
+      ],
     });
 
     expect(parts).toHaveLength(1);
@@ -54,10 +68,17 @@ describe("buildTokenMesh", () => {
     const parts = await buildTokenMesh({
       spec: baseSpec({ relief: "inlay" }),
       reliefComponents: [
-        { source: { kind: "decoration" }, contours: squareIcon, colorGroup: "text" },
+        {
+          source: { kind: "decoration" },
+          contours: squareIcon,
+          colorGroup: "text",
+        },
       ],
     });
-    const plainDisc = await buildTokenMesh({ spec: baseSpec(), reliefComponents: [] });
+    const plainDisc = await buildTokenMesh({
+      spec: baseSpec(),
+      reliefComponents: [],
+    });
 
     const basePart = parts.find((part) => part.colorGroupId === "base");
     const textPart = parts.find((part) => part.colorGroupId === "text");
@@ -72,7 +93,8 @@ describe("buildTokenMesh", () => {
     expect(textPart?.manifold.boundingBox().min[2]).toBeCloseTo(3 - 0.6);
 
     // The pocket is exactly the inlay: together they add up to the plain disc, no gap, no overlap.
-    const combinedVolume = (basePart?.manifold.volume() ?? 0) + (textPart?.manifold.volume() ?? 0);
+    const combinedVolume =
+      (basePart?.manifold.volume() ?? 0) + (textPart?.manifold.volume() ?? 0);
 
     expect(combinedVolume).toBeCloseTo(plainDisc[0].manifold.volume(), 3);
   });
@@ -81,9 +103,14 @@ describe("buildTokenMesh", () => {
     const thinBase = { reliefHeightMm: 3, baseThicknessMm: 1 };
     const parts = await buildTokenMesh({
       spec: baseSpec({ relief: "engraved", ...thinBase }),
-      reliefComponents: [{ source: { kind: "decoration" }, contours: squareIcon }],
+      reliefComponents: [
+        { source: { kind: "decoration" }, contours: squareIcon },
+      ],
     });
-    const plainDisc = await buildTokenMesh({ spec: baseSpec(thinBase), reliefComponents: [] });
+    const plainDisc = await buildTokenMesh({
+      spec: baseSpec(thinBase),
+      reliefComponents: [],
+    });
 
     // The 6x6 square is cut 1 - 0.4 deep, leaving a 0.4mm floor under it.
     const squareAreaMm2 = 36;
@@ -97,9 +124,17 @@ describe("buildTokenMesh", () => {
 
   it("never inlays below the bed: a pocket deeper than the base stops at a minimum floor", async () => {
     const parts = await buildTokenMesh({
-      spec: baseSpec({ relief: "inlay", reliefHeightMm: 3, baseThicknessMm: 1 }),
+      spec: baseSpec({
+        relief: "inlay",
+        reliefHeightMm: 3,
+        baseThicknessMm: 1,
+      }),
       reliefComponents: [
-        { source: { kind: "decoration" }, contours: squareIcon, colorGroup: "text" },
+        {
+          source: { kind: "decoration" },
+          contours: squareIcon,
+          colorGroup: "text",
+        },
       ],
     });
 
@@ -112,24 +147,39 @@ describe("buildTokenMesh", () => {
   it("leaves a base-colored relief flat, with no pocket and no extra part, for relief: inlay", async () => {
     const parts = await buildTokenMesh({
       spec: baseSpec({ relief: "inlay" }),
-      reliefComponents: [{ source: { kind: "decoration" }, contours: squareIcon }],
+      reliefComponents: [
+        { source: { kind: "decoration" }, contours: squareIcon },
+      ],
     });
-    const plainDisc = await buildTokenMesh({ spec: baseSpec(), reliefComponents: [] });
+    const plainDisc = await buildTokenMesh({
+      spec: baseSpec(),
+      reliefComponents: [],
+    });
 
     expect(parts).toHaveLength(1);
-    expect(parts[0].manifold.volume()).toBeCloseTo(plainDisc[0].manifold.volume(), 3);
+    expect(parts[0].manifold.volume()).toBeCloseTo(
+      plainDisc[0].manifold.volume(),
+      3,
+    );
   });
 
   it("rejects non-disc shapes", async () => {
     const spec = {
       ...baseSpec(),
-      shape: { type: "arc" as const, ribbonWidthMm: 1, ribbonLengthMm: 5, studDiameterMm: 1 },
+      shape: {
+        type: "arc" as const,
+        ribbonWidthMm: 1,
+        ribbonLengthMm: 5,
+        studDiameterMm: 1,
+      },
     };
 
     await expect(
       buildTokenMesh({
         spec,
-        reliefComponents: [{ source: { kind: "decoration" }, contours: squareIcon }],
+        reliefComponents: [
+          { source: { kind: "decoration" }, contours: squareIcon },
+        ],
       }),
     ).rejects.toThrow(/only supports a "disc" shape/);
   });
@@ -138,12 +188,19 @@ describe("buildTokenMesh", () => {
     const parts = await buildTokenMesh({
       spec: baseSpec({ relief: "raised" }),
       reliefComponents: [
-        { source: { kind: "decoration" }, contours: squareIcon, colorGroup: "accent" },
+        {
+          source: { kind: "decoration" },
+          contours: squareIcon,
+          colorGroup: "accent",
+        },
       ],
     });
 
     expect(parts).toHaveLength(2);
-    expect(parts.map((part) => part.colorGroupId).sort()).toEqual(["accent", "base"]);
+    expect(parts.map((part) => part.colorGroupId).sort()).toEqual([
+      "accent",
+      "base",
+    ]);
 
     const basePart = parts.find((part) => part.colorGroupId === "base");
     const accentPart = parts.find((part) => part.colorGroupId === "accent");
@@ -167,7 +224,11 @@ describe("buildTokenMesh", () => {
     const parts = await buildTokenMesh({
       spec: baseSpec({ relief: "raised" }),
       reliefComponents: [
-        { source: { kind: "decoration" }, contours: squareIcon, growOutline: growSquare },
+        {
+          source: { kind: "decoration" },
+          contours: squareIcon,
+          growOutline: growSquare,
+        },
       ],
     });
 
@@ -180,7 +241,11 @@ describe("buildTokenMesh", () => {
     const parts = await buildTokenMesh({
       spec: baseSpec({ relief: "raised" }),
       reliefComponents: [
-        { source: { kind: "decoration" }, contours: squareIcon, colorGroup: "base" },
+        {
+          source: { kind: "decoration" },
+          contours: squareIcon,
+          colorGroup: "base",
+        },
       ],
     });
 
@@ -192,15 +257,25 @@ describe("buildTokenMesh", () => {
     const holeDiameterMm = 15;
     // A separately colorGrouped relief stays its own part, so the base part is the bare body.
     const reliefComponents: ReliefComponent[] = [
-      { source: { kind: "decoration" }, contours: squareIcon, colorGroup: "accent" },
+      {
+        source: { kind: "decoration" },
+        contours: squareIcon,
+        colorGroup: "accent",
+      },
     ];
     const hollowSpec: TokenSpec = {
       ...baseSpec(),
       shape: { type: "disc", diameterMm: 25, innerDiameterMm: holeDiameterMm },
     };
 
-    const solidParts = await buildTokenMesh({ spec: baseSpec(), reliefComponents });
-    const hollowParts = await buildTokenMesh({ spec: hollowSpec, reliefComponents });
+    const solidParts = await buildTokenMesh({
+      spec: baseSpec(),
+      reliefComponents,
+    });
+    const hollowParts = await buildTokenMesh({
+      spec: hollowSpec,
+      reliefComponents,
+    });
     const solidBase = solidParts.find((part) => part.colorGroupId === "base");
     const hollowBase = hollowParts.find((part) => part.colorGroupId === "base");
 
@@ -208,7 +283,8 @@ describe("buildTokenMesh", () => {
     const thicknessMm = hollowSpec.style.baseThicknessMm;
     const holeVolume = Math.PI * holeRadiusMm * holeRadiusMm * thicknessMm;
     const removedVolume =
-      (solidBase?.manifold.volume() ?? 0) - (hollowBase?.manifold.volume() ?? 0);
+      (solidBase?.manifold.volume() ?? 0) -
+      (hollowBase?.manifold.volume() ?? 0);
 
     expect(removedVolume).toBeCloseTo(holeVolume, -1);
   });

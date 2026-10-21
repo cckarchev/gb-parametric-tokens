@@ -9,9 +9,8 @@ import { allConditions, conditionsForGuild } from "./conditions";
 // Biome's useNamingConvention default for identifiers: lower camelCase, ASCII letters and digits.
 const CAMEL_CASE_ID = /^[a-z][a-zA-Z0-9]*$/;
 
-const conditionNames = (guildId: string): string[] => {
-  return conditionsForGuild(guildId).map((condition) => condition.name);
-};
+const conditionNames = (guildId: string): string[] =>
+  conditionsForGuild(guildId).map((condition) => condition.name);
 
 describe("conditionsForGuild", () => {
   it("gives every guild the conditions that are not tied to a guild", () => {
@@ -46,7 +45,9 @@ describe("allConditions", () => {
 describe("guild files' applied conditions", () => {
   it("only name conditions that guild is offered", () => {
     const unknownReferences = guildCatalogs.flatMap((catalog) => {
-      const offeredIds = new Set(catalog.conditions.map((condition) => condition.id));
+      const offeredIds = new Set(
+        catalog.conditions.map((condition) => condition.id),
+      );
 
       return catalog.appliedConditionIds
         .filter((conditionId) => !offeredIds.has(conditionId))
@@ -82,7 +83,9 @@ describe("conditions.json", () => {
 
   it("only points at condition icons that exist in the icon manifest", () => {
     const statusIconIds = new Set(
-      manifestData.filter((entry) => entry.kind === "status").map((entry) => entry.id),
+      manifestData
+        .filter((entry) => entry.kind === "status")
+        .map((entry) => entry.id),
     );
     const unknownIconIds = conditionsData
       .map((condition) => condition.iconId)
@@ -92,7 +95,9 @@ describe("conditions.json", () => {
   });
 
   it("only restricts a condition to guilds that exist", () => {
-    const knownGuildIds = new Set(guildCatalogs.map((catalog) => catalog.guildId));
+    const knownGuildIds = new Set(
+      guildCatalogs.map((catalog) => catalog.guildId),
+    );
     const unknownGuildIds = conditionsData
       .flatMap((condition) => condition.guilds ?? [])
       .filter((guildId) => !knownGuildIds.has(guildId));

@@ -1,7 +1,13 @@
 import { describe, expect, it } from "vitest";
 
-import { DEFAULT_BODY_FONT_ID, DEFAULT_DISPLAY_FONT_ID } from "../../text/fontCatalog";
-import { DEFAULT_SHARED_CONFIG, DEFAULT_TOKEN_TUNING } from "./defaultSharedConfig";
+import {
+  DEFAULT_BODY_FONT_ID,
+  DEFAULT_DISPLAY_FONT_ID,
+} from "../../text/fontCatalog";
+import {
+  DEFAULT_SHARED_CONFIG,
+  DEFAULT_TOKEN_TUNING,
+} from "./defaultSharedConfig";
 
 describe("DEFAULT_TOKEN_TUNING", () => {
   it("keeps today's crest and icon scales", () => {
@@ -21,7 +27,9 @@ describe("DEFAULT_TOKEN_TUNING", () => {
   });
 
   it("sets every token's text in the body font except Momentum's MP", () => {
-    expect(DEFAULT_TOKEN_TUNING.characterToken.fontId).toBe(DEFAULT_BODY_FONT_ID);
+    expect(DEFAULT_TOKEN_TUNING.characterToken.fontId).toBe(
+      DEFAULT_BODY_FONT_ID,
+    );
     expect(DEFAULT_TOKEN_TUNING.ringBadge.fontId).toBe(DEFAULT_BODY_FONT_ID);
     expect(DEFAULT_TOKEN_TUNING.aoe.fontId).toBe(DEFAULT_BODY_FONT_ID);
     expect(DEFAULT_TOKEN_TUNING.momentum.fontId).toBe(DEFAULT_DISPLAY_FONT_ID);
@@ -48,7 +56,10 @@ describe("DEFAULT_SHARED_CONFIG", () => {
     expect(DEFAULT_SHARED_CONFIG.aoe).toEqual(DEFAULT_TOKEN_TUNING.aoe);
     expect(DEFAULT_SHARED_CONFIG.nameSizeMm).toBe(3);
     expect(DEFAULT_SHARED_CONFIG.effectSizeMm).toBe(1.9);
-    expect(DEFAULT_SHARED_CONFIG.goalInfluenceShape).toEqual({ type: "disc", diameterMm: 20 });
+    expect(DEFAULT_SHARED_CONFIG.goalInfluenceShape).toEqual({
+      type: "disc",
+      diameterMm: 20,
+    });
     expect(DEFAULT_SHARED_CONFIG.aoeTemplateVariant).toBe("ring");
   });
 });

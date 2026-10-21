@@ -1,5 +1,8 @@
-import { BASE_COLOR_GROUP_ID, resolveColorGroupDisplay } from "./mesh/colorGroups";
-import { ColorGroupSpec, Vec2 } from "./types";
+import {
+  BASE_COLOR_GROUP_ID,
+  resolveColorGroupDisplay,
+} from "./mesh/colorGroups";
+import type { ColorGroupSpec, Vec2 } from "./types";
 
 const contourToPathSegment = (contour: Vec2[]): string => {
   const [first, ...rest] = contour;
@@ -29,7 +32,10 @@ export const buildTokenPathsSvg = (
   reliefContoursByColorGroup: Map<string, Vec2[][]>,
   colorGroups: ColorGroupSpec[],
 ): string[] => {
-  const baseColor = resolveColorGroupDisplay(BASE_COLOR_GROUP_ID, colorGroups).color;
+  const baseColor = resolveColorGroupDisplay(
+    BASE_COLOR_GROUP_ID,
+    colorGroups,
+  ).color;
   const paths = [contoursToPathSvg(baseContours, baseColor)];
 
   for (const [colorGroupId, contours] of reliefContoursByColorGroup) {

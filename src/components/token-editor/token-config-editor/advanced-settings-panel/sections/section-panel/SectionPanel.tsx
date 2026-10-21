@@ -1,8 +1,8 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 import { Button } from "@/components/primitives/button/Button";
 import { Panel } from "@/components/primitives/panel/Panel";
-import { SharedConfig } from "@/core/token/catalog/token-items/tokenItem";
+import type { SharedConfig } from "@/core/token/catalog/token-items/tokenItem";
 
 import styles from "./SectionPanel.module.css";
 
@@ -23,16 +23,19 @@ type SectionPanelProps = {
 
 // One collapsible section of the advanced settings, with a reset that restores only its own
 // fields (each section decides which fields those are).
-export const SectionPanel = ({ title, onReset, note, children }: SectionPanelProps) => {
-  return (
-    <Panel title={title}>
-      {children}
+export const SectionPanel = ({
+  title,
+  onReset,
+  note,
+  children,
+}: SectionPanelProps) => (
+  <Panel title={title}>
+    {children}
 
-      {note && <p className={styles.note}>{note}</p>}
+    {note && <p className={styles.note}>{note}</p>}
 
-      <div className={styles.resetRow}>
-        <Button label={`Reset ${title} to defaults`} onClick={onReset} />
-      </div>
-    </Panel>
-  );
-};
+    <div className={styles.resetRow}>
+      <Button label={`Reset ${title} to defaults`} onClick={onReset} />
+    </div>
+  </Panel>
+);

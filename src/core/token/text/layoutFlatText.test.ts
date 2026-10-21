@@ -44,7 +44,11 @@ describe("layoutFlatText", () => {
     };
 
     const tight = layoutFlatText(font, { text: "111", sizeMm: 6 }, 0.05);
-    const tracked = layoutFlatText(font, { text: "111", sizeMm: 6, trackingMm: 2 }, 0.05);
+    const tracked = layoutFlatText(
+      font,
+      { text: "111", sizeMm: 6, trackingMm: 2 },
+      0.05,
+    );
 
     expect(spanOf(tracked)).toBeGreaterThan(spanOf(tight));
   });

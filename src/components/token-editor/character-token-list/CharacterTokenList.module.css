@@ -27,7 +27,11 @@
    padding shorthand would otherwise win the tie and drop the indent. */
 .row.rowToken {
   /* Lines up under the header checkbox's own label text, not its square. */
-  padding-left: calc(var(--size-checkbox) + var(--space-2xs) + var(--space-2xs));
+  padding-left: calc(
+    var(--size-checkbox) +
+    var(--space-2xs) +
+    var(--space-2xs)
+  );
 }
 
 .rowAccessories {

@@ -1,33 +1,41 @@
 import { buildTokenPathsSvg } from "../buildTokenPathsSvg";
 import { computeBounds } from "../geometry/computeBounds";
-import { flipContoursY, translateContours } from "../geometry/contourTransforms";
+import {
+  flipContoursY,
+  translateContours,
+} from "../geometry/contourTransforms";
 import { groupReliefComponentsByColorGroup } from "../mesh/groupReliefComponents";
-import { ReliefComponent } from "../mesh/reliefComponent";
-import { ColorGroupSpec, ShapeSpec, Vec2 } from "../types";
+import type { ReliefComponent } from "../mesh/reliefComponent";
+import type { ColorGroupSpec, ShapeSpec, Vec2 } from "../types";
 import {
   buildBaseReferenceCircleSvg,
   CIRCLE_ANCHOR_X_SVG,
   CIRCLE_ANCHOR_Y_SVG,
   computeBaseReferenceCircleBottomYSvg,
 } from "./svgBaseReference";
-import { buildGridOverlaySvg, RenderedSvg, SvgBounds } from "./svgGrid";
+import {
+  buildGridOverlaySvg,
+  type RenderedSvg,
+  type SvgBounds,
+} from "./svgGrid";
 
 const DEFAULT_PADDING_MM = 5;
 
 // The pipeline is y-up and SVG is y-down, so the preview flips every contour on the way in.
-const flipComponents = (components: ReliefComponent[]): ReliefComponent[] => {
-  return components.map((component) => ({
+const flipComponents = (components: ReliefComponent[]): ReliefComponent[] =>
+  components.map((component) => ({
     ...component,
     contours: flipContoursY(component.contours),
   }));
-};
 
-const shiftComponents = (components: ReliefComponent[], offset: Vec2): ReliefComponent[] => {
-  return components.map((component) => ({
+const shiftComponents = (
+  components: ReliefComponent[],
+  offset: Vec2,
+): ReliefComponent[] =>
+  components.map((component) => ({
     ...component,
     contours: translateContours(component.contours, offset),
   }));
-};
 
 export const buildPreviewSvg = (
   baseContours: Vec2[][],
@@ -42,17 +50,31 @@ export const buildPreviewSvg = (
   const tokenShiftSvg: Vec2 =
     shape?.type === "arc" ? [CIRCLE_ANCHOR_X_SVG, CIRCLE_ANCHOR_Y_SVG] : [0, 0];
 
-  const shiftedBaseContours = translateContours(flippedBaseContours, tokenShiftSvg);
-  const shiftedReliefComponents = shiftComponents(flippedReliefComponents, tokenShiftSvg);
-  const reliefContoursByColorGroup = groupReliefComponentsByColorGroup(shiftedReliefComponents);
+  const shiftedBaseContours = translateContours(
+    flippedBaseContours,
+    tokenShiftSvg,
+  );
+  const shiftedReliefComponents = shiftComponents(
+    flippedReliefComponents,
+    tokenShiftSvg,
+  );
+  const reliefContoursByColorGroup = groupReliefComponentsByColorGroup(
+    shiftedReliefComponents,
+  );
 
   const bounds = computeBounds(
-    [shiftedBaseContours, ...shiftedReliefComponents.map((component) => component.contours)].flat(),
+    [
+      shiftedBaseContours,
+      ...shiftedReliefComponents.map((component) => component.contours),
+    ].flat(),
   );
 
   const bottomBoundMm =
     shape?.type === "arc"
-      ? Math.max(bounds.max[1], computeBaseReferenceCircleBottomYSvg(CIRCLE_ANCHOR_Y_SVG))
+      ? Math.max(
+          bounds.max[1],
+          computeBaseReferenceCircleBottomYSvg(CIRCLE_ANCHOR_Y_SVG),
+        )
       : bounds.max[1];
 
   const viewBox: SvgBounds = {
@@ -62,7 +84,11 @@ export const buildPreviewSvg = (
     height: bottomBoundMm - bounds.min[1] + DEFAULT_PADDING_MM * 2,
   };
 
-  const paths = buildTokenPathsSvg(shiftedBaseContours, reliefContoursByColorGroup, colorGroups);
+  const paths = buildTokenPathsSvg(
+    shiftedBaseContours,
+    reliefContoursByColorGroup,
+    colorGroups,
+  );
 
   const baseReferenceCircleSvg =
     shape?.type === "arc"

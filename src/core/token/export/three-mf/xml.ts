@@ -1,21 +1,23 @@
 import type { Mesh } from "manifold-3d";
 
-import { TokenPart } from "../../mesh/tokenPart";
-import { Vec2 } from "../../types";
+import type { TokenPart } from "../../mesh/tokenPart";
+import type { Vec2 } from "../../types";
 
-const THREE_MF_MODEL_NAMESPACE = "http://schemas.microsoft.com/3dmanufacturing/core/2015/02";
+const THREE_MF_MODEL_NAMESPACE =
+  "http://schemas.microsoft.com/3dmanufacturing/core/2015/02";
 const MATERIALS_RESOURCE_ID = 1;
 export const FIRST_OBJECT_ID = 2;
+const VERTICES_PER_TRIANGLE = 3;
 
-export const escapeXmlAttribute = (value: string): string => {
-  return value
+export const escapeXmlAttribute = (value: string): string =>
+  value
     .replace(/&/g, "&amp;")
     .replace(/"/g, "&quot;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
-};
 
-export const colorToDisplayColor = (colorHex: string): string => `${colorHex}FF`;
+export const colorToDisplayColor = (colorHex: string): string =>
+  `${colorHex}FF`;
 
 // offset moves the vertices to their place on the plate.
 const buildVerticesXml = (mesh: Mesh, offset: Vec2): string => {
@@ -35,11 +37,15 @@ const buildVerticesXml = (mesh: Mesh, offset: Vec2): string => {
 
 // vertexOffset moves the triangle corners onto this volume's vertices in the merged mesh.
 // materialXml is empty when the volume uses the object's own material.
-const buildTrianglesXml = (mesh: Mesh, vertexOffset: number, materialXml: string): string => {
+const buildTrianglesXml = (
+  mesh: Mesh,
+  vertexOffset: number,
+  materialXml: string,
+): string => {
   let trianglesXml = "";
 
   for (let triangleIndex = 0; triangleIndex < mesh.numTri; triangleIndex++) {
-    const base = triangleIndex * 3;
+    const base = triangleIndex * VERTICES_PER_TRIANGLE;
     const v1 = mesh.triVerts[base] + vertexOffset;
     const v2 = mesh.triVerts[base + 1] + vertexOffset;
     const v3 = mesh.triVerts[base + 2] + vertexOffset;
@@ -50,9 +56,17 @@ const buildTrianglesXml = (mesh: Mesh, vertexOffset: number, materialXml: string
   return trianglesXml;
 };
 
-export type ObjectVolume = { part: TokenPart; materialIndex: number; name: string };
+export type ObjectVolume = {
+  part: TokenPart;
+  materialIndex: number;
+  name: string;
+};
 
-export type VolumeTriangleRange = { name: string; firstTriangleId: number; lastTriangleId: number };
+export type VolumeTriangleRange = {
+  name: string;
+  firstTriangleId: number;
+  lastTriangleId: number;
+};
 
 export type MultiVolumeMesh = {
   meshXml: string;
@@ -66,7 +80,10 @@ export type MultiVolumeMesh = {
 // the other volumes tag their own triangles, which is what any 3MF reader colors by. PrusaSlicer
 // instead splits the mesh back into parts by the returned triangle ranges (see
 // prusaModelConfig.ts), since it flattens <components> into separate objects.
-export const buildMultiVolumeMeshXml = (volumes: ObjectVolume[], offset: Vec2): MultiVolumeMesh => {
+export const buildMultiVolumeMeshXml = (
+  volumes: ObjectVolume[],
+  offset: Vec2,
+): MultiVolumeMesh => {
   const objectMaterialIndex = volumes[0].materialIndex;
   const volumeRanges: VolumeTriangleRange[] = [];
   let verticesXml = "";
@@ -102,31 +119,24 @@ export const buildMeshObjectXml = (
   name: string,
   materialIndex: number,
   meshXml: string,
-): string => {
-  return (
-    `<object id="${objectId}" name="${escapeXmlAttribute(name)}" pid="${MATERIALS_RESOURCE_ID}" pindex="${materialIndex}" type="model">` +
-    meshXml +
-    `</object>`
-  );
-};
+): string =>
+  `<object id="${objectId}" name="${escapeXmlAttribute(name)}" pid="${MATERIALS_RESOURCE_ID}" pindex="${materialIndex}" type="model">` +
+  meshXml +
+  `</object>`;
 
-export const buildItemXml = (objectId: number): string => {
-  return `<item objectid="${objectId}"/>`;
-};
+export const buildItemXml = (objectId: number): string =>
+  `<item objectid="${objectId}"/>`;
 
 export const wrapThreeMfModelXml = (
   basesXml: string,
   objectsXml: string,
   itemsXml: string,
-): string => {
-  return (
-    `<?xml version="1.0" encoding="UTF-8"?>` +
-    `<model unit="millimeter" xmlns="${THREE_MF_MODEL_NAMESPACE}">` +
-    `<resources>` +
-    `<basematerials id="${MATERIALS_RESOURCE_ID}">${basesXml}</basematerials>` +
-    objectsXml +
-    `</resources>` +
-    `<build>${itemsXml}</build>` +
-    `</model>`
-  );
-};
+): string =>
+  `<?xml version="1.0" encoding="UTF-8"?>` +
+  `<model unit="millimeter" xmlns="${THREE_MF_MODEL_NAMESPACE}">` +
+  `<resources>` +
+  `<basematerials id="${MATERIALS_RESOURCE_ID}">${basesXml}</basematerials>` +
+  objectsXml +
+  `</resources>` +
+  `<build>${itemsXml}</build>` +
+  `</model>`;

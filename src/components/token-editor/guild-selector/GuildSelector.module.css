@@ -1,4 +1,9 @@
 .grid {
+  /* A fieldset, so the browser's own border, padding and min-width come off. */
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
   display: flex;
   flex-wrap: wrap;
   /* Fixed-size tiles in a centered wrap, so a last row that does not fill up sits centered

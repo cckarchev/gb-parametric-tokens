@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { Vec2 } from "../types";
+import type { Vec2 } from "../types";
 import { normalizeWinding, signedArea } from "./normalizeWinding";
 
 const ccwSquare: Vec2[] = [
@@ -52,7 +52,10 @@ describe("normalizeWinding", () => {
       [5, 15],
     ];
 
-    const [normalizedOuter, normalizedHole] = normalizeWinding([outer, holeGivenAsCcw]);
+    const [normalizedOuter, normalizedHole] = normalizeWinding([
+      outer,
+      holeGivenAsCcw,
+    ]);
 
     expect(signedArea(normalizedOuter)).toBeGreaterThan(0);
     expect(signedArea(normalizedHole)).toBeLessThan(0);

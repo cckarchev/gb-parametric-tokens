@@ -7,14 +7,18 @@ type ButtonProps = {
   disabled?: boolean;
 };
 
-export const Button = ({ label, onClick, variant = "secondary", disabled }: ButtonProps) => {
-  return (
-    <button
-      type="button"
-      className={variant === "primary" ? styles.primary : styles.secondary}
-      onClick={onClick}
-      disabled={disabled}>
-      {label}
-    </button>
-  );
-};
+export const Button = ({
+  label,
+  onClick,
+  variant = "secondary",
+  disabled,
+}: ButtonProps) => (
+  <button
+    type="button"
+    className={variant === "primary" ? styles.primary : styles.secondary}
+    onClick={onClick}
+    disabled={disabled}
+  >
+    {label}
+  </button>
+);

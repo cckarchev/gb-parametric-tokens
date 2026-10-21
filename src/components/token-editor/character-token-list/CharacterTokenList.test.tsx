@@ -3,7 +3,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 
-import { GuildCatalog } from "@/core/token/catalog/catalogTypes";
+import type { GuildCatalog } from "@/core/token/catalog/catalogTypes";
 import {
   characterAoeTemplateId,
   characterTokenId,
@@ -45,7 +45,8 @@ const renderList = (
     onTokenCopiesChange: (copies: Record<string, number>) => void;
   }> = {},
 ) => {
-  const onSelectedTokenIdsChange = overrides.onSelectedTokenIdsChange ?? vi.fn();
+  const onSelectedTokenIdsChange =
+    overrides.onSelectedTokenIdsChange ?? vi.fn();
   const onTokenCopiesChange = overrides.onTokenCopiesChange ?? vi.fn();
 
   render(
@@ -96,16 +97,23 @@ describe("CharacterTokenList", () => {
 
     await userEvent.click(screen.getByLabelText("Commanding Aura"));
 
-    expect(onSelectedTokenIdsChange).toHaveBeenCalledWith([characterTokenId("Tapper", 0)]);
+    expect(onSelectedTokenIdsChange).toHaveBeenCalledWith([
+      characterTokenId("Tapper", 0),
+    ]);
   });
 
   it("removes a token id from the selection when its checkbox is unchecked", async () => {
-    const selectedTokenIds = [characterTokenId("Tapper", 0), characterTokenId("Tapper", 1)];
+    const selectedTokenIds = [
+      characterTokenId("Tapper", 0),
+      characterTokenId("Tapper", 1),
+    ];
     const { onSelectedTokenIdsChange } = renderList({ selectedTokenIds });
 
     await userEvent.click(screen.getByLabelText("Marked Target"));
 
-    expect(onSelectedTokenIdsChange).toHaveBeenCalledWith([characterTokenId("Tapper", 0)]);
+    expect(onSelectedTokenIdsChange).toHaveBeenCalledWith([
+      characterTokenId("Tapper", 0),
+    ]);
   });
 
   it("selects every token of a character when its header checkbox is checked", async () => {
@@ -120,7 +128,10 @@ describe("CharacterTokenList", () => {
   });
 
   it("deselects every token of a character when its header checkbox is unchecked", async () => {
-    const selectedTokenIds = [characterTokenId("Tapper", 0), characterTokenId("Tapper", 1)];
+    const selectedTokenIds = [
+      characterTokenId("Tapper", 0),
+      characterTokenId("Tapper", 1),
+    ];
     const { onSelectedTokenIdsChange } = renderList({ selectedTokenIds });
 
     expect(screen.getByLabelText("Tapper")).toBeChecked();
@@ -167,7 +178,9 @@ describe("CharacterTokenList", () => {
   it("does not show a copies field for a once-per-turn token", () => {
     renderList();
 
-    expect(screen.queryByLabelText("Commanding Aura copies")).not.toBeInTheDocument();
+    expect(
+      screen.queryByLabelText("Commanding Aura copies"),
+    ).not.toBeInTheDocument();
   });
 
   it("enables the copies field once its token is selected, keeping the previously chosen count", async () => {
@@ -183,7 +196,9 @@ describe("CharacterTokenList", () => {
 
     await userEvent.click(screen.getByLabelText("Singled Out"));
 
-    expect(onSelectedTokenIdsChange).toHaveBeenCalledWith([characterTokenId("Spigot", 0)]);
+    expect(onSelectedTokenIdsChange).toHaveBeenCalledWith([
+      characterTokenId("Spigot", 0),
+    ]);
   });
 
   it("updates the copies count without touching the selection", () => {
@@ -195,7 +210,9 @@ describe("CharacterTokenList", () => {
 
     fireEvent.change(copiesField, { target: { value: "5" } });
 
-    expect(onTokenCopiesChange).toHaveBeenCalledWith({ [characterTokenId("Spigot", 0)]: 5 });
+    expect(onTokenCopiesChange).toHaveBeenCalledWith({
+      [characterTokenId("Spigot", 0)]: 5,
+    });
     expect(onSelectedTokenIdsChange).not.toHaveBeenCalled();
   });
 
@@ -204,7 +221,9 @@ describe("CharacterTokenList", () => {
       guildId: "masons",
       name: "Masons",
       color: "#416abb",
-      characters: [{ name: "Hammer", effects: ["hammerTimeDmg", "hammerTimeMov"] }],
+      characters: [
+        { name: "Hammer", effects: ["hammerTimeDmg", "hammerTimeMov"] },
+      ],
       genericTokens: [],
       conditions: [],
       appliedConditionIds: [],
@@ -222,7 +241,9 @@ describe("CharacterTokenList", () => {
     );
 
     expect(screen.getByLabelText("Hammer Time! (+1 DMG)")).toBeInTheDocument();
-    expect(screen.getByLabelText('Hammer Time! (+2"/+2" MOV)')).toBeInTheDocument();
+    expect(
+      screen.getByLabelText('Hammer Time! (+2"/+2" MOV)'),
+    ).toBeInTheDocument();
   });
 
   it("lists a character's AOE templates with an AOE tag", async () => {
@@ -233,7 +254,9 @@ describe("CharacterTokenList", () => {
 
     await userEvent.click(screen.getByLabelText("Broadside"));
 
-    expect(onSelectedTokenIdsChange).toHaveBeenCalledWith([characterAoeTemplateId("Cutlass", 0)]);
+    expect(onSelectedTokenIdsChange).toHaveBeenCalledWith([
+      characterAoeTemplateId("Cutlass", 0),
+    ]);
   });
 
   it("shows no AOE tag for a guild without templates", () => {

@@ -17,10 +17,14 @@ type NumberFieldProps = {
 
 const STEP_AMOUNT = 1;
 
-const clamp = (value: number, min: number | undefined, max: number | undefined): number => {
-  const withMin = min !== undefined ? Math.max(value, min) : value;
+const clamp = (
+  value: number,
+  min: number | undefined,
+  max: number | undefined,
+): number => {
+  const withMin = min === undefined ? value : Math.max(value, min);
 
-  return max !== undefined ? Math.min(withMin, max) : withMin;
+  return max === undefined ? withMin : Math.min(withMin, max);
 };
 
 export const NumberField = ({
@@ -46,7 +50,8 @@ export const NumberField = ({
             className={styles.stepperButton}
             aria-label={`Decrease ${label}`}
             disabled={disabled || (min !== undefined && value <= min)}
-            onClick={() => onChange(clamp(value - STEP_AMOUNT, min, max))}>
+            onClick={() => onChange(clamp(value - STEP_AMOUNT, min, max))}
+          >
             −
           </button>
 
@@ -58,7 +63,9 @@ export const NumberField = ({
             min={min}
             max={max}
             disabled={disabled}
-            onChange={(event) => onChange(clamp(Number(event.target.value), min, max))}
+            onChange={(event) =>
+              onChange(clamp(Number(event.target.value), min, max))
+            }
           />
 
           <button
@@ -66,7 +73,8 @@ export const NumberField = ({
             className={styles.stepperButton}
             aria-label={`Increase ${label}`}
             disabled={disabled || (max !== undefined && value >= max)}
-            onClick={() => onChange(clamp(value + STEP_AMOUNT, min, max))}>
+            onClick={() => onChange(clamp(value + STEP_AMOUNT, min, max))}
+          >
             +
           </button>
         </div>
@@ -84,7 +92,9 @@ export const NumberField = ({
         min={min}
         max={max}
         disabled={disabled}
-        onChange={(event) => onChange(clamp(Number(event.target.value), min, max))}
+        onChange={(event) =>
+          onChange(clamp(Number(event.target.value), min, max))
+        }
       />
     </label>
   );

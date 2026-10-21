@@ -1,30 +1,20 @@
 import { TEXT_COLOR_GROUP_ID } from "../../mesh/colorGroups";
-import { TokenSpec } from "../../types";
-import { CatalogEffect } from "../catalogTypes";
+import type { TokenSpec } from "../../types";
+import type { CatalogEffect } from "../catalogTypes";
 import { buildRingTokenSpec } from "./ringTokenSpec";
-import { SharedConfig } from "./tokenItem";
+import type { SharedConfig } from "./tokenItem";
 import { buildIconSpec, sharedTokenFields } from "./tokenSpecParts";
 
-export const buildCharacterTokenSpec = (
+// The name, plus the effect line below it when the config shows a second line.
+const arcTextLines = (
   effect: CatalogEffect,
-  guildIconId: string,
-  guildIconScale: number,
   sharedConfig: SharedConfig,
-): TokenSpec => {
-  if (effect.layout === "ring") {
-    return buildRingTokenSpec(
-      effect.name,
-      effect.effect,
-      guildIconId,
-      guildIconScale,
-      sharedConfig,
-    );
-  }
-
-  const { crestScale, balanceNameScale, balanceEffectScale, singleLineNameSizeMm, fontId } =
+): TokenSpec["lines"] => {
+  const { balanceNameScale, balanceEffectScale, singleLineNameSizeMm } =
     sharedConfig.characterToken;
-  const iconScale = crestScale * guildIconScale;
-  const secondLineText = sharedConfig.showSecondLine ? effect.effect : undefined;
+  const secondLineText = sharedConfig.showSecondLine
+    ? effect.effect
+    : undefined;
   const isSingleLine = secondLineText === undefined;
 
   // A lone name gets the whole band, so it prints larger. With two lines, balanceTwoLineSizes
@@ -44,25 +34,45 @@ export const buildCharacterTokenSpec = (
     colorGroup: TEXT_COLOR_GROUP_ID,
   };
 
-  const lines =
-    secondLineText !== undefined
-      ? [
-          nameLine,
-          {
-            text: secondLineText,
-            sizeMm: sharedConfig.balanceTwoLineSizes
-              ? sharedConfig.effectSizeMm * balanceEffectScale
-              : sharedConfig.effectSizeMm,
-            colorGroup: TEXT_COLOR_GROUP_ID,
-          },
-        ]
-      : [nameLine];
+  if (secondLineText === undefined) {
+    return [nameLine];
+  }
+
+  const effectLine = {
+    text: secondLineText,
+    sizeMm: sharedConfig.balanceTwoLineSizes
+      ? sharedConfig.effectSizeMm * balanceEffectScale
+      : sharedConfig.effectSizeMm,
+    colorGroup: TEXT_COLOR_GROUP_ID,
+  };
+
+  return [nameLine, effectLine];
+};
+
+export const buildCharacterTokenSpec = (
+  effect: CatalogEffect,
+  guildIconId: string,
+  guildIconScale: number,
+  sharedConfig: SharedConfig,
+): TokenSpec => {
+  if (effect.layout === "ring") {
+    return buildRingTokenSpec(
+      effect.name,
+      effect.effect,
+      guildIconId,
+      guildIconScale,
+      sharedConfig,
+    );
+  }
+
+  const { crestScale, fontId } = sharedConfig.characterToken;
+  const iconScale = crestScale * guildIconScale;
 
   return {
     version: 1,
     shape: sharedConfig.arcShape,
     textLayout: "arc",
-    lines,
+    lines: arcTextLines(effect, sharedConfig),
     icons: [
       buildIconSpec(guildIconId, "left", iconScale, sharedConfig),
       buildIconSpec(guildIconId, "right", iconScale, sharedConfig),

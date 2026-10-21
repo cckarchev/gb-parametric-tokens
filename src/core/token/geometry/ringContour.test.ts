@@ -3,7 +3,8 @@ import { describe, expect, it } from "vitest";
 import { signedArea } from "../svg/normalizeWinding";
 import { computeRingContour } from "./ringContour";
 
-const distanceFromOrigin = ([x, y]: [number, number]): number => Math.hypot(x, y);
+const distanceFromOrigin = ([x, y]: [number, number]): number =>
+  Math.hypot(x, y);
 
 describe("computeRingContour", () => {
   it("returns exactly an outer contour and an inner contour", () => {

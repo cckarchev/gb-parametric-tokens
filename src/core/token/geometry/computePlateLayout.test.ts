@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { Vec2 } from "../types";
-import { computePlateLayout, PlateLayoutItem } from "./computePlateLayout";
+import type { Vec2 } from "../types";
+import { computePlateLayout, type PlateLayoutItem } from "./computePlateLayout";
 
 // A token whose geometry is centered on its own origin, like every disc.
 const centeredDisc = (diameterMm: number, copies: number): PlateLayoutItem => {
@@ -15,21 +15,17 @@ const centeredDisc = (diameterMm: number, copies: number): PlateLayoutItem => {
 };
 
 // An arc token: its ribbon sits well above its own origin.
-const offsetArc = (copies: number): PlateLayoutItem => {
-  return {
-    shapeType: "arc",
-    boundsMm: { min: [-45, 20], max: [45, 60] },
-    copies,
-  };
-};
+const offsetArc = (copies: number): PlateLayoutItem => ({
+  shapeType: "arc",
+  boundsMm: { min: [-45, 20], max: [45, 60] },
+  copies,
+});
 
 // Where an item's bounds land once an offset moves it.
-const placedBounds = (item: PlateLayoutItem, offset: Vec2) => {
-  return {
-    min: [item.boundsMm.min[0] + offset[0], item.boundsMm.min[1] + offset[1]],
-    max: [item.boundsMm.max[0] + offset[0], item.boundsMm.max[1] + offset[1]],
-  };
-};
+const placedBounds = (item: PlateLayoutItem, offset: Vec2) => ({
+  min: [item.boundsMm.min[0] + offset[0], item.boundsMm.min[1] + offset[1]],
+  max: [item.boundsMm.max[0] + offset[0], item.boundsMm.max[1] + offset[1]],
+});
 
 describe("computePlateLayout", () => {
   it("returns an empty array for no items", () => {

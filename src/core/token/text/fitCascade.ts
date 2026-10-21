@@ -1,4 +1,5 @@
-const sum = (values: number[]): number => values.reduce((total, value) => total + value, 0);
+const sum = (values: number[]): number =>
+  values.reduce((total, value) => total + value, 0);
 
 type SingleLineFitInput = {
   advancesMm: number[];
@@ -13,18 +14,22 @@ export type SingleLineFitResult =
   | { fits: true; trackingMm: number; scaleFactor: number }
   | { fits: false };
 
-export const computeSingleLineFit = (input: SingleLineFitInput): SingleLineFitResult => {
+export const computeSingleLineFit = (
+  input: SingleLineFitInput,
+): SingleLineFitResult => {
   const advanceSumMm = sum(input.advancesMm);
   const kerningSumMm = sum(input.kerningsMm);
   const gapCount = input.kerningsMm.length;
 
-  const widthAtMaxTrackingMm = advanceSumMm + kerningSumMm + input.maxTrackingMm * gapCount;
+  const widthAtMaxTrackingMm =
+    advanceSumMm + kerningSumMm + input.maxTrackingMm * gapCount;
 
   if (widthAtMaxTrackingMm <= input.availableArcLengthMm) {
     return { fits: true, trackingMm: input.maxTrackingMm, scaleFactor: 1 };
   }
 
-  const widthAtMinTrackingMm = advanceSumMm + kerningSumMm + input.minTrackingMm * gapCount;
+  const widthAtMinTrackingMm =
+    advanceSumMm + kerningSumMm + input.minTrackingMm * gapCount;
 
   if (widthAtMinTrackingMm <= input.availableArcLengthMm) {
     const exactTrackingMm =
@@ -45,7 +50,11 @@ export const computeSingleLineFit = (input: SingleLineFitInput): SingleLineFitRe
     (input.availableArcLengthMm - input.minTrackingMm * gapCount) / glyphSpanMm;
 
   if (scaleFactorNeeded >= input.minScale) {
-    return { fits: true, trackingMm: input.minTrackingMm, scaleFactor: scaleFactorNeeded };
+    return {
+      fits: true,
+      trackingMm: input.minTrackingMm,
+      scaleFactor: scaleFactorNeeded,
+    };
   }
 
   return { fits: false };

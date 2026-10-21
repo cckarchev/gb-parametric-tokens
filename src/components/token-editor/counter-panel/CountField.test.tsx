@@ -4,8 +4,10 @@ import { describe, expect, it, vi } from "vitest";
 
 import { CountField } from "./CountField";
 
-const renderField = (overrides: Partial<Parameters<typeof CountField>[0]> = {}) => {
-  return render(
+const renderField = (
+  overrides: Partial<Parameters<typeof CountField>[0]> = {},
+) =>
+  render(
     <CountField
       label="Influence tokens"
       enabled={false}
@@ -17,7 +19,6 @@ const renderField = (overrides: Partial<Parameters<typeof CountField>[0]> = {}) 
       {...overrides}
     />,
   );
-};
 
 describe("CountField", () => {
   it("reflects the checkbox and copies state", () => {

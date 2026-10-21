@@ -1,16 +1,21 @@
 import { buildDiscFootprint } from "../geometry/discFootprint";
-import { TokenSpec } from "../types";
+import type { TokenSpec } from "../types";
 import { applyReliefToBase } from "./applyReliefToBase";
 import { getManifoldModule } from "./manifoldModule";
-import { collectGrowOutlineContours, ReliefComponent } from "./reliefComponent";
-import { TokenPart } from "./tokenPart";
+import {
+  collectGrowOutlineContours,
+  type ReliefComponent,
+} from "./reliefComponent";
+import type { TokenPart } from "./tokenPart";
 
 type BuildTokenMeshInput = {
   spec: TokenSpec;
   reliefComponents: ReliefComponent[];
 };
 
-export const buildTokenMesh = async (input: BuildTokenMeshInput): Promise<TokenPart[]> => {
+export const buildTokenMesh = async (
+  input: BuildTokenMeshInput,
+): Promise<TokenPart[]> => {
   if (input.spec.shape.type !== "disc") {
     throw new Error(
       `buildTokenMesh only supports a "disc" shape, got "${input.spec.shape.type}": an arc shape goes through buildArcTokenMesh instead (see buildTokenParts.ts)`,
@@ -29,8 +34,15 @@ export const buildTokenMesh = async (input: BuildTokenMeshInput): Promise<TokenP
   const growContours = collectGrowOutlineContours(input.reliefComponents);
   const base =
     growContours.length > 0
-      ? disc.add(new CrossSection(growContours, "Positive").extrude(baseThicknessMm))
+      ? disc.add(
+          new CrossSection(growContours, "Positive").extrude(baseThicknessMm),
+        )
       : disc;
 
-  return applyReliefToBase(base, input.spec.style, input.reliefComponents, CrossSection);
+  return applyReliefToBase(
+    base,
+    input.spec.style,
+    input.reliefComponents,
+    CrossSection,
+  );
 };

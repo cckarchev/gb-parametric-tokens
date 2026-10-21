@@ -18,8 +18,8 @@ const STEM_REFERENCE_GLYPH = "l";
 // which is close to straight at mid-height.
 const CURVE_SAMPLE_COUNT = 16;
 
-const sampleQuadratic = (from: Point, control: Point, to: Point): Point[] => {
-  return Array.from({ length: CURVE_SAMPLE_COUNT }, (_, index) => {
+const sampleQuadratic = (from: Point, control: Point, to: Point): Point[] =>
+  Array.from({ length: CURVE_SAMPLE_COUNT }, (_, index) => {
     const t = (index + 1) / CURVE_SAMPLE_COUNT;
     const u = 1 - t;
 
@@ -28,27 +28,33 @@ const sampleQuadratic = (from: Point, control: Point, to: Point): Point[] => {
       y: u * u * from.y + 2 * u * t * control.y + t * t * to.y,
     };
   });
-};
 
-const sampleCubic = (from: Point, control1: Point, control2: Point, to: Point): Point[] => {
-  return Array.from({ length: CURVE_SAMPLE_COUNT }, (_, index) => {
+// The Bernstein coefficient of a cubic's two inner terms: C(3, 1) = C(3, 2) = 3.
+const CUBIC_INNER_COEFFICIENT = 3;
+
+const sampleCubic = (
+  from: Point,
+  control1: Point,
+  control2: Point,
+  to: Point,
+): Point[] =>
+  Array.from({ length: CURVE_SAMPLE_COUNT }, (_, index) => {
     const t = (index + 1) / CURVE_SAMPLE_COUNT;
     const u = 1 - t;
 
     return {
       x:
         u * u * u * from.x +
-        3 * u * u * t * control1.x +
-        3 * u * t * t * control2.x +
+        CUBIC_INNER_COEFFICIENT * u * u * t * control1.x +
+        CUBIC_INNER_COEFFICIENT * u * t * t * control2.x +
         t * t * t * to.x,
       y:
         u * u * u * from.y +
-        3 * u * u * t * control1.y +
-        3 * u * t * t * control2.y +
+        CUBIC_INNER_COEFFICIENT * u * u * t * control1.y +
+        CUBIC_INNER_COEFFICIENT * u * t * t * control2.y +
         t * t * t * to.y,
     };
   });
-};
 
 // The outline as closed polygons, in font units.
 const flattenOutline = (commands: PathCommand[]): Point[][] => {
@@ -68,13 +74,20 @@ const flattenOutline = (commands: PathCommand[]): Point[][] => {
       const from = current[current.length - 1];
       const control = { x: command.x1, y: command.y1 };
 
-      current.push(...sampleQuadratic(from, control, { x: command.x, y: command.y }));
+      current.push(
+        ...sampleQuadratic(from, control, { x: command.x, y: command.y }),
+      );
     } else if (command.type === "C") {
       const from = current[current.length - 1];
       const control1 = { x: command.x1, y: command.y1 };
       const control2 = { x: command.x2, y: command.y2 };
 
-      current.push(...sampleCubic(from, control1, control2, { x: command.x, y: command.y }));
+      current.push(
+        ...sampleCubic(from, control1, control2, {
+          x: command.x,
+          y: command.y,
+        }),
+      );
     }
   }
 
@@ -135,7 +148,9 @@ export const measureFontMetrics = (font: Font): FontMetrics => {
     return cachedMetrics;
   }
 
-  const capitalBounds = font.charToGlyph(CAPITAL_REFERENCE_GLYPH).getBoundingBox();
+  const capitalBounds = font
+    .charToGlyph(CAPITAL_REFERENCE_GLYPH)
+    .getBoundingBox();
   const metrics: FontMetrics = {
     ascentRatio: capitalBounds.y2 / font.unitsPerEm,
     stemWidthRatio: measureStemWidthUnits(font) / font.unitsPerEm,

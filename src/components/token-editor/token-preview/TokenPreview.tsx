@@ -1,10 +1,10 @@
 import { useState } from "react";
 
-import { PreviewItem } from "@/browser/tokenWorker";
+import type { PreviewItem } from "@/browser/tokenWorker";
 import { CheckboxField } from "@/components/primitives/checkbox-field/CheckboxField";
 import { SvgLoupe } from "@/components/primitives/svg-loupe/SvgLoupe";
 import { buildContactSheetSvg } from "@/core/token/export/contact-sheet/contactSheetSvg";
-import { ColorGroupSpec } from "@/core/token/types";
+import type { ColorGroupSpec } from "@/core/token/types";
 
 import styles from "./TokenPreview.module.css";
 
@@ -16,12 +16,21 @@ type TokenPreviewProps = {
 
 const CONTACT_SHEET_COLUMNS = 5;
 
-export const TokenPreview = ({ items, isPreviewing, colorGroups }: TokenPreviewProps) => {
+export const TokenPreview = ({
+  items,
+  isPreviewing,
+  colorGroups,
+}: TokenPreviewProps) => {
   const [showBaseReference, setShowBaseReference] = useState(true);
 
-  const contactSheet = buildContactSheetSvg(items, CONTACT_SHEET_COLUMNS, colorGroups, {
-    showBaseReference,
-  });
+  const contactSheet = buildContactSheetSvg(
+    items,
+    CONTACT_SHEET_COLUMNS,
+    colorGroups,
+    {
+      showBaseReference,
+    },
+  );
 
   const svgContainerClassName = isPreviewing
     ? `${styles.svgContainer} ${styles.svgContainerLoading}`

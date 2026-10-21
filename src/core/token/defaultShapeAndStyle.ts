@@ -1,4 +1,10 @@
-import { ArcShapeSpec, ColorGroupSpec, DiscShapeSpec, FitPolicy, StyleSpec } from "./types";
+import type {
+  ArcShapeSpec,
+  ColorGroupSpec,
+  DiscShapeSpec,
+  FitPolicy,
+  StyleSpec,
+} from "./types";
 
 // The default arc shape, tuned by eye rather than measured. ShapeEditor also falls back to its
 // fillet radius for an arc that has none.

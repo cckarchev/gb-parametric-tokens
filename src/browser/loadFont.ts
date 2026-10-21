@@ -27,10 +27,12 @@ export const loadCatalogFont = (fontId: string | undefined): Promise<Font> => {
     return cachedPromise;
   }
 
-  const fontPromise = fetchFont(fontFilePath(entry.file)).catch((error: unknown) => {
-    fontPromisesById.delete(entry.id);
-    throw error;
-  });
+  const fontPromise = fetchFont(fontFilePath(entry.file)).catch(
+    (error: unknown) => {
+      fontPromisesById.delete(entry.id);
+      throw error;
+    },
+  );
 
   fontPromisesById.set(entry.id, fontPromise);
 

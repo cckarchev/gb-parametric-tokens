@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { flipItem } from "./flip";
-import { ContactSheetItem } from "./types";
+import type { ContactSheetItem } from "./types";
 
 describe("flipItem", () => {
   const item: ContactSheetItem = {
@@ -9,8 +9,16 @@ describe("flipItem", () => {
     baseContours: [[[1, 2]]],
     reliefComponents: [
       { source: { kind: "decoration" }, contours: [[[3, 4]]] },
-      { source: { kind: "decoration" }, contours: [[[5, 6]]], colorGroup: "text" },
-      { source: { kind: "decoration" }, contours: [[[7, 8]]], colorGroup: "text" },
+      {
+        source: { kind: "decoration" },
+        contours: [[[5, 6]]],
+        colorGroup: "text",
+      },
+      {
+        source: { kind: "decoration" },
+        contours: [[[7, 8]]],
+        colorGroup: "text",
+      },
     ],
     copies: 2,
     label: "Tapper: Commanding Aura",
@@ -22,13 +30,19 @@ describe("flipItem", () => {
     const flipped = flipItem(item);
 
     expect(flipped.baseContours).toEqual([[[1, -2]]]);
-    expect(flipped.reliefContoursByColorGroup.get("text")).toEqual([[[5, -6]], [[7, -8]]]);
+    expect(flipped.reliefContoursByColorGroup.get("text")).toEqual([
+      [[5, -6]],
+      [[7, -8]],
+    ]);
   });
 
   it("groups the relief by color group, an untagged component going to the base group", () => {
     const flipped = flipItem(item);
 
-    expect([...flipped.reliefContoursByColorGroup.keys()]).toEqual(["base", "text"]);
+    expect([...flipped.reliefContoursByColorGroup.keys()]).toEqual([
+      "base",
+      "text",
+    ]);
     expect(flipped.reliefContoursByColorGroup.get("base")).toEqual([[[3, -4]]]);
   });
 

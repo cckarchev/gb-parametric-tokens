@@ -1,55 +1,7 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.6.2/schema.json",
-  "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "extends": ["@cckarchev/shared/biome"],
   "files": {
-    "includes": ["**", "!**/dist", "!**/node_modules"]
-  },
-  "formatter": {
-    "enabled": true,
-    "formatWithErrors": false,
-    "indentStyle": "space",
-    "indentWidth": 2,
-    "lineEnding": "lf",
-    "lineWidth": 100,
-    "bracketSameLine": true,
-    "bracketSpacing": true
-  },
-  "linter": {
-    "enabled": true,
-    "rules": {
-      "preset": "none",
-      "complexity": { "useArrowFunction": "error" },
-      "style": { "useBlockStatements": "error" }
-    }
-  },
-  "javascript": {
-    "formatter": {
-      "jsxQuoteStyle": "double",
-      "quoteProperties": "asNeeded",
-      "trailingCommas": "all",
-      "semicolons": "always",
-      "arrowParentheses": "always",
-      "bracketSameLine": true,
-      "quoteStyle": "double"
-    }
-  },
-  "assist": {
-    "enabled": true,
-    "actions": {
-      "source": {
-        "organizeImports": {
-          "level": "on",
-          "options": {
-            "groups": [
-              [":NODE:", ":PACKAGE:"],
-              ":BLANK_LINE:",
-              [":ALIAS:"],
-              ":BLANK_LINE:",
-              [":PATH:"]
-            ]
-          }
-        }
-      }
-    }
+    "includes": ["**", "!public"]
   }
 }

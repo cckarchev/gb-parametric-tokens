@@ -19,7 +19,10 @@ describe("CIRCLE_ANCHOR_X_SVG / CIRCLE_ANCHOR_Y_SVG", () => {
 
 describe("buildBaseReferenceCircleSvg", () => {
   it("draws a circle at the given center with the fixed base radius", () => {
-    const svg = buildBaseReferenceCircleSvg(CIRCLE_ANCHOR_X_SVG, CIRCLE_ANCHOR_Y_SVG);
+    const svg = buildBaseReferenceCircleSvg(
+      CIRCLE_ANCHOR_X_SVG,
+      CIRCLE_ANCHOR_Y_SVG,
+    );
 
     expect(svg).toContain('data-role="base-reference-circle"');
     expect(svg).toContain(`cx="${CIRCLE_ANCHOR_X_SVG}"`);

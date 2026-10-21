@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { Vec2 } from "../types";
+import type { Vec2 } from "../types";
 import { applyArcPlacement, computeArcGlyphPlacements } from "./arcPlacement";
 
 const degreesToRadians = (deg: number): number => (deg * Math.PI) / 180;
@@ -40,8 +40,14 @@ describe("computeArcGlyphPlacements", () => {
 
     // single glyph with zero advance sits exactly at the center angle
     expect(placement.angleDeg).toBeCloseTo(90, 9);
-    expect(placement.position[0]).toBeCloseTo(50 * Math.cos(degreesToRadians(90)), 9);
-    expect(placement.position[1]).toBeCloseTo(-50 * Math.sin(degreesToRadians(90)), 9);
+    expect(placement.position[0]).toBeCloseTo(
+      50 * Math.cos(degreesToRadians(90)),
+      9,
+    );
+    expect(placement.position[1]).toBeCloseTo(
+      -50 * Math.sin(degreesToRadians(90)),
+      9,
+    );
     expect(placement.rotationDeg).toBeCloseTo(0, 9);
   });
 
@@ -55,8 +61,14 @@ describe("computeArcGlyphPlacements", () => {
     });
 
     expect(placement.angleDeg).toBeCloseTo(90, 9);
-    expect(placement.position[0]).toBeCloseTo(50 * Math.cos(degreesToRadians(90)), 9);
-    expect(placement.position[1]).toBeCloseTo(50 * Math.sin(degreesToRadians(90)), 9);
+    expect(placement.position[0]).toBeCloseTo(
+      50 * Math.cos(degreesToRadians(90)),
+      9,
+    );
+    expect(placement.position[1]).toBeCloseTo(
+      50 * Math.sin(degreesToRadians(90)),
+      9,
+    );
     expect(placement.rotationDeg).toBeCloseTo(0, 9);
   });
 
@@ -126,7 +138,10 @@ describe("computeArcGlyphPlacements", () => {
       orientation: "inward",
     });
 
-    expect(svgYDownPlacement.rotationDeg).toBeCloseTo(-mathYUpPlacement.rotationDeg, 9);
+    expect(svgYDownPlacement.rotationDeg).toBeCloseTo(
+      -mathYUpPlacement.rotationDeg,
+      9,
+    );
   });
 
   it("defaults to outward orientation when omitted", () => {
@@ -209,7 +224,10 @@ describe("applyArcPlacement", () => {
       pivotOffsetMm: 5,
     };
 
-    const [[[leftX, leftY], [rightX, rightY]]] = applyArcPlacement(wideGlyphBaseline, placement);
+    const [[[leftX, leftY], [rightX, rightY]]] = applyArcPlacement(
+      wideGlyphBaseline,
+      placement,
+    );
 
     // local x=0 is 5mm left of the pivot -> after a 90deg rotation it's 5mm "below" the pivot
     expect(leftX).toBeCloseTo(0, 9);

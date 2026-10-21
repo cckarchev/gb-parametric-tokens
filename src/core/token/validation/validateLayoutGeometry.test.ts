@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { ReliefComponent } from "../mesh/reliefComponent";
-import { Vec2 } from "../types";
+import type { ReliefComponent } from "../mesh/reliefComponent";
+import type { Vec2 } from "../types";
 import { validateLayoutGeometry } from "./validateLayoutGeometry";
 
 const square = (minX: number, minY: number, size: number): Vec2[] => [
@@ -34,7 +34,10 @@ describe("validateLayoutGeometry", () => {
   });
 
   it("flags text that runs past the footprint's edge", async () => {
-    const failures = await validateLayoutGeometry([text(square(9, 1, 2))], FOOTPRINT);
+    const failures = await validateLayoutGeometry(
+      [text(square(9, 1, 2))],
+      FOOTPRINT,
+    );
 
     expect(failures).toEqual([
       { kind: "outside-footprint", source: { kind: "text", text: "Name" } },
@@ -46,16 +49,26 @@ describe("validateLayoutGeometry", () => {
       contours: [square(9, 5, 2)],
       source: { kind: "decoration" },
     };
-    const failures = await validateLayoutGeometry([decoration, icon(square(9, 1, 2))], FOOTPRINT);
+    const failures = await validateLayoutGeometry(
+      [decoration, icon(square(9, 1, 2))],
+      FOOTPRINT,
+    );
 
-    expect(failures).toEqual([{ kind: "outside-footprint", source: { kind: "decoration" } }]);
+    expect(failures).toEqual([
+      { kind: "outside-footprint", source: { kind: "decoration" } },
+    ]);
   });
 
   it("flags text that falls into a hole of the footprint", async () => {
     const ring = [square(0, 0, 10), square(3, 3, 4).reverse()];
-    const failures = await validateLayoutGeometry([text(square(4, 4, 2))], ring);
+    const failures = await validateLayoutGeometry(
+      [text(square(4, 4, 2))],
+      ring,
+    );
 
-    expect(failures.map((failure) => failure.kind)).toEqual(["outside-footprint"]);
+    expect(failures.map((failure) => failure.kind)).toEqual([
+      "outside-footprint",
+    ]);
   });
 
   it("flags a crest that overlaps text", async () => {
@@ -74,7 +87,10 @@ describe("validateLayoutGeometry", () => {
   });
 
   it("flags a footprint that came out in separate pieces or empty", async () => {
-    const split = await validateLayoutGeometry([], [square(0, 0, 2), square(5, 5, 2)]);
+    const split = await validateLayoutGeometry(
+      [],
+      [square(0, 0, 2), square(5, 5, 2)],
+    );
     const empty = await validateLayoutGeometry([], []);
 
     expect(split).toEqual([{ kind: "broken-footprint", pieceCount: 2 }]);

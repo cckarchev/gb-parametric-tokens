@@ -1,7 +1,10 @@
 import { describe, expect, it } from "vitest";
 
-import { computeEffectiveStudDiameterMm, computeOuterRadiusMm } from "../geometry/studPlacement";
-import { ShapeSpec, Vec2 } from "../types";
+import {
+  computeEffectiveStudDiameterMm,
+  computeOuterRadiusMm,
+} from "../geometry/studPlacement";
+import type { ShapeSpec, Vec2 } from "../types";
 import { computeBaseOutlineContours } from "./computeBaseOutlineContours";
 
 const boundsOf = (contours: Vec2[][]): { min: Vec2; max: Vec2 } => {
@@ -102,8 +105,8 @@ describe("computeBaseOutlineContours", () => {
     expect(maxDistanceFromOrigin(contours)).toBeCloseTo(20, 0);
   });
 
-  const totalArea = (contours: Vec2[][]): number => {
-    return contours.reduce((sum, contour) => {
+  const totalArea = (contours: Vec2[][]): number =>
+    contours.reduce((sum, contour) => {
       let area = 0;
 
       for (let i = 0; i < contour.length; i++) {
@@ -115,7 +118,6 @@ describe("computeBaseOutlineContours", () => {
 
       return sum + Math.abs(area) / 2;
     }, 0);
-  };
 
   it("leaves the stud/ribbon junction untouched when the fillet is off", async () => {
     const withoutFillet: ShapeSpec = {
@@ -133,10 +135,16 @@ describe("computeBaseOutlineContours", () => {
       studDiameterMm: 24,
     };
 
-    const withoutFilletContours = await computeBaseOutlineContours(withoutFillet, 90);
+    const withoutFilletContours = await computeBaseOutlineContours(
+      withoutFillet,
+      90,
+    );
     const plainContours = await computeBaseOutlineContours(plain, 90);
 
-    expect(totalArea(withoutFilletContours)).toBeCloseTo(totalArea(plainContours), 1);
+    expect(totalArea(withoutFilletContours)).toBeCloseTo(
+      totalArea(plainContours),
+      1,
+    );
   });
 
   it("fills in the concave stud/ribbon junction when the fillet is enabled", async () => {
@@ -148,23 +156,36 @@ describe("computeBaseOutlineContours", () => {
       studFilletEnabled: true,
       studFilletRadiusMm: 3,
     };
-    const withoutFillet: ShapeSpec = { ...withFillet, studFilletEnabled: false };
+    const withoutFillet: ShapeSpec = {
+      ...withFillet,
+      studFilletEnabled: false,
+    };
 
     const filletedContours = await computeBaseOutlineContours(withFillet, 90);
     const plainContours = await computeBaseOutlineContours(withoutFillet, 90);
 
     // Closing only ever adds material (see filletOutline.ts), so the filleted outline's area
     // is strictly larger once there's an actual notch for it to fill.
-    expect(totalArea(filletedContours)).toBeGreaterThan(totalArea(plainContours));
+    expect(totalArea(filletedContours)).toBeGreaterThan(
+      totalArea(plainContours),
+    );
   });
 
   it("returns an outer and an inner contour for a disc with an inner diameter", async () => {
     const innerRadiusMm = 15;
-    const shape: ShapeSpec = { type: "disc", diameterMm: 40, innerDiameterMm: innerRadiusMm * 2 };
+    const shape: ShapeSpec = {
+      type: "disc",
+      diameterMm: 40,
+      innerDiameterMm: innerRadiusMm * 2,
+    };
 
     const contours = await computeBaseOutlineContours(shape, 90);
-    const farthestDistances = contours.map((contour) => maxDistanceFromOrigin([contour]));
-    const innerContours = farthestDistances.filter((distance) => distance < innerRadiusMm + 0.1);
+    const farthestDistances = contours.map((contour) =>
+      maxDistanceFromOrigin([contour]),
+    );
+    const innerContours = farthestDistances.filter(
+      (distance) => distance < innerRadiusMm + 0.1,
+    );
 
     expect(contours).toHaveLength(2);
     expect(innerContours).toHaveLength(1);

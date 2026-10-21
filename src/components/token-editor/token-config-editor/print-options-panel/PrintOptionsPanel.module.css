@@ -1,6 +1,9 @@
 .optionsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(var(--size-print-option-min), 1fr));
+  grid-template-columns: repeat(
+      auto-fit,
+      minmax(var(--size-print-option-min), 1fr)
+    );
   gap: var(--space-sm) var(--space-md);
   align-items: start;
 }

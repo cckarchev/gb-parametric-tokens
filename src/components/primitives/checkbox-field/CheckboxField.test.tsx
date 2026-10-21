@@ -6,7 +6,13 @@ import { CheckboxField } from "./CheckboxField";
 
 describe("CheckboxField", () => {
   it("renders the label and reflects the checked value", () => {
-    render(<CheckboxField label="Allow two lines" checked={true} onChange={vi.fn()} />);
+    render(
+      <CheckboxField
+        label="Allow two lines"
+        checked={true}
+        onChange={vi.fn()}
+      />,
+    );
 
     expect(screen.getByLabelText("Allow two lines")).toBeChecked();
   });
@@ -14,7 +20,13 @@ describe("CheckboxField", () => {
   it("reports the new checked state when toggled", () => {
     const onChange = vi.fn();
 
-    render(<CheckboxField label="Allow two lines" checked={false} onChange={onChange} />);
+    render(
+      <CheckboxField
+        label="Allow two lines"
+        checked={false}
+        onChange={onChange}
+      />,
+    );
 
     fireEvent.click(screen.getByLabelText("Allow two lines"));
 

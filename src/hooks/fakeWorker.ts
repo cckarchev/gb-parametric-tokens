@@ -1,6 +1,10 @@
 import { vi } from "vitest";
 
-import type { ExportResponse, PreviewResponse, WorkerRequest } from "@/browser/tokenWorker";
+import type {
+  ExportResponse,
+  PreviewResponse,
+  WorkerRequest,
+} from "@/browser/tokenWorker";
 
 // Stands in for Worker, covering only what useWorker uses. It records every instance, since that's
 // how a test reaches the worker a hook created.
