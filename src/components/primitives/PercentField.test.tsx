@@ -4,13 +4,22 @@ import { describe, expect, it, vi } from "vitest";
 
 import { PercentField } from "./PercentField";
 
+const CREST_SCALE = 0.55;
+const CREST_PERCENT = 55;
+const MIN_SCALE = 0.1;
+const MAX_SCALE = 1.5;
+
 describe("PercentField", () => {
   it("shows a fraction as a whole percentage", () => {
     render(
-      <PercentField label="Crest size (%)" value={0.55} onChange={vi.fn()} />,
+      <PercentField
+        label="Crest size (%)"
+        value={CREST_SCALE}
+        onChange={vi.fn()}
+      />,
     );
 
-    expect(screen.getByLabelText("Crest size (%)")).toHaveValue(55);
+    expect(screen.getByLabelText("Crest size (%)")).toHaveValue(CREST_PERCENT);
   });
 
   it("reports the typed percentage back as a fraction, clamped to its bounds", () => {
@@ -19,9 +28,9 @@ describe("PercentField", () => {
     render(
       <PercentField
         label="Crest size (%)"
-        value={0.55}
-        min={0.1}
-        max={1.5}
+        value={CREST_SCALE}
+        min={MIN_SCALE}
+        max={MAX_SCALE}
         onChange={onChange}
       />,
     );
@@ -33,7 +42,9 @@ describe("PercentField", () => {
       target: { value: "500" },
     });
 
-    expect(onChange).toHaveBeenNthCalledWith(1, 0.7);
-    expect(onChange).toHaveBeenNthCalledWith(2, 1.5);
+    const typedScale = 0.7;
+
+    expect(onChange).toHaveBeenNthCalledWith(1, typedScale);
+    expect(onChange).toHaveBeenNthCalledWith(2, MAX_SCALE);
   });
 });

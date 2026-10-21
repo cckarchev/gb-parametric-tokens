@@ -74,7 +74,9 @@ describe("buildCharacterTokenSpec", () => {
 
     expect(spec.fontId).toBe(DEFAULT_DISPLAY_FONT_ID);
   });
+});
 
+describe("buildCharacterTokenSpec arc lines", () => {
   it("builds an arc with the name and effect lines and the crest on both sides", () => {
     const spec = buildCharacterTokenSpec(
       arcEffect,
@@ -124,7 +126,9 @@ describe("buildCharacterTokenSpec", () => {
 
     expect(spec.lines[0].fallbackSizeMm).toBe(NAME_SIZE_MM);
   });
+});
 
+describe("buildCharacterTokenSpec line sizes", () => {
   it("gives a two-line name no fallback size", () => {
     const spec = buildCharacterTokenSpec(
       arcEffect,
@@ -169,7 +173,9 @@ describe("buildCharacterTokenSpec", () => {
       EFFECT_SIZE_MM * BALANCE_EFFECT_SCALE,
     );
   });
+});
 
+describe("buildCharacterTokenSpec ring layout", () => {
   it("builds a ring layout effect as a ring token", () => {
     const spec = buildCharacterTokenSpec(
       ringEffect,

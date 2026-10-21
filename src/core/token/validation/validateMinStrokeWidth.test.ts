@@ -6,18 +6,33 @@ import {
   validateMinStrokeWidth,
 } from "./validateMinStrokeWidth";
 
+// The fdm-04 profile's minimum printable stroke.
+const MIN_STROKE_WIDTH_MM = 0.45;
+// Far thinner than the minimum stroke, so it vanishes under erosion.
+const HAIRLINE_MM = 0.08;
+
+type Point = { x: number; y: number };
+type Rect = { minX: number; minY: number; maxX: number; maxY: number };
+
+const polygon = (points: Point[]): [number, number][] =>
+  points.map(({ x, y }) => [x, y]);
+
+const rect = ({ minX, minY, maxX, maxY }: Rect): [number, number][] =>
+  polygon([
+    { x: minX, y: minY },
+    { x: maxX, y: minY },
+    { x: maxX, y: maxY },
+    { x: minX, y: maxY },
+  ]);
+
+// A thin bar off to the side of whatever else a test draws.
+const HAIRLINE = rect({ minX: 20, minY: 0, maxX: 30, maxY: HAIRLINE_MM });
+
 describe("validateMinStrokeWidth", () => {
   it("fails a bar thinner than the minimum stroke width", async () => {
-    const thinBar = [
-      [
-        [0, 0],
-        [10, 0],
-        [10, 0.2],
-        [0, 0.2],
-      ],
-    ] as [number, number][][];
+    const thinBar = [rect({ minX: 0, minY: 0, maxX: 10, maxY: 0.2 })];
 
-    const result = await validateMinStrokeWidth(thinBar, 0.45);
+    const result = await validateMinStrokeWidth(thinBar, MIN_STROKE_WIDTH_MM);
 
     expect(result.valid).toBe(false);
     expect(result.featureCount).toBe(1);
@@ -25,16 +40,9 @@ describe("validateMinStrokeWidth", () => {
   });
 
   it("passes a bar at least as thick as the minimum stroke width", async () => {
-    const thickBar = [
-      [
-        [0, 0],
-        [10, 0],
-        [10, 2],
-        [0, 2],
-      ],
-    ] as [number, number][][];
+    const thickBar = [rect({ minX: 0, minY: 0, maxX: 10, maxY: 2 })];
 
-    const result = await validateMinStrokeWidth(thickBar, 0.45);
+    const result = await validateMinStrokeWidth(thickBar, MIN_STROKE_WIDTH_MM);
 
     expect(result.valid).toBe(true);
     expect(result.featureCount).toBe(1);
@@ -46,23 +54,16 @@ describe("validateMinStrokeWidth", () => {
   // hide the vanished glyph, so the check has to look at each feature on its own.
   it("fails when one feature vanishes even though a thick neighbour survives", async () => {
     const thickSquareAndHairline = [
-      [
-        [0, 0],
-        [16, 0],
-        [16, 16],
-        [0, 16],
-      ],
-      [
-        [20, 0],
-        [30, 0],
-        [30, 0.08],
-        [20, 0.08],
-      ],
-    ] as [number, number][][];
+      rect({ minX: 0, minY: 0, maxX: 16, maxY: 16 }),
+      HAIRLINE,
+    ];
 
-    const result = await validateMinStrokeWidth(thickSquareAndHairline, 0.45);
+    const result = await validateMinStrokeWidth(
+      thickSquareAndHairline,
+      MIN_STROKE_WIDTH_MM,
+    );
 
-    expect(result.featureCount).toBe(2);
+    expect(result.featureCount).toBe(thickSquareAndHairline.length);
     expect(result.vanishedFeatureCount).toBe(1);
     expect(result.valid).toBe(false);
   });
@@ -72,32 +73,28 @@ describe("validateMinStrokeWidth", () => {
   // two lobes replace the count the vanished hairline took away (measured: 2 pieces before,
   // 2 pieces after). Eroding each feature on its own is not fooled.
   it("fails a vanished feature even when another feature splits into more pieces", async () => {
-    const dumbbellAndHairline = [
-      [
-        [0, 0],
-        [10, 0],
-        [10, 4],
-        [5.1, 4],
-        [5.1, 4.2],
-        [10, 4.2],
-        [10, 8],
-        [0, 8],
-        [0, 4.2],
-        [4.9, 4.2],
-        [4.9, 4],
-        [0, 4],
-      ],
-      [
-        [20, 0],
-        [30, 0],
-        [30, 0.08],
-        [20, 0.08],
-      ],
-    ] as [number, number][][];
+    const dumbbell = polygon([
+      { x: 0, y: 0 },
+      { x: 10, y: 0 },
+      { x: 10, y: 4 },
+      { x: 5.1, y: 4 },
+      { x: 5.1, y: 4.2 },
+      { x: 10, y: 4.2 },
+      { x: 10, y: 8 },
+      { x: 0, y: 8 },
+      { x: 0, y: 4.2 },
+      { x: 4.9, y: 4.2 },
+      { x: 4.9, y: 4 },
+      { x: 0, y: 4 },
+    ]);
+    const dumbbellAndHairline = [dumbbell, HAIRLINE];
 
-    const result = await validateMinStrokeWidth(dumbbellAndHairline, 0.45);
+    const result = await validateMinStrokeWidth(
+      dumbbellAndHairline,
+      MIN_STROKE_WIDTH_MM,
+    );
 
-    expect(result.featureCount).toBe(2);
+    expect(result.featureCount).toBe(dumbbellAndHairline.length);
     expect(result.vanishedFeatureCount).toBe(1);
     expect(result.valid).toBe(false);
   });

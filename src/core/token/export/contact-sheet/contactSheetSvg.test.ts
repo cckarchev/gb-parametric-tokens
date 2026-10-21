@@ -38,10 +38,12 @@ const colorGroups: ColorGroupSpec[] = [
 // The grid overlay always contributes one extra <path> (its own guide lines), on top of
 // whatever token contours a test is asserting about.
 const GRID_PATH_COUNT = 1;
+const PRECISION_DIGITS = 9;
 
 describe("buildContactSheetSvg", () => {
   it("returns an empty svg for no items", () => {
-    const { svg } = buildContactSheetSvg([], 3, colorGroups);
+    const columns = 3;
+    const { svg } = buildContactSheetSvg([], columns, colorGroups);
 
     expect(svg).toContain("<svg");
     expect(countOccurrences(svg, "<path")).toBe(0);
@@ -69,12 +71,15 @@ describe("buildContactSheetSvg", () => {
     expect(countOccurrences(svg, "<text")).toBe(0);
     expect(countOccurrences(svg, 'fill="#2B2B2B"')).toBe(2);
   });
+});
 
+describe("buildContactSheetSvg relief paths", () => {
   it("emits an extra path per relief component, filled with its resolved color group color", () => {
+    const reliefSizeMm = 4;
     const reliefComponents: ReliefComponent[] = [
       {
         source: { kind: "decoration" },
-        contours: squareContour(4),
+        contours: squareContour(reliefSizeMm),
         colorGroup: "text",
       },
     ];
@@ -92,7 +97,9 @@ describe("buildContactSheetSvg", () => {
     expect(countOccurrences(svg, "<path")).toBe(2 + GRID_PATH_COUNT);
     expect(svg).toContain('fill="#F5F0E1"');
   });
+});
 
+describe("buildContactSheetSvg viewBox", () => {
   it("sizes the viewBox from the grid of cells, wrapping to a new row per the columns count, and returns it as numbers", () => {
     const items = [
       {
@@ -123,10 +130,11 @@ describe("buildContactSheetSvg", () => {
   });
 
   it("rounds the disc section's cell size up to the next 20mm grid-vertex step", () => {
+    const itemSizeMm = 22;
     const items = [
       {
         shape: discShape,
-        baseContours: squareContour(22),
+        baseContours: squareContour(itemSizeMm),
         reliefComponents: [],
         copies: 1,
       },
@@ -138,13 +146,16 @@ describe("buildContactSheetSvg", () => {
     // on an intersection.
     expect(viewBox).toEqual({ x: 0, y: 0, width: 40, height: 40 });
   });
+});
 
+describe("buildContactSheetSvg y axis and grid", () => {
   it("negates y so the model's math-convention (y-up) coordinates render upright in SVG's y-down space", () => {
+    const apexYMm = 5;
     const triangle: Vec2[][] = [
       [
         [0, 0],
         [10, 0],
-        [0, 5],
+        [0, apexYMm],
       ],
     ];
 
@@ -180,7 +191,9 @@ describe("buildContactSheetSvg", () => {
 
     expect(svg).toContain('data-role="grid-overlay"');
   });
+});
 
+describe("buildContactSheetSvg base-reference circle", () => {
   it("draws a non-printing 30mm base-reference circle per arc item, at the same fixed local offset in every cell", () => {
     const arcShape: ShapeSpec = {
       type: "arc",
@@ -215,7 +228,9 @@ describe("buildContactSheetSvg", () => {
       svg.indexOf('fill="#2B2B2B"'),
     );
   });
+});
 
+describe("buildContactSheetSvg hidden base-reference circle", () => {
   it("leaves the base-reference circle out when asked to, and packs the arc cells tightly", () => {
     const arcShape: ShapeSpec = {
       type: "arc",
@@ -247,7 +262,9 @@ describe("buildContactSheetSvg", () => {
     // and its origin (the token's axis) stays on the first vertical grid line.
     expect(withoutCircle.svg).toContain('d="M10,12 ');
   });
+});
 
+describe("buildContactSheetSvg circle anchor", () => {
   it("draws the circle exactly at the token's own local origin, wherever that origin ends up in the sheet", () => {
     // Token and circle share one offset, so the token's origin and the circle's center render
     // at the same point. The contour starts at (0, 0), so the path's leading M shows where the
@@ -258,14 +275,8 @@ describe("buildContactSheetSvg", () => {
       ribbonLengthMm: 20,
       studDiameterMm: 12,
     };
-    const contoursIncludingOrigin: Vec2[][] = [
-      [
-        [0, 0],
-        [40, 0],
-        [40, 40],
-        [0, 40],
-      ],
-    ];
+    const contentSizeMm = 40;
+    const contoursIncludingOrigin = squareContour(contentSizeMm);
     const items = [
       {
         shape: arcShape,
@@ -288,10 +299,12 @@ describe("buildContactSheetSvg", () => {
       /<path d="M(-?[\d.]+),(-?[\d.]+)[^"]*" fill="#2B2B2B"/,
     );
 
-    expect(circleX).toBeCloseTo(originX, 9);
-    expect(circleY).toBeCloseTo(originY, 9);
+    expect(circleX).toBeCloseTo(originX, PRECISION_DIGITS);
+    expect(circleY).toBeCloseTo(originY, PRECISION_DIGITS);
   });
+});
 
+describe("buildContactSheetSvg sections", () => {
   it("puts arc items in their own section above disc items, so the arc circle's footprint never inflates the disc section", () => {
     const arcShape: ShapeSpec = {
       type: "arc",
@@ -322,8 +335,11 @@ describe("buildContactSheetSvg", () => {
     expect(svg).toContain("M5,45 L15,45 L15,35 L5,35 Z");
     expect(viewBox).toEqual({ x: 0, y: 0, width: 30, height: 50 });
   });
+});
 
+describe("buildContactSheetSvg disc centering", () => {
   it("centers each disc item in its cell so its own center lands on a grid vertex, whatever its size", () => {
+    const largestSizeMm = 16;
     const items = [
       {
         shape: discShape,
@@ -333,7 +349,7 @@ describe("buildContactSheetSvg", () => {
       },
       {
         shape: discShape,
-        baseContours: squareContour(16),
+        baseContours: squareContour(largestSizeMm),
         reliefComponents: [],
         copies: 1,
       },
@@ -367,7 +383,9 @@ describe("buildContactSheetSvg", () => {
       expect(centerY % GRID_STEP_MM).toBe(0);
     }
   });
+});
 
+describe("buildContactSheetSvg copies", () => {
   it("renders one cell per physical copy, not one cell per distinct item: the sheet must show what actually gets printed", () => {
     const items = [
       {
@@ -384,13 +402,20 @@ describe("buildContactSheetSvg", () => {
       },
     ];
 
-    const { svg, viewBox } = buildContactSheetSvg(items, 5, colorGroups);
+    const cellCount = items.reduce((sum, item) => sum + item.copies, 0);
+    const { svg, viewBox } = buildContactSheetSvg(
+      items,
+      cellCount,
+      colorGroups,
+    );
 
     // 3 + 2 copies = 5 cells, one row of 5.
-    expect(countOccurrences(svg, 'fill="#2B2B2B"')).toBe(5);
+    expect(countOccurrences(svg, 'fill="#2B2B2B"')).toBe(cellCount);
     expect(viewBox).toEqual({ x: 0, y: 0, width: 100, height: 20 });
   });
+});
 
+describe("buildContactSheetSvg disc sub-grids", () => {
   it("packs disc items of different diameters into their own tightly-sized sub-grid, instead of forcing every disc to share one cell size", () => {
     const smallDisc: ShapeSpec = { type: "disc", diameterMm: 10 };
     const bigDisc: ShapeSpec = { type: "disc", diameterMm: 20 };
@@ -403,20 +428,23 @@ describe("buildContactSheetSvg", () => {
       },
       {
         shape: bigDisc,
-        baseContours: squareContour(20),
+        baseContours: squareContour(bigDisc.diameterMm),
         reliefComponents: [],
         copies: 1,
       },
     ];
 
-    const { viewBox } = buildContactSheetSvg(items, 5, colorGroups);
+    const columns = 5;
+    const { viewBox } = buildContactSheetSvg(items, columns, colorGroups);
 
     // Small group: cell 10 + 2 * 2 = 14, rounded to 20. 3 items in one row: 60 wide, 20 tall.
     // Big group: cell 20 + 2 * 2 = 24, rounded to 40. 1 item: 40 wide, 40 tall.
     // Sheet: width max(60, 40) = 60, height 20 + 40 = 60.
     expect(viewBox).toEqual({ x: 0, y: 0, width: 60, height: 60 });
   });
+});
 
+describe("buildContactSheetSvg disc columns", () => {
   it("lets a small-diameter disc group flow into as many columns as fit the sheet's reference width, instead of wrapping at the same fixed column count as everything else", () => {
     const arcShape: ShapeSpec = {
       type: "arc",
@@ -448,7 +476,9 @@ describe("buildContactSheetSvg", () => {
     // Height: 30 (arc) + 60 = 90.
     expect(viewBox).toEqual({ x: 0, y: 0, width: 60, height: 90 });
   });
+});
 
+describe("buildContactSheetSvg disc rows", () => {
   it("wraps a disc group into more rows instead of a wider sheet once it has more items than the reference width allows per row", () => {
     const arcShape: ShapeSpec = {
       type: "arc",
@@ -466,21 +496,24 @@ describe("buildContactSheetSvg", () => {
       },
       {
         shape: bigDisc,
-        baseContours: squareContour(90),
+        baseContours: squareContour(bigDisc.diameterMm),
         reliefComponents: [],
         copies: 5,
       },
     ];
 
     // 5 columns of the big disc would be far wider than the sheet.
-    const { viewBox } = buildContactSheetSvg(items, 5, colorGroups);
+    const columns = 5;
+    const { viewBox } = buildContactSheetSvg(items, columns, colorGroups);
 
     // Arc cell 30, so the sheet is 5 * 30 = 150 wide.
     // Disc cell: 90 + 2 * 2 = 94, rounded to 100. floor(150 / 100) = 1 column: 5 rows, 500 tall.
     // Height: 30 (arc) + 500 = 530.
     expect(viewBox).toEqual({ x: 0, y: 0, width: 100, height: 530 });
   });
+});
 
+describe("buildContactSheetSvg sheet width cap", () => {
   it("caps the sheet's reference width at MAX_SHEET_WIDTH_MM instead of letting a group flow arbitrarily far to the right", () => {
     const arcShape: ShapeSpec = {
       type: "arc",
@@ -505,14 +538,17 @@ describe("buildContactSheetSvg", () => {
     ];
 
     // 100 columns of the 30mm arc cell would be 3000mm wide.
-    const { viewBox } = buildContactSheetSvg(items, 100, colorGroups);
+    const columns = 100;
+    const { viewBox } = buildContactSheetSvg(items, columns, colorGroups);
 
     // Sheet width capped at MAX_SHEET_WIDTH_MM = 240.
     // Disc cell 20: floor(240 / 20) = 12 columns. 30 items in 3 rows: 240 wide, 60 tall.
     // Height: 30 (arc) + 60 = 90.
     expect(viewBox).toEqual({ x: 0, y: 0, width: 240, height: 90 });
   });
+});
 
+describe("buildContactSheetSvg circle grid alignment", () => {
   it("keeps every arc circle's edges on the 10mm grid, even when the token's own content overflows its footprint by an amount that isn't already grid-aligned", () => {
     const arcShape: ShapeSpec = {
       type: "arc",
@@ -522,12 +558,13 @@ describe("buildContactSheetSvg", () => {
     };
     // After the +15 shift to the circle's anchor, this reaches 7mm left of and above the
     // circle's footprint: not a whole grid step, so the margin has to be rounded.
+    const reach = { minX: -22, minY: -8, maxX: 47, maxY: 22 };
     const overflowingContour: Vec2[][] = [
       [
-        [-22, -8],
-        [47, -8],
-        [47, 22],
-        [-22, 22],
+        [reach.minX, reach.minY],
+        [reach.maxX, reach.minY],
+        [reach.maxX, reach.maxY],
+        [reach.minX, reach.maxY],
       ],
     ];
     const items = [
@@ -545,15 +582,19 @@ describe("buildContactSheetSvg", () => {
       ...svg.matchAll(/cx="(-?[\d.]+)" cy="(-?[\d.]+)"/g),
     ].map(([, x, y]) => [Number(x), Number(y)]);
 
-    expect(circleCenters).toHaveLength(4);
+    expect(circleCenters).toHaveLength(items[0].copies);
+
+    // The circle is 30mm across, so its edges are on the grid when its center is 15mm off it.
+    const circleRadiusMm = 15;
 
     for (const [cx, cy] of circleCenters) {
-      // The circle is 30mm across, so its edges are on the grid when its center is 15mm off it.
-      expect((cx - 15) % GRID_STEP_MM).toBeCloseTo(0);
-      expect((cy - 15) % GRID_STEP_MM).toBeCloseTo(0);
+      expect((cx - circleRadiusMm) % GRID_STEP_MM).toBeCloseTo(0);
+      expect((cy - circleRadiusMm) % GRID_STEP_MM).toBeCloseTo(0);
     }
   });
+});
 
+describe("buildContactSheetSvg attention markers", () => {
   it("omits the base-reference circle for disc-shaped items", () => {
     const items = [
       {
@@ -599,7 +640,9 @@ describe("buildContactSheetSvg", () => {
     );
     expect(svg).not.toContain("<title>Coin: ");
   });
+});
 
+describe("buildContactSheetSvg attention marker fit", () => {
   it("fits the attention marker tightly to the item's own content, not the whole padded/grid-aligned cell", () => {
     const items = [
       {
@@ -636,7 +679,9 @@ describe("buildContactSheetSvg", () => {
 
     expect(svg).not.toContain('data-role="attention-marker"');
   });
+});
 
+describe("buildContactSheetSvg attention marker copies", () => {
   it("marks every physical copy of an invalid item, not just the first", () => {
     const items = [
       {
@@ -650,8 +695,9 @@ describe("buildContactSheetSvg", () => {
       },
     ];
 
-    const { svg } = buildContactSheetSvg(items, 3, colorGroups);
+    const { copies } = items[0];
+    const { svg } = buildContactSheetSvg(items, copies, colorGroups);
 
-    expect(countOccurrences(svg, 'data-role="attention-marker"')).toBe(3);
+    expect(countOccurrences(svg, 'data-role="attention-marker"')).toBe(copies);
   });
 });

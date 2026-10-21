@@ -61,9 +61,18 @@ const CROWFOOT_FILLET_RADIUS_MM = 3;
 // Half the probe square's side: small enough to sit cleanly on either side of an edge.
 const PROBE_HALF_SIZE_MM = 0.1;
 // Radius halfway across the band, where the arcs live.
-const BAND_MID_RADIUS_MM =
-  (CROWFOOT_OUTER_DIAMETER_MM + CROWFOOT_INNER_DIAMETER_MM) / 4;
-const DEGREES_TO_RADIANS = Math.PI / 180;
+const BAND_MID_DIAMETER_MM =
+  (CROWFOOT_OUTER_DIAMETER_MM + CROWFOOT_INNER_DIAMETER_MM) / 2;
+const BAND_MID_RADIUS_MM = BAND_MID_DIAMETER_MM / 2;
+const HALF_TURN_DEG = 180;
+const FULL_TURN_DEG = 360;
+const DEGREES_TO_RADIANS = Math.PI / HALF_TURN_DEG;
+// Compass directions in the math convention: 0° points right, angles grow counter-clockwise.
+const RIGHT_DEG = 0;
+const UP_DEG = 90;
+const LEFT_DEG = 180;
+const DOWN_DEG = 270;
+const SPOKE_STEP_DEG = FULL_TURN_DEG / CROWFOOT_SPOKE_COUNT;
 // Float noise from the polygon math, far below anything printable.
 const BOUNDS_EPSILON_MM = 1e-6;
 
@@ -73,42 +82,44 @@ const pointAtAngle = (radiusMm: number, angleDeg: number): [number, number] => {
   return [Math.cos(angleRad) * radiusMm, Math.sin(angleRad) * radiusMm];
 };
 
-describe("buildDiscFootprint, crowfoot", () => {
-  const buildCrowfoot = async (overrides: Partial<CrowfootSpec> = {}) => {
-    const { CrossSection } = await getManifoldModule();
-    const footprint = buildDiscFootprint(CrossSection, {
-      type: "disc",
-      diameterMm: CROWFOOT_OUTER_DIAMETER_MM,
-      innerDiameterMm: CROWFOOT_INNER_DIAMETER_MM,
-      crowfoot: {
-        spokeCount: CROWFOOT_SPOKE_COUNT,
-        spokeWidthMm: CROWFOOT_SPOKE_WIDTH_MM,
-        arcSweepDeg: CROWFOOT_ARC_SWEEP_DEG,
-        cornerRadiusMm: CROWFOOT_CORNER_RADIUS_MM,
-        filletRadiusMm: CROWFOOT_FILLET_RADIUS_MM,
-        ...overrides,
-      },
-    });
+const buildCrowfoot = async (overrides: Partial<CrowfootSpec> = {}) => {
+  const { CrossSection } = await getManifoldModule();
+  const footprint = buildDiscFootprint(CrossSection, {
+    type: "disc",
+    diameterMm: CROWFOOT_OUTER_DIAMETER_MM,
+    innerDiameterMm: CROWFOOT_INNER_DIAMETER_MM,
+    crowfoot: {
+      spokeCount: CROWFOOT_SPOKE_COUNT,
+      spokeWidthMm: CROWFOOT_SPOKE_WIDTH_MM,
+      arcSweepDeg: CROWFOOT_ARC_SWEEP_DEG,
+      cornerRadiusMm: CROWFOOT_CORNER_RADIUS_MM,
+      filletRadiusMm: CROWFOOT_FILLET_RADIUS_MM,
+      ...overrides,
+    },
+  });
 
-    const isSolidAt = ([x, y]: [number, number]): boolean => {
-      const probe = CrossSection.square(
-        [PROBE_HALF_SIZE_MM * 2, PROBE_HALF_SIZE_MM * 2],
-        true,
-      );
-      const overlap = footprint.intersect(probe.translate([x, y]));
+  const isSolidAt = ([x, y]: [number, number]): boolean => {
+    const probe = CrossSection.square(
+      [PROBE_HALF_SIZE_MM * 2, PROBE_HALF_SIZE_MM * 2],
+      true,
+    );
+    const overlap = footprint.intersect(probe.translate([x, y]));
 
-      return overlap.area() > 0;
-    };
-
-    return { footprint, isSolidAt };
+    return overlap.area() > 0;
   };
 
+  return { footprint, isSolidAt };
+};
+
+describe("buildDiscFootprint, crowfoot", () => {
   it("keeps a short arc of the band at the end of the upward spoke and at the other two", async () => {
     const { isSolidAt } = await buildCrowfoot();
 
-    expect(isSolidAt(pointAtAngle(BAND_MID_RADIUS_MM, 90))).toBe(true);
-    expect(isSolidAt(pointAtAngle(BAND_MID_RADIUS_MM, 210))).toBe(true);
-    expect(isSolidAt(pointAtAngle(BAND_MID_RADIUS_MM, 330))).toBe(true);
+    for (let spoke = 0; spoke < CROWFOOT_SPOKE_COUNT; spoke++) {
+      const spokeDeg = UP_DEG + spoke * SPOKE_STEP_DEG;
+
+      expect(isSolidAt(pointAtAngle(BAND_MID_RADIUS_MM, spokeDeg))).toBe(true);
+    }
   });
 
   it("cuts the band away outside each arc's sweep", async () => {
@@ -118,15 +129,15 @@ describe("buildDiscFootprint, crowfoot", () => {
 
     expect(
       isSolidAt(
-        pointAtAngle(BAND_MID_RADIUS_MM, 90 + halfSweepDeg - marginDeg),
+        pointAtAngle(BAND_MID_RADIUS_MM, UP_DEG + halfSweepDeg - marginDeg),
       ),
     ).toBe(true);
     expect(
       isSolidAt(
-        pointAtAngle(BAND_MID_RADIUS_MM, 90 + halfSweepDeg + marginDeg),
+        pointAtAngle(BAND_MID_RADIUS_MM, UP_DEG + halfSweepDeg + marginDeg),
       ),
     ).toBe(false);
-    expect(isSolidAt(pointAtAngle(BAND_MID_RADIUS_MM, 270))).toBe(false);
+    expect(isSolidAt(pointAtAngle(BAND_MID_RADIUS_MM, DOWN_DEG))).toBe(false);
   });
 
   it("joins the arcs at the center with spokes of the given width and no hub", async () => {
@@ -138,9 +149,11 @@ describe("buildDiscFootprint, crowfoot", () => {
     expect(isSolidAt([0, 0])).toBe(true);
     expect(isSolidAt([halfWidthMm - marginMm, alongSpokeMm])).toBe(true);
     expect(isSolidAt([halfWidthMm + marginMm, alongSpokeMm])).toBe(false);
-    expect(isSolidAt(pointAtAngle(alongSpokeMm, 270))).toBe(false);
+    expect(isSolidAt(pointAtAngle(alongSpokeMm, DOWN_DEG))).toBe(false);
   });
+});
 
+describe("buildDiscFootprint, crowfoot arc corners", () => {
   it("rounds the corners at each arc's ends", async () => {
     const { isSolidAt } = await buildCrowfoot();
     const outerRadiusMm = CROWFOOT_OUTER_DIAMETER_MM / 2;
@@ -150,12 +163,12 @@ describe("buildDiscFootprint, crowfoot", () => {
     const insetDeg = 0.5;
     const nearCorner = pointAtAngle(
       outerRadiusMm - insetMm,
-      90 + halfSweepDeg - insetDeg,
+      UP_DEG + halfSweepDeg - insetDeg,
     );
     // Mid-band at the same angle stays solid: rounding only takes the corner.
     const midBandNearEnd = pointAtAngle(
       BAND_MID_RADIUS_MM,
-      90 + halfSweepDeg - insetDeg,
+      UP_DEG + halfSweepDeg - insetDeg,
     );
 
     expect(isSolidAt(nearCorner)).toBe(false);
@@ -176,7 +189,9 @@ describe("buildDiscFootprint, crowfoot", () => {
 
     expect(isSolidAt(nearCorner)).toBe(true);
   });
+});
 
+describe("buildDiscFootprint, crowfoot center fillet", () => {
   it("fills the corners between neighboring spokes at the center with a fillet", async () => {
     const { isSolidAt } = await buildCrowfoot();
     const halfWidthMm = CROWFOOT_SPOKE_WIDTH_MM / 2;
@@ -219,15 +234,21 @@ describe("buildDiscFootprint, crowfoot", () => {
 
     expect(footprint.isEmpty()).toBe(false);
   });
+});
 
+describe("buildDiscFootprint, crowfoot spoke count", () => {
   it("spaces any number of spokes evenly, the first pointing up", async () => {
-    const { isSolidAt } = await buildCrowfoot({ spokeCount: 4 });
+    const spokeCount = 4;
+    const { isSolidAt } = await buildCrowfoot({ spokeCount });
+    const betweenSpokesDeg = UP_DEG - FULL_TURN_DEG / spokeCount / 2;
 
-    for (const angleDeg of [90, 180, 270, 0]) {
+    for (const angleDeg of [UP_DEG, LEFT_DEG, DOWN_DEG, RIGHT_DEG]) {
       expect(isSolidAt(pointAtAngle(BAND_MID_RADIUS_MM, angleDeg))).toBe(true);
     }
 
-    expect(isSolidAt(pointAtAngle(BAND_MID_RADIUS_MM, 45))).toBe(false);
+    expect(isSolidAt(pointAtAngle(BAND_MID_RADIUS_MM, betweenSpokesDeg))).toBe(
+      false,
+    );
   });
 
   it("never reaches past the AOE's outer radius", async () => {

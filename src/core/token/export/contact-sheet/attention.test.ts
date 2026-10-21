@@ -4,11 +4,12 @@ import { buildAttentionMarkerSvg } from "./attention";
 
 describe("buildAttentionMarkerSvg", () => {
   it("draws a dashed outline at the given cell position and size", () => {
+    const cell = { x: 10, y: 20, width: 30, height: 40 };
     const svg = buildAttentionMarkerSvg(
-      10,
-      20,
-      30,
-      40,
+      cell.x,
+      cell.y,
+      cell.width,
+      cell.height,
       "Beer Token needs attention",
     );
 

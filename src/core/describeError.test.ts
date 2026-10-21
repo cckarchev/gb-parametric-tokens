@@ -17,7 +17,9 @@ describe("describeError", () => {
 
   it("stringifies a thrown value that is not an Error", () => {
     expect(describeError("plain string")).toBe("plain string");
-    expect(describeError(42)).toBe("42");
+    const thrownNumber = 42;
+
+    expect(describeError(thrownNumber)).toBe("42");
   });
 
   it("stringifies undefined and null rather than returning an empty string", () => {

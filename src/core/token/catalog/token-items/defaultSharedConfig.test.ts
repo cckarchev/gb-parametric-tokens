@@ -11,19 +11,25 @@ import {
 
 describe("DEFAULT_TOKEN_TUNING", () => {
   it("keeps today's crest and icon scales", () => {
-    expect(DEFAULT_TOKEN_TUNING.discToken.crestScale).toBe(0.85);
-    expect(DEFAULT_TOKEN_TUNING.characterToken.crestScale).toBe(0.85);
-    expect(DEFAULT_TOKEN_TUNING.ringBadge.crestScale).toBe(0.65);
-    expect(DEFAULT_TOKEN_TUNING.condition.iconScale).toBe(0.72);
-    expect(DEFAULT_TOKEN_TUNING.aoe.compactDisc.crestScale).toBe(0.55);
+    expect(DEFAULT_TOKEN_TUNING).toMatchObject({
+      discToken: { crestScale: 0.85 },
+      characterToken: { crestScale: 0.85 },
+      ringBadge: { crestScale: 0.65 },
+      condition: { iconScale: 0.72 },
+      aoe: { compactDisc: { crestScale: 0.55 } },
+    });
   });
 
   it("keeps today's text sizes", () => {
-    expect(DEFAULT_TOKEN_TUNING.ringBadge.textSizeMm).toBe(2.2);
-    expect(DEFAULT_TOKEN_TUNING.momentum.textSizeMm).toBe(6);
-    expect(DEFAULT_TOKEN_TUNING.aoe.ring.textSizeMm).toBe(3.5);
-    expect(DEFAULT_TOKEN_TUNING.aoe.compactDisc.textSizeMm).toBe(2.6);
-    expect(DEFAULT_TOKEN_TUNING.aoe.crowfoot.textSizeMm).toBe(4);
+    expect(DEFAULT_TOKEN_TUNING).toMatchObject({
+      ringBadge: { textSizeMm: 2.2 },
+      momentum: { textSizeMm: 6 },
+      aoe: {
+        ring: { textSizeMm: 3.5 },
+        compactDisc: { textSizeMm: 2.6 },
+        crowfoot: { textSizeMm: 4 },
+      },
+    });
   });
 
   it("sets every token's text in the body font except Momentum's MP", () => {
@@ -36,7 +42,7 @@ describe("DEFAULT_TOKEN_TUNING", () => {
   });
 
   it("keeps the crow's foot geometry, fillet on, sized to print on a 0.4mm nozzle", () => {
-    expect(DEFAULT_TOKEN_TUNING.aoe.bandWidthMm).toBe(6);
+    expect(DEFAULT_TOKEN_TUNING.aoe).toMatchObject({ bandWidthMm: 6 });
     expect(DEFAULT_TOKEN_TUNING.aoe.crowfoot).toEqual({
       spokeCount: 3,
       spokeWidthMm: 5,
@@ -54,8 +60,10 @@ describe("DEFAULT_TOKEN_TUNING", () => {
 describe("DEFAULT_SHARED_CONFIG", () => {
   it("carries the tuning defaults next to the existing fields", () => {
     expect(DEFAULT_SHARED_CONFIG.aoe).toEqual(DEFAULT_TOKEN_TUNING.aoe);
-    expect(DEFAULT_SHARED_CONFIG.nameSizeMm).toBe(3);
-    expect(DEFAULT_SHARED_CONFIG.effectSizeMm).toBe(1.9);
+    expect(DEFAULT_SHARED_CONFIG).toMatchObject({
+      nameSizeMm: 3,
+      effectSizeMm: 1.9,
+    });
     expect(DEFAULT_SHARED_CONFIG.goalInfluenceShape).toEqual({
       type: "disc",
       diameterMm: 20,

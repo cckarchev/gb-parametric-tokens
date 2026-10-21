@@ -20,8 +20,17 @@ describe("measureFontMetrics", () => {
     const metrics = measureFontMetrics(loadTestFont());
 
     // Saira Condensed Bold: "H" tops out at 688 and "l" is 129 wide, on a 1000-unit em.
-    expect(metrics.ascentRatio).toBeCloseTo(0.688, METRIC_PRECISION_DIGITS);
-    expect(metrics.stemWidthRatio).toBeCloseTo(0.129, METRIC_PRECISION_DIGITS);
+    const capHeightRatio = 0.688;
+    const stemRatio = 0.129;
+
+    expect(metrics.ascentRatio).toBeCloseTo(
+      capHeightRatio,
+      METRIC_PRECISION_DIGITS,
+    );
+    expect(metrics.stemWidthRatio).toBeCloseTo(
+      stemRatio,
+      METRIC_PRECISION_DIGITS,
+    );
   });
 
   it("measures the l's stroke at mid-height, not the tail or serifs that widen its outline", () => {
@@ -32,8 +41,13 @@ describe("measureFontMetrics", () => {
     const metrics = measureFontMetrics(font);
 
     // Fira's l curls into a tail at the foot, so its outline is far wider than its stroke.
-    expect(metrics.stemWidthRatio).toBeLessThan(outlineWidthRatio * 0.75);
-    expect(metrics.stemWidthRatio).toBeGreaterThan(0.1);
+    const maxStrokeShareOfOutline = 0.75;
+    const minPlausibleStemRatio = 0.1;
+
+    expect(metrics.stemWidthRatio).toBeLessThan(
+      outlineWidthRatio * maxStrokeShareOfOutline,
+    );
+    expect(metrics.stemWidthRatio).toBeGreaterThan(minPlausibleStemRatio);
   });
 
   it("measures each font only once, since every fitted line asks again", () => {

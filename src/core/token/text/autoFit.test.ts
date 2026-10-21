@@ -19,6 +19,9 @@ const fitPolicy: FitPolicy = {
 };
 const printProfile = PRINT_PROFILES["fdm-04"];
 
+const LINE_SIZE_MM = 5;
+const FLOAT_TOLERANCE = 1e-9;
+
 describe("autoFitLine", () => {
   it("floors the shrink at the size where the font's own stroke still prints", () => {
     const displayEntry = findFontEntry(DEFAULT_DISPLAY_FONT_ID);
@@ -36,7 +39,7 @@ describe("autoFitLine", () => {
       displayFont,
       {
         text: "Superior Strategy Additional",
-        sizeMm: 5,
+        sizeMm: LINE_SIZE_MM,
         radiusMm: 30,
         availableSweepDeg: 10,
       },
@@ -55,13 +58,20 @@ describe("autoFitLine", () => {
     expect(result.lines[0].sizeMm).toBeGreaterThanOrEqual(floorSizeMm);
     expect(result.lines[0].sizeMm).toBeLessThan(bodyFloorSizeMm);
   });
+});
 
+describe("autoFitLine shrinking", () => {
   it("leaves short text unchanged when it already fits comfortably", () => {
     const font = loadTestFont();
 
     const result = autoFitLine(
       font,
-      { text: "Impetus", sizeMm: 5, radiusMm: 40, availableSweepDeg: 108 },
+      {
+        text: "Impetus",
+        sizeMm: LINE_SIZE_MM,
+        radiusMm: 40,
+        availableSweepDeg: 108,
+      },
       fitPolicy,
       printProfile,
     );
@@ -69,7 +79,7 @@ describe("autoFitLine", () => {
     expect(result.truncated).toBe(false);
     expect(result.lines.length).toBe(1);
     expect(result.lines[0].text).toBe("Impetus");
-    expect(result.lines[0].sizeMm).toBe(5);
+    expect(result.lines[0].sizeMm).toBe(LINE_SIZE_MM);
   });
 
   it("shrinks the scale when the sweep is too tight for tracking alone to fix", () => {
@@ -82,7 +92,7 @@ describe("autoFitLine", () => {
       font,
       {
         text: "Additional activation",
-        sizeMm: 5,
+        sizeMm: LINE_SIZE_MM,
         radiusMm: 34,
         availableSweepDeg: 44,
       },
@@ -92,12 +102,14 @@ describe("autoFitLine", () => {
 
     expect(result.truncated).toBe(false);
     expect(result.lines.length).toBe(1);
-    expect(result.lines[0].sizeMm).toBeLessThan(5);
+    expect(result.lines[0].sizeMm).toBeLessThan(LINE_SIZE_MM);
     expect(result.lines[0].sizeMm).toBeGreaterThanOrEqual(
-      5 * fitPolicy.minScale - 1e-9,
+      LINE_SIZE_MM * fitPolicy.minScale - FLOAT_TOLERANCE,
     );
   });
+});
 
+describe("autoFitLine splitting and fallback", () => {
   it("splits into two lines when a single line cannot fit even at minScale", () => {
     const font = loadTestFont();
 
@@ -149,7 +161,9 @@ describe("autoFitLine", () => {
     expect(result.lines[0].text).toBe("Superior Strategy Additional");
     expect(result.lines[0].sizeMm).toBeLessThanOrEqual(fallbackSizeMm);
   });
+});
 
+describe("autoFitLine fallback and truncation", () => {
   it("ignores the fallback size when the line already fits at its own size", () => {
     const font = loadTestFont();
 
@@ -157,7 +171,7 @@ describe("autoFitLine", () => {
       font,
       {
         text: "Impetus",
-        sizeMm: 5,
+        sizeMm: LINE_SIZE_MM,
         fallbackSizeMm: 3,
         radiusMm: 40,
         availableSweepDeg: 108,
@@ -166,7 +180,7 @@ describe("autoFitLine", () => {
       printProfile,
     );
 
-    expect(result.lines.map((line) => line.sizeMm)).toEqual([5]);
+    expect(result.lines.map((line) => line.sizeMm)).toEqual([LINE_SIZE_MM]);
   });
 
   it("truncates and flags it when nothing else fits", () => {

@@ -66,7 +66,9 @@ describe("buildDefaultSelection", () => {
       burning: { enabled: true, copies: 4 },
     });
   });
+});
 
+describe("buildDefaultSelection game plans and empty catalogs", () => {
   it("enables every game plan, at its max copies when it has one", () => {
     const catalogWithGamePlans: GuildCatalog = {
       ...catalog,
@@ -121,7 +123,9 @@ describe("buildDefaultSelection", () => {
     expect(selection.conditions).toEqual({});
     expect(selection.gamePlans).toEqual({});
   });
+});
 
+describe("buildDefaultSelection AOE templates", () => {
   it("selects a character's AOE templates by default too", () => {
     const blacksmithsCatalog: GuildCatalog = {
       guildId: "blacksmiths",

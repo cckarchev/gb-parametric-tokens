@@ -92,7 +92,9 @@ describe("ExportPanel", () => {
 
     expect(screen.getByText("No tokens selected.")).toBeInTheDocument();
   });
+});
 
+describe("ExportPanel status message", () => {
   it("shows a green ready message, correctly pluralized, once every token is valid", () => {
     const { container, rerenderPanel } = renderPanel({ validCount: 77 });
 
@@ -134,7 +136,9 @@ describe("ExportPanel", () => {
       container.querySelector('[class*="statusAttention"]'),
     ).not.toBeNull();
   });
+});
 
+describe("ExportPanel attention list", () => {
   it("starts the attention list collapsed", () => {
     const { container } = renderPanel({
       validCount: 12,
@@ -158,7 +162,9 @@ describe("ExportPanel", () => {
     ).toBeInTheDocument();
     expect(container.querySelector("details")).not.toHaveAttribute("open");
   });
+});
 
+describe("ExportPanel ungrouped tokens to fix", () => {
   it("lists each ungrouped token that needs attention by name, with its own reason, once expanded", async () => {
     renderPanel({
       validCount: 12,
@@ -206,7 +212,9 @@ describe("ExportPanel", () => {
 
     expect(screen.getByText("Beer Token").tagName).toBe("STRONG");
   });
+});
 
+describe("ExportPanel character tokens to fix", () => {
   it("groups a character's invalid tokens under one heading with their own name, instead of repeating it", async () => {
     renderPanel({
       validCount: 12,

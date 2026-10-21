@@ -124,7 +124,9 @@ describe("usePreview debounce", () => {
       "Tapper-1",
     ]);
   });
+});
 
+describe("usePreview debounce window and failures", () => {
   it("fires immediately again once the debounce window has fully elapsed", () => {
     const { rerender } = renderHook(
       ({ selection }) => usePreview(catalog, selection, sharedConfig),

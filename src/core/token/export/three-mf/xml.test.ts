@@ -13,16 +13,23 @@ import {
 // One triangle, stored the way manifold-3d lays out a mesh: numProp floats per vertex, of which
 // only the first three (x, y, z) belong in the 3MF file.
 const PROPERTIES_PER_VERTEX = 4;
+const TRIANGLE_VERTEX_COUNT = 3;
+const SKIPPED_PROPERTY = 9;
 
 const fakeTrianglePart = (): TokenPart =>
   ({
     colorGroupId: "base",
     manifold: {
       getMesh: () => ({
-        numVert: 3,
+        numVert: TRIANGLE_VERTEX_COUNT,
         numTri: 1,
         numProp: PROPERTIES_PER_VERTEX,
-        vertProperties: [0, 0, 0, 9, 1, 0, 0, 9, 0, 1, 2, 9],
+        // x, y, z, then a fourth property the 3MF writer must skip.
+        vertProperties: [
+          [0, 0, 0],
+          [1, 0, 0],
+          [0, 1, 2],
+        ].flatMap((position) => [...position, SKIPPED_PROPERTY]),
         triVerts: [0, 1, 2],
       }),
     },
@@ -65,7 +72,11 @@ describe("buildMultiVolumeMeshXml", () => {
       [0, 0],
     );
 
-    expect(meshXml.split("<vertex ").length - 1).toBe(6);
+    const partCount = 2;
+
+    expect(meshXml.split("<vertex ").length - 1).toBe(
+      partCount * TRIANGLE_VERTEX_COUNT,
+    );
     expect(meshXml).toContain('<triangle v1="3" v2="4" v3="5"/>');
   });
 
@@ -101,9 +112,11 @@ describe("buildMultiVolumeMeshXml", () => {
   });
 
   it("bakes the copy's plate offset into every vertex", () => {
+    const plateOffset = { x: 10, y: 20 };
+
     const { meshXml } = buildMultiVolumeMeshXml(
       [{ part: fakeTrianglePart(), materialIndex: 0, name: "Body" }],
-      [10, 20],
+      [plateOffset.x, plateOffset.y],
     );
 
     expect(meshXml).toContain(
@@ -128,7 +141,9 @@ describe("buildMeshObjectXml", () => {
 
 describe("buildItemXml", () => {
   it("places the object without a transform, since its vertices are already in place", () => {
-    expect(buildItemXml(3)).toBe('<item objectid="3"/>');
+    const objectId = 3;
+
+    expect(buildItemXml(objectId)).toBe(`<item objectid="${objectId}"/>`);
   });
 });
 

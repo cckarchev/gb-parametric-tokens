@@ -152,7 +152,9 @@ describe("CharacterTokenList", () => {
       characterTokenId("Spigot", 0),
     ]);
   });
+});
 
+describe("CharacterTokenList copies", () => {
   it("disables the header checkbox for a character with no tokens", () => {
     renderList();
 
@@ -184,15 +186,16 @@ describe("CharacterTokenList", () => {
   });
 
   it("enables the copies field once its token is selected, keeping the previously chosen count", async () => {
+    const chosenCopies = 4;
     const { onSelectedTokenIdsChange } = renderList({
       selectedTokenIds: [],
-      tokenCopies: { [characterTokenId("Spigot", 0)]: 4 },
+      tokenCopies: { [characterTokenId("Spigot", 0)]: chosenCopies },
     });
 
     const copiesField = screen.getByLabelText("Singled Out copies");
 
     expect(copiesField).toBeDisabled();
-    expect(copiesField).toHaveValue(4);
+    expect(copiesField).toHaveValue(chosenCopies);
 
     await userEvent.click(screen.getByLabelText("Singled Out"));
 
@@ -215,7 +218,9 @@ describe("CharacterTokenList", () => {
     });
     expect(onSelectedTokenIdsChange).not.toHaveBeenCalled();
   });
+});
 
+describe("CharacterTokenList labels", () => {
   it("labels a character's tokens that share a name with their effect text", () => {
     const masonsCatalog: GuildCatalog = {
       guildId: "masons",

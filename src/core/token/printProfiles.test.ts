@@ -6,17 +6,21 @@ describe("PRINT_PROFILES", () => {
   it("has the fdm-04 profile with the numbers from SPEC §7", () => {
     const profile = PRINT_PROFILES["fdm-04"];
 
-    expect(profile.minStrokeWidthMm).toBe(0.45);
-    expect(profile.minReliefHeightMm).toBe(0.4);
-    expect(profile.defaultRelief).toBe("raised");
+    expect(profile).toMatchObject({
+      minStrokeWidthMm: 0.45,
+      minReliefHeightMm: 0.4,
+      defaultRelief: "raised",
+    });
   });
 
   it("has the resin profile with the numbers from SPEC §7", () => {
     const profile = PRINT_PROFILES.resin;
 
-    expect(profile.minStrokeWidthMm).toBe(0.1);
-    expect(profile.minReliefHeightMm).toBe(0.1);
-    expect(profile.defaultRelief).toBe("engraved");
+    expect(profile).toMatchObject({
+      minStrokeWidthMm: 0.1,
+      minReliefHeightMm: 0.1,
+      defaultRelief: "engraved",
+    });
   });
 
   it("has an fdm-025 profile finer than fdm-04, scaled for a 0.25mm nozzle", () => {

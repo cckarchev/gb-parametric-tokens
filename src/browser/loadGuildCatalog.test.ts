@@ -33,19 +33,12 @@ describe("loadGuildCatalog", () => {
       (character) => character.name,
     );
 
-    expect(names.slice(0, 5)).toEqual([
-      "vBoar",
-      "Fillet",
-      "Ox",
-      "Princess",
-      "Truffles",
-    ]);
-    expect(names.slice(5, 9)).toEqual([
-      "Boar",
-      "Boiler",
-      "Brisket",
-      "vBrisket",
-    ]);
+    const leadership = ["vBoar", "Fillet", "Ox", "Princess", "Truffles"];
+    const ownSquaddies = ["Boar", "Boiler", "Brisket", "vBrisket"];
+    const squaddiesEnd = leadership.length + ownSquaddies.length;
+
+    expect(names.slice(0, leadership.length)).toEqual(leadership);
+    expect(names.slice(leadership.length, squaddiesEnd)).toEqual(ownSquaddies);
     expect(names.slice(-2)).toEqual(["Cinnamon", "Roast"]);
   });
 

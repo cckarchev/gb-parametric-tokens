@@ -1,8 +1,24 @@
 import { describe, expect, it } from "vitest";
 
+import { DEGREES_PER_RADIAN } from "../geometry/angleConventions";
 import { signedArea } from "../svg/normalizeWinding";
 import { layoutArcText } from "./layoutArcText";
 import { loadTestFont } from "./testFont";
+
+const TOLERANCE_MM = 0.05;
+
+// Glyph outlines come y-down, so mathYUp has to flip them before placing them. Without the flip,
+// an "L" at radius 37.5 grows inward instead of reaching past 37.5.
+const RADIUS_MM = 37.5;
+const SIZE_MM = 6;
+const MIN_ASCENDER_REACH_MM = 3; // Saira Condensed Bold's cap height at 6mm (~4.1mm) is comfortably above this
+const BASELINE_TOLERANCE_MM = 0.1; // flattening/optical overshoot can dip a hair below the baseline
+
+const measureRadialExtent = (contours: [number, number][][]) => {
+  const distances = contours.flat().map(([x, y]) => Math.hypot(x, y));
+
+  return { min: Math.min(...distances), max: Math.max(...distances) };
+};
 
 describe("layoutArcText", () => {
   it("produces at least one contour per non-space character", () => {
@@ -11,11 +27,11 @@ describe("layoutArcText", () => {
     const contours = layoutArcText(
       font,
       { text: "Impetus", sizeMm: 5, radiusMm: 20 },
-      0.05,
+      TOLERANCE_MM,
       "svgYDown",
     );
 
-    expect(contours.length).toBeGreaterThanOrEqual(7);
+    expect(contours.length).toBeGreaterThanOrEqual("Impetus".length);
   });
 
   it("places all points within a plausible ring around the radius", () => {
@@ -25,7 +41,7 @@ describe("layoutArcText", () => {
     const contours = layoutArcText(
       font,
       { text: "Impetus", sizeMm: 5, radiusMm },
-      0.05,
+      TOLERANCE_MM,
       "svgYDown",
     );
 
@@ -44,26 +60,28 @@ describe("layoutArcText", () => {
     const contours = layoutArcText(
       font,
       { text: "Superior Strategy", sizeMm: 5, radiusMm: 20 },
-      0.05,
+      TOLERANCE_MM,
       "svgYDown",
     );
 
     expect(contours.length).toBeGreaterThan(0);
   });
+});
 
+describe("layoutArcText spaces", () => {
   it("skips glyphs with zero advance width and no outline, like the space character", () => {
     const font = loadTestFont();
 
     const withSpace = layoutArcText(
       font,
       { text: "a a", sizeMm: 5, radiusMm: 20 },
-      0.05,
+      TOLERANCE_MM,
       "svgYDown",
     );
     const withoutSpace = layoutArcText(
       font,
       { text: "aa", sizeMm: 5, radiusMm: 20 },
-      0.05,
+      TOLERANCE_MM,
       "svgYDown",
     );
 
@@ -76,20 +94,20 @@ describe("layoutArcText", () => {
     const computeAngularSpanDeg = (contours: [number, number][][]): number => {
       const angles = contours
         .flat()
-        .map(([x, y]) => Math.atan2(y, x) * (180 / Math.PI));
+        .map(([x, y]) => Math.atan2(y, x) * DEGREES_PER_RADIAN);
       return Math.max(...angles) - Math.min(...angles);
     };
 
     const withSpace = layoutArcText(
       font,
       { text: "a a", sizeMm: 5, radiusMm: 20 },
-      0.05,
+      TOLERANCE_MM,
       "svgYDown",
     );
     const withoutSpace = layoutArcText(
       font,
       { text: "aa", sizeMm: 5, radiusMm: 20 },
-      0.05,
+      TOLERANCE_MM,
       "svgYDown",
     );
 
@@ -97,27 +115,29 @@ describe("layoutArcText", () => {
       computeAngularSpanDeg(withoutSpace),
     );
   });
+});
 
+describe("layoutArcText tracking and ascenders", () => {
   it("adds trackingMm as extra spacing between every adjacent pair of glyphs", () => {
     const font = loadTestFont();
 
     const computeAngularSpanDeg = (contours: [number, number][][]): number => {
       const angles = contours
         .flat()
-        .map(([x, y]) => Math.atan2(y, x) * (180 / Math.PI));
+        .map(([x, y]) => Math.atan2(y, x) * DEGREES_PER_RADIAN);
       return Math.max(...angles) - Math.min(...angles);
     };
 
     const tight = layoutArcText(
       font,
       { text: "aaa", sizeMm: 5, radiusMm: 20 },
-      0.05,
+      TOLERANCE_MM,
       "svgYDown",
     );
     const tracked = layoutArcText(
       font,
       { text: "aaa", sizeMm: 5, radiusMm: 20, trackingMm: 2 },
-      0.05,
+      TOLERANCE_MM,
       "svgYDown",
     );
 
@@ -126,26 +146,13 @@ describe("layoutArcText", () => {
     );
   });
 
-  // Glyph outlines come y-down, so mathYUp has to flip them before placing them. Without the flip,
-  // an "L" at radius 37.5 grows inward instead of reaching past 37.5.
-  const RADIUS_MM = 37.5;
-  const SIZE_MM = 6;
-  const MIN_ASCENDER_REACH_MM = 3; // Saira Condensed Bold's cap height at 6mm (~4.1mm) is comfortably above this
-  const BASELINE_TOLERANCE_MM = 0.1; // flattening/optical overshoot can dip a hair below the baseline
-
-  const measureRadialExtent = (contours: [number, number][][]) => {
-    const distances = contours.flat().map(([x, y]) => Math.hypot(x, y));
-
-    return { min: Math.min(...distances), max: Math.max(...distances) };
-  };
-
   it("grows an ascender outward from the arc's center in mathYUp space", () => {
     const font = loadTestFont();
 
     const contours = layoutArcText(
       font,
       { text: "L", sizeMm: SIZE_MM, radiusMm: RADIUS_MM, centerAngleDeg: 90 },
-      0.05,
+      TOLERANCE_MM,
       "mathYUp",
     );
     const extent = measureRadialExtent(contours);
@@ -153,14 +160,16 @@ describe("layoutArcText", () => {
     expect(extent.max).toBeGreaterThan(RADIUS_MM + MIN_ASCENDER_REACH_MM);
     expect(extent.min).toBeGreaterThan(RADIUS_MM - BASELINE_TOLERANCE_MM);
   });
+});
 
+describe("layoutArcText ascender direction", () => {
   it("grows an ascender outward in svgYDown space too, the untouched path", () => {
     const font = loadTestFont();
 
     const contours = layoutArcText(
       font,
       { text: "L", sizeMm: SIZE_MM, radiusMm: RADIUS_MM, centerAngleDeg: 90 },
-      0.05,
+      TOLERANCE_MM,
       "svgYDown",
     );
     const extent = measureRadialExtent(contours);
@@ -181,7 +190,7 @@ describe("layoutArcText", () => {
         centerAngleDeg: 270,
         orientation: "inward",
       },
-      0.05,
+      TOLERANCE_MM,
       "mathYUp",
     );
     const extent = measureRadialExtent(contours);
@@ -197,13 +206,16 @@ describe("layoutArcText", () => {
   // normalizeWinding did not re-run after the flip the outer contour would come back
   // clockwise and the counter counter-clockwise, and the "Positive" fill rule would drop
   // the glyph or fill its hole.
+});
+
+describe("layoutArcText winding", () => {
   it("re-normalizes winding after the mathYUp flip, so counters stay counters", () => {
     const font = loadTestFont();
 
     const contours = layoutArcText(
       font,
       { text: "o", sizeMm: SIZE_MM, radiusMm: RADIUS_MM, centerAngleDeg: 90 },
-      0.05,
+      TOLERANCE_MM,
       "mathYUp",
     );
     const areasByMagnitude = contours

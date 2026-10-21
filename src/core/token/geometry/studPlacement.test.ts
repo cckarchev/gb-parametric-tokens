@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { CENTER_ANGLE_DEG, DEGREES_PER_RADIAN } from "./angleConventions";
 import {
   BASE_CLEARANCE_MM,
   computeEffectiveStudDiameterMm,
@@ -10,11 +11,14 @@ import {
   MODEL_BASE_DIAMETER_MM,
 } from "./studPlacement";
 
+const PRECISION_DIGITS = 9;
+const QUARTER_TURN_DEG = 90;
+
 describe("computeInnerRadiusMm", () => {
   it("is half the base diameter plus half the clearance", () => {
     expect(computeInnerRadiusMm()).toBeCloseTo(
       (MODEL_BASE_DIAMETER_MM + BASE_CLEARANCE_MM) / 2,
-      9,
+      PRECISION_DIGITS,
     );
   });
 });
@@ -29,8 +33,8 @@ describe("computeOuterRadiusMm", () => {
     };
 
     expect(computeOuterRadiusMm(shape)).toBeCloseTo(
-      computeInnerRadiusMm() + 6,
-      9,
+      computeInnerRadiusMm() + shape.ribbonWidthMm,
+      PRECISION_DIGITS,
     );
   });
 });
@@ -45,7 +49,10 @@ describe("computeSweepDeg", () => {
       studDiameterMm: 12,
     };
 
-    expect(computeSweepDeg(shape)).toBeCloseTo(90, 9);
+    expect(computeSweepDeg(shape)).toBeCloseTo(
+      QUARTER_TURN_DEG,
+      PRECISION_DIGITS,
+    );
   });
 });
 
@@ -58,7 +65,7 @@ describe("computeEffectiveStudDiameterMm", () => {
       studDiameterMm: 12,
     };
 
-    expect(computeEffectiveStudDiameterMm(shape)).toBe(12);
+    expect(computeEffectiveStudDiameterMm(shape)).toBe(shape.studDiameterMm);
   });
 
   it("grows to the ribbon's own width when the nominal stud diameter would leave a notch", () => {
@@ -69,7 +76,7 @@ describe("computeEffectiveStudDiameterMm", () => {
       studDiameterMm: 6,
     };
 
-    expect(computeEffectiveStudDiameterMm(shape)).toBe(20);
+    expect(computeEffectiveStudDiameterMm(shape)).toBe(shape.ribbonWidthMm);
   });
 });
 
@@ -86,10 +93,16 @@ describe("computeStudPlacements", () => {
     const halfSweepDeg = sweepDeg / 2;
     const studRadiusMm = computeEffectiveStudDiameterMm(shape) / 2;
 
-    const placements = computeStudPlacements(shape, 90);
+    const placements = computeStudPlacements(shape, CENTER_ANGLE_DEG);
 
-    expect(placements.left.angleDeg).toBeCloseTo(90 + halfSweepDeg, 9);
-    expect(placements.right.angleDeg).toBeCloseTo(90 - halfSweepDeg, 9);
+    expect(placements.left.angleDeg).toBeCloseTo(
+      CENTER_ANGLE_DEG + halfSweepDeg,
+      PRECISION_DIGITS,
+    );
+    expect(placements.right.angleDeg).toBeCloseTo(
+      CENTER_ANGLE_DEG - halfSweepDeg,
+      PRECISION_DIGITS,
+    );
 
     // The stud's center sits further out along the same ray, at innerRadiusMm + studRadiusMm:
     // so the vertex point (innerRadiusMm, that same angle) is exactly studRadiusMm away from
@@ -98,7 +111,7 @@ describe("computeStudPlacements", () => {
       angleDeg: number,
       position: [number, number],
     ): number => {
-      const angleRad = (angleDeg * Math.PI) / 180;
+      const angleRad = angleDeg / DEGREES_PER_RADIAN;
       const vertexX = innerRadiusMm * Math.cos(angleRad);
       const vertexY = innerRadiusMm * Math.sin(angleRad);
 
@@ -110,15 +123,17 @@ describe("computeStudPlacements", () => {
         placements.left.angleDeg,
         placements.left.position,
       ),
-    ).toBeCloseTo(studRadiusMm, 9);
+    ).toBeCloseTo(studRadiusMm, PRECISION_DIGITS);
     expect(
       vertexToCenterDistance(
         placements.right.angleDeg,
         placements.right.position,
       ),
-    ).toBeCloseTo(studRadiusMm, 9);
+    ).toBeCloseTo(studRadiusMm, PRECISION_DIGITS);
   });
+});
 
+describe("computeStudPlacements stud diameter", () => {
   it("keeps the vertex touching point fixed when only studDiameterMm changes", () => {
     const baseShape = {
       type: "arc" as const,
@@ -128,15 +143,18 @@ describe("computeStudPlacements", () => {
     };
     const biggerStudShape = { ...baseShape, studDiameterMm: 20 };
 
-    const smallPlacements = computeStudPlacements(baseShape, 90);
-    const bigPlacements = computeStudPlacements(biggerStudShape, 90);
+    const smallPlacements = computeStudPlacements(baseShape, CENTER_ANGLE_DEG);
+    const bigPlacements = computeStudPlacements(
+      biggerStudShape,
+      CENTER_ANGLE_DEG,
+    );
 
     // Angle is unaffected by stud diameter (ribbonLengthMm/ribbonWidthMm are unchanged), so the
     // vertex point itself (innerRadiusMm at that angle) is identical in both cases: only the
     // stud's own center should move further out, never the vertex it touches.
     expect(smallPlacements.left.angleDeg).toBeCloseTo(
       bigPlacements.left.angleDeg,
-      9,
+      PRECISION_DIGITS,
     );
     const smallDistance = Math.hypot(...smallPlacements.left.position);
     const bigDistance = Math.hypot(...bigPlacements.left.position);

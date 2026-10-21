@@ -54,7 +54,9 @@ describe("CounterRecordList", () => {
       "2",
     );
   });
+});
 
+describe("CounterRecordList row changes", () => {
   it("defaults an entry missing from the selection to unchecked with 1 copy", () => {
     render(
       <CounterRecordList
@@ -95,7 +97,9 @@ describe("CounterRecordList", () => {
       knockedDown: { enabled: true, copies: 4 },
     });
   });
+});
 
+describe("CounterRecordList Select all", () => {
   it("enables every entry in one call when 'Select all' is checked, keeping their counts", () => {
     const onSelectionChange = vi.fn();
 

@@ -49,9 +49,11 @@ describe("mergeWithDefaults", () => {
   });
 
   it("replaces arrays whole instead of merging them", () => {
-    const merged = mergeWithDefaults({ list: [1, 2, 3] }, { list: [9] });
+    const defaultList = [1, 2];
+    const fileList = [defaultList.length + 1];
+    const merged = mergeWithDefaults({ list: defaultList }, { list: fileList });
 
-    expect(merged).toEqual({ list: [9] });
+    expect(merged).toEqual({ list: fileList });
   });
 
   it("keeps optional keys the defaults lack", () => {
@@ -68,7 +70,7 @@ describe("parseSettingsFile", () => {
   it("loads a file exported before the tuning groups existed, filling them with defaults", () => {
     const config = parseSettingsFile(LEGACY_FILE);
 
-    expect(config.nameSizeMm).toBe(5);
+    expect(config.nameSizeMm).toBe(LEGACY_FILE.nameSizeMm);
     expect(config.discShape).toEqual({ type: "disc", diameterMm: 30 });
     expect(config.colorGroups).toEqual(LEGACY_FILE.colorGroups);
     expect(config.aoe).toEqual(DEFAULT_SHARED_CONFIG.aoe);
@@ -77,12 +79,13 @@ describe("parseSettingsFile", () => {
   });
 
   it("keeps a partial tuning group's own values and fills the rest", () => {
+    const spokeCount = 4;
     const config = parseSettingsFile({
       ...LEGACY_FILE,
-      aoe: { crowfoot: { spokeCount: 4 } },
+      aoe: { crowfoot: { spokeCount } },
     });
 
-    expect(config.aoe.crowfoot.spokeCount).toBe(4);
+    expect(config.aoe.crowfoot.spokeCount).toBe(spokeCount);
     expect(config.aoe.crowfoot.spokeWidthMm).toBe(
       DEFAULT_SHARED_CONFIG.aoe.crowfoot.spokeWidthMm,
     );
@@ -117,7 +120,9 @@ describe("parseSettingsFile", () => {
 
     expect(config.style.relief).toBe("inlay");
   });
+});
 
+describe("parseSettingsFile known values", () => {
   it("keeps every option value this app knows", () => {
     const config = parseSettingsFile({
       ...LEGACY_FILE,
@@ -160,7 +165,9 @@ describe("parseSettingsFile", () => {
     expect(config.characterToken.fontId).toBe(DEFAULT_DISPLAY_FONT_ID);
     expect(config.momentum.fontId).toBe(DEFAULT_BODY_FONT_ID);
   });
+});
 
+describe("parseSettingsFile invalid files", () => {
   it("rejects something that is not a settings file at all", () => {
     expect(() => parseSettingsFile({})).toThrow(
       "This file is not a valid settings file.",

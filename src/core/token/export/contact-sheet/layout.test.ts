@@ -55,7 +55,13 @@ describe("layoutPreparedSection", () => {
   });
 
   it("is only as wide as its items when there are fewer items than columns", () => {
-    const layout = layoutPreparedSection(prepare([disc()], true), 5, 0, []);
+    const columns = 5;
+    const layout = layoutPreparedSection(
+      prepare([disc()], true),
+      columns,
+      0,
+      [],
+    );
 
     expect(layout.widthMm).toBe(CELL_SIZE_MM);
   });

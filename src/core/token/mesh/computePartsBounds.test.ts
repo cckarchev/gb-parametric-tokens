@@ -24,11 +24,16 @@ const buildSquarePart = async (min: Vec2, max: Vec2): Promise<TokenPart> => {
 
 describe("computePartsBounds", () => {
   it("returns the flat extent covering every part of a token", async () => {
+    const upper = { minX: -5, minY: 10, maxX: 5, maxY: 20 };
+    const lower = { minX: 0, minY: 0, maxX: 8, maxY: 4 };
     const parts = [
-      await buildSquarePart([-5, 10], [5, 20]),
-      await buildSquarePart([0, 0], [8, 4]),
+      await buildSquarePart([upper.minX, upper.minY], [upper.maxX, upper.maxY]),
+      await buildSquarePart([lower.minX, lower.minY], [lower.maxX, lower.maxY]),
     ];
 
-    expect(computePartsBounds(parts)).toEqual({ min: [-5, 0], max: [8, 20] });
+    expect(computePartsBounds(parts)).toEqual({
+      min: [upper.minX, lower.minY],
+      max: [lower.maxX, upper.maxY],
+    });
   });
 });

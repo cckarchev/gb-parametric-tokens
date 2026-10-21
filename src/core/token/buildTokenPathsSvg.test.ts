@@ -30,11 +30,8 @@ describe("buildTokenPathsSvg", () => {
   });
 
   it("joins several contours of one color group into a single path", () => {
-    const shifted: Vec2[] = [
-      [5, 5],
-      [6, 5],
-      [6, 6],
-    ];
+    const shiftMm = 5;
+    const shifted: Vec2[] = square.map(([x, y]) => [x + shiftMm, y + shiftMm]);
 
     const [basePath] = buildTokenPathsSvg(
       [square, shifted],

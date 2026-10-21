@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-
+import type { Bounds } from "../../geometry/computeBounds";
 import {
   CIRCLE_ANCHOR_X_SVG,
   CIRCLE_ANCHOR_Y_SVG,
@@ -16,6 +16,15 @@ import {
 import type { FlippedContactSheetItem } from "./types";
 
 const GRID_VERTEX_STEP_MM = GRID_STEP_MM * 2;
+// Just past a grid line, so the value has to round up to the next one.
+const JUST_PAST_MM = 0.1;
+
+type BoxCorners = { minX: number; minY: number; maxX: number; maxY: number };
+
+const box = ({ minX, minY, maxX, maxY }: BoxCorners): Bounds => ({
+  min: [minX, minY],
+  max: [maxX, maxY],
+});
 
 describe("allContoursOf", () => {
   it("lists the base contours followed by every color group's relief", () => {
@@ -43,11 +52,11 @@ describe("shiftForArcAnchor", () => {
 describe("unionBounds", () => {
   it("covers both boxes", () => {
     const union = unionBounds(
-      { min: [0, 5], max: [10, 6] },
-      { min: [-2, 0], max: [3, 8] },
+      box({ minX: 0, minY: 5, maxX: 10, maxY: 6 }),
+      box({ minX: -2, minY: 0, maxX: 3, maxY: 8 }),
     );
 
-    expect(union).toEqual({ min: [-2, 0], max: [10, 8] });
+    expect(union).toEqual(box({ minX: -2, minY: 0, maxX: 10, maxY: 8 }));
   });
 });
 
@@ -57,33 +66,36 @@ describe("computeOverflowMarginMm", () => {
   });
 
   it("is zero when nothing reaches past the origin", () => {
-    expect(computeOverflowMarginMm([{ min: [2, 3], max: [9, 9] }], 0)).toBe(0);
+    const insideOrigin = box({ minX: 2, minY: 3, maxX: 9, maxY: 9 });
+
+    expect(computeOverflowMarginMm([insideOrigin], 0)).toBe(0);
   });
 
   it("covers the item reaching furthest past the origin on the given axis", () => {
-    const boundsList = [
-      { min: [-3, -1] as [number, number], max: [9, 9] as [number, number] },
-      { min: [-1, -6] as [number, number], max: [9, 9] as [number, number] },
-    ];
+    const furthestLeft = box({ minX: -3, minY: -1, maxX: 9, maxY: 9 });
+    const furthestDown = box({ minX: -1, minY: -6, maxX: 9, maxY: 9 });
+    const boundsList = [furthestLeft, furthestDown];
 
-    expect(computeOverflowMarginMm(boundsList, 0)).toBe(3);
-    expect(computeOverflowMarginMm(boundsList, 1)).toBe(6);
+    expect(computeOverflowMarginMm(boundsList, 0)).toBe(-furthestLeft.min[0]);
+    expect(computeOverflowMarginMm(boundsList, 1)).toBe(-furthestDown.min[1]);
   });
 });
 
 describe("roundUpToGridStep", () => {
   it("rounds up to the next grid line and keeps a value already on one", () => {
-    expect(roundUpToGridStep(GRID_STEP_MM + 0.1)).toBe(GRID_STEP_MM * 2);
+    expect(roundUpToGridStep(GRID_STEP_MM + JUST_PAST_MM)).toBe(
+      GRID_STEP_MM * 2,
+    );
     expect(roundUpToGridStep(GRID_STEP_MM)).toBe(GRID_STEP_MM);
   });
 });
 
 describe("roundUpToGridVertexStep", () => {
   it("rounds up to twice the grid step, so half a cell is still a whole grid step", () => {
-    expect(roundUpToGridVertexStep(GRID_STEP_MM + 0.1)).toBe(
+    expect(roundUpToGridVertexStep(GRID_STEP_MM + JUST_PAST_MM)).toBe(
       GRID_VERTEX_STEP_MM,
     );
-    expect(roundUpToGridVertexStep(GRID_VERTEX_STEP_MM + 0.1)).toBe(
+    expect(roundUpToGridVertexStep(GRID_VERTEX_STEP_MM + JUST_PAST_MM)).toBe(
       GRID_VERTEX_STEP_MM * 2,
     );
   });

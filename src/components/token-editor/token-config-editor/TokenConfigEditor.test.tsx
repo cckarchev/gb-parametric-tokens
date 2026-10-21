@@ -12,12 +12,16 @@ import {
 
 import { TokenConfigEditor } from "./TokenConfigEditor";
 
+const RIBBON_WIDTH_MM = 15;
+// Arc tokens, ring badges, Momentum and AOE templates; disc tokens and conditions have none.
+const SECTIONS_WITH_TEXT = 4;
+
 const sharedConfig: SharedConfig = {
   ...DEFAULT_SHARED_CONFIG,
   printProfileId: "fdm-04",
   arcShape: {
     type: "arc",
-    ribbonWidthMm: 15,
+    ribbonWidthMm: RIBBON_WIDTH_MM,
     ribbonLengthMm: 20,
     studDiameterMm: 24,
   },
@@ -203,7 +207,9 @@ describe("TokenConfigEditor", () => {
     expect(screen.getByLabelText("Body")).toHaveValue("#cdb320");
     expect(screen.getByLabelText("Details")).toHaveValue("#000000");
   });
+});
 
+describe("TokenConfigEditor shapes", () => {
   it("updates only the relief field when the quick relief selector changes", async () => {
     const onChange = vi.fn();
 
@@ -222,7 +228,9 @@ describe("TokenConfigEditor", () => {
 
     await openAdvancedSettings();
 
-    expect(screen.getByLabelText("Ribbon width (mm)")).toHaveValue(15);
+    expect(screen.getByLabelText("Ribbon width (mm)")).toHaveValue(
+      RIBBON_WIDTH_MM,
+    );
     expect(
       screen
         .getAllByLabelText("Diameter (mm)")
@@ -263,7 +271,9 @@ describe("TokenConfigEditor", () => {
       arcShape: { ...sharedConfig.arcShape, studFilletEnabled: true },
     });
   });
+});
 
+describe("TokenConfigEditor arc shape and fonts", () => {
   it("updates the arc shape when the arc editor's ribbon width changes", async () => {
     const onChange = vi.fn();
 
@@ -283,6 +293,7 @@ describe("TokenConfigEditor", () => {
 
   // Each slot is locked to one shape type: an arc token's shape can never become a disc, or vice
   // versa. Offering no type control at all is what enforces that.
+
   it("offers no shape type control in any of the shape slots", async () => {
     renderEditor();
 
@@ -296,8 +307,7 @@ describe("TokenConfigEditor", () => {
 
     await openAdvancedSettings();
 
-    // Arc tokens, ring badges, Momentum and AOE templates; disc tokens and conditions have none.
-    expect(screen.getAllByLabelText("Font")).toHaveLength(4);
+    expect(screen.getAllByLabelText("Font")).toHaveLength(SECTIONS_WITH_TEXT);
   });
 
   it("changes only Momentum's font from the Momentum section", async () => {
@@ -322,7 +332,9 @@ describe("TokenConfigEditor", () => {
       momentum: { ...sharedConfig.momentum, fontId: DEFAULT_BODY_FONT_ID },
     });
   });
+});
 
+describe("TokenConfigEditor text sizes and colors", () => {
   it("updates the name and effect text sizes independently from advanced settings", async () => {
     const onChange = vi.fn();
 
@@ -367,7 +379,9 @@ describe("TokenConfigEditor", () => {
       within(printOptions).queryByLabelText("Fillet between stud and arc"),
     ).not.toBeInTheDocument();
   });
+});
 
+describe("TokenConfigEditor AOE variant and icon sizes", () => {
   it("shows only the selected AOE variant's fields", async () => {
     renderEditor({
       sharedConfig: { ...sharedConfig, aoeTemplateVariant: "crowfoot" },
@@ -401,7 +415,9 @@ describe("TokenConfigEditor", () => {
       condition: { iconScale: 0.6 },
     });
   });
+});
 
+describe("TokenConfigEditor crow's foot fillet and section resets", () => {
   it("disables the crow's foot fillet radius while the fillet is off", async () => {
     const crowfoot = { ...sharedConfig.aoe.crowfoot, filletEnabled: false };
 

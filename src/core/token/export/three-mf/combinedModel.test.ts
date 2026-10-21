@@ -30,6 +30,9 @@ const baseGroups: ColorGroupSpec[] = [
   { id: "base", name: "Base", color: "#2B2B2B" },
 ];
 
+// Far enough apart that no two 2mm test boxes overlap.
+const COPY_SPACING_MM = 30;
+
 describe("buildCombinedThreeMfModel", () => {
   it("merges a token's parts into one named object placed by one build item", async () => {
     const items: CombinedThreeMfItem[] = [
@@ -81,7 +84,9 @@ describe("buildCombinedThreeMfModel", () => {
     expect(prusaModelConfigXml).toContain('value="Base"');
     expect(prusaModelConfigXml).toContain('value="Details"');
   });
+});
 
+describe("buildCombinedThreeMfModel copies and materials", () => {
   it("makes every copy its own numbered object, each with its own part ranges", async () => {
     const items: CombinedThreeMfItem[] = [
       {
@@ -89,28 +94,29 @@ describe("buildCombinedThreeMfModel", () => {
         parts: [await buildBoxPart("base")],
         offsets: [
           [0, 0],
-          [30, 0],
-          [0, 30],
+          [COPY_SPACING_MM, 0],
+          [0, COPY_SPACING_MM],
         ],
       },
     ];
+    const copyCount = items[0].offsets.length;
 
     const { modelXml, prusaModelConfigXml } = buildCombinedThreeMfModel(
       items,
       baseGroups,
     );
 
-    expect(countOccurrences(modelXml, "<object ")).toBe(3);
+    expect(countOccurrences(modelXml, "<object ")).toBe(copyCount);
     expect(modelXml).toContain('name="Knocked Down 1"');
     expect(modelXml).toContain('name="Knocked Down 2"');
     expect(modelXml).toContain('name="Knocked Down 3"');
-    expect(countOccurrences(modelXml, "<item ")).toBe(3);
+    expect(countOccurrences(modelXml, "<item ")).toBe(copyCount);
     // The second copy's 2mm box sits 30mm to the right, baked into its own vertices.
     expect(modelXml).toContain('<object id="3" name="Knocked Down 2"');
     expect(modelXml).toContain('<vertex x="32" y="2" z="1"/>');
     expect(modelXml).not.toContain("transform=");
     expect(countOccurrences(prusaModelConfigXml, 'instances_count="1"')).toBe(
-      3,
+      copyCount,
     );
     expect(prusaModelConfigXml).toContain('value="Knocked Down 3"');
   });
@@ -118,7 +124,11 @@ describe("buildCombinedThreeMfModel", () => {
   it("deduplicates materials across tokens that share a colorGroupId", async () => {
     const items: CombinedThreeMfItem[] = [
       { name: "A", parts: [await buildBoxPart("base")], offsets: [[0, 0]] },
-      { name: "B", parts: [await buildBoxPart("base")], offsets: [[30, 0]] },
+      {
+        name: "B",
+        parts: [await buildBoxPart("base")],
+        offsets: [[COPY_SPACING_MM, 0]],
+      },
     ];
 
     const { modelXml } = buildCombinedThreeMfModel(items, baseGroups);
@@ -127,11 +137,17 @@ describe("buildCombinedThreeMfModel", () => {
     expect(countOccurrences(modelXml, "<base ")).toBe(1);
     expect(modelXml).not.toContain('pindex="1"');
   });
+});
 
+describe("buildCombinedThreeMfModel separate materials", () => {
   it("keeps colorGroups with different ids as separate materials", async () => {
     const items: CombinedThreeMfItem[] = [
       { name: "A", parts: [await buildBoxPart("base")], offsets: [[0, 0]] },
-      { name: "B", parts: [await buildBoxPart("accent")], offsets: [[30, 0]] },
+      {
+        name: "B",
+        parts: [await buildBoxPart("accent")],
+        offsets: [[COPY_SPACING_MM, 0]],
+      },
     ];
     const colorGroups: ColorGroupSpec[] = [
       ...baseGroups,

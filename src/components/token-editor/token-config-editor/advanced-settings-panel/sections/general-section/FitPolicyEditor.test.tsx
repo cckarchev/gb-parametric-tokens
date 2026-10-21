@@ -19,8 +19,12 @@ describe("FitPolicyEditor", () => {
     render(<FitPolicyEditor fitPolicy={baseFitPolicy} onChange={vi.fn()} />);
 
     expect(screen.getByLabelText("Min tracking (mm)")).toHaveValue(0);
-    expect(screen.getByLabelText("Max tracking (mm)")).toHaveValue(0.3);
-    expect(screen.getByLabelText("Min scale")).toHaveValue(0.7);
+    expect(screen.getByLabelText("Max tracking (mm)")).toHaveValue(
+      baseFitPolicy.maxTracking,
+    );
+    expect(screen.getByLabelText("Min scale")).toHaveValue(
+      baseFitPolicy.minScale,
+    );
     expect(screen.getByLabelText("Allow two lines")).toBeChecked();
   });
 

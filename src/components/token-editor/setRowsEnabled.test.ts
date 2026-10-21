@@ -19,12 +19,13 @@ const buildRow = (
 
 describe("setRowsEnabled", () => {
   it("flips every row's enabled flag and keeps its copies", () => {
-    const rows = [buildRow("a", false, 3), buildRow("b", true, 1)];
+    const copiesOfA = 3;
+    const rows = [buildRow("a", false, copiesOfA), buildRow("b", true, 1)];
 
     const next = setRowsEnabled({}, rows, true);
 
     expect(next).toEqual({
-      a: { enabled: true, copies: 3 },
+      a: { enabled: true, copies: copiesOfA },
       b: { enabled: true, copies: 1 },
     });
   });
@@ -32,11 +33,16 @@ describe("setRowsEnabled", () => {
   it("keeps record entries that have no row and leaves the input untouched", () => {
     const record = { other: { enabled: true, copies: 2 } };
 
-    const next = setRowsEnabled(record, [buildRow("a", true, 4)], false);
+    const copiesOfA = 4;
+    const next = setRowsEnabled(
+      record,
+      [buildRow("a", true, copiesOfA)],
+      false,
+    );
 
     expect(next).toEqual({
       other: { enabled: true, copies: 2 },
-      a: { enabled: false, copies: 4 },
+      a: { enabled: false, copies: copiesOfA },
     });
     expect(record).toEqual({ other: { enabled: true, copies: 2 } });
   });

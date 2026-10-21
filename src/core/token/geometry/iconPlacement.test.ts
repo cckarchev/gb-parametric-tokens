@@ -12,6 +12,9 @@ const SOLID_SQUARE: Vec2[][] = [
   ],
 ];
 
+const TARGET_DIAMETER_MM = 20;
+const TARGET_RADIUS_MM = TARGET_DIAMETER_MM / 2;
+
 describe("placeIcon", () => {
   it("flips Y, centers on the origin, and scales to the target diameter (box fit, constrainToCircle off)", () => {
     // SVG-space square, y-down: (0,0) top-left, (10,10) bottom-right.
@@ -36,22 +39,26 @@ describe("placeIcon", () => {
   });
 
   it("applies the scale factor on top of the fit-to-target size", () => {
+    const scale = 0.5;
     const { contours } = placeIcon(SOLID_SQUARE, {
-      targetDiameterMm: 20,
-      scale: 0.5,
+      targetDiameterMm: TARGET_DIAMETER_MM,
+      scale,
       constrainToCircle: false,
     });
+    const half = TARGET_RADIUS_MM * scale;
 
     expect(contours).toEqual([
       [
-        [-5, 5],
-        [5, 5],
-        [5, -5],
-        [-5, -5],
+        [-half, half],
+        [half, half],
+        [half, -half],
+        [-half, -half],
       ],
     ]);
   });
+});
 
+describe("placeIcon constrained to its circle", () => {
   it("shrinks further than the box fit when constrainToCircle is on and the icon's own corners would poke past the target circle", () => {
     const { contours, overflowsCircle } = placeIcon(SOLID_SQUARE, {
       targetDiameterMm: 20,
@@ -59,7 +66,8 @@ describe("placeIcon", () => {
       constrainToCircle: true,
     });
     const [placed] = contours;
-    const half = 5 * Math.sqrt(2);
+    // Each corner lands on the target circle, so the half side is its radius over √2.
+    const half = TARGET_RADIUS_MM / Math.SQRT2;
 
     expect(overflowsCircle).toBe(true);
     placed.forEach(([x, y], index) => {
@@ -100,16 +108,19 @@ describe("placeIcon", () => {
 
     expect(overflowsCircle).toBe(false);
   });
+});
 
+describe("placeIcon overflow", () => {
   it("does not flag overflow when the icon's own farthest point already sits on the target circle", () => {
     // A diamond whose vertices sit exactly on its bounding box's inscribed circle: the box fit
     // and the circle fit agree, so nothing should shrink further than before.
+    const vertexMm = 5;
     const diamond: Vec2[][] = [
       [
-        [5, 0],
-        [0, 5],
-        [-5, 0],
-        [0, -5],
+        [vertexMm, 0],
+        [0, vertexMm],
+        [-vertexMm, 0],
+        [0, -vertexMm],
       ],
     ];
 

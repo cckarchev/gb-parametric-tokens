@@ -65,7 +65,9 @@ describe("useGuildCatalog routing", () => {
     expect(window.location.pathname).toBe("/");
     expect(result.current.selectedGuildId).toBeUndefined();
   });
+});
 
+describe("useGuildCatalog history", () => {
   it("follows the back button to the previous guild and then to no guild", async () => {
     const { result } = renderHook(() => useGuildCatalog());
 

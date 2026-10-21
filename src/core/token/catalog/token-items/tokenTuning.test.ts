@@ -37,10 +37,14 @@ describe("token builders read their tuning group", () => {
       config,
     );
 
-    expect(generic.icons[0].scale).toBeCloseTo(0.5 * GUILD_ICON_SCALE);
-    expect(influence.icons[0].scale).toBeCloseTo(0.5 * GUILD_ICON_SCALE);
-  });
+    const expectedScale = config.discToken.crestScale * GUILD_ICON_SCALE;
 
+    expect(generic.icons[0].scale).toBeCloseTo(expectedScale);
+    expect(influence.icons[0].scale).toBeCloseTo(expectedScale);
+  });
+});
+
+describe("character and condition builders read their tuning group", () => {
   it("scales a character token's crests and balances its lines by the character settings", () => {
     const config: SharedConfig = {
       ...DEFAULT_SHARED_CONFIG,
@@ -59,12 +63,20 @@ describe("token builders read their tuning group", () => {
       config,
     );
 
+    const { crestScale, balanceNameScale, balanceEffectScale } =
+      config.characterToken;
+    const crestIconScale = crestScale * GUILD_ICON_SCALE;
+
     expect(spec.icons.map((icon) => icon.scale)).toEqual([
-      0.6 * GUILD_ICON_SCALE,
-      0.6 * GUILD_ICON_SCALE,
+      crestIconScale,
+      crestIconScale,
     ]);
-    expect(spec.lines[0].sizeMm).toBeCloseTo(config.nameSizeMm * 0.5);
-    expect(spec.lines[1].sizeMm).toBeCloseTo(config.effectSizeMm * 2);
+    expect(spec.lines[0].sizeMm).toBeCloseTo(
+      config.nameSizeMm * balanceNameScale,
+    );
+    expect(spec.lines[1].sizeMm).toBeCloseTo(
+      config.effectSizeMm * balanceEffectScale,
+    );
   });
 
   it("scales a condition's icon by the condition setting", () => {
@@ -77,9 +89,11 @@ describe("token builders read their tuning group", () => {
       config,
     );
 
-    expect(spec.icons[0].scale).toBeCloseTo(0.5);
+    expect(spec.icons[0].scale).toBeCloseTo(config.condition.iconScale);
   });
+});
 
+describe("Momentum reads its tuning group", () => {
   it("sizes Momentum's text and ring by the Momentum settings, the ring inset from the rim", () => {
     const config: SharedConfig = {
       ...DEFAULT_SHARED_CONFIG,
@@ -93,8 +107,12 @@ describe("token builders read their tuning group", () => {
     const spec = buildMomentumTokenSpec(config);
     const discRadiusMm = config.discShape.diameterMm / 2;
 
-    expect(spec.lines[0].sizeMm).toBe(4);
-    expect(spec.decorations[0].widthMm).toBe(1);
-    expect(spec.decorations[0].radiusMm).toBeCloseTo(discRadiusMm - 1 - 0.5);
+    const { textSizeMm, ringInsetMm, ringWidthMm } = config.momentum;
+
+    expect(spec.lines[0].sizeMm).toBe(textSizeMm);
+    expect(spec.decorations[0].widthMm).toBe(ringWidthMm);
+    expect(spec.decorations[0].radiusMm).toBeCloseTo(
+      discRadiusMm - ringInsetMm - ringWidthMm / 2,
+    );
   });
 });

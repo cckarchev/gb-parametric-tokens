@@ -10,8 +10,11 @@ vi.mock("opentype.js", () => ({
   default: { parse: vi.fn((buffer: ArrayBuffer) => ({ parsedFrom: buffer })) },
 }));
 
+// Any bytes do: opentype.js' parse is mocked above.
+const FONT_BYTE_LENGTH = 8;
+
 const okResponse = (): Response =>
-  new Response(new ArrayBuffer(8), { status: 200 });
+  new Response(new ArrayBuffer(FONT_BYTE_LENGTH), { status: 200 });
 
 const fetchMock = vi.fn<typeof fetch>();
 

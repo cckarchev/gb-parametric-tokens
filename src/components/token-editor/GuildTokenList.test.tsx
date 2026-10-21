@@ -86,7 +86,9 @@ describe("GuildTokenList", () => {
       "6",
     );
   });
+});
 
+describe("GuildTokenList generic token changes", () => {
   it("reports an enabled change for a generic token, preserving the rest of the map", () => {
     const onGenericTokensChange = vi.fn();
 
@@ -122,7 +124,9 @@ describe("GuildTokenList", () => {
       "Beer Token": { enabled: true, copies: 3 },
     });
   });
+});
 
+describe("GuildTokenList Influence and Momentum caps", () => {
   it("caps Influence and Momentum at 1-20 copies, independently of each other", () => {
     const onInfluenceChange = vi.fn();
     const onMomentumChange = vi.fn();
@@ -159,7 +163,9 @@ describe("GuildTokenList", () => {
       copies: 8,
     });
   });
+});
 
+describe("GuildTokenList counter toggles", () => {
   it("caps Goal Influence at 1-2 copies, unlike the other 1-20 counters", () => {
     const onGoalInfluenceChange = vi.fn();
 
@@ -199,7 +205,9 @@ describe("GuildTokenList", () => {
 
     expect(screen.getByLabelText("Influence tokens copies")).toBeDisabled();
   });
+});
 
+describe("GuildTokenList Select all", () => {
   it("enables every counter, including generics, when 'Select all' is checked", () => {
     const onInfluenceChange = vi.fn();
     const onMomentumChange = vi.fn();
@@ -235,7 +243,9 @@ describe("GuildTokenList", () => {
       "Beer Token": { enabled: true, copies: 4 },
     });
   });
+});
 
+describe("GuildTokenList Select all state", () => {
   it("shows 'Select all' as checked only once every counter is enabled", () => {
     const { rerenderList } = renderList({
       influence: { enabled: true, copies: 13 },

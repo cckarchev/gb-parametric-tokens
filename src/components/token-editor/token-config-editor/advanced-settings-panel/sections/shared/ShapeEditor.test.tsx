@@ -8,29 +8,39 @@ import { ShapeEditor } from "./ShapeEditor";
 
 describe("ShapeEditor", () => {
   it("shows the disc diameter field for a disc shape", () => {
-    const discShape: ShapeSpec = { type: "disc", diameterMm: 12.5 };
+    const diameterMm = 12.5;
+    const discShape: ShapeSpec = { type: "disc", diameterMm };
 
     render(<ShapeEditor shape={discShape} onChange={vi.fn()} />);
 
-    expect(screen.getByLabelText("Diameter (mm)")).toHaveValue(12.5);
+    expect(screen.getByLabelText("Diameter (mm)")).toHaveValue(diameterMm);
     expect(
       screen.queryByLabelText("Ribbon width (mm)"),
     ).not.toBeInTheDocument();
   });
 
   it("shows the arc fields for an arc shape, with no derived-value fields", () => {
+    const ribbonWidthMm = 15;
+    const ribbonLengthMm = 20;
+    const studDiameterMm = 24;
     const arcShape: ShapeSpec = {
       type: "arc",
-      ribbonWidthMm: 15,
-      ribbonLengthMm: 20,
-      studDiameterMm: 24,
+      ribbonWidthMm,
+      ribbonLengthMm,
+      studDiameterMm,
     };
 
     render(<ShapeEditor shape={arcShape} onChange={vi.fn()} />);
 
-    expect(screen.getByLabelText("Ribbon width (mm)")).toHaveValue(15);
-    expect(screen.getByLabelText("Ribbon length (mm)")).toHaveValue(20);
-    expect(screen.getByLabelText("Stud diameter (mm)")).toHaveValue(24);
+    expect(screen.getByLabelText("Ribbon width (mm)")).toHaveValue(
+      ribbonWidthMm,
+    );
+    expect(screen.getByLabelText("Ribbon length (mm)")).toHaveValue(
+      ribbonLengthMm,
+    );
+    expect(screen.getByLabelText("Stud diameter (mm)")).toHaveValue(
+      studDiameterMm,
+    );
     expect(
       screen.queryByLabelText("Inner radius (mm)"),
     ).not.toBeInTheDocument();
@@ -47,7 +57,9 @@ describe("ShapeEditor", () => {
 
     expect(screen.queryByLabelText("Shape type")).not.toBeInTheDocument();
   });
+});
 
+describe("ShapeEditor changes", () => {
   it("reports an updated disc diameter", () => {
     const onChange = vi.fn();
     const discShape: ShapeSpec = { type: "disc", diameterMm: 12.5 };
@@ -93,7 +105,9 @@ describe("ShapeEditor", () => {
 
     expect(screen.getByLabelText("Stud fillet radius (mm)")).toBeDisabled();
   });
+});
 
+describe("ShapeEditor stud fillet radius", () => {
   it("enables the stud fillet radius field once the fillet is on", () => {
     const arcShape: ShapeSpec = {
       type: "arc",
@@ -132,7 +146,9 @@ describe("ShapeEditor", () => {
       studFilletRadiusMm: 3,
     });
   });
+});
 
+describe("ShapeEditor stud fillet toggle", () => {
   it("reports the stud fillet toggle while preserving the rest of the arc shape", () => {
     const onChange = vi.fn();
     const arcShape: ShapeSpec = {

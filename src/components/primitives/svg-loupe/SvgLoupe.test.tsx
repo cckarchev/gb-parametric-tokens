@@ -10,6 +10,8 @@ const svg =
 // 100mm is comfortably larger than the 200px the mocked rect below reports, so the
 // preview counts as "shrunk" and the magnification affordance is enabled in these tests.
 const shrunkViewBox = { width: 100, height: 100 };
+// Narrower than shrunkViewBox at true size, so the preview is drawn shrunk and the lens helps.
+const CONTAINER_WIDTH_PX = 200;
 
 // 10mm at true size is far smaller than the mocked 200px rect, so the preview is already
 // shown above true size and magnification should be skipped entirely.
@@ -50,7 +52,7 @@ describe("SvgLoupe", () => {
   });
 
   it("shows no lens before the mouse ever moves over it", () => {
-    mockContainerWidth(200);
+    mockContainerWidth(CONTAINER_WIDTH_PX);
     render(
       <SvgLoupe svg={svg} viewBox={shrunkViewBox} ariaLabel="Token preview" />,
     );
@@ -62,7 +64,7 @@ describe("SvgLoupe", () => {
   });
 
   it("shows a magnified lens copy of the svg while hovering, and hides it again on mouse leave", () => {
-    mockContainerWidth(200);
+    mockContainerWidth(CONTAINER_WIDTH_PX);
 
     render(
       <SvgLoupe svg={svg} viewBox={shrunkViewBox} ariaLabel="Token preview" />,
@@ -79,9 +81,11 @@ describe("SvgLoupe", () => {
 
     expect(wrapper?.querySelectorAll("svg").length).toBe(1);
   });
+});
 
+describe("SvgLoupe Ctrl+scroll zoom", () => {
   it("zooms the lens in when scrolling up with Ctrl held while hovering", () => {
-    mockContainerWidth(200);
+    mockContainerWidth(CONTAINER_WIDTH_PX);
 
     render(
       <SvgLoupe svg={svg} viewBox={shrunkViewBox} ariaLabel="Token preview" />,
@@ -109,7 +113,7 @@ describe("SvgLoupe", () => {
   });
 
   it("zooms in on a Ctrl+scroll even without a prior mousemove, at the scrolled-over point", () => {
-    mockContainerWidth(200);
+    mockContainerWidth(CONTAINER_WIDTH_PX);
 
     render(
       <SvgLoupe svg={svg} viewBox={shrunkViewBox} ariaLabel="Token preview" />,
@@ -126,9 +130,11 @@ describe("SvgLoupe", () => {
 
     expect(trackArea.parentElement?.querySelectorAll("svg").length).toBe(2);
   });
+});
 
+describe("SvgLoupe plain scrolling", () => {
   it("prevents the wheel event's default action when Ctrl is held, so the page doesn't zoom instead", () => {
-    mockContainerWidth(200);
+    mockContainerWidth(CONTAINER_WIDTH_PX);
 
     render(
       <SvgLoupe svg={svg} viewBox={shrunkViewBox} ariaLabel="Token preview" />,
@@ -146,7 +152,7 @@ describe("SvgLoupe", () => {
   });
 
   it("leaves a plain scroll (no Ctrl) alone, so the rest of the page keeps scrolling", () => {
-    mockContainerWidth(200);
+    mockContainerWidth(CONTAINER_WIDTH_PX);
 
     render(
       <SvgLoupe svg={svg} viewBox={shrunkViewBox} ariaLabel="Token preview" />,
@@ -165,7 +171,7 @@ describe("SvgLoupe", () => {
   });
 
   it("shows a hint that Ctrl+Scroll zooms while magnification is useful", () => {
-    mockContainerWidth(200);
+    mockContainerWidth(CONTAINER_WIDTH_PX);
 
     render(
       <SvgLoupe svg={svg} viewBox={shrunkViewBox} ariaLabel="Token preview" />,
@@ -173,9 +179,11 @@ describe("SvgLoupe", () => {
 
     expect(screen.getByText("Ctrl+Scroll to zoom")).not.toBeNull();
   });
+});
 
+describe("SvgLoupe at true size", () => {
   it("skips the whole magnification affordance when the preview is already shown at or above true size", () => {
-    mockContainerWidth(200);
+    mockContainerWidth(CONTAINER_WIDTH_PX);
 
     render(
       <SvgLoupe

@@ -12,6 +12,9 @@ const square = (x: number): Vec2[][] => [
   ],
 ];
 
+// Squares at x = 0, 2 and 4, one unit wide, so none of them overlap.
+const THIRD_SQUARE_X = 4;
+
 describe("groupReliefComponentsByColorGroup", () => {
   it("puts untagged components under the reserved base id", () => {
     const grouped = groupReliefComponentsByColorGroup([
@@ -32,13 +35,16 @@ describe("groupReliefComponentsByColorGroup", () => {
       { source: { kind: "decoration" }, contours: square(2) },
       {
         source: { kind: "decoration" },
-        contours: square(4),
+        contours: square(THIRD_SQUARE_X),
         colorGroup: "accent",
       },
     ]);
 
     expect([...grouped.keys()]).toEqual(["accent", "base"]);
-    expect(grouped.get("accent")).toEqual([...square(0), ...square(4)]);
+    expect(grouped.get("accent")).toEqual([
+      ...square(0),
+      ...square(THIRD_SQUARE_X),
+    ]);
     expect(grouped.get("base")).toEqual(square(2));
   });
 });

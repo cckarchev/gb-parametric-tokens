@@ -34,6 +34,11 @@ const template: CatalogAoeTemplate = {
   name: "Smoke Bomb",
   effect: "Cover",
 };
+const THREE_INCH_DIAMETER_MM = 76.2;
+const ONE_INCH_DIAMETER_MM = 25.4;
+// The default 6mm band in from the 3 inch rim on both sides.
+const DEFAULT_INNER_DIAMETER_MM = 64.2;
+const FULL_TURN_DEG = 360;
 const BAND_MID_RADIUS_MM = 35.1;
 const BAND_INNER_RADIUS_MM = 32.1;
 const GUILD_ICON_ID = "Alchemists";
@@ -51,11 +56,11 @@ describe("buildAoeTemplateSpec", () => {
 
     expect(spec.shape.type).toBe("disc");
     expect(spec.shape.type === "disc" && spec.shape.diameterMm).toBeCloseTo(
-      76.2,
+      THREE_INCH_DIAMETER_MM,
     );
     expect(
       spec.shape.type === "disc" && spec.shape.innerDiameterMm,
-    ).toBeCloseTo(64.2);
+    ).toBeCloseTo(DEFAULT_INNER_DIAMETER_MM);
     expect(spec.textLayout).toBe("ring");
   });
 
@@ -75,7 +80,9 @@ describe("buildAoeTemplateSpec", () => {
     expect(bottomLine.radiusMm).toBeGreaterThan(BAND_MID_RADIUS_MM);
     expect(radiusSum).toBeCloseTo(BAND_MID_RADIUS_MM * 2);
   });
+});
 
+describe("buildAoeTemplateSpec font and icons", () => {
   it("sets its text in the AOE font, centering the ink by that font's own height", () => {
     const displayConfig: SharedConfig = {
       ...sharedConfig,
@@ -110,22 +117,27 @@ describe("buildAoeTemplateSpec", () => {
   });
 });
 
-describe("buildAoeTemplateSpec, crow's foot variant", () => {
-  const crowfootConfig: SharedConfig = {
-    ...sharedConfig,
-    aoeTemplateVariant: "crowfoot",
-  };
-  const CROWFOOT_TEXT_SIZE_MM = 4;
-  const TOP_ANGLE_DEG = 90;
-  const LOWER_LEFT_ANGLE_DEG = 210;
-  const LOWER_RIGHT_ANGLE_DEG = 330;
+const crowfootConfig: SharedConfig = {
+  ...sharedConfig,
+  aoeTemplateVariant: "crowfoot",
+};
+const CROWFOOT_TEXT_SIZE_MM = 4;
+const TOP_ANGLE_DEG = 90;
+const LOWER_LEFT_ANGLE_DEG = 210;
+const LOWER_RIGHT_ANGLE_DEG = 330;
 
+describe("buildAoeTemplateSpec, crow's foot variant", () => {
   it("puts a name and an effect on every spoke when the spoke count changes", () => {
+    const spokeCount = 4;
+    const spokeAnglesDeg = Array.from(
+      { length: spokeCount },
+      (_, spoke) => TOP_ANGLE_DEG + (spoke * FULL_TURN_DEG) / spokeCount,
+    );
     const config: SharedConfig = {
       ...crowfootConfig,
       aoe: {
         ...crowfootConfig.aoe,
-        crowfoot: { ...crowfootConfig.aoe.crowfoot, spokeCount: 4 },
+        crowfoot: { ...crowfootConfig.aoe.crowfoot, spokeCount },
       },
     };
     const spec = buildAoeTemplateSpec(
@@ -139,17 +151,19 @@ describe("buildAoeTemplateSpec, crow's foot variant", () => {
       (line) => line.placement === "radial",
     );
 
-    expect(nameLines.map((line) => line.centerAngleDeg)).toEqual([
-      90, 180, 270, 360,
-    ]);
-    expect(effectLines.map((line) => line.centerAngleDeg)).toEqual([
-      90, 180, 270, 360,
-    ]);
+    expect(nameLines.map((line) => line.centerAngleDeg)).toEqual(
+      spokeAnglesDeg,
+    );
+    expect(effectLines.map((line) => line.centerAngleDeg)).toEqual(
+      spokeAnglesDeg,
+    );
     expect(spec.shape.type === "disc" && spec.shape.crowfoot?.spokeCount).toBe(
-      4,
+      spokeCount,
     );
   });
+});
 
+describe("buildAoeTemplateSpec, crow's foot spoke count", () => {
   it("rounds a fractional spoke count so the outline and the texts agree", () => {
     const config: SharedConfig = {
       ...crowfootConfig,
@@ -166,10 +180,12 @@ describe("buildAoeTemplateSpec, crow's foot variant", () => {
     );
     const nameLines = spec.lines.filter((line) => line.placement !== "radial");
 
+    const roundedSpokeCount = 3;
+
     expect(spec.shape.type === "disc" && spec.shape.crowfoot?.spokeCount).toBe(
-      3,
+      roundedSpokeCount,
     );
-    expect(nameLines).toHaveLength(3);
+    expect(nameLines).toHaveLength(roundedSpokeCount);
   });
 
   it("never builds fewer than two spokes", () => {
@@ -191,7 +207,9 @@ describe("buildAoeTemplateSpec, crow's foot variant", () => {
       2,
     );
   });
+});
 
+describe("buildAoeTemplateSpec, crow's foot fillet", () => {
   it("passes a 0 fillet radius down when the fillet is off", () => {
     const config: SharedConfig = {
       ...crowfootConfig,
@@ -211,7 +229,9 @@ describe("buildAoeTemplateSpec, crow's foot variant", () => {
       spec.shape.type === "disc" && spec.shape.crowfoot?.filletRadiusMm,
     ).toBe(0);
   });
+});
 
+describe("buildAoeTemplateSpec, crow's foot band width", () => {
   it("narrows the band with the band width setting", () => {
     const bandWidthMm = 8;
     const config: SharedConfig = {
@@ -233,7 +253,7 @@ describe("buildAoeTemplateSpec, crow's foot variant", () => {
       GUILD_ICON_SCALE,
       config,
     );
-    const expectedInnerDiameterMm = 76.2 - bandWidthMm * 2;
+    const expectedInnerDiameterMm = THREE_INCH_DIAMETER_MM - bandWidthMm * 2;
 
     expect(
       ringSpec.shape.type === "disc" && ringSpec.shape.innerDiameterMm,
@@ -242,7 +262,9 @@ describe("buildAoeTemplateSpec, crow's foot variant", () => {
       crowfootSpec.shape.type === "disc" && crowfootSpec.shape.innerDiameterMm,
     ).toBeCloseTo(expectedInnerDiameterMm);
   });
+});
 
+describe("buildAoeTemplateSpec, crow's foot outline and texts", () => {
   it("cuts the 3 inch ring down to three rounded 40 degree arcs on filleted 5mm spokes", () => {
     const spec = buildAoeTemplateSpec(
       template,
@@ -253,8 +275,8 @@ describe("buildAoeTemplateSpec, crow's foot variant", () => {
 
     expect(spec.shape).toEqual({
       type: "disc",
-      diameterMm: expect.closeTo(76.2),
-      innerDiameterMm: expect.closeTo(64.2),
+      diameterMm: expect.closeTo(THREE_INCH_DIAMETER_MM),
+      innerDiameterMm: expect.closeTo(DEFAULT_INNER_DIAMETER_MM),
       crowfoot: {
         spokeCount: 3,
         spokeWidthMm: 5,
@@ -292,7 +314,9 @@ describe("buildAoeTemplateSpec, crow's foot variant", () => {
     ).toBe(true);
     expect(spec.icons).toEqual([]);
   });
+});
 
+describe("buildAoeTemplateSpec, crow's foot text placement", () => {
   it("centers each arc name on the band, top one inside the middle, lower ones outside it", () => {
     const spec = buildAoeTemplateSpec(
       template,
@@ -323,18 +347,19 @@ describe("buildAoeTemplateSpec, crow's foot variant", () => {
   });
 });
 
-describe("buildAoeTemplateSpec, compact disc variant", () => {
-  const compactConfig: SharedConfig = {
-    ...sharedConfig,
-    aoeTemplateVariant: "compactDisc",
-  };
+const compactConfig: SharedConfig = {
+  ...sharedConfig,
+  aoeTemplateVariant: "compactDisc",
+};
 
+describe("buildAoeTemplateSpec, compact disc variant", () => {
   it("reads its text size, inset and crest from the compact disc settings", () => {
+    const compactDisc = { textSizeMm: 2, textInsetMm: 2, crestScale: 0.4 };
     const config: SharedConfig = {
       ...compactConfig,
       aoe: {
         ...compactConfig.aoe,
-        compactDisc: { textSizeMm: 2, textInsetMm: 2, crestScale: 0.4 },
+        compactDisc,
       },
     };
     const spec = buildAoeTemplateSpec(
@@ -343,14 +368,21 @@ describe("buildAoeTemplateSpec, compact disc variant", () => {
       GUILD_ICON_SCALE,
       config,
     );
-    const radii = computeRingTextRadii(25.4, 2, 2, config.aoe.fontId);
+    const radii = computeRingTextRadii(
+      ONE_INCH_DIAMETER_MM,
+      compactDisc.textInsetMm,
+      compactDisc.textSizeMm,
+      config.aoe.fontId,
+    );
 
     expect(spec.lines.map((line) => line.radiusMm)).toEqual([
       radii.topMm,
       radii.bottomMm,
     ]);
     expect(spec.lines.map((line) => line.sizeMm)).toEqual([2, 2]);
-    expect(spec.icons[0].scale).toBeCloseTo(0.4 * GUILD_ICON_SCALE);
+    expect(spec.icons[0].scale).toBeCloseTo(
+      compactDisc.crestScale * GUILD_ICON_SCALE,
+    );
   });
 
   it("is a solid 1 inch disc, so the rest of the 3 inch area is a whole inch from its edge", () => {
@@ -363,13 +395,15 @@ describe("buildAoeTemplateSpec, compact disc variant", () => {
 
     expect(spec.shape.type).toBe("disc");
     expect(spec.shape.type === "disc" && spec.shape.diameterMm).toBeCloseTo(
-      25.4,
+      ONE_INCH_DIAMETER_MM,
     );
     expect(
       spec.shape.type === "disc" && spec.shape.innerDiameterMm,
     ).toBeUndefined();
   });
+});
 
+describe("buildAoeTemplateSpec, compact disc text and crest", () => {
   it("curves the name on top and the effect below", () => {
     const spec = buildAoeTemplateSpec(
       template,
@@ -383,7 +417,7 @@ describe("buildAoeTemplateSpec, compact disc variant", () => {
     expect(topLine.text).toBe("Smoke Bomb");
     expect(bottomLine.text).toBe("Cover");
     expect(bottomLine.radiusMm).toBeGreaterThan(topLine.radiusMm ?? 0);
-    expect(bottomLine.radiusMm).toBeLessThan(25.4 / 2);
+    expect(bottomLine.radiusMm).toBeLessThan(ONE_INCH_DIAMETER_MM / 2);
   });
 
   it("wears the guild crest at its center, scaled by the guild's own icon scale", () => {

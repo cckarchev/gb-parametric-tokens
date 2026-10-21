@@ -110,7 +110,9 @@ describe("TokenEditor", () => {
       screen.getByText("Failed to load catalog: Not Found"),
     ).toBeInTheDocument();
   });
+});
 
+describe("TokenEditor catalog sections", () => {
   it("renders the catalog-dependent sections once a catalog is loaded", () => {
     vi.mocked(useTokenGenerator).mockReturnValue({
       ...baseGenerator,
@@ -136,7 +138,9 @@ describe("TokenEditor", () => {
     expect(screen.getByText("Character tokens")).toBeInTheDocument();
     expect(screen.queryByText("Game Plans")).not.toBeInTheDocument();
   });
+});
 
+describe("TokenEditor generic catalog", () => {
   it("shows game plans and hides the empty character list for a catalog with no roster", () => {
     vi.mocked(useTokenGenerator).mockReturnValue({
       ...baseGenerator,
@@ -166,7 +170,9 @@ describe("TokenEditor", () => {
     expect(screen.getByText("Game Plans")).toBeInTheDocument();
     expect(screen.getByLabelText("Extra Shot")).toBeInTheDocument();
   });
+});
 
+describe("TokenEditor Select all", () => {
   it("composes every field update from Guild tokens' own Select all instead of only the last one sticking (regression)", () => {
     // "Select all" fires four field updates in one click. Replaying the captured updates in
     // order proves each builds on the previous one rather than on this render's snapshot.
@@ -201,7 +207,10 @@ describe("TokenEditor", () => {
 
     fireEvent.click(within(guildTokensPanel).getByLabelText("Select all"));
 
-    expect(setSelection).toHaveBeenCalledTimes(4);
+    // Generic tokens, Influence, Momentum and Goal Influence: one update per field.
+    const guildTokenFieldCount = 4;
+
+    expect(setSelection).toHaveBeenCalledTimes(guildTokenFieldCount);
 
     const finalSelection = setSelection.mock.calls.reduce(
       (selection: TokenSelection, call) => {
