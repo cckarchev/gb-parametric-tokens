@@ -50,8 +50,9 @@ describe("validateMinStrokeWidth", () => {
   });
 
   // A real token composes chunky icons with hairline-thin text. A whole-union
-  // "is anything left after erosion" check always passes, because the icons survive and
-  // hide the vanished glyph, so the check has to look at each feature on its own.
+  // "is anything left after erosion" check always passes, because the icons
+  // survive and hide the vanished glyph, so the check has to look at each
+  // feature on its own.
   it("fails when one feature vanishes even though a thick neighbour survives", async () => {
     const thickSquareAndHairline = [
       rect({ minX: 0, minY: 0, maxX: 16, maxY: 16 }),
@@ -68,10 +69,11 @@ describe("validateMinStrokeWidth", () => {
     expect(result.valid).toBe(false);
   });
 
-  // Erosion routinely splits a real glyph into several pieces, so a "fewer pieces than
-  // before" test would call this pair valid: the dumbbell splits at its 0.2mm neck and its
-  // two lobes replace the count the vanished hairline took away (measured: 2 pieces before,
-  // 2 pieces after). Eroding each feature on its own is not fooled.
+  // Erosion routinely splits a real glyph into several pieces, so a "fewer
+  // pieces than before" test would call this pair valid: the dumbbell splits at
+  // its 0.2mm neck and its two lobes replace the count the vanished hairline
+  // took away (measured: 2 pieces before, 2 pieces after). Eroding each feature
+  // on its own is not fooled.
   it("fails a vanished feature even when another feature splits into more pieces", async () => {
     const dumbbell = polygon([
       { x: 0, y: 0 },

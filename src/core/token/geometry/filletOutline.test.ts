@@ -10,9 +10,9 @@ describe("filletOutline", () => {
     const wasm = await getManifoldModule();
     const { CrossSection } = wasm;
 
-    // Two same-size circles far enough apart to stay distinct bodies but close enough to
-    // overlap: their union has a concave notch on each side of the overlap, the same shape
-    // as where an arc token's ribbon meets its stud.
+    // Two same-size circles far enough apart to stay distinct bodies but close
+    // enough to overlap: their union has a concave notch on each side of the
+    // overlap, the same shape as where an arc token's ribbon meets its stud.
     const circleRadiusMm = 5;
     const centerDistanceMm = 7;
     const filletRadiusMm = 3;
@@ -25,9 +25,10 @@ describe("filletOutline", () => {
 
     const filleted = filletOutline(peanut, filletRadiusMm);
 
-    // The two circles' boundaries cross at x=3.5, y=+-sqrt(5^2 - 3.5^2) ~= 3.57. Just beyond
-    // that crossing, along the perpendicular bisector, sits the concave notch itself: outside
-    // the original union but inside the filleted one once the notch is smoothed over.
+    // The two circles' boundaries cross at x=3.5, y=+-sqrt(5^2 - 3.5^2) ~=
+    // 3.57. Just beyond that crossing, along the perpendicular bisector, sits
+    // the concave notch itself: outside the original union but inside the
+    // filleted one once the notch is smoothed over.
     const probeRadiusMm = 0.05;
     const probeSegments = 16;
     const notchProbeYMm = 3.9;

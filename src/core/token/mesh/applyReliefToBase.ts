@@ -8,8 +8,8 @@ import type { TokenPart } from "./tokenPart";
 
 // Sinks the relief slightly into the base to avoid a coplanar boolean op.
 const RELIEF_OVERLAP_MM = 0.05;
-// The least base left under an engraving or an inlay pocket, so a relief deeper than the base
-// can't cut through it or push an inlay below the bed.
+// The least base left under an engraving or an inlay pocket, so a relief deeper
+// than the base can't cut through it or push an inlay below the bed.
 const MIN_FLOOR_MM = 0.4;
 
 const computePocketDepthMm = (style: StyleSpec): number => {
@@ -18,8 +18,9 @@ const computePocketDepthMm = (style: StyleSpec): number => {
   return Math.min(style.reliefHeightMm, deepestPocketMm);
 };
 
-// Each non-base color becomes a part that fills a pocket of its own shape, both ending flush with
-// the top of the base. Base-colored relief would be invisible on a flat token, so it is dropped.
+// Each non-base color becomes a part that fills a pocket of its own shape, both
+// ending flush with the top of the base. Base-colored relief would be invisible
+// on a flat token, so it is dropped.
 const inlayReliefIntoBase = (
   base: Manifold,
   style: StyleSpec,
@@ -28,7 +29,8 @@ const inlayReliefIntoBase = (
 ): TokenPart[] => {
   const inlayDepthMm = computePocketDepthMm(style);
   const inlayBottomZ = style.baseThicknessMm - inlayDepthMm;
-  // The cut reaches past the top face so it never shares that face with the base.
+  // The cut reaches past the top face so it never shares that face with the
+  // base.
   const cutHeightMm = inlayDepthMm + RELIEF_OVERLAP_MM;
 
   const grouped = groupReliefComponentsByColorGroup(reliefComponents);
@@ -65,9 +67,9 @@ export const applyReliefToBase = (
   const reliefHeightMm = style.reliefHeightMm;
 
   if (style.relief === "engraved") {
-    // A cut has no volume to color, so every relief contour subtracts whatever its colorGroup.
-    // Like an inlay pocket, the cut reaches past the top face only, so its floor sits exactly
-    // engraveDepthMm down.
+    // A cut has no volume to color, so every relief contour subtracts whatever
+    // its colorGroup. Like an inlay pocket, the cut reaches past the top face
+    // only, so its floor sits exactly engraveDepthMm down.
     const allContours = reliefComponents.flatMap(
       (component) => component.contours,
     );

@@ -14,8 +14,8 @@ export const loadFontFile = (filePath: string): opentype.Font => {
   return opentype.parse(arrayBuffer);
 };
 
-// The app's real font, since every expected measurement depends on it. Parsed once and shared;
-// no test mutates it.
+// The app's real font, since every expected measurement depends on it. Parsed
+// once and shared; no test mutates it.
 let parsedFont: opentype.Font | undefined;
 
 export const loadTestFont = (): opentype.Font => {

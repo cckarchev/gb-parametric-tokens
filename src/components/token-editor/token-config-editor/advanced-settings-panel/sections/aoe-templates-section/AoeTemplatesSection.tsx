@@ -9,15 +9,16 @@ import { CrowfootFields } from "./CrowfootFields";
 import { RingFields } from "./RingFields";
 import { AOE_TEMPLATE_VARIANT_OPTIONS } from "./variantOptions";
 
-// The variant selector, then only the selected variant's fields. The 3″ and 1″ diameters are
-// game rules, not settings, so they never appear here.
+// The variant selector, then only the selected variant's fields. The 3″ and 1″
+// diameters are game rules, not settings, so they never appear here.
 export const AoeTemplatesSection = ({
   sharedConfig,
   onChange,
 }: SectionProps) => {
   const { aoe, aoeTemplateVariant } = sharedConfig;
 
-  // The variant is a choice of what to print, not a tuning value, so the reset keeps it.
+  // The variant is a choice of what to print, not a tuning value, so the reset
+  // keeps it.
   const reset = () => {
     onChange({ ...sharedConfig, aoe: DEFAULT_SHARED_CONFIG.aoe });
   };

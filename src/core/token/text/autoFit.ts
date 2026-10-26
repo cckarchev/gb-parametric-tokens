@@ -6,15 +6,17 @@ import { computeSingleLineFit, type SingleLineFitResult } from "./fitCascade";
 import { measureFontMetrics } from "./fontMetrics";
 import { measureAdvances } from "./measureAdvances";
 
-// How far each half of a split line moves off the line's radius, one outward and one inward.
-// Tuned by eye for ~5mm text; retune if the default size moves far from that.
+// How far each half of a split line moves off the line's radius, one outward
+// and one inward. Tuned by eye for ~5mm text; retune if the default size moves
+// far from that.
 const TWO_LINE_RADIUS_OFFSET_MM = 3.5;
 const TRUNCATION_MARKER = "…";
 
 type AutoFitLineInput = {
   text: string;
   sizeMm: number;
-  // Tried on one line, at its own scale floor, before the text is split (see LineSpec).
+  // Tried on one line, at its own scale floor, before the text is split (see
+  // LineSpec).
   fallbackSizeMm?: number;
   radiusMm: number;
   availableSweepDeg: number;
@@ -35,8 +37,9 @@ type AutoFitResult = {
 const arcLengthMm = (sweepDeg: number, radiusMm: number): number =>
   (sweepDeg / DEGREES_PER_RADIAN) * radiusMm;
 
-// Everything a single fit attempt needs except the text and radius, which vary per call
-// (whole line, each half of a two-line split, each truncation attempt).
+// Everything a single fit attempt needs except the text and radius, which vary
+// per call (whole line, each half of a two-line split, each truncation
+// attempt).
 type FitContext = {
   font: Font;
   sizeMm: number;
@@ -68,9 +71,10 @@ const fitSingleLine = (
 
 type SuccessfulFit = Extract<SingleLineFitResult, { fits: true }>;
 
-// Every successful fit becomes an output line the same way: the fit's own scale factor applied to
-// the nominal size, its tracking carried through, at whatever radius it was fitted against. Only
-// the give-up case below builds a line any other way.
+// Every successful fit becomes an output line the same way: the fit's own scale
+// factor applied to the nominal size, its tracking carried through, at whatever
+// radius it was fitted against. Only the give-up case below builds a line any
+// other way.
 const toOutputLine = (
   context: FitContext,
   text: string,
@@ -140,7 +144,8 @@ const buildFitContext = (
   fitPolicy: FitPolicy,
   printProfile: PrintProfile,
 ): FitContext => {
-  // Measured off the font itself, so the floor follows whichever font the token uses.
+  // Measured off the font itself, so the floor follows whichever font the token
+  // uses.
   const { stemWidthRatio } = measureFontMetrics(font);
   const profileMinSizeMm = printProfile.minStrokeWidthMm / stemWidthRatio;
   const effectiveMinScale = Math.max(
@@ -151,7 +156,8 @@ const buildFitContext = (
   return { font, sizeMm, availableSweepDeg, fitPolicy, effectiveMinScale };
 };
 
-// The first context that fits the text whole on its own line, or undefined when none does.
+// The first context that fits the text whole on its own line, or undefined when
+// none does.
 const wholeLineFit = (
   contexts: FitContext[],
   input: AutoFitLineInput,
@@ -170,7 +176,8 @@ const wholeLineFit = (
   return undefined;
 };
 
-// The two halves on lines either side of the line's radius, each truncated when it won't fit.
+// The two halves on lines either side of the line's radius, each truncated when
+// it won't fit.
 const splitLineFit = (
   context: FitContext,
   [firstHalf, secondHalf]: [string, string],
@@ -225,8 +232,8 @@ export const autoFitLine = (
           printProfile,
         );
 
-  // The preferred size first, then the fallback, both on one line: a split moves the halves far
-  // off the line's radius, so any whole-line fit beats it.
+  // The preferred size first, then the fallback, both on one line: a split
+  // moves the halves far off the line's radius, so any whole-line fit beats it.
   const wholeLineContexts = fallbackContext
     ? [context, fallbackContext]
     : [context];

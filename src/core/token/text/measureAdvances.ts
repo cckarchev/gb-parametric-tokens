@@ -1,7 +1,8 @@
 import type { Font } from "opentype.js";
 
-// No extra space between glyphs beyond the font's own advances and kerning. Both text layouts
-// start here and only depart from it when a caller (or autoFit.ts's cascade) asks for tracking.
+// No extra space between glyphs beyond the font's own advances and kerning.
+// Both text layouts start here and only depart from it when a caller (or
+// autoFit.ts's cascade) asks for tracking.
 export const DEFAULT_TRACKING_MM = 0;
 
 type LineAdvances = {
@@ -30,8 +31,8 @@ export const measureAdvances = (
   return { advancesMm, kerningsMm };
 };
 
-// Where each glyph's pen starts along the baseline: the running sum of advances and kernings.
-// Callers fold tracking into kerningsMm.
+// Where each glyph's pen starts along the baseline: the running sum of advances
+// and kernings. Callers fold tracking into kerningsMm.
 export const computePenPositions = (
   advancesMm: number[],
   kerningsMm: number[],

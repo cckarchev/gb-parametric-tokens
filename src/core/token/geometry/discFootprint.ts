@@ -4,7 +4,11 @@ import type {
 } from "manifold-3d";
 
 import type { CrowfootSpec, DiscShapeSpec, Vec2 } from "../types";
-import { CENTER_ANGLE_DEG, DEGREES_PER_RADIAN } from "./angleConventions";
+import {
+  CENTER_ANGLE_DEG,
+  DEGREES_PER_RADIAN,
+  FULL_TURN_DEG,
+} from "./angleConventions";
 import {
   BODY_CIRCLE_SEGMENTS,
   OFFSET_ARC_SEGMENTS,
@@ -12,9 +16,9 @@ import {
 } from "./circleResolution";
 import { filletOutline } from "./filletOutline";
 
-const FULL_TURN_DEG = 360;
 const WEDGE_STEPS = 16;
-// Extends each wedge past the outer radius so float error never clips the arc it cuts.
+// Extends each wedge past the outer radius so float error never clips the arc
+// it cuts.
 const WEDGE_RADIUS_PADDING_MM = 10;
 
 type CrossSectionClass = ManifoldToplevel["CrossSection"];
@@ -38,7 +42,8 @@ const buildWedge = (
   return new CrossSection([points], "Positive");
 };
 
-// A straight bar from the center out along angleDeg, centered on that direction.
+// A straight bar from the center out along angleDeg, centered on that
+// direction.
 const buildSpoke = (
   CrossSection: CrossSectionClass,
   angleDeg: number,
@@ -53,10 +58,10 @@ const buildSpoke = (
   return bar.rotate(angleDeg);
 };
 
-// Keeps only a short arc of the band at the end of each spoke, joins those arcs to the center
-// with the spokes themselves, fillets the inside corners, and rounds the arcs' ends. The spokes
-// run to the band's middle so each one fuses solidly into its arc instead of meeting it along a
-// hairline.
+// Keeps only a short arc of the band at the end of each spoke, joins those arcs
+// to the center with the spokes themselves, fillets the inside corners, and
+// rounds the arcs' ends. The spokes run to the band's middle so each one fuses
+// solidly into its arc instead of meeting it along a hairline.
 const buildCrowfoot = (
   CrossSection: CrossSectionClass,
   band: CrossSectionInstance,
@@ -64,8 +69,8 @@ const buildCrowfoot = (
   outerRadiusMm: number,
   innerRadiusMm: number,
 ): CrossSectionInstance => {
-  // The first spoke points up, where the token's front-facing content sits; the rest follow
-  // evenly around.
+  // The first spoke points up, where the token's front-facing content sits; the
+  // rest follow evenly around.
   const spokeStepDeg = FULL_TURN_DEG / crowfoot.spokeCount;
   const spokeLengthMm = (outerRadiusMm + innerRadiusMm) / 2;
   const wedgeRadiusMm = outerRadiusMm + WEDGE_RADIUS_PADDING_MM;
@@ -86,11 +91,12 @@ const buildCrowfoot = (
     );
   }
 
-  // First a fillet (see filletOutline.ts) in every concave corner, where spokes meet arcs and
-  // each other at the center: a sharp inside corner is where a print snaps. Then an opening
-  // (shrink, then grow back by the same radius) rounds every convex corner, the arcs' square ends,
-  // leaving those fillets alone. Safe while the spokes and the band stay wider than twice the
-  // corner radius, which would otherwise vanish.
+  // First a fillet (see filletOutline.ts) in every concave corner, where spokes
+  // meet arcs and each other at the center: a sharp inside corner is where a
+  // print snaps. Then an opening (shrink, then grow back by the same radius)
+  // rounds every convex corner, the arcs' square ends, leaving those fillets
+  // alone. Safe while the spokes and the band stay wider than twice the corner
+  // radius, which would otherwise vanish.
   const sharpCrowfoot = CrossSection.union(parts);
   const filleted = filletOutline(sharpCrowfoot, crowfoot.filletRadiusMm);
   const shrunk = filleted.offset(
@@ -108,8 +114,8 @@ const buildCrowfoot = (
   );
 };
 
-// The disc's flat outline: a circle, a ring when innerDiameterMm is set, or a crow's foot. The
-// mesh and the preview both use it, so they can't disagree.
+// The disc's flat outline: a circle, a ring when innerDiameterMm is set, or a
+// crow's foot. The mesh and the preview both use it, so they can't disagree.
 export const buildDiscFootprint = (
   CrossSection: CrossSectionClass,
   shape: DiscShapeSpec,

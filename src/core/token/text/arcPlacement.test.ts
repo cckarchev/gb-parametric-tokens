@@ -20,8 +20,9 @@ const TWO_GLYPHS = {
   radiusMm: 100,
 };
 
-// Arc length from the line's center to each glyph's own center: the pen advances, then each
-// glyph sits half its own advance further on, and the whole line is centered on the angle.
+// Arc length from the line's center to each glyph's own center: the pen
+// advances, then each glyph sits half its own advance further on, and the whole
+// line is centered on the angle.
 const TOTAL_WIDTH_MM = NARROW_ADVANCE_MM + KERNING_MM + WIDE_ADVANCE_MM;
 const FIRST_CENTER_MM = NARROW_ADVANCE_MM / 2 - TOTAL_WIDTH_MM / 2;
 const SECOND_CENTER_MM =
@@ -62,7 +63,8 @@ describe("computeArcGlyphPlacements", () => {
       PRECISION_DIGITS,
     );
 
-    // the two glyphs are NOT evenly split around the center angle: that's the bug being fixed.
+    // the two glyphs are NOT evenly split around the center angle: that's the
+    // bug being fixed.
     const spacing0 = TOP_DEG - placements[0].angleDeg;
     const spacing1 = placements[1].angleDeg - TOP_DEG;
     expect(spacing0).not.toBeCloseTo(spacing1, LOOSE_PRECISION_DIGITS);
@@ -128,7 +130,8 @@ describe("computeArcGlyphPlacements order and orientation", () => {
     expect(placements[1].angleDeg).toBeGreaterThan(placements[2].angleDeg);
   });
 
-  // "inward" is for text along the bottom of a circle, still read left to right.
+  // "inward" is for text along the bottom of a circle, still read left to
+  // right.
 
   it("with orientation inward, increases the angle as pen position increases: the opposite of outward's decrease", () => {
     const placements = computeArcGlyphPlacements({
@@ -152,8 +155,8 @@ describe("computeArcGlyphPlacements inward rotation", () => {
       orientation: "inward",
     });
 
-    // Same pen/glyph-center math as "accumulates advances..." above, but inward adds the arc
-    // length to the center angle instead of subtracting it.
+    // Same pen/glyph-center math as "accumulates advances..." above, but inward
+    // adds the arc length to the center angle instead of subtracting it.
     const expectedAngleDeg0 =
       BOTTOM_DEG + arcDeg(FIRST_CENTER_MM, TWO_GLYPHS.radiusMm);
 
@@ -251,9 +254,10 @@ describe("applyArcPlacement", () => {
 
 describe("applyArcPlacement pivot", () => {
   it("rotates around the glyph's own advance-center, not its pen-start left edge", () => {
-    // A wide glyph spanning local x in [0, 10] on the baseline (its own advance is 10mm, so
-    // pivotOffsetMm=5 is its horizontal center). Rotating 90deg around that center should
-    // swing both its left and right edges symmetrically, not swing the whole span around x=0.
+    // A wide glyph spanning local x in [0, 10] on the baseline (its own advance
+    // is 10mm, so pivotOffsetMm=5 is its horizontal center). Rotating 90deg
+    // around that center should swing both its left and right edges
+    // symmetrically, not swing the whole span around x=0.
     const wideGlyphBaseline: Vec2[][] = [
       [
         [0, 0],
@@ -272,10 +276,12 @@ describe("applyArcPlacement pivot", () => {
       placement,
     );
 
-    // local x=0 is 5mm left of the pivot -> after a 90deg rotation it's 5mm "below" the pivot
+    // local x=0 is 5mm left of the pivot -> after a 90deg rotation it's 5mm
+    // "below" the pivot
     expect(leftX).toBeCloseTo(0, PRECISION_DIGITS);
     expect(leftY).toBeCloseTo(-placement.pivotOffsetMm, PRECISION_DIGITS);
-    // local x=10 is 5mm right of the pivot -> after a 90deg rotation it's 5mm "above" the pivot
+    // local x=10 is 5mm right of the pivot -> after a 90deg rotation it's 5mm
+    // "above" the pivot
     expect(rightX).toBeCloseTo(0, PRECISION_DIGITS);
     expect(rightY).toBeCloseTo(placement.pivotOffsetMm, PRECISION_DIGITS);
   });

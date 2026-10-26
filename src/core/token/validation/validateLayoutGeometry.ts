@@ -7,7 +7,8 @@ import type {
 } from "../mesh/reliefComponent";
 import type { Vec2 } from "../types";
 
-// Below anything printable, above the polygon noise of flattened curves and circle segments.
+// Below anything printable, above the polygon noise of flattened curves and
+// circle segments.
 const AREA_EPSILON_MM2 = 0.05;
 const WHOLE_FOOTPRINT_PIECE_COUNT = 1;
 
@@ -25,8 +26,9 @@ type ComponentSection = {
   section: CrossSection;
 };
 
-// Icons have their own, finer check against their target circle (see iconPlacement.ts), so only
-// text and decorations are measured against the footprint here.
+// Icons have their own, finer check against their target circle (see
+// iconPlacement.ts), so only text and decorations are measured against the
+// footprint here.
 const isPastEdgeCandidate = (component: ReliefComponent): boolean => {
   const kind = component.source.kind;
 
@@ -38,8 +40,8 @@ const hasSourceKind = (
   kind: ReliefComponentSource["kind"],
 ): boolean => entry.component.source.kind === kind;
 
-// CrossSection#decompose() returns one empty section for an empty input rather than an empty
-// list, hence the isEmpty guard.
+// CrossSection#decompose() returns one empty section for an empty input rather
+// than an empty list, hence the isEmpty guard.
 const countPieces = (section: CrossSection): number => {
   if (section.isEmpty()) {
     return 0;
@@ -95,17 +97,18 @@ const findCrestOverTextFailures = (
   return failures;
 };
 
-// Settings that the fields' own bounds allow can still combine into a broken token: text too big
-// for its band, a crest that grew into the text, a crow's foot whose corner rounding ate its
-// spokes. These are geometric facts about the laid-out token, so they are checked here, once,
-// for every layout, instead of guessing them from the settings.
+// Settings that the fields' own bounds allow can still combine into a broken
+// token: text too big for its band, a crest that grew into the text, a crow's
+// foot whose corner rounding ate its spokes. These are geometric facts about
+// the laid-out token, so they are checked here, once, for every layout, instead
+// of guessing them from the settings.
 export const validateLayoutGeometry = async (
   components: ReliefComponent[],
   footprintContours: Vec2[][],
 ): Promise<LayoutGeometryFailure[]> => {
   const { CrossSection } = await getManifoldModule();
-  // The CrossSection constructor rejects an empty contour list, so an empty footprint is built as
-  // the (empty) union of nothing.
+  // The CrossSection constructor rejects an empty contour list, so an empty
+  // footprint is built as the (empty) union of nothing.
   const footprint =
     footprintContours.length === 0
       ? CrossSection.union([])

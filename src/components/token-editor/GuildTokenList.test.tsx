@@ -34,8 +34,9 @@ const listElement = (overrides: Partial<GuildTokenListProps> = {}) => (
   />
 );
 
-// Rerendering goes back through the same defaults as the first render, so a test that re-renders
-// only has to say which props changed, the same way the initial render does.
+// Rerendering goes back through the same defaults as the first render, so a
+// test that re-renders only has to say which props changed, the same way the
+// initial render does.
 const renderList = (overrides: Partial<GuildTokenListProps> = {}) => {
   const { rerender } = render(listElement(overrides));
 

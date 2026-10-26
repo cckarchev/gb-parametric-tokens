@@ -86,9 +86,10 @@ const characterTemplateItems = (
       templateMaxCopies,
     );
 
-    // Some abilities are both a reminder token and a template (Ebb's Sprung a Leak, vCalculus's
-    // Sticky Bomb), so outside the picker's own "AOE templates" subheading the template needs
-    // its own marker to stay distinguishable in the attention list and export failures.
+    // Some abilities are both a reminder token and a template (Ebb's Sprung a
+    // Leak, vCalculus's Sticky Bomb), so outside the picker's own "AOE
+    // templates" subheading the template needs its own marker to stay
+    // distinguishable in the attention list and export failures.
     const templateName = `${template.name} (AOE)`;
 
     return [
@@ -120,8 +121,8 @@ const gamePlanItems = (
       return [];
     }
 
-    // Structurally a character effect (name plus the effect line below it), so it is printed as
-    // the same arc token, wearing the catalog's own crest.
+    // Structurally a character effect (name plus the effect line below it), so
+    // it is printed as the same arc token, wearing the catalog's own crest.
     return [
       {
         id: gamePlanTokenId(gamePlan.id),
@@ -250,8 +251,8 @@ export const buildTokenItems = (
     ...characterTemplateItems(character, context),
   ]);
 
-  // Same order as the editor's panels: the roster (or, in the generic catalog, the Game Plans in
-  // its spot), the guild tokens, then the conditions.
+  // Same order as the editor's panels: the roster (or, in the generic catalog,
+  // the Game Plans in its spot), the guild tokens, then the conditions.
   return [
     ...rosterItems,
     ...gamePlanItems(catalog, context),

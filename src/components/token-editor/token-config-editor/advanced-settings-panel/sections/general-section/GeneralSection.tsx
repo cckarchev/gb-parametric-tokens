@@ -25,7 +25,8 @@ export const GeneralSection = ({
 }: GeneralSectionProps) => {
   const { style } = sharedConfig;
 
-  // Relief (raised, engraved or inlay) lives in print options, so the reset keeps it.
+  // Relief (raised, engraved or inlay) lives in print options, so the reset
+  // keeps it.
   const reset = () => {
     onChange({
       ...sharedConfig,

@@ -1,5 +1,8 @@
 import { MM_PER_INCH } from "../../../units";
-import { CENTER_ANGLE_DEG } from "../../geometry/angleConventions";
+import {
+  CENTER_ANGLE_DEG,
+  FULL_TURN_DEG,
+} from "../../geometry/angleConventions";
 import { TEXT_COLOR_GROUP_ID } from "../../mesh/colorGroups";
 import { estimateAscentMm } from "../../text/glyphMetrics";
 import { resolveRingLineOrientation } from "../../text/ringLineOrientation";
@@ -17,36 +20,38 @@ import { buildIconSpec, sharedTokenFields } from "./tokenSpecParts";
 const AOE_DIAMETER_INCHES = 3;
 const AOE_OUTER_DIAMETER_MM = AOE_DIAMETER_INCHES * MM_PER_INCH;
 const AOE_OUTER_RADIUS_MM = AOE_OUTER_DIAMETER_MM / 2;
-const FULL_TURN_DEG = 360;
 // Fewer than two spokes is no longer a crow's foot, just a stick.
 export const MIN_SPOKE_COUNT = 2;
 
-// The compact marker: 1″ across, so the 1.5″ AOE radius ends exactly 1″ past its edge. A whole
-// inch is what makes it worth using: half inches are hard to measure on the table.
+// The compact marker: 1″ across, so the 1.5″ AOE radius ends exactly 1″ past
+// its edge. A whole inch is what makes it worth using: half inches are hard to
+// measure on the table.
 const COMPACT_DIAMETER_INCHES = 1;
 const COMPACT_DIAMETER_MM = COMPACT_DIAMETER_INCHES * MM_PER_INCH;
 
-// The 3″ outer diameter is a game rule, not a setting. Band width and the rest come from
-// SharedConfig's aoe group.
+// The 3″ outer diameter is a game rule, not a setting. Band width and the rest
+// come from SharedConfig's aoe group.
 //
-// Only the compact disc wears a crest. On the ring or the crow's foot it would have to fit the
-// band and come out around 5mm, too small to print.
+// Only the compact disc wears a crest. On the ring or the crow's foot it would
+// have to fit the band and come out around 5mm, too small to print.
 const buildAoeShape = (bandWidthMm: number): DiscShapeSpec => {
   const innerDiameterMm = AOE_OUTER_DIAMETER_MM - bandWidthMm * 2;
 
   return { type: "disc", diameterMm: AOE_OUTER_DIAMETER_MM, innerDiameterMm };
 };
 
-// A whole number, so the outline (discFootprint.ts loops while index < spokeCount) and the texts
-// (one per spoke) always count the same spokes, even for a value typed as 2.6.
+// A whole number, so the outline (discFootprint.ts loops while index <
+// spokeCount) and the texts (one per spoke) always count the same spokes, even
+// for a value typed as 2.6.
 const resolveSpokeCount = (spokeCount: number): number =>
   Math.max(MIN_SPOKE_COUNT, Math.round(spokeCount));
 
-// The crow's foot: short arcs of the 3″ band, each at the end of a spoke from the center, the
-// first spoke pointing up. Defaults: spokes 5mm wide so the template stays firm,
-// inside corners filleted for durability, arc ends rounded. The text defaults to 4mm on 40° arcs:
-// at 3mm a 0.4mm nozzle (fdm-04) lost strokes on every template, and at 4mm the longest names
-// (Ghostly Visage, Nature's Growth...) need 40° of arc to fit.
+// The crow's foot: short arcs of the 3″ band, each at the end of a spoke from
+// the center, the first spoke pointing up. Defaults: spokes 5mm wide so the
+// template stays firm, inside corners filleted for durability, arc ends
+// rounded. The text defaults to 4mm on 40° arcs: at 3mm a 0.4mm nozzle (fdm-04)
+// lost strokes on every template, and at 4mm the longest names (Ghostly Visage,
+// Nature's Growth...) need 40° of arc to fit.
 const toCrowfootSpec = (tuning: CrowfootTuning): CrowfootSpec => {
   const filletRadiusMm = tuning.filletEnabled ? tuning.filletRadiusMm : 0;
 
@@ -59,7 +64,8 @@ const toCrowfootSpec = (tuning: CrowfootTuning): CrowfootSpec => {
   };
 };
 
-// Same angles discFootprint.ts gives the spokes: the first up, the rest evenly around.
+// Same angles discFootprint.ts gives the spokes: the first up, the rest evenly
+// around.
 const computeSpokeAnglesDeg = (spokeCount: number): number[] => {
   const stepDeg = FULL_TURN_DEG / spokeCount;
 
@@ -94,9 +100,9 @@ const buildLines = (
   },
 ];
 
-// The top line reads outward, so its ink grows past its radius; the bottom line reads inward,
-// so its ink grows back toward center (see ringTokenSpec.ts). Offsetting each by half an ascent
-// centers both lines' ink on the band.
+// The top line reads outward, so its ink grows past its radius; the bottom line
+// reads inward, so its ink grows back toward center (see ringTokenSpec.ts).
+// Offsetting each by half an ascent centers both lines' ink on the band.
 const computeBandTextRadii = (
   aoe: AoeTuning,
   sizeMm: number,
@@ -120,9 +126,9 @@ const buildRingLines = (
   return buildLines(template, sizeMm, radii.topMm, radii.bottomMm);
 };
 
-// The stretch of each spoke the effect text may use: clear of the center, where the spokes
-// overlap and their texts would collide, and short of the arc at the spoke's far end. The text is
-// centered on that stretch.
+// The stretch of each spoke the effect text may use: clear of the center, where
+// the spokes overlap and their texts would collide, and short of the arc at the
+// spoke's far end. The text is centered on that stretch.
 const computeSpokeTextRadiusMm = (aoe: AoeTuning): number => {
   const startMm = aoe.crowfoot.spokeTextCenterClearanceMm;
   const bandInnerRadiusMm = AOE_OUTER_RADIUS_MM - aoe.bandWidthMm;
@@ -131,9 +137,10 @@ const computeSpokeTextRadiusMm = (aoe: AoeTuning): number => {
   return (startMm + endMm) / 2;
 };
 
-// The name on every arc (upper ones reading outward, lower ones inward, so all read upright) and
-// the effect straight along every spoke, centered on the spoke's free stretch. Every arc and
-// spoke repeats the same text, so whichever side a player stands on has one to read.
+// The name on every arc (upper ones reading outward, lower ones inward, so all
+// read upright) and the effect straight along every spoke, centered on the
+// spoke's free stretch. Every arc and spoke repeats the same text, so whichever
+// side a player stands on has one to read.
 const buildCrowfootLines = (
   template: CatalogAoeTemplate,
   aoe: AoeTuning,
@@ -172,7 +179,8 @@ const buildCrowfootLines = (
   return [...nameLines, ...effectLines];
 };
 
-// Ring text around the guild crest, laid out like Goal Influence (see ringTokenSpec.ts).
+// Ring text around the guild crest, laid out like Goal Influence (see
+// ringTokenSpec.ts).
 const buildCompactLines = (
   template: CatalogAoeTemplate,
   aoe: AoeTuning,
@@ -205,8 +213,8 @@ export const buildAoeTemplateSpec = (
 
   if (sharedConfig.aoeTemplateVariant === "compactDisc") {
     const compactTuning = aoe.compactDisc;
-    // Its default crest scale is a bit below Goal Influence's: at the same scale it reads too big
-    // on this disc.
+    // Its default crest scale is a bit below Goal Influence's: at the same
+    // scale it reads too big on this disc.
     const compactIconScale = compactTuning.crestScale * guildIconScale;
 
     return {

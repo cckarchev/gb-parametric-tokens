@@ -25,10 +25,11 @@ export const SvgLoupe = ({
 
   return (
     <div className={className}>
-      {/* The lens is positioned absolutely against this anchor, not against trackArea itself,
-          because trackArea's own content is fully owned by dangerouslySetInnerHTML and can't
-          also host the lens as a sibling node. The anchor has no padding of its own, so it
-          shares trackArea's exact origin and the lens's left/top land exactly on the cursor. */}
+      {/* The lens is positioned absolutely against this anchor, not against
+          trackArea itself, because trackArea's own content is fully owned by
+          dangerouslySetInnerHTML and can't also host the lens as a sibling
+          node. The anchor has no padding of its own, so it shares trackArea's
+          exact origin and the lens's left/top land exactly on the cursor. */}
       <div className={styles.positionAnchor}>
         <div
           ref={trackAreaRef}

@@ -13,11 +13,13 @@ import { getManifoldModule } from "../mesh/manifoldModule";
 import type { ShapeSpec, Vec2 } from "../types";
 
 const WEDGE_STEPS = 64;
-// Extends the wedge past the ribbon's outer radius so float error never clips the ring it cuts.
+// Extends the wedge past the ribbon's outer radius so float error never clips
+// the ring it cuts.
 const WEDGE_RADIUS_PADDING_MM = 10;
 
-// growOutlineContours are the footprints of icons with overflow behavior "grow". They join the
-// outline here as they do in the mesh, so the preview shows the grown body that gets printed.
+// growOutlineContours are the footprints of icons with overflow behavior
+// "grow". They join the outline here as they do in the mesh, so the preview
+// shows the grown body that gets printed.
 export const computeBaseOutlineContours = async (
   shape: ShapeSpec,
   centerAngleDeg: number,
@@ -78,8 +80,9 @@ export const computeBaseOutlineContours = async (
 
   const withStuds = sector.add(leftStud).add(rightStud);
 
-  // Matches buildArcTokenMesh.ts's own fillet call exactly (same shape, same radius, same point
-  // in the pipeline, before the grow union) so the preview never diverges from the real print.
+  // Matches buildArcTokenMesh.ts's own fillet call exactly (same shape, same
+  // radius, same point in the pipeline, before the grow union) so the preview
+  // never diverges from the real print.
   const outline =
     shape.studFilletEnabled && shape.studFilletRadiusMm
       ? filletOutline(withStuds, shape.studFilletRadiusMm)

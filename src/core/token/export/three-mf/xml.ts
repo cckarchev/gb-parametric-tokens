@@ -35,8 +35,9 @@ const buildVerticesXml = (mesh: Mesh, offset: Vec2): string => {
   return verticesXml;
 };
 
-// vertexOffset moves the triangle corners onto this volume's vertices in the merged mesh.
-// materialXml is empty when the volume uses the object's own material.
+// vertexOffset moves the triangle corners onto this volume's vertices in the
+// merged mesh. materialXml is empty when the volume uses the object's own
+// material.
 const buildTrianglesXml = (
   mesh: Mesh,
   vertexOffset: number,
@@ -74,11 +75,12 @@ export type MultiVolumeMesh = {
   volumeRanges: VolumeTriangleRange[];
 };
 
-// One mesh holding every volume back to back, already moved to its place on the plate: PrusaSlicer
-// moves only the first volume of an imported multi-part object by its build item transform, so
-// nothing can be left to that transform. Its object takes the first volume's material and
-// the other volumes tag their own triangles, which is what any 3MF reader colors by. PrusaSlicer
-// instead splits the mesh back into parts by the returned triangle ranges (see
+// One mesh holding every volume back to back, already moved to its place on the
+// plate: PrusaSlicer moves only the first volume of an imported multi-part
+// object by its build item transform, so nothing can be left to that transform.
+// Its object takes the first volume's material and the other volumes tag their
+// own triangles, which is what any 3MF reader colors by. PrusaSlicer instead
+// splits the mesh back into parts by the returned triangle ranges (see
 // prusaModelConfig.ts), since it flattens <components> into separate objects.
 export const buildMultiVolumeMeshXml = (
   volumes: ObjectVolume[],

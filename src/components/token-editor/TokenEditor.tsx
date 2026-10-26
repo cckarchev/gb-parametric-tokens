@@ -10,8 +10,8 @@ import { TokenPreview } from "./token-preview/TokenPreview";
 export const TokenEditor = () => {
   const generator = useTokenGenerator();
 
-  // The guild picker is the home screen: it shows only while no guild is open, and the header's
-  // logo brings it back.
+  // The guild picker is the home screen: it shows only while no guild is open,
+  // and the header's logo brings it back.
   if (generator.selectedGuildId === undefined) {
     return (
       <div className={styles.page}>

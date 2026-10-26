@@ -17,8 +17,8 @@ export const LENS_SIZE_PX = 180;
 const DEFAULT_ZOOM_FACTOR = 2;
 const MIN_ZOOM_FACTOR = 1;
 const MAX_ZOOM_FACTOR = 8;
-// How much zoomFactor changes per unit of wheel deltaY; a typical mouse-wheel notch
-// (deltaY ~= 100) then moves the zoom by roughly 0.3.
+// How much zoomFactor changes per unit of wheel deltaY; a typical mouse-wheel
+// notch (deltaY ~= 100) then moves the zoom by roughly 0.3.
 const ZOOM_SENSITIVITY_PER_DELTA_Y = 0.003;
 
 type LensState = {
@@ -103,8 +103,9 @@ const useElementWidth = (
   return widthPx;
 };
 
-// The loupe's state and event wiring. Values the wheel listener reads are mirrored in refs, so the
-// listener isn't re-attached on every render or zoom step.
+// The loupe's state and event wiring. Values the wheel listener reads are
+// mirrored in refs, so the listener isn't re-attached on every render or zoom
+// step.
 export const useLoupeLens = (viewBox: ViewBoxSize): LoupeLens => {
   const trackAreaRef = useRef<HTMLDivElement>(null);
   const viewBoxRef = useRef(viewBox);
@@ -136,8 +137,9 @@ export const useLoupeLens = (viewBox: ViewBoxSize): LoupeLens => {
     setLens(undefined);
   };
 
-  // React's onWheel is passive, so its preventDefault() can't stop the page from scrolling.
-  // A native non-passive listener can. It only takes Ctrl+wheel; a plain wheel still scrolls.
+  // React's onWheel is passive, so its preventDefault() can't stop the page
+  // from scrolling. A native non-passive listener can. It only takes
+  // Ctrl+wheel; a plain wheel still scrolls.
   useEffect(() => {
     const trackArea = trackAreaRef.current;
 

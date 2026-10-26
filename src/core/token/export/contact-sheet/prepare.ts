@@ -11,9 +11,9 @@ import {
 } from "./geometry";
 import type { FlippedContactSheetItem, PreparedSection } from "./types";
 
-// One group per disc diameter, so each size gets its own tightly fitted grid instead of every
-// disc sitting in a cell sized for the biggest. Groups keep the order their first item was
-// selected in.
+// One group per disc diameter, so each size gets its own tightly fitted grid
+// instead of every disc sitting in a cell sized for the biggest. Groups keep
+// the order their first item was selected in.
 export const groupDiscItemsByDiameter = (
   discItems: FlippedContactSheetItem[],
 ): FlippedContactSheetItem[][] => {
@@ -30,9 +30,10 @@ export const groupDiscItemsByDiameter = (
   return [...itemsByDiameterMm.values()];
 };
 
-// Without the base-reference circle an arc cell hugs its tokens vertically. Horizontally the
-// tokens' axis (the anchor, where the circle's center was) stays on a vertical grid line: each
-// side of it is rounded up to the grid on its own.
+// Without the base-reference circle an arc cell hugs its tokens vertically.
+// Horizontally the tokens' axis (the anchor, where the circle's center was)
+// stays on a vertical grid line: each side of it is rounded up to the grid on
+// its own.
 const prepareTightArcSection = (
   flippedItems: FlippedContactSheetItem[],
   cellPaddingMm: number,
@@ -59,9 +60,9 @@ const prepareTightArcSection = (
 
   const contentHeightMm = combinedBounds.max[1] - combinedBounds.min[1];
 
-  // The layout places the axis at padding + margin + anchor, so this margin puts it at
-  // spaceLeftOfAxisMm. Negative when the tokens start below the anchor: the top margin pulls them
-  // back up so their top sits on the padding.
+  // The layout places the axis at padding + margin + anchor, so this margin
+  // puts it at spaceLeftOfAxisMm. Negative when the tokens start below the
+  // anchor: the top margin pulls them back up so their top sits on the padding.
   const arcLeftMarginMm =
     spaceLeftOfAxisMm - cellPaddingMm - CIRCLE_ANCHOR_X_SVG;
   const arcTopMarginMm = -combinedBounds.min[1];
@@ -107,9 +108,10 @@ export const prepareSection = (
   const rawArcLeftMarginMm = computeOverflowMarginMm(arcCombinedBounds, 0);
   const rawArcTopMarginMm = computeOverflowMarginMm(arcCombinedBounds, 1);
 
-  // Arc tokens aren't centered in their cell, so the circle lands on the grid only if padding
-  // plus margin is a whole number of grid steps. The sum is rounded up, not the margin alone,
-  // because the padding usually isn't a whole step on its own.
+  // Arc tokens aren't centered in their cell, so the circle lands on the grid
+  // only if padding plus margin is a whole number of grid steps. The sum is
+  // rounded up, not the margin alone, because the padding usually isn't a whole
+  // step on its own.
   const arcLeftMarginMm = alignToGridVertex
     ? rawArcLeftMarginMm
     : roundUpToGridStep(cellPaddingMm + rawArcLeftMarginMm) - cellPaddingMm;
@@ -126,9 +128,9 @@ export const prepareSection = (
     cellPaddingMm * 2 +
     arcTopMarginMm;
 
-  // Disc cells round to two grid steps so a centered token's middle lands on an intersection.
-  // Arc cells only need to start on a grid line, since the margin above already places the
-  // circle.
+  // Disc cells round to two grid steps so a centered token's middle lands on an
+  // intersection. Arc cells only need to start on a grid line, since the margin
+  // above already places the circle.
   const cellWidthMm = alignToGridVertex
     ? roundUpToGridVertexStep(rawCellWidthMm)
     : roundUpToGridStep(rawCellWidthMm);

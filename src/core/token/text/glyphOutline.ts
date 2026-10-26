@@ -53,7 +53,7 @@ export const getGlyphContours = (
   return normalizeWinding(rawContours);
 };
 
-// Glyph outlines in the pipeline's y-up space. Run normalizeWinding after this, never before
-// (see flipContoursY).
+// Glyph outlines in the pipeline's y-up space. Run normalizeWinding after this,
+// never before (see flipContoursY).
 export const flipGlyphContoursToYUp = (contours: Vec2[][]): Vec2[][] =>
   normalizeWinding(flipContoursY(contours));

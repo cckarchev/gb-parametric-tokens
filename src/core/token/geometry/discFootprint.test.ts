@@ -6,8 +6,8 @@ import { buildDiscFootprint } from "./discFootprint";
 
 const OUTER_DIAMETER_MM = 40;
 const INNER_DIAMETER_MM = 30;
-// BODY_CIRCLE_SEGMENTS polygons sit slightly inside the true circle, so areas are compared
-// loosely rather than to many decimals.
+// BODY_CIRCLE_SEGMENTS polygons sit slightly inside the true circle, so areas
+// are compared loosely rather than to many decimals.
 const AREA_TOLERANCE_RATIO = 0.01;
 
 const circleArea = (diameterMm: number): number => {
@@ -58,7 +58,8 @@ const CROWFOOT_ARC_SWEEP_DEG = 30;
 const CROWFOOT_SPOKE_COUNT = 3;
 const CROWFOOT_CORNER_RADIUS_MM = 1.5;
 const CROWFOOT_FILLET_RADIUS_MM = 3;
-// Half the probe square's side: small enough to sit cleanly on either side of an edge.
+// Half the probe square's side: small enough to sit cleanly on either side of
+// an edge.
 const PROBE_HALF_SIZE_MM = 0.1;
 // Radius halfway across the band, where the arcs live.
 const BAND_MID_DIAMETER_MM =
@@ -67,7 +68,8 @@ const BAND_MID_RADIUS_MM = BAND_MID_DIAMETER_MM / 2;
 const HALF_TURN_DEG = 180;
 const FULL_TURN_DEG = 360;
 const DEGREES_TO_RADIANS = Math.PI / HALF_TURN_DEG;
-// Compass directions in the math convention: 0° points right, angles grow counter-clockwise.
+// Compass directions in the math convention: 0° points right, angles grow
+// counter-clockwise.
 const RIGHT_DEG = 0;
 const UP_DEG = 90;
 const LEFT_DEG = 180;
@@ -158,7 +160,8 @@ describe("buildDiscFootprint, crowfoot arc corners", () => {
     const { isSolidAt } = await buildCrowfoot();
     const outerRadiusMm = CROWFOOT_OUTER_DIAMETER_MM / 2;
     const halfSweepDeg = CROWFOOT_ARC_SWEEP_DEG / 2;
-    // Just inside the arc's sharp outer corner: solid on a square end, cut on a rounded one.
+    // Just inside the arc's sharp outer corner: solid on a square end, cut on a
+    // rounded one.
     const insetMm = 0.3;
     const insetDeg = 0.5;
     const nearCorner = pointAtAngle(
@@ -179,7 +182,8 @@ describe("buildDiscFootprint, crowfoot arc corners", () => {
     const { isSolidAt } = await buildCrowfoot();
     const innerRadiusMm = CROWFOOT_INNER_DIAMETER_MM / 2;
     const halfWidthMm = CROWFOOT_SPOKE_WIDTH_MM / 2;
-    // Just outside the sharp corner between the upward spoke's side and the arc's inner edge.
+    // Just outside the sharp corner between the upward spoke's side and the
+    // arc's inner edge.
     const offsetMm = 0.4;
     const beside = halfWidthMm + offsetMm;
     const nearCorner: [number, number] = [
@@ -196,8 +200,9 @@ describe("buildDiscFootprint, crowfoot center fillet", () => {
     const { isSolidAt } = await buildCrowfoot();
     const halfWidthMm = CROWFOOT_SPOKE_WIDTH_MM / 2;
     const halfSpokeGapDeg = 60;
-    // The sharp corner where the upward and lower left spokes' sides meet lies on the bisector
-    // between them; a point just past it is empty on a sharp corner, solid on a filleted one.
+    // The sharp corner where the upward and lower left spokes' sides meet lies
+    // on the bisector between them; a point just past it is empty on a sharp
+    // corner, solid on a filleted one.
     const sharpCornerDistanceMm =
       halfWidthMm / Math.sin(halfSpokeGapDeg * DEGREES_TO_RADIANS);
     const pastCornerMm = 0.3;

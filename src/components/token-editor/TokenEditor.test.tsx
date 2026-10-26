@@ -174,8 +174,9 @@ describe("TokenEditor generic catalog", () => {
 
 describe("TokenEditor Select all", () => {
   it("composes every field update from Guild tokens' own Select all instead of only the last one sticking (regression)", () => {
-    // "Select all" fires four field updates in one click. Replaying the captured updates in
-    // order proves each builds on the previous one rather than on this render's snapshot.
+    // "Select all" fires four field updates in one click. Replaying the
+    // captured updates in order proves each builds on the previous one rather
+    // than on this render's snapshot.
     const setSelection = vi.fn();
 
     vi.mocked(useTokenGenerator).mockReturnValue({
@@ -207,7 +208,8 @@ describe("TokenEditor Select all", () => {
 
     fireEvent.click(within(guildTokensPanel).getByLabelText("Select all"));
 
-    // Generic tokens, Influence, Momentum and Goal Influence: one update per field.
+    // Generic tokens, Influence, Momentum and Goal Influence: one update per
+    // field.
     const guildTokenFieldCount = 4;
 
     expect(setSelection).toHaveBeenCalledTimes(guildTokenFieldCount);

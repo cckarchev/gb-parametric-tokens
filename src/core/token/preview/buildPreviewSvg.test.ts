@@ -16,8 +16,8 @@ const colorGroups: ColorGroupSpec[] = [
   { id: "text", name: "Text & symbols", color: "#F5F0E1" },
 ];
 
-// The grid overlay always contributes one extra <path> (its own guide lines), on top of
-// whatever token contours a test is asserting about.
+// The grid overlay always contributes one extra <path> (its own guide lines),
+// on top of whatever token contours a test is asserting about.
 const GRID_PATH_COUNT = 1;
 
 const BASE_SIZE_MM = 20;
@@ -94,8 +94,8 @@ describe("buildPreviewSvg fallbacks and y axis", () => {
   });
 
   it("negates y so the model's math-convention (y-up) coordinates render upright in SVG's y-down space", () => {
-    // Tall side along +y, so it points up in the model. In SVG (y-down) it must land at negative
-    // y, or the preview is upside down.
+    // Tall side along +y, so it points up in the model. In SVG (y-down) it must
+    // land at negative y, or the preview is upside down.
     const apexYMm = 5;
     const triangle: Vec2[] = [
       [0, 0],
@@ -111,7 +111,6 @@ describe("buildPreviewSvg fallbacks and y axis", () => {
 
 describe("buildPreviewSvg viewBox and grid", () => {
   it("sizes the viewBox to the combined, y-negated bounds of both contour sets, and returns it as numbers", () => {
-    const baseContours = BASE_CONTOURS;
     // A relief square past the base on both axes, from 25 to 30.
     const relief = { minMm: 25, maxMm: 30 };
     const reliefComponents: ReliefComponent[] = [
@@ -130,7 +129,7 @@ describe("buildPreviewSvg viewBox and grid", () => {
     ];
 
     const { svg, viewBox } = buildPreviewSvg(
-      baseContours,
+      BASE_CONTOURS,
       reliefComponents,
       colorGroups,
     );
@@ -143,8 +142,8 @@ describe("buildPreviewSvg viewBox and grid", () => {
     expect(viewBox.x).toBeLessThanOrEqual(0);
     expect(viewBox.x + viewBox.width).toBeGreaterThanOrEqual(relief.maxMm);
 
-    // y is negated: base spans -20..0, relief spans -30..-25, so the combined range is
-    // -30..0, not the pre-flip 0..30.
+    // y is negated: base spans -20..0, relief spans -30..-25, so the combined
+    // range is -30..0, not the pre-flip 0..30.
     expect(viewBox.y).toBeLessThanOrEqual(-relief.maxMm);
     expect(viewBox.y + viewBox.height).toBeGreaterThanOrEqual(0);
   });
@@ -177,8 +176,9 @@ describe("buildPreviewSvg base-reference circle", () => {
     expect(svg).toContain('cx="15"');
     expect(svg).toContain('cy="15"');
     expect(svg).toContain('r="15"');
-    // The filled circle has to come before the token's base, or it covers the token. Matched on
-    // the base fill, since the grid's <path> comes even earlier.
+    // The filled circle has to come before the token's base, or it covers the
+    // token. Matched on the base fill, since the grid's <path> comes even
+    // earlier.
     expect(svg.indexOf('data-role="base-reference-circle"')).toBeLessThan(
       svg.indexOf('fill="#2B2B2B"'),
     );
@@ -217,8 +217,8 @@ describe("buildPreviewSvg circle anchor", () => {
 
     const { svg } = buildPreviewSvg(BASE_CONTOURS, [], colorGroups, arcShape);
 
-    // square(20) spans local (0,0)-(20,20); flipY negates y to (0,0)-(20,-20), then the fixed
-    // anchor (15, 15) shifts it to (15,15)-(35,-5).
+    // square(20) spans local (0,0)-(20,20); flipY negates y to (0,0)-(20,-20),
+    // then the fixed anchor (15, 15) shifts it to (15,15)-(35,-5).
     expect(svg).toContain("M15,15 L35,15 L35,-5 L15,-5 Z");
   });
 
@@ -237,8 +237,8 @@ describe("buildPreviewSvg circle anchor", () => {
       arcShape,
     );
 
-    // Circle center is fixed at cy=15, so its bottom edge is 15 + 15 (radius) = 30, plus the
-    // usual 5mm padding below that = 35.
+    // Circle center is fixed at cy=15, so its bottom edge is 15 + 15 (radius) =
+    // 30, plus the usual 5mm padding below that = 35.
     const circleBottomMm = 30;
     const paddingMm = 5;
     const floatToleranceMm = 1e-9;

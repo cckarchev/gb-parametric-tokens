@@ -12,8 +12,8 @@ type CountFieldProps = {
   max: number;
 };
 
-// A checkbox to include the counter and a stepper for its copies. Unchecked, the stepper is
-// disabled but keeps its value.
+// A checkbox to include the counter and a stepper for its copies. Unchecked,
+// the stepper is disabled but keeps its value.
 export const CountField = ({
   label,
   enabled,

@@ -47,8 +47,9 @@ export const layoutArcText = (
 
   return glyphs.flatMap((glyph, index) => {
     const nativeContours = getGlyphContours(glyph, line.sizeMm, toleranceMm);
-    // The svgYDown path wants opentype.js' native y-down outlines untouched; applyArcPlacement's
-    // mathYUp rotation assumes an already y-up glyph (ascender at positive local y).
+    // The svgYDown path wants opentype.js' native y-down outlines untouched;
+    // applyArcPlacement's mathYUp rotation assumes an already y-up glyph
+    // (ascender at positive local y).
     const localContours =
       coordinateConvention === "mathYUp"
         ? flipGlyphContoursToYUp(nativeContours)

@@ -7,14 +7,17 @@ import { SvgLoupe } from "./SvgLoupe";
 const svg =
   '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M0,0 L20,0 L20,20 L0,20 Z" /></svg>';
 
-// 100mm is comfortably larger than the 200px the mocked rect below reports, so the
-// preview counts as "shrunk" and the magnification affordance is enabled in these tests.
+// 100mm is comfortably larger than the 200px the mocked rect below reports, so
+// the preview counts as "shrunk" and the magnification affordance is enabled in
+// these tests.
 const shrunkViewBox = { width: 100, height: 100 };
-// Narrower than shrunkViewBox at true size, so the preview is drawn shrunk and the lens helps.
+// Narrower than shrunkViewBox at true size, so the preview is drawn shrunk and
+// the lens helps.
 const CONTAINER_WIDTH_PX = 200;
 
-// 10mm at true size is far smaller than the mocked 200px rect, so the preview is already
-// shown above true size and magnification should be skipped entirely.
+// 10mm at true size is far smaller than the mocked 200px rect, so the preview
+// is already shown above true size and magnification should be skipped
+// entirely.
 const alreadyBigViewBox = { width: 10, height: 10 };
 
 const mockContainerWidth = (widthPx: number) => {
@@ -22,8 +25,9 @@ const mockContainerWidth = (widthPx: number) => {
     ({ left: 0, top: 0, width: widthPx, height: widthPx }) as DOMRect;
 };
 
-// happy-dom's WheelEvent ignores `ctrlKey` in its init, so it's set on the instance. fireEvent
-// wraps the dispatch in act(), so state is flushed before the assertions.
+// happy-dom's WheelEvent ignores `ctrlKey` in its init, so it's set on the
+// instance. fireEvent wraps the dispatch in act(), so state is flushed before
+// the assertions.
 const dispatchWheel = (
   target: Element,
   init: { deltaY: number; clientX: number; clientY: number; ctrlKey: boolean },

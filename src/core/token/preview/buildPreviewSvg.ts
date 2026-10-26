@@ -21,7 +21,8 @@ import {
 
 const DEFAULT_PADDING_MM = 5;
 
-// The pipeline is y-up and SVG is y-down, so the preview flips every contour on the way in.
+// The pipeline is y-up and SVG is y-down, so the preview flips every contour on
+// the way in.
 const flipComponents = (components: ReliefComponent[]): ReliefComponent[] =>
   components.map((component) => ({
     ...component,
@@ -46,7 +47,8 @@ export const buildPreviewSvg = (
   const flippedBaseContours = flipContoursY(baseContours);
   const flippedReliefComponents = flipComponents(reliefComponents);
 
-  // The arc token's origin goes on the circle's fixed anchor (see svgBaseReference.ts).
+  // The arc token's origin goes on the circle's fixed anchor (see
+  // svgBaseReference.ts).
   const tokenShiftSvg: Vec2 =
     shape?.type === "arc" ? [CIRCLE_ANCHOR_X_SVG, CIRCLE_ANCHOR_Y_SVG] : [0, 0];
 

@@ -60,9 +60,10 @@ const hasCoreSettingsFields = (value: unknown): boolean => {
   );
 };
 
-// Recurses into plain objects, so a file that has a group but lacks a field inside it still gets
-// that field's default. Arrays (colorGroups) are taken whole. Keys the defaults lack are kept, since
-// several shape fields are optional (innerDiameterMm, crowfoot) and have no default to compare with.
+// Recurses into plain objects, so a file that has a group but lacks a field
+// inside it still gets that field's default. Arrays (colorGroups) are taken
+// whole. Keys the defaults lack are kept, since several shape fields are
+// optional (innerDiameterMm, crowfoot) and have no default to compare with.
 export const mergeWithDefaults = <T>(defaults: T, override: unknown): T => {
   if (!isPlainObject(defaults)) {
     return isSameKind(defaults, override) ? (override as T) : defaults;
@@ -90,9 +91,10 @@ const pickKnown = <T extends string>(
   fallback: T,
 ): T => (knownValues.includes(value) ? value : fallback);
 
-// mergeWithDefaults only checks that a value is a string; an option this app doesn't know (a
-// typo, or a file from a newer version) would otherwise reach the builders, and an unknown print
-// profile id would crash the worker's PRINT_PROFILES lookup.
+// mergeWithDefaults only checks that a value is a string; an option this app
+// doesn't know (a typo, or a file from a newer version) would otherwise reach
+// the builders, and an unknown print profile id would crash the worker's
+// PRINT_PROFILES lookup.
 const replaceUnknownOptions = (config: SharedConfig): SharedConfig => {
   const defaults = DEFAULT_SHARED_CONFIG;
   const knownPrintProfileIds = Object.keys(PRINT_PROFILES);
@@ -149,8 +151,9 @@ const replaceUnknownOptions = (config: SharedConfig): SharedConfig => {
   };
 };
 
-// A file must at least carry the core fields; anything newer it lacks is filled from the defaults
-// rather than rejected, so a file exported before an option existed still imports cleanly.
+// A file must at least carry the core fields; anything newer it lacks is filled
+// from the defaults rather than rejected, so a file exported before an option
+// existed still imports cleanly.
 export const parseSettingsFile = (parsed: unknown): SharedConfig => {
   if (!hasCoreSettingsFields(parsed)) {
     throw new Error(INVALID_SETTINGS_FILE_MESSAGE);

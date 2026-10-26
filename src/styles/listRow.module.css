@@ -1,4 +1,5 @@
-/* One line of a token list: what it is on the left, its own control on the right. */
+/* One line of a token list: what it is on the left, its own control on the
+   right. */
 .listRow {
   display: flex;
   align-items: center;

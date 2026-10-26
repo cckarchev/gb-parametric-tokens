@@ -1,7 +1,8 @@
-// SPEC.md §9: guild color goes on the base, never the relief. Relief color is derived from the
-// base's relative luminance so it always contrasts against it, instead of a fixed color that
-// disappears against dark guilds (Morticians, Ratcatchers) or washes out against bright ones
-// (Order). darkColor is a dark-mode UI variant, not a print color, and must never be used here.
+// SPEC.md §9: guild color goes on the base, never the relief. Relief color is
+// derived from the base's relative luminance so it always contrasts against it,
+// instead of a fixed color that disappears against dark guilds (Morticians,
+// Ratcatchers) or washes out against bright ones (Order). darkColor is a
+// dark-mode UI variant, not a print color, and must never be used here.
 const RELIEF_LUMINANCE_THRESHOLD = 0.2;
 const LIGHT_RELIEF_COLOR = "#FFFFFF";
 const DARK_RELIEF_COLOR = "#000000";

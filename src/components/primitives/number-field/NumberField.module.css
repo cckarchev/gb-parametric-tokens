@@ -16,8 +16,9 @@
   composes: monoFigure from "../../../styles/mixins.module.css";
 }
 
-/* Sized to match a single text line (CheckboxField's row is a checkbox plus text), so a stepper
-   sitting next to a checkbox in the same row doesn't grow that row's height. */
+/* Sized to match a single text line (CheckboxField's row is a checkbox plus
+   text), so a stepper sitting next to a checkbox in the same row doesn't grow
+   that row's height. */
 .stepper {
   display: flex;
   align-items: stretch;
@@ -60,8 +61,9 @@
   color: var(--color-text-strong);
   font-size: var(--font-size-sm);
   text-align: center;
-  /* The flanking buttons are the primary way to change the value, and the native up/down
-     spinner arrows don't fit this width; hide them so the number stays center-aligned. */
+  /* The flanking buttons are the primary way to change the value, and the
+     native up/down spinner arrows don't fit this width; hide them so the number
+     stays center-aligned. */
   -moz-appearance: textfield;
 }
 

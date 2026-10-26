@@ -4,8 +4,8 @@ import { computeRingTextRadii } from "./ringTextRadii";
 import type { SharedConfig } from "./tokenItem";
 import { buildIconSpec, sharedTokenFields } from "./tokenSpecParts";
 
-// The round badge with a centered crest and two curved lines, as on Goal Influence and any effect
-// with the "ring" layout.
+// The round badge with a centered crest and two curved lines, as on Goal
+// Influence and any effect with the "ring" layout.
 export const buildRingTokenSpec = (
   topText: string,
   bottomText: string | undefined,
@@ -57,8 +57,8 @@ export const buildRingTokenSpec = (
         sharedConfig,
       ),
     ],
-    // No ring border, unlike Momentum: around a guild crest, which isn't round, it reads as a
-    // second circle.
+    // No ring border, unlike Momentum: around a guild crest, which isn't round,
+    // it reads as a second circle.
     decorations: [],
     ...sharedTokenFields(sharedConfig),
     fontId,

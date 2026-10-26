@@ -11,10 +11,12 @@ import type { ArcShapeSpec, Vec2 } from "../types";
 import { getManifoldModule } from "./manifoldModule";
 
 const WEDGE_STEPS = 64;
-// Extends the wedge past the ribbon's outer radius so float error never clips the ring it cuts.
+// Extends the wedge past the ribbon's outer radius so float error never clips
+// the ring it cuts.
 const WEDGE_RADIUS_PADDING_MM = 10;
 
-// The ribbon's flat outline, before extrusion, so the studs can be joined and filleted in 2D.
+// The ribbon's flat outline, before extrusion, so the studs can be joined and
+// filleted in 2D.
 export const buildArcRibbonOutline2D = (
   CrossSectionCtor: ManifoldToplevel["CrossSection"],
   shape: ArcShapeSpec,

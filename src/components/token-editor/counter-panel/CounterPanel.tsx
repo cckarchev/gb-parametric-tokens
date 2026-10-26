@@ -19,8 +19,8 @@ export type CounterRow = {
 type CounterPanelProps = {
   title: string;
   rows: CounterRow[];
-  // Left to the caller: rows backed by the same record have to be written in one batched call,
-  // which only the caller knows how to group.
+  // Left to the caller: rows backed by the same record have to be written in
+  // one batched call, which only the caller knows how to group.
   onToggleAll: (enabled: boolean) => void;
 };
 

@@ -13,8 +13,9 @@ export const PRINT_PROFILES: Record<string, PrintProfile> = {
   "fdm-025": {
     id: "fdm-025",
     name: "FDM 0.25mm",
-    // Scaled down from fdm-04's numbers for a 0.25mm nozzle: a finer nozzle prints a
-    // narrower single-wall line, thinner layers, and needs a smaller feature gap.
+    // Scaled down from fdm-04's numbers for a 0.25mm nozzle: a finer nozzle
+    // prints a narrower single-wall line, thinner layers, and needs a smaller
+    // feature gap.
     minStrokeWidthMm: 0.28,
     minReliefHeightMm: 0.24, // two layers of 0.12mm, the fine-nozzle analog of fdm-04's two 0.2mm layers
     minFeatureGapMm: 0.25,

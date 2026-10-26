@@ -21,7 +21,8 @@ type PatchSpan = {
   toAngleDeg: number;
 };
 
-// A crest-like patch between two radii and two angles, its corners on the polar grid.
+// A crest-like patch between two radii and two angles, its corners on the polar
+// grid.
 const patch = ({
   minRadiusMm,
   maxRadiusMm,
@@ -70,7 +71,8 @@ describe("computeCrestFreeSweepDeg", () => {
   });
 
   it("frees the sweep up to the crest edge nearest the center, on both sides", () => {
-    // The right crest reaches 40° from the center, the left one 35°: the nearer one wins.
+    // The right crest reaches 40° from the center, the left one 35°: the nearer
+    // one wins.
     const sweepDeg = sweepFreeOf([patch(RIGHT_SPAN), patch(LEFT_SPAN)]);
     const leftReachDeg = LEFT_SPAN.fromAngleDeg - CENTER_ANGLE_DEG;
 

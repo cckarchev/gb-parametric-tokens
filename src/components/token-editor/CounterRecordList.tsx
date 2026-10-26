@@ -6,7 +6,8 @@ import {
 import { CounterPanel, type CounterRow } from "./counter-panel/CounterPanel";
 import { setRowsEnabled } from "./setRowsEnabled";
 
-// The part of a catalog entry this list needs: conditions and game plans both fit it.
+// The part of a catalog entry this list needs: conditions and game plans both
+// fit it.
 export type CounterRecordEntry = {
   id: string;
   name: string;
@@ -22,7 +23,8 @@ type CounterRecordListProps = {
   onSelectionChange: (selection: Record<string, CounterSelection>) => void;
 };
 
-// A counter panel over a selection record keyed by entry id (conditions, game plans).
+// A counter panel over a selection record keyed by entry id (conditions, game
+// plans).
 export const CounterRecordList = ({
   title,
   entries,

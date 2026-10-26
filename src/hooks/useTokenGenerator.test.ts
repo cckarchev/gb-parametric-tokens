@@ -72,7 +72,8 @@ const exportRequestOf = (worker: FakeWorker) =>
     .map((call) => call[0] as WorkerRequest)
     .find((call) => call.kind === "export");
 
-// Waits for the hook to post its export request, then returns it with the worker it went to.
+// Waits for the hook to post its export request, then returns it with the
+// worker it went to.
 const postedExportRequest = async () => {
   await vi.waitFor(() => {
     expect(exportRequestOf(FakeWorker.instances[0])).toBeDefined();
@@ -107,7 +108,7 @@ const tapperPreviewItem = (
   reason: failureReason ?? "",
 });
 
-const OTHER_CATALOG: GuildCatalog = {
+const COOKS_CATALOG: GuildCatalog = {
   guildId: "cooks",
   name: "Cooks",
   color: "#eb2629",
@@ -196,8 +197,8 @@ describe("useTokenGenerator preview loop", () => {
 
     const worker = FakeWorker.instances[0];
 
-    // Opening a guild previews twice: once at once, once more when its colors arrive. Settle both
-    // before looking for a loop.
+    // Opening a guild previews twice: once at once, once more when its colors
+    // arrive. Settle both before looking for a loop.
     await act(async () => {
       await vi.advanceTimersByTimeAsync(LIVE_PREVIEW_DEBOUNCE_MS);
     });
@@ -217,8 +218,9 @@ describe("useTokenGenerator preview loop", () => {
       });
     });
 
-    // The response re-renders the hook. An untouched selection has to keep its identity, or the
-    // re-render reads as a change and the preview loops forever.
+    // The response re-renders the hook. An untouched selection has to keep its
+    // identity, or the re-render reads as a change and the preview loops
+    // forever.
     expect(result.current.isPreviewing).toBe(false);
 
     await act(async () => {
@@ -232,16 +234,15 @@ describe("useTokenGenerator preview loop", () => {
 
 describe("useTokenGenerator per-guild selection", () => {
   it("remembers a guild's selection when switching away and back to it", async () => {
-    const otherCatalog = OTHER_CATALOG;
-
     vi.mocked(listAvailableGuilds).mockReturnValue([
       { id: "brewers", name: "Brewers", color: "#cdb320" },
       { id: "cooks", name: "Cooks", color: "#eb2629" },
     ]);
 
-    // Looked up by id like the real lookup, since the hook resolves the catalog on every render.
+    // Looked up by id like the real lookup, since the hook resolves the catalog
+    // on every render.
     vi.mocked(loadGuildCatalog).mockImplementation((guildId) =>
-      guildId === otherCatalog.guildId ? otherCatalog : catalog,
+      guildId === COOKS_CATALOG.guildId ? COOKS_CATALOG : catalog,
     );
 
     const { result } = renderHook(() => useTokenGenerator());
@@ -264,9 +265,10 @@ describe("useTokenGenerator per-guild selection", () => {
 
     await openGuild(result, "cooks");
 
-    expect(result.current.catalog).toEqual(otherCatalog);
+    expect(result.current.catalog).toEqual(COOKS_CATALOG);
 
-    // Cooks is visited for the first time, so it gets the full default selection.
+    // Cooks is visited for the first time, so it gets the full default
+    // selection.
     expect(result.current.selection.characterTokenIds).toEqual([
       "Wellington-0",
     ]);
@@ -276,7 +278,8 @@ describe("useTokenGenerator per-guild selection", () => {
 
     expect(result.current.catalog).toEqual(catalog);
 
-    // Brewers' earlier edits are still there instead of being reset back to defaults.
+    // Brewers' earlier edits are still there instead of being reset back to
+    // defaults.
     expect(result.current.selection.characterTokenIds).toEqual(["Tapper-0"]);
     expect(result.current.selection.momentum.enabled).toBe(false);
   });
@@ -288,8 +291,9 @@ describe("useTokenGenerator colors and preview", () => {
 
     await openGuild(result, "brewers");
 
-    // Brewers' relative luminance (~0.45) is above the ~0.2 threshold, so the derived text
-    // color goes dark for contrast against the guild's own bright base color.
+    // Brewers' relative luminance (~0.45) is above the ~0.2 threshold, so the
+    // derived text color goes dark for contrast against the guild's own bright
+    // base color.
     expect(result.current.sharedConfig.colorGroups).toEqual([
       { id: "base", name: "Body", color: "#cdb320" },
       { id: "text", name: "Details", color: "#000000" },
@@ -603,8 +607,8 @@ describe("useTokenGenerator older settings files", () => {
       effectSizeMm: 3,
       showSecondLine: false,
       balanceTwoLineSizes: true,
-      // iconOverflowBehavior and aoeTemplateVariant intentionally absent, as in a file exported
-      // before they existed.
+      // iconOverflowBehavior and aoeTemplateVariant intentionally absent, as in
+      // a file exported before they existed.
     };
     const file = new File([JSON.stringify(importedConfig)], "settings.json", {
       type: "application/json",

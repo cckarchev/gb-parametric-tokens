@@ -5,13 +5,14 @@ import styles from "./GuildSelector.module.css";
 type GuildTileProps = {
   guild: AvailableGuild;
   onSelect: (guildId: string) => void;
-  // Swaps the two colors: the badge takes the guild color and the crest goes paper white. For a
-  // crest too dark to sit on the white badge without blending into the dark tile around it.
+  // Swaps the two colors: the badge takes the guild color and the crest goes
+  // paper white. For a crest too dark to sit on the white badge without
+  // blending into the dark tile around it.
   inverted?: boolean;
 };
 
-// Crest size as a percentage of the tile, right for most guilds. A guild whose crest still reads
-// small or large sets an iconScale that multiplies it.
+// Crest size as a percentage of the tile, right for most guilds. A guild whose
+// crest still reads small or large sets an iconScale that multiplies it.
 const LOGO_BASE_SIZE_PERCENT = 80;
 const DEFAULT_ICON_SCALE = 1;
 const PAPER_COLOR = "var(--color-paper)";
@@ -34,8 +35,9 @@ export const GuildTile = ({
       title={guild.name}
       onClick={() => onSelect(guild.id)}
     >
-      {/* The logo files are solid black and an <img> can't be recolored, so the crest is a CSS
-          mask painted in the guild's color, over a white backing circle (or the reverse, when inverted). */}
+      {/* The logo files are solid black and an <img> can't be recolored, so the
+          crest is a CSS mask painted in the guild's color, over a white backing
+          circle (or the reverse, when inverted). */}
       <span className={styles.badgeStack}>
         <span
           className={styles.badge}

@@ -36,7 +36,8 @@ const config: SharedConfig = {
 
 const arcEffect = resolveEffect("commandingAura");
 const ringEffect = resolveEffect("toppingOutInfluence");
-// Goad has no effect text, so it prints a single line even with the second line on.
+// Goad has no effect text, so it prints a single line even with the second line
+// on.
 const nameOnlyEffect = resolveEffect("goad");
 
 describe("buildCharacterTokenSpec", () => {

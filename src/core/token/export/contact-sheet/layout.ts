@@ -15,12 +15,13 @@ import type {
 } from "./types";
 
 const FALLBACK_ITEM_LABEL = "This token";
-// For an invalid item with no reason. The worker always sends one, but the type allows it.
+// For an invalid item with no reason. The worker always sends one, but the type
+// allows it.
 const FALLBACK_ATTENTION_REASON =
   "This detail is thinner than the minimum printable stroke width.";
 
-// buildTokenPathsSvg paints contours where they already are, so a cell's own offset has to reach
-// the relief groups too, not just the base contours.
+// buildTokenPathsSvg paints contours where they already are, so a cell's own
+// offset has to reach the relief groups too, not just the base contours.
 const positionContoursByColorGroup = (
   contoursByColorGroup: Map<string, Vec2[][]>,
   offset: Vec2,
@@ -45,9 +46,9 @@ type SectionDrawing = {
 
 type Axis = 0 | 1;
 
-// Shared by both axes so they can't drift apart. An arc token sits at the same fixed offset in
-// every cell, so its circle stays put. A disc token is centered when alignToGridVertex is set,
-// otherwise placed from the padded corner.
+// Shared by both axes so they can't drift apart. An arc token sits at the same
+// fixed offset in every cell, so its circle stays put. A disc token is centered
+// when alignToGridVertex is set, otherwise placed from the padded corner.
 const axisOffsetMm = (
   prepared: PreparedSection,
   isArc: boolean,
@@ -70,8 +71,8 @@ const axisOffsetMm = (
   return cellOriginMm + prepared.cellPaddingMm - bounds.min[axis];
 };
 
-// The marker frames the token itself, not its cell, which is sized for the section's biggest
-// token.
+// The marker frames the token itself, not its cell, which is sized for the
+// section's biggest token.
 const attentionMarker = (
   item: FlippedContactSheetItem,
   bounds: Bounds,
@@ -79,7 +80,8 @@ const attentionMarker = (
   offsetY: number,
 ): string => {
   const label = item.label ?? FALLBACK_ITEM_LABEL;
-  // `||`, not `??`: an empty reason string is as useless to a reader as a missing one.
+  // `||`, not `??`: an empty reason string is as useless to a reader as a
+  // missing one.
   const reason = item.reason || FALLBACK_ATTENTION_REASON;
 
   return buildAttentionMarkerSvg(
@@ -156,7 +158,8 @@ const cellSvg = (
   return paths.join("");
 };
 
-// Draws one section's grid at the given column count, starting at originYMm so sections stack.
+// Draws one section's grid at the given column count, starting at originYMm so
+// sections stack.
 export const layoutPreparedSection = (
   prepared: PreparedSection,
   columns: number,

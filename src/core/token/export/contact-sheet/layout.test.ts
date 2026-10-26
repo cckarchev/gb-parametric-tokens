@@ -74,8 +74,8 @@ describe("layoutPreparedSection", () => {
 
     const layout = layoutPreparedSection(prepare(items, true), 2, 0, []);
 
-    // The second cell starts at x=20; a centered 10mm item sits 5mm in, at x=25. The vertical
-    // origin passed in (0) plus the same 5mm gives y=5.
+    // The second cell starts at x=20; a centered 10mm item sits 5mm in, at
+    // x=25. The vertical origin passed in (0) plus the same 5mm gives y=5.
     expect(markerRects(layout.cellsXml)).toEqual(["25,5"]);
     expect(layout.cellsXml).toContain("<title>Tapper: Too thin.</title>");
   });

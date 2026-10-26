@@ -34,7 +34,8 @@ describe("autoFitLine", () => {
       allowTwoLines: false,
     };
 
-    // Far too long for the sweep, so it shrinks all the way to the floor and is then truncated.
+    // Far too long for the sweep, so it shrinks all the way to the floor and is
+    // then truncated.
     const result = autoFitLine(
       displayFont,
       {
@@ -53,8 +54,8 @@ describe("autoFitLine", () => {
       printProfile.minStrokeWidthMm /
       findFontEntry(undefined).metrics.stemWidthRatio;
 
-    // The truncated text lands at or a little above this font's floor, well under the floor of
-    // the body font's thinner stroke.
+    // The truncated text lands at or a little above this font's floor, well
+    // under the floor of the body font's thinner stroke.
     expect(result.lines[0].sizeMm).toBeGreaterThanOrEqual(floorSizeMm);
     expect(result.lines[0].sizeMm).toBeLessThan(bodyFloorSizeMm);
   });
@@ -85,9 +86,9 @@ describe("autoFitLine shrinking", () => {
   it("shrinks the scale when the sweep is too tight for tracking alone to fix", () => {
     const font = loadTestFont();
 
-    // Measured against the real font: this sweep needs a scale of ~0.71, just above the print
-    // profile's floor of ~0.698. Too tight for tracking alone, loose enough to stay on one line.
-    // Remeasure if the font changes.
+    // Measured against the real font: this sweep needs a scale of ~0.71, just
+    // above the print profile's floor of ~0.698. Too tight for tracking alone,
+    // loose enough to stay on one line. Remeasure if the font changes.
     const result = autoFitLine(
       font,
       {
@@ -113,8 +114,9 @@ describe("autoFitLine splitting and fallback", () => {
   it("splits into two lines when a single line cannot fit even at minScale", () => {
     const font = loadTestFont();
 
-    // Measured against the real font: at 54 degrees the line doesn't fit even at the floor scale,
-    // but each half fits at its own radius. At 55 it already fits on one line.
+    // Measured against the real font: at 54 degrees the line doesn't fit even
+    // at the floor scale, but each half fits at its own radius. At 55 it
+    // already fits on one line.
     const result = autoFitLine(
       font,
       {
@@ -138,11 +140,12 @@ describe("autoFitLine splitting and fallback", () => {
   it("tries the fallback size on one line before splitting", () => {
     const font = loadTestFont();
     const fallbackSizeMm = 4;
-    // Resin, because fdm-04's thickest-stroke floor (~3.5mm text) is the same for both sizes and
-    // would hide the fallback.
+    // Resin, because fdm-04's thickest-stroke floor (~3.5mm text) is the same
+    // for both sizes and would hide the fallback.
     const resinProfile = PRINT_PROFILES.resin;
 
-    // Same text and sweep as the split case above, which only splits because 6mm is too big.
+    // Same text and sweep as the split case above, which only splits because
+    // 6mm is too big.
     const result = autoFitLine(
       font,
       {

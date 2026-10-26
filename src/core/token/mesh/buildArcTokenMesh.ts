@@ -43,16 +43,16 @@ export const buildArcTokenMesh = async (
     STUD_CIRCLE_SEGMENTS,
   ).translate(input.studPositions.right[0], input.studPositions.right[1]);
 
-  // Ribbon and studs are joined in 2D because filleting only works on a flat outline, before
-  // extrusion.
+  // Ribbon and studs are joined in 2D because filleting only works on a flat
+  // outline, before extrusion.
   const withStuds = ribbon.add(leftStud).add(rightStud);
   const outline2D =
     input.shape.studFilletEnabled && input.shape.studFilletRadiusMm
       ? filletOutline(withStuds, input.shape.studFilletRadiusMm)
       : withStuds;
 
-  // Stud icons with behavior "grow" add their footprint. After the fillet, which is tuned for
-  // the stud and ribbon corner only.
+  // Stud icons with behavior "grow" add their footprint. After the fillet,
+  // which is tuned for the stud and ribbon corner only.
   const growContours = collectGrowOutlineContours(input.reliefComponents);
   const outlineWithGrow =
     growContours.length > 0

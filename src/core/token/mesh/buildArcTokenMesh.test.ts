@@ -19,9 +19,9 @@ const shape = {
 };
 const centerAngleDeg = 90;
 const studPlacements = computeStudPlacements(shape, centerAngleDeg);
-// Sits at the band's own midpoint radius so this relief component actually overlaps the
-// ribbon, the same way a real centered text line would: required for the "unions into a
-// single connected solid" test below to mean anything.
+// Sits at the band's own midpoint radius so this relief component actually
+// overlaps the ribbon, the same way a real centered text line would: required
+// for the "unions into a single connected solid" test below to mean anything.
 const bandMidRadiusMm =
   (computeInnerRadiusMm() + computeOuterRadiusMm(shape)) / 2;
 
@@ -103,8 +103,9 @@ describe("buildArcTokenMesh", () => {
 
     const parts = await buildArcTokenMesh(baseInput(style));
 
-    // status() alone does not catch this: three tangent-but-disjoint solids are a
-    // perfectly valid manifold, and the bounding-box tests below pass happily on them.
+    // status() alone does not catch this: three tangent-but-disjoint solids are
+    // a perfectly valid manifold, and the bounding-box tests below pass happily
+    // on them.
     expect(parts[0].manifold.status()).toBe("NoError");
     expect(parts[0].manifold.decompose().length).toBe(1);
   });
@@ -134,8 +135,9 @@ describe("buildArcTokenMesh grow outline", () => {
       baseThicknessMm: 3,
     };
     const studRadiusMm = shape.studDiameterMm / 2;
-    // A square centered on the left stud, wider than the stud itself: proves the grown footprint
-    // (not just the plain circle) makes it into the base's own outline.
+    // A square centered on the left stud, wider than the stud itself: proves
+    // the grown footprint (not just the plain circle) makes it into the base's
+    // own outline.
     const reachPastStudMm = 5;
     const farReachMm = studRadiusMm + reachPastStudMm;
     const growSquareAtLeftStud = squareAround(
@@ -197,8 +199,9 @@ describe("buildArcTokenMesh fillet on", () => {
 
     expect(filletedParts[0].manifold.status()).toBe("NoError");
     expect(filletedParts[0].manifold.decompose().length).toBe(1);
-    // Closing only ever adds material (see filletOutline.ts), so the filleted solid's volume
-    // is strictly larger once there's an actual notch at the stud/ribbon junction to fill.
+    // Closing only ever adds material (see filletOutline.ts), so the filleted
+    // solid's volume is strictly larger once there's an actual notch at the
+    // stud/ribbon junction to fill.
     expect(filletedParts[0].manifold.volume()).toBeGreaterThan(
       plainParts[0].manifold.volume(),
     );
@@ -274,8 +277,9 @@ describe("buildArcTokenMesh color groups", () => {
     expect(basePart?.manifold.decompose().length).toBe(1); // ribbon+studs still fused on their own
   });
 
-  // A stud narrower than the ribbon grows to its width (computeEffectiveStudDiameterMm). The mesh
-  // has to grow it like the preview does, or the print carries a notch the screen never showed.
+  // A stud narrower than the ribbon grows to its width
+  // (computeEffectiveStudDiameterMm). The mesh has to grow it like the preview
+  // does, or the print carries a notch the screen never showed.
 });
 
 describe("buildArcTokenMesh wide ribbon", () => {

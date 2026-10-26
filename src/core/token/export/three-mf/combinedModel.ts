@@ -24,8 +24,8 @@ export type CombinedThreeMfItem = {
 
 type Material = { index: number; name: string };
 
-// A lone copy keeps the token's name; several get numbered so the slicer's object list tells
-// them apart.
+// A lone copy keeps the token's name; several get numbered so the slicer's
+// object list tells them apart.
 const copyName = (
   itemName: string,
   copyIndex: number,
@@ -40,8 +40,8 @@ const copyName = (
   return `${itemName} ${copyNumber}`;
 };
 
-// One <base> material per distinct colorGroupId, in first-seen order, with its index kept
-// alongside its display name.
+// One <base> material per distinct colorGroupId, in first-seen order, with its
+// index kept alongside its display name.
 const collectMaterials = (
   allParts: TokenPart[],
   colorGroups: ColorGroupSpec[],
@@ -68,10 +68,11 @@ const collectMaterials = (
   return { materialByColorGroupId, basesXml: basesXmlParts.join("") };
 };
 
-// Every copy of a token is its own object, whose single mesh holds all of the token's color parts.
-// Slicers list each copy by name, move its base and relief together, and keep each part's own
-// material. Copies are separate objects rather than instances of one: PrusaSlicer only applies a
-// multi-part object's part ranges to its first instance and fuses the others into one part.
+// Every copy of a token is its own object, whose single mesh holds all of the
+// token's color parts. Slicers list each copy by name, move its base and relief
+// together, and keep each part's own material. Copies are separate objects
+// rather than instances of one: PrusaSlicer only applies a multi-part object's
+// part ranges to its first instance and fuses the others into one part.
 export const buildCombinedThreeMfModel = (
   items: CombinedThreeMfItem[],
   colorGroups: ColorGroupSpec[],

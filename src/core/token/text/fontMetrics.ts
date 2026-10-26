@@ -1,12 +1,14 @@
 import type { Font, PathCommand } from "opentype.js";
 
-// The two numbers text fitting needs from a font, each a fraction of the font size.
+// The two numbers text fitting needs from a font, each a fraction of the font
+// size.
 export type FontMetrics = {
-  // How high a capital's top sits above the baseline. Not the font's `ascender`, which leaves
-  // room for accents this text never uses.
+  // How high a capital's top sits above the baseline. Not the font's
+  // `ascender`, which leaves room for accents this text never uses.
   ascentRatio: number;
-  // The thickness of an "l"'s stroke, standing in for the font's stroke width: the thinnest text
-  // that still prints is the size where this matches the print profile's minimum stroke.
+  // The thickness of an "l"'s stroke, standing in for the font's stroke width:
+  // the thinnest text that still prints is the size where this matches the
+  // print profile's minimum stroke.
   stemWidthRatio: number;
 };
 
@@ -14,8 +16,8 @@ type Point = { x: number; y: number };
 
 const CAPITAL_REFERENCE_GLYPH = "H";
 const STEM_REFERENCE_GLYPH = "l";
-// Points each curve is split into when the outline is flattened. Plenty for a stroke edge,
-// which is close to straight at mid-height.
+// Points each curve is split into when the outline is flattened. Plenty for a
+// stroke edge, which is close to straight at mid-height.
 const CURVE_SAMPLE_COUNT = 16;
 
 const sampleQuadratic = (from: Point, control: Point, to: Point): Point[] =>
@@ -29,7 +31,8 @@ const sampleQuadratic = (from: Point, control: Point, to: Point): Point[] =>
     };
   });
 
-// The Bernstein coefficient of a cubic's two inner terms: C(3, 1) = C(3, 2) = 3.
+// The Bernstein coefficient of a cubic's two inner terms: C(3, 1) = C(3, 2) =
+// 3.
 const CUBIC_INNER_COEFFICIENT = 3;
 
 const sampleCubic = (
@@ -120,8 +123,9 @@ const crossingsAt = (contours: Point[][], y: number): number[] => {
   return crossings.sort((a, b) => a - b);
 };
 
-// The widest run of ink across the glyph at half its height: for an "l", the stroke itself,
-// clear of the serifs or the tail at its foot that widen its outline.
+// The widest run of ink across the glyph at half its height: for an "l", the
+// stroke itself, clear of the serifs or the tail at its foot that widen its
+// outline.
 const measureStemWidthUnits = (font: Font): number => {
   const glyph = font.charToGlyph(STEM_REFERENCE_GLYPH);
   const bounds = glyph.getBoundingBox();
@@ -137,8 +141,8 @@ const measureStemWidthUnits = (font: Font): number => {
   return widestRun;
 };
 
-// Text fitting asks once per line, so each font is measured once. Weak, so a font that is no
-// longer used can still be collected.
+// Text fitting asks once per line, so each font is measured once. Weak, so a
+// font that is no longer used can still be collected.
 const metricsByFont = new WeakMap<Font, FontMetrics>();
 
 export const measureFontMetrics = (font: Font): FontMetrics => {

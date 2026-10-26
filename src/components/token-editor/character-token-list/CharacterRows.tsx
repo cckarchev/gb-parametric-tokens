@@ -25,8 +25,8 @@ type CharacterRowsProps = {
   onCopiesChange: (id: string, copies: number) => void;
 };
 
-// One character's header row followed by a row per token and AoE template it carries, as
-// siblings so the list's zebra striping runs on across characters.
+// One character's header row followed by a row per token and AoE template it
+// carries, as siblings so the list's zebra striping runs on across characters.
 export const CharacterRows = ({
   character,
   selectedTokenIds,

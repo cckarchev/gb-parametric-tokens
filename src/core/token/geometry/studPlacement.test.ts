@@ -104,9 +104,10 @@ describe("computeStudPlacements", () => {
       PRECISION_DIGITS,
     );
 
-    // The stud's center sits further out along the same ray, at innerRadiusMm + studRadiusMm:
-    // so the vertex point (innerRadiusMm, that same angle) is exactly studRadiusMm away from
-    // the stud's center, i.e. exactly on its circumference.
+    // The stud's center sits further out along the same ray, at innerRadiusMm +
+    // studRadiusMm: so the vertex point (innerRadiusMm, that same angle) is
+    // exactly studRadiusMm away from the stud's center, i.e. exactly on its
+    // circumference.
     const vertexToCenterDistance = (
       angleDeg: number,
       position: [number, number],
@@ -149,9 +150,10 @@ describe("computeStudPlacements stud diameter", () => {
       CENTER_ANGLE_DEG,
     );
 
-    // Angle is unaffected by stud diameter (ribbonLengthMm/ribbonWidthMm are unchanged), so the
-    // vertex point itself (innerRadiusMm at that angle) is identical in both cases: only the
-    // stud's own center should move further out, never the vertex it touches.
+    // Angle is unaffected by stud diameter (ribbonLengthMm/ribbonWidthMm are
+    // unchanged), so the vertex point itself (innerRadiusMm at that angle) is
+    // identical in both cases: only the stud's own center should move further
+    // out, never the vertex it touches.
     expect(smallPlacements.left.angleDeg).toBeCloseTo(
       bigPlacements.left.angleDeg,
       PRECISION_DIGITS,

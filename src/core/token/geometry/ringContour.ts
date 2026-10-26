@@ -9,7 +9,8 @@ const buildCirclePolygon = (radiusMm: number): Vec2[] =>
     return [radiusMm * Math.cos(angleRad), radiusMm * Math.sin(angleRad)];
   });
 
-// A flat ring widthMm wide, centered on radiusMm. The inner circle is wound as a hole.
+// A flat ring widthMm wide, centered on radiusMm. The inner circle is wound as
+// a hole.
 export const computeRingContour = (
   radiusMm: number,
   widthMm: number,

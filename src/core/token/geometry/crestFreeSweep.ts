@@ -1,11 +1,12 @@
 import type { Vec2 } from "../types";
-import { DEGREES_PER_RADIAN } from "./angleConventions";
+import {
+  DEGREES_PER_RADIAN,
+  FULL_TURN_DEG,
+  HALF_TURN_DEG,
+} from "./angleConventions";
 
-const FULL_TURN_DEG = 360;
-const HALF_TURN_DEG = 180;
-
-// Edges are walked in steps this long, so a long straight crest edge that crosses the band with
-// no corner inside it still counts.
+// Edges are walked in steps this long, so a long straight crest edge that
+// crosses the band with no corner inside it still counts.
 const EDGE_SAMPLE_STEP_MM = 0.05;
 
 const sampleEdge = (from: Vec2, to: Vec2): Vec2[] => {
@@ -32,7 +33,8 @@ const sampleContour = (contour: Vec2[]): Vec2[] =>
     return sampleEdge(point, next);
   });
 
-// Angle between two directions, folded into 0..180 so either side of the center reads the same.
+// Angle between two directions, folded into 0..180 so either side of the center
+// reads the same.
 const angularDistanceDeg = (
   angleDeg: number,
   centerAngleDeg: number,
@@ -44,10 +46,11 @@ const angularDistanceDeg = (
     : differenceDeg;
 };
 
-// The sweep, centered on centerAngleDeg, that a line of text between minRadiusMm and maxRadiusMm
-// can use without touching the crests: up to the crest point nearest the center on either side,
-// less clearanceMm off each. The clearance is converted to an angle at the band's inner edge,
-// where the same gap takes the most degrees. Undefined when no crest reaches the band.
+// The sweep, centered on centerAngleDeg, that a line of text between
+// minRadiusMm and maxRadiusMm can use without touching the crests: up to the
+// crest point nearest the center on either side, less clearanceMm off each. The
+// clearance is converted to an angle at the band's inner edge, where the same
+// gap takes the most degrees. Undefined when no crest reaches the band.
 export const computeCrestFreeSweepDeg = (
   crestContours: Vec2[][],
   centerAngleDeg: number,
@@ -65,8 +68,8 @@ export const computeCrestFreeSweepDeg = (
     return undefined;
   }
 
-  // A reduce, not Math.min(...points): a detailed crest samples into more points than a spread
-  // call takes arguments.
+  // A reduce, not Math.min(...points): a detailed crest samples into more
+  // points than a spread call takes arguments.
   const nearestCrestDeg = pointsInBand.reduce((nearestDeg, point) => {
     const angleDeg = Math.atan2(point[1], point[0]) * DEGREES_PER_RADIAN;
 

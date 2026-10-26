@@ -113,7 +113,8 @@ describe("buildTokenMesh inlay", () => {
       BASE_THICKNESS_MM - RELIEF_HEIGHT_MM,
     );
 
-    // The pocket is exactly the inlay: together they add up to the plain disc, no gap, no overlap.
+    // The pocket is exactly the inlay: together they add up to the plain disc,
+    // no gap, no overlap.
     const combinedVolume =
       (basePart?.manifold.volume() ?? 0) + (textPart?.manifold.volume() ?? 0);
 
@@ -235,7 +236,8 @@ describe("buildTokenMesh color groups and grow outline", () => {
     const basePart = parts.find((part) => part.colorGroupId === "base");
     const accentPart = parts.find((part) => part.colorGroupId === "accent");
 
-    // the base part alone is the bare disc: nothing raised above baseThicknessMm fused into it
+    // the base part alone is the bare disc: nothing raised above
+    // baseThicknessMm fused into it
     expect(basePart?.manifold.boundingBox().max[2]).toBe(BASE_THICKNESS_MM);
     expect(accentPart?.manifold.boundingBox().max[2]).toBeGreaterThan(
       BASE_THICKNESS_MM,
@@ -243,7 +245,8 @@ describe("buildTokenMesh color groups and grow outline", () => {
   });
 
   it("unions a growOutline contour into the base, past the plain disc's own radius", async () => {
-    // The disc is 25mm diameter (radius 12.5mm): this square reaches well past that.
+    // The disc is 25mm diameter (radius 12.5mm): this square reaches well past
+    // that.
     const growHalfSizeMm = 20;
     const growSquare = centeredSquare(growHalfSizeMm);
 
@@ -289,7 +292,8 @@ describe("buildTokenMesh base color group", () => {
 describe("buildTokenMesh inner diameter", () => {
   it("leaves no material at the center of a disc with an inner diameter", async () => {
     const holeDiameterMm = 15;
-    // A separately colorGrouped relief stays its own part, so the base part is the bare body.
+    // A separately colorGrouped relief stays its own part, so the base part is
+    // the bare body.
     const reliefComponents: ReliefComponent[] = [
       {
         source: { kind: "decoration" },

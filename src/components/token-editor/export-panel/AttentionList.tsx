@@ -3,8 +3,8 @@ import { groupAttentionItems } from "@/core/token/validation/groupAttentionItems
 
 import styles from "./ExportPanel.module.css";
 
-// The slice of a failed PreviewItem this panel actually renders, derived from it rather than
-// restated, so the two can't drift apart.
+// The slice of a failed PreviewItem this panel actually renders, derived from
+// it rather than restated, so the two can't drift apart.
 export type InvalidPreviewItem = Pick<
   PreviewItem,
   "id" | "group" | "name" | "reason"

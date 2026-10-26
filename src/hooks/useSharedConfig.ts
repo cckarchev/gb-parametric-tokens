@@ -16,7 +16,8 @@ const SETTINGS_FILE_NAME = "token-settings.json";
 const JSON_MIME_TYPE = "application/json";
 const SETTINGS_JSON_INDENT = 2;
 
-// The settings every token shares, plus saving them to and loading them from a JSON file.
+// The settings every token shares, plus saving them to and loading them from a
+// JSON file.
 export const useSharedConfig = (catalog: GuildCatalog | undefined) => {
   const [importSettingsError, setImportSettingsError] = useState<string>();
 
@@ -24,8 +25,8 @@ export const useSharedConfig = (catalog: GuildCatalog | undefined) => {
     DEFAULT_SHARED_CONFIG,
   );
 
-  // Every successful guild load re-seeds the two catalog-derived colors (the selection itself is
-  // kept per guild, and is not reset here).
+  // Every successful guild load re-seeds the two catalog-derived colors (the
+  // selection itself is kept per guild, and is not reset here).
   useEffect(() => {
     if (!catalog) {
       return;

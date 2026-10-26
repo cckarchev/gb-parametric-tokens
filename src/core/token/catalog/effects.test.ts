@@ -5,7 +5,8 @@ import effectsData from "@/data/effects.json";
 
 import { resolveEffect } from "./effects";
 
-// Biome's useNamingConvention default for identifiers: lower camelCase, ASCII letters and digits.
+// Biome's useNamingConvention default for identifiers: lower camelCase, ASCII
+// letters and digits.
 const CAMEL_CASE_ID = /^[a-z][a-zA-Z0-9]*$/;
 
 describe("resolveEffect", () => {

@@ -7,8 +7,9 @@ import {
   type TokenSelection,
 } from "./token-items/tokenItem";
 
-// A typical Guild Ball game's own real quantities, not just each counter's bare minimum, so a
-// first visit to a guild starts from a usable token set instead of an empty one.
+// A typical Guild Ball game's own real quantities, not just each counter's bare
+// minimum, so a first visit to a guild starts from a usable token set instead
+// of an empty one.
 const DEFAULT_INFLUENCE_COPIES = 13;
 const DEFAULT_MOMENTUM_COPIES = 15;
 const DEFAULT_GOAL_INFLUENCE_COPIES = 2;
@@ -28,9 +29,10 @@ const crestCounter = (
   copies,
 });
 
-// A guild's first-ever selection: everything the catalog offers, checked by default, so the
-// user opts out of what they don't want rather than opting into everything from scratch. Once a
-// guild has been visited, its selection is remembered instead of being rebuilt from here again.
+// A guild's first-ever selection: everything the catalog offers, checked by
+// default, so the user opts out of what they don't want rather than opting into
+// everything from scratch. Once a guild has been visited, its selection is
+// remembered instead of being rebuilt from here again.
 export const buildDefaultSelection = (
   catalog: GuildCatalog,
 ): TokenSelection => {
@@ -61,8 +63,9 @@ export const buildDefaultSelection = (
     );
   }
 
-  // The generic catalog still offers Influence, Momentum and Goal Influence as a neutral set
-  // wearing the Guild Ball logo, but unchecked: a player normally prints their own guild's.
+  // The generic catalog still offers Influence, Momentum and Goal Influence as
+  // a neutral set wearing the Guild Ball logo, but unchecked: a player normally
+  // prints their own guild's.
   const areCrestCountersEnabled = catalog.guildId !== GENERIC_CATALOG_ID;
 
   return {

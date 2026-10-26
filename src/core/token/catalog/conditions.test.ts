@@ -6,7 +6,8 @@ import conditionsData from "@/data/conditions.json";
 
 import { allConditions, conditionsForGuild } from "./conditions";
 
-// Biome's useNamingConvention default for identifiers: lower camelCase, ASCII letters and digits.
+// Biome's useNamingConvention default for identifiers: lower camelCase, ASCII
+// letters and digits.
 const CAMEL_CASE_ID = /^[a-z][a-zA-Z0-9]*$/;
 
 const conditionNames = (guildId: string): string[] =>

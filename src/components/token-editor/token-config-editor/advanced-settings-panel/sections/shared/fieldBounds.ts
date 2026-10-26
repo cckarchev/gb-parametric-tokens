@@ -1,8 +1,9 @@
 import { MIN_SPOKE_COUNT } from "@/core/token/catalog/token-items/aoeTemplateSpec";
 
-// The fixed range of every editable number in the advanced settings. Wide enough for real
-// experimentation, narrow enough to keep obvious nonsense out; combinations that still break a
-// token are caught by the layout checks (see core/token/validation/validateLayoutGeometry.ts).
+// The fixed range of every editable number in the advanced settings. Wide
+// enough for real experimentation, narrow enough to keep obvious nonsense out;
+// combinations that still break a token are caught by the layout checks (see
+// core/token/validation/validateLayoutGeometry.ts).
 type FieldBounds = { min: number; max: number };
 
 export const RELIEF_HEIGHT_BOUNDS: FieldBounds = { min: 0.2, max: 3 };

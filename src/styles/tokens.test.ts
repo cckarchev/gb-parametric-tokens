@@ -8,10 +8,12 @@ const MEDIA_PRELUDE = /@media[^{]+/g;
 const VAR_REFERENCE = /var\((--[\w-]+)/g;
 const DECLARATION = /(--[\w-]+):\s*([^;]+);/g;
 
-// Custom properties a component declares on itself, for a value it shares across its own rules.
+// Custom properties a component declares on itself, for a value it shares
+// across its own rules.
 const LOCAL_PROPERTIES = new Set(["--panel-border-width"]);
 
-// Each loose literal a stylesheet may not carry; the value belongs in tokens.css instead.
+// Each loose literal a stylesheet may not carry; the value belongs in
+// tokens.css instead.
 const FORBIDDEN_LITERALS: { name: string; pattern: RegExp }[] = [
   { name: "hex color", pattern: /#[0-9a-fA-F]{3,8}\b/ },
   { name: "rgb color", pattern: /\brgba?\(/ },

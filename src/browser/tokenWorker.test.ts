@@ -88,7 +88,8 @@ beforeEach(() => {
 
 describe("resource loading", () => {
   it("tries loading the icon manifest again after a failed attempt instead of failing every later request", async () => {
-    // A fresh module, so the resources the other tests already loaded aren't cached here.
+    // A fresh module, so the resources the other tests already loaded aren't
+    // cached here.
     vi.resetModules();
 
     const freshWorker = await import("./tokenWorker");
@@ -116,7 +117,8 @@ describe("resource loading", () => {
 
 type ReliefResult = Awaited<ReturnType<typeof computeReliefComponents>>;
 
-// A token whose relief is clean: nothing to warn about, nothing blocking its export.
+// A token whose relief is clean: nothing to warn about, nothing blocking its
+// export.
 const CLEAN_RELIEF: ReliefResult = {
   reliefComponents: [],
   warnings: [],
@@ -140,9 +142,9 @@ const exportRequest = (items: TokenItem[]): ExportRequest => ({
   colorGroups,
 });
 
-// Two preview fixtures: a grouped token that passes with a warning, and an ungrouped one
-// whose text is too thin.
-const PREVIEW_A = {
+// Two preview fixtures: a grouped token that passes with a warning, and an
+// ungrouped one whose text is too thin.
+const GROUPED_WARNED_PREVIEW = {
   item: {
     id: "a",
     label: "Tapper: Token A",
@@ -160,7 +162,7 @@ const PREVIEW_A = {
   } satisfies ReliefResult,
   baseContours: [[[-1, -1]]] satisfies Vec2[][],
 };
-const PREVIEW_B = {
+const THIN_TEXT_PREVIEW = {
   item: {
     id: "b",
     label: "Token B",
@@ -187,7 +189,7 @@ const PREVIEW_B = {
   baseContours: [[[-2, -2]]] satisfies Vec2[][],
 };
 
-type PreviewFixture = typeof PREVIEW_A | typeof PREVIEW_B;
+type PreviewFixture = typeof GROUPED_WARNED_PREVIEW | typeof THIN_TEXT_PREVIEW;
 
 // The preview result a fixture's token should come back as.
 const previewResult = (
@@ -243,24 +245,27 @@ describe("handlePreview", () => {
 
   it("returns one result per item, with its outline, relief, warnings and failure reason", async () => {
     vi.mocked(computeReliefComponents)
-      .mockResolvedValueOnce(PREVIEW_A.relief)
-      .mockResolvedValueOnce(PREVIEW_B.relief);
+      .mockResolvedValueOnce(GROUPED_WARNED_PREVIEW.relief)
+      .mockResolvedValueOnce(THIN_TEXT_PREVIEW.relief);
     vi.mocked(computeBaseOutlineContours)
-      .mockResolvedValueOnce(PREVIEW_A.baseContours)
-      .mockResolvedValueOnce(PREVIEW_B.baseContours as Vec2[][]);
+      .mockResolvedValueOnce(GROUPED_WARNED_PREVIEW.baseContours)
+      .mockResolvedValueOnce(THIN_TEXT_PREVIEW.baseContours as Vec2[][]);
 
     const request: PreviewRequest = {
       kind: "preview",
       requestId: 7,
-      items: [PREVIEW_A.item, PREVIEW_B.item],
+      items: [GROUPED_WARNED_PREVIEW.item, THIN_TEXT_PREVIEW.item],
     };
 
     const response = await handlePreview(request);
 
     expect(response.requestId).toBe(request.requestId);
     expect(response.results).toEqual([
-      previewResult(PREVIEW_A, ""),
-      previewResult(PREVIEW_B, "1 of 1 detail too thin to print at this size."),
+      previewResult(GROUPED_WARNED_PREVIEW, ""),
+      previewResult(
+        THIN_TEXT_PREVIEW,
+        "1 of 1 detail too thin to print at this size.",
+      ),
     ]);
   });
 });

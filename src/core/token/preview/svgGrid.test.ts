@@ -17,8 +17,9 @@ describe("buildGridOverlaySvg", () => {
   it("anchors lines to absolute 10mm marks that fall within the bounds, not to the bounds' own offset", () => {
     const svg = buildGridOverlaySvg({ x: 3, y: 5, width: 14, height: 8 });
 
-    // Bounds span x: 3..17, y: 5..13. The only absolute 10mm mark inside each axis is 10.
-    // Lines run the full length of the opposite axis so the mark reaches the bounds' edges.
+    // Bounds span x: 3..17, y: 5..13. The only absolute 10mm mark inside each
+    // axis is 10. Lines run the full length of the opposite axis so the mark
+    // reaches the bounds' edges.
     expect(svg).toContain("M10,5 L10,13");
     expect(svg).toContain("M3,10 L17,10");
   });

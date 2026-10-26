@@ -29,18 +29,20 @@ import {
 } from "./computeReliefComponentsShared";
 
 const STUD_TEXT_CLEARANCE_DEG = 6;
-// Gap kept between a line of text and the crest beside it, so a long name shrinks before it
-// touches one.
+// Gap kept between a line of text and the crest beside it, so a long name
+// shrinks before it touches one.
 const CREST_TEXT_CLEARANCE_MM = 0.3;
 
-// A fixed gap, not proportional to the band width, tuned for the default arc shape. Remeasure if
-// the default band width changes.
+// A fixed gap, not proportional to the band width, tuned for the default arc
+// shape. Remeasure if the default band width changes.
 const TWO_LINE_GAP_MM = 0.5;
 
-// Baseline radius of each line on the ribbon (one or two lines). The text is all caps, so a line
-// takes up its ascent outward from the baseline and nothing inward.
+// Baseline radius of each line on the ribbon (one or two lines). The text is
+// all caps, so a line takes up its ascent outward from the baseline and nothing
+// inward.
 // - One line: centered on the band.
-// - Two lines: TWO_LINE_GAP_MM apart, with equal margins to the inner and outer edges.
+// - Two lines: TWO_LINE_GAP_MM apart, with equal margins to the inner and outer
+//   edges.
 const computeLineRadiiMm = (
   innerRadiusMm: number,
   outerRadiusMm: number,
@@ -92,9 +94,10 @@ const studIconComponents = (
       .map((icon) => {
         const studPlacement =
           icon.side === "left" ? studPlacements.left : studPlacements.right;
-        // Same "outward" convention arcPlacement.ts's mathYUpRotationDeg uses for arc text, via
-        // the same offset: keeping the stud icons on it makes them turn with the arc exactly like
-        // the letters beside them do, instead of staying screen-upright as the stud sweeps around.
+        // Same "outward" convention arcPlacement.ts's mathYUpRotationDeg uses
+        // for arc text, via the same offset: keeping the stud icons on it makes
+        // them turn with the arc exactly like the letters beside them do,
+        // instead of staying screen-upright as the stud sweeps around.
         const rotationDeg =
           studPlacement.angleDeg - RADIAL_TO_UPRIGHT_OFFSET_DEG;
 
@@ -111,9 +114,10 @@ const studIconComponents = (
   );
 };
 
-// The stud clearance alone doesn't know how big the crest is: a big crest, or a big line, can
-// still reach into it. So each line is also held to the arc the crests leave free at its own
-// height. A shrunk line re-centers inside its nominal height, so measuring there is enough.
+// The stud clearance alone doesn't know how big the crest is: a big crest, or a
+// big line, can still reach into it. So each line is also held to the arc the
+// crests leave free at its own height. A shrunk line re-centers inside its
+// nominal height, so measuring there is enough.
 const nominalLineFits = (
   { spec, font, printProfile }: ArcTextContext,
   crestContours: Vec2[][],
@@ -150,7 +154,8 @@ const nominalLineFits = (
     );
   });
 
-// Lines with an explicit radiusMm, or that autoFitLine split in two, keep their own radii.
+// Lines with an explicit radiusMm, or that autoFitLine split in two, keep their
+// own radii.
 const recenteredFit = (
   line: LineSpec,
   nominalFit: LineFit,
@@ -245,8 +250,9 @@ export const computeArcReliefComponents = async (
     availableSweepDeg,
   );
 
-  // autoFitLine may shrink a line, and a shrunk line centered for its nominal size drifts toward
-  // the inner edge. Re-center from the sizes actually rendered.
+  // autoFitLine may shrink a line, and a shrunk line centered for its nominal
+  // size drifts toward the inner edge. Re-center from the sizes actually
+  // rendered.
   const actualLineRadiiMm = computeLineRadiiMm(
     ribbonInnerRadiusMm,
     outerRadiusMm,

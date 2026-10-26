@@ -19,7 +19,8 @@ describe("measureFontMetrics", () => {
   it("reads a capital's height and an l's width off the font, as fractions of its size", () => {
     const metrics = measureFontMetrics(loadTestFont());
 
-    // Saira Condensed Bold: "H" tops out at 688 and "l" is 129 wide, on a 1000-unit em.
+    // Saira Condensed Bold: "H" tops out at 688 and "l" is 129 wide, on a
+    // 1000-unit em.
     const capHeightRatio = 0.688;
     const stemRatio = 0.129;
 
@@ -40,7 +41,8 @@ describe("measureFontMetrics", () => {
 
     const metrics = measureFontMetrics(font);
 
-    // Fira's l curls into a tail at the foot, so its outline is far wider than its stroke.
+    // Fira's l curls into a tail at the foot, so its outline is far wider than
+    // its stroke.
     const maxStrokeShareOfOutline = 0.75;
     const minPlausibleStemRatio = 0.1;
 

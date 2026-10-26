@@ -6,7 +6,8 @@ import charactersData from "@/data/characters.json";
 import { resolveAoeTemplate } from "./aoeTemplates";
 import type { CatalogCharacter } from "./catalogTypes";
 
-// Biome's useNamingConvention default for identifiers: lower camelCase, ASCII letters and digits.
+// Biome's useNamingConvention default for identifiers: lower camelCase, ASCII
+// letters and digits.
 const CAMEL_CASE_ID = /^[a-z][a-zA-Z0-9]*$/;
 
 const characters: CatalogCharacter[] = charactersData;

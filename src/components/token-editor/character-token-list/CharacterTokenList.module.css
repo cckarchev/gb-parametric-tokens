@@ -7,8 +7,9 @@
   composes: listRow from "../../../styles/listRow.module.css";
 }
 
-/* Continuous zebra striping across the whole table (character headers and their tokens are all
-   direct children of .rows), not just within each character's own tokens. */
+/* Continuous zebra striping across the whole table (character headers and their
+   tokens are all direct children of .rows), not just within each character's
+   own tokens. */
 .row:nth-child(even) {
   background: var(--color-surface-stripe);
 }
@@ -23,8 +24,9 @@
   color: var(--color-text-muted);
 }
 
-/* Compound selector on purpose: the composed listRow sheet can load after this one, and its
-   padding shorthand would otherwise win the tie and drop the indent. */
+/* Compound selector on purpose: the composed listRow sheet can load after this
+   one, and its padding shorthand would otherwise win the tie and drop the
+   indent. */
 .row.rowToken {
   /* Lines up under the header checkbox's own label text, not its square. */
   padding-left: calc(
@@ -40,8 +42,8 @@
   gap: var(--space-2xs);
 }
 
-/* Marks an AOE template row apart from the character's tokens, in the same muted voice as the
-   count. */
+/* Marks an AOE template row apart from the character's tokens, in the same
+   muted voice as the count. */
 .tag {
   font-size: var(--font-size-sm);
   color: var(--color-text-muted);

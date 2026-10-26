@@ -33,9 +33,9 @@ describe("growIconOutline", () => {
 
     const grown = await growIconOutline(square, 1);
 
-    // A 4x4 square dilated by 1mm on every side becomes (roughly) a 6x6 rounded square:
-    // area strictly bigger than the original, and every original corner still lies within
-    // the grown footprint's own reach from the origin.
+    // A 4x4 square dilated by 1mm on every side becomes (roughly) a 6x6 rounded
+    // square: area strictly bigger than the original, and every original corner
+    // still lies within the grown footprint's own reach from the origin.
     expect(totalArea(grown)).toBeGreaterThan(totalArea(square));
     expect(maxDistanceFromOrigin(grown)).toBeGreaterThan(
       maxDistanceFromOrigin(square),

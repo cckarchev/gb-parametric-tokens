@@ -24,7 +24,7 @@ export const CharacterTokenList = ({
   tokenCopies,
   onTokenCopiesChange,
 }: CharacterTokenListProps) => {
-  const toggle = (id: string, checked: boolean) => {
+  const toggleToken = (id: string, checked: boolean) => {
     if (checked) {
       onSelectedTokenIdsChange([...selectedTokenIds, id]);
       return;
@@ -37,19 +37,14 @@ export const CharacterTokenList = ({
 
   const toggleCharacter = (character: CatalogCharacter, checked: boolean) => {
     const ids = characterSelectableIds(character);
+    const withoutCharacter = selectedTokenIds.filter((id) => !ids.includes(id));
 
     if (checked) {
-      const withoutCharacter = selectedTokenIds.filter(
-        (id) => !ids.includes(id),
-      );
-
       onSelectedTokenIdsChange([...withoutCharacter, ...ids]);
       return;
     }
 
-    onSelectedTokenIdsChange(
-      selectedTokenIds.filter((id) => !ids.includes(id)),
-    );
+    onSelectedTokenIdsChange(withoutCharacter);
   };
 
   const allTokenIds = catalog.characters.flatMap(characterSelectableIds);
@@ -77,9 +72,10 @@ export const CharacterTokenList = ({
         />
       }
     >
-      {/* One flat list of rows (character headers and their tokens as direct siblings, not
-          nested per character) so the zebra striping below alternates continuously across the
-          whole table instead of resetting inside each character's own token group. */}
+      {/* One flat list of rows (character headers and their tokens as direct
+          siblings, not nested per character) so the zebra striping below
+          alternates continuously across the whole table instead of resetting
+          inside each character's own token group. */}
       <div className={styles.rows}>
         {catalog.characters.map((character) => (
           <CharacterRows
@@ -88,7 +84,7 @@ export const CharacterTokenList = ({
             selectedTokenIds={selectedTokenIds}
             tokenCopies={tokenCopies}
             onToggleCharacter={(checked) => toggleCharacter(character, checked)}
-            onToggleToken={toggle}
+            onToggleToken={toggleToken}
             onCopiesChange={setCopies}
           />
         ))}

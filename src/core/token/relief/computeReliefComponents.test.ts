@@ -20,9 +20,10 @@ import {
   type LoadIconSource,
 } from "./computeReliefComponents";
 
-// A diamond whose vertices sit exactly on its own bounding box's inscribed circle (see
-// iconPlacement.test.ts's identical fixture): fits within a circular stud/disc with no shrink, so
-// tests using this as a stand-in icon aren't incidentally exercising the icon-overflow check.
+// A diamond whose vertices sit exactly on its own bounding box's inscribed
+// circle (see iconPlacement.test.ts's identical fixture): fits within a
+// circular stud/disc with no shrink, so tests using this as a stand-in icon
+// aren't incidentally exercising the icon-overflow check.
 const GENERIC_ICON_SVG = '<svg><path d="M5 0L10 5L5 10L0 5Z"/></svg>';
 
 const stubLoadIconSource: LoadIconSource = async (iconId) => {
@@ -240,8 +241,9 @@ describe("computeReliefComponents missing icons and arc shapes", () => {
 describe("computeReliefComponents stud icon rotation", () => {
   it("rotates a stud icon so it turns with the arc the same way the letters beside it do", async () => {
     const font = loadTestFont();
-    // Placed, the triangle's apex points along +y. Rotated outward like arc text, it should point
-    // away from the arc's center, on the same ray as its stud.
+    // Placed, the triangle's apex points along +y. Rotated outward like arc
+    // text, it should point away from the arc's center, on the same ray as its
+    // stud.
     const apexUpTriangleSvg = '<svg><path d="M0 20L20 20L10 0Z"/></svg>';
     const loadTriangleIcon: LoadIconSource = async (iconId) => ({
       svgSource: apexUpTriangleSvg,
@@ -268,9 +270,9 @@ describe("computeReliefComponents stud icon rotation", () => {
     const [iconComponent] = result.reliefComponents;
     const { left } = computeStudPlacements(shape, CENTER_ANGLE_DEG);
 
-    // The apex is the contour vertex closest to the stud center: the two base corners sit a
-    // factor of sqrt(2) farther out from the center than the apex does, a relationship
-    // rotation preserves regardless of the stud's angle.
+    // The apex is the contour vertex closest to the stud center: the two base
+    // corners sit a factor of sqrt(2) farther out from the center than the apex
+    // does, a relationship rotation preserves regardless of the stud's angle.
     const [studCenterX, studCenterY] = left.position;
     const apex = iconComponent.contours[0].reduce((closest, point) => {
       const distance = Math.hypot(
@@ -322,7 +324,8 @@ describe("computeReliefComponents second arc line", () => {
     const radialMin = (contours: [number, number][][]) =>
       Math.min(...contours.flat().map(([x, y]) => Math.hypot(x, y)));
 
-    // The gap comes from TWO_LINE_GAP_MM, not from checking every glyph's box for overlap.
+    // The gap comes from TWO_LINE_GAP_MM, not from checking every glyph's box
+    // for overlap.
     expect(radialMin(firstLine.contours)).toBeGreaterThan(
       radialMin(secondLine.contours),
     );
@@ -399,9 +402,10 @@ describe("computeReliefComponents single-line centering", () => {
 describe("computeReliefComponents centering after a shrink", () => {
   it("keeps a single line centered in the band even after autoFitLine shrinks it below its nominal size", async () => {
     const font = loadTestFont();
-    // A tight band (6mm) on a small radius: "Momentum" at its nominal 5mm doesn't fit the
-    // available arc length, so autoFitLine shrinks the rendered size well below 5mm. The
-    // line must stay centered for the size it actually renders at, not the nominal one.
+    // A tight band (6mm) on a small radius: "Momentum" at its nominal 5mm
+    // doesn't fit the available arc length, so autoFitLine shrinks the rendered
+    // size well below 5mm. The line must stay centered for the size it actually
+    // renders at, not the nominal one.
     const shape = {
       type: "arc" as const,
       ribbonWidthMm: 6,
@@ -495,7 +499,8 @@ describe("computeReliefComponents stroke width", () => {
   it("names the specific text line that failed the min-stroke-width check, not just a total count", async () => {
     const font = loadTestFont();
 
-    // fdm-04's minStrokeWidthMm is 0.45mm; a hairline-small line renders well below that.
+    // fdm-04's minStrokeWidthMm is 0.45mm; a hairline-small line renders well
+    // below that.
     const result = await computeReliefComponents(
       discSpec({ icons: [], lines: [{ text: "l", sizeMm: 0.3 }] }),
       font,
@@ -518,7 +523,8 @@ describe("computeReliefComponents stroke width", () => {
     }
   });
 
-  // A square's corners reach past its inscribed circle, so at scale 0.9 it overflows.
+  // A square's corners reach past its inscribed circle, so at scale 0.9 it
+  // overflows.
 });
 
 describe("computeReliefComponents icon overflow", () => {
@@ -568,7 +574,8 @@ describe("computeReliefComponents icon overflow", () => {
     const maxRadius = Math.max(
       ...icon.contours.flat().map(([x, y]) => Math.hypot(x, y)),
     );
-    // discSpec's diameter is 25mm: the real target circle's radius, regardless of icon.scale.
+    // discSpec's diameter is 25mm: the real target circle's radius, regardless
+    // of icon.scale.
     expect(maxRadius).toBeLessThanOrEqual(DISC_RADIUS_MM + RADIUS_EPSILON_MM);
   });
 });
@@ -633,8 +640,9 @@ describe("computeReliefComponents icon grow", () => {
     const maxRadius = Math.max(
       ...icon.contours.flat().map(([x, y]) => Math.hypot(x, y)),
     );
-    // Unlike 'shrink' and 'trim', 'grow' never touches the icon's own footprint: it stays
-    // past the target circle's radius (discSpec's diameter is 25mm).
+    // Unlike 'shrink' and 'trim', 'grow' never touches the icon's own
+    // footprint: it stays past the target circle's radius (discSpec's diameter
+    // is 25mm).
     expect(maxRadius).toBeGreaterThan(DISC_RADIUS_MM);
     expect(icon.growOutline).toBeDefined();
     expect(icon.growOutline?.length).toBeGreaterThan(0);
@@ -750,7 +758,8 @@ describe("computeReliefComponents ring line orientation", () => {
     expect(radialExtent(topLine.contours).max).toBeGreaterThan(
       RING_LINE_RADIUS_MM,
     );
-    // Bottom line (inward): its ascender grows inward, below its own 9mm radius.
+    // Bottom line (inward): its ascender grows inward, below its own 9mm
+    // radius.
     expect(radialExtent(bottomLine.contours).min).toBeLessThan(
       RING_LINE_RADIUS_MM,
     );
@@ -956,8 +965,8 @@ describe("computeReliefComponents, layout checks", () => {
 });
 
 describe("computeReliefComponents, arc text against a real crest", () => {
-  // The real Brewers crest and the default settings, where these long names used to run into
-  // the crest on one line.
+  // The real Brewers crest and the default settings, where these long names
+  // used to run into the crest on one line.
   const crestSvg = readFileSync("public/icons/guilds/Brewers/logo.svg", "utf8");
   const loadCrest: LoadIconSource = async (iconId) => ({
     svgSource: crestSvg,

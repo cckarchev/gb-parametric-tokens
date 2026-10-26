@@ -2,7 +2,8 @@ import { describe, expect, it } from "vitest";
 
 import { computeSingleLineFit } from "./fitCascade";
 
-// Three 5mm glyphs with two gaps between them: 15mm of text before any tracking.
+// Three 5mm glyphs with two gaps between them: 15mm of text before any
+// tracking.
 const GLYPH_ADVANCE_MM = 5;
 const ADVANCES_MM = [GLYPH_ADVANCE_MM, GLYPH_ADVANCE_MM, GLYPH_ADVANCE_MM];
 const TEXT_LENGTH_MM = GLYPH_ADVANCE_MM * ADVANCES_MM.length;

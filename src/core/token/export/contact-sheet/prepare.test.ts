@@ -56,7 +56,8 @@ describe("groupDiscItemsByDiameter", () => {
 
 describe("prepareSection", () => {
   it("sizes a grid-vertex disc cell to the biggest item plus padding, rounded up to 20mm", () => {
-    // Widest item 12mm + 2 * 2mm padding = 16mm, rounded up to the 20mm vertex step.
+    // Widest item 12mm + 2 * 2mm padding = 16mm, rounded up to the 20mm vertex
+    // step.
     const widestDiameterMm = 12;
     const prepared = prepareSection(
       [disc(10), disc(widestDiameterMm)],
@@ -73,8 +74,9 @@ describe("prepareSection", () => {
   });
 
   it("makes an arc cell big enough for the base-reference circle even when the token is smaller", () => {
-    // A tiny token still gets the 30mm circle's footprint: the left/top margin rounds padding up
-    // to the 10mm grid (2 + 8), so the cell is 30 + 2 * 2 + 8 = 42, rounded up to 50.
+    // A tiny token still gets the 30mm circle's footprint: the left/top margin
+    // rounds padding up to the 10mm grid (2 + 8), so the cell is 30 + 2 * 2 + 8
+    // = 42, rounded up to 50.
     const tinyArc = buildItem(ARC_SHAPE, [
       squareContour({ minMm: 0, maxMm: 1 }),
     ]);
@@ -90,8 +92,9 @@ describe("prepareSection", () => {
   });
 
   it("widens the shared arc margin for content reaching past the circle's left and top", () => {
-    // Shifted onto the anchor (15, 15), the contour spans (-5, -5) to (20, 20): 5mm of overflow,
-    // so padding plus margin rounds 2 + 5 up to 10, a margin of 8.
+    // Shifted onto the anchor (15, 15), the contour spans (-5, -5) to (20, 20):
+    // 5mm of overflow, so padding plus margin rounds 2 + 5 up to 10, a margin
+    // of 8.
     const overflowingArc = buildItem(ARC_SHAPE, [
       squareContour({ minMm: -20, maxMm: 5 }),
     ]);
@@ -111,18 +114,19 @@ describe("prepareSection", () => {
 
 describe("prepareSection with the base-reference circle hidden", () => {
   it("fits an arc cell to the token alone when the base-reference circle is hidden", () => {
-    // Shifted onto the anchor (15, 15), the contour spans (13, 11) to (37, 19). Vertically the
-    // cell is the 8mm of content plus 2 * 2mm padding, with no rounding. Horizontally the token's
-    // axis stays on a grid line: 2mm left of it plus padding rounds up to 10, 22mm right of it
-    // plus padding rounds up to 30.
+    // Shifted onto the anchor (15, 15), the contour spans (13, 11) to (37, 19).
+    // Vertically the cell is the 8mm of content plus 2 * 2mm padding, with no
+    // rounding. Horizontally the token's axis stays on a grid line: 2mm left of
+    // it plus padding rounds up to 10, 22mm right of it plus padding rounds up
+    // to 30.
     const arc = buildItem(ARC_SHAPE, [
       rectContour({ minX: -2, minY: -4, maxX: 22, maxY: 4 }),
     ]);
 
     const prepared = prepareSection([arc], CELL_PADDING_MM, false, false);
 
-    // The axis lands at padding + margin + anchor = 2 - 7 + 15 = 10, on the grid line. The top
-    // margin pulls the token's top back onto the padding.
+    // The axis lands at padding + margin + anchor = 2 - 7 + 15 = 10, on the
+    // grid line. The top margin pulls the token's top back onto the padding.
     expect(prepared).toMatchObject({
       cellWidthMm: 40,
       cellHeightMm: 12,
@@ -132,8 +136,9 @@ describe("prepareSection with the base-reference circle hidden", () => {
   });
 
   it("spans every hidden-circle arc's extent, so differently placed tokens all fit one cell", () => {
-    // Anchored, one spans x 10..20 and the other 15..30, so together they reach 5mm left of the
-    // axis at 15 (rounds to 10 with padding) and 15mm right of it (rounds to 20).
+    // Anchored, one spans x 10..20 and the other 15..30, so together they reach
+    // 5mm left of the axis at 15 (rounds to 10 with padding) and 15mm right of
+    // it (rounds to 20).
     const left = buildItem(ARC_SHAPE, [squareContour({ minMm: -5, maxMm: 5 })]);
     const right = buildItem(ARC_SHAPE, [
       squareContour({ minMm: 0, maxMm: 15 }),

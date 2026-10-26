@@ -1,12 +1,13 @@
-/* Design tokens: the single source of truth for every color, size, font and timing in the app.
-   Follows the CCK Archev brand manual and the club site's theme (cckarchev-web,
-   src/styles/theme.ts): dark only, sharp corners, orange accent, teal for secondary information
-   and focus. Text and border alphas run higher than the site's, which the site README allows for
-   dense tools. Stylesheets read these with var(); src/styles/tokens.test.ts rejects any loose
-   literal elsewhere.
+/* Design tokens: the single source of truth for every color, size, font and
+   timing in the app. Follows the CCK Archev brand manual and the club site's
+   theme (cckarchev-web, src/styles/theme.ts): dark only, sharp corners, orange
+   accent, teal for secondary information and focus. Text and border alphas run
+   higher than the site's, which the site README allows for dense tools.
+   Stylesheets read these with var(); src/styles/tokens.test.ts rejects any
+   loose literal elsewhere.
 
-   The one breakpoint (900px, TokenEditor.module.css) stays a literal there: media queries cannot
-   read custom properties. */
+   The one breakpoint (900px, TokenEditor.module.css) stays a literal there:
+   media queries cannot read custom properties. */
 
 @font-face {
   font-family: "Big Noodle Titling";
@@ -16,8 +17,8 @@
   font-display: swap;
 }
 
-/* Metric-adjusted fallback, copied from the club site, so the layout doesn't shift when the
-   display font swaps in. */
+/* Metric-adjusted fallback, copied from the club site, so the layout doesn't
+   shift when the display font swaps in. */
 @font-face {
   font-family: "Big Noodle Titling Fallback";
   src:
@@ -32,7 +33,8 @@
 }
 
 :root {
-  /* RGB channels: compose a color at an opacity step as rgb(var(--rgb-x) / var(--alpha-n)). */
+  /* RGB channels: compose a color at an opacity step as rgb(var(--rgb-x) /
+     var(--alpha-n)). */
   --rgb-text: 245 241 232;
   --rgb-white: 255 255 255;
   --rgb-black: 0 0 0;
@@ -54,11 +56,11 @@
   --color-accent: #f36b21;
   --color-accent-ink: #0b0d0e;
   --color-teal: #2bb3c4;
-  /* The manual's rust (#7a1f14) is too dark to read as text on the near-black base; this is the
-     club site's lightened sibling, which keeps 4.5:1. */
+  /* The manual's rust (#7a1f14) is too dark to read as text on the near-black
+     base; this is the club site's lightened sibling, which keeps 4.5:1. */
   --color-rust-text: #de6456;
-  /* The manual's "blanco hueso": the paper behind black token contours (contact sheet, loupe)
-     and the backing plate of a guild crest. */
+  /* The manual's "blanco hueso": the paper behind black token contours (contact
+     sheet, loupe) and the backing plate of a guild crest. */
   --color-paper: #f5f1e8;
 
   /* Text tiers. */
@@ -70,8 +72,9 @@
   --color-border-divider: rgb(var(--rgb-white) / var(--alpha-10));
   --color-border-default: rgb(var(--rgb-white) / var(--alpha-20));
 
-  /* States. Ready reads in teal (the manual has no green; teal is its secondary information
-     color), attention in rust. Disabled drops to a flat grey, text and edge alike. */
+  /* States. Ready reads in teal (the manual has no green; teal is its secondary
+     information color), attention in rust. Disabled drops to a flat grey, text
+     and edge alike. */
   --color-status-ready: var(--color-teal);
   --color-status-attention: var(--color-rust-text);
   --color-focus: var(--color-teal);
@@ -85,7 +88,8 @@
   --color-surface-stripe: rgb(var(--rgb-white) / var(--alpha-5));
   --color-surface-scrim: rgb(var(--rgb-black) / var(--alpha-60));
 
-  /* Type. Display is the manual's title face, body its reading face, mono the figures. */
+  /* Type. Display is the manual's title face, body its reading face, mono the
+     figures. */
   --font-display:
     "Big Noodle Titling", "Big Noodle Titling Fallback", system-ui, sans-serif;
   --font-body: "Barlow", system-ui, sans-serif;
@@ -122,7 +126,8 @@
   --radius-none: 0;
   --radius-round: 50%;
 
-  /* Focus: one teal ring for every control; inset where the control sits flush in a bar. */
+  /* Focus: one teal ring for every control; inset where the control sits flush
+     in a bar. */
   --focus-ring-width: 2px;
   --focus-ring: var(--focus-ring-width) solid var(--color-focus);
   --focus-ring-offset: var(--focus-ring-width);
@@ -142,7 +147,8 @@
   --size-header-logo: 40px;
   --size-checkbox: 16px;
   --size-chevron: 8px;
-  /* A stepper matches one text line, so it never grows a checkbox row it sits in. */
+  /* A stepper matches one text line, so it never grows a checkbox row it sits
+     in. */
   --size-stepper: 20px;
   /* Two digits plus breathing room. */
   --size-number-input: 2.2em;

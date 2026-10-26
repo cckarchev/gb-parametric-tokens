@@ -26,12 +26,12 @@ export type LoadIconSourceResult = {
 };
 export type LoadIconSource = (iconId: string) => Promise<LoadIconSourceResult>;
 
-// How far "grow" extends the body past the icon, in multiples of minStrokeWidthMm. One multiple
-// prints but reads as a hairline.
+// How far "grow" extends the body past the icon, in multiples of
+// minStrokeWidthMm. One multiple prints but reads as a hairline.
 const GROW_MARGIN_MULTIPLIER = 4;
 
-// The flat and ring layouts only ever get a disc spec, but TypeScript can't see the dispatch
-// that guarantees it, so both narrow through this guard.
+// The flat and ring layouts only ever get a disc spec, but TypeScript can't see
+// the dispatch that guarantees it, so both narrow through this guard.
 export const requireDiscShape = (
   spec: TokenSpec,
   callerName: string,
@@ -76,26 +76,26 @@ export const buildIconComponent = async (
     constrainToCircle: overflowBehavior === "shrink",
   });
 
-  // placeIcon flips Y, and a y-flip reverses contour winding (see contourTransforms.ts), so
-  // normalizeWinding must run after it. Run it before and manifold silently collapses the icon
-  // CrossSection to empty.
+  // placeIcon flips Y, and a y-flip reverses contour winding (see
+  // contourTransforms.ts), so normalizeWinding must run after it. Run it before
+  // and manifold silently collapses the icon CrossSection to empty.
   const normalized = normalizeWinding(placed);
-  // Trimmed after normalizeWinding, so holes stay holes, and before moving the icon, while it's
-  // still centered on the origin. Cut at the full stud or disc radius, not the icon's scaled
-  // target.
+  // Trimmed after normalizeWinding, so holes stay holes, and before moving the
+  // icon, while it's still centered on the origin. Cut at the full stud or disc
+  // radius, not the icon's scaled target.
   const trimmed =
     overflowBehavior === "trim" && overflowsCircle
       ? await trimIconToCircle(normalized, targetDiameterMm / 2)
       : normalized;
 
-  // Rotate about the icon's own center (still at the origin here) before translating it out
-  // to its final position, the same rotate-then-translate order applyArcPlacement uses for
-  // glyphs.
+  // Rotate about the icon's own center (still at the origin here) before
+  // translating it out to its final position, the same rotate-then-translate
+  // order applyArcPlacement uses for glyphs.
   const rotated = rotateContours(trimmed, rotationDeg);
   const contours = translateContours(rotated, center);
 
-  // "grow" leaves the icon alone and grows the body instead, so the footprint is taken from the
-  // icon's final position.
+  // "grow" leaves the icon alone and grows the body instead, so the footprint
+  // is taken from the icon's final position.
   const growOutline =
     overflowBehavior === "grow" && overflowsCircle
       ? await growIconOutline(

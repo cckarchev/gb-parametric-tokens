@@ -25,8 +25,9 @@
   overflow: hidden;
   border-radius: var(--radius-round);
   border: var(--border-width-thick) solid var(--color-accent);
-  /* A fixed paper backdrop, independent of whatever panel background sits behind the loupe,
-     so the magnified copy reads consistently regardless of which preview hosts it. */
+  /* A fixed paper backdrop, independent of whatever panel background sits
+     behind the loupe, so the magnified copy reads consistently regardless of
+     which preview hosts it. */
   background: var(--color-paper);
   box-shadow: var(--shadow-lens);
   pointer-events: none;

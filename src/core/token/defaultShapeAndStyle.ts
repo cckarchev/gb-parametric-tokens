@@ -6,8 +6,8 @@ import type {
   StyleSpec,
 } from "./types";
 
-// The default arc shape, tuned by eye rather than measured. ShapeEditor also falls back to its
-// fillet radius for an arc that has none.
+// The default arc shape, tuned by eye rather than measured. ShapeEditor also
+// falls back to its fillet radius for an arc that has none.
 export const DEFAULT_ARC_SHAPE: ArcShapeSpec = {
   type: "arc",
   ribbonWidthMm: 6,
@@ -28,8 +28,9 @@ export const DEFAULT_STYLE: StyleSpec = {
   baseThicknessMm: 3,
 };
 
-// No negative tracking: the -0.3mm per gap that suited the old, wide font glues the letters of
-// a condensed one together, so text that doesn't fit is shrunk instead (down to minScale).
+// No negative tracking: the -0.3mm per gap that suited the old, wide font glues
+// the letters of a condensed one together, so text that doesn't fit is shrunk
+// instead (down to minScale).
 export const DEFAULT_FIT_POLICY: FitPolicy = {
   minTracking: 0,
   maxTracking: 0,

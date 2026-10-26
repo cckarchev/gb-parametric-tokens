@@ -87,8 +87,8 @@ describe("usePreview debounce", () => {
 
     rerender({ selection: selectionWith(["Tapper-0"]) });
 
-    // No vi.advanceTimersByTime here: a change with nothing recent before it should not need to
-    // wait out the debounce window at all.
+    // No vi.advanceTimersByTime here: a change with nothing recent before it
+    // should not need to wait out the debounce window at all.
     expect(worker.postMessage).toHaveBeenCalledTimes(1);
     expect(lastPostedRequest(worker).kind).toBe("preview");
   });
@@ -105,7 +105,8 @@ describe("usePreview debounce", () => {
     rerender({ selection: selectionWith(["Tapper-0"]) });
     expect(worker.postMessage).toHaveBeenCalledTimes(1);
 
-    // Second change arrives right after, still inside the debounce window: must not fire yet.
+    // Second change arrives right after, still inside the debounce window: must
+    // not fire yet.
     rerender({ selection: selectionWith(["Tapper-0", "Tapper-1"]) });
     expect(worker.postMessage).toHaveBeenCalledTimes(1);
 

@@ -15,7 +15,8 @@ import type {
 import type { PendingExport } from "./useWorker";
 
 const THREE_MF_MIME_TYPE = "model/3mf";
-// The archive's name while no guild is loaded, which the UI never lets an export reach.
+// The archive's name while no guild is loaded, which the UI never lets an
+// export reach.
 const FALLBACK_ARCHIVE_NAME = "tokens";
 
 export const useExport = (

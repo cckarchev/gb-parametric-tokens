@@ -24,19 +24,21 @@ export type { LoadIconSource, LoadIconSourceResult };
 
 export type ComputeReliefComponentsResult = {
   reliefComponents: ReliefComponent[];
-  // False whenever anything needs attention, layout warnings included: drives the preview's
-  // "needs attention" list and the contact sheet marker.
+  // False whenever anything needs attention, layout warnings included: drives
+  // the preview's "needs attention" list and the contact sheet marker.
   valid: boolean;
-  // Only the failures that make a print go wrong (a detail too thin to print, an icon's
-  // unsupported overhang) stop the export. Layout warnings (see validateLayoutGeometry.ts) are
-  // left to the user's judgment in the preview: a crest grazing a long name still prints fine.
+  // Only the failures that make a print go wrong (a detail too thin to print,
+  // an icon's unsupported overhang) stop the export. Layout warnings (see
+  // validateLayoutGeometry.ts) are left to the user's judgment in the preview:
+  // a crest grazing a long name still prints fine.
   blocksExport: boolean;
   componentFailures: ComponentFailure[];
   warnings: string[];
 };
 
-// The one signature every layout arm implements. Having it named is what lets the dispatch below
-// pick an arm and call it once, instead of repeating the same five arguments per branch.
+// The one signature every layout arm implements. Having it named is what lets
+// the dispatch below pick an arm and call it once, instead of repeating the
+// same five arguments per branch.
 type ComputeLayoutComponents = (
   spec: TokenSpec,
   font: Font,
@@ -45,8 +47,8 @@ type ComputeLayoutComponents = (
   warnings: string[],
 ) => Promise<ReliefComponent[]>;
 
-// Only a disc can carry the ring layout; everything else is an arc, whose text layout is never
-// anything but "arc".
+// Only a disc can carry the ring layout; everything else is an arc, whose text
+// layout is never anything but "arc".
 const selectLayoutComputation = (spec: TokenSpec): ComputeLayoutComponents => {
   if (spec.shape.type !== "disc") {
     return computeArcReliefComponents;
@@ -59,7 +61,8 @@ const selectLayoutComputation = (spec: TokenSpec): ComputeLayoutComponents => {
   return computeDiscReliefComponents;
 };
 
-// One component at a time, so a failure names the text line or icon it came from.
+// One component at a time, so a failure names the text line or icon it came
+// from.
 const strokeWidthFailures = async (
   reliefComponents: ReliefComponent[],
   printProfile: PrintProfile,
@@ -125,8 +128,8 @@ export const computeReliefComponents = async (
   );
   const overflowFailures = iconOverflowFailures(reliefComponents);
 
-  // Checked against the same outline the preview draws (grown icons included), so a flagged
-  // token and the picture of it always agree.
+  // Checked against the same outline the preview draws (grown icons included),
+  // so a flagged token and the picture of it always agree.
   const footprintContours = await computeBaseOutlineContours(
     spec.shape,
     CENTER_ANGLE_DEG,

@@ -35,8 +35,8 @@ const colorGroups: ColorGroupSpec[] = [
   { id: "text", name: "Text & symbols", color: "#F5F0E1" },
 ];
 
-// The grid overlay always contributes one extra <path> (its own guide lines), on top of
-// whatever token contours a test is asserting about.
+// The grid overlay always contributes one extra <path> (its own guide lines),
+// on top of whatever token contours a test is asserting about.
 const GRID_PATH_COUNT = 1;
 const PRECISION_DIGITS = 9;
 
@@ -142,8 +142,8 @@ describe("buildContactSheetSvg viewBox", () => {
 
     const { viewBox } = buildContactSheetSvg(items, 1, colorGroups);
 
-    // Cell: 22 + 2 * 2 = 26, rounded to two grid steps: 40, so the centered item's middle lands
-    // on an intersection.
+    // Cell: 22 + 2 * 2 = 26, rounded to two grid steps: 40, so the centered
+    // item's middle lands on an intersection.
     expect(viewBox).toEqual({ x: 0, y: 0, width: 40, height: 40 });
   });
 });
@@ -172,8 +172,9 @@ describe("buildContactSheetSvg y axis and grid", () => {
       colorGroups,
     );
 
-    // Flipped bounds: x 0..10, y -5..0. Cell: 10 + 2 * 2 = 14 by 5 + 2 * 2 = 9, rounded to 20 by 20.
-    // Centered: offsetX = 10 - 5 = 5, offsetY = 10 - (-2.5) = 12.5.
+    // Flipped bounds: x 0..10, y -5..0. Cell: 10 + 2 * 2 = 14 by 5 + 2 * 2 = 9,
+    // rounded to 20 by 20. Centered: offsetX = 10 - 5 = 5, offsetY = 10 -
+    // (-2.5) = 12.5.
     expect(svg).toContain("M5,12.5 L15,12.5 L5,7.5 Z");
   });
 
@@ -219,10 +220,12 @@ describe("buildContactSheetSvg base-reference circle", () => {
     const { svg } = buildContactSheetSvg(items, 2, colorGroups);
 
     expect(countOccurrences(svg, 'data-role="base-reference-circle"')).toBe(2);
-    // The square stays inside the circle's footprint, so no margin. Cell = 30 (the circle).
-    // First cell: circle center = 0 + 15 (CIRCLE_ANCHOR_X_SVG) = 15.
+    // The square stays inside the circle's footprint, so no margin. Cell = 30
+    // (the circle). First cell: circle center = 0 + 15 (CIRCLE_ANCHOR_X_SVG) =
+    // 15.
     expect(svg).toContain('cx="15" cy="15"');
-    // Second cell (column 1): cellOriginX = 30, offsetX = 30, contoursOffsetX = 45.
+    // Second cell (column 1): cellOriginX = 30, offsetX = 30, contoursOffsetX =
+    // 45.
     expect(svg).toContain('cx="45" cy="15"');
     expect(svg.indexOf('data-role="base-reference-circle"')).toBeLessThan(
       svg.indexOf('fill="#2B2B2B"'),
@@ -258,17 +261,18 @@ describe("buildContactSheetSvg hidden base-reference circle", () => {
     expect(withoutCircle.viewBox.height).toBeLessThan(
       withCircle.viewBox.height,
     );
-    // The 10mm square no longer waits for the 30mm circle: its top sits on the cell's padding,
-    // and its origin (the token's axis) stays on the first vertical grid line.
+    // The 10mm square no longer waits for the 30mm circle: its top sits on the
+    // cell's padding, and its origin (the token's axis) stays on the first
+    // vertical grid line.
     expect(withoutCircle.svg).toContain('d="M10,12 ');
   });
 });
 
 describe("buildContactSheetSvg circle anchor", () => {
   it("draws the circle exactly at the token's own local origin, wherever that origin ends up in the sheet", () => {
-    // Token and circle share one offset, so the token's origin and the circle's center render
-    // at the same point. The contour starts at (0, 0), so the path's leading M shows where the
-    // origin landed.
+    // Token and circle share one offset, so the token's origin and the circle's
+    // center render at the same point. The contour starts at (0, 0), so the
+    // path's leading M shows where the origin landed.
     const arcShape: ShapeSpec = {
       type: "arc",
       ribbonWidthMm: 6,
@@ -292,8 +296,9 @@ describe("buildContactSheetSvg circle anchor", () => {
       svg,
       /cx="(-?[\d.]+)" cy="(-?[\d.]+)"/,
     );
-    // Anchored specifically to the base fill path (not the grid overlay's own <path>, which
-    // also starts with an M command) so this reads the token's own rendered origin.
+    // Anchored specifically to the base fill path (not the grid overlay's own
+    // <path>, which also starts with an M command) so this reads the token's
+    // own rendered origin.
     const [originX, originY] = capturedPair(
       svg,
       /<path d="M(-?[\d.]+),(-?[\d.]+)[^"]*" fill="#2B2B2B"/,
@@ -437,9 +442,9 @@ describe("buildContactSheetSvg disc sub-grids", () => {
     const columns = 5;
     const { viewBox } = buildContactSheetSvg(items, columns, colorGroups);
 
-    // Small group: cell 10 + 2 * 2 = 14, rounded to 20. 3 items in one row: 60 wide, 20 tall.
-    // Big group: cell 20 + 2 * 2 = 24, rounded to 40. 1 item: 40 wide, 40 tall.
-    // Sheet: width max(60, 40) = 60, height 20 + 40 = 60.
+    // Small group: cell 10 + 2 * 2 = 14, rounded to 20. 3 items in one row: 60
+    // wide, 20 tall. Big group: cell 20 + 2 * 2 = 24, rounded to 40. 1 item: 40
+    // wide, 40 tall. Sheet: width max(60, 40) = 60, height 20 + 40 = 60.
     expect(viewBox).toEqual({ x: 0, y: 0, width: 60, height: 60 });
   });
 });
@@ -468,12 +473,13 @@ describe("buildContactSheetSvg disc columns", () => {
       },
     ];
 
-    // Fewer columns than the disc group fits, so sharing the column count would show.
+    // Fewer columns than the disc group fits, so sharing the column count would
+    // show.
     const { viewBox } = buildContactSheetSvg(items, 2, colorGroups);
 
-    // Arc cell 30, so the sheet is 2 * 30 = 60 wide.
-    // Disc cell 20: floor(60 / 20) = 3 columns. 8 items in 3 rows: 60 wide, 60 tall.
-    // Height: 30 (arc) + 60 = 90.
+    // Arc cell 30, so the sheet is 2 * 30 = 60 wide. Disc cell 20: floor(60 /
+    // 20) = 3 columns. 8 items in 3 rows: 60 wide, 60 tall. Height: 30 (arc) +
+    // 60 = 90.
     expect(viewBox).toEqual({ x: 0, y: 0, width: 60, height: 90 });
   });
 });
@@ -506,8 +512,8 @@ describe("buildContactSheetSvg disc rows", () => {
     const columns = 5;
     const { viewBox } = buildContactSheetSvg(items, columns, colorGroups);
 
-    // Arc cell 30, so the sheet is 5 * 30 = 150 wide.
-    // Disc cell: 90 + 2 * 2 = 94, rounded to 100. floor(150 / 100) = 1 column: 5 rows, 500 tall.
+    // Arc cell 30, so the sheet is 5 * 30 = 150 wide. Disc cell: 90 + 2 * 2 =
+    // 94, rounded to 100. floor(150 / 100) = 1 column: 5 rows, 500 tall.
     // Height: 30 (arc) + 500 = 530.
     expect(viewBox).toEqual({ x: 0, y: 0, width: 100, height: 530 });
   });
@@ -541,9 +547,9 @@ describe("buildContactSheetSvg sheet width cap", () => {
     const columns = 100;
     const { viewBox } = buildContactSheetSvg(items, columns, colorGroups);
 
-    // Sheet width capped at MAX_SHEET_WIDTH_MM = 240.
-    // Disc cell 20: floor(240 / 20) = 12 columns. 30 items in 3 rows: 240 wide, 60 tall.
-    // Height: 30 (arc) + 60 = 90.
+    // Sheet width capped at MAX_SHEET_WIDTH_MM = 240. Disc cell 20: floor(240 /
+    // 20) = 12 columns. 30 items in 3 rows: 240 wide, 60 tall. Height: 30 (arc)
+    // + 60 = 90.
     expect(viewBox).toEqual({ x: 0, y: 0, width: 240, height: 90 });
   });
 });
@@ -556,8 +562,9 @@ describe("buildContactSheetSvg circle grid alignment", () => {
       ribbonLengthMm: 20,
       studDiameterMm: 12,
     };
-    // After the +15 shift to the circle's anchor, this reaches 7mm left of and above the
-    // circle's footprint: not a whole grid step, so the margin has to be rounded.
+    // After the +15 shift to the circle's anchor, this reaches 7mm left of and
+    // above the circle's footprint: not a whole grid step, so the margin has to
+    // be rounded.
     const reach = { minX: -22, minY: -8, maxX: 47, maxY: 22 };
     const overflowingContour: Vec2[][] = [
       [
@@ -584,7 +591,8 @@ describe("buildContactSheetSvg circle grid alignment", () => {
 
     expect(circleCenters).toHaveLength(items[0].copies);
 
-    // The circle is 30mm across, so its edges are on the grid when its center is 15mm off it.
+    // The circle is 30mm across, so its edges are on the grid when its center
+    // is 15mm off it.
     const circleRadiusMm = 15;
 
     for (const [cx, cy] of circleCenters) {
@@ -658,8 +666,8 @@ describe("buildContactSheetSvg attention marker fit", () => {
 
     const { svg } = buildContactSheetSvg(items, 1, colorGroups);
 
-    // Cell 20 by 20 for a 10 by 10 token, centered at (5, 5)-(15, 15). The marker frames the
-    // token, not the cell.
+    // Cell 20 by 20 for a 10 by 10 token, centered at (5, 5)-(15, 15). The
+    // marker frames the token, not the cell.
     expect(svg).toContain(
       '<rect x="5" y="5" width="10" height="10" fill="none" stroke="#ff6b6b" stroke-width="0.6" stroke-dasharray="2 1" />',
     );

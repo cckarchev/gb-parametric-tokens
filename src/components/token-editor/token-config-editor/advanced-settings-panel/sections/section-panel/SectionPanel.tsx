@@ -6,8 +6,8 @@ import type { SharedConfig } from "@/core/token/catalog/token-items/tokenItem";
 
 import styles from "./SectionPanel.module.css";
 
-// What every section receives: the whole config in, the whole config back out, so each section
-// can touch exactly the fields it owns.
+// What every section receives: the whole config in, the whole config back out,
+// so each section can touch exactly the fields it owns.
 export type SectionProps = {
   sharedConfig: SharedConfig;
   onChange: (sharedConfig: SharedConfig) => void;
@@ -16,13 +16,14 @@ export type SectionProps = {
 type SectionPanelProps = {
   title: string;
   onReset: () => void;
-  // One muted line under the fields, for a setting this section depends on but doesn't own.
+  // One muted line under the fields, for a setting this section depends on but
+  // doesn't own.
   note?: string;
   children: ReactNode;
 };
 
-// One collapsible section of the advanced settings, with a reset that restores only its own
-// fields (each section decides which fields those are).
+// One collapsible section of the advanced settings, with a reset that restores
+// only its own fields (each section decides which fields those are).
 export const SectionPanel = ({
   title,
   onReset,

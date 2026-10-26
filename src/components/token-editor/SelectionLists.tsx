@@ -21,9 +21,9 @@ export const SelectionLists = ({
   selection,
   setSelection,
 }: SelectionListsProps) => {
-  // Each list below owns one field of the selection. The update is functional because "Select
-  // all" sets several fields in one click: built from this render's snapshot, only the last one
-  // would stick.
+  // Each list below owns one field of the selection. The update is functional
+  // because "Select all" sets several fields in one click: built from this
+  // render's snapshot, only the last one would stick.
   const updateSelectionField =
     <Field extends keyof TokenSelection>(field: Field) =>
     (value: TokenSelection[Field]) => {
@@ -46,7 +46,8 @@ export const SelectionLists = ({
         />
       )}
 
-      {/* In the roster's spot: for the generic catalog, the game plans are its "models". */}
+      {/* In the roster's spot: for the generic catalog, the game plans are its
+          "models". */}
       {hasGamePlans && (
         <CounterRecordList
           title="Game Plans"

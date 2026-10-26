@@ -2,7 +2,8 @@ import { describe, expect, it } from "vitest";
 
 import { CSS_PX_PER_MM, computeLoupeTransform } from "./computeLoupeTransform";
 
-// A wide token drawn into a container at twice its true size, the cursor at the center.
+// A wide token drawn into a container at twice its true size, the cursor at the
+// center.
 const WIDE = {
   viewBox: { width: 50, height: 25 },
   container: { width: 200, height: 100 },

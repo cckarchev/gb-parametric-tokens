@@ -9,14 +9,15 @@ type ArcGlyphPlacement = {
   angleDeg: number;
   position: Vec2;
   rotationDeg: number;
-  // From the glyph's pen start (x = 0) to the point it pivots on when placed on the arc: its
-  // horizontal center. Pivoting on the pen start makes wide glyphs lean off the curve.
+  // From the glyph's pen start (x = 0) to the point it pivots on when placed on
+  // the arc: its horizontal center. Pivoting on the pen start makes wide glyphs
+  // lean off the curve.
   pivotOffsetMm: number;
 };
 
-// Which way the tops of the letters point. "outward" (away from the center) suits text along the
-// top of a circle. "inward" suits the bottom, so it still reads upright, left to right, like the
-// bottom band of a coin.
+// Which way the tops of the letters point. "outward" (away from the center)
+// suits text along the top of a circle. "inward" suits the bottom, so it still
+// reads upright, left to right, like the bottom band of a coin.
 export type ArcOrientation = "outward" | "inward";
 
 type ArcGlyphPlacementInput = {
@@ -35,7 +36,8 @@ export const computeArcGlyphPlacements = (
   const lastIndex = input.advancesMm.length - 1;
   const totalWidthMm = penPositions[lastIndex] + input.advancesMm[lastIndex];
   const orientation = input.orientation ?? "outward";
-  // Outward, the angle falls as the text advances; inward it rises, so both read left to right.
+  // Outward, the angle falls as the text advances; inward it rises, so both
+  // read left to right.
   const orientationSignMultiplier = orientation === "outward" ? -1 : 1;
 
   return penPositions.map((penPosition, index): ArcGlyphPlacement => {
@@ -49,8 +51,8 @@ export const computeArcGlyphPlacements = (
         DEGREES_PER_RADIAN;
     const angleRad = angleDeg / DEGREES_PER_RADIAN;
 
-    // svgYDown writes straight into SVG space, so y and the rotation are mirrored. mathYUp is
-    // the mesh's y-up world and needs no compensation.
+    // svgYDown writes straight into SVG space, so y and the rotation are
+    // mirrored. mathYUp is the mesh's y-up world and needs no compensation.
     const position: Vec2 =
       input.coordinateConvention === "svgYDown"
         ? [
@@ -62,7 +64,8 @@ export const computeArcGlyphPlacements = (
             input.radiusMm * Math.sin(angleRad),
           ];
 
-    // A quarter turn either side of the point's polar angle (see RADIAL_TO_UPRIGHT_OFFSET_DEG).
+    // A quarter turn either side of the point's polar angle (see
+    // RADIAL_TO_UPRIGHT_OFFSET_DEG).
     const mathYUpRotationDeg =
       orientation === "outward"
         ? angleDeg - RADIAL_TO_UPRIGHT_OFFSET_DEG

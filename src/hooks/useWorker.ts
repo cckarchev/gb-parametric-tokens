@@ -12,10 +12,12 @@ export type PendingExport = {
   reject: (error: Error) => void;
 };
 
-// What a pending export is told when the worker goes away under it, so useExport stops waiting.
+// What a pending export is told when the worker goes away under it, so
+// useExport stops waiting.
 const WORKER_TERMINATED_MESSAGE =
   "The export was cancelled because the page closed its worker.";
-// ErrorEvent.message can come back empty, e.g. for a worker script that failed to load.
+// ErrorEvent.message can come back empty, e.g. for a worker script that failed
+// to load.
 const WORKER_FAILED_MESSAGE = "The token worker stopped unexpectedly.";
 
 type UseWorkerOptions = {
@@ -43,8 +45,8 @@ const isPendingExport = (
   requestId: number,
 ): boolean => pendingExportRef.current?.requestId === requestId;
 
-// Routes each worker response to whoever is waiting on it: the latest preview, or the pending
-// export with that request id.
+// Routes each worker response to whoever is waiting on it: the latest preview,
+// or the pending export with that request id.
 const responseHandler =
   ({
     setPreviewItems,
@@ -89,9 +91,10 @@ const responseHandler =
     }
   };
 
-// The one worker shared by preview and export. Both draw request ids from the same counter, so a
-// preview response is applied only if no newer request went out since. An export response goes
-// to the pending export with its id, which is awaiting that exact response.
+// The one worker shared by preview and export. Both draw request ids from the
+// same counter, so a preview response is applied only if no newer request went
+// out since. An export response goes to the pending export with its id, which
+// is awaiting that exact response.
 export const useWorker = ({
   setPreviewItems,
   setIsPreviewing,
@@ -115,8 +118,9 @@ export const useWorker = ({
       pendingExportRef,
     });
 
-    // The worker script itself failed (it never loaded, or threw outside a request), so no
-    // response is ever coming: settle whatever was waiting on one instead of spinning forever.
+    // The worker script itself failed (it never loaded, or threw outside a
+    // request), so no response is ever coming: settle whatever was waiting on
+    // one instead of spinning forever.
     worker.onerror = (event: ErrorEvent) => {
       rejectPendingExport(
         pendingExportRef,

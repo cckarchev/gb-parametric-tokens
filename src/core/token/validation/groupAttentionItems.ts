@@ -7,9 +7,10 @@ export type AttentionGroup<Item extends AttentionItem> = {
   items: Item[];
 };
 
-// A character's tokens share one heading instead of repeating the character's name on every
-// line (see TokenItem's `group`); anything without a group (guild generics, Influence,
-// Momentum, Goal Influence) is its own single-item group, headed by its own name.
+// A character's tokens share one heading instead of repeating the character's
+// name on every line (see TokenItem's `group`); anything without a group (guild
+// generics, Influence, Momentum, Goal Influence) is its own single-item group,
+// headed by its own name.
 export const groupAttentionItems = <Item extends AttentionItem>(
   items: Item[],
 ): AttentionGroup<Item>[] => {

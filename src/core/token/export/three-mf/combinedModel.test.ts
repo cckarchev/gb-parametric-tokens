@@ -111,7 +111,8 @@ describe("buildCombinedThreeMfModel copies and materials", () => {
     expect(modelXml).toContain('name="Knocked Down 2"');
     expect(modelXml).toContain('name="Knocked Down 3"');
     expect(countOccurrences(modelXml, "<item ")).toBe(copyCount);
-    // The second copy's 2mm box sits 30mm to the right, baked into its own vertices.
+    // The second copy's 2mm box sits 30mm to the right, baked into its own
+    // vertices.
     expect(modelXml).toContain('<object id="3" name="Knocked Down 2"');
     expect(modelXml).toContain('<vertex x="32" y="2" z="1"/>');
     expect(modelXml).not.toContain("transform=");

@@ -17,8 +17,8 @@ const CONDITION_ICONS_DIR = new URL(
   import.meta.url,
 );
 const FLATTEN_TOLERANCE_MM = 0.01;
-// Clear of the rim by at least this much: a raised icon is never clipped to the disc, so anything
-// past the edge prints as an overhang (see iconPlacement.ts).
+// Clear of the rim by at least this much: a raised icon is never clipped to the
+// disc, so anything past the edge prints as an overhang (see iconPlacement.ts).
 const MIN_RIM_MARGIN_MM = 1;
 
 const loadIconContours = (iconId: string) => {

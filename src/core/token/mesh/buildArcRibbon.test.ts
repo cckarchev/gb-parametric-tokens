@@ -20,7 +20,8 @@ const shape = {
 
 const HEIGHT_MM = 3;
 const PRECISION_DIGITS = 9;
-// The ring sector is a polygon, so its edges can sit a little off the true circle.
+// The ring sector is a polygon, so its edges can sit a little off the true
+// circle.
 const SEGMENT_SLACK_MM = 0.5;
 const TOP_SLACK_MM = 0.1;
 
@@ -35,9 +36,10 @@ describe("buildArcRibbon", () => {
   });
 
   it("stays within the ring's outer radius on every axis", async () => {
-    // Checked per-axis, not via bounding-box corners: a corner can combine the maxX
-    // reached at one sweep edge with the maxY reached at the opposite edge, which is a
-    // point outside the actual sector even though both individual axis bounds are fine.
+    // Checked per-axis, not via bounding-box corners: a corner can combine the
+    // maxX reached at one sweep edge with the maxY reached at the opposite
+    // edge, which is a point outside the actual sector even though both
+    // individual axis bounds are fine.
     const manifold = await buildArcRibbon(shape, CENTER_ANGLE_DEG, HEIGHT_MM);
     const bounds = manifold.boundingBox();
     const outerRadiusMm = computeOuterRadiusMm(shape);
@@ -64,12 +66,14 @@ describe("buildArcRibbon", () => {
     const halfSweepDeg = computeSweepDeg(shape) / 2;
     const startAngleDeg = CENTER_ANGLE_DEG - halfSweepDeg;
 
-    // The inner radius is fixed, so the lowest y is innerRadiusMm * sin(startAngleDeg).
+    // The inner radius is fixed, so the lowest y is innerRadiusMm *
+    // sin(startAngleDeg).
     const expectedMinY =
       innerRadiusMm * Math.sin(startAngleDeg / DEGREES_PER_RADIAN);
 
     expect(bounds.min[1]).toBeCloseTo(expectedMinY, 1);
-    // the highest y is at the center (90deg), y = outerRadiusMm * sin(90deg) = outerRadiusMm
+    // the highest y is at the center (90deg), y = outerRadiusMm * sin(90deg) =
+    // outerRadiusMm
     expect(bounds.max[1]).toBeGreaterThan(outerRadiusMm - 1);
     expect(bounds.max[1]).toBeLessThanOrEqual(outerRadiusMm + TOP_SLACK_MM);
   });

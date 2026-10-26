@@ -14,9 +14,9 @@ type TokenRowProps = {
   onCopiesChange: (copies: number) => void;
 };
 
-// One selectable line under a character, shared by its tokens and its AOE templates: a checkbox,
-// an optional muted tag that tells the kinds apart, and a copies stepper only when the catalog entry
-// allows more than one copy.
+// One selectable line under a character, shared by its tokens and its AOE
+// templates: a checkbox, an optional muted tag that tells the kinds apart, and
+// a copies stepper only when the catalog entry allows more than one copy.
 export const TokenRow = ({
   label,
   tag,

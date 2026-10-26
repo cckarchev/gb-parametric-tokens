@@ -54,7 +54,8 @@ const distanceFromChord = (
 
 const QUADRATIC_DEGREE = 2;
 const CUBIC_DEGREE = 3;
-// Degree elevation: a cubic's controls sit this far from each end toward the quadratic's control.
+// Degree elevation: a cubic's controls sit this far from each end toward the
+// quadratic's control.
 const QUADRATIC_TO_CUBIC_FACTOR = QUADRATIC_DEGREE / CUBIC_DEGREE;
 
 const elevateQuadraticToCubic = (

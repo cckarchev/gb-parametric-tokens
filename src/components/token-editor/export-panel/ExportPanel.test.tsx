@@ -7,8 +7,9 @@ import { ExportPanel } from "./ExportPanel";
 
 type ExportPanelProps = Parameters<typeof ExportPanel>[0];
 
-// Defaults describe the panel's resting state: idle, one valid token, nothing wrong. Each test
-// overrides only the props it is actually about, so what it sets is what it covers.
+// Defaults describe the panel's resting state: idle, one valid token, nothing
+// wrong. Each test overrides only the props it is actually about, so what it
+// sets is what it covers.
 const panelElement = (overrides: Partial<ExportPanelProps> = {}) => (
   <ExportPanel
     isExporting={false}

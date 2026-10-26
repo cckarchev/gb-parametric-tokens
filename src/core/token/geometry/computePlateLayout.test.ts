@@ -114,7 +114,8 @@ describe("computePlateLayout disc blocks", () => {
     expect(second[0] - first[0]).toBe(smallPitchMm);
     expect(third[1] - first[1]).toBe(-smallPitchMm);
 
-    // ...and the large disc's top edge starts one spacing gap below their lowest edge.
+    // ...and the large disc's top edge starts one spacing gap below their
+    // lowest edge.
     const lowestSmallEdgeY = Math.min(
       ...result[0].map((offset) => placedBounds(small, offset).min[1]),
     );

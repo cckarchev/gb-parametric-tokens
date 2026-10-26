@@ -15,8 +15,9 @@ import {
   type TokenSelection,
 } from "./tokenItem";
 
-// A deliberately tiny guild, but every character and effect named here is a real entry in the
-// catalog data, so the fixture describes a roster that could actually exist.
+// A deliberately tiny guild, but every character and effect named here is a
+// real entry in the catalog data, so the fixture describes a roster that could
+// actually exist.
 const catalog: GuildCatalog = {
   guildId: "brewers",
   name: "Brewers",
@@ -50,8 +51,8 @@ const sharedConfig: SharedConfig = {
   influenceIconId: "Brewers",
   nameSizeMm: 6,
   effectSizeMm: 4,
-  // Keeps the icon assertions below free of an overflowBehavior field; the overflow tests set
-  // their own.
+  // Keeps the icon assertions below free of an overflowBehavior field; the
+  // overflow tests set their own.
   iconOverflowBehavior: "none",
 };
 
@@ -68,10 +69,11 @@ const emptySelection: TokenSelection = {
   gamePlans: {},
 };
 
-// Read from the data, so a wording edit doesn't break tests about line sizes. The first test
-// keeps the literal, as proof the real text reaches the line.
+// Read from the data, so a wording edit doesn't break tests about line sizes.
+// The first test keeps the literal, as proof the real text reaches the line.
 //
-// Cutlass has no effects of its own; Broadside places two AOEs, so it carries the copies case.
+// Cutlass has no effects of its own; Broadside places two AOEs, so it carries
+// the copies case.
 const blacksmithsCatalog: GuildCatalog = {
   guildId: "blacksmiths",
   name: "Blacksmiths",
@@ -424,8 +426,9 @@ describe("buildTokenItems Influence and Momentum", () => {
     ]);
   });
 
-  // Momentum is the one token kind that opts out of the shared fitPolicy: its text is the fixed
-  // two-character "MP", which always fits, so it never wants tracking or shrinking applied.
+  // Momentum is the one token kind that opts out of the shared fitPolicy: its
+  // text is the fixed two-character "MP", which always fits, so it never wants
+  // tracking or shrinking applied.
 });
 
 describe("buildTokenItems fit policy", () => {
@@ -491,7 +494,8 @@ describe("buildTokenItems Goal Influence", () => {
         colorGroup: "text",
       },
     ]);
-    // No ring border: around a crest that isn't round it reads as a second circle.
+    // No ring border: around a crest that isn't round it reads as a second
+    // circle.
     expect(items[0].spec.decorations).toEqual([]);
   });
 
@@ -504,8 +508,9 @@ describe("buildTokenItems Goal Influence", () => {
 
     const [topLine, bottomLine] = items[0].spec.lines;
 
-    // The top line's ink grows outward from its baseline and the bottom line's inward, so the
-    // bottom baseline sits farther out for both lines' ink to line up (see computeRingTextRadii).
+    // The top line's ink grows outward from its baseline and the bottom line's
+    // inward, so the bottom baseline sits farther out for both lines' ink to
+    // line up (see computeRingTextRadii).
     expect(bottomLine.radiusMm).toBeGreaterThan(topLine.radiusMm ?? 0);
   });
 });

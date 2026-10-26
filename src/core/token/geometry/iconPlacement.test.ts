@@ -33,8 +33,8 @@ describe("placeIcon", () => {
       ],
     ]);
     // Still detected and reported even though the option didn't act on it: see
-    // computeReliefComponentsShared.ts, where this drives the "needs attention" flag
-    // regardless of whether shrinking is turned on.
+    // computeReliefComponentsShared.ts, where this drives the "needs attention"
+    // flag regardless of whether shrinking is turned on.
     expect(overflowsCircle).toBe(true);
   });
 
@@ -66,7 +66,8 @@ describe("placeIcon constrained to its circle", () => {
       constrainToCircle: true,
     });
     const [placed] = contours;
-    // Each corner lands on the target circle, so the half side is its radius over √2.
+    // Each corner lands on the target circle, so the half side is its radius
+    // over √2.
     const half = TARGET_RADIUS_MM / Math.SQRT2;
 
     expect(overflowsCircle).toBe(true);
@@ -112,8 +113,9 @@ describe("placeIcon constrained to its circle", () => {
 
 describe("placeIcon overflow", () => {
   it("does not flag overflow when the icon's own farthest point already sits on the target circle", () => {
-    // A diamond whose vertices sit exactly on its bounding box's inscribed circle: the box fit
-    // and the circle fit agree, so nothing should shrink further than before.
+    // A diamond whose vertices sit exactly on its bounding box's inscribed
+    // circle: the box fit and the circle fit agree, so nothing should shrink
+    // further than before.
     const vertexMm = 5;
     const diamond: Vec2[][] = [
       [

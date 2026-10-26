@@ -6,8 +6,8 @@ import {
   sharedTokenFields,
 } from "./tokenSpecParts";
 
-// A plain disc wearing one centered icon and no text: Influence and a guild's generic tokens are
-// both this, and differ only in which icon they wear.
+// A plain disc wearing one centered icon and no text: Influence and a guild's
+// generic tokens are both this, and differ only in which icon they wear.
 export const buildCrestDiscTokenSpec = (
   iconId: string,
   guildIconId: string,

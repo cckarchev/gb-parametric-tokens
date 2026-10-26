@@ -5,8 +5,9 @@ type CheckboxFieldProps = {
   checked: boolean;
   onChange: (checked: boolean) => void;
   disabled?: boolean;
-  // Keeps the label as the checkbox's accessible name without showing it, for a bare checkbox
-  // whose meaning is already clear from where it sits (e.g. a panel's own header).
+  // Keeps the label as the checkbox's accessible name without showing it, for a
+  // bare checkbox whose meaning is already clear from where it sits (e.g. a
+  // panel's own header).
   hideLabel?: boolean;
 };
 

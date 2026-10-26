@@ -36,8 +36,8 @@ describe("FONT_CATALOG", () => {
     expect(existsSync(publicFilePath(entry.licenseFile))).toBe(true);
   });
 
-  // The spec builders size text before any font is loaded, so they read these stored values.
-  // This keeps them honest against the real file.
+  // The spec builders size text before any font is loaded, so they read these
+  // stored values. This keeps them honest against the real file.
   it.each(FONT_CATALOG)("stores $name's measured metrics", (entry) => {
     const measured = measureFontMetrics(
       loadFontFile(publicFilePath(entry.file)),

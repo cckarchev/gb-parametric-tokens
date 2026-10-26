@@ -7,11 +7,13 @@ type NumberFieldProps = {
   min?: number;
   max?: number;
   disabled?: boolean;
-  // Keeps the label as the field's accessible name without showing it, for a compact inline
-  // input (e.g. a per-token copies count sitting next to its own checkbox label).
+  // Keeps the label as the field's accessible name without showing it, for a
+  // compact inline input (e.g. a per-token copies count sitting next to its own
+  // checkbox label).
   hideLabel?: boolean;
-  // Renders a compact -/+ stepper around the value instead of a plain number input, sized to
-  // sit inline in a single-line row (e.g. next to a checkbox) without growing that row's height.
+  // Renders a compact -/+ stepper around the value instead of a plain number
+  // input, sized to sit inline in a single-line row (e.g. next to a checkbox)
+  // without growing that row's height.
   stepper?: boolean;
 };
 

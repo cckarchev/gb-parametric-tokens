@@ -10,8 +10,8 @@ import {
   wrapThreeMfModelXml,
 } from "./xml";
 
-// One triangle, stored the way manifold-3d lays out a mesh: numProp floats per vertex, of which
-// only the first three (x, y, z) belong in the 3MF file.
+// One triangle, stored the way manifold-3d lays out a mesh: numProp floats per
+// vertex, of which only the first three (x, y, z) belong in the 3MF file.
 const PROPERTIES_PER_VERTEX = 4;
 const TRIANGLE_VERTEX_COUNT = 3;
 const SKIPPED_PROPERTY = 9;

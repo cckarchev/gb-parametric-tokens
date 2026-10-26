@@ -11,8 +11,9 @@ import {
 
 import { CharacterTokenList } from "./CharacterTokenList";
 
-// A deliberately tiny guild, but every character and effect named here is a real entry in the
-// catalog data, so the fixture describes a roster that could actually exist.
+// A deliberately tiny guild, but every character and effect named here is a
+// real entry in the catalog data, so the fixture describes a roster that could
+// actually exist.
 const catalog: GuildCatalog = {
   guildId: "brewers",
   name: "Brewers",
@@ -62,8 +63,9 @@ const renderList = (
   return { onSelectedTokenIdsChange, onTokenCopiesChange };
 };
 
-// Cutlass is a real Broadside owner with no effects in characters.json, so this one fixture
-// covers both the template rows and a character that has templates but no tokens.
+// Cutlass is a real Broadside owner with no effects in characters.json, so this
+// one fixture covers both the template rows and a character that has templates
+// but no tokens.
 const blacksmithsCatalog: GuildCatalog = {
   guildId: "blacksmiths",
   name: "Blacksmiths",

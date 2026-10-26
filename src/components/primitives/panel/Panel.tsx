@@ -5,8 +5,9 @@ import styles from "./Panel.module.css";
 type PanelProps = {
   title: string;
   defaultExpanded?: boolean;
-  // Rendered next to the collapse toggle, inside the same header bar, as its own interactive
-  // sibling: the toggle is already a <button>, so this can't nest inside it.
+  // Rendered next to the collapse toggle, inside the same header bar, as its
+  // own interactive sibling: the toggle is already a <button>, so this can't
+  // nest inside it.
   headerAccessory?: ReactNode;
   children: ReactNode;
 };

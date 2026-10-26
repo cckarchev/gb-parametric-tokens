@@ -33,11 +33,13 @@ export const validateMinStrokeWidth = async (
 
   const relief = new CrossSection(reliefContours, "Positive");
 
-  // Each connected feature is eroded on its own. Eroding the whole relief at once can't tell:
-  // a thick icon always survives and hides a vanished glyph, and erosion can split a glyph, so
-  // counting pieces before and after doesn't work either.
+  // Each connected feature is eroded on its own. Eroding the whole relief at
+  // once can't tell: a thick icon always survives and hides a vanished glyph,
+  // and erosion can split a glyph, so counting pieces before and after doesn't
+  // work either.
   //
-  // decompose() of an empty section returns one empty section, not an empty list.
+  // decompose() of an empty section returns one empty section, not an empty
+  // list.
   const features = relief.isEmpty()
     ? []
     : relief.decompose().filter((one) => !one.isEmpty());
@@ -52,7 +54,8 @@ export const validateMinStrokeWidth = async (
   };
 };
 
-// One relief component (a text line, an icon, a decoration) with details too thin to print.
+// One relief component (a text line, an icon, a decoration) with details too
+// thin to print.
 type StrokeWidthFailure = {
   kind: "stroke-width";
   source: ReliefComponentSource;
@@ -60,17 +63,17 @@ type StrokeWidthFailure = {
   featureCount: number;
 };
 
-// An icon that reaches past its stud or disc, with overflow behavior "none" (the other
-// behaviors fix it). Relief isn't clipped to the base, so the excess prints as an unsupported
-// overhang.
+// An icon that reaches past its stud or disc, with overflow behavior "none"
+// (the other behaviors fix it). Relief isn't clipped to the base, so the excess
+// prints as an unsupported overhang.
 type IconOverflowFailure = {
   kind: "icon-overflow";
   source: Extract<ReliefComponentSource, { kind: "icon" }>;
 };
 
-// Every reason a token can land in the "needs attention" list. computeReliefComponents.ts
-// combines every kind into one list, describeTokenFailures.ts turns it into one reason string
-// per token.
+// Every reason a token can land in the "needs attention" list.
+// computeReliefComponents.ts combines every kind into one list,
+// describeTokenFailures.ts turns it into one reason string per token.
 export type ComponentFailure =
   | StrokeWidthFailure
   | IconOverflowFailure
@@ -105,8 +108,8 @@ const OUTSIDE_FOOTPRINT_MESSAGE = "runs past the token's edge.";
 const BROKEN_FOOTPRINT_MESSAGE =
   "The token's outline came out empty or in separate pieces: check its shape settings.";
 
-// Shared by the UI (the "N tokens need attention" list) and the contact-sheet preview marker, so
-// both describe the same failure in the same words.
+// Shared by the UI (the "N tokens need attention" list) and the contact-sheet
+// preview marker, so both describe the same failure in the same words.
 export const describeComponentFailure = (failure: ComponentFailure): string => {
   switch (failure.kind) {
     case "stroke-width":

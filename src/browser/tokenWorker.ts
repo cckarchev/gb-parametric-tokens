@@ -97,8 +97,9 @@ const loadResources = async () => {
   return { loadIconSource: createLoadIconSource(manifest) };
 };
 
-// A failed load is forgotten rather than cached, so a transient network error fails only the
-// request that hit it and the next one tries again, instead of every request until a reload.
+// A failed load is forgotten rather than cached, so a transient network error
+// fails only the request that hit it and the next one tries again, instead of
+// every request until a reload.
 const getResources = () => {
   if (!resourcesPromise) {
     resourcesPromise = loadResources().catch((error: unknown) => {
@@ -110,6 +111,18 @@ const getResources = () => {
   return resourcesPromise;
 };
 
+// One token's relief, in the font and print profile its own spec names. Preview
+// and export both start from this.
+const computeItemRelief = async (
+  item: TokenItem,
+  loadIconSource: LoadIconSource,
+) => {
+  const printProfile = PRINT_PROFILES[item.spec.printProfileId];
+  const font = await loadCatalogFont(item.spec.fontId);
+
+  return computeReliefComponents(item.spec, font, printProfile, loadIconSource);
+};
+
 export const handlePreview = async (
   request: PreviewRequest,
 ): Promise<PreviewResponse> => {
@@ -117,16 +130,10 @@ export const handlePreview = async (
 
   const results = await Promise.all(
     request.items.map(async (item) => {
-      const printProfile = PRINT_PROFILES[item.spec.printProfileId];
-      const font = await loadCatalogFont(item.spec.fontId);
-      const result = await computeReliefComponents(
-        item.spec,
-        font,
-        printProfile,
-        loadIconSource,
-      );
-      // After computeReliefComponents, not alongside it: the outline includes the footprints of
-      // icons with behavior "grow", which exist only once the icons are placed.
+      const result = await computeItemRelief(item, loadIconSource);
+      // After computeReliefComponents, not alongside it: the outline includes
+      // the footprints of icons with behavior "grow", which exist only once the
+      // icons are placed.
       const growOutlineContours = collectGrowOutlineContours(
         result.reliefComponents,
       );
@@ -161,20 +168,14 @@ export const handlePreview = async (
 
 type BuiltExportItem = { item: TokenItem; parts: TokenPart[] };
 
-// One token's printable parts. Whatever keeps it from printing is added to failures.
+// One token's printable parts. Whatever keeps it from printing is added to
+// failures.
 const buildExportItem = async (
   item: TokenItem,
   loadIconSource: LoadIconSource,
   failures: ExportFailureItem[],
 ): Promise<BuiltExportItem> => {
-  const printProfile = PRINT_PROFILES[item.spec.printProfileId];
-  const font = await loadCatalogFont(item.spec.fontId);
-  const result = await computeReliefComponents(
-    item.spec,
-    font,
-    printProfile,
-    loadIconSource,
-  );
+  const result = await computeItemRelief(item, loadIconSource);
 
   if (result.blocksExport) {
     failures.push({

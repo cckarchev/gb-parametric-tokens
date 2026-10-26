@@ -17,7 +17,8 @@ const toPercent = (fraction: number): number =>
 const toPercentBound = (fraction: number | undefined): number | undefined =>
   fraction === undefined ? undefined : toPercent(fraction);
 
-// Scales live in the config as fractions (0.55); people think of them as percentages (55 %).
+// Scales live in the config as fractions (0.55); people think of them as
+// percentages (55 %).
 export const PercentField = ({
   label,
   value,

@@ -15,8 +15,9 @@ export type PathCommand =
 
 type Point = { x: number; y: number };
 
-// Where the pen is while the path is read. lastCubicControl is the previous segment's second
-// control point, which an S segment reflects, or null when that segment was not a cubic.
+// Where the pen is while the path is read. lastCubicControl is the previous
+// segment's second control point, which an S segment reflects, or null when
+// that segment was not a cubic.
 type PathCursor = {
   current: Point;
   subpathStart: Point;
@@ -96,8 +97,9 @@ const closePath = (cursor: PathCursor): PathCommand => {
   return { type: "close" };
 };
 
-// An S segment's first control point mirrors the previous cubic's second one through the current
-// point, or sits on the current point when the previous segment was not a cubic.
+// An S segment's first control point mirrors the previous cubic's second one
+// through the current point, or sits on the current point when the previous
+// segment was not a cubic.
 const reflectedControl = (cursor: PathCursor): Point => {
   const { current, lastCubicControl } = cursor;
 
@@ -134,7 +136,8 @@ const SEGMENT_PARSERS: Record<string, SegmentParser> = {
     ),
 };
 
-// Every segment one command letter carries. Pairs after a move's first one are implicit lines.
+// Every segment one command letter carries. Pairs after a move's first one are
+// implicit lines.
 const commandSegments = (
   letter: string,
   argText: string,

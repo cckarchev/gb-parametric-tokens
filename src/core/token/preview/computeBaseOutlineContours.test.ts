@@ -11,9 +11,12 @@ import { computeBaseOutlineContours } from "./computeBaseOutlineContours";
 const DISC_DIAMETER_MM = 40;
 const STUD_FILLET_RADIUS_MM = 3;
 const DISC_RADIUS_MM = DISC_DIAMETER_MM / 2;
-// The outlines are polygons: a vertex can sit a hair outside the true circle, an edge well inside.
+// The outlines are polygons: a vertex can sit a hair outside the true circle,
+// an edge well inside.
 const OUTSIDE_SLACK_MM = 0.1;
 const INSIDE_SLACK_MM = 0.5;
+// The farthest stud vertex can land a little past the ideal stud circle.
+const STUD_REACH_SLACK_MM = 0.5;
 
 const boundsOf = (contours: Vec2[][]): { min: Vec2; max: Vec2 } => {
   let minX = Infinity;
@@ -91,15 +94,15 @@ describe("computeBaseOutlineContours", () => {
     const studRadiusMm = computeEffectiveStudDiameterMm(shape) / 2;
     const outerRadiusMm = computeOuterRadiusMm(shape);
 
-    // The ribbon alone reaches outerRadiusMm. Anything farther is a stud, so the studs are in the
-    // outline.
+    // The ribbon alone reaches outerRadiusMm. Anything farther is a stud, so
+    // the studs are in the outline.
     expect(farthest).toBeGreaterThan(outerRadiusMm);
     expect(farthest).toBeLessThanOrEqual(
-      outerRadiusMm + studRadiusMm + INSIDE_SLACK_MM,
+      outerRadiusMm + studRadiusMm + STUD_REACH_SLACK_MM,
     );
 
-    // A sweep well under 180deg, centered at 90deg, keeps the whole sector in the upper
-    // half-plane, so it never encloses the origin.
+    // A sweep well under 180deg, centered at 90deg, keeps the whole sector in
+    // the upper half-plane, so it never encloses the origin.
     expect(bounds.min[1]).toBeGreaterThan(0);
   });
 });
@@ -124,9 +127,9 @@ describe("computeBaseOutlineContours grow outline", () => {
       growSquare,
     );
 
-    // The disc's own radius is 20mm; the grow square's own corners reach ~42.4mm from the
-    // origin, so only an actual union (not floating-point noise around the plain circle) can
-    // push the outline this far out.
+    // The disc's own radius is 20mm; the grow square's own corners reach
+    // ~42.4mm from the origin, so only an actual union (not floating-point
+    // noise around the plain circle) can push the outline this far out.
     expect(maxDistanceFromOrigin(contours)).toBeGreaterThan(wellPastDiscMm);
   });
 
@@ -196,8 +199,9 @@ describe("computeBaseOutlineContours fillet on and inner diameter", () => {
       CENTER_ANGLE_DEG,
     );
 
-    // Closing only ever adds material (see filletOutline.ts), so the filleted outline's area
-    // is strictly larger once there's an actual notch for it to fill.
+    // Closing only ever adds material (see filletOutline.ts), so the filleted
+    // outline's area is strictly larger once there's an actual notch for it to
+    // fill.
     expect(totalArea(filletedContours)).toBeGreaterThan(
       totalArea(plainContours),
     );

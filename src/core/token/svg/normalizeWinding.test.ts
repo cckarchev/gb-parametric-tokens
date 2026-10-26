@@ -3,7 +3,8 @@ import { describe, expect, it } from "vitest";
 import type { Vec2 } from "../types";
 import { normalizeWinding, signedArea } from "./normalizeWinding";
 
-// An axis-aligned square from (min, min) to (max, max), wound counter-clockwise.
+// An axis-aligned square from (min, min) to (max, max), wound
+// counter-clockwise.
 const ccwSquareBetween = (min: number, max: number): Vec2[] => [
   [min, min],
   [max, min],

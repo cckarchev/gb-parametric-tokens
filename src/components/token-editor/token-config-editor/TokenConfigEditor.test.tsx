@@ -13,7 +13,8 @@ import {
 import { TokenConfigEditor } from "./TokenConfigEditor";
 
 const RIBBON_WIDTH_MM = 15;
-// Arc tokens, ring badges, Momentum and AOE templates; disc tokens and conditions have none.
+// Arc tokens, ring badges, Momentum and AOE templates; disc tokens and
+// conditions have none.
 const SECTIONS_WITH_TEXT = 4;
 
 const sharedConfig: SharedConfig = {
@@ -141,7 +142,8 @@ const RESET_CASES: ResetCase[] = [
       aoeTemplateVariant: "crowfoot",
       aoe: { ...DEFAULT_SHARED_CONFIG.aoe, bandWidthMm: 9 },
     },
-    // The variant is a choice of what to print, not a tuning value, so it survives the reset.
+    // The variant is a choice of what to print, not a tuning value, so it
+    // survives the reset.
     restored: {
       aoeTemplateVariant: "crowfoot",
       aoe: DEFAULT_SHARED_CONFIG.aoe,
@@ -291,8 +293,9 @@ describe("TokenConfigEditor arc shape and fonts", () => {
     });
   });
 
-  // Each slot is locked to one shape type: an arc token's shape can never become a disc, or vice
-  // versa. Offering no type control at all is what enforces that.
+  // Each slot is locked to one shape type: an arc token's shape can never
+  // become a disc, or vice versa. Offering no type control at all is what
+  // enforces that.
 
   it("offers no shape type control in any of the shape slots", async () => {
     renderEditor();
@@ -317,7 +320,8 @@ describe("TokenConfigEditor arc shape and fonts", () => {
 
     await openSection("Momentum");
 
-    // The reset button's row sits beside the section's fields, so its parent holds them all.
+    // The reset button's row sits beside the section's fields, so its parent
+    // holds them all.
     const resetButton = screen.getByRole("button", {
       name: "Reset Momentum to defaults",
     });

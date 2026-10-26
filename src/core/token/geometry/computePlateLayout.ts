@@ -3,14 +3,16 @@ import type { Bounds } from "./computeBounds";
 
 export type PlateLayoutItem = {
   shapeType: "arc" | "disc";
-  // The token's real extent around its own origin, which an arc's ribbon sits well away from.
+  // The token's real extent around its own origin, which an arc's ribbon sits
+  // well away from.
   boundsMm: Bounds;
   copies: number;
 };
 
-// Each shape type and footprint size gets its own grid, so one big AOE doesn't widen every cell.
-// Blocks stack from the plate origin toward -y, the way the preview reads top to bottom: arcs
-// first, then discs, smallest first. Within a block, copies run left to right in rows.
+// Each shape type and footprint size gets its own grid, so one big AOE doesn't
+// widen every cell. Blocks stack from the plate origin toward -y, the way the
+// preview reads top to bottom: arcs first, then discs, smallest first. Within a
+// block, copies run left to right in rows.
 const SHAPE_TYPE_ORDER: PlateLayoutItem["shapeType"][] = ["arc", "disc"];
 
 type BlockEntry = { item: PlateLayoutItem; index: number };
@@ -20,8 +22,8 @@ const boundsWidthMm = (bounds: Bounds): number => bounds.max[0] - bounds.min[0];
 const boundsHeightMm = (bounds: Bounds): number =>
   bounds.max[1] - bounds.min[1];
 
-// Bounds are measured off the mesh, so two tokens of the same nominal size can differ by float
-// noise; the key compares them at this many decimals.
+// Bounds are measured off the mesh, so two tokens of the same nominal size can
+// differ by float noise; the key compares them at this many decimals.
 const FOOTPRINT_KEY_DECIMALS = 1;
 
 const footprintKey = (item: PlateLayoutItem): string => {
@@ -31,8 +33,8 @@ const footprintKey = (item: PlateLayoutItem): string => {
   return `${width}x${height}`;
 };
 
-// One block per distinct footprint within a shape type, ordered by footprint width so the
-// stacking is predictable whatever order the items arrive in.
+// One block per distinct footprint within a shape type, ordered by footprint
+// width so the stacking is predictable whatever order the items arrive in.
 const groupBlocksBySize = (shapeEntries: BlockEntry[]): BlockEntry[][] => {
   const blocksByKey = new Map<string, BlockEntry[]>();
 
@@ -132,8 +134,9 @@ export const computePlateLayout = (
     }
   }
 
-  // The blocks grew down from y = 0. Lift the whole plate so its lowest token sits on y = 0, the
-  // front edge of a slicer bed: the last row ends in one spacing gap below its tallest token.
+  // The blocks grew down from y = 0. Lift the whole plate so its lowest token
+  // sits on y = 0, the front edge of a slicer bed: the last row ends in one
+  // spacing gap below its tallest token.
   const lowestTokenEdgeY = topY + spacingMm;
   const plateHasTokens = topY < 0;
 

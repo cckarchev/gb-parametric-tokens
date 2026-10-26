@@ -17,9 +17,10 @@ type AdvancedSettingsPanelProps = {
   importSettingsError: string | undefined;
 };
 
-// One collapsible section per token kind, each owning its own fields and its own reset, in the
-// order the preview shows those tokens: arc tokens, then the roster's AOE templates, then the
-// guild tokens (Influence, Momentum, Goal Influence) and the conditions.
+// One collapsible section per token kind, each owning its own fields and its
+// own reset, in the order the preview shows those tokens: arc tokens, then the
+// roster's AOE templates, then the guild tokens (Influence, Momentum, Goal
+// Influence) and the conditions.
 export const AdvancedSettingsPanel = ({
   sharedConfig,
   onChange,

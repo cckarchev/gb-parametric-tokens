@@ -11,8 +11,8 @@ import {
   STUD_DIAMETER_BOUNDS,
 } from "./fieldBounds";
 
-// Generic over the shape, so an arc comes back as an arc and a disc as a disc. The type is fixed
-// by the config slot; this only edits its fields.
+// Generic over the shape, so an arc comes back as an arc and a disc as a disc.
+// The type is fixed by the config slot; this only edits its fields.
 type ShapeEditorProps<T extends ShapeSpec> = {
   shape: T;
   onChange: (shape: T) => void;

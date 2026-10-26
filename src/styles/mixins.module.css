@@ -30,7 +30,8 @@
   outline-offset: var(--focus-ring-offset);
 }
 
-/* For a control that sits flush inside a bar, where an outside ring would be clipped. */
+/* For a control that sits flush inside a bar, where an outside ring would be
+   clipped. */
 .focusRingInset:focus-visible {
   outline: var(--focus-ring);
   outline-offset: var(--focus-ring-inset);

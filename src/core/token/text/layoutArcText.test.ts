@@ -7,8 +7,9 @@ import { loadTestFont } from "./testFont";
 
 const TOLERANCE_MM = 0.05;
 
-// Glyph outlines come y-down, so mathYUp has to flip them before placing them. Without the flip,
-// an "L" at radius 37.5 grows inward instead of reaching past 37.5.
+// Glyph outlines come y-down, so mathYUp has to flip them before placing them.
+// Without the flip, an "L" at radius 37.5 grows inward instead of reaching past
+// 37.5.
 const RADIUS_MM = 37.5;
 const SIZE_MM = 6;
 const MIN_ASCENDER_REACH_MM = 3; // Saira Condensed Bold's cap height at 6mm (~4.1mm) is comfortably above this
@@ -194,18 +195,19 @@ describe("layoutArcText ascender direction", () => {
       "mathYUp",
     );
     const extent = measureRadialExtent(contours);
-    // Mirrors BASELINE_TOLERANCE_MM's role for the outward case above, just loosened slightly:
-    // this inward baseline sits on the opposite side of the same optical-overshoot effect.
+    // Mirrors BASELINE_TOLERANCE_MM's role for the outward case above, just
+    // loosened slightly: this inward baseline sits on the opposite side of the
+    // same optical-overshoot effect.
     const INWARD_BASELINE_TOLERANCE_MM = 0.15;
 
     expect(extent.min).toBeLessThan(RADIUS_MM - MIN_ASCENDER_REACH_MM);
     expect(extent.max).toBeLessThan(RADIUS_MM + INWARD_BASELINE_TOLERANCE_MM);
   });
 
-  // "o" is one outer contour plus one counter. A y-flip reverses both windings, so if
-  // normalizeWinding did not re-run after the flip the outer contour would come back
-  // clockwise and the counter counter-clockwise, and the "Positive" fill rule would drop
-  // the glyph or fill its hole.
+  // "o" is one outer contour plus one counter. A y-flip reverses both windings,
+  // so if normalizeWinding did not re-run after the flip the outer contour
+  // would come back clockwise and the counter counter-clockwise, and the
+  // "Positive" fill rule would drop the glyph or fill its hole.
 });
 
 describe("layoutArcText winding", () => {

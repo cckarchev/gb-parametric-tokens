@@ -1,7 +1,8 @@
 import type { TokenSpec } from "./types";
 
-// The smallest valid spec per shape, for tests about the plumbing around a spec: no lines, icons
-// or decorations. Tests about a spec's contents build their own, so the fields that matter show.
+// The smallest valid spec per shape, for tests about the plumbing around a
+// spec: no lines, icons or decorations. Tests about a spec's contents build
+// their own, so the fields that matter show.
 export const discSpec: TokenSpec = {
   version: 1,
   shape: { type: "disc", diameterMm: 25 },
