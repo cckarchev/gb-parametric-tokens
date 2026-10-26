@@ -3,7 +3,7 @@ import type { Font } from "opentype.js";
 import { computeBounds } from "../geometry/computeBounds";
 import { translateContours } from "../geometry/contourTransforms";
 import type { Vec2 } from "../types";
-import { flipGlyphContoursToYUp, getGlyphContours } from "./glyphOutline";
+import { flipGlyphContoursToMathAxes, getGlyphContours } from "./glyphOutline";
 import {
   computePenPositions,
   DEFAULT_TRACKING_MM,
@@ -32,7 +32,7 @@ export const layoutFlatText = (
 
   const glyphContours = glyphs.flatMap((glyph, index) => {
     const nativeContours = getGlyphContours(glyph, line.sizeMm, toleranceMm);
-    const localContours = flipGlyphContoursToYUp(nativeContours);
+    const localContours = flipGlyphContoursToMathAxes(nativeContours);
 
     return translateContours(localContours, [penPositionsMm[index], 0]);
   });

@@ -66,14 +66,14 @@ export const computeArcGlyphPlacements = (
 
     // A quarter turn either side of the point's polar angle (see
     // RADIAL_TO_UPRIGHT_OFFSET_DEG).
-    const mathYUpRotationDeg =
+    const mathRotationDeg =
       orientation === "outward"
         ? angleDeg - RADIAL_TO_UPRIGHT_OFFSET_DEG
         : angleDeg + RADIAL_TO_UPRIGHT_OFFSET_DEG;
     const rotationDeg =
       input.coordinateConvention === "svgYDown"
-        ? -mathYUpRotationDeg
-        : mathYUpRotationDeg;
+        ? -mathRotationDeg
+        : mathRotationDeg;
 
     return { angleDeg, position, rotationDeg, pivotOffsetMm };
   });

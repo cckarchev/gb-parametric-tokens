@@ -11,7 +11,7 @@ import {
   buildBaseReferenceCircleSvg,
   CIRCLE_ANCHOR_X_SVG,
   CIRCLE_ANCHOR_Y_SVG,
-  computeBaseReferenceCircleBottomYSvg,
+  computeBaseReferenceCircleBottomSvgY,
 } from "./svgBaseReference";
 import {
   buildGridOverlaySvg,
@@ -75,7 +75,7 @@ export const buildPreviewSvg = (
     shape?.type === "arc"
       ? Math.max(
           bounds.max[1],
-          computeBaseReferenceCircleBottomYSvg(CIRCLE_ANCHOR_Y_SVG),
+          computeBaseReferenceCircleBottomSvgY(CIRCLE_ANCHOR_Y_SVG),
         )
       : bounds.max[1];
 

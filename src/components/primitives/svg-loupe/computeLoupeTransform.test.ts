@@ -51,8 +51,8 @@ describe("computeLoupeTransform", () => {
     );
     const contentWidthPx = viewBox.width * CSS_PX_PER_MM;
 
-    expect(result.offsetXPx).toBeCloseTo(lensSizePx / 2 - contentWidthPx / 2);
-    expect(result.offsetYPx).toBeCloseTo(lensSizePx / 2 - contentWidthPx / 2);
+    expect(result.offsetPxX).toBeCloseTo(lensSizePx / 2 - contentWidthPx / 2);
+    expect(result.offsetPxY).toBeCloseTo(lensSizePx / 2 - contentWidthPx / 2);
   });
 
   it("shifts the content by exactly half the lens size when the cursor sits at the container's origin", () => {
@@ -64,8 +64,8 @@ describe("computeLoupeTransform", () => {
       1,
     );
 
-    expect(result.offsetXPx).toBeCloseTo(SQUARE.lensSizePx / 2);
-    expect(result.offsetYPx).toBeCloseTo(SQUARE.lensSizePx / 2);
+    expect(result.offsetPxX).toBeCloseTo(SQUARE.lensSizePx / 2);
+    expect(result.offsetPxY).toBeCloseTo(SQUARE.lensSizePx / 2);
   });
 });
 
@@ -100,7 +100,7 @@ describe("computeLoupeTransform when zoomed", () => {
     const contentWidthPx = SQUARE.viewBox.width * CSS_PX_PER_MM * zoomFactor;
     const lensCenterPx = SQUARE.lensSizePx / 2;
 
-    expect(result.offsetXPx).toBeCloseTo(lensCenterPx - contentWidthPx / 2);
-    expect(result.offsetYPx).toBeCloseTo(lensCenterPx - contentWidthPx / 2);
+    expect(result.offsetPxX).toBeCloseTo(lensCenterPx - contentWidthPx / 2);
+    expect(result.offsetPxY).toBeCloseTo(lensCenterPx - contentWidthPx / 2);
   });
 });

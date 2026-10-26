@@ -53,26 +53,26 @@ const printedCopies = (items: ContactSheetItem[]): FlippedContactSheetItem[] =>
     return new Array<FlippedContactSheetItem>(item.copies).fill(flipped);
   });
 
-// The disc groups stacked one under the other from startYMm down.
+// The disc groups stacked one under the other from startMmY down.
 const layoutDiscGroups = (
   preparedGroups: PreparedSection[],
-  startYMm: number,
+  startMmY: number,
   columnsFor: (cellWidthMm: number) => number,
   colorGroups: ColorGroupSpec[],
   showBaseReference: boolean,
 ): SectionLayout[] => {
-  let nextOriginYMm = startYMm;
+  let nextOriginMmY = startMmY;
 
   return preparedGroups.map((prepared) => {
     const layout = layoutPreparedSection(
       prepared,
       columnsFor(prepared.cellWidthMm),
-      nextOriginYMm,
+      nextOriginMmY,
       colorGroups,
       showBaseReference,
     );
 
-    nextOriginYMm += layout.heightMm;
+    nextOriginMmY += layout.heightMm;
 
     return layout;
   });
@@ -82,7 +82,7 @@ const layoutDiscGroups = (
 const assembleSheet = (
   arcSection: SectionLayout | undefined,
   discGroupLayouts: SectionLayout[],
-  discSectionStartYMm: number,
+  discSectionStartMmY: number,
 ): RenderedSvg => {
   const discSectionWidthMm = Math.max(
     0,
@@ -94,7 +94,7 @@ const assembleSheet = (
   );
 
   const totalWidthMm = Math.max(arcSection?.widthMm ?? 0, discSectionWidthMm);
-  const totalHeightMm = discSectionStartYMm + discSectionHeightMm;
+  const totalHeightMm = discSectionStartMmY + discSectionHeightMm;
   const viewBox: SvgBounds = {
     x: 0,
     y: 0,
@@ -177,15 +177,15 @@ export const buildContactSheetSvg = (
   // The disc groups have to start on a grid line for their token centers to
   // land on grid intersections, and the arc section's height rarely ends on
   // one.
-  const discSectionStartYMm = roundUpToGridStep(arcSection?.heightMm ?? 0);
+  const discSectionStartMmY = roundUpToGridStep(arcSection?.heightMm ?? 0);
 
   const discGroupLayouts = layoutDiscGroups(
     discPreparedGroups,
-    discSectionStartYMm,
+    discSectionStartMmY,
     columnsToFillTargetWidth,
     colorGroups,
     options.showBaseReference,
   );
 
-  return assembleSheet(arcSection, discGroupLayouts, discSectionStartYMm);
+  return assembleSheet(arcSection, discGroupLayouts, discSectionStartMmY);
 };

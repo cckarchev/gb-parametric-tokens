@@ -50,8 +50,8 @@ export const SvgLoupe = ({
           <div
             className={styles.lens}
             style={{
-              left: lens.cursorXPx - LENS_SIZE_PX / 2,
-              top: lens.cursorYPx - LENS_SIZE_PX / 2,
+              left: lens.cursorPxX - LENS_SIZE_PX / 2,
+              top: lens.cursorPxY - LENS_SIZE_PX / 2,
               width: LENS_SIZE_PX,
               height: LENS_SIZE_PX,
             }}
@@ -61,7 +61,7 @@ export const SvgLoupe = ({
               style={{
                 width: lens.contentWidthPx,
                 height: lens.contentHeightPx,
-                transform: `translate(${lens.offsetXPx}px, ${lens.offsetYPx}px)`,
+                transform: `translate(${lens.offsetPxX}px, ${lens.offsetPxY}px)`,
               }}
               // biome-ignore lint/security/noDangerouslySetInnerHtml: trusted markup generated locally from numeric geometry, not user input
               dangerouslySetInnerHTML={{ __html: svg }}

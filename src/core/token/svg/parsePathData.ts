@@ -30,15 +30,6 @@ type SegmentParser = (
   cursor: PathCursor,
 ) => PathCommand;
 
-const ARG_COUNT_BY_COMMAND: Record<string, number> = {
-  M: 2,
-  L: 2,
-  C: 6,
-  H: 1,
-  V: 1,
-  S: 4,
-};
-
 const COMMAND_LETTER_PATTERN = /([MLCZHVSmlczhvs])([^MLCZHVSmlczhvs]*)/g;
 const NUMBER_PATTERN = /-?\d*\.\d+(?:[eE][-+]?\d+)?|-?\d+(?:[eE][-+]?\d+)?/g;
 
@@ -113,28 +104,67 @@ const reflectedControl = (cursor: PathCursor): Point => {
   };
 };
 
-const SEGMENT_PARSERS: Record<string, SegmentParser> = {
-  M: (args, offset, cursor) => moveTo(cursor, pointAt(args, 0, offset)),
-  L: (args, offset, cursor) => lineTo(cursor, pointAt(args, 0, offset)),
-  H: (args, offset, cursor) =>
-    lineTo(cursor, { x: args[0] + offset.x, y: cursor.current.y }),
-  V: (args, offset, cursor) =>
-    lineTo(cursor, { x: cursor.current.x, y: args[0] + offset.y }),
-  C: (args, offset, cursor) =>
-    cubicTo(
-      cursor,
-      pointAt(args, 0, offset),
-      pointAt(args, 1, offset),
-      pointAt(args, 2, offset),
-    ),
-  S: (args, offset, cursor) =>
-    cubicTo(
-      cursor,
-      reflectedControl(cursor),
-      pointAt(args, 0, offset),
-      pointAt(args, 1, offset),
-    ),
-};
+type SegmentCommand = { argCount: number; parse: SegmentParser };
+
+// Keyed by the absolute (uppercase) command letter.
+const SEGMENT_COMMANDS = new Map<string, SegmentCommand>([
+  [
+    "M",
+    {
+      argCount: 2,
+      parse: (args, offset, cursor) => moveTo(cursor, pointAt(args, 0, offset)),
+    },
+  ],
+  [
+    "L",
+    {
+      argCount: 2,
+      parse: (args, offset, cursor) => lineTo(cursor, pointAt(args, 0, offset)),
+    },
+  ],
+  [
+    "H",
+    {
+      argCount: 1,
+      parse: (args, offset, cursor) =>
+        lineTo(cursor, { x: args[0] + offset.x, y: cursor.current.y }),
+    },
+  ],
+  [
+    "V",
+    {
+      argCount: 1,
+      parse: (args, offset, cursor) =>
+        lineTo(cursor, { x: cursor.current.x, y: args[0] + offset.y }),
+    },
+  ],
+  [
+    "C",
+    {
+      argCount: 6,
+      parse: (args, offset, cursor) =>
+        cubicTo(
+          cursor,
+          pointAt(args, 0, offset),
+          pointAt(args, 1, offset),
+          pointAt(args, 2, offset),
+        ),
+    },
+  ],
+  [
+    "S",
+    {
+      argCount: 4,
+      parse: (args, offset, cursor) =>
+        cubicTo(
+          cursor,
+          reflectedControl(cursor),
+          pointAt(args, 0, offset),
+          pointAt(args, 1, offset),
+        ),
+    },
+  ],
+]);
 
 // Every segment one command letter carries. Pairs after a move's first one are
 // implicit lines.
@@ -149,8 +179,15 @@ const commandSegments = (
     return [closePath(cursor)];
   }
 
+  const command = SEGMENT_COMMANDS.get(upperLetter);
+  const lineCommand = SEGMENT_COMMANDS.get("L");
+
+  if (!(command && lineCommand)) {
+    return [];
+  }
+
   const isRelative = letter !== upperLetter;
-  const argCount = ARG_COUNT_BY_COMMAND[upperLetter];
+  const { argCount } = command;
   const numbers = (argText.match(NUMBER_PATTERN) ?? []).map(Number);
   const segments: PathCommand[] = [];
 
@@ -158,9 +195,9 @@ const commandSegments = (
     const args = numbers.slice(i, i + argCount);
     const offset = isRelative ? cursor.current : ORIGIN;
     const isImplicitLine = upperLetter === "M" && i > 0;
-    const segmentLetter = isImplicitLine ? "L" : upperLetter;
+    const segmentCommand = isImplicitLine ? lineCommand : command;
 
-    segments.push(SEGMENT_PARSERS[segmentLetter](args, offset, cursor));
+    segments.push(segmentCommand.parse(args, offset, cursor));
   }
 
   return segments;

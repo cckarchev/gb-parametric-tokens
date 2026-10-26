@@ -914,7 +914,7 @@ describe("computeReliefComponents ring line angle required", () => {
 });
 
 describe("computeReliefComponents, layout checks", () => {
-  const LAYOUT_FAILURE_KINDS = [
+  const layoutFailureKinds = [
     "outside-footprint",
     "crest-over-text",
     "broken-footprint",
@@ -957,7 +957,7 @@ describe("computeReliefComponents, layout checks", () => {
       stubLoadIconSource,
     );
     const layoutFailures = result.componentFailures.filter((failure) =>
-      LAYOUT_FAILURE_KINDS.includes(failure.kind),
+      layoutFailureKinds.includes(failure.kind),
     );
 
     expect(layoutFailures).toEqual([]);

@@ -4,6 +4,7 @@ import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 
 vi.mock("@/components/token-editor/TokenEditor", () => ({
+  // biome-ignore lint/style/useNamingConvention: the key is the mocked module export.
   TokenEditor: () => <p>Token editor</p>,
 }));
 

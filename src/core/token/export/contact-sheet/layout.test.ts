@@ -84,17 +84,17 @@ describe("layoutPreparedSection", () => {
     const items = [
       disc({ valid: false, label: "Tapper", reason: "Too thin." }),
     ];
-    const originYMm = 40;
+    const originMmY = 40;
 
     const layout = layoutPreparedSection(
       prepare(items, false),
       1,
-      originYMm,
+      originMmY,
       [],
     );
 
     expect(markerRects(layout.cellsXml)).toEqual([
-      `${CELL_PADDING_MM},${originYMm + CELL_PADDING_MM}`,
+      `${CELL_PADDING_MM},${originMmY + CELL_PADDING_MM}`,
     ]);
   });
 

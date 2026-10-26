@@ -198,10 +198,10 @@ describe("layoutArcText ascender direction", () => {
     // Mirrors BASELINE_TOLERANCE_MM's role for the outward case above, just
     // loosened slightly: this inward baseline sits on the opposite side of the
     // same optical-overshoot effect.
-    const INWARD_BASELINE_TOLERANCE_MM = 0.15;
+    const inwardBaselineToleranceMm = 0.15;
 
     expect(extent.min).toBeLessThan(RADIUS_MM - MIN_ASCENDER_REACH_MM);
-    expect(extent.max).toBeLessThan(RADIUS_MM + INWARD_BASELINE_TOLERANCE_MM);
+    expect(extent.max).toBeLessThan(RADIUS_MM + inwardBaselineToleranceMm);
   });
 
   // "o" is one outer contour plus one counter. A y-flip reverses both windings,

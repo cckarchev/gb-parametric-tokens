@@ -94,7 +94,7 @@ const studIconComponents = (
       .map((icon) => {
         const studPlacement =
           icon.side === "left" ? studPlacements.left : studPlacements.right;
-        // Same "outward" convention arcPlacement.ts's mathYUpRotationDeg uses
+        // Same "outward" convention arcPlacement.ts's mathRotationDeg uses
         // for arc text, via the same offset: keeping the stud icons on it makes
         // them turn with the arc exactly like the letters beside them do,
         // instead of staying screen-upright as the stud sweeps around.

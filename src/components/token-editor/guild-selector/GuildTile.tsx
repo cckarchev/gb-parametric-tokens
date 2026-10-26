@@ -48,6 +48,7 @@ export const GuildTile = ({
           style={{
             backgroundColor: logoColor,
             maskImage: logoUrl,
+            // biome-ignore lint/style/useNamingConvention: React names the -webkit-mask-image property this way.
             WebkitMaskImage: logoUrl,
             width: `${logoSizePercent}%`,
             height: `${logoSizePercent}%`,

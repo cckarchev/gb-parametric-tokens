@@ -150,12 +150,12 @@ describe("buildContactSheetSvg viewBox", () => {
 
 describe("buildContactSheetSvg y axis and grid", () => {
   it("negates y so the model's math-convention (y-up) coordinates render upright in SVG's y-down space", () => {
-    const apexYMm = 5;
+    const apexMmY = 5;
     const triangle: Vec2[][] = [
       [
         [0, 0],
         [10, 0],
-        [0, apexYMm],
+        [0, apexMmY],
       ],
     ];
 

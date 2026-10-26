@@ -39,7 +39,7 @@ const positionContoursByColorGroup = (
 type SectionDrawing = {
   prepared: PreparedSection;
   columns: number;
-  originYMm: number;
+  originMmY: number;
   colorGroups: ColorGroupSpec[];
   showBaseReference: boolean;
 };
@@ -99,14 +99,14 @@ const cellSvg = (
   item: FlippedContactSheetItem,
   index: number,
 ): string => {
-  const { prepared, columns, originYMm, colorGroups, showBaseReference } =
+  const { prepared, columns, originMmY, colorGroups, showBaseReference } =
     drawing;
   const { cellWidthMm, cellHeightMm } = prepared;
   const bounds = prepared.boundsByItem[index];
   const column = index % columns;
   const row = Math.floor(index / columns);
   const cellOriginX = column * cellWidthMm;
-  const cellOriginY = originYMm + row * cellHeightMm;
+  const cellOriginY = originMmY + row * cellHeightMm;
   const isArc = item.shape.type === "arc";
 
   const offsetX = axisOffsetMm(
@@ -158,19 +158,19 @@ const cellSvg = (
   return paths.join("");
 };
 
-// Draws one section's grid at the given column count, starting at originYMm so
+// Draws one section's grid at the given column count, starting at originMmY so
 // sections stack.
 export const layoutPreparedSection = (
   prepared: PreparedSection,
   columns: number,
-  originYMm: number,
+  originMmY: number,
   colorGroups: ColorGroupSpec[],
   showBaseReference = true,
 ): SectionLayout => {
   const drawing: SectionDrawing = {
     prepared,
     columns,
-    originYMm,
+    originMmY,
     colorGroups,
     showBaseReference,
   };

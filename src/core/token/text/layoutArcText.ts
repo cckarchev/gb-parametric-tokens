@@ -7,7 +7,7 @@ import {
   applyArcPlacement,
   computeArcGlyphPlacements,
 } from "./arcPlacement";
-import { flipGlyphContoursToYUp, getGlyphContours } from "./glyphOutline";
+import { flipGlyphContoursToMathAxes, getGlyphContours } from "./glyphOutline";
 import { DEFAULT_TRACKING_MM, measureAdvances } from "./measureAdvances";
 
 type ArcLineSpec = {
@@ -52,7 +52,7 @@ export const layoutArcText = (
     // (ascender at positive local y).
     const localContours =
       coordinateConvention === "mathYUp"
-        ? flipGlyphContoursToYUp(nativeContours)
+        ? flipGlyphContoursToMathAxes(nativeContours)
         : nativeContours;
 
     return applyArcPlacement(localContours, placements[index]);

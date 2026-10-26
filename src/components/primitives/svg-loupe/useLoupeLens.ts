@@ -22,12 +22,12 @@ const MAX_ZOOM_FACTOR = 8;
 const ZOOM_SENSITIVITY_PER_DELTA_Y = 0.003;
 
 type LensState = {
-  cursorXPx: number;
-  cursorYPx: number;
+  cursorPxX: number;
+  cursorPxY: number;
   contentWidthPx: number;
   contentHeightPx: number;
-  offsetXPx: number;
-  offsetYPx: number;
+  offsetPxX: number;
+  offsetPxY: number;
 };
 
 type RectSize = { width: number; height: number };
@@ -58,12 +58,12 @@ const computeLensState = (
   );
 
   return {
-    cursorXPx: cursorPx.x,
-    cursorYPx: cursorPx.y,
+    cursorPxX: cursorPx.x,
+    cursorPxY: cursorPx.y,
     contentWidthPx: transform.contentWidthPx,
     contentHeightPx: transform.contentHeightPx,
-    offsetXPx: transform.offsetXPx,
-    offsetYPx: transform.offsetYPx,
+    offsetPxX: transform.offsetPxX,
+    offsetPxY: transform.offsetPxY,
   };
 };
 

@@ -31,11 +31,11 @@ describe("filletOutline", () => {
     // filleted one once the notch is smoothed over.
     const probeRadiusMm = 0.05;
     const probeSegments = 16;
-    const notchProbeYMm = 3.9;
+    const notchProbeMmY = 3.9;
     const notchProbe = CrossSection.circle(
       probeRadiusMm,
       probeSegments,
-    ).translate(centerDistanceMm / 2, notchProbeYMm);
+    ).translate(centerDistanceMm / 2, notchProbeMmY);
 
     expect(peanut.intersect(notchProbe).isEmpty()).toBe(true);
     expect(filleted.intersect(notchProbe).isEmpty()).toBe(false);

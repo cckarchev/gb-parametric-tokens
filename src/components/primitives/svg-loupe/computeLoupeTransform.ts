@@ -14,8 +14,8 @@ export type ViewBoxSize = { width: number; height: number };
 type LoupeTransform = {
   contentWidthPx: number;
   contentHeightPx: number;
-  offsetXPx: number;
-  offsetYPx: number;
+  offsetPxX: number;
+  offsetPxY: number;
 };
 
 // The lens draws a second copy of the SVG at true size times zoomFactor, with
@@ -37,8 +37,8 @@ export const computeLoupeTransform = (
   const cursorContentPxX = cursorFractionX * contentWidthPx;
   const cursorContentPxY = cursorFractionY * contentHeightPx;
 
-  const offsetXPx = lensSizePx / 2 - cursorContentPxX;
-  const offsetYPx = lensSizePx / 2 - cursorContentPxY;
+  const offsetPxX = lensSizePx / 2 - cursorContentPxX;
+  const offsetPxY = lensSizePx / 2 - cursorContentPxY;
 
-  return { contentWidthPx, contentHeightPx, offsetXPx, offsetYPx };
+  return { contentWidthPx, contentHeightPx, offsetPxX, offsetPxY };
 };

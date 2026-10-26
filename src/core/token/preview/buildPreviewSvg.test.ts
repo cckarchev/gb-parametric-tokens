@@ -96,11 +96,11 @@ describe("buildPreviewSvg fallbacks and y axis", () => {
   it("negates y so the model's math-convention (y-up) coordinates render upright in SVG's y-down space", () => {
     // Tall side along +y, so it points up in the model. In SVG (y-down) it must
     // land at negative y, or the preview is upside down.
-    const apexYMm = 5;
+    const apexMmY = 5;
     const triangle: Vec2[] = [
       [0, 0],
       [10, 0],
-      [0, apexYMm],
+      [0, apexMmY],
     ];
 
     const { svg } = buildPreviewSvg([triangle], [], colorGroups);

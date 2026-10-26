@@ -168,21 +168,21 @@ describe("computeArcGlyphPlacements inward rotation", () => {
   });
 
   it("mirrors inward rotation the same way outward already does between mathYUp and svgYDown", () => {
-    const [mathYUpPlacement] = computeArcGlyphPlacements({
+    const [mathPlacement] = computeArcGlyphPlacements({
       ...TWO_GLYPHS,
       centerAngleDeg: BOTTOM_DEG,
       coordinateConvention: "mathYUp",
       orientation: "inward",
     });
-    const [svgYDownPlacement] = computeArcGlyphPlacements({
+    const [svgPlacement] = computeArcGlyphPlacements({
       ...TWO_GLYPHS,
       centerAngleDeg: BOTTOM_DEG,
       coordinateConvention: "svgYDown",
       orientation: "inward",
     });
 
-    expect(svgYDownPlacement.rotationDeg).toBeCloseTo(
-      -mathYUpPlacement.rotationDeg,
+    expect(svgPlacement.rotationDeg).toBeCloseTo(
+      -mathPlacement.rotationDeg,
       PRECISION_DIGITS,
     );
   });
