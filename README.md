@@ -1,4 +1,4 @@
-# gb-parametric-tokens
+# GB Parametric Tokens
 
 A parametric **Guild Ball** token generator, used by the CCK Guild Ball group. Pick a guild, choose which reminder tokens to print and how many copies of each, tune shape, text and relief, check the live preview, then download a `.3mf` ready to slice.
 
@@ -26,23 +26,26 @@ Live at [gb-tokens.cckarchev.ar](https://gb-tokens.cckarchev.ar).
 - **[opentype.js](https://opentype.js.org)**: font parsing and glyph metrics
 - **[fflate](https://github.com/101arrowz/fflate)**: zips the 3MF archive
 - **Vitest** + **React Testing Library** + happy-dom for tests
-- **Biome** for lint and format
+- **Biome** for lint and format, from the shared preset in `@cckarchev/shared`
 - **[Cloudflare Workers](https://workers.cloudflare.com)** with static assets, via Wrangler, deploy
 
 ## Commands
 
-| Command              | Action                                              |
+Requires Node 24.21 or later (`.node-version`).
+
+| Command              | What it does                                        |
 | :------------------- | :-------------------------------------------------- |
 | `npm install`        | Install dependencies                                |
 | `npm run dev`        | Dev server at `localhost:5173`                      |
-| `npm run build`      | Production build to `./dist/`                       |
+| `npm run build`      | Production build to `dist/`                         |
 | `npm run preview`    | Preview the local build                             |
+| `npm run verify`     | Check, type check, test and build, as CI does       |
+| `npm run deploy`     | `verify`, then deploy with Wrangler (manual deploy) |
+| `npm run check`      | Biome lint and format check                         |
+| `npm run check:fix`  | Biome lint and format with autofix                  |
+| `npm run typecheck`  | Type check without emitting                         |
 | `npm test`           | Run the unit tests (Vitest)                         |
 | `npm run test:watch` | Run the unit tests in watch mode                    |
-| `npm run typecheck`  | Type check without emitting                         |
-| `npm run lint`       | Biome lint + format with autofix                    |
-| `npm run verify`     | Type check, test and build                          |
-| `npm run deploy`     | `verify`, then deploy with Wrangler (manual deploy) |
 
 ## Project layout
 
@@ -105,4 +108,4 @@ The character, effect and guild data started from [GBPlaybook](https://github.co
 
 This website is completely unofficial and in no way endorsed by Steamforged Games Limited. Guild Ball and all associated names, guilds, players, and game terms are trademarks of Steamforged Games Limited. No challenge to their status is intended. All such material is used without permission for non-commercial, fan use only.
 
-See [NOTICE](NOTICE) for the full credit and disclaimer.
+See [NOTICE](NOTICE) for the full notice.

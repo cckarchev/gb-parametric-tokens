@@ -1,0 +1,17 @@
+# Runs the shared verify workflow from cckarchev/.github. Keep the job id `ci`:
+# the main branch ruleset requires the "ci / verify" check.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# Cancel superseded runs on the same ref (e.g. rapid pushes to a PR).
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    uses: cckarchev/.github/.github/workflows/verify.yml@main
