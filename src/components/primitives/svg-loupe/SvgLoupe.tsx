@@ -2,6 +2,9 @@ import type { ViewBoxSize } from "./computeLoupeTransform";
 import styles from "./SvgLoupe.module.css";
 import { LENS_SIZE_PX, useLoupeLens } from "./useLoupeLens";
 
+const MOUSE_HINT = "Ctrl+Scroll to zoom";
+const KEYBOARD_HINT = "Arrows move, +/- zoom";
+
 type SvgLoupeProps = {
   svg: string;
   viewBox: ViewBoxSize;
@@ -19,8 +22,12 @@ export const SvgLoupe = ({
     trackAreaRef,
     lens,
     isMagnificationUseful,
+    isKeyboardActive,
     handleMouseMove,
     handleMouseLeave,
+    handleFocus,
+    handleBlur,
+    handleKeyDown,
   } = useLoupeLens(viewBox);
 
   return (
@@ -36,14 +43,22 @@ export const SvgLoupe = ({
           className={styles.trackArea}
           aria-label={ariaLabel}
           role="img"
+          // Focusable only when the lens has something to show, so keyboard
+          // users can magnify too.
+          tabIndex={isMagnificationUseful ? 0 : undefined}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          onKeyDown={handleKeyDown}
           // biome-ignore lint/security/noDangerouslySetInnerHtml: trusted markup generated locally from numeric geometry, not user input
           dangerouslySetInnerHTML={{ __html: svg }}
         />
 
         {isMagnificationUseful && (
-          <span className={styles.zoomHint}>Ctrl+Scroll to zoom</span>
+          <span className={styles.zoomHint}>
+            {isKeyboardActive ? KEYBOARD_HINT : MOUSE_HINT}
+          </span>
         )}
 
         {lens && (

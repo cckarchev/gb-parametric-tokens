@@ -2,6 +2,10 @@
   position: relative;
 }
 
+.trackArea {
+  composes: focusRing from "../../../styles/mixins.module.css";
+}
+
 .trackArea svg {
   display: block;
   width: 100%;

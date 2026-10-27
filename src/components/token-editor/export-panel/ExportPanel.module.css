@@ -6,6 +6,10 @@
   padding: var(--space-md);
 }
 
+.announcement {
+  composes: labelHidden from "../../../styles/field.module.css";
+}
+
 .status {
   display: flex;
   align-items: center;

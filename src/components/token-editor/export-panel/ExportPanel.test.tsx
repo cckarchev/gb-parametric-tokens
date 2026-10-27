@@ -35,6 +35,11 @@ const renderPanel = (overrides: Partial<ExportPanelProps> = {}) => {
   };
 };
 
+// The status is also mirrored in a hidden <output> for screen readers; these
+// lookups target the copy people see.
+const getVisibleText = (text: string) =>
+  screen.getByText(text, { ignore: "script, style, output" });
+
 describe("ExportPanel", () => {
   it("triggers the export callback when the button is clicked", async () => {
     const onExport = vi.fn();
@@ -83,7 +88,7 @@ describe("ExportPanel", () => {
   it("shows a neutral checking message while the preview is in flight", () => {
     const { container } = renderPanel({ isPreviewing: true, validCount: 0 });
 
-    expect(screen.getByText("Checking tokens...")).toBeInTheDocument();
+    expect(getVisibleText("Checking tokens...")).toBeInTheDocument();
     expect(container.querySelector('[class*="statusReady"]')).toBeNull();
     expect(container.querySelector('[class*="statusAttention"]')).toBeNull();
   });
@@ -91,20 +96,42 @@ describe("ExportPanel", () => {
   it("shows a neutral message when nothing is selected", () => {
     renderPanel({ validCount: 0 });
 
-    expect(screen.getByText("No tokens selected.")).toBeInTheDocument();
+    expect(getVisibleText("No tokens selected.")).toBeInTheDocument();
   });
 });
 
 describe("ExportPanel status message", () => {
+  it("announces the status as it changes, also when it turns into the attention list", () => {
+    const { rerenderPanel } = renderPanel({ isPreviewing: true });
+
+    expect(screen.getByRole("status")).toHaveTextContent("Checking tokens...");
+
+    rerenderPanel({
+      validCount: 1,
+      invalidCount: 1,
+      invalidItems: [
+        {
+          id: "a",
+          name: "Beer Token",
+          reason: "1 of 2 details too thin to print.",
+        },
+      ],
+    });
+
+    expect(screen.getByRole("status")).toHaveTextContent(
+      "1 of 2 tokens need attention.",
+    );
+  });
+
   it("shows a green ready message, correctly pluralized, once every token is valid", () => {
     const { container, rerenderPanel } = renderPanel({ validCount: 77 });
 
-    expect(screen.getByText("77 tokens ready to print.")).toBeInTheDocument();
+    expect(getVisibleText("77 tokens ready to print.")).toBeInTheDocument();
     expect(container.querySelector('[class*="statusReady"]')).not.toBeNull();
 
     rerenderPanel({ validCount: 1 });
 
-    expect(screen.getByText("1 token ready to print.")).toBeInTheDocument();
+    expect(getVisibleText("1 token ready to print.")).toBeInTheDocument();
   });
 
   it("shows a red attention message naming how many of the total need fixing", () => {
@@ -131,7 +158,7 @@ describe("ExportPanel status message", () => {
     });
 
     expect(
-      screen.getByText("3 of 77 tokens need attention."),
+      getVisibleText("3 of 77 tokens need attention."),
     ).toBeInTheDocument();
     expect(
       container.querySelector('[class*="statusAttention"]'),
@@ -159,7 +186,7 @@ describe("ExportPanel attention list", () => {
     });
 
     expect(
-      screen.getByText("2 of 14 tokens need attention."),
+      getVisibleText("2 of 14 tokens need attention."),
     ).toBeInTheDocument();
     expect(container.querySelector("details")).not.toHaveAttribute("open");
   });
@@ -184,7 +211,7 @@ describe("ExportPanel ungrouped tokens to fix", () => {
       ],
     });
 
-    await userEvent.click(screen.getByText("2 of 14 tokens need attention."));
+    await userEvent.click(getVisibleText("2 of 14 tokens need attention."));
 
     const list = screen.getByRole("list", { name: "Tokens needing attention" });
 
@@ -209,9 +236,9 @@ describe("ExportPanel ungrouped tokens to fix", () => {
       ],
     });
 
-    await userEvent.click(screen.getByText("1 of 13 tokens need attention."));
+    await userEvent.click(getVisibleText("1 of 13 tokens need attention."));
 
-    expect(screen.getByText("Beer Token").tagName).toBe("STRONG");
+    expect(getVisibleText("Beer Token").tagName).toBe("STRONG");
   });
 });
 
@@ -236,9 +263,9 @@ describe("ExportPanel character tokens to fix", () => {
       ],
     });
 
-    await userEvent.click(screen.getByText("2 of 14 tokens need attention."));
+    await userEvent.click(getVisibleText("2 of 14 tokens need attention."));
 
-    expect(screen.getByText("Sugar").tagName).toBe("STRONG");
+    expect(getVisibleText("Sugar").tagName).toBe("STRONG");
     expect(screen.queryByText("Sugar:")).toBeNull();
 
     const list = screen.getByRole("list", { name: "Tokens needing attention" });

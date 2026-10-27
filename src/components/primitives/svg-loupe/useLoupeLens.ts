@@ -12,6 +12,8 @@ import {
   type PointPx,
   type ViewBoxSize,
 } from "./computeLoupeTransform";
+import { useCtrlWheelZoom } from "./useCtrlWheelZoom";
+import { type LoupeKeyboard, useLoupeKeyboard } from "./useLoupeKeyboard";
 
 export const LENS_SIZE_PX = 180;
 const DEFAULT_ZOOM_FACTOR = 2;
@@ -32,7 +34,7 @@ type LensState = {
 
 type RectSize = { width: number; height: number };
 
-type LoupeLens = {
+type LoupeLens = LoupeKeyboard & {
   trackAreaRef: RefObject<HTMLDivElement | null>;
   lens: LensState | undefined;
   isMagnificationUseful: boolean;
@@ -103,22 +105,23 @@ const useElementWidth = (
   return widthPx;
 };
 
-// The loupe's state and event wiring. Values the wheel listener reads are
-// mirrored in refs, so the listener isn't re-attached on every render or zoom
-// step.
+// The loupe's state and event wiring.
 export const useLoupeLens = (viewBox: ViewBoxSize): LoupeLens => {
   const trackAreaRef = useRef<HTMLDivElement>(null);
-  const viewBoxRef = useRef(viewBox);
   const zoomFactorRef = useRef(DEFAULT_ZOOM_FACTOR);
+  const cursorRef = useRef<PointPx>(undefined);
   const [lens, setLens] = useState<LensState>();
   const containerWidthPx = useElementWidth(trackAreaRef);
-
-  viewBoxRef.current = viewBox;
 
   // The lens only helps when the preview is drawn below true size.
   const trueSizeWidthPx = viewBox.width * CSS_PX_PER_MM;
   const isMagnificationUseful =
     containerWidthPx !== undefined && containerWidthPx < trueSizeWidthPx;
+
+  const showLensAt = (rect: DOMRect, cursorPx: PointPx) => {
+    cursorRef.current = cursorPx;
+    setLens(computeLensState(viewBox, rect, cursorPx, zoomFactorRef.current));
+  };
 
   const handleMouseMove = (event: MouseEvent<HTMLDivElement>) => {
     const trackArea = trackAreaRef.current;
@@ -128,50 +131,41 @@ export const useLoupeLens = (viewBox: ViewBoxSize): LoupeLens => {
     }
 
     const rect = trackArea.getBoundingClientRect();
-    const cursorPx = cursorInRect(event, rect);
 
-    setLens(computeLensState(viewBox, rect, cursorPx, zoomFactorRef.current));
+    showLensAt(rect, cursorInRect(event, rect));
   };
 
   const handleMouseLeave = () => {
     setLens(undefined);
   };
 
-  // React's onWheel is passive, so its preventDefault() can't stop the page
-  // from scrolling. A native non-passive listener can. It only takes
-  // Ctrl+wheel; a plain wheel still scrolls.
-  useEffect(() => {
+  const zoomBy = (delta: number) => {
+    zoomFactorRef.current = clampZoomFactor(zoomFactorRef.current + delta);
+  };
+
+  const keyboard = useLoupeKeyboard({
+    trackAreaRef,
+    isMagnificationUseful,
+    cursorRef,
+    showLensAt,
+    hideLens: handleMouseLeave,
+    zoomBy,
+  });
+
+  const handleCtrlWheel = (event: WheelEvent) => {
     const trackArea = trackAreaRef.current;
 
-    if (!trackArea || !isMagnificationUseful) {
+    if (!trackArea) {
       return;
     }
 
-    const handleWheel = (event: globalThis.WheelEvent) => {
-      if (!event.ctrlKey) {
-        return;
-      }
+    const rect = trackArea.getBoundingClientRect();
 
-      event.preventDefault();
+    zoomBy(-event.deltaY * ZOOM_SENSITIVITY_PER_DELTA_Y);
+    showLensAt(rect, cursorInRect(event, rect));
+  };
 
-      const rect = trackArea.getBoundingClientRect();
-      const cursorPx = cursorInRect(event, rect);
-      const nextZoomFactor = clampZoomFactor(
-        zoomFactorRef.current - event.deltaY * ZOOM_SENSITIVITY_PER_DELTA_Y,
-      );
-
-      zoomFactorRef.current = nextZoomFactor;
-      setLens(
-        computeLensState(viewBoxRef.current, rect, cursorPx, nextZoomFactor),
-      );
-    };
-
-    trackArea.addEventListener("wheel", handleWheel, { passive: false });
-
-    return () => {
-      trackArea.removeEventListener("wheel", handleWheel);
-    };
-  }, [isMagnificationUseful]);
+  useCtrlWheelZoom(trackAreaRef, isMagnificationUseful, handleCtrlWheel);
 
   return {
     trackAreaRef,
@@ -179,5 +173,6 @@ export const useLoupeLens = (viewBox: ViewBoxSize): LoupeLens => {
     isMagnificationUseful,
     handleMouseMove,
     handleMouseLeave,
+    ...keyboard,
   };
 };
