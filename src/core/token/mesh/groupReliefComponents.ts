@@ -1,6 +1,6 @@
-import { Vec2 } from "../types";
+import type { Vec2 } from "../types";
 import { resolveColorGroupId } from "./colorGroups";
-import { ReliefComponent } from "./reliefComponent";
+import type { ReliefComponent } from "./reliefComponent";
 
 export const groupReliefComponentsByColorGroup = (
   components: ReliefComponent[],

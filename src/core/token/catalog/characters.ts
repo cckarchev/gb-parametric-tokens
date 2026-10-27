@@ -1,6 +1,6 @@
 import charactersData from "@/data/characters.json";
 
-import { CatalogCharacter } from "./catalogTypes";
+import type { CatalogCharacter } from "./catalogTypes";
 import { buildLookup, resolveById } from "./resolveById";
 
 const charactersLookup = buildLookup<CatalogCharacter>(
@@ -8,6 +8,5 @@ const charactersLookup = buildLookup<CatalogCharacter>(
   (character) => character.name,
 );
 
-export const resolveCharacter = (characterName: string): CatalogCharacter => {
-  return resolveById(charactersLookup, characterName, "character");
-};
+export const resolveCharacter = (characterName: string): CatalogCharacter =>
+  resolveById(charactersLookup, characterName, "character");

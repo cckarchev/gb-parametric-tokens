@@ -5,7 +5,8 @@ import effectsData from "@/data/effects.json";
 
 import { resolveEffect } from "./effects";
 
-// Biome's useNamingConvention default for identifiers: lower camelCase, ASCII letters and digits.
+// Biome's useNamingConvention default for identifiers: lower camelCase, ASCII
+// letters and digits.
 const CAMEL_CASE_ID = /^[a-z][a-zA-Z0-9]*$/;
 
 describe("resolveEffect", () => {
@@ -18,7 +19,9 @@ describe("resolveEffect", () => {
   });
 
   it("throws for an unknown effect id", () => {
-    expect(() => resolveEffect("notARealEffect")).toThrow('Unknown effect "notARealEffect"');
+    expect(() => resolveEffect("notARealEffect")).toThrow(
+      'Unknown effect "notARealEffect"',
+    );
   });
 });
 

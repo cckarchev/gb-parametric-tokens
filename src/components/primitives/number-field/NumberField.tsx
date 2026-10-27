@@ -7,20 +7,26 @@ type NumberFieldProps = {
   min?: number;
   max?: number;
   disabled?: boolean;
-  // Keeps the label as the field's accessible name without showing it, for a compact inline
-  // input (e.g. a per-token copies count sitting next to its own checkbox label).
+  // Keeps the label as the field's accessible name without showing it, for a
+  // compact inline input (e.g. a per-token copies count sitting next to its own
+  // checkbox label).
   hideLabel?: boolean;
-  // Renders a compact -/+ stepper around the value instead of a plain number input, sized to
-  // sit inline in a single-line row (e.g. next to a checkbox) without growing that row's height.
+  // Renders a compact -/+ stepper around the value instead of a plain number
+  // input, sized to sit inline in a single-line row (e.g. next to a checkbox)
+  // without growing that row's height.
   stepper?: boolean;
 };
 
 const STEP_AMOUNT = 1;
 
-const clamp = (value: number, min: number | undefined, max: number | undefined): number => {
-  const withMin = min !== undefined ? Math.max(value, min) : value;
+const clamp = (
+  value: number,
+  min: number | undefined,
+  max: number | undefined,
+): number => {
+  const withMin = min === undefined ? value : Math.max(value, min);
 
-  return max !== undefined ? Math.min(withMin, max) : withMin;
+  return max === undefined ? withMin : Math.min(withMin, max);
 };
 
 export const NumberField = ({
@@ -46,7 +52,8 @@ export const NumberField = ({
             className={styles.stepperButton}
             aria-label={`Decrease ${label}`}
             disabled={disabled || (min !== undefined && value <= min)}
-            onClick={() => onChange(clamp(value - STEP_AMOUNT, min, max))}>
+            onClick={() => onChange(clamp(value - STEP_AMOUNT, min, max))}
+          >
             −
           </button>
 
@@ -58,7 +65,9 @@ export const NumberField = ({
             min={min}
             max={max}
             disabled={disabled}
-            onChange={(event) => onChange(clamp(Number(event.target.value), min, max))}
+            onChange={(event) =>
+              onChange(clamp(Number(event.target.value), min, max))
+            }
           />
 
           <button
@@ -66,7 +75,8 @@ export const NumberField = ({
             className={styles.stepperButton}
             aria-label={`Increase ${label}`}
             disabled={disabled || (max !== undefined && value >= max)}
-            onClick={() => onChange(clamp(value + STEP_AMOUNT, min, max))}>
+            onClick={() => onChange(clamp(value + STEP_AMOUNT, min, max))}
+          >
             +
           </button>
         </div>
@@ -84,7 +94,9 @@ export const NumberField = ({
         min={min}
         max={max}
         disabled={disabled}
-        onChange={(event) => onChange(clamp(Number(event.target.value), min, max))}
+        onChange={(event) =>
+          onChange(clamp(Number(event.target.value), min, max))
+        }
       />
     </label>
   );

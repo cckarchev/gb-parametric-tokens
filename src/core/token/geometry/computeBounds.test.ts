@@ -4,14 +4,18 @@ import { computeBounds } from "./computeBounds";
 
 describe("computeBounds", () => {
   it("spans every point of every contour", () => {
+    const minX = -5;
+    const maxX = 4;
+    const minY = -3;
+    const maxY = 7;
     const bounds = computeBounds([
       [
         [1, 2],
-        [4, -3],
+        [maxX, minY],
       ],
-      [[-5, 7]],
+      [[minX, maxY]],
     ]);
 
-    expect(bounds).toEqual({ min: [-5, -3], max: [4, 7] });
+    expect(bounds).toEqual({ min: [minX, minY], max: [maxX, maxY] });
   });
 });

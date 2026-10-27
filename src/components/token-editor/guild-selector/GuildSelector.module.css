@@ -1,8 +1,13 @@
 .grid {
+  /* A fieldset, so the browser's own border, padding and min-width come off. */
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
   display: flex;
   flex-wrap: wrap;
-  /* Fixed-size tiles in a centered wrap, so a last row that does not fill up sits centered
-     under the full rows instead of hanging off the left edge. */
+  /* Fixed-size tiles in a centered wrap, so a last row that does not fill up
+     sits centered under the full rows instead of hanging off the left edge. */
   justify-content: center;
   gap: var(--space-sm);
 }
@@ -16,7 +21,8 @@
   aspect-ratio: 1;
   border: var(--border-default);
   border-radius: var(--radius-none);
-  /* Darker than the panel behind it, so each tile reads as a recessed button. */
+  /* Darker than the panel behind it, so each tile reads as a recessed
+     button. */
   background: var(--color-surface-field);
   cursor: pointer;
 }
@@ -27,8 +33,9 @@
 }
 
 .badgeStack {
-  /* .badge (the white circle) and .logo (the crest) share one grid cell instead of nesting, so
-     each is sized as its own percentage of this box: shrinking the circle leaves the crest alone. */
+  /* .badge (the white circle) and .logo (the crest) share one grid cell instead
+     of nesting, so each is sized as its own percentage of this box: shrinking
+     the circle leaves the crest alone. */
   display: grid;
   width: 100%;
   height: 100%;
@@ -42,23 +49,25 @@
 }
 
 .badge {
-  /* Deliberately smaller than the icon riding on top of it: the white circle is a partial
-     backing plate peeking out from behind the icon's own silhouette, not a disc that has to
-     fully contain it. */
+  /* Deliberately smaller than the icon riding on top of it: the white circle is
+     a partial backing plate peeking out from behind the icon's own silhouette,
+     not a disc that has to fully contain it. */
   width: 73%;
   height: 73%;
   border-radius: var(--radius-round);
-  /* The near-white backing plate (or the guild color, on an inverted tile) is set inline in
-     GuildTile.tsx, so the guild-colored icon stays readable regardless of the app's dark theme. */
-  /* Any icon whose ink reaches its own box's corners (not just wide ones) would otherwise paint
-     straight past this circle onto the tile background: keep this no matter what future icon
-     or size change happens here. */
+  /* The near-white backing plate (or the guild color, on an inverted tile) is
+     set inline in GuildTile.tsx, so the guild-colored icon stays readable
+     regardless of the app's dark theme. */
+  /* Any icon whose ink reaches its own box's corners (not just wide ones) would
+     otherwise paint straight past this circle onto the tile background: keep
+     this no matter what future icon or size change happens here. */
   overflow: hidden;
 }
 
 .logo {
-  /* The crest is a mask over the guild's color, both set inline in GuildTile.tsx along with its
-     size. mask-size: contain letterboxes a wide crest inside the square instead of cropping it. */
+  /* The crest is a mask over the guild's color, both set inline in
+     GuildTile.tsx along with its size. mask-size: contain letterboxes a wide
+     crest inside the square instead of cropping it. */
   mask-repeat: no-repeat;
   mask-position: center;
   mask-size: contain;

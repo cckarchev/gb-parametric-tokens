@@ -1,6 +1,7 @@
-/* A disclosure arrow: two borders of an empty box, rotated. It sets no color, so each consumer
-   sets `color` without fighting this rule (CSS Modules doesn't fix which rule wins). The collapsed
-   rotation lives in each consumer, under its own parent selector. */
+/* A disclosure arrow: two borders of an empty box, rotated. It sets no color,
+   so each consumer sets `color` without fighting this rule (CSS Modules doesn't
+   fix which rule wins). The collapsed rotation lives in each consumer, under
+   its own parent selector. */
 .chevron {
   width: var(--size-chevron);
   height: var(--size-chevron);

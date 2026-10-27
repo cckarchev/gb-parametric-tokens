@@ -4,8 +4,10 @@ import { describe, expect, it, vi } from "vitest";
 
 import { CountField } from "./CountField";
 
-const renderField = (overrides: Partial<Parameters<typeof CountField>[0]> = {}) => {
-  return render(
+const renderField = (
+  overrides: Partial<Parameters<typeof CountField>[0]> = {},
+) =>
+  render(
     <CountField
       label="Influence tokens"
       enabled={false}
@@ -17,14 +19,17 @@ const renderField = (overrides: Partial<Parameters<typeof CountField>[0]> = {}) 
       {...overrides}
     />,
   );
-};
 
 describe("CountField", () => {
   it("reflects the checkbox and copies state", () => {
-    renderField({ enabled: true, copies: 5 });
+    const copies = 5;
+
+    renderField({ enabled: true, copies });
 
     expect(screen.getByLabelText("Influence tokens")).toBeChecked();
-    expect(screen.getByLabelText("Influence tokens copies")).toHaveValue(5);
+    expect(screen.getByLabelText("Influence tokens copies")).toHaveValue(
+      copies,
+    );
   });
 
   it("reports a checkbox toggle", () => {
@@ -46,14 +51,20 @@ describe("CountField", () => {
       target: { value: "8" },
     });
 
-    expect(onCopiesChange).toHaveBeenCalledWith(8);
+    const typedCopies = 8;
+
+    expect(onCopiesChange).toHaveBeenCalledWith(typedCopies);
   });
 
   it("disables the copies stepper while unchecked, without hiding its value", () => {
-    renderField({ enabled: false, copies: 3 });
+    const copies = 3;
+
+    renderField({ enabled: false, copies });
 
     expect(screen.getByLabelText("Influence tokens copies")).toBeDisabled();
-    expect(screen.getByLabelText("Influence tokens copies")).toHaveValue(3);
+    expect(screen.getByLabelText("Influence tokens copies")).toHaveValue(
+      copies,
+    );
   });
 
   it("caps the copies stepper at the given min and max", () => {

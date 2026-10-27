@@ -1,6 +1,6 @@
 import { CheckboxField } from "@/components/primitives/checkbox-field/CheckboxField";
 import { NumberField } from "@/components/primitives/number-field/NumberField";
-import { CrowfootTuning } from "@/core/token/catalog/token-items/tokenItem";
+import type { CrowfootTuning } from "@/core/token/catalog/token-items/tokenItem";
 
 import {
   ARC_SWEEP_BOUNDS,
@@ -13,7 +13,7 @@ import {
   TEXT_SIZE_BOUNDS,
 } from "../shared/fieldBounds";
 import { BandWidthField } from "./BandWidthField";
-import { AoeFieldsProps } from "./fieldsProps";
+import type { AoeFieldsProps } from "./fieldsProps";
 
 export const CrowfootFields = ({ aoe, onChange }: AoeFieldsProps) => {
   const { crowfoot } = aoe;
@@ -72,13 +72,17 @@ export const CrowfootFields = ({ aoe, onChange }: AoeFieldsProps) => {
         label="Spoke text clearance from center (mm)"
         value={crowfoot.spokeTextCenterClearanceMm}
         {...SPOKE_TEXT_CLEARANCE_BOUNDS}
-        onChange={(spokeTextCenterClearanceMm) => updateCrowfoot({ spokeTextCenterClearanceMm })}
+        onChange={(spokeTextCenterClearanceMm) =>
+          updateCrowfoot({ spokeTextCenterClearanceMm })
+        }
       />
       <NumberField
         label="Spoke text margin before arc (mm)"
         value={crowfoot.spokeTextBandMarginMm}
         {...SPOKE_TEXT_MARGIN_BOUNDS}
-        onChange={(spokeTextBandMarginMm) => updateCrowfoot({ spokeTextBandMarginMm })}
+        onChange={(spokeTextBandMarginMm) =>
+          updateCrowfoot({ spokeTextBandMarginMm })
+        }
       />
     </>
   );

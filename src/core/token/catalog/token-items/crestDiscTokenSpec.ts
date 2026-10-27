@@ -1,9 +1,13 @@
-import { TokenSpec } from "../../types";
-import { SharedConfig } from "./tokenItem";
-import { buildIconSpec, guildCrestScale, sharedTokenFields } from "./tokenSpecParts";
+import type { TokenSpec } from "../../types";
+import type { SharedConfig } from "./tokenItem";
+import {
+  buildIconSpec,
+  guildCrestScale,
+  sharedTokenFields,
+} from "./tokenSpecParts";
 
-// A plain disc wearing one centered icon and no text: Influence and a guild's generic tokens are
-// both this, and differ only in which icon they wear.
+// A plain disc wearing one centered icon and no text: Influence and a guild's
+// generic tokens are both this, and differ only in which icon they wear.
 export const buildCrestDiscTokenSpec = (
   iconId: string,
   guildIconId: string,
@@ -11,7 +15,8 @@ export const buildCrestDiscTokenSpec = (
   sharedConfig: SharedConfig,
 ): TokenSpec => {
   const iconScale =
-    sharedConfig.discToken.crestScale * guildCrestScale(iconId, guildIconId, guildIconScale);
+    sharedConfig.discToken.crestScale *
+    guildCrestScale(iconId, guildIconId, guildIconScale);
 
   return {
     version: 1,

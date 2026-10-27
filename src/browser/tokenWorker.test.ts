@@ -1,9 +1,13 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("./loadFont", () => ({
-  loadCatalogFont: vi.fn(async (fontId: string | undefined) => ({ loadedFontId: fontId })),
+  loadCatalogFont: vi.fn(async (fontId: string | undefined) => ({
+    loadedFontId: fontId,
+  })),
 }));
-vi.mock("./loadIconManifest", () => ({ loadIconManifest: vi.fn().mockResolvedValue([]) }));
+vi.mock("./loadIconManifest", () => ({
+  loadIconManifest: vi.fn().mockResolvedValue([]),
+}));
 vi.mock("@/core/token/relief/computeReliefComponents", () => ({
   computeReliefComponents: vi.fn(),
 }));
@@ -17,33 +21,55 @@ vi.mock("@/core/token/geometry/computePlateLayout", () => ({
 vi.mock("@/core/token/export/three-mf/combinedModel", () => ({
   buildCombinedThreeMfModel: vi.fn(),
 }));
-vi.mock("@/core/token/export/three-mf/archive", () => ({ buildThreeMfArchive: vi.fn() }));
+vi.mock("@/core/token/export/three-mf/archive", () => ({
+  buildThreeMfArchive: vi.fn(),
+}));
 
 vi.stubGlobal("self", { postMessage: vi.fn() });
 
 const { handleExport, handlePreview } = await import("./tokenWorker");
-const { computeReliefComponents } = await import("@/core/token/relief/computeReliefComponents");
+const { computeReliefComponents } = await import(
+  "@/core/token/relief/computeReliefComponents"
+);
 const { computeBaseOutlineContours } = await import(
   "@/core/token/preview/computeBaseOutlineContours"
 );
 const { buildTokenParts } = await import("@/core/token/buildTokenParts");
-const { computePlateLayout } = await import("@/core/token/geometry/computePlateLayout");
-const { buildCombinedThreeMfModel } = await import("@/core/token/export/three-mf/combinedModel");
-const { buildThreeMfArchive } = await import("@/core/token/export/three-mf/archive");
+const { computePlateLayout } = await import(
+  "@/core/token/geometry/computePlateLayout"
+);
+const { buildCombinedThreeMfModel } = await import(
+  "@/core/token/export/three-mf/combinedModel"
+);
+const { buildThreeMfArchive } = await import(
+  "@/core/token/export/three-mf/archive"
+);
 
 import type { TokenItem } from "@/core/token/catalog/token-items/tokenItem";
 import type { TokenPart } from "@/core/token/mesh/tokenPart";
 import { arcSpec, discSpec } from "@/core/token/testSpecs";
 import { DEFAULT_DISPLAY_FONT_ID } from "@/core/token/text/fontCatalog";
-import type { ColorGroupSpec } from "@/core/token/types";
+import type { ColorGroupSpec, Vec2 } from "@/core/token/types";
 
 import type { ExportRequest, PreviewRequest } from "./tokenWorker";
 
-const colorGroups: ColorGroupSpec[] = [{ id: "base", name: "Base", color: "#2B2B2B" }];
+const colorGroups: ColorGroupSpec[] = [
+  { id: "base", name: "Base", color: "#2B2B2B" },
+];
 
 const FAKE_MODEL = { modelXml: "<model/>", prusaModelConfigXml: "<config/>" };
 
-const FAKE_PART_BOX = { min: [-12.5, -12.5, 0], max: [12.5, 12.5, 3] };
+const FAKE_PART_HALF_SIZE_MM = 12.5;
+const FAKE_PART_HEIGHT_MM = 3;
+const FAKE_PART_BOX = {
+  min: [-FAKE_PART_HALF_SIZE_MM, -FAKE_PART_HALF_SIZE_MM, 0],
+  max: [FAKE_PART_HALF_SIZE_MM, FAKE_PART_HALF_SIZE_MM, FAKE_PART_HEIGHT_MM],
+};
+// The flat footprint computePartsBounds reads off FAKE_PART_BOX.
+const FAKE_PART_BOUNDS_MM = {
+  min: [-FAKE_PART_HALF_SIZE_MM, -FAKE_PART_HALF_SIZE_MM],
+  max: [FAKE_PART_HALF_SIZE_MM, FAKE_PART_HALF_SIZE_MM],
+};
 
 const fakePart = (status: string): TokenPart =>
   ({
@@ -62,36 +88,140 @@ beforeEach(() => {
 
 describe("resource loading", () => {
   it("tries loading the icon manifest again after a failed attempt instead of failing every later request", async () => {
-    // A fresh module, so the resources the other tests already loaded aren't cached here.
+    // A fresh module, so the resources the other tests already loaded aren't
+    // cached here.
     vi.resetModules();
 
     const freshWorker = await import("./tokenWorker");
     const { loadIconManifest } = await import("./loadIconManifest");
-    const emptyRequest: PreviewRequest = { kind: "preview", requestId: 1, items: [] };
+    const emptyRequest: PreviewRequest = {
+      kind: "preview",
+      requestId: 1,
+      items: [],
+    };
 
-    vi.mocked(loadIconManifest).mockRejectedValueOnce(new Error("Failed to load: Not Found"));
+    vi.mocked(loadIconManifest).mockRejectedValueOnce(
+      new Error("Failed to load: Not Found"),
+    );
 
-    await expect(freshWorker.handlePreview(emptyRequest)).rejects.toThrow("Not Found");
-    await expect(freshWorker.handlePreview(emptyRequest)).resolves.toMatchObject({
+    await expect(freshWorker.handlePreview(emptyRequest)).rejects.toThrow(
+      "Not Found",
+    );
+    await expect(
+      freshWorker.handlePreview(emptyRequest),
+    ).resolves.toMatchObject({
       results: [],
     });
   });
 });
 
+type ReliefResult = Awaited<ReturnType<typeof computeReliefComponents>>;
+
+// A token whose relief is clean: nothing to warn about, nothing blocking its
+// export.
+const CLEAN_RELIEF: ReliefResult = {
+  reliefComponents: [],
+  warnings: [],
+  valid: true,
+  blocksExport: false,
+  componentFailures: [],
+};
+
+const TOKEN_A: TokenItem = {
+  id: "a",
+  label: "Token A",
+  name: "Token A",
+  spec: discSpec,
+  copies: 1,
+};
+
+const exportRequest = (items: TokenItem[]): ExportRequest => ({
+  kind: "export",
+  requestId: 1,
+  items,
+  colorGroups,
+});
+
+// Two preview fixtures: a grouped token that passes with a warning, and an
+// ungrouped one whose text is too thin.
+const GROUPED_WARNED_PREVIEW = {
+  item: {
+    id: "a",
+    label: "Tapper: Token A",
+    group: "Tapper",
+    name: "Token A",
+    spec: discSpec,
+    copies: 13,
+  },
+  relief: {
+    ...CLEAN_RELIEF,
+    reliefComponents: [
+      { source: { kind: "decoration" as const }, contours: [[[0, 0]]] },
+    ],
+    warnings: ["warn-a"],
+  } satisfies ReliefResult,
+  baseContours: [[[-1, -1]]] satisfies Vec2[][],
+};
+const THIN_TEXT_PREVIEW = {
+  item: {
+    id: "b",
+    label: "Token B",
+    name: "Token B",
+    spec: discSpec,
+    copies: 1,
+  },
+  relief: {
+    ...CLEAN_RELIEF,
+    reliefComponents: [
+      { source: { kind: "decoration" as const }, contours: [[[1, 1]]] },
+    ],
+    valid: false,
+    blocksExport: true,
+    componentFailures: [
+      {
+        kind: "stroke-width" as const,
+        source: { kind: "text" as const, text: "Token B" },
+        vanishedFeatureCount: 1,
+        featureCount: 1,
+      },
+    ],
+  } satisfies ReliefResult,
+  baseContours: [[[-2, -2]]] satisfies Vec2[][],
+};
+
+type PreviewFixture = typeof GROUPED_WARNED_PREVIEW | typeof THIN_TEXT_PREVIEW;
+
+// The preview result a fixture's token should come back as.
+const previewResult = (
+  { item, relief, baseContours }: PreviewFixture,
+  reason: string,
+) => ({
+  id: item.id,
+  label: item.label,
+  group: "group" in item ? item.group : undefined,
+  name: item.name,
+  shape: discSpec.shape,
+  baseContours,
+  reliefComponents: relief.reliefComponents,
+  warnings: relief.warnings,
+  copies: item.copies,
+  valid: relief.valid,
+  reason,
+});
+
 describe("handlePreview", () => {
   it("lays out each token in its own font", async () => {
-    const reliefResult = {
-      reliefComponents: [],
-      warnings: [],
-      valid: true,
-      blocksExport: false,
-      componentFailures: [],
-    };
-    vi.mocked(computeReliefComponents).mockResolvedValue(reliefResult);
+    vi.mocked(computeReliefComponents).mockResolvedValue(CLEAN_RELIEF);
     vi.mocked(computeBaseOutlineContours).mockResolvedValue([]);
 
     const items: TokenItem[] = [
-      { id: "default", label: "Default", name: "Default", spec: discSpec, copies: 1 },
+      {
+        id: "default",
+        label: "Default",
+        name: "Default",
+        spec: discSpec,
+        copies: 1,
+      },
       {
         id: "display",
         label: "Display",
@@ -103,7 +233,9 @@ describe("handlePreview", () => {
 
     await handlePreview({ kind: "preview", requestId: 1, items });
 
-    const fontsUsed = vi.mocked(computeReliefComponents).mock.calls.map((call) => call[1]);
+    const fontsUsed = vi
+      .mocked(computeReliefComponents)
+      .mock.calls.map((call) => call[1]);
 
     expect(fontsUsed).toEqual([
       { loadedFontId: undefined },
@@ -113,83 +245,35 @@ describe("handlePreview", () => {
 
   it("returns one result per item, with its outline, relief, warnings and failure reason", async () => {
     vi.mocked(computeReliefComponents)
-      .mockResolvedValueOnce({
-        reliefComponents: [{ source: { kind: "decoration" }, contours: [[[0, 0]]] }],
-        warnings: ["warn-a"],
-        valid: true,
-        blocksExport: false,
-        componentFailures: [],
-      })
-      .mockResolvedValueOnce({
-        reliefComponents: [{ source: { kind: "decoration" }, contours: [[[1, 1]]] }],
-        warnings: [],
-        valid: false,
-        blocksExport: true,
-        componentFailures: [
-          {
-            kind: "stroke-width",
-            source: { kind: "text", text: "Token B" },
-            vanishedFeatureCount: 1,
-            featureCount: 1,
-          },
-        ],
-      });
+      .mockResolvedValueOnce(GROUPED_WARNED_PREVIEW.relief)
+      .mockResolvedValueOnce(THIN_TEXT_PREVIEW.relief);
     vi.mocked(computeBaseOutlineContours)
-      .mockResolvedValueOnce([[[-1, -1]]])
-      .mockResolvedValueOnce([[[-2, -2]]]);
+      .mockResolvedValueOnce(GROUPED_WARNED_PREVIEW.baseContours)
+      .mockResolvedValueOnce(THIN_TEXT_PREVIEW.baseContours as Vec2[][]);
 
-    const items: TokenItem[] = [
-      {
-        id: "a",
-        label: "Tapper: Token A",
-        group: "Tapper",
-        name: "Token A",
-        spec: discSpec,
-        copies: 13,
-      },
-      { id: "b", label: "Token B", name: "Token B", spec: discSpec, copies: 1 },
-    ];
-    const request: PreviewRequest = { kind: "preview", requestId: 7, items };
+    const request: PreviewRequest = {
+      kind: "preview",
+      requestId: 7,
+      items: [GROUPED_WARNED_PREVIEW.item, THIN_TEXT_PREVIEW.item],
+    };
 
     const response = await handlePreview(request);
 
-    expect(response.requestId).toBe(7);
+    expect(response.requestId).toBe(request.requestId);
     expect(response.results).toEqual([
-      {
-        id: "a",
-        label: "Tapper: Token A",
-        group: "Tapper",
-        name: "Token A",
-        shape: discSpec.shape,
-        baseContours: [[[-1, -1]]],
-        reliefComponents: [{ source: { kind: "decoration" }, contours: [[[0, 0]]] }],
-        warnings: ["warn-a"],
-        copies: 13,
-        valid: true,
-        reason: "",
-      },
-      {
-        id: "b",
-        label: "Token B",
-        group: undefined,
-        name: "Token B",
-        shape: discSpec.shape,
-        baseContours: [[[-2, -2]]],
-        reliefComponents: [{ source: { kind: "decoration" }, contours: [[[1, 1]]] }],
-        warnings: [],
-        copies: 1,
-        valid: false,
-        reason: "1 of 1 detail too thin to print at this size.",
-      },
+      previewResult(GROUPED_WARNED_PREVIEW, ""),
+      previewResult(
+        THIN_TEXT_PREVIEW,
+        "1 of 1 detail too thin to print at this size.",
+      ),
     ]);
   });
 });
 
-describe("handleExport", () => {
+describe("handleExport failures", () => {
   it("collects a failure for a spec that fails the stroke-width validation", async () => {
     vi.mocked(computeReliefComponents).mockResolvedValue({
-      reliefComponents: [],
-      warnings: [],
+      ...CLEAN_RELIEF,
       valid: false,
       blocksExport: true,
       componentFailures: [
@@ -203,17 +287,16 @@ describe("handleExport", () => {
     });
     vi.mocked(buildTokenParts).mockResolvedValue([fakePart("NoError")]);
 
-    const items: TokenItem[] = [
-      { id: "a", label: "Token A", name: "Token A", spec: discSpec, copies: 1 },
-    ];
-    const request: ExportRequest = { kind: "export", requestId: 1, items, colorGroups };
-
-    const response = await handleExport(request);
+    const response = await handleExport(exportRequest([TOKEN_A]));
 
     expect(response.status).toBe("failed");
     if (response.status === "failed") {
       expect(response.failures).toEqual([
-        { id: "a", label: "Token A", reason: "1 of 1 detail too thin to print at this size." },
+        {
+          id: "a",
+          label: "Token A",
+          reason: "1 of 1 detail too thin to print at this size.",
+        },
       ]);
     }
     expect(computePlateLayout).not.toHaveBeenCalled();
@@ -221,10 +304,8 @@ describe("handleExport", () => {
 
   it("still exports a token whose only failures are layout warnings", async () => {
     vi.mocked(computeReliefComponents).mockResolvedValue({
-      reliefComponents: [],
-      warnings: [],
+      ...CLEAN_RELIEF,
       valid: false,
-      blocksExport: false,
       componentFailures: [
         {
           kind: "crest-over-text",
@@ -238,32 +319,16 @@ describe("handleExport", () => {
     vi.mocked(buildCombinedThreeMfModel).mockReturnValue(FAKE_MODEL);
     vi.mocked(buildThreeMfArchive).mockReturnValue(new Uint8Array([1]));
 
-    const items: TokenItem[] = [
-      { id: "a", label: "Token A", name: "Token A", spec: discSpec, copies: 1 },
-    ];
-    const request: ExportRequest = { kind: "export", requestId: 1, items, colorGroups };
-
-    const response = await handleExport(request);
+    const response = await handleExport(exportRequest([TOKEN_A]));
 
     expect(response.status).toBe("ok");
   });
 
   it("collects a failure for a part with a non-NoError manifold status", async () => {
-    vi.mocked(computeReliefComponents).mockResolvedValue({
-      reliefComponents: [],
-      warnings: [],
-      valid: true,
-      blocksExport: false,
-      componentFailures: [],
-    });
+    vi.mocked(computeReliefComponents).mockResolvedValue(CLEAN_RELIEF);
     vi.mocked(buildTokenParts).mockResolvedValue([fakePart("Error")]);
 
-    const items: TokenItem[] = [
-      { id: "a", label: "Token A", name: "Token A", spec: discSpec, copies: 1 },
-    ];
-    const request: ExportRequest = { kind: "export", requestId: 1, items, colorGroups };
-
-    const response = await handleExport(request);
+    const response = await handleExport(exportRequest([TOKEN_A]));
 
     expect(response.status).toBe("failed");
     if (response.status === "failed") {
@@ -272,46 +337,47 @@ describe("handleExport", () => {
       ]);
     }
   });
+});
+
+describe("handleExport plate", () => {
+  const discItem: TokenItem = { ...TOKEN_A, id: "disc-a", label: "Disc A" };
+  const arcItem: TokenItem = {
+    id: "arc-a",
+    label: "Arc A",
+    name: "Arc A",
+    spec: arcSpec,
+    copies: 2,
+  };
 
   it("lays out and combines the plate when every item is valid", async () => {
-    vi.mocked(computeReliefComponents).mockResolvedValue({
-      reliefComponents: [],
-      warnings: [],
-      valid: true,
-      blocksExport: false,
-      componentFailures: [],
-    });
-
     const discPart = fakePart("NoError");
     const arcPart = fakePart("NoError");
-
-    vi.mocked(buildTokenParts).mockResolvedValueOnce([discPart]).mockResolvedValueOnce([arcPart]);
-
-    const discOffsets = [[0, 0]] as [number, number][];
-    const arcOffsets = [
+    const discOffsets: Vec2[] = [[0, 0]];
+    const arcOffsets: Vec2[] = [
       [0, 0],
       [10, 0],
-    ] as [number, number][];
+    ];
+    const archive = new TextEncoder().encode("3mf archive");
 
+    vi.mocked(computeReliefComponents).mockResolvedValue(CLEAN_RELIEF);
+    vi.mocked(buildTokenParts)
+      .mockResolvedValueOnce([discPart])
+      .mockResolvedValueOnce([arcPart]);
     vi.mocked(computePlateLayout).mockReturnValue([discOffsets, arcOffsets]);
     vi.mocked(buildCombinedThreeMfModel).mockReturnValue(FAKE_MODEL);
-
-    const archive = new Uint8Array([1, 2, 3]);
-
     vi.mocked(buildThreeMfArchive).mockReturnValue(archive);
 
-    const items: TokenItem[] = [
-      { id: "disc-a", label: "Disc A", name: "Disc A", spec: discSpec, copies: 1 },
-      { id: "arc-a", label: "Arc A", name: "Arc A", spec: arcSpec, copies: 2 },
-    ];
-    const request: ExportRequest = { kind: "export", requestId: 9, items, colorGroups };
-
+    const request = exportRequest([discItem, arcItem]);
     const response = await handleExport(request);
 
     expect(computePlateLayout).toHaveBeenCalledWith(
       [
-        { shapeType: "disc", boundsMm: { min: [-12.5, -12.5], max: [12.5, 12.5] }, copies: 1 },
-        { shapeType: "arc", boundsMm: { min: [-12.5, -12.5], max: [12.5, 12.5] }, copies: 2 },
+        { shapeType: "disc", boundsMm: FAKE_PART_BOUNDS_MM, copies: 1 },
+        {
+          shapeType: "arc",
+          boundsMm: FAKE_PART_BOUNDS_MM,
+          copies: arcItem.copies,
+        },
       ],
       10,
     );
@@ -323,6 +389,11 @@ describe("handleExport", () => {
       colorGroups,
     );
     expect(buildThreeMfArchive).toHaveBeenCalledWith("<model/>", "<config/>");
-    expect(response).toEqual({ kind: "export", requestId: 9, status: "ok", archive });
+    expect(response).toEqual({
+      kind: "export",
+      requestId: request.requestId,
+      status: "ok",
+      archive,
+    });
   });
 });

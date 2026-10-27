@@ -57,7 +57,8 @@ describe("Panel", () => {
       <Panel
         title="Shape"
         defaultExpanded={true}
-        headerAccessory={<button type="button">Accessory</button>}>
+        headerAccessory={<button type="button">Accessory</button>}
+      >
         <p>content</p>
       </Panel>,
     );

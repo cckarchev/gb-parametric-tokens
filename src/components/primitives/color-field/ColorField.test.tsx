@@ -16,7 +16,9 @@ describe("ColorField", () => {
 
     render(<ColorField label="Base" value="#2b2b2b" onChange={onChange} />);
 
-    fireEvent.change(screen.getByLabelText("Base"), { target: { value: "#ff0000" } });
+    fireEvent.change(screen.getByLabelText("Base"), {
+      target: { value: "#ff0000" },
+    });
 
     expect(onChange).toHaveBeenCalledWith("#ff0000");
   });

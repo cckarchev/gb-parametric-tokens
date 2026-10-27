@@ -1,45 +1,48 @@
 import { describe, expect, it } from "vitest";
 
 import { layoutPreparedSection } from "./layout";
-import { FlippedContactSheetItem, PreparedSection } from "./types";
+import type { FlippedContactSheetItem, PreparedSection } from "./types";
 
 const CELL_SIZE_MM = 20;
 const CELL_PADDING_MM = 2;
 const ITEM_SIZE_MM = 10;
 
-const disc = (overrides: Partial<FlippedContactSheetItem> = {}): FlippedContactSheetItem => {
-  return {
-    shape: { type: "disc", diameterMm: ITEM_SIZE_MM },
-    baseContours: [
-      [
-        [0, 0],
-        [ITEM_SIZE_MM, 0],
-        [ITEM_SIZE_MM, ITEM_SIZE_MM],
-      ],
+const disc = (
+  overrides: Partial<FlippedContactSheetItem> = {},
+): FlippedContactSheetItem => ({
+  shape: { type: "disc", diameterMm: ITEM_SIZE_MM },
+  baseContours: [
+    [
+      [0, 0],
+      [ITEM_SIZE_MM, 0],
+      [ITEM_SIZE_MM, ITEM_SIZE_MM],
     ],
-    reliefContoursByColorGroup: new Map(),
-    ...overrides,
-  };
-};
+  ],
+  reliefContoursByColorGroup: new Map(),
+  ...overrides,
+});
 
-const prepare = (items: FlippedContactSheetItem[], alignToGridVertex: boolean): PreparedSection => {
-  return {
-    flippedItems: items,
-    boundsByItem: items.map(() => ({ min: [0, 0], max: [ITEM_SIZE_MM, ITEM_SIZE_MM] })),
-    cellWidthMm: CELL_SIZE_MM,
-    cellHeightMm: CELL_SIZE_MM,
-    cellPaddingMm: CELL_PADDING_MM,
-    arcLeftMarginMm: 0,
-    arcTopMarginMm: 0,
-    alignToGridVertex,
-  };
-};
+const prepare = (
+  items: FlippedContactSheetItem[],
+  alignToGridVertex: boolean,
+): PreparedSection => ({
+  flippedItems: items,
+  boundsByItem: items.map(() => ({
+    min: [0, 0],
+    max: [ITEM_SIZE_MM, ITEM_SIZE_MM],
+  })),
+  cellWidthMm: CELL_SIZE_MM,
+  cellHeightMm: CELL_SIZE_MM,
+  cellPaddingMm: CELL_PADDING_MM,
+  arcLeftMarginMm: 0,
+  arcTopMarginMm: 0,
+  alignToGridVertex,
+});
 
-const markerRects = (xml: string): string[] => {
-  return [...xml.matchAll(/<rect x="([^"]+)" y="([^"]+)"/g)].map(
+const markerRects = (xml: string): string[] =>
+  [...xml.matchAll(/<rect x="([^"]+)" y="([^"]+)"/g)].map(
     (match) => `${match[1]},${match[2]}`,
   );
-};
 
 describe("layoutPreparedSection", () => {
   it("wraps items into rows of the given column count", () => {
@@ -52,30 +55,46 @@ describe("layoutPreparedSection", () => {
   });
 
   it("is only as wide as its items when there are fewer items than columns", () => {
-    const layout = layoutPreparedSection(prepare([disc()], true), 5, 0, []);
+    const columns = 5;
+    const layout = layoutPreparedSection(
+      prepare([disc()], true),
+      columns,
+      0,
+      [],
+    );
 
     expect(layout.widthMm).toBe(CELL_SIZE_MM);
   });
 
   it("centers a grid-vertex disc in its cell, and marks only the invalid items", () => {
-    const items = [disc(), disc({ valid: false, label: "Tapper", reason: "Too thin." })];
+    const items = [
+      disc(),
+      disc({ valid: false, label: "Tapper", reason: "Too thin." }),
+    ];
 
     const layout = layoutPreparedSection(prepare(items, true), 2, 0, []);
 
-    // The second cell starts at x=20; a centered 10mm item sits 5mm in, at x=25. The vertical
-    // origin passed in (0) plus the same 5mm gives y=5.
+    // The second cell starts at x=20; a centered 10mm item sits 5mm in, at
+    // x=25. The vertical origin passed in (0) plus the same 5mm gives y=5.
     expect(markerRects(layout.cellsXml)).toEqual(["25,5"]);
     expect(layout.cellsXml).toContain("<title>Tapper: Too thin.</title>");
   });
 
   it("places an unaligned disc at the cell's padding, below the given vertical origin", () => {
-    const items = [disc({ valid: false, label: "Tapper", reason: "Too thin." })];
-    const originYMm = 40;
+    const items = [
+      disc({ valid: false, label: "Tapper", reason: "Too thin." }),
+    ];
+    const originMmY = 40;
 
-    const layout = layoutPreparedSection(prepare(items, false), 1, originYMm, []);
+    const layout = layoutPreparedSection(
+      prepare(items, false),
+      1,
+      originMmY,
+      [],
+    );
 
     expect(markerRects(layout.cellsXml)).toEqual([
-      `${CELL_PADDING_MM},${originYMm + CELL_PADDING_MM}`,
+      `${CELL_PADDING_MM},${originMmY + CELL_PADDING_MM}`,
     ]);
   });
 

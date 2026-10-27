@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { buildDefaultSelection } from "./buildDefaultSelection";
-import { GuildCatalog } from "./catalogTypes";
+import type { GuildCatalog } from "./catalogTypes";
 import { GENERIC_CATALOG_ID } from "./genericCatalog";
 import { characterAoeTemplateId } from "./token-items/tokenItem";
 
@@ -66,12 +66,19 @@ describe("buildDefaultSelection", () => {
       burning: { enabled: true, copies: 4 },
     });
   });
+});
 
+describe("buildDefaultSelection game plans and empty catalogs", () => {
   it("enables every game plan, at its max copies when it has one", () => {
     const catalogWithGamePlans: GuildCatalog = {
       ...catalog,
       gamePlans: [
-        { id: "extraShot", name: "Extra Shot", effect: "+1 TAC, free Sprint", maxCopies: 2 },
+        {
+          id: "extraShot",
+          name: "Extra Shot",
+          effect: "+1 TAC, free Sprint",
+          maxCopies: 2,
+        },
         { id: "nowhereToHide", name: "Nowhere to Hide", effect: "No cover" },
       ],
     };
@@ -85,7 +92,10 @@ describe("buildDefaultSelection", () => {
   });
 
   it("leaves the generic catalog's crest counters unchecked, at their usual counts", () => {
-    const genericCatalog: GuildCatalog = { ...catalog, guildId: GENERIC_CATALOG_ID };
+    const genericCatalog: GuildCatalog = {
+      ...catalog,
+      guildId: GENERIC_CATALOG_ID,
+    };
 
     const selection = buildDefaultSelection(genericCatalog);
 
@@ -113,21 +123,25 @@ describe("buildDefaultSelection", () => {
     expect(selection.conditions).toEqual({});
     expect(selection.gamePlans).toEqual({});
   });
+});
 
+describe("buildDefaultSelection AOE templates", () => {
   it("selects a character's AOE templates by default too", () => {
     const blacksmithsCatalog: GuildCatalog = {
       guildId: "blacksmiths",
       name: "Blacksmiths",
       color: "#82969f",
-      characters: [{ name: "Cutlass", effects: [], aoeTemplates: ["broadside"] }],
+      characters: [
+        { name: "Cutlass", effects: [], aoeTemplates: ["broadside"] },
+      ],
       genericTokens: [],
       conditions: [],
       appliedConditionIds: [],
       gamePlans: [],
     };
 
-    expect(buildDefaultSelection(blacksmithsCatalog).characterTokenIds).toEqual([
-      characterAoeTemplateId("Cutlass", 0),
-    ]);
+    expect(buildDefaultSelection(blacksmithsCatalog).characterTokenIds).toEqual(
+      [characterAoeTemplateId("Cutlass", 0)],
+    );
   });
 });

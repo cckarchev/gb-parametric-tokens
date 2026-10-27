@@ -1,10 +1,13 @@
 import { getManifoldModule } from "../mesh/manifoldModule";
-import { Vec2 } from "../types";
+import type { Vec2 } from "../types";
 import { STUD_CIRCLE_SEGMENTS } from "./circleResolution";
 
-// Cuts off the part of an icon that reaches past a circle centered on the origin. The contours
-// must already be normalized.
-export const trimIconToCircle = async (contours: Vec2[][], radiusMm: number): Promise<Vec2[][]> => {
+// Cuts off the part of an icon that reaches past a circle centered on the
+// origin. The contours must already be normalized.
+export const trimIconToCircle = async (
+  contours: Vec2[][],
+  radiusMm: number,
+): Promise<Vec2[][]> => {
   const wasm = await getManifoldModule();
   const { CrossSection } = wasm;
 

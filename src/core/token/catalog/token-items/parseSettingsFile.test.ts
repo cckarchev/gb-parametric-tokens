@@ -1,15 +1,28 @@
 import { describe, expect, it } from "vitest";
 
-import { DEFAULT_BODY_FONT_ID, DEFAULT_DISPLAY_FONT_ID } from "../../text/fontCatalog";
+import {
+  DEFAULT_BODY_FONT_ID,
+  DEFAULT_DISPLAY_FONT_ID,
+} from "../../text/fontCatalog";
 import { DEFAULT_SHARED_CONFIG } from "./defaultSharedConfig";
 import { mergeWithDefaults, parseSettingsFile } from "./parseSettingsFile";
 
 const LEGACY_FILE = {
-  arcShape: { type: "arc", ribbonWidthMm: 20, ribbonLengthMm: 25, studDiameterMm: 30 },
+  arcShape: {
+    type: "arc",
+    ribbonWidthMm: 20,
+    ribbonLengthMm: 25,
+    studDiameterMm: 30,
+  },
   discShape: { type: "disc", diameterMm: 30 },
   goalInfluenceShape: { type: "disc", diameterMm: 24 },
   style: { relief: "engraved", reliefHeightMm: 0.8, baseThicknessMm: 4 },
-  fitPolicy: { minTracking: 0, maxTracking: 0.2, minScale: 0.6, allowTwoLines: false },
+  fitPolicy: {
+    minTracking: 0,
+    maxTracking: 0.2,
+    minScale: 0.6,
+    allowTwoLines: false,
+  },
   printProfileId: "fdm-04",
   colorGroups: [{ id: "base", name: "Body", color: "#123456" }],
   influenceIconId: "blank",
@@ -27,15 +40,20 @@ describe("mergeWithDefaults", () => {
   });
 
   it("falls back to the default when the value has the wrong type", () => {
-    const merged = mergeWithDefaults({ a: 1, list: [1] }, { a: "x", list: { 0: 2 } });
+    const merged = mergeWithDefaults(
+      { a: 1, list: [1] },
+      { a: "x", list: { 0: 2 } },
+    );
 
     expect(merged).toEqual({ a: 1, list: [1] });
   });
 
   it("replaces arrays whole instead of merging them", () => {
-    const merged = mergeWithDefaults({ list: [1, 2, 3] }, { list: [9] });
+    const defaultList = [1, 2];
+    const fileList = [defaultList.length + 1];
+    const merged = mergeWithDefaults({ list: defaultList }, { list: fileList });
 
-    expect(merged).toEqual({ list: [9] });
+    expect(merged).toEqual({ list: fileList });
   });
 
   it("keeps optional keys the defaults lack", () => {
@@ -52,7 +70,7 @@ describe("parseSettingsFile", () => {
   it("loads a file exported before the tuning groups existed, filling them with defaults", () => {
     const config = parseSettingsFile(LEGACY_FILE);
 
-    expect(config.nameSizeMm).toBe(5);
+    expect(config.nameSizeMm).toBe(LEGACY_FILE.nameSizeMm);
     expect(config.discShape).toEqual({ type: "disc", diameterMm: 30 });
     expect(config.colorGroups).toEqual(LEGACY_FILE.colorGroups);
     expect(config.aoe).toEqual(DEFAULT_SHARED_CONFIG.aoe);
@@ -61,13 +79,16 @@ describe("parseSettingsFile", () => {
   });
 
   it("keeps a partial tuning group's own values and fills the rest", () => {
+    const spokeCount = 4;
     const config = parseSettingsFile({
       ...LEGACY_FILE,
-      aoe: { crowfoot: { spokeCount: 4 } },
+      aoe: { crowfoot: { spokeCount } },
     });
 
-    expect(config.aoe.crowfoot.spokeCount).toBe(4);
-    expect(config.aoe.crowfoot.spokeWidthMm).toBe(DEFAULT_SHARED_CONFIG.aoe.crowfoot.spokeWidthMm);
+    expect(config.aoe.crowfoot.spokeCount).toBe(spokeCount);
+    expect(config.aoe.crowfoot.spokeWidthMm).toBe(
+      DEFAULT_SHARED_CONFIG.aoe.crowfoot.spokeWidthMm,
+    );
     expect(config.aoe.bandWidthMm).toBe(DEFAULT_SHARED_CONFIG.aoe.bandWidthMm);
   });
 
@@ -83,8 +104,12 @@ describe("parseSettingsFile", () => {
     expect(config.style.relief).toBe(DEFAULT_SHARED_CONFIG.style.relief);
     expect(config.style.reliefHeightMm).toBe(LEGACY_FILE.style.reliefHeightMm);
     expect(config.printProfileId).toBe(DEFAULT_SHARED_CONFIG.printProfileId);
-    expect(config.iconOverflowBehavior).toBe(DEFAULT_SHARED_CONFIG.iconOverflowBehavior);
-    expect(config.aoeTemplateVariant).toBe(DEFAULT_SHARED_CONFIG.aoeTemplateVariant);
+    expect(config.iconOverflowBehavior).toBe(
+      DEFAULT_SHARED_CONFIG.iconOverflowBehavior,
+    );
+    expect(config.aoeTemplateVariant).toBe(
+      DEFAULT_SHARED_CONFIG.aoeTemplateVariant,
+    );
   });
 
   it("keeps the inlay relief style", () => {
@@ -95,7 +120,9 @@ describe("parseSettingsFile", () => {
 
     expect(config.style.relief).toBe("inlay");
   });
+});
 
+describe("parseSettingsFile known values", () => {
   it("keeps every option value this app knows", () => {
     const config = parseSettingsFile({
       ...LEGACY_FILE,
@@ -118,8 +145,12 @@ describe("parseSettingsFile", () => {
       aoe: { fontId: "comic-sans" },
     });
 
-    expect(config.characterToken.fontId).toBe(DEFAULT_SHARED_CONFIG.characterToken.fontId);
-    expect(config.ringBadge.fontId).toBe(DEFAULT_SHARED_CONFIG.ringBadge.fontId);
+    expect(config.characterToken.fontId).toBe(
+      DEFAULT_SHARED_CONFIG.characterToken.fontId,
+    );
+    expect(config.ringBadge.fontId).toBe(
+      DEFAULT_SHARED_CONFIG.ringBadge.fontId,
+    );
     expect(config.momentum.fontId).toBe(DEFAULT_SHARED_CONFIG.momentum.fontId);
     expect(config.aoe.fontId).toBe(DEFAULT_SHARED_CONFIG.aoe.fontId);
   });
@@ -134,10 +165,18 @@ describe("parseSettingsFile", () => {
     expect(config.characterToken.fontId).toBe(DEFAULT_DISPLAY_FONT_ID);
     expect(config.momentum.fontId).toBe(DEFAULT_BODY_FONT_ID);
   });
+});
 
+describe("parseSettingsFile invalid files", () => {
   it("rejects something that is not a settings file at all", () => {
-    expect(() => parseSettingsFile({})).toThrow("This file is not a valid settings file.");
-    expect(() => parseSettingsFile(null)).toThrow("This file is not a valid settings file.");
-    expect(() => parseSettingsFile([])).toThrow("This file is not a valid settings file.");
+    expect(() => parseSettingsFile({})).toThrow(
+      "This file is not a valid settings file.",
+    );
+    expect(() => parseSettingsFile(null)).toThrow(
+      "This file is not a valid settings file.",
+    );
+    expect(() => parseSettingsFile([])).toThrow(
+      "This file is not a valid settings file.",
+    );
   });
 });

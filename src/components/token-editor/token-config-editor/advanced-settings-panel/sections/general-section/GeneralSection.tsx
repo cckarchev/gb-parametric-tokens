@@ -2,8 +2,11 @@ import { NumberField } from "@/components/primitives/number-field/NumberField";
 import { SettingsGroup } from "@/components/primitives/settings-group/SettingsGroup";
 import { DEFAULT_SHARED_CONFIG } from "@/core/token/catalog/token-items/defaultSharedConfig";
 
-import { SectionPanel, SectionProps } from "../section-panel/SectionPanel";
-import { BASE_THICKNESS_BOUNDS, RELIEF_HEIGHT_BOUNDS } from "../shared/fieldBounds";
+import { SectionPanel, type SectionProps } from "../section-panel/SectionPanel";
+import {
+  BASE_THICKNESS_BOUNDS,
+  RELIEF_HEIGHT_BOUNDS,
+} from "../shared/fieldBounds";
 import { FitPolicyEditor } from "./FitPolicyEditor";
 import { SettingsFileGroup } from "./settings-file-group/SettingsFileGroup";
 
@@ -22,7 +25,8 @@ export const GeneralSection = ({
 }: GeneralSectionProps) => {
   const { style } = sharedConfig;
 
-  // Relief (raised, engraved or inlay) lives in print options, so the reset keeps it.
+  // Relief (raised, engraved or inlay) lives in print options, so the reset
+  // keeps it.
   const reset = () => {
     onChange({
       ...sharedConfig,

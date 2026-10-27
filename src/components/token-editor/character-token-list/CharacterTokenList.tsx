@@ -1,24 +1,13 @@
-import { Fragment } from "react";
-
 import { Panel } from "@/components/primitives/panel/Panel";
 import { SelectAllCheckbox } from "@/components/primitives/SelectAllCheckbox";
-import { resolveAoeTemplate } from "@/core/token/catalog/aoeTemplates";
-import { CatalogCharacter, GuildCatalog } from "@/core/token/catalog/catalogTypes";
+import type {
+  CatalogCharacter,
+  GuildCatalog,
+} from "@/core/token/catalog/catalogTypes";
 import { characterSelectableIds } from "@/core/token/catalog/characterSelectableIds";
-import { buildEffectLabels } from "@/core/token/catalog/effectLabels";
-import { effectMaxCopies, resolveEffect } from "@/core/token/catalog/effects";
-import { resolveTokenCopies } from "@/core/token/catalog/token-items/resolveTokenCopies";
-import {
-  characterAoeTemplateId,
-  characterTokenId,
-  MIN_COPIES,
-} from "@/core/token/catalog/token-items/tokenItem";
 
-import { CharacterRow } from "./CharacterRow";
+import { CharacterRows } from "./CharacterRows";
 import styles from "./CharacterTokenList.module.css";
-import { TokenRow } from "./TokenRow";
-
-const AOE_TEMPLATE_TAG = "AOE";
 
 type CharacterTokenListProps = {
   catalog: GuildCatalog;
@@ -35,30 +24,33 @@ export const CharacterTokenList = ({
   tokenCopies,
   onTokenCopiesChange,
 }: CharacterTokenListProps) => {
-  const toggle = (id: string, checked: boolean) => {
+  const toggleToken = (id: string, checked: boolean) => {
     if (checked) {
       onSelectedTokenIdsChange([...selectedTokenIds, id]);
       return;
     }
 
-    onSelectedTokenIdsChange(selectedTokenIds.filter((selectedId) => selectedId !== id));
+    onSelectedTokenIdsChange(
+      selectedTokenIds.filter((selectedId) => selectedId !== id),
+    );
   };
 
   const toggleCharacter = (character: CatalogCharacter, checked: boolean) => {
     const ids = characterSelectableIds(character);
+    const withoutCharacter = selectedTokenIds.filter((id) => !ids.includes(id));
 
     if (checked) {
-      const withoutCharacter = selectedTokenIds.filter((id) => !ids.includes(id));
-
       onSelectedTokenIdsChange([...withoutCharacter, ...ids]);
       return;
     }
 
-    onSelectedTokenIdsChange(selectedTokenIds.filter((id) => !ids.includes(id)));
+    onSelectedTokenIdsChange(withoutCharacter);
   };
 
   const allTokenIds = catalog.characters.flatMap(characterSelectableIds);
-  const everyTokenSelected = allTokenIds.every((id) => selectedTokenIds.includes(id));
+  const everyTokenSelected = allTokenIds.every((id) =>
+    selectedTokenIds.includes(id),
+  );
   const allSelected = allTokenIds.length > 0 && everyTokenSelected;
 
   const toggleAll = (checked: boolean) => {
@@ -67,21 +59,6 @@ export const CharacterTokenList = ({
 
   const setCopies = (id: string, copies: number) => {
     onTokenCopiesChange({ ...tokenCopies, [id]: copies });
-  };
-
-  const renderRow = (id: string, label: string, maxCopies: number, tag?: string) => {
-    return (
-      <TokenRow
-        key={id}
-        label={label}
-        tag={tag}
-        maxCopies={maxCopies}
-        selected={selectedTokenIds.includes(id)}
-        copies={resolveTokenCopies(tokenCopies[id], maxCopies)}
-        onToggle={(checked) => toggle(id, checked)}
-        onCopiesChange={(copies) => setCopies(id, copies)}
-      />
-    );
   };
 
   return (
@@ -93,53 +70,24 @@ export const CharacterTokenList = ({
           onChange={toggleAll}
           disabled={allTokenIds.length === 0}
         />
-      }>
-      {/* One flat list of rows (character headers and their tokens as direct siblings, not
-          nested per character) so the zebra striping below alternates continuously across the
-          whole table instead of resetting inside each character's own token group. */}
+      }
+    >
+      {/* One flat list of rows (character headers and their tokens as direct
+          siblings, not nested per character) so the zebra striping below
+          alternates continuously across the whole table instead of resetting
+          inside each character's own token group. */}
       <div className={styles.rows}>
-        {catalog.characters.map((character) => {
-          const ids = characterSelectableIds(character);
-          const hasTokens = ids.length > 0;
-          const selectedCount = ids.filter((id) => selectedTokenIds.includes(id)).length;
-          const effects = character.effects.map(resolveEffect);
-          const effectLabels = buildEffectLabels(effects);
-          const templates = (character.aoeTemplates ?? []).map(resolveAoeTemplate);
-
-          return (
-            <Fragment key={character.name}>
-              <CharacterRow
-                name={character.name}
-                selectedCount={selectedCount}
-                tokenCount={ids.length}
-                onToggle={(checked) => toggleCharacter(character, checked)}
-              />
-
-              {effects.map((effect, tokenIndex) =>
-                renderRow(
-                  characterTokenId(character.name, tokenIndex),
-                  effectLabels[tokenIndex],
-                  effectMaxCopies(effect),
-                ),
-              )}
-
-              {templates.map((template, templateIndex) =>
-                renderRow(
-                  characterAoeTemplateId(character.name, templateIndex),
-                  template.name,
-                  template.maxCopies ?? MIN_COPIES,
-                  AOE_TEMPLATE_TAG,
-                ),
-              )}
-
-              {!hasTokens && (
-                <div className={`${styles.row} ${styles.rowToken}`}>
-                  <span className={styles.characterNameDisabled}>No tokens</span>
-                </div>
-              )}
-            </Fragment>
-          );
-        })}
+        {catalog.characters.map((character) => (
+          <CharacterRows
+            key={character.name}
+            character={character}
+            selectedTokenIds={selectedTokenIds}
+            tokenCopies={tokenCopies}
+            onToggleCharacter={(checked) => toggleCharacter(character, checked)}
+            onToggleToken={toggleToken}
+            onCopiesChange={setCopies}
+          />
+        ))}
       </div>
     </Panel>
   );

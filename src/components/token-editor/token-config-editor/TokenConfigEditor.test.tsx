@@ -5,16 +5,34 @@ import { describe, expect, it, vi } from "vitest";
 
 import { DEFAULT_SHARED_CONFIG } from "@/core/token/catalog/token-items/defaultSharedConfig";
 import type { SharedConfig } from "@/core/token/catalog/token-items/tokenItem";
-import { DEFAULT_BODY_FONT_ID, DEFAULT_DISPLAY_FONT_ID } from "@/core/token/text/fontCatalog";
+import {
+  DEFAULT_BODY_FONT_ID,
+  DEFAULT_DISPLAY_FONT_ID,
+} from "@/core/token/text/fontCatalog";
 
 import { TokenConfigEditor } from "./TokenConfigEditor";
+
+const RIBBON_WIDTH_MM = 15;
+// Arc tokens, ring badges, Momentum and AOE templates; disc tokens and
+// conditions have none.
+const SECTIONS_WITH_TEXT = 4;
 
 const sharedConfig: SharedConfig = {
   ...DEFAULT_SHARED_CONFIG,
   printProfileId: "fdm-04",
-  arcShape: { type: "arc", ribbonWidthMm: 15, ribbonLengthMm: 20, studDiameterMm: 24 },
+  arcShape: {
+    type: "arc",
+    ribbonWidthMm: RIBBON_WIDTH_MM,
+    ribbonLengthMm: 20,
+    studDiameterMm: 24,
+  },
   discShape: { type: "disc", diameterMm: 25 },
-  fitPolicy: { minTracking: 0, maxTracking: 0.3, minScale: 0.7, allowTwoLines: true },
+  fitPolicy: {
+    minTracking: 0,
+    maxTracking: 0.3,
+    minScale: 0.7,
+    allowTwoLines: true,
+  },
   colorGroups: [
     { id: "base", name: "Body", color: "#cdb320" },
     { id: "text", name: "Text & symbols", color: "#000000" },
@@ -40,7 +58,9 @@ const renderEditor = (overrides: Partial<TokenConfigEditorProps> = {}) => {
 };
 
 const openAdvancedSettings = async () => {
-  await userEvent.click(screen.getByRole("button", { name: "Advanced settings" }));
+  await userEvent.click(
+    screen.getByRole("button", { name: "Advanced settings" }),
+  );
 };
 
 const openSection = async (title: string) => {
@@ -57,7 +77,9 @@ type ResetCase = {
 const RESET_CASES: ResetCase[] = [
   {
     title: "General",
-    edited: { style: { relief: "engraved", reliefHeightMm: 2, baseThicknessMm: 5 } },
+    edited: {
+      style: { relief: "engraved", reliefHeightMm: 2, baseThicknessMm: 5 },
+    },
     // Relief itself lives in print options and survives the reset.
     restored: {
       style: { ...DEFAULT_SHARED_CONFIG.style, relief: "engraved" },
@@ -100,7 +122,12 @@ const RESET_CASES: ResetCase[] = [
   {
     title: "Momentum",
     edited: {
-      momentum: { textSizeMm: 9, fontId: DEFAULT_BODY_FONT_ID, ringInsetMm: 2, ringWidthMm: 1 },
+      momentum: {
+        textSizeMm: 9,
+        fontId: DEFAULT_BODY_FONT_ID,
+        ringInsetMm: 2,
+        ringWidthMm: 1,
+      },
     },
     restored: { momentum: DEFAULT_SHARED_CONFIG.momentum },
   },
@@ -115,8 +142,12 @@ const RESET_CASES: ResetCase[] = [
       aoeTemplateVariant: "crowfoot",
       aoe: { ...DEFAULT_SHARED_CONFIG.aoe, bandWidthMm: 9 },
     },
-    // The variant is a choice of what to print, not a tuning value, so it survives the reset.
-    restored: { aoeTemplateVariant: "crowfoot", aoe: DEFAULT_SHARED_CONFIG.aoe },
+    // The variant is a choice of what to print, not a tuning value, so it
+    // survives the reset.
+    restored: {
+      aoeTemplateVariant: "crowfoot",
+      aoe: DEFAULT_SHARED_CONFIG.aoe,
+    },
   },
 ];
 
@@ -127,7 +158,9 @@ describe("TokenConfigEditor", () => {
     renderEditor({ onExportSettings });
 
     await openSection("General");
-    await userEvent.click(screen.getByRole("button", { name: "Export settings (.json)" }));
+    await userEvent.click(
+      screen.getByRole("button", { name: "Export settings (.json)" }),
+    );
 
     expect(onExportSettings).toHaveBeenCalledOnce();
   });
@@ -143,17 +176,24 @@ describe("TokenConfigEditor", () => {
       type: "application/json",
     });
 
-    await userEvent.upload(screen.getByLabelText("Import settings (.json)"), file);
+    await userEvent.upload(
+      screen.getByLabelText("Import settings (.json)"),
+      file,
+    );
 
     expect(onImportSettings).toHaveBeenCalledWith(file);
   });
 
   it("shows the settings import error", async () => {
-    renderEditor({ importSettingsError: "This file is not a valid settings file." });
+    renderEditor({
+      importSettingsError: "This file is not a valid settings file.",
+    });
 
     await openAdvancedSettings();
 
-    expect(screen.getByText("This file is not a valid settings file.")).toBeInTheDocument();
+    expect(
+      screen.getByText("This file is not a valid settings file."),
+    ).toBeInTheDocument();
   });
 
   it("keeps the print profile selector visible without opening advanced settings", () => {
@@ -169,7 +209,9 @@ describe("TokenConfigEditor", () => {
     expect(screen.getByLabelText("Body")).toHaveValue("#cdb320");
     expect(screen.getByLabelText("Details")).toHaveValue("#000000");
   });
+});
 
+describe("TokenConfigEditor shapes", () => {
   it("updates only the relief field when the quick relief selector changes", async () => {
     const onChange = vi.fn();
 
@@ -188,9 +230,13 @@ describe("TokenConfigEditor", () => {
 
     await openAdvancedSettings();
 
-    expect(screen.getByLabelText("Ribbon width (mm)")).toHaveValue(15);
+    expect(screen.getByLabelText("Ribbon width (mm)")).toHaveValue(
+      RIBBON_WIDTH_MM,
+    );
     expect(
-      screen.getAllByLabelText("Diameter (mm)").map((input) => (input as HTMLInputElement).value),
+      screen
+        .getAllByLabelText("Diameter (mm)")
+        .map((input) => (input as HTMLInputElement).value),
     ).toEqual(["25", "20"]);
   });
 
@@ -201,11 +247,16 @@ describe("TokenConfigEditor", () => {
 
     await openAdvancedSettings();
 
-    fireEvent.change(screen.getAllByLabelText("Diameter (mm)")[1], { target: { value: "22" } });
+    fireEvent.change(screen.getAllByLabelText("Diameter (mm)")[1], {
+      target: { value: "22" },
+    });
 
     expect(onChange).toHaveBeenCalledWith({
       ...sharedConfig,
-      goalInfluenceShape: { ...sharedConfig.goalInfluenceShape, diameterMm: 22 },
+      goalInfluenceShape: {
+        ...sharedConfig.goalInfluenceShape,
+        diameterMm: 22,
+      },
     });
   });
 
@@ -222,7 +273,9 @@ describe("TokenConfigEditor", () => {
       arcShape: { ...sharedConfig.arcShape, studFilletEnabled: true },
     });
   });
+});
 
+describe("TokenConfigEditor arc shape and fonts", () => {
   it("updates the arc shape when the arc editor's ribbon width changes", async () => {
     const onChange = vi.fn();
 
@@ -230,7 +283,9 @@ describe("TokenConfigEditor", () => {
 
     await openAdvancedSettings();
 
-    fireEvent.change(screen.getByLabelText("Ribbon width (mm)"), { target: { value: "18" } });
+    fireEvent.change(screen.getByLabelText("Ribbon width (mm)"), {
+      target: { value: "18" },
+    });
 
     expect(onChange).toHaveBeenCalledWith({
       ...sharedConfig,
@@ -238,8 +293,10 @@ describe("TokenConfigEditor", () => {
     });
   });
 
-  // Each slot is locked to one shape type: an arc token's shape can never become a disc, or vice
-  // versa. Offering no type control at all is what enforces that.
+  // Each slot is locked to one shape type: an arc token's shape can never
+  // become a disc, or vice versa. Offering no type control at all is what
+  // enforces that.
+
   it("offers no shape type control in any of the shape slots", async () => {
     renderEditor();
 
@@ -253,8 +310,7 @@ describe("TokenConfigEditor", () => {
 
     await openAdvancedSettings();
 
-    // Arc tokens, ring badges, Momentum and AOE templates; disc tokens and conditions have none.
-    expect(screen.getAllByLabelText("Font")).toHaveLength(4);
+    expect(screen.getAllByLabelText("Font")).toHaveLength(SECTIONS_WITH_TEXT);
   });
 
   it("changes only Momentum's font from the Momentum section", async () => {
@@ -264,9 +320,13 @@ describe("TokenConfigEditor", () => {
 
     await openSection("Momentum");
 
-    // The reset button's row sits beside the section's fields, so its parent holds them all.
-    const resetButton = screen.getByRole("button", { name: "Reset Momentum to defaults" });
-    const momentumFields = resetButton.parentElement?.parentElement as HTMLElement;
+    // The reset button's row sits beside the section's fields, so its parent
+    // holds them all.
+    const resetButton = screen.getByRole("button", {
+      name: "Reset Momentum to defaults",
+    });
+    const momentumFields = resetButton.parentElement
+      ?.parentElement as HTMLElement;
     const fontSelect = within(momentumFields).getByLabelText("Font");
 
     fireEvent.change(fontSelect, { target: { value: DEFAULT_BODY_FONT_ID } });
@@ -276,7 +336,9 @@ describe("TokenConfigEditor", () => {
       momentum: { ...sharedConfig.momentum, fontId: DEFAULT_BODY_FONT_ID },
     });
   });
+});
 
+describe("TokenConfigEditor text sizes and colors", () => {
   it("updates the name and effect text sizes independently from advanced settings", async () => {
     const onChange = vi.fn();
 
@@ -284,7 +346,9 @@ describe("TokenConfigEditor", () => {
 
     await openAdvancedSettings();
 
-    fireEvent.change(screen.getByLabelText("Two-line name size (mm)"), { target: { value: "9" } });
+    fireEvent.change(screen.getByLabelText("Two-line name size (mm)"), {
+      target: { value: "9" },
+    });
 
     expect(onChange).toHaveBeenCalledWith({ ...sharedConfig, nameSizeMm: 9 });
   });
@@ -294,7 +358,9 @@ describe("TokenConfigEditor", () => {
 
     renderEditor({ onChange });
 
-    fireEvent.change(screen.getByLabelText("Body"), { target: { value: "#111111" } });
+    fireEvent.change(screen.getByLabelText("Body"), {
+      target: { value: "#111111" },
+    });
 
     expect(onChange).toHaveBeenCalledWith({
       ...sharedConfig,
@@ -310,22 +376,32 @@ describe("TokenConfigEditor", () => {
 
     const printOptions = screen.getByRole("group", { name: "Print options" });
 
-    expect(within(printOptions).queryByLabelText("AOE templates")).not.toBeInTheDocument();
+    expect(
+      within(printOptions).queryByLabelText("AOE templates"),
+    ).not.toBeInTheDocument();
     expect(
       within(printOptions).queryByLabelText("Fillet between stud and arc"),
     ).not.toBeInTheDocument();
   });
+});
 
+describe("TokenConfigEditor AOE variant and icon sizes", () => {
   it("shows only the selected AOE variant's fields", async () => {
-    renderEditor({ sharedConfig: { ...sharedConfig, aoeTemplateVariant: "crowfoot" } });
+    renderEditor({
+      sharedConfig: { ...sharedConfig, aoeTemplateVariant: "crowfoot" },
+    });
 
     await openSection("AOE templates");
 
     const section = screen.getByRole("group", { name: "AOE templates" });
 
     expect(within(section).getByLabelText("Spoke count")).toBeInTheDocument();
-    expect(within(section).getByLabelText("Band width (mm)")).toBeInTheDocument();
-    expect(within(section).queryByLabelText("Text inset from rim (mm)")).not.toBeInTheDocument();
+    expect(
+      within(section).getByLabelText("Band width (mm)"),
+    ).toBeInTheDocument();
+    expect(
+      within(section).queryByLabelText("Text inset from rim (mm)"),
+    ).not.toBeInTheDocument();
   });
 
   it("edits an icon size as a percentage", async () => {
@@ -334,11 +410,18 @@ describe("TokenConfigEditor", () => {
     renderEditor({ onChange });
     await openSection("Conditions");
 
-    fireEvent.change(screen.getByLabelText("Icon size (%)"), { target: { value: "60" } });
+    fireEvent.change(screen.getByLabelText("Icon size (%)"), {
+      target: { value: "60" },
+    });
 
-    expect(onChange).toHaveBeenCalledWith({ ...sharedConfig, condition: { iconScale: 0.6 } });
+    expect(onChange).toHaveBeenCalledWith({
+      ...sharedConfig,
+      condition: { iconScale: 0.6 },
+    });
   });
+});
 
+describe("TokenConfigEditor crow's foot fillet and section resets", () => {
   it("disables the crow's foot fillet radius while the fillet is off", async () => {
     const crowfoot = { ...sharedConfig.aoe.crowfoot, filletEnabled: false };
 
@@ -362,7 +445,9 @@ describe("TokenConfigEditor", () => {
 
       renderEditor({ sharedConfig: editedConfig, onChange });
       await openSection(title);
-      await userEvent.click(screen.getByRole("button", { name: `Reset ${title} to defaults` }));
+      await userEvent.click(
+        screen.getByRole("button", { name: `Reset ${title} to defaults` }),
+      );
 
       expect(onChange).toHaveBeenCalledWith({ ...editedConfig, ...restored });
     },

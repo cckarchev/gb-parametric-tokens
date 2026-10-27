@@ -65,7 +65,9 @@ describe("parsePathData", () => {
   });
 
   it("chains repeated S groups, reflecting off the previous one each time", () => {
-    expect(parsePathData("M 0 0 C 0 10 10 10 10 0 S 20 -10 20 0 30 10 30 0")).toEqual([
+    expect(
+      parsePathData("M 0 0 C 0 10 10 10 10 0 S 20 -10 20 0 30 10 30 0"),
+    ).toEqual([
       { type: "move", x: 0, y: 0 },
       { type: "cubic", x1: 0, y1: 10, x2: 10, y2: 10, x: 10, y: 0 },
       { type: "cubic", x1: 10, y1: -10, x2: 20, y2: -10, x: 20, y: 0 },

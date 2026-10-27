@@ -7,29 +7,47 @@ import { placeIcon } from "../../geometry/iconPlacement";
 import { extractPathData } from "../../svg/extractPathData";
 import { flattenPath } from "../../svg/flattenPath";
 import { parsePathData } from "../../svg/parsePathData";
-import { CatalogCondition } from "../catalogTypes";
+import type { CatalogCondition } from "../catalogTypes";
 import { buildConditionTokenSpec } from "./conditionTokenSpec";
 import { DEFAULT_SHARED_CONFIG } from "./defaultSharedConfig";
-import { SharedConfig } from "./tokenItem";
+import type { SharedConfig } from "./tokenItem";
 
-const CONDITION_ICONS_DIR = new URL("../../../../../public/icons/conditions/", import.meta.url);
+const CONDITION_ICONS_DIR = new URL(
+  "../../../../../public/icons/conditions/",
+  import.meta.url,
+);
 const FLATTEN_TOLERANCE_MM = 0.01;
-// Clear of the rim by at least this much: a raised icon is never clipped to the disc, so anything
-// past the edge prints as an overhang (see iconPlacement.ts).
+// Clear of the rim by at least this much: a raised icon is never clipped to the
+// disc, so anything past the edge prints as an overhang (see iconPlacement.ts).
 const MIN_RIM_MARGIN_MM = 1;
 
 const loadIconContours = (iconId: string) => {
-  const svgSource = readFileSync(new URL(`${iconId}.svg`, CONDITION_ICONS_DIR), "utf8");
+  const svgSource = readFileSync(
+    new URL(`${iconId}.svg`, CONDITION_ICONS_DIR),
+    "utf8",
+  );
   const pathData = extractPathData(svgSource);
 
-  return pathData.flatMap((d) => flattenPath(parsePathData(d), FLATTEN_TOLERANCE_MM));
+  return pathData.flatMap((d) =>
+    flattenPath(parsePathData(d), FLATTEN_TOLERANCE_MM),
+  );
 };
 
 const sharedConfig: SharedConfig = {
   ...DEFAULT_SHARED_CONFIG,
-  arcShape: { type: "arc", ribbonWidthMm: 15, ribbonLengthMm: 20, studDiameterMm: 24 },
+  arcShape: {
+    type: "arc",
+    ribbonWidthMm: 15,
+    ribbonLengthMm: 20,
+    studDiameterMm: 24,
+  },
   discShape: { type: "disc", diameterMm: 25 },
-  fitPolicy: { minTracking: 0, maxTracking: 0.3, minScale: 0.7, allowTwoLines: true },
+  fitPolicy: {
+    minTracking: 0,
+    maxTracking: 0.3,
+    minScale: 0.7,
+    allowTwoLines: true,
+  },
   printProfileId: "fdm-04",
   influenceIconId: "Ratcatchers",
   nameSizeMm: 6,
@@ -60,8 +78,12 @@ describe("buildConditionTokenSpec", () => {
 
   it("multiplies the icon's scale by the condition's own iconScale", () => {
     const iconScale = 1.2;
-    const plainScale = buildConditionTokenSpec(condition, sharedConfig).icons[0].scale;
-    const scaledSpec = buildConditionTokenSpec({ ...condition, iconScale }, sharedConfig);
+    const plainScale = buildConditionTokenSpec(condition, sharedConfig).icons[0]
+      .scale;
+    const scaledSpec = buildConditionTokenSpec(
+      { ...condition, iconScale },
+      sharedConfig,
+    );
 
     expect(scaledSpec.icons[0].scale).toBeCloseTo(plainScale * iconScale);
   });

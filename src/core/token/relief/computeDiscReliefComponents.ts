@@ -1,12 +1,12 @@
 import type { Font } from "opentype.js";
 
-import { ReliefComponent } from "../mesh/reliefComponent";
+import type { ReliefComponent } from "../mesh/reliefComponent";
 import { layoutFlatText } from "../text/layoutFlatText";
-import { PrintProfile, TokenSpec } from "../types";
+import type { PrintProfile, TokenSpec } from "../types";
 import {
   buildCenterIconComponents,
   buildDecorationComponents,
-  LoadIconSource,
+  type LoadIconSource,
   requireDiscShape,
 } from "./computeReliefComponentsShared";
 

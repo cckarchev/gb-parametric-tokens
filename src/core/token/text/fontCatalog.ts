@@ -1,4 +1,4 @@
-import { FontMetrics } from "./fontMetrics";
+import type { FontMetrics } from "./fontMetrics";
 
 export type FontEntry = {
   id: string;
@@ -6,8 +6,8 @@ export type FontEntry = {
   // Under public/fonts.
   file: string;
   licenseFile: string;
-  // Measured from the file (fontCatalog.test.ts checks them), stored so the spec builders can
-  // size text before the worker has loaded any font.
+  // Measured from the file (fontCatalog.test.ts checks them), stored so the
+  // spec builders can size text before the worker has loaded any font.
   metrics: FontMetrics;
 };
 
@@ -32,11 +32,12 @@ export const FONT_CATALOG: FontEntry[] = [
     name: "Fira Sans Condensed Bold",
     file: "FiraSansCondensed-Bold.ttf",
     licenseFile: "FiraSansCondensed-OFL.txt",
+    // biome-ignore lint/suspicious/noApproximativeNumericConstant: a measured ascent ratio that only happens to sit near ln 2
     metrics: { ascentRatio: 0.693, stemWidthRatio: 0.154 },
   },
   {
-    // Made for low-vision readers: letters that are easy to confuse (I l 1, O 0, b d) are drawn
-    // apart, which helps dyslexic readers too.
+    // Made for low-vision readers: letters that are easy to confuse (I l 1, O
+    // 0, b d) are drawn apart, which helps dyslexic readers too.
     id: "atkinson-hyperlegible-bold",
     name: "Atkinson Hyperlegible Bold",
     file: "AtkinsonHyperlegible-Bold.ttf",
@@ -66,14 +67,15 @@ export const DEFAULT_DISPLAY_FONT_ID = "fraunces-supersoft-black";
 
 const FONTS_DIRECTORY = "/fonts";
 
-export const fontFilePath = (file: string): string => {
-  return `${FONTS_DIRECTORY}/${file}`;
-};
+export const fontFilePath = (file: string): string =>
+  `${FONTS_DIRECTORY}/${file}`;
 
-const DEFAULT_BODY_FONT_ENTRY = FONT_CATALOG.find((entry) => entry.id === DEFAULT_BODY_FONT_ID);
+const DEFAULT_BODY_FONT_ENTRY = FONT_CATALOG.find(
+  (entry) => entry.id === DEFAULT_BODY_FONT_ID,
+);
 
-// An unknown id (a settings file from another version) falls back to the body font, which
-// fits any text.
+// An unknown id (a settings file from another version) falls back to the body
+// font, which fits any text.
 export const findFontEntry = (fontId: string | undefined): FontEntry => {
   const entry = FONT_CATALOG.find((candidate) => candidate.id === fontId);
 
@@ -82,7 +84,9 @@ export const findFontEntry = (fontId: string | undefined): FontEntry => {
   }
 
   if (!DEFAULT_BODY_FONT_ENTRY) {
-    throw new Error(`The default font ${DEFAULT_BODY_FONT_ID} is missing from FONT_CATALOG.`);
+    throw new Error(
+      `The default font ${DEFAULT_BODY_FONT_ID} is missing from FONT_CATALOG.`,
+    );
   }
 
   return DEFAULT_BODY_FONT_ENTRY;

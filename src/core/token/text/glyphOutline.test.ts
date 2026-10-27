@@ -3,12 +3,17 @@ import { describe, expect, it } from "vitest";
 import { getGlyphContours } from "./glyphOutline";
 import { loadTestFont } from "./testFont";
 
+const SIZE_MM = 10;
+const TOLERANCE_MM = 0.05;
+const SCALE_FACTOR = 2;
+const PRECISION_DIGITS = 5;
+
 describe("getGlyphContours", () => {
   it("produces one CCW contour for a hole-free glyph like 'l'", () => {
     const font = loadTestFont();
     const glyph = font.charToGlyph("l");
 
-    const contours = getGlyphContours(glyph, 10, font.unitsPerEm, 0.05);
+    const contours = getGlyphContours(glyph, SIZE_MM, TOLERANCE_MM);
 
     expect(contours.length).toBe(1);
   });
@@ -17,7 +22,7 @@ describe("getGlyphContours", () => {
     const font = loadTestFont();
     const glyph = font.charToGlyph("o");
 
-    const contours = getGlyphContours(glyph, 10, font.unitsPerEm, 0.05);
+    const contours = getGlyphContours(glyph, SIZE_MM, TOLERANCE_MM);
 
     expect(contours.length).toBe(2);
 
@@ -41,14 +46,20 @@ describe("getGlyphContours", () => {
     const font = loadTestFont();
     const glyph = font.charToGlyph("l");
 
-    const smallContours = getGlyphContours(glyph, 5, font.unitsPerEm, 0.05);
-    const bigContours = getGlyphContours(glyph, 10, font.unitsPerEm, 0.05);
+    const smallContours = getGlyphContours(
+      glyph,
+      SIZE_MM / SCALE_FACTOR,
+      TOLERANCE_MM,
+    );
+    const bigContours = getGlyphContours(glyph, SIZE_MM, TOLERANCE_MM);
 
     const smallWidth =
-      Math.max(...smallContours[0].map(([x]) => x)) - Math.min(...smallContours[0].map(([x]) => x));
+      Math.max(...smallContours[0].map(([x]) => x)) -
+      Math.min(...smallContours[0].map(([x]) => x));
     const bigWidth =
-      Math.max(...bigContours[0].map(([x]) => x)) - Math.min(...bigContours[0].map(([x]) => x));
+      Math.max(...bigContours[0].map(([x]) => x)) -
+      Math.min(...bigContours[0].map(([x]) => x));
 
-    expect(bigWidth / smallWidth).toBeCloseTo(2, 5);
+    expect(bigWidth / smallWidth).toBeCloseTo(SCALE_FACTOR, PRECISION_DIGITS);
   });
 });

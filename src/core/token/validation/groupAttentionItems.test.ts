@@ -10,13 +10,17 @@ describe("groupAttentionItems", () => {
   it("puts a character's items under one group headed by the character", () => {
     const groups = groupAttentionItems([sugarA, sugarB]);
 
-    expect(groups).toEqual([{ key: "Sugar", heading: "Sugar", items: [sugarA, sugarB] }]);
+    expect(groups).toEqual([
+      { key: "Sugar", heading: "Sugar", items: [sugarA, sugarB] },
+    ]);
   });
 
   it("gives an item without a group its own group, headed by its own name", () => {
     const groups = groupAttentionItems([influence]);
 
-    expect(groups).toEqual([{ key: "influence", heading: "Influence", items: [influence] }]);
+    expect(groups).toEqual([
+      { key: "influence", heading: "Influence", items: [influence] },
+    ]);
   });
 
   it("keeps the order each group first appears in", () => {

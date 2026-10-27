@@ -1,16 +1,38 @@
 import { describe, expect, it } from "vitest";
-
+import type { Vec2 } from "../../types";
 import { flipItem } from "./flip";
-import { ContactSheetItem } from "./types";
+import type { ContactSheetItem } from "./types";
+
+// One single-point contour per part, each at its own spot so a mix-up shows.
+const POINTS = {
+  base: { x: 1, y: 2 },
+  untagged: { x: 3, y: 4 },
+  firstText: { x: 5, y: 6 },
+  secondText: { x: 7, y: 8 },
+};
+
+type Point = { x: number; y: number };
+
+const contourAt = ({ x, y }: Point): Vec2[][] => [[[x, y]]];
+
+const mirroredContourAt = ({ x, y }: Point): Vec2[][] => [[[x, -y]]];
 
 describe("flipItem", () => {
   const item: ContactSheetItem = {
     shape: { type: "disc", diameterMm: 10 },
-    baseContours: [[[1, 2]]],
+    baseContours: contourAt(POINTS.base),
     reliefComponents: [
-      { source: { kind: "decoration" }, contours: [[[3, 4]]] },
-      { source: { kind: "decoration" }, contours: [[[5, 6]]], colorGroup: "text" },
-      { source: { kind: "decoration" }, contours: [[[7, 8]]], colorGroup: "text" },
+      { source: { kind: "decoration" }, contours: contourAt(POINTS.untagged) },
+      {
+        source: { kind: "decoration" },
+        contours: contourAt(POINTS.firstText),
+        colorGroup: "text",
+      },
+      {
+        source: { kind: "decoration" },
+        contours: contourAt(POINTS.secondText),
+        colorGroup: "text",
+      },
     ],
     copies: 2,
     label: "Tapper: Commanding Aura",
@@ -21,15 +43,23 @@ describe("flipItem", () => {
   it("mirrors every contour top to bottom for SVG's downward y axis", () => {
     const flipped = flipItem(item);
 
-    expect(flipped.baseContours).toEqual([[[1, -2]]]);
-    expect(flipped.reliefContoursByColorGroup.get("text")).toEqual([[[5, -6]], [[7, -8]]]);
+    expect(flipped.baseContours).toEqual(mirroredContourAt(POINTS.base));
+    expect(flipped.reliefContoursByColorGroup.get("text")).toEqual([
+      ...mirroredContourAt(POINTS.firstText),
+      ...mirroredContourAt(POINTS.secondText),
+    ]);
   });
 
   it("groups the relief by color group, an untagged component going to the base group", () => {
     const flipped = flipItem(item);
 
-    expect([...flipped.reliefContoursByColorGroup.keys()]).toEqual(["base", "text"]);
-    expect(flipped.reliefContoursByColorGroup.get("base")).toEqual([[[3, -4]]]);
+    expect([...flipped.reliefContoursByColorGroup.keys()]).toEqual([
+      "base",
+      "text",
+    ]);
+    expect(flipped.reliefContoursByColorGroup.get("base")).toEqual(
+      mirroredContourAt(POINTS.untagged),
+    );
   });
 
   it("carries the item's identity and validity through", () => {

@@ -1,6 +1,7 @@
-/* Both variants speak in the brand's title voice: Big Noodle, uppercase, opened up with button
-   tracking. Primary is the orange call to action, secondary a teal outline. Disabled drops to a
-   flat grey edge and text instead of a faded copy of the live color. */
+/* Both variants speak in the brand's title voice: Big Noodle, uppercase, opened
+   up with button tracking. Primary is the orange call to action, secondary a
+   teal outline. Disabled drops to a flat grey edge and text instead of a faded
+   copy of the live color. */
 .base {
   composes: displayHeading focusRing from "../../../styles/mixins.module.css";
   padding: var(--space-2xs) var(--space-md);

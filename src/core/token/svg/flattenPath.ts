@@ -1,5 +1,5 @@
-import { Vec2 } from "../types";
-import { PathCommand } from "./parsePathData";
+import type { Vec2 } from "../types";
+import type { PathCommand } from "./parsePathData";
 
 const MAX_SUBDIVISION_DEPTH = 16;
 
@@ -10,11 +10,14 @@ type CubicSegment = {
   p3: Vec2;
 };
 
-const midpoint = (a: Vec2, b: Vec2): Vec2 => {
-  return [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
-};
+const midpoint = (a: Vec2, b: Vec2): Vec2 => [
+  (a[0] + b[0]) / 2,
+  (a[1] + b[1]) / 2,
+];
 
-const subdivideCubic = (segment: CubicSegment): [CubicSegment, CubicSegment] => {
+const subdivideCubic = (
+  segment: CubicSegment,
+): [CubicSegment, CubicSegment] => {
   const p01 = midpoint(segment.p0, segment.p1);
   const p12 = midpoint(segment.p1, segment.p2);
   const p23 = midpoint(segment.p2, segment.p3);
@@ -28,8 +31,15 @@ const subdivideCubic = (segment: CubicSegment): [CubicSegment, CubicSegment] => 
   ];
 };
 
-const distanceFromChord = (point: Vec2, chordStart: Vec2, chordEnd: Vec2): number => {
-  const chordLength = Math.hypot(chordEnd[0] - chordStart[0], chordEnd[1] - chordStart[1]);
+const distanceFromChord = (
+  point: Vec2,
+  chordStart: Vec2,
+  chordEnd: Vec2,
+): number => {
+  const chordLength = Math.hypot(
+    chordEnd[0] - chordStart[0],
+    chordEnd[1] - chordStart[1],
+  );
 
   if (chordLength === 0) {
     return Math.hypot(point[0] - chordStart[0], point[1] - chordStart[1]);
@@ -42,9 +52,17 @@ const distanceFromChord = (point: Vec2, chordStart: Vec2, chordEnd: Vec2): numbe
   return Math.abs(crossProduct) / chordLength;
 };
 
-const QUADRATIC_TO_CUBIC_FACTOR = 2 / 3;
+const QUADRATIC_DEGREE = 2;
+const CUBIC_DEGREE = 3;
+// Degree elevation: a cubic's controls sit this far from each end toward the
+// quadratic's control.
+const QUADRATIC_TO_CUBIC_FACTOR = QUADRATIC_DEGREE / CUBIC_DEGREE;
 
-const elevateQuadraticToCubic = (p0: Vec2, control: Vec2, p2: Vec2): CubicSegment => {
+const elevateQuadraticToCubic = (
+  p0: Vec2,
+  control: Vec2,
+  p2: Vec2,
+): CubicSegment => {
   const p1: Vec2 = [
     p0[0] + (control[0] - p0[0]) * QUADRATIC_TO_CUBIC_FACTOR,
     p0[1] + (control[1] - p0[1]) * QUADRATIC_TO_CUBIC_FACTOR,
@@ -80,7 +98,10 @@ const flattenCubicSegment = (
   flattenCubicSegment(right, toleranceMm, remainingDepth - 1, out);
 };
 
-export const flattenPath = (commands: PathCommand[], toleranceMm: number): Vec2[][] => {
+export const flattenPath = (
+  commands: PathCommand[],
+  toleranceMm: number,
+): Vec2[][] => {
   const contours: Vec2[][] = [];
   let currentContour: Vec2[] = [];
   let currentPoint: Vec2 = [0, 0];
@@ -104,7 +125,12 @@ export const flattenPath = (commands: PathCommand[], toleranceMm: number): Vec2[
         p3: [command.x, command.y],
       };
 
-      flattenCubicSegment(segment, toleranceMm, MAX_SUBDIVISION_DEPTH, currentContour);
+      flattenCubicSegment(
+        segment,
+        toleranceMm,
+        MAX_SUBDIVISION_DEPTH,
+        currentContour,
+      );
       currentPoint = [command.x, command.y];
     } else if (command.type === "quad") {
       const segment = elevateQuadraticToCubic(
@@ -113,7 +139,12 @@ export const flattenPath = (commands: PathCommand[], toleranceMm: number): Vec2[
         [command.x, command.y],
       );
 
-      flattenCubicSegment(segment, toleranceMm, MAX_SUBDIVISION_DEPTH, currentContour);
+      flattenCubicSegment(
+        segment,
+        toleranceMm,
+        MAX_SUBDIVISION_DEPTH,
+        currentContour,
+      );
       currentPoint = [command.x, command.y];
     }
   }

@@ -5,9 +5,13 @@
   // Static assets only, no Worker script: the whole app runs in the browser.
   "assets": {
     "directory": "./dist",
-    // Client-side routes (/guild/<id>, /generic) get index.html instead of a 404.
+    // Client-side routes (/guild/<id>, /generic) get index.html instead of a
+    // 404.
     "not_found_handling": "single-page-application"
   },
+  // Branch and pull request builds deploy as Previews of this Worker; they need
+  // no settings of their own.
+  "previews": {},
   "routes": [{ "pattern": "gb-tokens.cckarchev.ar", "custom_domain": true }],
   // Only the custom domain serves the app, not a *.workers.dev address.
   "workers_dev": false,

@@ -1,9 +1,13 @@
-import { CounterSelection, DISABLED_COUNTER } from "@/core/token/catalog/token-items/tokenItem";
+import {
+  type CounterSelection,
+  DISABLED_COUNTER,
+} from "@/core/token/catalog/token-items/tokenItem";
 
-import { CounterPanel, CounterRow } from "./counter-panel/CounterPanel";
+import { CounterPanel, type CounterRow } from "./counter-panel/CounterPanel";
 import { setRowsEnabled } from "./setRowsEnabled";
 
-// The part of a catalog entry this list needs: conditions and game plans both fit it.
+// The part of a catalog entry this list needs: conditions and game plans both
+// fit it.
 export type CounterRecordEntry = {
   id: string;
   name: string;
@@ -19,7 +23,8 @@ type CounterRecordListProps = {
   onSelectionChange: (selection: Record<string, CounterSelection>) => void;
 };
 
-// A counter panel over a selection record keyed by entry id (conditions, game plans).
+// A counter panel over a selection record keyed by entry id (conditions, game
+// plans).
 export const CounterRecordList = ({
   title,
   entries,
@@ -31,7 +36,8 @@ export const CounterRecordList = ({
     key: entry.id,
     label: entry.name,
     selection: selection[entry.id] ?? DISABLED_COUNTER,
-    onChange: (rowSelection) => onSelectionChange({ ...selection, [entry.id]: rowSelection }),
+    onChange: (rowSelection) =>
+      onSelectionChange({ ...selection, [entry.id]: rowSelection }),
     maxCopies: entry.maxCopies ?? maxCopies,
   }));
 

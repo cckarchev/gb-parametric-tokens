@@ -1,6 +1,7 @@
-// A real, deliberately empty icon in the manifest, used wherever an icon id has to be present
-// but no artwork is wanted yet: as the substitute for an id the manifest doesn't know, and as the
-// placeholder the shared config carries before any guild has been selected.
+// A real, deliberately empty icon in the manifest, used wherever an icon id has
+// to be present but no artwork is wanted yet: as the substitute for an id the
+// manifest doesn't know, and as the placeholder the shared config carries
+// before any guild has been selected.
 export const FALLBACK_ICON_ID = "blank";
 
 type IconKind = "guild" | "status" | "generic";

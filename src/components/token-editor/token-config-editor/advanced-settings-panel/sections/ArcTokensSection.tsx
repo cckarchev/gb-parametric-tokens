@@ -1,19 +1,33 @@
 import { NumberField } from "@/components/primitives/number-field/NumberField";
 import { PercentField } from "@/components/primitives/PercentField";
 import { DEFAULT_SHARED_CONFIG } from "@/core/token/catalog/token-items/defaultSharedConfig";
+import type { SharedConfig } from "@/core/token/catalog/token-items/tokenItem";
 
-import { SectionPanel, SectionProps } from "./section-panel/SectionPanel";
+import { SectionPanel, type SectionProps } from "./section-panel/SectionPanel";
 import { FontField } from "./shared/FontField";
-import { BALANCE_SCALE_BOUNDS, CREST_SCALE_BOUNDS, TEXT_SIZE_BOUNDS } from "./shared/fieldBounds";
+import {
+  BALANCE_SCALE_BOUNDS,
+  CREST_SCALE_BOUNDS,
+  TEXT_SIZE_BOUNDS,
+} from "./shared/fieldBounds";
 import { ShapeEditor } from "./shared/ShapeEditor";
+
+type CharacterTokenConfig = SharedConfig["characterToken"];
 
 export const ArcTokensSection = ({ sharedConfig, onChange }: SectionProps) => {
   const { characterToken } = sharedConfig;
   const balanceDisabled = !sharedConfig.balanceTwoLineSizes;
 
+  const updateConfig = (patch: Partial<SharedConfig>) => {
+    onChange({ ...sharedConfig, ...patch });
+  };
+
+  const updateCharacterToken = (patch: Partial<CharacterTokenConfig>) => {
+    updateConfig({ characterToken: { ...characterToken, ...patch } });
+  };
+
   const reset = () => {
-    onChange({
-      ...sharedConfig,
+    updateConfig({
       arcShape: DEFAULT_SHARED_CONFIG.arcShape,
       nameSizeMm: DEFAULT_SHARED_CONFIG.nameSizeMm,
       effectSizeMm: DEFAULT_SHARED_CONFIG.effectSizeMm,
@@ -25,42 +39,38 @@ export const ArcTokensSection = ({ sharedConfig, onChange }: SectionProps) => {
     <SectionPanel title="Arc tokens" onReset={reset}>
       <ShapeEditor
         shape={sharedConfig.arcShape}
-        onChange={(arcShape) => onChange({ ...sharedConfig, arcShape })}
+        onChange={(arcShape) => updateConfig({ arcShape })}
       />
 
       <FontField
         fontId={characterToken.fontId}
-        onChange={(fontId) =>
-          onChange({ ...sharedConfig, characterToken: { ...characterToken, fontId } })
-        }
+        onChange={(fontId) => updateCharacterToken({ fontId })}
       />
       <NumberField
         label="Two-line name size (mm)"
         value={sharedConfig.nameSizeMm}
         {...TEXT_SIZE_BOUNDS}
-        onChange={(nameSizeMm) => onChange({ ...sharedConfig, nameSizeMm })}
+        onChange={(nameSizeMm) => updateConfig({ nameSizeMm })}
       />
       <NumberField
         label="Single-line name size (mm)"
         value={characterToken.singleLineNameSizeMm}
         {...TEXT_SIZE_BOUNDS}
         onChange={(singleLineNameSizeMm) =>
-          onChange({ ...sharedConfig, characterToken: { ...characterToken, singleLineNameSizeMm } })
+          updateCharacterToken({ singleLineNameSizeMm })
         }
       />
       <NumberField
         label="Effect size (mm)"
         value={sharedConfig.effectSizeMm}
         {...TEXT_SIZE_BOUNDS}
-        onChange={(effectSizeMm) => onChange({ ...sharedConfig, effectSizeMm })}
+        onChange={(effectSizeMm) => updateConfig({ effectSizeMm })}
       />
       <PercentField
         label="Crest size (%)"
         value={characterToken.crestScale}
         {...CREST_SCALE_BOUNDS}
-        onChange={(crestScale) =>
-          onChange({ ...sharedConfig, characterToken: { ...characterToken, crestScale } })
-        }
+        onChange={(crestScale) => updateCharacterToken({ crestScale })}
       />
       <PercentField
         label="Balanced name size (%)"
@@ -68,7 +78,7 @@ export const ArcTokensSection = ({ sharedConfig, onChange }: SectionProps) => {
         {...BALANCE_SCALE_BOUNDS}
         disabled={balanceDisabled}
         onChange={(balanceNameScale) =>
-          onChange({ ...sharedConfig, characterToken: { ...characterToken, balanceNameScale } })
+          updateCharacterToken({ balanceNameScale })
         }
       />
       <PercentField
@@ -77,7 +87,7 @@ export const ArcTokensSection = ({ sharedConfig, onChange }: SectionProps) => {
         {...BALANCE_SCALE_BOUNDS}
         disabled={balanceDisabled}
         onChange={(balanceEffectScale) =>
-          onChange({ ...sharedConfig, characterToken: { ...characterToken, balanceEffectScale } })
+          updateCharacterToken({ balanceEffectScale })
         }
       />
     </SectionPanel>

@@ -12,7 +12,9 @@ describe("PrintProfileSelector", () => {
     render(<PrintProfileSelector printProfileId="fdm-04" onChange={vi.fn()} />);
 
     for (const profile of Object.values(PRINT_PROFILES)) {
-      expect(screen.getByRole("option", { name: profile.name })).toBeInTheDocument();
+      expect(
+        screen.getByRole("option", { name: profile.name }),
+      ).toBeInTheDocument();
     }
   });
 
@@ -20,9 +22,17 @@ describe("PrintProfileSelector", () => {
     const onChange = vi.fn();
     const [firstProfile, secondProfile] = Object.values(PRINT_PROFILES);
 
-    render(<PrintProfileSelector printProfileId={firstProfile.id} onChange={onChange} />);
+    render(
+      <PrintProfileSelector
+        printProfileId={firstProfile.id}
+        onChange={onChange}
+      />,
+    );
 
-    await userEvent.selectOptions(screen.getByLabelText("Print profile"), secondProfile.name);
+    await userEvent.selectOptions(
+      screen.getByLabelText("Print profile"),
+      secondProfile.name,
+    );
 
     expect(onChange).toHaveBeenCalledWith(secondProfile.id);
   });

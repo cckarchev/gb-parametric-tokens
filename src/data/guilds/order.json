@@ -4,7 +4,14 @@
   "iconScale": 1.15,
   "captains": ["sBrisket"],
   "mascots": ["Pride"],
-  "squaddies": ["Benediction", "vFangtooth", "Grace", "Harry ‘the Hat’", "Mist", "sSpigot"],
+  "squaddies": [
+    "Benediction",
+    "vFangtooth",
+    "Grace",
+    "Harry ‘the Hat’",
+    "Mist",
+    "sSpigot"
+  ],
   "guests": [],
   "genericTokens": [],
   "conditions": ["knockedDown", "burning"]

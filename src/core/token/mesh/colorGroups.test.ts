@@ -1,7 +1,11 @@
 import { describe, expect, it } from "vitest";
 
-import { ColorGroupSpec } from "../types";
-import { BASE_COLOR_GROUP_ID, resolveColorGroupDisplay, resolveColorGroupId } from "./colorGroups";
+import type { ColorGroupSpec } from "../types";
+import {
+  BASE_COLOR_GROUP_ID,
+  resolveColorGroupDisplay,
+  resolveColorGroupId,
+} from "./colorGroups";
 
 describe("resolveColorGroupId", () => {
   it("returns the reserved base id when no colorGroup is given", () => {

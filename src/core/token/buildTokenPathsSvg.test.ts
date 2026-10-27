@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { buildTokenPathsSvg } from "./buildTokenPathsSvg";
-import { ColorGroupSpec, Vec2 } from "./types";
+import type { ColorGroupSpec, Vec2 } from "./types";
 
 const BASE_COLOR = "#2B2B2B";
 const TEXT_COLOR = "#FFFFFF";
@@ -30,13 +30,14 @@ describe("buildTokenPathsSvg", () => {
   });
 
   it("joins several contours of one color group into a single path", () => {
-    const shifted: Vec2[] = [
-      [5, 5],
-      [6, 5],
-      [6, 6],
-    ];
+    const shiftMm = 5;
+    const shifted: Vec2[] = square.map(([x, y]) => [x + shiftMm, y + shiftMm]);
 
-    const [basePath] = buildTokenPathsSvg([square, shifted], new Map(), colorGroups);
+    const [basePath] = buildTokenPathsSvg(
+      [square, shifted],
+      new Map(),
+      colorGroups,
+    );
 
     expect(basePath).toContain('d="M0,0 L1,0 L1,1 Z M5,5 L6,5 L6,6 Z"');
   });

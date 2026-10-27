@@ -1,4 +1,4 @@
-import { MouseEvent } from "react";
+import type { MouseEvent } from "react";
 
 import { navigateTo } from "@/browser/navigateTo";
 import { TokenEditor } from "@/components/token-editor/TokenEditor";
@@ -8,8 +8,9 @@ import styles from "./App.module.css";
 const HOME_PATHNAME = "/";
 
 export const App = () => {
-  // A real link (so it can be opened in a new tab), but a plain click stays client-side: a full
-  // page load would drop every guild's selection, which lives only in memory.
+  // A real link (so it can be opened in a new tab), but a plain click stays
+  // client-side: a full page load would drop every guild's selection, which
+  // lives only in memory.
   const goHome = (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
     navigateTo(HOME_PATHNAME);

@@ -5,7 +5,7 @@ import {
   buildBaseReferenceCircleSvg,
   CIRCLE_ANCHOR_X_SVG,
   CIRCLE_ANCHOR_Y_SVG,
-  computeBaseReferenceCircleBottomYSvg,
+  computeBaseReferenceCircleBottomSvgY,
 } from "./svgBaseReference";
 
 describe("CIRCLE_ANCHOR_X_SVG / CIRCLE_ANCHOR_Y_SVG", () => {
@@ -19,7 +19,10 @@ describe("CIRCLE_ANCHOR_X_SVG / CIRCLE_ANCHOR_Y_SVG", () => {
 
 describe("buildBaseReferenceCircleSvg", () => {
   it("draws a circle at the given center with the fixed base radius", () => {
-    const svg = buildBaseReferenceCircleSvg(CIRCLE_ANCHOR_X_SVG, CIRCLE_ANCHOR_Y_SVG);
+    const svg = buildBaseReferenceCircleSvg(
+      CIRCLE_ANCHOR_X_SVG,
+      CIRCLE_ANCHOR_Y_SVG,
+    );
 
     expect(svg).toContain('data-role="base-reference-circle"');
     expect(svg).toContain(`cx="${CIRCLE_ANCHOR_X_SVG}"`);
@@ -28,9 +31,9 @@ describe("buildBaseReferenceCircleSvg", () => {
   });
 });
 
-describe("computeBaseReferenceCircleBottomYSvg", () => {
+describe("computeBaseReferenceCircleBottomSvgY", () => {
   it("is the center plus the fixed radius", () => {
-    expect(computeBaseReferenceCircleBottomYSvg(CIRCLE_ANCHOR_Y_SVG)).toBe(
+    expect(computeBaseReferenceCircleBottomSvgY(CIRCLE_ANCHOR_Y_SVG)).toBe(
       CIRCLE_ANCHOR_Y_SVG + MODEL_BASE_DIAMETER_MM / 2,
     );
   });

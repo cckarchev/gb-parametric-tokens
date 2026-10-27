@@ -1,5 +1,5 @@
 import { Panel } from "@/components/primitives/panel/Panel";
-import { SharedConfig } from "@/core/token/catalog/token-items/tokenItem";
+import type { SharedConfig } from "@/core/token/catalog/token-items/tokenItem";
 
 import { ArcTokensSection } from "./sections/ArcTokensSection";
 import { AoeTemplatesSection } from "./sections/aoe-templates-section/AoeTemplatesSection";
@@ -17,31 +17,30 @@ type AdvancedSettingsPanelProps = {
   importSettingsError: string | undefined;
 };
 
-// One collapsible section per token kind, each owning its own fields and its own reset, in the
-// order the preview shows those tokens: arc tokens, then the roster's AOE templates, then the
-// guild tokens (Influence, Momentum, Goal Influence) and the conditions.
+// One collapsible section per token kind, each owning its own fields and its
+// own reset, in the order the preview shows those tokens: arc tokens, then the
+// roster's AOE templates, then the guild tokens (Influence, Momentum, Goal
+// Influence) and the conditions.
 export const AdvancedSettingsPanel = ({
   sharedConfig,
   onChange,
   onExportSettings,
   onImportSettings,
   importSettingsError,
-}: AdvancedSettingsPanelProps) => {
-  return (
-    <Panel title="Advanced settings">
-      <GeneralSection
-        sharedConfig={sharedConfig}
-        onChange={onChange}
-        onExportSettings={onExportSettings}
-        onImportSettings={onImportSettings}
-        importSettingsError={importSettingsError}
-      />
-      <ArcTokensSection sharedConfig={sharedConfig} onChange={onChange} />
-      <AoeTemplatesSection sharedConfig={sharedConfig} onChange={onChange} />
-      <DiscTokensSection sharedConfig={sharedConfig} onChange={onChange} />
-      <MomentumSection sharedConfig={sharedConfig} onChange={onChange} />
-      <RingBadgeSection sharedConfig={sharedConfig} onChange={onChange} />
-      <ConditionsSection sharedConfig={sharedConfig} onChange={onChange} />
-    </Panel>
-  );
-};
+}: AdvancedSettingsPanelProps) => (
+  <Panel title="Advanced settings">
+    <GeneralSection
+      sharedConfig={sharedConfig}
+      onChange={onChange}
+      onExportSettings={onExportSettings}
+      onImportSettings={onImportSettings}
+      importSettingsError={importSettingsError}
+    />
+    <ArcTokensSection sharedConfig={sharedConfig} onChange={onChange} />
+    <AoeTemplatesSection sharedConfig={sharedConfig} onChange={onChange} />
+    <DiscTokensSection sharedConfig={sharedConfig} onChange={onChange} />
+    <MomentumSection sharedConfig={sharedConfig} onChange={onChange} />
+    <RingBadgeSection sharedConfig={sharedConfig} onChange={onChange} />
+    <ConditionsSection sharedConfig={sharedConfig} onChange={onChange} />
+  </Panel>
+);

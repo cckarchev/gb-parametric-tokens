@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { TokenSpec } from "../types";
+import type { TokenSpec } from "../types";
 import { requireDiscShape } from "./computeReliefComponentsShared";
 
 const spec = (shape: TokenSpec["shape"]): TokenSpec => ({
@@ -13,7 +13,12 @@ const spec = (shape: TokenSpec["shape"]): TokenSpec => ({
   style: { relief: "raised", reliefHeightMm: 0.6, baseThicknessMm: 3 },
   colorGroups: [],
   printProfileId: "fdm-04",
-  fitPolicy: { minTracking: 0, maxTracking: 0, minScale: 1, allowTwoLines: false },
+  fitPolicy: {
+    minTracking: 0,
+    maxTracking: 0,
+    minScale: 1,
+    allowTwoLines: false,
+  },
 });
 
 describe("requireDiscShape", () => {
@@ -31,8 +36,8 @@ describe("requireDiscShape", () => {
       studDiameterMm: 24,
     } as const;
 
-    expect(() => requireDiscShape(spec(arcShape), "computeRingReliefComponents")).toThrow(
-      'computeRingReliefComponents requires a disc shape, got "arc"',
-    );
+    expect(() =>
+      requireDiscShape(spec(arcShape), "computeRingReliefComponents"),
+    ).toThrow('computeRingReliefComponents requires a disc shape, got "arc"');
   });
 });

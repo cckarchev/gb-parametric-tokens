@@ -1,8 +1,9 @@
 .svgContainer {
   composes: surface from "../../../styles/surface.module.css";
   padding: var(--space-sm);
-  /* The contact sheet draws token contours in plain black (contactSheetSvg.ts), so it needs a
-     light "paper" backdrop to read against the app's dark theme. */
+  /* The contact sheet draws token contours in plain black (contactSheetSvg.ts),
+     so it needs a light "paper" backdrop to read against the app's dark
+     theme. */
   background: var(--color-paper);
 }
 

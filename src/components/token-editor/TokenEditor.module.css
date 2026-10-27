@@ -8,7 +8,10 @@
 .layout {
   display: grid;
   /* The settings column has a capped width; the preview takes the rest. */
-  grid-template-columns: 1fr minmax(var(--size-sidebar-min), var(--size-sidebar-max));
+  grid-template-columns: 1fr minmax(
+      var(--size-sidebar-min),
+      var(--size-sidebar-max)
+    );
   gap: var(--space-xl);
   align-items: start;
 }
@@ -25,8 +28,9 @@
   min-width: 0;
 }
 
-/* Below this width the two columns no longer both fit comfortably (360px preview + a usable
-   form column), so stack them instead of squeezing either one. */
+/* Below this width the two columns no longer both fit comfortably (360px
+   preview + a usable form column), so stack them instead of squeezing either
+   one. */
 @media (max-width: 900px) {
   .layout {
     grid-template-columns: 1fr;

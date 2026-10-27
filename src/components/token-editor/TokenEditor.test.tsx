@@ -3,7 +3,7 @@ import { fireEvent, render, screen, within } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
 import { DEFAULT_SHARED_CONFIG } from "@/core/token/catalog/token-items/defaultSharedConfig";
-import { TokenSelection } from "@/core/token/catalog/token-items/tokenItem";
+import type { TokenSelection } from "@/core/token/catalog/token-items/tokenItem";
 
 vi.mock("@/hooks/useTokenGenerator", () => ({ useTokenGenerator: vi.fn() }));
 
@@ -31,9 +31,19 @@ const baseGenerator = {
   sharedConfig: {
     ...DEFAULT_SHARED_CONFIG,
     printProfileId: "fdm-04",
-    arcShape: { type: "arc", ribbonWidthMm: 15, ribbonLengthMm: 20, studDiameterMm: 24 },
+    arcShape: {
+      type: "arc",
+      ribbonWidthMm: 15,
+      ribbonLengthMm: 20,
+      studDiameterMm: 24,
+    },
     discShape: { type: "disc", diameterMm: 25 },
-    fitPolicy: { minTracking: 0, maxTracking: 0.3, minScale: 0.7, allowTwoLines: true },
+    fitPolicy: {
+      minTracking: 0,
+      maxTracking: 0.3,
+      minScale: 0.7,
+      allowTwoLines: true,
+    },
     colorGroups: [],
   },
   setSharedConfig: vi.fn(),
@@ -80,7 +90,9 @@ describe("TokenEditor", () => {
 
     render(<TokenEditor />);
 
-    expect(screen.queryByRole("group", { name: "Guilds" })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("group", { name: "Guilds" }),
+    ).not.toBeInTheDocument();
     expect(screen.getByLabelText("Influence tokens")).toBeInTheDocument();
   });
 
@@ -94,9 +106,13 @@ describe("TokenEditor", () => {
 
     render(<TokenEditor />);
 
-    expect(screen.getByText("Failed to load catalog: Not Found")).toBeInTheDocument();
+    expect(
+      screen.getByText("Failed to load catalog: Not Found"),
+    ).toBeInTheDocument();
   });
+});
 
+describe("TokenEditor catalog sections", () => {
   it("renders the catalog-dependent sections once a catalog is loaded", () => {
     vi.mocked(useTokenGenerator).mockReturnValue({
       ...baseGenerator,
@@ -122,7 +138,9 @@ describe("TokenEditor", () => {
     expect(screen.getByText("Character tokens")).toBeInTheDocument();
     expect(screen.queryByText("Game Plans")).not.toBeInTheDocument();
   });
+});
 
+describe("TokenEditor generic catalog", () => {
   it("shows game plans and hides the empty character list for a catalog with no roster", () => {
     vi.mocked(useTokenGenerator).mockReturnValue({
       ...baseGenerator,
@@ -136,7 +154,13 @@ describe("TokenEditor", () => {
         genericTokens: [],
         conditions: [],
         appliedConditionIds: [],
-        gamePlans: [{ id: "extraShot", name: "Extra Shot", effect: "+1 TAC, free Sprint" }],
+        gamePlans: [
+          {
+            id: "extraShot",
+            name: "Extra Shot",
+            effect: "+1 TAC, free Sprint",
+          },
+        ],
       },
     });
 
@@ -146,10 +170,13 @@ describe("TokenEditor", () => {
     expect(screen.getByText("Game Plans")).toBeInTheDocument();
     expect(screen.getByLabelText("Extra Shot")).toBeInTheDocument();
   });
+});
 
+describe("TokenEditor Select all", () => {
   it("composes every field update from Guild tokens' own Select all instead of only the last one sticking (regression)", () => {
-    // "Select all" fires four field updates in one click. Replaying the captured updates in
-    // order proves each builds on the previous one rather than on this render's snapshot.
+    // "Select all" fires four field updates in one click. Replaying the
+    // captured updates in order proves each builds on the previous one rather
+    // than on this render's snapshot.
     const setSelection = vi.fn();
 
     vi.mocked(useTokenGenerator).mockReturnValue({
@@ -171,17 +198,32 @@ describe("TokenEditor", () => {
 
     render(<TokenEditor />);
 
-    const guildTokensPanel = screen.getByText("Guild tokens").closest("fieldset");
+    const guildTokensPanel = screen
+      .getByText("Guild tokens")
+      .closest("fieldset");
 
-    fireEvent.click(within(guildTokensPanel!).getByLabelText("Select all"));
+    if (!guildTokensPanel) {
+      throw new Error("expected the guild tokens panel");
+    }
 
-    expect(setSelection).toHaveBeenCalledTimes(4);
+    fireEvent.click(within(guildTokensPanel).getByLabelText("Select all"));
 
-    const finalSelection = setSelection.mock.calls.reduce((selection: TokenSelection, call) => {
-      const update = call[0] as TokenSelection | ((current: TokenSelection) => TokenSelection);
+    // Generic tokens, Influence, Momentum and Goal Influence: one update per
+    // field.
+    const guildTokenFieldCount = 4;
 
-      return typeof update === "function" ? update(selection) : update;
-    }, baseGenerator.selection);
+    expect(setSelection).toHaveBeenCalledTimes(guildTokenFieldCount);
+
+    const finalSelection = setSelection.mock.calls.reduce(
+      (selection: TokenSelection, call) => {
+        const update = call[0] as
+          | TokenSelection
+          | ((current: TokenSelection) => TokenSelection);
+
+        return typeof update === "function" ? update(selection) : update;
+      },
+      baseGenerator.selection,
+    );
 
     expect(finalSelection.influence.enabled).toBe(true);
     expect(finalSelection.momentum.enabled).toBe(true);

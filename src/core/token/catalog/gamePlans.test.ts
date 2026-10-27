@@ -4,7 +4,8 @@ import gamePlansData from "@/data/gamePlans.json";
 
 import { gamePlans } from "./gamePlans";
 
-// Biome's useNamingConvention default for identifiers: lower camelCase, ASCII letters and digits.
+// Biome's useNamingConvention default for identifiers: lower camelCase, ASCII
+// letters and digits.
 const CAMEL_CASE_ID = /^[a-z][a-zA-Z0-9]*$/;
 
 describe("gamePlans.json", () => {

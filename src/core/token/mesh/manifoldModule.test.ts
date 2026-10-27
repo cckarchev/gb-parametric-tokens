@@ -7,7 +7,10 @@ describe("getManifoldModule", () => {
     const wasm = await getManifoldModule();
     const cube = wasm.Manifold.cube([1, 1, 1], false);
 
-    expect(cube.getMesh().numTri).toBe(12);
+    // Six faces, two triangles each.
+    const cubeTriangleCount = 12;
+
+    expect(cube.getMesh().numTri).toBe(cubeTriangleCount);
   });
 
   it("memoizes the module across calls", async () => {

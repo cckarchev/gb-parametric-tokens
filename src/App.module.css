@@ -11,7 +11,8 @@
   border-bottom: var(--border-divider);
 }
 
-/* Logo and app name are one link home, so it inherits the title's look instead of a link's. */
+/* Logo and app name are one link home, so it inherits the title's look instead
+   of a link's. */
 .homeLink {
   display: flex;
   align-items: center;
@@ -24,9 +25,9 @@
   color: var(--color-accent);
 }
 
-/* The Guild Ball logo is solid-black artwork, so it is painted through a CSS mask (like the
-   guild tiles) in the title's color. It stays out of the link's accent hover: the brand mark
-   keeps its own color, only the name lights up. */
+/* The Guild Ball logo is solid-black artwork, so it is painted through a CSS
+   mask (like the guild tiles) in the title's color. It stays out of the link's
+   accent hover: the brand mark keeps its own color, only the name lights up. */
 .logo {
   flex-shrink: 0;
   width: var(--size-header-logo);

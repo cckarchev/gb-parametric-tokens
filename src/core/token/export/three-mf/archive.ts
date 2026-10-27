@@ -15,7 +15,10 @@ const RELATIONSHIPS_XML =
   '<Relationship Target="/3D/3dmodel.model" Id="rel0" Type="http://schemas.microsoft.com/3dmanufacturing/2013/01/3dmodel"/>' +
   "</Relationships>";
 
-export const buildThreeMfArchive = (modelXml: string, prusaModelConfigXml: string): Uint8Array => {
+export const buildThreeMfArchive = (
+  modelXml: string,
+  prusaModelConfigXml: string,
+): Uint8Array => {
   const encoder = new TextEncoder();
 
   return zipSync({

@@ -1,5 +1,6 @@
-/* The shared form-field family: every labelled input primitive (text, number, select, color)
-   is built from these, so they stay visually identical without each one restating the rules. */
+/* The shared form-field family: every labelled input primitive (text, number,
+   select, color) is built from these, so they stay visually identical without
+   each one restating the rules. */
 
 .field {
   display: flex;

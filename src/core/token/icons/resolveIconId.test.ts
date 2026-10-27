@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { ManifestEntry } from "./iconManifest";
+import type { ManifestEntry } from "./iconManifest";
 import { resolveIconId } from "./resolveIconId";
 
 const manifest: ManifestEntry[] = [

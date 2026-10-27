@@ -36,8 +36,8 @@
   color: var(--color-text-body);
 }
 
-/* No padding or border, so the summary sits exactly where the plain .status line it replaces
-   did, and nothing shifts when a token turns invalid. */
+/* No padding or border, so the summary sits exactly where the plain .status
+   line it replaces did, and nothing shifts when a token turns invalid. */
 .attentionBox {
   margin: 0;
 }
@@ -104,6 +104,7 @@
 
 .attentionReason {
   color: var(--color-text-muted);
-  /* The reason has one failure per line: pre-line breaks at each \n and still wraps long lines. */
+  /* The reason has one failure per line: pre-line breaks at each \n and still
+     wraps long lines. */
   white-space: pre-line;
 }

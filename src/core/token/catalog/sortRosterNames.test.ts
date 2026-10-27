@@ -4,7 +4,11 @@ import { sortRosterNames } from "./sortRosterNames";
 
 describe("sortRosterNames", () => {
   it("sorts names alphabetically", () => {
-    expect(sortRosterNames(["Stave", "Flea", "Mash"])).toEqual(["Flea", "Mash", "Stave"]);
+    expect(sortRosterNames(["Stave", "Flea", "Mash"])).toEqual([
+      "Flea",
+      "Mash",
+      "Stave",
+    ]);
   });
 
   it("places a veteran right after its regular version", () => {

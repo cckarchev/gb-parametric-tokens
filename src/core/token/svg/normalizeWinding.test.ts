@@ -1,21 +1,20 @@
 import { describe, expect, it } from "vitest";
 
-import { Vec2 } from "../types";
+import type { Vec2 } from "../types";
 import { normalizeWinding, signedArea } from "./normalizeWinding";
 
-const ccwSquare: Vec2[] = [
-  [0, 0],
-  [10, 0],
-  [10, 10],
-  [0, 10],
+// An axis-aligned square from (min, min) to (max, max), wound
+// counter-clockwise.
+const ccwSquareBetween = (min: number, max: number): Vec2[] => [
+  [min, min],
+  [max, min],
+  [max, max],
+  [min, max],
 ];
 
-const cwSquare: Vec2[] = [
-  [0, 0],
-  [0, 10],
-  [10, 10],
-  [10, 0],
-];
+const ccwSquare: Vec2[] = ccwSquareBetween(0, 10);
+
+const cwSquare: Vec2[] = [...ccwSquare].reverse();
 
 describe("signedArea", () => {
   it("is positive for a counter-clockwise contour", () => {
@@ -39,20 +38,18 @@ describe("normalizeWinding", () => {
   });
 
   it("forces a hole nested inside a CCW outer contour to be CW", () => {
-    const outer: Vec2[] = [
-      [0, 0],
-      [20, 0],
-      [20, 20],
-      [0, 20],
-    ];
-    const holeGivenAsCcw: Vec2[] = [
-      [5, 5],
-      [15, 5],
-      [15, 15],
-      [5, 15],
-    ];
+    const outerSideMm = 20;
+    const holeMarginMm = 5;
+    const outer = ccwSquareBetween(0, outerSideMm);
+    const holeGivenAsCcw = ccwSquareBetween(
+      holeMarginMm,
+      outerSideMm - holeMarginMm,
+    );
 
-    const [normalizedOuter, normalizedHole] = normalizeWinding([outer, holeGivenAsCcw]);
+    const [normalizedOuter, normalizedHole] = normalizeWinding([
+      outer,
+      holeGivenAsCcw,
+    ]);
 
     expect(signedArea(normalizedOuter)).toBeGreaterThan(0);
     expect(signedArea(normalizedHole)).toBeLessThan(0);

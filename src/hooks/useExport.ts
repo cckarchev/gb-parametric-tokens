@@ -1,14 +1,22 @@
-import { RefObject, useCallback, useState } from "react";
+import { type RefObject, useCallback, useState } from "react";
 
 import { downloadBlob } from "@/browser/downloadBlob";
-import type { ExportFailureItem, ExportResponse, WorkerRequest } from "@/browser/tokenWorker";
+import type {
+  ExportFailureItem,
+  ExportResponse,
+  WorkerRequest,
+} from "@/browser/tokenWorker";
 import { describeError } from "@/core/describeError";
-import { SharedConfig, TokenItem } from "@/core/token/catalog/token-items/tokenItem";
+import type {
+  SharedConfig,
+  TokenItem,
+} from "@/core/token/catalog/token-items/tokenItem";
 
-import { PendingExport } from "./useWorker";
+import type { PendingExport } from "./useWorker";
 
 const THREE_MF_MIME_TYPE = "model/3mf";
-// The archive's name while no guild is loaded, which the UI never lets an export reach.
+// The archive's name while no guild is loaded, which the UI never lets an
+// export reach.
 const FALLBACK_ARCHIVE_NAME = "tokens";
 
 export const useExport = (
@@ -63,7 +71,14 @@ export const useExport = (
     } finally {
       setIsExporting(false);
     }
-  }, [tokenItems, guildName, sharedConfig]);
+  }, [
+    workerRef,
+    requestIdRef,
+    pendingExportRef,
+    tokenItems,
+    guildName,
+    sharedConfig,
+  ]);
 
   return { isExporting, exportError, exportFailures, exportThreeMf };
 };

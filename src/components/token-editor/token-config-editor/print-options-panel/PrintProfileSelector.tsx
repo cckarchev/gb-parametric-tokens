@@ -6,7 +6,10 @@ type PrintProfileSelectorProps = {
   onChange: (printProfileId: string) => void;
 };
 
-export const PrintProfileSelector = ({ printProfileId, onChange }: PrintProfileSelectorProps) => {
+export const PrintProfileSelector = ({
+  printProfileId,
+  onChange,
+}: PrintProfileSelectorProps) => {
   const options = Object.values(PRINT_PROFILES).map((profile) => ({
     value: profile.id,
     label: profile.name,

@@ -1,9 +1,13 @@
 import { NumberField } from "@/components/primitives/number-field/NumberField";
 import { DEFAULT_SHARED_CONFIG } from "@/core/token/catalog/token-items/defaultSharedConfig";
 
-import { SectionPanel, SectionProps } from "./section-panel/SectionPanel";
+import { SectionPanel, type SectionProps } from "./section-panel/SectionPanel";
 import { FontField } from "./shared/FontField";
-import { INSET_BOUNDS, MOMENTUM_TEXT_SIZE_BOUNDS, RING_WIDTH_BOUNDS } from "./shared/fieldBounds";
+import {
+  INSET_BOUNDS,
+  MOMENTUM_TEXT_SIZE_BOUNDS,
+  RING_WIDTH_BOUNDS,
+} from "./shared/fieldBounds";
 
 export const MomentumSection = ({ sharedConfig, onChange }: SectionProps) => {
   const { momentum } = sharedConfig;
@@ -13,10 +17,16 @@ export const MomentumSection = ({ sharedConfig, onChange }: SectionProps) => {
   };
 
   return (
-    <SectionPanel title="Momentum" onReset={reset} note="Uses the disc tokens' diameter.">
+    <SectionPanel
+      title="Momentum"
+      onReset={reset}
+      note="Uses the disc tokens' diameter."
+    >
       <FontField
         fontId={momentum.fontId}
-        onChange={(fontId) => onChange({ ...sharedConfig, momentum: { ...momentum, fontId } })}
+        onChange={(fontId) =>
+          onChange({ ...sharedConfig, momentum: { ...momentum, fontId } })
+        }
       />
       <NumberField
         label="Text size (mm)"

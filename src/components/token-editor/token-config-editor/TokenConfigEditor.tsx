@@ -1,4 +1,4 @@
-import { SharedConfig } from "@/core/token/catalog/token-items/tokenItem";
+import type { SharedConfig } from "@/core/token/catalog/token-items/tokenItem";
 
 import { AdvancedSettingsPanel } from "./advanced-settings-panel/AdvancedSettingsPanel";
 import { PrintOptionsPanel } from "./print-options-panel/PrintOptionsPanel";
@@ -18,18 +18,16 @@ export const TokenConfigEditor = ({
   onExportSettings,
   onImportSettings,
   importSettingsError,
-}: TokenConfigEditorProps) => {
-  return (
-    <div className={styles.wrapper}>
-      <PrintOptionsPanel sharedConfig={sharedConfig} onChange={onChange} />
+}: TokenConfigEditorProps) => (
+  <div className={styles.wrapper}>
+    <PrintOptionsPanel sharedConfig={sharedConfig} onChange={onChange} />
 
-      <AdvancedSettingsPanel
-        sharedConfig={sharedConfig}
-        onChange={onChange}
-        onExportSettings={onExportSettings}
-        onImportSettings={onImportSettings}
-        importSettingsError={importSettingsError}
-      />
-    </div>
-  );
-};
+    <AdvancedSettingsPanel
+      sharedConfig={sharedConfig}
+      onChange={onChange}
+      onExportSettings={onExportSettings}
+      onImportSettings={onImportSettings}
+      importSettingsError={importSettingsError}
+    />
+  </div>
+);

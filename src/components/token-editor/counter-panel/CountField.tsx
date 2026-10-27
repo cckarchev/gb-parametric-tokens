@@ -12,8 +12,8 @@ type CountFieldProps = {
   max: number;
 };
 
-// A checkbox to include the counter and a stepper for its copies. Unchecked, the stepper is
-// disabled but keeps its value.
+// A checkbox to include the counter and a stepper for its copies. Unchecked,
+// the stepper is disabled but keeps its value.
 export const CountField = ({
   label,
   enabled,
@@ -22,21 +22,19 @@ export const CountField = ({
   onCopiesChange,
   min,
   max,
-}: CountFieldProps) => {
-  return (
-    <div className={styles.listRow}>
-      <CheckboxField label={label} checked={enabled} onChange={onEnabledChange} />
+}: CountFieldProps) => (
+  <div className={styles.listRow}>
+    <CheckboxField label={label} checked={enabled} onChange={onEnabledChange} />
 
-      <NumberField
-        label={`${label} copies`}
-        hideLabel
-        stepper
-        value={copies}
-        min={min}
-        max={max}
-        disabled={!enabled}
-        onChange={onCopiesChange}
-      />
-    </div>
-  );
-};
+    <NumberField
+      label={`${label} copies`}
+      hideLabel
+      stepper
+      value={copies}
+      min={min}
+      max={max}
+      disabled={!enabled}
+      onChange={onCopiesChange}
+    />
+  </div>
+);

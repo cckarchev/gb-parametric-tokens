@@ -1,9 +1,10 @@
 import { describe, expect, it } from "vitest";
 
 import { buildTokenParts } from "./buildTokenParts";
+import { CENTER_ANGLE_DEG } from "./geometry/angleConventions";
 import { computeStudPlacements } from "./geometry/studPlacement";
 import { arcSpec, discSpec } from "./testSpecs";
-import { TokenSpec, Vec2 } from "./types";
+import type { TokenSpec, Vec2 } from "./types";
 
 const squareAt = (center: Vec2): Vec2[][] => [
   [
@@ -27,11 +28,17 @@ describe("buildTokenParts", () => {
 
   it("dispatches to buildArcTokenMesh for an arc shape", async () => {
     const shape = arcSpec.shape as Extract<TokenSpec["shape"], { type: "arc" }>;
-    const studPlacements = computeStudPlacements(shape, 90);
+    const studPlacements = computeStudPlacements(shape, CENTER_ANGLE_DEG);
 
     const parts = await buildTokenParts(arcSpec, [
-      { source: { kind: "decoration" }, contours: squareAt(studPlacements.left.position) },
-      { source: { kind: "decoration" }, contours: squareAt(studPlacements.right.position) },
+      {
+        source: { kind: "decoration" },
+        contours: squareAt(studPlacements.left.position),
+      },
+      {
+        source: { kind: "decoration" },
+        contours: squareAt(studPlacements.right.position),
+      },
     ]);
 
     expect(parts).toHaveLength(1);
@@ -41,7 +48,7 @@ describe("buildTokenParts", () => {
 
   it("keeps a distinctly colorGrouped component separate on an arc shape", async () => {
     const shape = arcSpec.shape as Extract<TokenSpec["shape"], { type: "arc" }>;
-    const studPlacements = computeStudPlacements(shape, 90);
+    const studPlacements = computeStudPlacements(shape, CENTER_ANGLE_DEG);
 
     const parts = await buildTokenParts(arcSpec, [
       {
@@ -51,6 +58,9 @@ describe("buildTokenParts", () => {
       },
     ]);
 
-    expect(parts.map((part) => part.colorGroupId).sort()).toEqual(["accent", "base"]);
+    expect(parts.map((part) => part.colorGroupId).sort()).toEqual([
+      "accent",
+      "base",
+    ]);
   });
 });

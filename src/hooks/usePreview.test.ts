@@ -2,9 +2,12 @@
 import { act, renderHook } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import { GuildCatalog } from "@/core/token/catalog/catalogTypes";
+import type { GuildCatalog } from "@/core/token/catalog/catalogTypes";
 import { DEFAULT_SHARED_CONFIG } from "@/core/token/catalog/token-items/defaultSharedConfig";
-import { SharedConfig, TokenSelection } from "@/core/token/catalog/token-items/tokenItem";
+import type {
+  SharedConfig,
+  TokenSelection,
+} from "@/core/token/catalog/token-items/tokenItem";
 
 import { FakeWorker, installFakeWorker, lastPostedRequest } from "./fakeWorker";
 import { LIVE_PREVIEW_DEBOUNCE_MS } from "./livePreviewDebounce";
@@ -28,9 +31,19 @@ const catalog: GuildCatalog = {
 
 const sharedConfig: SharedConfig = {
   ...DEFAULT_SHARED_CONFIG,
-  arcShape: { type: "arc", ribbonWidthMm: 15, ribbonLengthMm: 20, studDiameterMm: 24 },
+  arcShape: {
+    type: "arc",
+    ribbonWidthMm: 15,
+    ribbonLengthMm: 20,
+    studDiameterMm: 24,
+  },
   discShape: { type: "disc", diameterMm: 25 },
-  fitPolicy: { minTracking: 0, maxTracking: 0.3, minScale: 0.7, allowTwoLines: true },
+  fitPolicy: {
+    minTracking: 0,
+    maxTracking: 0.3,
+    minScale: 0.7,
+    allowTwoLines: true,
+  },
   printProfileId: "fdm-04",
   influenceIconId: "Brewers",
   nameSizeMm: 6,
@@ -74,8 +87,8 @@ describe("usePreview debounce", () => {
 
     rerender({ selection: selectionWith(["Tapper-0"]) });
 
-    // No vi.advanceTimersByTime here: a change with nothing recent before it should not need to
-    // wait out the debounce window at all.
+    // No vi.advanceTimersByTime here: a change with nothing recent before it
+    // should not need to wait out the debounce window at all.
     expect(worker.postMessage).toHaveBeenCalledTimes(1);
     expect(lastPostedRequest(worker).kind).toBe("preview");
   });
@@ -92,7 +105,8 @@ describe("usePreview debounce", () => {
     rerender({ selection: selectionWith(["Tapper-0"]) });
     expect(worker.postMessage).toHaveBeenCalledTimes(1);
 
-    // Second change arrives right after, still inside the debounce window: must not fire yet.
+    // Second change arrives right after, still inside the debounce window: must
+    // not fire yet.
     rerender({ selection: selectionWith(["Tapper-0", "Tapper-1"]) });
     expect(worker.postMessage).toHaveBeenCalledTimes(1);
 
@@ -106,9 +120,14 @@ describe("usePreview debounce", () => {
     if (request.kind !== "preview") {
       throw new Error("expected a preview request");
     }
-    expect(request.items.map((item) => item.id)).toEqual(["Tapper-0", "Tapper-1"]);
+    expect(request.items.map((item) => item.id)).toEqual([
+      "Tapper-0",
+      "Tapper-1",
+    ]);
   });
+});
 
+describe("usePreview debounce window and failures", () => {
   it("fires immediately again once the debounce window has fully elapsed", () => {
     const { rerender } = renderHook(
       ({ selection }) => usePreview(catalog, selection, sharedConfig),

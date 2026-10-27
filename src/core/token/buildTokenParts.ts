@@ -2,9 +2,9 @@ import { CENTER_ANGLE_DEG } from "./geometry/angleConventions";
 import { computeStudPlacements } from "./geometry/studPlacement";
 import { buildArcTokenMesh } from "./mesh/buildArcTokenMesh";
 import { buildTokenMesh } from "./mesh/buildTokenMesh";
-import { ReliefComponent } from "./mesh/reliefComponent";
-import { TokenPart } from "./mesh/tokenPart";
-import { TokenSpec } from "./types";
+import type { ReliefComponent } from "./mesh/reliefComponent";
+import type { TokenPart } from "./mesh/tokenPart";
+import type { TokenSpec } from "./types";
 
 export const buildTokenParts = (
   spec: TokenSpec,
@@ -20,7 +20,10 @@ export const buildTokenParts = (
     shape: spec.shape,
     centerAngleDeg: CENTER_ANGLE_DEG,
     style: spec.style,
-    studPositions: { left: studPlacements.left.position, right: studPlacements.right.position },
+    studPositions: {
+      left: studPlacements.left.position,
+      right: studPlacements.right.position,
+    },
     reliefComponents,
   });
 };

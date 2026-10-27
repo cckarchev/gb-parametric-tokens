@@ -2,7 +2,10 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import { CounterRecordEntry, CounterRecordList } from "./CounterRecordList";
+import {
+  type CounterRecordEntry,
+  CounterRecordList,
+} from "./CounterRecordList";
 
 const MAX_COPIES = 12;
 
@@ -25,11 +28,16 @@ describe("CounterRecordList", () => {
 
     expect(screen.getByText("Conditions")).toBeInTheDocument();
     expect(screen.getByLabelText("Poison")).toBeInTheDocument();
-    expect(screen.getByLabelText("Knocked Down copies")).toHaveAttribute("max", "12");
+    expect(screen.getByLabelText("Knocked Down copies")).toHaveAttribute(
+      "max",
+      "12",
+    );
   });
 
   it("caps an entry at its own maxCopies when it sets one", () => {
-    const gamePlans: CounterRecordEntry[] = [{ id: "extraShot", name: "Extra Shot", maxCopies: 2 }];
+    const gamePlans: CounterRecordEntry[] = [
+      { id: "extraShot", name: "Extra Shot", maxCopies: 2 },
+    ];
 
     render(
       <CounterRecordList
@@ -41,9 +49,14 @@ describe("CounterRecordList", () => {
       />,
     );
 
-    expect(screen.getByLabelText("Extra Shot copies")).toHaveAttribute("max", "2");
+    expect(screen.getByLabelText("Extra Shot copies")).toHaveAttribute(
+      "max",
+      "2",
+    );
   });
+});
 
+describe("CounterRecordList row changes", () => {
   it("defaults an entry missing from the selection to unchecked with 1 copy", () => {
     render(
       <CounterRecordList
@@ -75,14 +88,18 @@ describe("CounterRecordList", () => {
       />,
     );
 
-    fireEvent.change(screen.getByLabelText("Poison copies"), { target: { value: "6" } });
+    fireEvent.change(screen.getByLabelText("Poison copies"), {
+      target: { value: "6" },
+    });
 
     expect(onSelectionChange).toHaveBeenLastCalledWith({
       poison: { enabled: true, copies: 6 },
       knockedDown: { enabled: true, copies: 4 },
     });
   });
+});
 
+describe("CounterRecordList Select all", () => {
   it("enables every entry in one call when 'Select all' is checked, keeping their counts", () => {
     const onSelectionChange = vi.fn();
 

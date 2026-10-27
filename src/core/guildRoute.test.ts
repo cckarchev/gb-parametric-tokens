@@ -54,10 +54,14 @@ describe("guildIdFromPathname", () => {
   });
 
   it("round-trips the generic catalog with guildPathname", () => {
-    expect(guildIdFromPathname(guildPathname(GENERIC_CATALOG_ID))).toBe(GENERIC_CATALOG_ID);
+    expect(guildIdFromPathname(guildPathname(GENERIC_CATALOG_ID))).toBe(
+      GENERIC_CATALOG_ID,
+    );
   });
 
   it("round-trips with guildPathname", () => {
-    expect(guildIdFromPathname(guildPathname("lamplighters"))).toBe("lamplighters");
+    expect(guildIdFromPathname(guildPathname("lamplighters"))).toBe(
+      "lamplighters",
+    );
   });
 });

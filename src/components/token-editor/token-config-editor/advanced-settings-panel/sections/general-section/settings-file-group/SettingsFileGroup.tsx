@@ -14,20 +14,20 @@ export const SettingsFileGroup = ({
   onExportSettings,
   onImportSettings,
   importSettingsError,
-}: SettingsFileGroupProps) => {
-  return (
-    <SettingsGroup title="Settings file">
-      <div className={styles.row}>
-        <Button label="Export settings (.json)" onClick={onExportSettings} />
-      </div>
+}: SettingsFileGroupProps) => (
+  <SettingsGroup title="Settings file">
+    <div className={styles.row}>
+      <Button label="Export settings (.json)" onClick={onExportSettings} />
+    </div>
 
-      <FileField
-        label="Import settings (.json)"
-        accept="application/json"
-        onSelect={onImportSettings}
-      />
+    <FileField
+      label="Import settings (.json)"
+      accept="application/json"
+      onSelect={onImportSettings}
+    />
 
-      {importSettingsError && <p className={styles.error}>{importSettingsError}</p>}
-    </SettingsGroup>
-  );
-};
+    {importSettingsError && (
+      <p className={styles.error}>{importSettingsError}</p>
+    )}
+  </SettingsGroup>
+);

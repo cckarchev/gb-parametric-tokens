@@ -5,15 +5,16 @@
   transition: border-color var(--duration-medium) var(--easing-standard);
 }
 
-/* Collapsed, the fieldset's bottom border runs right under the header bar with no body to wrap,
-   so it is hidden until the panel opens. */
+/* Collapsed, the fieldset's bottom border runs right under the header bar with
+   no body to wrap, so it is hidden until the panel opens. */
 .panel:has(> .body[hidden]) {
   border-color: transparent;
 }
 
-/* The fieldset draws its border from the legend's middle down, and lays the legend out inside that
-   border. Widening the legend by the border width on each side lets the header bar sit on top of
-   the border instead of leaving it peeking out beside the bar's lower half. */
+/* The fieldset draws its border from the legend's middle down, and lays the
+   legend out inside that border. Widening the legend by the border width on
+   each side lets the header bar sit on top of the border instead of leaving it
+   peeking out beside the bar's lower half. */
 .legend {
   --panel-border-width: var(--border-width-thin);
 
@@ -49,8 +50,8 @@
   cursor: pointer;
 }
 
-/* The short orange bar the brand manual puts over every card title, shown while the panel is
-   open. */
+/* The short orange bar the brand manual puts over every card title, shown while
+   the panel is open. */
 .legendRow:has(> .toggle[aria-expanded="true"])::before {
   content: "";
   position: absolute;
@@ -70,10 +71,10 @@
   transform: rotate(-45deg);
 }
 
-/* interpolate-size animates height to and from auto, so the open panel fits its content. Browsers
-   without it still open and close, just without the animation. Animating grid fr tracks or
-   `display` instead was tried: the first stutters in Chromium, the second briefly overlaps the
-   content below. */
+/* interpolate-size animates height to and from auto, so the open panel fits its
+   content. Browsers without it still open and close, just without the
+   animation. Animating grid fr tracks or `display` instead was tried: the first
+   stutters in Chromium, the second briefly overlaps the content below. */
 .body {
   display: flex;
   flex-direction: column;
@@ -89,9 +90,10 @@
     padding var(--duration-medium) var(--easing-standard);
 }
 
-/* The display set on .body overrides the browser's [hidden] { display: none }. It stays flex on
-   purpose, since display can't be animated: the panel collapses through height, padding and
-   opacity instead. Tests and assistive tech still read the hidden attribute itself. */
+/* The display set on .body overrides the browser's [hidden] { display: none }.
+   It stays flex on purpose, since display can't be animated: the panel
+   collapses through height, padding and opacity instead. Tests and assistive
+   tech still read the hidden attribute itself. */
 .body[hidden] {
   display: flex;
   height: 0;

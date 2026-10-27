@@ -1,4 +1,4 @@
-import { Vec2 } from "../types";
+import type { Vec2 } from "../types";
 
 export const signedArea = (contour: Vec2[]): number => {
   let sum = 0;
@@ -21,7 +21,8 @@ const isPointInsideContour = (point: Vec2, contour: Vec2[]): boolean => {
     const [xj, yj] = contour[j];
 
     const straddlesRay = yi > point[1] !== yj > point[1];
-    const crossesToTheRight = point[0] < ((xj - xi) * (point[1] - yi)) / (yj - yi) + xi;
+    const crossesToTheRight =
+      point[0] < ((xj - xi) * (point[1] - yi)) / (yj - yi) + xi;
 
     if (straddlesRay && crossesToTheRight) {
       inside = !inside;
@@ -51,8 +52,8 @@ const countEnclosingContours = (
   return depth;
 };
 
-export const normalizeWinding = (contours: Vec2[][]): Vec2[][] => {
-  return contours.map((contour, index) => {
+export const normalizeWinding = (contours: Vec2[][]): Vec2[][] =>
+  contours.map((contour, index) => {
     const nestingDepth = countEnclosingContours(contour, contours, index);
     const shouldBeCounterClockwise = nestingDepth % 2 === 0;
     const isCounterClockwise = signedArea(contour) > 0;
@@ -63,4 +64,3 @@ export const normalizeWinding = (contours: Vec2[][]): Vec2[][] => {
 
     return [...contour].reverse();
   });
-};

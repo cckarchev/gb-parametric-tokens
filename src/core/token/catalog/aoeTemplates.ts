@@ -1,6 +1,6 @@
 import aoeTemplatesData from "@/data/aoeTemplates.json";
 
-import { CatalogAoeTemplate } from "./catalogTypes";
+import type { CatalogAoeTemplate } from "./catalogTypes";
 import { buildLookup, resolveById } from "./resolveById";
 
 const aoeTemplatesLookup = buildLookup<CatalogAoeTemplate>(
@@ -8,6 +8,5 @@ const aoeTemplatesLookup = buildLookup<CatalogAoeTemplate>(
   (template) => template.id,
 );
 
-export const resolveAoeTemplate = (templateId: string): CatalogAoeTemplate => {
-  return resolveById(aoeTemplatesLookup, templateId, "AOE template");
-};
+export const resolveAoeTemplate = (templateId: string): CatalogAoeTemplate =>
+  resolveById(aoeTemplatesLookup, templateId, "AOE template");

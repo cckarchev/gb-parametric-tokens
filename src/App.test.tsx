@@ -4,6 +4,7 @@ import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 
 vi.mock("@/components/token-editor/TokenEditor", () => ({
+  // biome-ignore lint/style/useNamingConvention: the key is the mocked module export.
   TokenEditor: () => <p>Token editor</p>,
 }));
 
@@ -23,7 +24,9 @@ describe("App", () => {
     render(<App />);
 
     window.addEventListener("popstate", onPopState);
-    await userEvent.click(screen.getByRole("link", { name: "Guild Ball Parametric Tokens" }));
+    await userEvent.click(
+      screen.getByRole("link", { name: "Guild Ball Parametric Tokens" }),
+    );
     window.removeEventListener("popstate", onPopState);
 
     expect(window.location.pathname).toBe("/");

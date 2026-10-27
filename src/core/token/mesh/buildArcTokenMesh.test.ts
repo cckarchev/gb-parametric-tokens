@@ -7,75 +7,117 @@ import {
   computeStudPlacements,
 } from "../geometry/studPlacement";
 import { computeBaseOutlineContours } from "../preview/computeBaseOutlineContours";
-import { StyleSpec, Vec2 } from "../types";
+import type { StyleSpec, Vec2 } from "../types";
 import { buildArcTokenMesh } from "./buildArcTokenMesh";
-import { ReliefComponent } from "./reliefComponent";
+import type { ReliefComponent } from "./reliefComponent";
 
-const shape = { type: "arc" as const, ribbonWidthMm: 15, ribbonLengthMm: 20, studDiameterMm: 24 };
+const shape = {
+  type: "arc" as const,
+  ribbonWidthMm: 15,
+  ribbonLengthMm: 20,
+  studDiameterMm: 24,
+};
 const centerAngleDeg = 90;
 const studPlacements = computeStudPlacements(shape, centerAngleDeg);
-// Sits at the band's own midpoint radius so this relief component actually overlaps the
-// ribbon, the same way a real centered text line would: required for the "unions into a
-// single connected solid" test below to mean anything.
-const bandMidRadiusMm = (computeInnerRadiusMm() + computeOuterRadiusMm(shape)) / 2;
+// Sits at the band's own midpoint radius so this relief component actually
+// overlaps the ribbon, the same way a real centered text line would: required
+// for the "unions into a single connected solid" test below to mean anything.
+const bandMidRadiusMm =
+  (computeInnerRadiusMm() + computeOuterRadiusMm(shape)) / 2;
 
-const smallSquareAt = (center: Vec2): Vec2[][] => [
+// An axis-aligned square of the given half size, centered on a point.
+const squareAround = ([x, y]: Vec2, halfMm: number): Vec2[][] => [
   [
-    [center[0] - 2, center[1] - 2],
-    [center[0] + 2, center[1] - 2],
-    [center[0] + 2, center[1] + 2],
-    [center[0] - 2, center[1] + 2],
+    [x - halfMm, y - halfMm],
+    [x + halfMm, y - halfMm],
+    [x + halfMm, y + halfMm],
+    [x - halfMm, y + halfMm],
   ],
 ];
 
+const smallSquareAt = (center: Vec2): Vec2[][] => squareAround(center, 2);
+
 const baseReliefComponents: ReliefComponent[] = [
-  { source: { kind: "decoration" }, contours: smallSquareAt(studPlacements.left.position) },
-  { source: { kind: "decoration" }, contours: smallSquareAt(studPlacements.right.position) },
-  { source: { kind: "decoration" }, contours: smallSquareAt([0, bandMidRadiusMm] as Vec2) },
+  {
+    source: { kind: "decoration" },
+    contours: smallSquareAt(studPlacements.left.position),
+  },
+  {
+    source: { kind: "decoration" },
+    contours: smallSquareAt(studPlacements.right.position),
+  },
+  {
+    source: { kind: "decoration" },
+    contours: smallSquareAt([0, bandMidRadiusMm] as Vec2),
+  },
 ];
 
 const baseInput = (style: StyleSpec) => ({
   shape,
   centerAngleDeg,
   style,
-  studPositions: { left: studPlacements.left.position, right: studPlacements.right.position },
+  studPositions: {
+    left: studPlacements.left.position,
+    right: studPlacements.right.position,
+  },
   reliefComponents: baseReliefComponents,
 });
 
 describe("buildArcTokenMesh", () => {
   it("raises the relief above baseThicknessMm for relief: raised", async () => {
-    const style: StyleSpec = { relief: "raised", reliefHeightMm: 0.6, baseThicknessMm: 3 };
+    const style: StyleSpec = {
+      relief: "raised",
+      reliefHeightMm: 0.6,
+      baseThicknessMm: 3,
+    };
 
     const parts = await buildArcTokenMesh(baseInput(style));
 
     expect(parts).toHaveLength(1);
     expect(parts[0].manifold.status()).toBe("NoError");
-    expect(parts[0].manifold.boundingBox().max[2]).toBeGreaterThan(3);
+    expect(parts[0].manifold.boundingBox().max[2]).toBeGreaterThan(
+      style.baseThicknessMm,
+    );
   });
 
   it("stays within baseThicknessMm for relief: engraved", async () => {
-    const style: StyleSpec = { relief: "engraved", reliefHeightMm: 0.6, baseThicknessMm: 3 };
+    const style: StyleSpec = {
+      relief: "engraved",
+      reliefHeightMm: 0.6,
+      baseThicknessMm: 3,
+    };
 
     const parts = await buildArcTokenMesh(baseInput(style));
 
     expect(parts).toHaveLength(1);
     expect(parts[0].manifold.status()).toBe("NoError");
-    expect(parts[0].manifold.boundingBox().max[2]).toBe(3);
+    expect(parts[0].manifold.boundingBox().max[2]).toBe(style.baseThicknessMm);
   });
 
   it("unions ribbon and studs into a single connected solid", async () => {
-    const style: StyleSpec = { relief: "raised", reliefHeightMm: 0.6, baseThicknessMm: 3 };
+    const style: StyleSpec = {
+      relief: "raised",
+      reliefHeightMm: 0.6,
+      baseThicknessMm: 3,
+    };
 
     const parts = await buildArcTokenMesh(baseInput(style));
 
-    // status() alone does not catch this: three tangent-but-disjoint solids are a
-    // perfectly valid manifold, and the bounding-box tests below pass happily on them.
+    // status() alone does not catch this: three tangent-but-disjoint solids are
+    // a perfectly valid manifold, and the bounding-box tests below pass happily
+    // on them.
     expect(parts[0].manifold.status()).toBe("NoError");
     expect(parts[0].manifold.decompose().length).toBe(1);
   });
+});
 
+describe("buildArcTokenMesh bounds", () => {
   it("includes both studs in the bounding box", async () => {
-    const style: StyleSpec = { relief: "raised", reliefHeightMm: 0.6, baseThicknessMm: 3 };
+    const style: StyleSpec = {
+      relief: "raised",
+      reliefHeightMm: 0.6,
+      baseThicknessMm: 3,
+    };
 
     const parts = await buildArcTokenMesh(baseInput(style));
     const bounds = parts[0].manifold.boundingBox();
@@ -83,38 +125,33 @@ describe("buildArcTokenMesh", () => {
     expect(bounds.min[0]).toBeLessThan(studPlacements.left.position[0] + 1);
     expect(bounds.max[0]).toBeGreaterThan(studPlacements.right.position[0] - 1);
   });
+});
 
+describe("buildArcTokenMesh grow outline", () => {
   it("unions a growOutline contour into the base, past the plain stud's own radius", async () => {
-    const style: StyleSpec = { relief: "raised", reliefHeightMm: 0.6, baseThicknessMm: 3 };
+    const style: StyleSpec = {
+      relief: "raised",
+      reliefHeightMm: 0.6,
+      baseThicknessMm: 3,
+    };
     const studRadiusMm = shape.studDiameterMm / 2;
-    // A square centered on the left stud, wider than the stud itself: proves the grown footprint
-    // (not just the plain circle) makes it into the base's own outline.
-    const farReachMm = studRadiusMm + 5;
-    const growSquareAtLeftStud: Vec2[][] = [
-      [
-        [
-          studPlacements.left.position[0] - farReachMm,
-          studPlacements.left.position[1] - farReachMm,
-        ],
-        [
-          studPlacements.left.position[0] + farReachMm,
-          studPlacements.left.position[1] - farReachMm,
-        ],
-        [
-          studPlacements.left.position[0] + farReachMm,
-          studPlacements.left.position[1] + farReachMm,
-        ],
-        [
-          studPlacements.left.position[0] - farReachMm,
-          studPlacements.left.position[1] + farReachMm,
-        ],
-      ],
-    ];
+    // A square centered on the left stud, wider than the stud itself: proves
+    // the grown footprint (not just the plain circle) makes it into the base's
+    // own outline.
+    const reachPastStudMm = 5;
+    const farReachMm = studRadiusMm + reachPastStudMm;
+    const growSquareAtLeftStud = squareAround(
+      studPlacements.left.position,
+      farReachMm,
+    );
 
     const parts = await buildArcTokenMesh({
       ...baseInput(style),
       reliefComponents: [
-        { source: { kind: "decoration" }, contours: smallSquareAt([0, bandMidRadiusMm] as Vec2) },
+        {
+          source: { kind: "decoration" },
+          contours: smallSquareAt([0, bandMidRadiusMm] as Vec2),
+        },
       ],
     });
     const partsWithGrow = await buildArcTokenMesh({
@@ -135,10 +172,20 @@ describe("buildArcTokenMesh", () => {
     expect(partsWithGrow[0].manifold.status()).toBe("NoError");
     expect(partsWithGrow[0].manifold.decompose().length).toBe(1);
   });
+});
 
+describe("buildArcTokenMesh fillet on", () => {
   it("adds material at the stud/ribbon junction when the fillet is enabled", async () => {
-    const style: StyleSpec = { relief: "raised", reliefHeightMm: 0.6, baseThicknessMm: 3 };
-    const filletedShape = { ...shape, studFilletEnabled: true, studFilletRadiusMm: 3 };
+    const style: StyleSpec = {
+      relief: "raised",
+      reliefHeightMm: 0.6,
+      baseThicknessMm: 3,
+    };
+    const filletedShape = {
+      ...shape,
+      studFilletEnabled: true,
+      studFilletRadiusMm: 3,
+    };
 
     const plainParts = await buildArcTokenMesh({
       ...baseInput(style),
@@ -152,27 +199,52 @@ describe("buildArcTokenMesh", () => {
 
     expect(filletedParts[0].manifold.status()).toBe("NoError");
     expect(filletedParts[0].manifold.decompose().length).toBe(1);
-    // Closing only ever adds material (see filletOutline.ts), so the filleted solid's volume
-    // is strictly larger once there's an actual notch at the stud/ribbon junction to fill.
-    expect(filletedParts[0].manifold.volume()).toBeGreaterThan(plainParts[0].manifold.volume());
+    // Closing only ever adds material (see filletOutline.ts), so the filleted
+    // solid's volume is strictly larger once there's an actual notch at the
+    // stud/ribbon junction to fill.
+    expect(filletedParts[0].manifold.volume()).toBeGreaterThan(
+      plainParts[0].manifold.volume(),
+    );
   });
+});
 
+describe("buildArcTokenMesh fillet off", () => {
   it("leaves the solid unchanged when the fillet is off", async () => {
-    const style: StyleSpec = { relief: "raised", reliefHeightMm: 0.6, baseThicknessMm: 3 };
-    const disabledShape = { ...shape, studFilletEnabled: false, studFilletRadiusMm: 3 };
+    const style: StyleSpec = {
+      relief: "raised",
+      reliefHeightMm: 0.6,
+      baseThicknessMm: 3,
+    };
+    const disabledShape = {
+      ...shape,
+      studFilletEnabled: false,
+      studFilletRadiusMm: 3,
+    };
 
-    const plainParts = await buildArcTokenMesh({ ...baseInput(style), reliefComponents: [] });
+    const plainParts = await buildArcTokenMesh({
+      ...baseInput(style),
+      reliefComponents: [],
+    });
     const disabledParts = await buildArcTokenMesh({
       ...baseInput(style),
       shape: disabledShape,
       reliefComponents: [],
     });
 
-    expect(disabledParts[0].manifold.volume()).toBeCloseTo(plainParts[0].manifold.volume(), 1);
+    expect(disabledParts[0].manifold.volume()).toBeCloseTo(
+      plainParts[0].manifold.volume(),
+      1,
+    );
   });
+});
 
+describe("buildArcTokenMesh color groups", () => {
   it("keeps a distinctly colorGrouped text line as its own separate part", async () => {
-    const style: StyleSpec = { relief: "raised", reliefHeightMm: 0.6, baseThicknessMm: 3 };
+    const style: StyleSpec = {
+      relief: "raised",
+      reliefHeightMm: 0.6,
+      baseThicknessMm: 3,
+    };
 
     const parts = await buildArcTokenMesh({
       ...baseInput(style),
@@ -196,14 +268,21 @@ describe("buildArcTokenMesh", () => {
     });
 
     expect(parts).toHaveLength(2);
-    expect(parts.map((part) => part.colorGroupId).sort()).toEqual(["accent", "base"]);
+    expect(parts.map((part) => part.colorGroupId).sort()).toEqual([
+      "accent",
+      "base",
+    ]);
 
     const basePart = parts.find((part) => part.colorGroupId === "base");
     expect(basePart?.manifold.decompose().length).toBe(1); // ribbon+studs still fused on their own
   });
 
-  // A stud narrower than the ribbon grows to its width (computeEffectiveStudDiameterMm). The mesh
-  // has to grow it like the preview does, or the print carries a notch the screen never showed.
+  // A stud narrower than the ribbon grows to its width
+  // (computeEffectiveStudDiameterMm). The mesh has to grow it like the preview
+  // does, or the print carries a notch the screen never showed.
+});
+
+describe("buildArcTokenMesh wide ribbon", () => {
   it("gives a ribbon wider than its stud the same footprint the 2D preview draws", async () => {
     const wideRibbonShape = {
       type: "arc" as const,
@@ -217,7 +296,10 @@ describe("buildArcTokenMesh", () => {
       shape: wideRibbonShape,
       centerAngleDeg,
       style: { relief: "raised", reliefHeightMm: 0.6, baseThicknessMm: 3 },
-      studPositions: { left: placements.left.position, right: placements.right.position },
+      studPositions: {
+        left: placements.left.position,
+        right: placements.right.position,
+      },
       reliefComponents: [],
     });
 

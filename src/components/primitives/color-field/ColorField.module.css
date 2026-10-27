@@ -7,8 +7,8 @@
   composes: label from "../../../styles/field.module.css";
 }
 
-/* A native color swatch, not a text box: it gets its own fixed size and hairline padding rather
-   than the shared .input box. */
+/* A native color swatch, not a text box: it gets its own fixed size and
+   hairline padding rather than the shared .input box. */
 .input {
   composes: focusRing from "../../../styles/mixins.module.css";
   width: var(--size-swatch-width);

@@ -1,4 +1,4 @@
-import { ChangeEvent } from "react";
+import type { ChangeEvent } from "react";
 
 import styles from "@/styles/field.module.css";
 
@@ -16,8 +16,9 @@ export const FileField = ({ label, accept, onSelect }: FileFieldProps) => {
       onSelect(file);
     }
 
-    // Clearing the selection lets the very same file be picked again straight away: the browser
-    // fires no change event when the newly picked file matches the one already in the input.
+    // Clearing the selection lets the very same file be picked again straight
+    // away: the browser fires no change event when the newly picked file
+    // matches the one already in the input.
     event.target.value = "";
   };
 

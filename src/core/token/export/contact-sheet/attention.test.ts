@@ -4,7 +4,14 @@ import { buildAttentionMarkerSvg } from "./attention";
 
 describe("buildAttentionMarkerSvg", () => {
   it("draws a dashed outline at the given cell position and size", () => {
-    const svg = buildAttentionMarkerSvg(10, 20, 30, 40, "Beer Token needs attention");
+    const cell = { x: 10, y: 20, width: 30, height: 40 };
+    const svg = buildAttentionMarkerSvg(
+      cell.x,
+      cell.y,
+      cell.width,
+      cell.height,
+      "Beer Token needs attention",
+    );
 
     expect(svg).toContain('data-role="attention-marker"');
     expect(svg).toContain(
@@ -13,7 +20,13 @@ describe("buildAttentionMarkerSvg", () => {
   });
 
   it("includes the message as a title element for a native hover tooltip", () => {
-    const svg = buildAttentionMarkerSvg(0, 0, 10, 10, "Beer Token needs attention");
+    const svg = buildAttentionMarkerSvg(
+      0,
+      0,
+      10,
+      10,
+      "Beer Token needs attention",
+    );
 
     expect(svg).toContain("<title>Beer Token needs attention</title>");
   });
@@ -21,6 +34,8 @@ describe("buildAttentionMarkerSvg", () => {
   it("escapes XML-sensitive characters in the message", () => {
     const svg = buildAttentionMarkerSvg(0, 0, 10, 10, 'Token "A" <B> & C');
 
-    expect(svg).toContain("<title>Token &quot;A&quot; &lt;B&gt; &amp; C</title>");
+    expect(svg).toContain(
+      "<title>Token &quot;A&quot; &lt;B&gt; &amp; C</title>",
+    );
   });
 });

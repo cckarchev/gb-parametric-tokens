@@ -2,7 +2,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import { GuildCatalog } from "@/core/token/catalog/catalogTypes";
+import type { GuildCatalog } from "@/core/token/catalog/catalogTypes";
 
 import { GuildTokenList } from "./GuildTokenList";
 
@@ -34,8 +34,9 @@ const listElement = (overrides: Partial<GuildTokenListProps> = {}) => (
   />
 );
 
-// Rerendering goes back through the same defaults as the first render, so a test that re-renders
-// only has to say which props changed, the same way the initial render does.
+// Rerendering goes back through the same defaults as the first render, so a
+// test that re-renders only has to say which props changed, the same way the
+// initial render does.
 const renderList = (overrides: Partial<GuildTokenListProps> = {}) => {
   const { rerender } = render(listElement(overrides));
 
@@ -67,17 +68,28 @@ describe("GuildTokenList", () => {
   it("caps a generic token's copies at 20 when its catalog entry sets no maxCopies", () => {
     renderList();
 
-    expect(screen.getByLabelText("Beer Token copies")).toHaveAttribute("max", "20");
+    expect(screen.getByLabelText("Beer Token copies")).toHaveAttribute(
+      "max",
+      "20",
+    );
   });
 
   it("caps a generic token's copies at its own catalog maxCopies instead of the 20 default", () => {
     renderList({
-      catalog: { ...catalog, genericTokens: [{ name: "Beer Token", maxCopies: 6 }] },
+      catalog: {
+        ...catalog,
+        genericTokens: [{ name: "Beer Token", maxCopies: 6 }],
+      },
     });
 
-    expect(screen.getByLabelText("Beer Token copies")).toHaveAttribute("max", "6");
+    expect(screen.getByLabelText("Beer Token copies")).toHaveAttribute(
+      "max",
+      "6",
+    );
   });
+});
 
+describe("GuildTokenList generic token changes", () => {
   it("reports an enabled change for a generic token, preserving the rest of the map", () => {
     const onGenericTokensChange = vi.fn();
 
@@ -113,7 +125,9 @@ describe("GuildTokenList", () => {
       "Beer Token": { enabled: true, copies: 3 },
     });
   });
+});
 
+describe("GuildTokenList Influence and Momentum caps", () => {
   it("caps Influence and Momentum at 1-20 copies, independently of each other", () => {
     const onInfluenceChange = vi.fn();
     const onMomentumChange = vi.fn();
@@ -125,8 +139,14 @@ describe("GuildTokenList", () => {
       onMomentumChange,
     });
 
-    expect(screen.getByLabelText("Influence tokens copies")).toHaveAttribute("max", "20");
-    expect(screen.getByLabelText("Momentum tokens copies")).toHaveAttribute("max", "20");
+    expect(screen.getByLabelText("Influence tokens copies")).toHaveAttribute(
+      "max",
+      "20",
+    );
+    expect(screen.getByLabelText("Momentum tokens copies")).toHaveAttribute(
+      "max",
+      "20",
+    );
 
     fireEvent.change(screen.getByLabelText("Influence tokens copies"), {
       target: { value: "5" },
@@ -135,14 +155,25 @@ describe("GuildTokenList", () => {
       target: { value: "8" },
     });
 
-    expect(onInfluenceChange).toHaveBeenLastCalledWith({ enabled: true, copies: 5 });
-    expect(onMomentumChange).toHaveBeenLastCalledWith({ enabled: true, copies: 8 });
+    expect(onInfluenceChange).toHaveBeenLastCalledWith({
+      enabled: true,
+      copies: 5,
+    });
+    expect(onMomentumChange).toHaveBeenLastCalledWith({
+      enabled: true,
+      copies: 8,
+    });
   });
+});
 
+describe("GuildTokenList counter toggles", () => {
   it("caps Goal Influence at 1-2 copies, unlike the other 1-20 counters", () => {
     const onGoalInfluenceChange = vi.fn();
 
-    renderList({ goalInfluence: { enabled: true, copies: 1 }, onGoalInfluenceChange });
+    renderList({
+      goalInfluence: { enabled: true, copies: 1 },
+      onGoalInfluenceChange,
+    });
 
     const input = screen.getByLabelText("Goal Influence tokens copies");
 
@@ -151,7 +182,10 @@ describe("GuildTokenList", () => {
 
     fireEvent.change(input, { target: { value: "2" } });
 
-    expect(onGoalInfluenceChange).toHaveBeenLastCalledWith({ enabled: true, copies: 2 });
+    expect(onGoalInfluenceChange).toHaveBeenLastCalledWith({
+      enabled: true,
+      copies: 2,
+    });
   });
 
   it("toggles Influence on independently from its copies count", () => {
@@ -161,7 +195,10 @@ describe("GuildTokenList", () => {
 
     fireEvent.click(screen.getByLabelText("Influence tokens"));
 
-    expect(onInfluenceChange).toHaveBeenCalledWith({ enabled: true, copies: 7 });
+    expect(onInfluenceChange).toHaveBeenCalledWith({
+      enabled: true,
+      copies: 7,
+    });
   });
 
   it("disables a counter's copies stepper while its checkbox is unchecked", () => {
@@ -169,7 +206,9 @@ describe("GuildTokenList", () => {
 
     expect(screen.getByLabelText("Influence tokens copies")).toBeDisabled();
   });
+});
 
+describe("GuildTokenList Select all", () => {
   it("enables every counter, including generics, when 'Select all' is checked", () => {
     const onInfluenceChange = vi.fn();
     const onMomentumChange = vi.fn();
@@ -189,14 +228,25 @@ describe("GuildTokenList", () => {
 
     fireEvent.click(screen.getByLabelText("Select all"));
 
-    expect(onInfluenceChange).toHaveBeenCalledWith({ enabled: true, copies: 13 });
-    expect(onMomentumChange).toHaveBeenCalledWith({ enabled: true, copies: 15 });
-    expect(onGoalInfluenceChange).toHaveBeenCalledWith({ enabled: true, copies: 2 });
+    expect(onInfluenceChange).toHaveBeenCalledWith({
+      enabled: true,
+      copies: 13,
+    });
+    expect(onMomentumChange).toHaveBeenCalledWith({
+      enabled: true,
+      copies: 15,
+    });
+    expect(onGoalInfluenceChange).toHaveBeenCalledWith({
+      enabled: true,
+      copies: 2,
+    });
     expect(onGenericTokensChange).toHaveBeenCalledWith({
       "Beer Token": { enabled: true, copies: 4 },
     });
   });
+});
 
+describe("GuildTokenList Select all state", () => {
   it("shows 'Select all' as checked only once every counter is enabled", () => {
     const { rerenderList } = renderList({
       influence: { enabled: true, copies: 13 },

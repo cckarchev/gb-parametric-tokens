@@ -7,25 +7,29 @@ import {
 } from "../../defaultShapeAndStyle";
 import { FALLBACK_ICON_ID } from "../../icons/iconManifest";
 import { DEFAULT_PRINT_PROFILE_ID } from "../../printProfiles";
-import { DEFAULT_BODY_FONT_ID, DEFAULT_DISPLAY_FONT_ID } from "../../text/fontCatalog";
-import { DiscShapeSpec } from "../../types";
-import { SharedConfig, TokenTuning } from "./tokenItem";
+import {
+  DEFAULT_BODY_FONT_ID,
+  DEFAULT_DISPLAY_FONT_ID,
+} from "../../text/fontCatalog";
+import type { DiscShapeSpec } from "../../types";
+import type { SharedConfig, TokenTuning } from "./tokenItem";
 
 const DEFAULT_GOAL_INFLUENCE_SHAPE: DiscShapeSpec = {
   type: "disc",
   diameterMm: 20,
 };
 // Measured against the real DEFAULT_ARC_SHAPE's 6mm band via the real pipeline
-// (computeReliefComponents): the largest sizes that fit a two-line label like "Command" /
-// "-2/-2 MOV" without truncating or overlapping the ribbon edges.
+// (computeReliefComponents): the largest sizes that fit a two-line label like
+// "Command" / "-2/-2 MOV" without truncating or overlapping the ribbon edges.
 const DEFAULT_NAME_SIZE_MM = 3;
 const DEFAULT_EFFECT_SIZE_MM = 1.9;
-// A lone name only grows as far as the crests allow: a long one is shrunk to fit between them
-// (see computeArcReliefComponents.ts), so this mostly enlarges short and medium names.
+// A lone name only grows as far as the crests allow: a long one is shrunk to
+// fit between them (see computeArcReliefComponents.ts), so this mostly enlarges
+// short and medium names.
 const DEFAULT_SINGLE_LINE_NAME_SIZE_MM = 3.5;
 
-// Why each value is what it is lives next to where its builder uses it (for example why the AOE
-// band is 6mm).
+// Why each value is what it is lives next to where its builder uses it (for
+// example why the AOE band is 6mm).
 export const DEFAULT_TOKEN_TUNING: TokenTuning = {
   discToken: { crestScale: 0.85 },
   characterToken: {
@@ -35,9 +39,14 @@ export const DEFAULT_TOKEN_TUNING: TokenTuning = {
     singleLineNameSizeMm: DEFAULT_SINGLE_LINE_NAME_SIZE_MM,
     fontId: DEFAULT_BODY_FONT_ID,
   },
-  ringBadge: { textSizeMm: 2.2, textInsetMm: 1, crestScale: 0.65, fontId: DEFAULT_BODY_FONT_ID },
-  // Two fixed letters never need fitting, so they can wear a rounder, wider face than the
-  // condensed one the rest of the text needs.
+  ringBadge: {
+    textSizeMm: 2.2,
+    textInsetMm: 1,
+    crestScale: 0.65,
+    fontId: DEFAULT_BODY_FONT_ID,
+  },
+  // Two fixed letters never need fitting, so they can wear a rounder, wider
+  // face than the condensed one the rest of the text needs.
   momentum: {
     textSizeMm: 6,
     fontId: DEFAULT_DISPLAY_FONT_ID,
@@ -72,8 +81,8 @@ export const DEFAULT_SHARED_CONFIG: SharedConfig = {
   fitPolicy: DEFAULT_FIT_POLICY,
   printProfileId: DEFAULT_PRINT_PROFILE_ID,
   colorGroups: DEFAULT_COLOR_GROUPS,
-  // Stands in only until a guild has loaded; useTokenGenerator overwrites it with that guild's
-  // own icon id.
+  // Stands in only until a guild has loaded; useTokenGenerator overwrites it
+  // with that guild's own icon id.
   influenceIconId: FALLBACK_ICON_ID,
   nameSizeMm: DEFAULT_NAME_SIZE_MM,
   effectSizeMm: DEFAULT_EFFECT_SIZE_MM,
