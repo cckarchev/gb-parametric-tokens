@@ -13,7 +13,7 @@
   composes: focusRing from "../../../styles/mixins.module.css";
   width: var(--size-swatch-width);
   height: var(--size-swatch-height);
-  padding: var(--space-5xs);
+  padding: var(--space-3xs);
   border: var(--border-default);
   border-radius: var(--radius-none);
   background: var(--color-surface-field);

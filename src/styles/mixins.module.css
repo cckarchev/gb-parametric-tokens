@@ -5,7 +5,6 @@
   font-family: var(--font-display);
   font-weight: var(--font-weight-regular);
   text-transform: uppercase;
-  letter-spacing: var(--tracking-display);
   line-height: var(--leading-solid);
 }
 
@@ -21,7 +20,7 @@
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-semibold);
   text-transform: uppercase;
-  letter-spacing: var(--tracking-label);
+  letter-spacing: var(--tracking-md);
   color: var(--color-teal);
 }
 

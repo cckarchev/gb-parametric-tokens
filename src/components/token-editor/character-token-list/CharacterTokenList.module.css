@@ -11,7 +11,7 @@
    tokens are all direct children of .rows), not just within each character's
    own tokens. */
 .row:nth-child(even) {
-  background: var(--color-surface-stripe);
+  background: var(--color-surface-faint);
 }
 
 .count {
@@ -29,17 +29,13 @@
    indent. */
 .row.rowToken {
   /* Lines up under the header checkbox's own label text, not its square. */
-  padding-left: calc(
-    var(--size-checkbox) +
-    var(--space-2xs) +
-    var(--space-2xs)
-  );
+  padding-left: calc(var(--size-checkbox) + var(--space-xs) + var(--space-xs));
 }
 
 .rowAccessories {
   display: flex;
   align-items: center;
-  gap: var(--space-2xs);
+  gap: var(--space-xs);
 }
 
 /* Marks an AOE template row apart from the character's tokens, in the same

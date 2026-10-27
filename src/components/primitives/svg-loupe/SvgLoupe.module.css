@@ -11,9 +11,9 @@
 .zoomHint {
   composes: monoFigure from "../../../styles/mixins.module.css";
   position: absolute;
-  right: var(--space-2xs);
-  bottom: var(--space-2xs);
-  padding: var(--space-5xs) var(--space-2xs);
+  right: var(--space-xs);
+  bottom: var(--space-xs);
+  padding: var(--space-3xs) var(--space-xs);
   background: var(--color-surface-scrim);
   color: var(--color-text-strong);
   font-size: var(--font-size-sm);
