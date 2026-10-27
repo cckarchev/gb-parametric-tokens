@@ -1,3 +1,5 @@
+@import "@cckarchev/shared/breakpoints.css";
+
 .page {
   display: flex;
   flex-direction: column;
@@ -28,10 +30,9 @@
   min-width: 0;
 }
 
-/* Below this width the two columns no longer both fit comfortably (360px
-   preview + a usable form column), so stack them instead of squeezing either
-   one. */
-@media (max-width: 900px) {
+/* Below tablet width the two columns no longer both fit (the 360px preview and
+   a usable form column), so stack them instead of squeezing either one. */
+@media (--below-tablet) {
   .layout {
     grid-template-columns: 1fr;
   }

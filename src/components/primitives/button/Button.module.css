@@ -1,7 +1,11 @@
 /* Both variants speak in the brand's title voice: Big Noodle, uppercase, opened
    up with button tracking. Primary is the orange call to action, secondary a
    teal outline. Disabled drops to a flat grey edge and text instead of a faded
-   copy of the live color. */
+   copy of the live color.
+
+   The component applies .base next to the variant: Lightning CSS does not
+   follow a chain of composes, so a variant composing .base would lose the
+   mixins .base composes. */
 .base {
   composes: displayHeading focusRing from "../../../styles/mixins.module.css";
   padding: var(--space-xs) var(--space-md);
@@ -20,14 +24,12 @@
 }
 
 .primary {
-  composes: base;
   border-color: var(--color-accent);
   background: var(--color-accent);
   color: var(--color-accent-ink);
 }
 
 .secondary {
-  composes: base;
   border-color: var(--color-teal);
   background: transparent;
   color: var(--color-teal);

@@ -12,13 +12,18 @@ export const Button = ({
   onClick,
   variant = "secondary",
   disabled,
-}: ButtonProps) => (
-  <button
-    type="button"
-    className={variant === "primary" ? styles.primary : styles.secondary}
-    onClick={onClick}
-    disabled={disabled}
-  >
-    {label}
-  </button>
-);
+}: ButtonProps) => {
+  const variantClass =
+    variant === "primary" ? styles.primary : styles.secondary;
+
+  return (
+    <button
+      type="button"
+      className={`${styles.base} ${variantClass}`}
+      onClick={onClick}
+      disabled={disabled}
+    >
+      {label}
+    </button>
+  );
+};
