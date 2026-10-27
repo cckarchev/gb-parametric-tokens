@@ -3,8 +3,9 @@
    only adds what is specific to this tool. Stylesheets read tokens with var();
    src/styles/tokens.test.ts rejects any loose literal elsewhere.
 
-   The one breakpoint (900px, TokenEditor.module.css) stays a literal there:
-   media queries cannot read custom properties. */
+   Breakpoints are the shared @custom-media queries from
+   @cckarchev/shared/breakpoints.css, since media queries cannot read custom
+   properties. */
 
 :root {
   /* States. Ready reads in teal, the manual's secondary information color;
