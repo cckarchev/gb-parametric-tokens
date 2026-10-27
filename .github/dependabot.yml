@@ -16,6 +16,9 @@ updates:
       # Matches the Node runtime in .node-version, so it moves with it.
       - dependency-name: "@types/node"
         update-types: ["version-update:semver-major"]
+      # A git tag dependency: Dependabot misreads its tags and proposes
+      # downgrades. It is bumped by hand with each cck-shared release.
+      - dependency-name: "@cckarchev/shared"
 
   - package-ecosystem: github-actions
     directory: /
