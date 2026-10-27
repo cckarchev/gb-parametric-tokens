@@ -15,7 +15,7 @@
     "verify": "npm run check && npm run typecheck && npm test && npm run build",
     "check": "biome check",
     "check:fix": "biome check --write",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc",
     "test": "vitest run",
     "test:watch": "vitest"
   },
@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.6.3",
-    "@cckarchev/shared": "github:cckarchev/cck-shared#v1.4.0",
+    "@cckarchev/shared": "github:cckarchev/cck-shared#v1.5.0",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
     "@testing-library/user-event": "^14.6.8",

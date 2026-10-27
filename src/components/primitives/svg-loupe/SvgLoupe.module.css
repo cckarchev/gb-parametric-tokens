@@ -35,7 +35,7 @@
   background: var(--color-paper);
   box-shadow: var(--shadow-lens);
   pointer-events: none;
-  z-index: var(--layer-overlay);
+  z-index: var(--layer-popover);
 }
 
 .lensContent {
