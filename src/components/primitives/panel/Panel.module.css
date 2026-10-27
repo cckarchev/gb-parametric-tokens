@@ -2,7 +2,7 @@
   composes: surface from "../../../styles/surface.module.css";
   margin: 0 0 var(--space-md) 0;
   padding: 0;
-  transition: border-color var(--duration-medium) var(--easing-standard);
+  transition: border-color var(--duration-fast) var(--easing-standard);
 }
 
 /* Collapsed, the fieldset's bottom border runs right under the header bar with
@@ -27,7 +27,7 @@
   position: relative;
   display: flex;
   align-items: center;
-  gap: var(--space-2xs);
+  gap: var(--space-xs);
   width: 100%;
   padding: 0 var(--space-md);
   border-radius: var(--radius-none);
@@ -85,9 +85,9 @@
   opacity: 1;
   padding: var(--space-md);
   transition:
-    height var(--duration-medium) var(--easing-standard),
+    height var(--duration-fast) var(--easing-standard),
     opacity var(--duration-fast) var(--easing-standard),
-    padding var(--duration-medium) var(--easing-standard);
+    padding var(--duration-fast) var(--easing-standard);
 }
 
 /* The display set on .body overrides the browser's [hidden] { display: none }.

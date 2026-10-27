@@ -1,8 +1,12 @@
 /// <reference types="node" />
 import { globSync, readFileSync } from "node:fs";
+import { createRequire } from "node:module";
 import { describe, expect, it } from "vitest";
 
 const TOKENS_PATH = "src/styles/tokens.css";
+const SHARED_TOKENS_PATH = createRequire(import.meta.url).resolve(
+  "@cckarchev/shared/tokens.css",
+);
 const COMMENT = /\/\*[\s\S]*?\*\//g;
 const MEDIA_PRELUDE = /@media[^{]+/g;
 const VAR_REFERENCE = /var\((--[\w-]+)/g;
@@ -47,20 +51,15 @@ const moduleStylesheetPaths = stylesheetPaths.filter(
 const componentPaths = globSync("src/**/*.tsx", {
   exclude: (path) => path.endsWith(".test.tsx"),
 });
-const tokens = parseTokens(readCss(TOKENS_PATH));
+const sharedTokens = parseTokens(readCss(SHARED_TOKENS_PATH));
+const appTokens = parseTokens(readCss(TOKENS_PATH));
 
-const tokenValue = (name: string): string | undefined => tokens.get(name);
+const isDefined = (name: string): boolean =>
+  sharedTokens.has(name) || appTokens.has(name) || LOCAL_PROPERTIES.has(name);
 
 describe("design tokens", () => {
-  it("follows the CCK brand palette", () => {
-    expect(tokenValue("--color-bg-base")).toBe("#0b0d0e");
-    expect(tokenValue("--color-accent")).toBe("#f36b21");
-    expect(tokenValue("--color-teal")).toBe("#2bb3c4");
-    expect(tokenValue("--color-paper")).toBe("#f5f1e8");
-  });
-
   it("keeps corners sharp", () => {
-    expect(tokenValue("--radius-none")).toBe("0");
+    expect(appTokens.get("--radius-none")).toBe("0");
   });
 
   it("defines every token the stylesheets reference", () => {
@@ -68,9 +67,7 @@ describe("design tokens", () => {
 
     for (const path of stylesheetPaths) {
       for (const [, name] of readCss(path).matchAll(VAR_REFERENCE)) {
-        const isDefined = tokens.has(name) || LOCAL_PROPERTIES.has(name);
-
-        if (!isDefined) {
+        if (!isDefined(name)) {
           missing.push(`${path}: ${name}`);
         }
       }
@@ -79,7 +76,8 @@ describe("design tokens", () => {
     expect(missing).toEqual([]);
   });
 
-  it("uses every token it defines", () => {
+  // Overrides of shared tokens (the reduced-motion durations) are exempt.
+  it("uses every token it adds", () => {
     const sources = [
       ...stylesheetPaths.map(readCss),
       ...componentPaths.map((path) => readFileSync(path, "utf8")),
@@ -89,7 +87,10 @@ describe("design tokens", () => {
         [...source.matchAll(VAR_REFERENCE)].map(([, name]) => name),
       ),
     );
-    const unused = [...tokens.keys()].filter((name) => !used.has(name));
+    const added = [...appTokens.keys()].filter(
+      (name) => !sharedTokens.has(name),
+    );
+    const unused = added.filter((name) => !used.has(name));
 
     expect(unused).toEqual([]);
   });

@@ -1,3 +1,5 @@
+import "@cckarchev/shared/fonts.css";
+import "@cckarchev/shared/tokens.css";
 import "@/styles/tokens.css";
 
 import { StrictMode } from "react";

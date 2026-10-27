@@ -4,11 +4,11 @@
    copy of the live color. */
 .base {
   composes: displayHeading focusRing from "../../../styles/mixins.module.css";
-  padding: var(--space-2xs) var(--space-md);
+  padding: var(--space-xs) var(--space-md);
   border: var(--border-width-thin) solid transparent;
   border-radius: var(--radius-none);
   font-size: var(--font-size-lg);
-  letter-spacing: var(--tracking-button);
+  letter-spacing: var(--tracking-sm);
   cursor: pointer;
 }
 

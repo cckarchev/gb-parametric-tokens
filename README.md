@@ -21,7 +21,7 @@ Live at [gb-tokens.cckarchev.ar](https://gb-tokens.cckarchev.ar).
 
 - **React 19** + **TypeScript**
 - **Vite** (dev server + build)
-- **CSS Modules**, with every visual value coming from the tokens in `src/styles/tokens.css`
+- **CSS Modules**, with every visual value coming from the shared tokens in `@cckarchev/shared` and the app tokens in `src/styles/tokens.css`
 - **[manifold-3d](https://github.com/elalish/manifold)**: mesh booleans and extrusion, run in a Web Worker
 - **[opentype.js](https://opentype.js.org)**: font parsing and glyph metrics
 - **[fflate](https://github.com/101arrowz/fflate)**: zips the 3MF archive
@@ -77,7 +77,7 @@ src/
 │   └── token-editor/    # guild selector, token lists, config, preview and export panels
 └── styles/              # design tokens and shared CSS modules
 public/
-├── fonts/               # token fonts (OFL, license beside each) and ui/ fonts
+├── fonts/               # token fonts (OFL, license beside each)
 └── icons/               # guilds/<Guild>/logo.svg, conditions/, manifest.json
 ```
 
@@ -91,11 +91,11 @@ The repo is connected to Cloudflare Workers Builds, so every merge to `main` bui
 
 ## Design system
 
-The UI follows the club's design system, whose source of truth is [cckarchev-web](https://github.com/cckarchev/cckarchev-web): dark-only theme, sharp corners, orange accent over a dark teal base. The tokens live in `src/styles/tokens.css`, and `src/styles/tokens.test.ts` fails on any loose color or size literal outside them.
+The UI follows the club's design system: dark-only theme, sharp corners, orange accent over a near-black base. The palette, scales and fonts come from [`@cckarchev/shared`](https://github.com/cckarchev/cck-shared) (`fonts.css` and `tokens.css`, imported in `src/main.tsx`). `src/styles/tokens.css` only adds the tokens specific to this tool, and `src/styles/tokens.test.ts` fails on any loose color or size literal outside them.
 
 ## Fonts
 
-The token fonts in `public/fonts/` are licensed under the SIL Open Font License, with each license file next to its font: Saira Condensed (default), Fira Sans Condensed, Atkinson Hyperlegible, Lilita One, Germania One and Fraunces. The interface display font is Big Noodle Titling by James Arboghast (Sentinel Type), shared with the club site.
+The token fonts in `public/fonts/` are licensed under the SIL Open Font License, with each license file next to its font: Saira Condensed (default), Fira Sans Condensed, Atkinson Hyperlegible, Lilita One, Germania One and Fraunces. The interface fonts (Big Noodle Titling, Barlow and JetBrains Mono) are self-hosted through `@cckarchev/shared`.
 
 ## Credits
 

@@ -17,8 +17,8 @@ The token fonts in public/fonts/ are licensed under the SIL Open Font License
 Saira Condensed, Fira Sans Condensed, Atkinson Hyperlegible, Lilita One,
 Germania One and Fraunces.
 
-The interface display font, Big Noodle Titling in public/fonts/ui/, is by
-James Arboghast (Sentinel Type) and is shared with the club site.
+The interface fonts (Big Noodle Titling, Barlow and JetBrains Mono) are
+self-hosted through @cckarchev/shared, which carries their notices.
 
 Disclaimer
 ----------

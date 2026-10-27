@@ -16,7 +16,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--space-2xs);
+  padding: var(--space-xs);
   width: var(--size-guild-tile);
   aspect-ratio: 1;
   border: var(--border-default);
