@@ -6,5 +6,4 @@
 
 .title {
   composes: monoLabel from "../../../styles/mixins.module.css";
-  margin: 0;
 }

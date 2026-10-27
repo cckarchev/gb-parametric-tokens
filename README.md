@@ -22,6 +22,7 @@ Live at [gb-tokens.cckarchev.ar](https://gb-tokens.cckarchev.ar).
 - **React 19** + **TypeScript**
 - **Vite** (dev server + build)
 - **CSS Modules**, with every visual value coming from the shared tokens in `@cckarchev/shared` and the app tokens in `src/styles/tokens.css`
+- **Lightning CSS** compiles the stylesheets and resolves the shared `@custom-media` breakpoints from `@cckarchev/shared/breakpoints.css`
 - **[manifold-3d](https://github.com/elalish/manifold)**: mesh booleans and extrusion, run in a Web Worker
 - **[opentype.js](https://opentype.js.org)**: font parsing and glyph metrics
 - **[fflate](https://github.com/101arrowz/fflate)**: zips the 3MF archive

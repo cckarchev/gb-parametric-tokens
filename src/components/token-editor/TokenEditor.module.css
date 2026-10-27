@@ -30,8 +30,9 @@
   min-width: 0;
 }
 
-/* Below tablet width the two columns no longer both fit (the 360px preview and
-   a usable form column), so stack them instead of squeezing either one. */
+/* Below tablet width the two columns no longer both fit (a readable preview
+   next to the settings column's minimum width), so stack them instead of
+   squeezing either one. */
 @media (--below-tablet) {
   .layout {
     grid-template-columns: 1fr;

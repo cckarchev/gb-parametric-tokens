@@ -9,7 +9,7 @@ export const KEYBOARD_ZOOM_STEP = 0.5;
 
 type AreaSize = { width: number; height: number };
 
-// A Map, because the keys are KeyboardEvent.key names, not our own.
+// Maps, because the keys are KeyboardEvent.key names, not our own.
 const ARROW_DIRECTIONS = new Map<string, PointPx>([
   ["ArrowLeft", { x: -1, y: 0 }],
   ["ArrowRight", { x: 1, y: 0 }],
@@ -17,12 +17,12 @@ const ARROW_DIRECTIONS = new Map<string, PointPx>([
   ["ArrowDown", { x: 0, y: 1 }],
 ]);
 
-const ZOOM_DIRECTIONS: Record<string, number> = {
-  "+": 1,
+const ZOOM_DIRECTIONS = new Map<string, number>([
+  ["+", 1],
   // The unshifted + key, so zooming in doesn't need Shift.
-  "=": 1,
-  "-": -1,
-};
+  ["=", 1],
+  ["-", -1],
+]);
 
 const clamp = (value: number, max: number): number =>
   Math.min(max, Math.max(0, value));
@@ -52,7 +52,7 @@ export const nudgeCursor = (
 };
 
 export const zoomDeltaForKey = (key: string): number | undefined => {
-  const direction = ZOOM_DIRECTIONS[key];
+  const direction = ZOOM_DIRECTIONS.get(key);
 
   if (direction === undefined) {
     return undefined;
