@@ -5,7 +5,7 @@ import { describe, expect, it } from "vitest";
 import { SettingsGroup } from "./SettingsGroup";
 
 describe("SettingsGroup", () => {
-  it("renders the title as a heading above its content", () => {
+  it("renders the title as a second-level heading above its content", () => {
     render(
       <SettingsGroup title="Settings file">
         <button type="button">Export settings (.json)</button>
@@ -13,7 +13,7 @@ describe("SettingsGroup", () => {
     );
 
     expect(
-      screen.getByRole("heading", { name: "Settings file" }),
+      screen.getByRole("heading", { name: "Settings file", level: 2 }),
     ).toBeInTheDocument();
     expect(
       screen.getByRole("button", { name: "Export settings (.json)" }),

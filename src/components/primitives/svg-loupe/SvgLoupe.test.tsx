@@ -213,4 +213,97 @@ describe("SvgLoupe at true size", () => {
 
     expect(wheelEvent.defaultPrevented).toBe(false);
   });
+
+  it("stays out of the tab order when the preview is already at true size", () => {
+    mockContainerWidth(CONTAINER_WIDTH_PX);
+
+    render(
+      <SvgLoupe
+        svg={svg}
+        viewBox={alreadyBigViewBox}
+        ariaLabel="Token preview"
+      />,
+    );
+
+    expect(
+      screen.getByRole("img", { name: "Token preview" }),
+    ).not.toHaveAttribute("tabindex");
+  });
+});
+
+// The lens wraps the second, magnified copy of the svg.
+const lensOf = (trackArea: HTMLElement) =>
+  trackArea.parentElement?.querySelectorAll("svg")[1].parentElement
+    ?.parentElement;
+
+const lensContentWidth = (trackArea: HTMLElement) => {
+  const lensContent = trackArea.parentElement?.querySelectorAll("svg")[1]
+    .parentElement as HTMLElement;
+
+  return Number(lensContent.style.width.replace("px", ""));
+};
+
+describe("SvgLoupe keyboard control", () => {
+  it("can be focused, and shows the lens while it has the focus", () => {
+    mockContainerWidth(CONTAINER_WIDTH_PX);
+
+    render(
+      <SvgLoupe svg={svg} viewBox={shrunkViewBox} ariaLabel="Token preview" />,
+    );
+
+    const trackArea = screen.getByRole("img", { name: "Token preview" });
+
+    expect(trackArea).toHaveAttribute("tabindex", "0");
+
+    fireEvent.focus(trackArea);
+
+    expect(trackArea.parentElement?.querySelectorAll("svg").length).toBe(2);
+    expect(screen.getByText("Arrows move, +/- zoom")).toBeInTheDocument();
+
+    fireEvent.blur(trackArea);
+
+    expect(trackArea.parentElement?.querySelectorAll("svg").length).toBe(1);
+    expect(screen.getByText("Ctrl+Scroll to zoom")).toBeInTheDocument();
+  });
+
+  it("moves the lens with the arrow keys", () => {
+    mockContainerWidth(CONTAINER_WIDTH_PX);
+
+    render(
+      <SvgLoupe svg={svg} viewBox={shrunkViewBox} ariaLabel="Token preview" />,
+    );
+
+    const trackArea = screen.getByRole("img", { name: "Token preview" });
+
+    fireEvent.focus(trackArea);
+    const leftBefore = Number(lensOf(trackArea)?.style.left.replace("px", ""));
+
+    const handled = !fireEvent.keyDown(trackArea, { key: "ArrowRight" });
+    const leftAfter = Number(lensOf(trackArea)?.style.left.replace("px", ""));
+
+    expect(leftAfter).toBeGreaterThan(leftBefore);
+    expect(handled).toBe(true);
+  });
+
+  it("zooms the lens in with + and out with -", () => {
+    mockContainerWidth(CONTAINER_WIDTH_PX);
+
+    render(
+      <SvgLoupe svg={svg} viewBox={shrunkViewBox} ariaLabel="Token preview" />,
+    );
+
+    const trackArea = screen.getByRole("img", { name: "Token preview" });
+
+    fireEvent.focus(trackArea);
+    const widthBefore = lensContentWidth(trackArea);
+
+    fireEvent.keyDown(trackArea, { key: "+" });
+    const widthZoomedIn = lensContentWidth(trackArea);
+
+    fireEvent.keyDown(trackArea, { key: "-" });
+    fireEvent.keyDown(trackArea, { key: "-" });
+
+    expect(widthZoomedIn).toBeGreaterThan(widthBefore);
+    expect(lensContentWidth(trackArea)).toBeLessThan(widthZoomedIn);
+  });
 });

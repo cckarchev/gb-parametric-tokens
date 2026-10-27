@@ -9,7 +9,7 @@ type SettingsGroupProps = {
 
 export const SettingsGroup = ({ title, children }: SettingsGroupProps) => (
   <div className={styles.group}>
-    <h3 className={styles.title}>{title}</h3>
+    <h2 className={styles.title}>{title}</h2>
     {children}
   </div>
 );

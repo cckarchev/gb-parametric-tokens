@@ -64,6 +64,12 @@ export const ExportPanel = ({
 
   return (
     <div className={styles.panel}>
+      {/* The visible status swaps between a line and the attention list, so a
+          live region on either would be remounted, not updated, and never
+          read. This hidden copy stays mounted, and as an <output> it is a
+          status, so a screen reader reads each new value. */}
+      <output className={styles.announcement}>{status.text}</output>
+
       {invalidItems.length > 0 ? (
         <AttentionList statusText={status.text} invalidItems={invalidItems} />
       ) : (
