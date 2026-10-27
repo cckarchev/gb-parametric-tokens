@@ -1,0 +1,3 @@
+# Normalize line endings to LF in the repo and on checkout, whatever the
+# contributor's OS, so Biome and the diffs stay clean on Windows too.
+* text=auto eol=lf
